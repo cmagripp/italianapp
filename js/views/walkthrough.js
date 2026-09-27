@@ -37,6 +37,7 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
   let current = -1;
   let lastNext = null;
   let destroyed = false;
+  let gotoTimer = null;
   const scenes = [];
   const parallaxItems = [];
 
@@ -56,11 +57,19 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
   }
   function clearNext() { if (lastNext) lastNext.removeAttribute('data-next'); lastNext = null; }
 
+  // "more below" affordance: the scene gets .more while its body can still scroll down
+  function paintMore(s) {
+    if (!s) return;
+    const b = s.body;
+    const more = b.classList.contains('scrollable') && b.scrollHeight - b.clientHeight - b.scrollTop > 12;
+    s.el.classList.toggle('more', more);
+  }
   function checkOverflow(s) {
     if (!s || s.el.hidden) return;
     const b = s.body;
     b.classList.remove('scrollable');
     if (b.scrollHeight > b.clientHeight + 6) b.classList.add('scrollable');
+    paintMore(s);
   }
 
   function reveal(i) {
@@ -74,7 +83,8 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     if (s.ready) return;
     s.ready = true; s.skipped = skipped;
     clearTimeout(s.skipTimer);
-    s.skip.hidden = true;
+    if (s.skip) s.skip.hidden = true;
+    s.foot.classList.remove('locked');
     if (s.cta) {
       s.cta.disabled = false;
       s.cta.classList.remove('locked');
@@ -89,9 +99,19 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
 
   function goto(j) {
     const s = scenes[j];
-    if (!s || !s.revealed) return;
+    if (!s) return;
+    // a scene is reachable as soon as its predecessor is done (covers scenes readied before the deck existed)
+    if (!s.revealed && scenes[j - 1] && scenes[j - 1].ready) reveal(j);
+    if (!s.revealed) return;
     clearNext();
     container.scrollTo({ top: s.el.offsetTop, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    // fallback: if the observer has not switched scenes within a second (throttled tab, long smooth scroll), do it
+    clearTimeout(gotoTimer);
+    gotoTimer = setTimeout(() => {
+      if (destroyed || current === j) return;
+      container.scrollTo({ top: s.el.offsetTop, behavior: 'auto' });
+      setCurrent(j);
+    }, 1000);
   }
 
   // ---------- scenes ----------
@@ -101,21 +121,24 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     el.dataset.i = String(i);
     el.dataset.key = def.key || String(i);
     el.hidden = i > 0;
+    // noSkip scenes (Meet, Drill, Finito) never get a skip control at all
     el.innerHTML = html`<div class="scene-head"><span class="step">${pad2(i + 1)} / ${pad2(n)}</span><span class="title">${def.title || ''}</span></div>
       <div class="scene-body"></div>
-      <div class="scene-foot">
+      <div class="scene-foot locked">
         ${def.cta === false ? '' : raw(html`<button type="button" class="btn primary block wt-cta locked" data-cta disabled>${raw(icon('lock', { size: 18 }))}<span class="lab">${def.lockLabel || 'Complete this step'}</span></button>`)}
-        <div class="foot-row"><span class="hint">${def.hintLocked || ''}</span><button type="button" class="skip" data-skip hidden>Skip this step${raw(icon('chevronRight', { size: 14 }))}</button></div>
+        <div class="foot-row"><span class="hint">${def.hintLocked || ''}</span>${def.noSkip ? '' : raw(html`<button type="button" class="skip" data-skip hidden>Skip this step${raw(icon('chevronRight', { size: 14 }))}</button>`)}</div>
       </div>`;
     container.append(el);
     const s = {
       i, def, el,
       body: el.querySelector('.scene-body'),
+      foot: el.querySelector('.scene-foot'),
       cta: el.querySelector('[data-cta]'),
       hint: el.querySelector('.hint'),
       skip: el.querySelector('[data-skip]'),
       ready: false, revealed: i === 0, entered: false, helper: null, skipTimer: null, cleanup: null,
     };
+    s.body.addEventListener('scroll', () => paintMore(s), { passive: true });
     s.api = {
       index: i, el, body: s.body, level,
       ready: (opts) => setReady(s, opts),
@@ -129,12 +152,14 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
       parallax(target, factor = 0.15) { if (target) parallaxItems.push({ el: target, scene: el, factor }); },
     };
     if (s.cta) s.cta.addEventListener('click', () => { if (s.ready) goto(i + 1); });
-    s.skip.addEventListener('click', () => { setReady(s, { skipped: true }); goto(i + 1); });
+    if (s.skip) s.skip.addEventListener('click', () => { setReady(s, { skipped: true }); goto(i + 1); });
     el.addEventListener('animationend', (ev) => { if (ev.target === el) el.classList.remove('in'); });
     scenes.push(s);
     try { const c = def.render && def.render(s.body, s.api); if (typeof c === 'function') s.cleanup = c; }
     catch (err) { console.error(err); s.body.innerHTML = `<div class="empty"><p>Qualcosa è andato storto.</p></div>`; setReady(s); }
   });
+  // scenes that became ready while rendering (Meet, Finito…) could not reveal a successor that did not exist yet
+  for (const s of scenes) if (s.ready) reveal(s.i + 1);
 
   // ---------- current scene tracking ----------
   function paintRail() {
@@ -146,10 +171,11 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     if (prev) {
       prev.el.classList.remove('in');
       clearTimeout(prev.skipTimer);
-      prev.skip.hidden = true;
+      if (prev.skip) prev.skip.hidden = true;
       try { prev.def.leave && prev.def.leave(prev.api); } catch (err) { console.error(err); }
     }
     current = i;
+    clearTimeout(gotoTimer);
     const s = scenes[i];
     paintRail();
     setScene(s.def.colors || level, { level });
@@ -158,8 +184,8 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     const first = !s.entered;
     if (first) { s.entered = true; mount(s.body); }
     try { s.def.enter && s.def.enter(s.api, first); } catch (err) { console.error(err); }
-    if (!s.ready && !s.def.noSkip) {
-      s.skipTimer = setTimeout(() => { if (current === i && !s.ready) s.skip.hidden = false; }, SKIP_AFTER_MS);
+    if (!s.ready && !s.def.noSkip && s.skip) {
+      s.skipTimer = setTimeout(() => { if (current === i && !s.ready && s.skip) s.skip.hidden = false; }, SKIP_AFTER_MS);
     }
     if (s.ready && s.cta && !reducedMotion()) sheen(s.cta);
     sync();
@@ -227,6 +253,7 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     scenes,
     destroy() {
       destroyed = true;
+      clearTimeout(gotoTimer);
       io.disconnect();
       container.removeEventListener('scroll', onScroll);
       container.removeEventListener('focusin', onFocusIn);

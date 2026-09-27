@@ -14,20 +14,59 @@ export const pad2 = (n) => String(Math.max(0, n | 0)).padStart(2, '0');
 const ic = (name, opts) => raw(icon(name, opts));
 const BACKSPACE_SVG = '<svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.5 5.5H19a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5H9.5L3.5 12z"/><path d="m11.5 9.5 5 5M16.5 9.5l-5 5"/></svg>';
 
+// A leading article: "la casa", "l'amico", "un'amica" (l' / un' need no space; the others do, so "lavoro" is not "la voro").
+const ART_RE = /^(?:(?:il|lo|la|i|gli|le|un|uno|una)\s+|(?:l'|un')\s*)/;
+const noArt = (s) => s.replace(ART_RE, '');
+
+// checkTyped(answer, forms, { strict }) → { ok, exact, accentIssue, articleIssue }
+// The bare word is always accepted; an article is accepted only when it is the entry's own (any form listed with it),
+// otherwise the answer is wrong with articleIssue so the caller can say "mind the article". Missing accents pass with
+// accentIssue unless the accentStrict setting (or `strict`) is on.
 export function checkTyped(answer, acceptedForms, { strict = null } = {}) {
   const accentStrict = strict ?? !!store.settings.accentStrict;
   const a = normalizeAnswer(answer);
   if (!a) return { ok: false };
   const forms = (Array.isArray(acceptedForms) ? acceptedForms : [acceptedForms]).flatMap(f => String(f).split('|')).map(normalizeAnswer);
-  // strip optional agreement marks "andato/a" -> accept andato / andata
-  const expanded = forms.flatMap(f => [f, f.replace(/o\/a\b/g, 'o'), f.replace(/o\/a\b/g, 'a'), f.replace(/i\/e\b/g, 'i'), f.replace(/i\/e\b/g, 'e')]);
+  // "il/la studente" (one form, either gender) → il studente / la studente; "andato/a" → andato / andata
+  const expanded = forms
+    .flatMap(f => { const m = f.match(/^([^\s/]+)\/([^\s/]+)\s+(.+)$/); return m ? [`${m[1]} ${m[3]}`, `${m[2]} ${m[3]}`] : [f]; })
+    .flatMap(f => [f, f.replace(/o\/a\b/g, 'o'), f.replace(/o\/a\b/g, 'a'), f.replace(/i\/e\b/g, 'i'), f.replace(/i\/e\b/g, 'e')]);
+  const loose = (s) => stripAccents(s);
+  const hasArt = noArt(a) !== a;
   if (expanded.includes(a)) return { ok: true, exact: true };
-  // ignore leading article for vocabulary answers
-  const noArt = (s) => s.replace(/^(il|lo|la|l'|i|gli|le|un|uno|una|un')\s*/, '');
-  if (expanded.map(noArt).includes(noArt(a))) return { ok: true, exact: true };
-  if (!accentStrict && expanded.map(stripAccents).includes(stripAccents(a))) return { ok: true, exact: false, accentIssue: true };
-  if (expanded.map(x => stripAccents(noArt(x))).includes(stripAccents(noArt(a)))) return { ok: true, exact: false, accentIssue: true };
+  if (!accentStrict && expanded.map(loose).includes(loose(a))) return { ok: true, exact: false, accentIssue: true };
+  // the bare word (answer without article) against the forms without their article
+  if (!hasArt) {
+    const bare = expanded.map(noArt);
+    if (bare.includes(a)) return { ok: true, exact: true };
+    if (!accentStrict && bare.map(loose).includes(loose(a))) return { ok: true, exact: false, accentIssue: true };
+    return { ok: false };
+  }
+  // an article was typed but did not match any accepted form: right word, wrong article?
+  const bareA = noArt(a);
+  if (expanded.map(noArt).includes(bareA) || (!accentStrict && expanded.map(x => loose(noArt(x))).includes(loose(bareA)))) return { ok: false, articleIssue: true };
   return { ok: false };
+}
+
+// Scrolls the nearest scrollable ancestor (a walkthrough scene body, a sheet…) just enough to show `el`.
+// The page-level scroll is left to the browser; a scroll-snap deck is never touched.
+export function revealInScroller(el, { pad = 12, behavior = null } = {}) {
+  if (!el) return;
+  let sc = el.parentElement;
+  while (sc && sc !== document.body) {
+    const cs = getComputedStyle(sc);
+    if (/(auto|scroll)/.test(cs.overflowY) && sc.scrollHeight > sc.clientHeight + 2) break;
+    sc = sc.parentElement;
+  }
+  if (!sc || sc === document.body) return;
+  const r = el.getBoundingClientRect(), b = sc.getBoundingClientRect();
+  const over = r.bottom - (b.bottom - pad);
+  const under = (b.top + pad) - r.top;
+  let delta = 0;
+  if (over > 0) delta = over;
+  if (under > 0 && r.height < b.height) delta = -under;
+  if (!delta) return;
+  sc.scrollBy({ top: delta, behavior: behavior || (fx.reducedMotion() ? 'auto' : 'smooth') });
 }
 
 // Accent bar: 40px glass keys (styled by app.css `.accents .chip`).
