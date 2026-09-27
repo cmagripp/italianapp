@@ -1,32 +1,116 @@
-// Games hub: pick a game, then choose what to play with.
-import { html, raw, esc, sheet } from '../ui.js';
+// Games hub: two poster reels (vocabulary / verbs), a "play with what you know" hero, and the source picker sheet.
+import { html, raw, esc, sheet, secHead, icon, tr } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
 import { GAMES, TENSE_OPTIONS } from '../games/index.js';
-import { sourceChoices, sourceLabel, resolveSource } from '../source.js';
+import { TENSE_BY_KEY } from '../conjugator.js';
+import { sourceChoices, resolveSource } from '../source.js';
+import { LEVELS, LEVEL_INFO } from '../data.js';
+import { reel, dial, mount } from '../fx.js';
 
 let lastSrc = 'scope';
+const ic = (name, opts) => raw(icon(name, opts));
+
+// ---------- posters ----------
+// Gradient pairs in the section colours (terracotta / violet / turquoise family, plus gold & amalfi accents).
+const PALETTE = {
+  flashcards: ['#f2c14e', '#e0673f'], quiz: ['#38bdf8', '#4c5bd4'], typing: ['#2dd4bf', '#0f766e'], matching: ['#a78bfa', '#5b3fb5'],
+  hangman: ['#e0673f', '#b8323f'], crossword: ['#a3b86c', '#2f6b4f'], cloze: ['#f2c14e', '#b8860b'], scramble: ['#38bdf8', '#2dd4bf'],
+  sentence: ['#e0673f', '#f2c14e'], gender: ['#f43f5e', '#b8323f'], plurals: ['#a3b86c', '#0891b2'], dictation: ['#4c5bd4', '#38bdf8'],
+  reverse: ['#2dd4bf', '#38bdf8'], speed: ['#f2c14e', '#f43f5e'],
+  'conj-drill': ['#e0673f', '#f2c14e'], 'conj-choice': ['#38bdf8', '#a78bfa'], 'tense-detective': ['#a78bfa', '#b8323f'], aux: ['#2dd4bf', '#a3b86c'],
+  participles: ['#e0673f', '#7c2d3a'], patterns: ['#0891b2', '#2dd4bf'], 'verb-quiz': ['#f43f5e', '#a78bfa'],
+};
+const GLYPH = {
+  flashcards: 'flip', quiz: 'sparkle', typing: 'edit', matching: 'spread', hangman: 'dots', crossword: 'list', cloze: 'edit', scramble: 'refresh',
+  sentence: 'arrow', gender: 'orbit', plurals: 'plus', dictation: 'ear', reverse: 'arrow', speed: 'flame',
+  'conj-drill': 'edit', 'conj-choice': 'check', 'tense-detective': 'search', aux: 'dial', participles: 'book', patterns: 'orbit', 'verb-quiz': 'sparkle',
+};
+export const KIND_LABEL = { any: 'Vocabulary', word: 'Vocabulary', noun: 'Nouns', verb: 'Verbs' };
+
+// posterHTML(game, { href }) → <a class="poster"> (href) or <button class="poster" data-game> (no href)
+export function posterHTML(g, { href = null, stats = null } = {}) {
+  const [p1, p2] = PALETTE[g.id] || ['#e0673f', '#b8323f'];
+  const st = stats || (store.current?.stats?.games || {})[g.id];
+  const sub = st && st.played ? `Best ${st.best}% · ${st.played} play${st.played === 1 ? '' : 's'}` : g.desc;
+  const inner = html`<span class="poster-ghost" aria-hidden="true">${g.name.slice(0, 1)}</span>
+    <span class="poster-glyph">${ic(GLYPH[g.id] || 'play', { size: 22 })}</span>
+    <span class="poster-kicker">${KIND_LABEL[g.kind] || 'Vocabulary'}</span>
+    <span class="poster-title">${g.name}</span>
+    <span class="sub">${sub}</span>`;
+  const style = `--p1:${p1};--p2:${p2}`;
+  return href
+    ? html`<a class="poster" href="${href}" style="${style}" data-game="${g.id}" aria-label="${g.name}">${raw(inner)}</a>`
+    : html`<button type="button" class="poster" style="${style}" data-game="${g.id}" aria-label="${g.name}">${raw(inner)}</button>`;
+}
+
+// ---------- source picker (bottom sheet) ----------
+const kindFilter = (game) => (e) => game.kind === 'any' ? true : game.kind === 'verb' ? e.kind === 'verb' : game.kind === 'noun' ? e.pos === 'noun' : e.kind === 'word';
 
 export function openSourcePicker(game, presetSrc) {
   const choices = sourceChoices();
   const opts = game.options || [];
   const chosen = { src: presetSrc || lastSrc, tenses: ['presente', 'passatoProssimo'] };
+  if (!choices.some(c => c.spec === chosen.src)) chosen.src = 'scope';
   for (const o of opts) chosen[o.key] = o.choices[0][0];
-  const body = () => html`
-    <div class="mood-title">Play with</div>
-    <div class="list">${raw(choices.map(c => {
-      const items = c.spec === chosen.src ? resolveSource(c.spec) : null;
-      const n = game.kind === 'any' ? c.count : (items ? items.filter(e => game.kind === 'verb' ? e.kind === 'verb' : game.kind === 'noun' ? e.pos === 'noun' : e.kind === 'word').length : c.count);
-      return html`<label class="item ${c.spec === chosen.src ? '' : ''}" style="cursor:pointer"><input type="radio" name="src" value="${c.spec}" ${c.spec === chosen.src ? 'checked' : ''}><div class="main"><div class="hw">${c.label}</div><div class="sub">${c.sub}</div></div><span class="badge">${n}</span></label>`;
+  const tenseItems = TENSE_OPTIONS.map(([k, n]) => ({ key: k, label: n, sub: TENSE_BY_KEY[k]?.mood || '' }));
+  let dialIdx = Math.max(0, tenseItems.findIndex(t => t.key === chosen.tenses[0]));
+
+  const countFor = (c) => c.spec === chosen.src ? resolveSource(c.spec).filter(kindFilter(game)).length : c.count;
+  const mine = choices.filter(c => !c.spec.startsWith('level:'));
+  const levelOf = (spec) => spec.startsWith('level:') ? spec.slice(6) : null;
+  const sourceList = () => html`
+    <div class="src-list" role="radiogroup" aria-label="Play with">${raw(mine.map(c => {
+      const on = c.spec === chosen.src; const n = countFor(c);
+      return html`<button type="button" class="src-row ${on ? 'on' : ''}" role="radio" aria-checked="${on ? 'true' : 'false'}" data-src="${c.spec}">
+        <span class="src-main"><span class="src-label">${c.label}</span><span class="src-sub">${c.sub}</span></span>
+        <span class="src-count">${n}</span><span class="src-check">${ic('check', { size: 18 })}</span></button>`;
     }).join(''))}</div>
-    ${opts.length ? raw(opts.map(o => html`<div class="mood-title mt">${o.label}</div><div class="chips">${raw(o.choices.map(([v, l]) => html`<button class="chip ${chosen[o.key] === v ? 'on' : ''}" data-opt="${o.key}" data-val="${v}">${l}</button>`).join(''))}</div>`).join('')) : ''}
-    ${game.tenses ? raw(html`<div class="mood-title mt">Tenses</div><div class="chips">${raw(TENSE_OPTIONS.map(([k, n]) => html`<button class="chip sm ${chosen.tenses.includes(k) ? 'on' : ''}" data-tense="${k}">${n}</button>`).join(''))}</div>`) : ''}
-    <button class="btn primary block mt" data-start>Start ${game.name}</button>`;
-  const s = sheet(body(), { title: `${game.icon} ${game.name}` });
-  s.body.addEventListener('change', (ev) => { const r = ev.target.closest('input[name=src]'); if (r) { chosen.src = r.value; } });
+    <div class="kicker src-kicker">Or a whole level</div>
+    <div class="src-levels" role="radiogroup" aria-label="Level">${raw(LEVELS.map(L => {
+      const spec = 'level:' + L; const on = spec === chosen.src;
+      return html`<button type="button" class="lvl lvl-${L} lg ${on ? 'on' : ''}" role="radio" aria-checked="${on ? 'true' : 'false'}" data-src="${spec}">${L}</button>`;
+    }).join(''))}</div>
+    <div class="src-levelnote mono" data-levelnote>${raw(levelNote())}</div>`;
+  function levelNote() {
+    const L = levelOf(chosen.src); if (!L) return '&nbsp;';
+    const c = choices.find(x => x.spec === chosen.src);
+    return esc(`${L} · ${LEVEL_INFO[L].name} · ${c ? countFor(c) : 0} items`);
+  }
+  const tenseTags = () => chosen.tenses.map(k => html`<span>${TENSE_BY_KEY[k]?.name || k}</span>`).join('');
+  const toggleLabel = () => { const k = tenseItems[dialIdx].key; return (chosen.tenses.includes(k) ? 'Remove ' : 'Add ') + tenseItems[dialIdx].label; };
+
+  const body = html`
+    <div class="picker">
+      <div class="picker-desc">${game.desc}</div>
+      <div class="kicker picker-kicker">Play with</div>
+      <div data-sources>${raw(sourceList())}</div>
+      ${opts.length ? raw(opts.map(o => html`<div class="kicker picker-kicker">${o.label}</div>
+        <div class="chips picker-chips">${raw(o.choices.map(([v, l]) => html`<button type="button" class="chip ${chosen[o.key] === v ? 'on' : ''}" data-opt="${o.key}" data-val="${v}" aria-pressed="${chosen[o.key] === v ? 'true' : 'false'}">${l}</button>`).join(''))}</div>`).join('')) : ''}
+      ${game.tenses ? raw(html`<div class="kicker picker-kicker">Tenses</div>
+        <div class="picker-dial"><div class="dial" data-dial aria-label="Tense"></div></div>
+        <div class="picker-tense-row"><button type="button" class="btn sm secondary" data-tense-toggle>${toggleLabel()}</button><span class="tiny muted">turn the dial, add what you want to drill</span></div>
+        <div class="tags picker-tags" data-tense-tags>${raw(tenseTags())}</div>`) : ''}
+      <button type="button" class="btn primary block picker-start" data-start>Start ${game.name}${ic('arrow', { size: 20 })}</button>
+    </div>`;
+  const s = sheet(body, { title: game.name, onClose: () => { dialApi && dialApi.destroy(); } });
+  let dialApi = null;
+  const markPicked = () => { s.body.querySelectorAll('.dial-item').forEach(b => b.classList.toggle('picked', chosen.tenses.includes(b.dataset.key))); const t = s.body.querySelector('[data-tense-toggle]'); if (t) t.textContent = toggleLabel(); const tags = s.body.querySelector('[data-tense-tags]'); if (tags) tags.innerHTML = tenseTags(); };
+  if (game.tenses) {
+    dialApi = dial(s.body.querySelector('[data-dial]'), { items: tenseItems, index: dialIdx, onChange: (i) => { dialIdx = i; markPicked(); } });
+    markPicked();
+  }
   s.body.addEventListener('click', (ev) => {
-    const o = ev.target.closest('[data-opt]'); if (o) { chosen[o.dataset.opt] = o.dataset.val; s.body.querySelectorAll(`[data-opt="${o.dataset.opt}"]`).forEach(x => x.classList.toggle('on', x === o)); return; }
-    const t = ev.target.closest('[data-tense]'); if (t) { const k = t.dataset.tense; if (chosen.tenses.includes(k)) { if (chosen.tenses.length > 1) chosen.tenses = chosen.tenses.filter(x => x !== k); } else chosen.tenses.push(k); t.classList.toggle('on', chosen.tenses.includes(k)); return; }
+    const src = ev.target.closest('[data-src]');
+    if (src) { chosen.src = src.dataset.src; s.body.querySelector('[data-sources]').innerHTML = sourceList(); return; }
+    const o = ev.target.closest('[data-opt]');
+    if (o) { chosen[o.dataset.opt] = o.dataset.val; s.body.querySelectorAll(`[data-opt="${o.dataset.opt}"]`).forEach(x => { const on = x === o; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }); return; }
+    if (ev.target.closest('[data-tense-toggle]')) {
+      const k = tenseItems[dialIdx].key;
+      if (chosen.tenses.includes(k)) { if (chosen.tenses.length > 1) chosen.tenses = chosen.tenses.filter(x => x !== k); }
+      else chosen.tenses.push(k);
+      markPicked(); return;
+    }
     if (ev.target.closest('[data-start]')) {
       lastSrc = chosen.src;
       const q = new URLSearchParams({ src: chosen.src });
@@ -38,17 +122,54 @@ export function openSourcePicker(game, presetSrc) {
   });
 }
 
+// ---------- hub ----------
 export async function render(root, params, query) {
   setTitle('Play');
-  const stats = store.current.stats.games || {};
   const learnedV = store.learnedIds('v:').length;
-  const section = (title, games) => html`<div class="section"><div class="section-head"><h2>${title}</h2></div><div class="grid2">${raw(games.map(g => html`<button class="tile" data-game="${g.id}"><span class="ico">${g.icon}</span><span class="name">${g.name}</span><span class="desc">${g.desc}</span>${stats[g.id] ? raw(html`<span class="tiny muted">played ${stats[g.id].played}× · best ${stats[g.id].best}%</span>`) : ''}</button>`).join(''))}</div></div>`;
+  const learnedAll = store.learnedIds().length;
+  const vocab = GAMES.filter(g => g.kind === 'any' || g.kind === 'noun' || g.kind === 'word');
+  const verbs = GAMES.filter(g => g.kind === 'verb');
+  const reelHTML = (games) => html`<div class="reel" data-reel>${raw(games.map(g => posterHTML(g)).join(''))}</div>`;
+
   root.innerHTML = html`
-    <div class="card accent"><div class="row between"><div><b>Play with what you know</b><div class="small muted">Every game can use your learned verbs and words, your word bank, any list, or a whole level.</div></div><span style="font-size:32px">🎮</span></div>
-      <div class="row gap mt"><a class="btn sm" style="background:#fff;color:var(--primary-2)" href="#/game/quiz?src=learned">Quiz my learned items</a>${learnedV ? raw(html`<a class="btn sm" style="background:#fff;color:var(--primary-2)" href="#/game/conj-drill?src=learned-verbs&tenses=presente,passatoProssimo">Drill my verbs</a>`) : ''}</div>
-    </div>` +
-    section('Vocabulary games', GAMES.filter(g => g.kind === 'any' || g.kind === 'noun')) +
-    section('Verb games', GAMES.filter(g => g.kind === 'verb'));
-  root.addEventListener('click', (ev) => { const b = ev.target.closest('[data-game]'); if (!b) return; const g = GAMES.find(x => x.id === b.dataset.game); openSourcePicker(g); });
-  if (query.pick) { const g = GAMES.find(x => x.id === query.pick); if (g) openSourcePicker(g, query.src); }
+    <div class="games-hub">
+      <div class="play-hero glass pad-l">
+        <div class="play-hero-top">
+          <div><span class="kicker">Play with what you know</span><div class="play-hero-title">${raw(tr('Gioca', 'Play'))}, ${raw(tr('impara', 'learn'))}.</div></div>
+          <span class="play-hero-ico">${ic('play', { size: 26 })}</span>
+        </div>
+        <p class="small muted">Every game runs on your learned verbs and words, your word bank, any list, or a whole level.</p>
+        <div class="play-hero-ctas">
+          <a class="btn sm ${learnedAll ? 'primary' : 'secondary'}" href="${learnedAll ? '#/game/quiz?src=learned' : '#/game/quiz?src=scope'}">${ic('sparkle', { size: 16 })}${learnedAll ? 'Quiz my learned items' : 'Quiz my scope'}</a>
+          ${learnedV ? raw(html`<a class="btn sm secondary" href="#/game/conj-drill?src=learned-verbs&tenses=presente,passatoProssimo">${ic('edit', { size: 16 })}Drill my verbs</a>`) : raw(html`<a class="btn sm secondary" href="#/game/flashcards?src=scope">${ic('flip', { size: 16 })}Flashcards on my scope</a>`)}
+        </div>
+      </div>
+
+      <section class="games-section">
+        ${raw(secHead('Vocabulary', 'Words in play'))}
+        ${raw(reelHTML(vocab))}
+      </section>
+      <section class="games-section">
+        ${raw(secHead('Verbs', 'Tenses & forms'))}
+        ${raw(reelHTML(verbs))}
+      </section>
+      <p class="center kicker games-foot">${GAMES.length} games · any source · tap a poster</p>
+    </div>`;
+
+  const hub = root.querySelector('.games-hub');
+  mount(hub);
+  const reels = [...hub.querySelectorAll('[data-reel]')].map(el => reel(el));
+  hub.addEventListener('click', (ev) => {
+    const b = ev.target.closest('button[data-game]'); if (!b) return;
+    const g = GAMES.find(x => x.id === b.dataset.game); if (g) openSourcePicker(g);
+  });
+  if (query && query.pick) {
+    const g = GAMES.find(x => x.id === query.pick);
+    if (g) {
+      const i = (g.kind === 'verb' ? verbs : vocab).findIndex(x => x.id === g.id);
+      const r = reels[g.kind === 'verb' ? 1 : 0]; if (r && i >= 0) setTimeout(() => r.scrollTo(i, false), 60);
+      openSourcePicker(g, query.src);
+    }
+  }
+  return () => reels.forEach(r => r.destroy());
 }

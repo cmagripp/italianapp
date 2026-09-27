@@ -168,18 +168,23 @@ export function dial(el, { items = [], index = 0, onChange = null, step = 30, ra
     return cur;
   }
 
-  // pointer drag / swipe (horizontal); vertical page scrolling stays native thanks to touch-action: pan-y
+  // pointer drag / swipe (horizontal); vertical page scrolling stays native thanks to touch-action: pan-y.
+  // The pointer is captured only once a drag starts: capturing on pointerdown would retarget the tap's click
+  // event to the dial itself (common ancestor), so tapping an item would never select it.
   let startX = 0, startCur = 0, moved = false, pid = null, lastX = 0, lastT = 0, vel = 0;
   const down = (e) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     pid = e.pointerId; startX = lastX = e.clientX; startCur = cur; moved = false; vel = 0; lastT = performance.now();
-    el.classList.add('dragging');
-    try { el.setPointerCapture(pid); } catch { /* ignore */ }
   };
   const move = (e) => {
     if (pid === null || e.pointerId !== pid) return;
     const dx = e.clientX - startX;
-    if (Math.abs(dx) > 6) moved = true;
+    if (!moved) {
+      if (Math.abs(dx) <= 6) return;
+      moved = true;
+      el.classList.add('dragging');
+      try { el.setPointerCapture(pid); } catch { /* ignore */ }
+    }
     const now = performance.now();
     vel = (e.clientX - lastX) / Math.max(1, now - lastT); lastX = e.clientX; lastT = now;
     offset = clamp(-(dx / pxPerStep), -startCur - .35, (n - 1 - startCur) + .35);
@@ -190,14 +195,15 @@ export function dial(el, { items = [], index = 0, onChange = null, step = 30, ra
     if (pid === null || e.pointerId !== pid) return;
     pid = null;
     el.classList.remove('dragging');
-    if (!moved) { offset = 0; layout(); return; }
+    if (!moved) return; // a tap: the click handler selects the item
     const fling = Math.abs(vel) > .5 ? -Math.sign(vel) * Math.min(5, Math.round(Math.abs(vel) * 3)) : 0;
     const target = Math.round(startCur + offset + fling * (Math.abs(offset) > .15 ? 1 : 0));
     offset = 0;
     select(target);
   };
   const click = (e) => {
-    const b = e.target.closest('.dial-item'); if (!b || moved) { moved = false; return; }
+    if (moved) { moved = false; return; } // the click that follows a drag
+    const b = e.target.closest('.dial-item'); if (!b) return;
     select(Number(b.dataset.i));
   };
   const key = (e) => {
