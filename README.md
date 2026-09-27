@@ -78,7 +78,7 @@ Besides the conjugation-engine checks (`node tools/test-conjugator.mjs`), two Pl
 
 ```bash
 (python3 -m http.server 8123 --bind 127.0.0.1 >/dev/null 2>&1 &)   # or let the scripts start it
-node tests/e2e.mjs            # every route + the learning, review, all 21 games, list, search, custom word/verb, theme, users, backup round-trip, SRS and persistence flows
+node tests/e2e.mjs            # every route + the learning (guessed and passed), review, all 21 games and their picker, list, search/browse, entry actions, scope, custom word/verb, theme, users, backup round-trip, SRS and persistence flows
 node tests/layout-audit.mjs   # every route × 3 phone viewports × light/dark: overflow, tap targets, overlaps, small inputs, clipped headings
 ```
 

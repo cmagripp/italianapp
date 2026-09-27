@@ -192,7 +192,10 @@ function baseParadigm(inf, opts) {
   const ger = e.ger || joinAlts(stem, E.ger, cls, stressedI);
   const presPart = e.presPart || PRES_PART[inf] || (cls === 'are' ? stem + 'ante' : stem + 'ente');
 
-  return { cls, isc, pres, imperf, pr, fut, cond, subj, subjImp, imp, pp, ger, presPart, irregular: !!opts.entry, defective };
+  // A table entry that only removes forms (pp: null, imp: null…) describes a defective verb, not an irregular one:
+  // every surviving form is regular, and the UI reports defectiveness separately.
+  const irregular = !!opts.entry && Object.values(opts.entry).some(v => v !== null);
+  return { cls, isc, pres, imperf, pr, fut, cond, subj, subjImp, imp, pp, ger, presPart, irregular, defective };
 }
 
 function applyPrefix(p, par, base) {

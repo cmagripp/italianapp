@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // End-to-end regression suite: visits every route collecting console/page errors, then plays the main flows
-// (verb & word introductions, review, the games, search, custom words, lists, theme, export, persistence).
+// (verb & word introductions — guessed, and passed with the answer oracle —, review, the games and their picker,
+// search and browse filters, custom words, lists, entry actions, study scope, theme, export, persistence).
 //
 //   node tests/e2e.mjs                 everything
 //   node tests/e2e.mjs game/ review    only routes/flows whose name contains one of the filters
@@ -12,13 +13,15 @@
 // #view #topbar #tabs a[data-tab] #enToggle #backBtn #q #toast [data-next] [data-answer] [data-check] [data-skip]
 // [data-results] [data-hint] button.choice [data-flash] [data-grade] [data-q] [data-add] [data-rm] .cw .k .m
 // [data-export] [data-file] [data-f] [data-save] [data-seg]/[data-v] [data-new] [data-pick] [data-menu] [data-act]
-// [data-new-user] [data-user] [data-kind], the walkthrough deck (.wt-rail .cur / .wt-scene[data-i][data-key] / [data-cta]),
-// the results hero and the glass drop-down (.dropdown-layer .dropdown.open [data-value]) — everything else goes through
-// roles and text. The full list is in tests/README.md.
+// [data-new-user] [data-user] [data-kind] [data-actions] [data-start] [data-src-pick] [data-level] [data-scope-dock]
+// input[data-list] [data-say], the walkthrough deck (.wt-rail .cur / .wt-scene[data-i][data-key] / [data-cta] /
+// [data-next-verb] / [data-next-word]), the question card the answer oracle reads (.q-card .prompt / .big / .sentence
+// .blank, .choice-label, .aux-tile .aux-word), the results hero and the glass drop-down (.dropdown-layer .dropdown.open
+// [data-value]) — everything else goes through roles and text. The full list is in tests/README.md.
 import fs from 'node:fs';
 import {
   loadPlaywright, launchBrowser, contextOptions, ensureServer, BASE, allRoutes, cliFilters, matches, routeSlug,
-  makeSink, attachCollectors, boot, reloadApp, gotoRoute, settle, viewText, seedProgress, shot, writeReport, wait, ms, pad,
+  makeSink, attachCollectors, boot, reloadApp, gotoRoute, settle, viewText, seedProgress, answerOracle, shot, writeReport, wait, ms, pad,
 } from './lib.mjs';
 
 const filters = cliFilters();
@@ -169,12 +172,20 @@ async function visitRoute(route) {
 // ---------- flows ----------
 const learned = { before: null };
 const gameFlow = (id, query, extra = {}) => ({ name: `game:${id}`, run: async () => {
+  const statsOf = () => storeEval(`return { played: ctx.store.current.stats.games[arg]?.played || 0, xp: ctx.store.current.stats.xp };`, id);
+  const before = await statsOf();
   await gotoRoute(page, `/game/${id}?src=level:A1&${query}`);
   const t = await viewText(page, 120);
   if (/needs at least|No questions|No suitable|Need at least|No example/i.test(t)) throw new Error(`game did not start: ${t}`);
   const r = await playToResults(extra);
   if (!r.ok) throw new Error(`did not reach results after ${r.steps} steps (${r.actions.length} actions): ${r.stuck}`);
-  return `${await resultsSummary()} · ${r.actions.length} actions`;
+  const summary = await resultsSummary();
+  // one round = one game record, and a correct answer must have paid XP (grading → store.recordAnswer / recordGame)
+  const after = await statsOf();
+  if (after.played !== before.played + 1) throw new Error(`stats.games.${id}.played went ${before.played} → ${after.played} over one round`);
+  const m = summary.match(/\((\d+) of \d+ correct\)/);
+  if (m && Number(m[1]) > 0 && after.xp <= before.xp) throw new Error(`XP stayed at ${after.xp} after ${m[1]} correct answers`);
+  return `${summary} · ${r.actions.length} actions · +${after.xp - before.xp} XP`;
 } });
 
 // ---------- walkthrough (verb / word introduction) helpers ----------
@@ -190,13 +201,14 @@ async function sceneState() {
 }
 // Plays the deck scene by scene: interacts with whatever the scene offers (data-next hook, fan cards, patterns, tap-the-word,
 // choices, typed answers, the in-scene drill) until the CTA unlocks, then taps "Avanti". Stops on the last scene.
-async function playWalkthrough({ maxScenes = 16 } = {}) {
-  const seen = [];
+// With oracleId (the entry's id) every question is answered from the answer oracle instead of guessed, so the drill passes.
+async function playWalkthrough({ maxScenes = 16, oracleId = null } = {}) {
+  const seen = []; const oracled = [];
   for (let guard = 0; guard < maxScenes * 40; guard++) {
     const st = await sceneState();
     if (st.i < 0) { await wait(200); continue; }
     if (!seen.includes(st.key)) seen.push(st.key);
-    if (st.i === st.n - 1) return { ok: true, scenes: seen };
+    if (st.i === st.n - 1) return { ok: true, scenes: seen, oracled };
     if (st.ready) {
       await tap(`.wt-scene[data-i="${st.i}"] [data-cta]`, { label: `Avanti (${st.key})` });
       const before = st.i;
@@ -209,15 +221,23 @@ async function playWalkthrough({ maxScenes = 16 } = {}) {
     // DOM clicks here: the row hands the hook to the dropdown the moment it opens, which trips a real click's retries.
     if (await has('.dropdown-layer .dropdown.open [data-value]')) { await tap('.dropdown-layer .dropdown.open [data-value]', { js: true }); await wait(450); continue; }
     if (await has(`${ss} [data-pat]:not(.seen)`)) { await tap(`${ss} [data-pat]:not(.seen)`, { js: true }); await wait(500); continue; }
-    // one thing the scene marks as "next": Reveal all, Not sure — show me…
-    if (await has(`${ss} [data-next]`)) { await tap(`${ss} [data-next]`, { label: `[data-next] (${st.key})` }); await wait(350); continue; }
+    // the pass flows: answer the open question from the oracle before the scene's own "next" (which would reveal it)
+    if (oracleId && ((await has(`${ss} button.choice:not([disabled])`)) || (await has(`${ss} input[data-answer]:not([disabled])`)))) {
+      const o = await answerOracle(page, ss, oracleId);
+      if (o.index >= 0) { await tap(page.locator(`${ss} button.choice:not([disabled])`).nth(o.index), { label: `oracle: ${o.tag}` }); oracled.push(o.tag); await wait(350); continue; }
+      // button[data-check]: the scene's check *host* is a <div data-check> too, which would swallow the tap
+      if (o.text != null && await has(`${ss} button[data-check]`)) { await page.locator(`${ss} input[data-answer]`).first().fill(o.text); await tap(`${ss} button[data-check]`, { label: `oracle: ${o.tag}` }); oracled.push(o.tag); await wait(300); continue; }
+      oracled.push(o.answer != null ? `${o.tag}: "${o.answer}" not among ${o.choices.join(' | ')}` : `${o.tag || '(no tag)'}: unrecognised`); // guessed below
+    }
+    // one thing the scene marks as "next": Reveal all, Not sure — show me, the drill's Continue (soft: it auto-advances)
+    if (await has(`${ss} [data-next]`)) { await tap(`${ss} [data-next]`, { label: `[data-next] (${st.key})`, soft: true }); await wait(350); continue; }
     if (await has(`${ss} .tw-tap.target`)) { await tap(`${ss} .tw-tap.target`, { label: 'tap the word' }); await wait(300); continue; }
     if (await has(`${ss} .fan-card:not(.flipped)`)) { await tap(`${ss} .fan-card:not(.flipped)`, { label: 'fan card' }); await wait(250); continue; }
     const choices = page.locator(`${ss} button.choice:not([disabled])`);
     if (await choices.count()) { await tap(choices.nth(Math.floor(Math.random() * await choices.count())), { label: 'button.choice' }); await wait(350); continue; }
-    if (await has(`${ss} input[data-answer]:not([disabled])`) && await has(`${ss} [data-check]`)) {
+    if (await has(`${ss} input[data-answer]:not([disabled])`) && await has(`${ss} button[data-check]`)) {
       await page.locator(`${ss} input[data-answer]`).first().fill('prova');
-      await tap(`${ss} [data-check]`, { label: '[data-check]' }); await wait(300); continue;
+      await tap(`${ss} button[data-check]`, { label: '[data-check]' }); await wait(300); continue;
     }
     // the in-scene drill's feedback bar ("Continue" auto-advances after a correct answer, so it may vanish under us)
     if (await has('[data-feedback-bar] [data-next]')) { await tap('[data-feedback-bar] [data-next]', { label: 'Continue', soft: true }); await wait(300); continue; }
@@ -225,7 +245,7 @@ async function playWalkthrough({ maxScenes = 16 } = {}) {
     await wait(250);
   }
   const st = await sceneState();
-  return { ok: false, scenes: seen, stuck: `${st.key} (${st.i + 1}/${st.n}) ready=${st.ready}: ${st.text}` };
+  return { ok: false, scenes: seen, oracled, stuck: `${st.key} (${st.i + 1}/${st.n}) ready=${st.ready}: ${st.text}` };
 }
 async function isLearned(id) { return storeEval(`return ctx.store.isLearned(arg);`, id); }
 // review, persistence and the backup round trip need learned items: seed them when such a flow runs on its own
@@ -271,6 +291,44 @@ const flows = [
     if (!fin.score) throw new Error(`Finito shows no check score: ${fin.text}`);
     return `${r.scenes.join(' → ')} → ${fin.score} · stamp ${fin.stamp || '—'} · learned=${await isLearned('w:casa|noun')}`;
   } },
+  // The success path the two flows above never reach: every question answered from the oracle, so the drill passes,
+  // the item is marked learned, the learned bonus is paid, the stamp lands and Finito offers the next item.
+  { name: 'verb-intro-pass', run: async () => {
+    const id = 'v:mangiare';
+    const xp0 = await storeEval(`delete ctx.store.current.items[arg]; return ctx.store.current.stats.xp;`, id); // pristine item: the 30 XP bonus is paid once per item
+    await gotoRoute(page, '/learn/verb/' + id);
+    const r = await playWalkthrough({ oracleId: id });
+    if (!r.ok) throw new Error(`walkthrough did not reach Finito (${r.scenes.join(' → ')}): ${r.stuck}`);
+    await wait(1200); // the stamp is applied 380 ms after Finito enters
+    const fin = await finitoSummary();
+    const unanswered = r.oracled.filter(x => /unrecognised|not among/.test(x));
+    const pct = fin.score ? Number(fin.score.match(/^(\d+)%/)[1]) : -1;
+    if (pct < 66) throw new Error(`drill not passed with the oracle: ${fin.score || fin.text}${unanswered.length ? ` — ${unanswered.join('; ')}` : ''}`);
+    if (!(await isLearned(id))) throw new Error('drill passed but the verb is not marked learned');
+    if (!fin.stamp) throw new Error(`Finito shows no stamp: ${fin.text}`);
+    const xp = (await storeEval(`return ctx.store.current.stats.xp;`)) - xp0;
+    if (xp < 30) throw new Error(`XP rose by ${xp}, expected at least the 30 XP learned bonus`);
+    if (!(await has('.wt-scene[data-key="finito"] [data-next-verb]'))) throw new Error('Finito has no "Next verb" link');
+    return `${fin.score} · stamp ${fin.stamp} · learned · +${xp} XP · next-verb link · ${r.oracled.length} questions answered`;
+  } },
+  { name: 'word-intro-pass', run: async () => {
+    const id = 'w:casa|noun';
+    const xp0 = await storeEval(`delete ctx.store.current.items[arg]; return ctx.store.current.stats.xp;`, id);
+    await gotoRoute(page, '/learn/word/' + id);
+    const r = await playWalkthrough({ oracleId: id });
+    if (!r.ok) throw new Error(`walkthrough did not reach Finito (${r.scenes.join(' → ')}): ${r.stuck}`);
+    await wait(1200);
+    const fin = await finitoSummary();
+    const unanswered = r.oracled.filter(x => /unrecognised|not among/.test(x));
+    const pct = fin.score ? Number(fin.score.match(/^(\d+)%/)[1]) : -1;
+    if (pct < 50) throw new Error(`check not passed with the oracle: ${fin.score || fin.text}${unanswered.length ? ` — ${unanswered.join('; ')}` : ''}`);
+    if (!(await isLearned(id))) throw new Error('check passed but the word is not marked learned');
+    if (!fin.stamp) throw new Error(`Finito shows no stamp: ${fin.text}`);
+    const xp = (await storeEval(`return ctx.store.current.stats.xp;`)) - xp0;
+    if (xp < 10) throw new Error(`XP rose by ${xp}, expected at least the 10 XP learned bonus`);
+    if (!(await has('.wt-scene[data-key="finito"] [data-next-word]'))) throw new Error('Finito has no "Next word" link');
+    return `${fin.score} · stamp ${fin.stamp} · learned · +${xp} XP · next-word link · ${r.oracled.length} questions answered`;
+  } },
   { name: 'seed-learned', run: async () => {
     const s = await seedProgress(page, { words: 20, verbs: 10 });
     if (s.learned < 30) throw new Error(`expected >= 30 learned, store has ${s.learned}`);
@@ -281,12 +339,17 @@ const flows = [
   } },
   { name: 'review', run: async () => {
     await ensureSeeded();
+    const tally = () => storeEval(`return { due: ctx.store.dueIds().length, seen: Object.values(ctx.store.current.items).reduce((a, it) => a + (it.seen || 0), 0), reviews: ctx.store.today().reviews || 0 };`);
+    const before = await tally();
     await gotoRoute(page, '/review');
     if (/Niente da ripassare|Nothing to review/i.test(await viewText(page, 120))) throw new Error('review has nothing to review after seeding');
     const r = await playToResults({ maxSteps: 200 });
     await shot(page, 'e2e_review_results');
     if (!r.ok) throw new Error(`review did not finish: ${r.stuck}`);
-    return `${await resultsSummary()} · ${r.actions.length} actions`;
+    // every answer goes through store.recordAnswer: the items were seen, their due dates moved on, today's reviews grew
+    const after = await tally();
+    if (after.seen <= before.seen || after.due >= before.due || after.reviews <= before.reviews) throw new Error(`review did not update the store: ${JSON.stringify({ before, after })}`);
+    return `${await resultsSummary()} · ${r.actions.length} actions · due ${before.due} → ${after.due}, seen +${after.seen - before.seen}, reviews today ${after.reviews}`;
   } },
   gameFlow('quiz', 'count=6'),
   gameFlow('conj-drill', 'tenses=presente&count=3'),
@@ -496,6 +559,133 @@ const flows = [
     if (back.id !== first.id || back.learned !== first.learned) throw new Error(`switching back lost progress: ${JSON.stringify({ first, back })}`);
     await storeEval(`await ctx.store.deleteProfile(arg);`, cur.id);
     return `created "Marco" (empty), switched back to the first user with ${back.learned} learned items, deleted Marco`;
+  } },
+  // ---------- the screens the route visits only open ----------
+  // Games tab → poster → source picker → Start, then the #/games?pick=<id>&src=list:<id> deep link a list's "Play" uses.
+  { name: 'games-picker', run: async () => {
+    await gotoRoute(page, '/games?pick=quiz');
+    const sheet = page.locator('[role="dialog"]').last();
+    await sheet.waitFor({ timeout: 3000 });
+    await tap(sheet.locator('[data-start]'), { label: 'Start (picker)' }); await settle(page);
+    const hash1 = await page.evaluate(() => location.hash);
+    if (!/^#\/game\/quiz\?/.test(hash1)) throw new Error(`picker did not start the quiz: ${hash1}`);
+    let r = await playToResults();
+    if (!r.ok) throw new Error(`quiz from the picker did not reach results: ${r.stuck}`);
+    // a list as the preset source: the picker must offer it, and the round must be built from its items only
+    const list = await storeEval(`
+      const l = Object.values(ctx.store.lists).find(x => x.name === 'E2E list'); const id = l ? l.id : ctx.store.createList('E2E list');
+      for (const e of ctx.data.vocab.filter(x => x.level === 'A1')) { if (ctx.store.lists[id].items.length >= 5) break; ctx.store.addToList(id, e.id); }
+      return { id, items: ctx.store.lists[id].items.slice() };`);
+    await gotoRoute(page, `/games?pick=quiz&src=list:${encodeURIComponent(list.id)}`);
+    const sheet2 = page.locator('[role="dialog"]').last();
+    await sheet2.waitFor({ timeout: 3000 });
+    const srcLabel = (await sheet2.locator('[data-src-pick]').textContent().catch(() => '')) || '';
+    if (!/E2E list/.test(srcLabel)) throw new Error(`picker does not preselect the list: "${srcLabel.replace(/\s+/g, ' ').trim().slice(0, 60)}"`);
+    await tap(sheet2.locator('[data-start]'), { label: 'Start (list source)' }); await settle(page);
+    const hash2 = await page.evaluate(() => location.hash);
+    if (!/^#\/game\/quiz\?src=list/.test(hash2)) throw new Error(`picker did not start the quiz with the list: ${hash2}`);
+    r = await playToResults();
+    if (!r.ok) throw new Error(`quiz on the list did not reach results: ${r.stuck}`);
+    const missed = await page.$$eval('#view a[href*="#/entry/"]', as => as.map(a => decodeURIComponent(a.getAttribute('href').replace('#/entry/', ''))));
+    const foreign = missed.filter(id => !list.items.includes(id));
+    if (foreign.length) throw new Error(`results list entries outside the list: ${foreign.slice(0, 4).join(', ')}`);
+    return `scope → ${hash1.slice(0, 40)} · list → ${decodeURIComponent(hash2).slice(0, 44)} · ${missed.length} missed, all from the list`;
+  } },
+  // the entry page's action bar: word bank, list picker, mark learned / unmark, listen — every tap checked in the store and restored
+  { name: 'entry-actions', run: async () => {
+    const id = 'w:casa|noun';
+    const inList = (l) => storeEval(`return ctx.store.inList(arg.l, arg.id);`, { l, id });
+    await gotoRoute(page, '/entry/' + id);
+    const bank0 = await inList('bank');
+    await tap('#view [data-actions] [data-act="bank"]', { label: 'Word bank' }); await wait(300);
+    if ((await inList('bank')) === bank0) throw new Error(`tapping "Word bank" did not ${bank0 ? 'remove casa from' : 'add casa to'} the word bank`);
+    const label = (await page.locator('#view [data-actions] [data-act="bank"]').textContent()) || '';
+    if (!bank0 && !/In word bank/i.test(label)) throw new Error(`the button did not switch to "In word bank": "${label.trim()}"`);
+    await tap('#view [data-actions] [data-act="bank"]', { label: 'Word bank (back)' }); await wait(300);
+    if ((await inList('bank')) !== bank0) throw new Error('the second tap did not restore the word bank');
+    const lid = await storeEval(`const l = Object.values(ctx.store.lists).find(x => x.name === 'E2E list'); return l ? l.id : ctx.store.createList('E2E list');`);
+    const in0 = await inList(lid);
+    await tap('#view [data-actions] [data-act="lists"]', { label: 'List' }); await wait(400);
+    const sheet = page.locator('[role="dialog"]').last();
+    await sheet.waitFor({ timeout: 3000 });
+    const cb = sheet.locator(`input[data-list="${lid}"]`), row = sheet.locator(`label:has(input[data-list="${lid}"])`);
+    if (!(await cb.count())) throw new Error('the list picker does not offer the E2E list');
+    await tap((await row.count()) ? row : cb, { label: 'E2E list (tick)' }); await wait(300);
+    if ((await inList(lid)) === in0) throw new Error(`ticking the list did not ${in0 ? 'remove' : 'add'} casa`);
+    await tap((await row.count()) ? row : cb, { label: 'E2E list (untick)' }); await wait(300);
+    if ((await inList(lid)) !== in0) throw new Error('unticking did not restore the list');
+    await page.keyboard.press('Escape'); await wait(400);
+    const learned0 = await isLearned(id);
+    await tap('#view [data-actions] [data-act="learned"]', { label: learned0 ? 'Learned (unmark)' : 'Mark learned' }); await wait(300);
+    if ((await isLearned(id)) === learned0) throw new Error(`tapping "${learned0 ? 'Learned' : 'Mark learned'}" did not toggle the learned state`);
+    await tap('#view [data-actions] [data-act="learned"]', { label: 'learned (back)' }); await wait(300);
+    if ((await isLearned(id)) !== learned0) throw new Error('the second tap did not restore the learned state');
+    if (!learned0 && !(await has('#view a[href*="#/learn/word/"]'))) throw new Error('no Learn link on an unlearned entry');
+    if (await has('#view [data-say]')) await tap('#view [data-say]', { label: 'Listen' }); // speechSynthesis may be silent headless; it must not throw
+    return `word bank ${bank0 ? 'off/on' : 'on/off'}, list picker tick/untick, learned ${learned0 ? 'off/on' : 'on/off'}, listen — store followed each tap`;
+  } },
+  // study scope: add A2 on /scope, save, then the Learn hub and a scope-sourced game follow it
+  { name: 'scope', run: async () => {
+    const scope0 = await storeEval(`return JSON.parse(JSON.stringify(ctx.store.scope));`);
+    await gotoRoute(page, '/scope');
+    await tap('#view button[data-level="A2"]', { label: 'level A2' }); await wait(300);
+    const pressed = await page.getAttribute('#view button[data-level="A2"]', 'aria-pressed');
+    if (pressed !== 'true') throw new Error(`the A2 pill is not pressed after the tap (aria-pressed=${pressed})`);
+    await tap('#view [data-scope-dock] [data-save]', { label: 'Use this scope' }); await settle(page);
+    const sc = await storeEval(`return ctx.store.scope;`);
+    if (sc.mode !== 'level' || !sc.levels.includes('A1') || !sc.levels.includes('A2')) throw new Error(`scope after "Use this scope": ${JSON.stringify(sc)}`);
+    await gotoRoute(page, '/learn');
+    const t = await viewText(page, 600);
+    if (!/\bA2\b/.test(t)) sink.push('warn', `learn hub does not mention the A2 scope: "${t.slice(0, 80)}"`);
+    await gotoRoute(page, '/game/quiz?count=4'); // no src: the game plays the study scope
+    const g = await viewText(page, 160);
+    if (/needs at least|Too few|Troppo poche/i.test(g)) throw new Error(`the scope source has too few items for the quiz: ${g}`);
+    const r = await playToResults();
+    if (!r.ok) throw new Error(`quiz on the scope did not reach results: ${r.stuck}`);
+    await storeEval(`ctx.store.setScope(arg);`, scope0); // the flows after this one expect the A1 scope
+    return `A1 → ${sc.levels.join(' + ')} through /scope, learn hub and a scope-sourced quiz followed`;
+  } },
+  // browse: every row belongs to the level / topic / kind, and the count row shows the real total
+  { name: 'browse-filters', run: async () => {
+    const check = async (route, want, label) => {
+      await gotoRoute(page, route);
+      const ids = await page.$$eval('#view a[href*="#/entry/"]', as => as.map(a => decodeURIComponent(a.getAttribute('href').replace('#/entry/', ''))));
+      if (!ids.length) throw new Error(`${route}: no entries listed`);
+      const r = await storeEval(`
+        const all = [...ctx.data.vocab, ...ctx.data.verbs, ...Object.values(ctx.store.current.custom || {})];
+        const ok = (e) => (!arg.want.level || e.level === arg.want.level) && (!arg.want.cat || e.cat === arg.want.cat) && (!arg.want.kind || e.kind === arg.want.kind);
+        const bad = arg.ids.filter(id => { const e = ctx.store.current.custom?.[id] || ctx.data.byId.get(id); return !e || !ok(e); });
+        return { bad, total: all.filter(ok).length };`, { ids, want });
+      if (r.bad.length) throw new Error(`${route}: entries outside ${label}: ${r.bad.slice(0, 5).join(', ')}`);
+      if (ids.length > r.total) throw new Error(`${route}: ${ids.length} rows for ${r.total} entries`);
+      const t = await viewText(page, 2000); // innerText carries the kicker's text-transform, hence the i flag
+      if (!new RegExp(`\\b${r.total} · \\d+ learned\\b`, 'i').test(t)) throw new Error(`${route}: the count row does not show "${r.total} · N learned": "${t.slice(0, 160)}"`);
+      return `${route} ${ids.length} rows of ${r.total}`;
+    };
+    return [await check('/browse/A1/food', { level: 'A1', cat: 'food' }, 'A1 / food'), await check('/browse?kind=verb', { kind: 'verb' }, 'verbs')].join(' · ');
+  } },
+  // search: English queries, the All / Words / Verbs segment, and the no-result state with its "add a custom word" link
+  { name: 'search-kinds', run: async () => {
+    await gotoRoute(page, '/search');
+    const q = page.locator('#q');
+    const links = () => page.$$eval('#view a[href*="#/entry/"]', as => as.map(a => decodeURIComponent(a.getAttribute('href').replace('#/entry/', ''))));
+    await q.fill('house'); await wait(500);
+    const en = await links();
+    if (!en.includes('w:casa|noun')) throw new Error(`searching "house" does not list casa: ${en.slice(0, 5).join(', ') || 'no results'}`);
+    await q.fill('and'); await wait(500);
+    await tap('#view [data-kind="verb"]', { label: 'Verbs segment' }); await wait(500);
+    const verbs = await links();
+    if (!verbs.length) throw new Error('no results for "and" among the verbs');
+    const notVerbs = await storeEval(`return arg.filter(id => (ctx.data.byId.get(id) || {}).kind !== 'verb');`, verbs);
+    if (notVerbs.length) throw new Error(`the Verbs segment lists non-verbs: ${notVerbs.slice(0, 5).join(', ')}`);
+    if (!/\bon\b/.test((await page.getAttribute('#view [data-kind="verb"]', 'class')) || '')) sink.push('warn', 'the Verbs segment is not marked as selected');
+    await tap('#view [data-kind=""]', { label: 'All segment' }); await wait(300);
+    await q.fill('zzzqqq'); await wait(500);
+    const t = await viewText(page, 300);
+    if (!/Nessun risultato|No match|No results/i.test(t)) throw new Error(`no-result state missing for "zzzqqq": "${t.slice(0, 100)}"`);
+    const add = await page.$eval('#view a[href*="#/add?it="]', a => a.getAttribute('href')).catch(() => null);
+    if (!add || !/zzzqqq/.test(add)) throw new Error(`no "Add as a custom word" link for the missing word (${add})`);
+    return `"house" → casa · "and" + Verbs → ${verbs.length} verbs · "zzzqqq" → no results with an add link`;
   } },
 ];
 
