@@ -64,6 +64,9 @@
 .qtile .name { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.1; letter-spacing: -.01em; }
 .qtile .desc { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .qtile .chev { margin-left: auto; color: var(--ink-3); flex: none; }
+.qtile:not(.wide) { flex-direction: column; align-items: flex-start; gap: 10px; min-height: 112px; padding: 12px 14px; }
+.qtile:not(.wide) .qi { width: 36px; height: 36px; } .qtile:not(.wide) .qi .ic { width: 18px; height: 18px; }
+.qtile:not(.wide) .qt { width: 100%; }
 .qtile.wide { grid-column: 1 / -1; min-height: 84px; background: linear-gradient(120deg, color-mix(in srgb, var(--gold) 16%, var(--glass)) 0%, var(--glass) 62%); }
 .qtile.wide .name { font-size: 22px; }
 .qtile.wide .desc { font-size: 11px; }
@@ -157,6 +160,7 @@
 .list-row .lr-count { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -.02em; color: var(--ink-2); flex: none; min-width: 28px; text-align: right; font-variation-settings: "opsz" 48; }
 .list-row .icon-btn { color: var(--ink-2); }
 .lists-tip { margin-top: 18px; }
+.pg-lists .empty { padding: 18px 12px 22px; font-size: 19px; }
 
 /* ---------- 7. LIST ---------- */
 .list-hero { padding: 2px 0 14px; }
@@ -178,6 +182,7 @@
 /* ---------- 8. ENTRY CODEX ---------- */
 .codex { position: relative; }
 .codex .headword { padding-top: 0; }
+.codex .headword .article, .pg-add .headword .article { font-size: 26px; }
 .codex .headword .hw-line { padding-right: 8px; }
 .glance { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 2px 0 14px; }
 .glance .g { display: flex; align-items: center; gap: 6px; min-height: 64px; padding: 8px 8px 8px 12px; border-radius: 14px; min-width: 0;
@@ -244,6 +249,7 @@
 .pg-add .preview .headword { padding: 0; }
 .pg-add .preview .headword .hw-row { margin-top: 10px; }
 .pg-add .preview .headword .tags { margin-top: 10px; }
+.pg-add .preview .headword .word.ph { color: var(--ink-3); font-style: italic; font-weight: 500; }
 .pg-add .pv-forms { margin-top: 10px; font-size: 13px; color: var(--ink-2); line-height: 1.4; }
 .pg-add .pv-forms:empty { display: none; }
 .pg-add .pv-forms b { font-family: var(--font-display); font-weight: 600; color: var(--ink); font-size: 15px; }

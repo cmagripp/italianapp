@@ -113,8 +113,8 @@ export async function render(root, params, query) {
     render(body, api) {
       const rules = isNoun ? [articleNote(e), pluralNote(e)].filter(Boolean) : ['Adjectives agree in gender and number with the noun: -o / -a / -i / -e.'];
       body.innerHTML = html`<div class="kicker forms-kicker">Forme · ${formCards.length} ${formCards.length === 1 ? 'card' : 'cards'}</div>
-        <div class="fan-stage"><div class="wt-fan forms-fan" data-fan></div>
-        <div class="fan-tools"><button type="button" class="btn xs ghost" data-flip>${raw(icon('flip', { size: 16 }))}Reveal all</button><button type="button" class="btn xs ghost" data-spread>${raw(icon('spread', { size: 16 }))}Spread</button></div></div>
+        <div class="fan-stage"><div class="fan-inner"><div class="wt-fan forms-fan" data-fan></div>
+        <div class="fan-tools"><button type="button" class="btn xs ghost" data-flip>${raw(icon('flip', { size: 16 }))}Reveal all</button><button type="button" class="btn xs ghost" data-spread>${raw(icon('spread', { size: 16 }))}Spread</button></div></div></div>
         <div class="rule-lines">${raw(rules.map(r => html`<p class="rule-line">${r}</p>`).join(''))}</div>`;
       formsFan = fan(body.querySelector('[data-fan]'), formCards.map(c => ({ key: c.label, front: esc(c.label), back: `<span class="form" style="font-size:${Math.max(...c.form.split(' ').map(w => w.length)) > 9 ? 15 : 19}px">${esc(c.form)}</span><span class="sub">${esc(c.label)}</span>`, tint: `var(--lvl-${level})` })), {
         onFlip(i, flipped) { if (flipped) { speak(formCards[i].form); haptic('light'); } },
@@ -141,7 +141,7 @@ export async function render(root, params, query) {
       let done = false;
       const found = (revealed) => {
         if (done) return; done = true;
-        body.querySelectorAll('.tw-tap').forEach(b => { b.disabled = true; });
+        body.querySelectorAll('.tw-tap').forEach(b => b.classList.add('locked'));
         const t = body.querySelector('.tw-tap.target');
         if (t) t.classList.add('hit');
         body.querySelector('.ex-tap').classList.add('open');

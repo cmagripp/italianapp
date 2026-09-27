@@ -218,10 +218,10 @@ export async function render(root, params) {
             <p class="tense-line">${TENSE_LINE[key] || ''}</p>
             ${endings ? raw(html`<div class="tense-rule mono">-${endings}</div>`) : conj.irregular ? raw('<div class="tense-rule mono irr">irregular forms in terracotta</div>') : ''}
           </div>
-          <div class="fan-stage" data-stage>
+          <div class="fan-stage" data-stage><div class="fan-inner">
             <div class="wt-fan" data-fan></div>
             <div class="fan-tools"><button type="button" class="btn xs ghost" data-flip>${raw(icon('flip', { size: 16 }))}Reveal all</button><button type="button" class="btn xs ghost" data-spread>${raw(icon('spread', { size: 16 }))}Spread</button></div>
-          </div>
+          </div></div>
           <div class="strip" data-strip hidden></div>
           <div class="wt-check" data-check></div>`;
         const cards = forms.map((f, i) => {
