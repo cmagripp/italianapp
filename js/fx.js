@@ -190,7 +190,7 @@ export function dial(el, { items = [], index = 0, onChange = null, step = 30, ra
     pid = null;
     el.classList.remove('dragging');
     if (!moved) { offset = 0; layout(); return; }
-    const fling = Math.abs(vel) > .6 ? -Math.sign(vel) * Math.min(3, Math.round(Math.abs(vel) * 2)) : 0;
+    const fling = Math.abs(vel) > .5 ? -Math.sign(vel) * Math.min(5, Math.round(Math.abs(vel) * 3)) : 0;
     const target = Math.round(startCur + offset + fling * (Math.abs(offset) > .15 ? 1 : 0));
     offset = 0;
     select(target);

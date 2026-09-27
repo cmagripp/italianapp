@@ -4,7 +4,7 @@ import { store } from './store.js';
 import { CATS, POS_NAME, GENDER_NAME, article, withArticle, isPluralOnly, isUncountable, headword, shortEn, getEntry } from './data.js';
 import { conjugate, splitClitic, PERSONS, IMP_PERSONS, TENSES, primary, accepted } from './conjugator.js';
 import { stage, STAGE_LABEL } from './srs.js';
-import { dial, fan } from './fx.js';
+import { dial, fan, dropdown } from './fx.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 export const IT_POS = { noun: 'nome', adj: 'aggettivo', adv: 'avverbio', prep: 'preposizione', conj: 'congiunzione', pron: 'pronome', num: 'numero', det: 'determinante', interj: 'interiezione', expr: 'espressione', verb: 'verbo' };
@@ -266,7 +266,9 @@ export function bindConjSection(root, conj) {
     const sp = ev.target.closest('[data-fan-spread]');
     if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const t = ev.target.closest('.tab[data-tense]');
-    if (t) d.select(idx(t.dataset.tense));
+    if (t) { d.select(idx(t.dataset.tense)); return; }
+    const menu = ev.target.closest('[data-dial-menu]');
+    if (menu) dropdown(menu, items.map(i => ({ value: i.key, label: i.label, sub: i.sub, selected: i.key === key })), { align: 'end', width: 260, onSelect: (v) => d.select(idx(v)) });
   });
   return { select: (k) => d.select(idx(k)), get tense() { return key; }, destroy: () => { d.destroy(); fanApi && fanApi.destroy(); } };
 }
