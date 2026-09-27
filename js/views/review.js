@@ -1,11 +1,12 @@
-// Adaptive spaced-repetition review session.
-import { html, raw } from '../ui.js';
+// Adaptive spaced-repetition review session on a level-tinted scene, with a short glass intro strip above the runner.
+import { html, raw, tr, levelBadge } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, shuffle, itemsForScope, sample, data } from '../data.js';
 import { buildQueue } from '../srs.js';
-import { runDrill } from '../games/engine.js';
+import { runDrill, showResults } from '../games/engine.js';
 import { qTranslateMC, qTypeIt, qGender, qCloze, qConjMC, qConjType, qAux, qParticiple, qPluralMC } from '../games/questions.js';
+import { setScene } from '../fx.js';
 
 // Pick a question type according to how well the item is known: weak items get recognition tasks, strong ones get production tasks.
 function questionFor(e, pool) {
@@ -23,7 +24,10 @@ function questionFor(e, pool) {
 
 export async function render(root, params, query) {
   setTitle('Review');
+  const level = store.settings.level || 'A1';
+  setScene(level);
   const limit = store.settings.dailyReviews || 40;
+  const dueNow = store.dueIds().length;
   let ids = store.dueIds();
   if (query.mode === 'extra' || ids.length < 5) {
     // review ahead: weakest learned items not yet due
@@ -34,8 +38,15 @@ export async function render(root, params, query) {
   }
   ids = ids.slice(0, limit);
   const entries = ids.map(getEntry).filter(Boolean);
-  if (!entries.length) { root.innerHTML = '<div class="empty"><div class="big">🎉</div><p>Nothing to review. Learn some new words first!</p><a class="btn primary" href="#/learn">Learn</a></div>'; return; }
+  if (!entries.length) {
+    root.innerHTML = html`<div class="empty"><span class="kicker">Ripasso</span><p>${raw(tr('Niente da ripassare, per ora.', 'Nothing to review, for now.'))}</p><p class="small muted">Learn some new words first: they come back here when they are due.</p><a class="btn primary" href="#/learn">Learn</a></div>`;
+    return;
+  }
   const pool = [...data.vocab, ...data.verbs];
   const qs = shuffle(entries).map(e => questionFor(e, pool) || qTranslateMC(e, pool, 'it-en'));
-  runDrill(root, qs, { title: 'Review', gameId: 'review', backHref: '#/learn', xpPer: 2, autoAdvance: true, onReplay: null, onPractice: (missed) => { location.hash = '#/game/flashcards?src=ids:' + encodeURIComponent(missed.map(e => e.id).join(',')); } });
+  const n = entries.length;
+  root.innerHTML = html`<div class="review-strip glass-flat" data-review-strip>${raw(tr('Ripasso', 'Review', 'kicker'))}<span class="due"><b>${n}</b> ${dueNow >= n ? 'due now' : dueNow ? `in this run · ${dueNow} due` : 'ahead of schedule'}</span>${raw(levelBadge(level))}</div><div data-runner></div>`;
+  const runner = root.querySelector('[data-runner]');
+  const opts = { title: 'Review', gameId: 'review', backHref: '#/learn', xpPer: 2, autoAdvance: true, onReplay: null, onPractice: (missed) => { location.hash = '#/game/flashcards?src=ids:' + encodeURIComponent(missed.map(e => e.id).join(',')); } };
+  runDrill(runner, qs, { ...opts, onDone: (result) => { root.querySelector('[data-review-strip]')?.remove(); showResults(runner, result, opts); } });
 }

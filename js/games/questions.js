@@ -1,15 +1,23 @@
 // Question generators for vocabulary and verb drills.
-import { html, raw, esc } from '../ui.js';
+// Every generator returns a runner question or null when nothing usable can be built (defective verbs, no example…).
+import { html, raw, esc, enPill, icon } from '../ui.js';
 import { article, withArticle, isPluralOnly, isUncountable, headword, shortEn, enChoices, distractors, shuffle, pickN, sample, fold, data } from '../data.js';
-import { conjugate, PERSONS, IMP_PERSONS, TENSE_BY_KEY, primary, accepted } from '../conjugator.js';
+import { conjugate, irregularCells, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING, primary, accepted } from '../conjugator.js';
 import { checkTyped } from './engine.js';
 
 const it = (e) => e.kind === 'verb' ? e.inf : e.it;
 const enOf = (e) => shortEn(e.en);
 const hw = (e) => e.kind === 'verb' ? e.inf : headword(e);
+const conjOf = (e) => conjugate(e.inf, { aux: e.aux, isc: e.isc });
+// A form a defective verb lacks is '—' (MISSING); an imperative may be missing entirely (null).
+export const usable = (f) => f != null && f !== MISSING && primary(f) !== '' && primary(f) !== MISSING;
+const usablePersons = (t) => (Array.isArray(t) ? t.map((f, i) => (usable(f) ? i : -1)).filter(i => i >= 0) : []);
+const meaning = (e) => html`<div class="q-en">${raw(enPill(e.en))}</div>`;
 
 export function mcChoices(correctLabel, wrongLabels, extra = {}) {
-  return shuffle([{ label: correctLabel, correct: true, ...extra }, ...wrongLabels.map(l => ({ label: l }))]);
+  const seen = new Set([fold(correctLabel)]);
+  const wrongs = wrongLabels.filter(l => l != null && l !== '' && l !== MISSING && !seen.has(fold(l)) && seen.add(fold(l)));
+  return shuffle([{ label: correctLabel, correct: true, ...extra }, ...wrongs.map(l => ({ label: l }))]);
 }
 
 // ---------- vocabulary ----------
@@ -38,12 +46,12 @@ export function qGender(e) {
   const correct = article(e, false);
   const opts = e.g === 'mf' ? ['il/la', "l'", 'lo/la'] : ['il', 'la', 'lo', "l'"];
   const choices = [...new Set([correct, ...opts])].slice(0, 4).map(l => ({ label: l, correct: l === correct }));
-  return { type: 'mc', itemId: e.id, tag: 'Which article?', center: true, prompt: html`<div class="big">___ ${e.it}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, false), choices: shuffle(choices), answer: correct, explain: e.g === 'mf' ? 'This noun has one form for both genders.' : `${e.it} is ${e.g === 'f' ? 'feminine' : 'masculine'}${/^(lo|gli)/.test(correct) ? " (lo before s+consonant, z, gn, ps, x, y)" : correct === "l'" ? ' (l\' before a vowel)' : ''}.` };
+  return { type: 'mc', itemId: e.id, tag: 'Which article?', center: true, prompt: html`<div class="big"><span class="blank">?</span> ${e.it}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, false), choices: shuffle(choices), answer: correct, explain: e.g === 'mf' ? 'This noun has one form for both genders.' : `${esc(e.it)} is ${e.g === 'f' ? 'feminine' : 'masculine'}${/^(lo|gli)/.test(correct) ? ' (lo before s+consonant, z, gn, ps, x, y)' : correct === "l'" ? ' (l\' before a vowel)' : ''}.` };
 }
 
 export function qPlural(e) {
   if (e.pos !== 'noun' || isUncountable(e) || isPluralOnly(e)) return null;
-  return { type: 'type', itemId: e.id, tag: 'Type the plural', prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), answer: [e.pl, withArticle(e, true)], placeholder: 'Plural…', explain: e.note && /plural|invariab|irregular/i.test(e.note) ? e.note : '' };
+  return { type: 'type', itemId: e.id, tag: 'Type the plural', prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), answer: [e.pl, withArticle(e, true)], placeholder: 'Plural…', explain: e.note && /plural|invariab|irregular/i.test(e.note) ? esc(e.note) : '' };
 }
 
 export function qPluralMC(e, pool) {
@@ -61,12 +69,14 @@ export function findInSentence(sentence, entry) {
   const words = sentence.split(/(\s+|[,.;:!?«»"()])/);
   const forms = new Set();
   if (entry.kind === 'verb') {
-    const c = conjugate(entry.inf, { aux: entry.aux, isc: entry.isc });
-    for (const t of Object.values(c.tenses)) if (t) for (const f of t) for (const a of accepted(f)) for (const w of a.split(' ')) forms.add(fold(w));
-    forms.add(fold(entry.inf)); forms.add(fold(primary(c.nonFinite.participioPassato))); forms.add(fold(primary(c.nonFinite.gerundio)));
-    for (const a of accepted(c.nonFinite.participioPassato)) { forms.add(fold(a)); forms.add(fold(a).replace(/o$/, 'a')); forms.add(fold(a).replace(/o$/, 'i')); forms.add(fold(a).replace(/o$/, 'e')); }
+    const c = conjOf(entry);
+    for (const t of Object.values(c.tenses)) if (t) for (const f of t) { if (!usable(f)) continue; for (const a of accepted(f)) for (const w of a.split(' ')) forms.add(fold(w)); }
+    forms.add(fold(entry.inf));
+    if (usable(c.nonFinite.participioPassato)) forms.add(fold(primary(c.nonFinite.participioPassato)));
+    if (usable(c.nonFinite.gerundio)) forms.add(fold(primary(c.nonFinite.gerundio)));
+    if (usable(c.nonFinite.participioPassato)) for (const a of accepted(c.nonFinite.participioPassato)) { forms.add(fold(a)); forms.add(fold(a).replace(/o$/, 'a')); forms.add(fold(a).replace(/o$/, 'i')); forms.add(fold(a).replace(/o$/, 'e')); }
     // remove clitics/auxiliaries that are too generic
-    for (const g of ['mi', 'ti', 'si', 'ci', 'vi', 'ne', 'la', 'lo', 'le', 'li', 'ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno', 'sono', 'sei', 'è', 'siamo', 'siete', 'me', 'te', 'se', 'ce', 've', 'ero', 'era', 'avevo', 'aveva']) forms.delete(g);
+    for (const g of ['mi', 'ti', 'si', 'ci', 'vi', 'ne', 'la', 'lo', 'le', 'li', 'ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno', 'sono', 'sei', 'è', 'siamo', 'siete', 'me', 'te', 'se', 'ce', 've', 'ero', 'era', 'avevo', 'aveva', '']) forms.delete(g);
   } else {
     forms.add(fold(entry.it));
     if (entry.pl && entry.pl !== '-') forms.add(fold(entry.pl));
@@ -91,26 +101,32 @@ export function findInSentence(sentence, entry) {
   return null;
 }
 
+// The example sentence with the gap; the whole sentence is tap-to-reveal English.
+function sentencePrompt(before, after, mark, en) {
+  return html`<div class="sentence itx block" role="button" tabindex="0"><div class="it">${before}<span class="blank">${mark}</span>${after}</div><div class="tr">${en}</div><div class="reveal-hint">tap for English</div></div>`;
+}
+
 export function qCloze(e, { typed = false, pool = [] } = {}) {
   const sentences = e.kind === 'verb' ? (e.examples || []) : (e.ex ? [{ it: e.ex, en: e.exEn }] : []);
   for (const s of shuffle(sentences)) {
     const hit = findInSentence(s.it, e);
     if (!hit) continue;
     const before = s.it.slice(0, hit.start), after = s.it.slice(hit.end);
-    const prompt = html`<div class="sentence">${before}<span class="blank">${typed ? '…' : '?'}</span>${after}</div><div class="sub"><span class="itx inline" role="button" tabindex="0"><span class="it">translation ▾</span><span class="tr">${s.en}</span></span></div>`;
-    if (typed) return { type: 'type', itemId: e.id, tag: 'Fill in the blank', prompt: prompt + html`<div class="sub tiny">${e.kind === 'verb' ? 'verb: ' + e.inf : enOf(e)}</div>`, say: s.it, answer: [hit.form], placeholder: 'Missing word…' };
+    const prompt = sentencePrompt(before, after, typed ? '…' : '?', s.en);
+    if (typed) return { type: 'type', itemId: e.id, tag: 'Fill in the blank', prompt: prompt + html`<div class="sub">${e.kind === 'verb' ? 'verb: ' + e.inf : enOf(e)}</div>`, say: s.it, answer: [hit.form], placeholder: 'Missing word…' };
     let wrongs;
     if (e.kind === 'verb') {
-      const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
-      const own = [c.tenses.presente[1], c.tenses.presente[2], c.tenses.presente[5], c.tenses.imperfetto[0], c.tenses.futuro[2], c.tenses.passatoProssimo[2], c.tenses.condizionale[0], c.tenses.congiuntivoPresente[0], c.nonFinite.participioPassato, c.nonFinite.gerundio, e.inf].map(primary);
+      const c = conjOf(e);
+      const pick = (t, i) => (t && usable(t[i]) ? primary(t[i]) : null);
+      const own = [pick(c.tenses.presente, 1), pick(c.tenses.presente, 2), pick(c.tenses.presente, 5), pick(c.tenses.imperfetto, 0), pick(c.tenses.futuro, 2), pick(c.tenses.passatoProssimo, 2), pick(c.tenses.condizionale, 0), pick(c.tenses.congiuntivoPresente, 0), usable(c.nonFinite.participioPassato) ? primary(c.nonFinite.participioPassato) : null, usable(c.nonFinite.gerundio) ? primary(c.nonFinite.gerundio) : null, e.inf].filter(Boolean);
       const other = distractors(e, pool, 1)[0];
-      const oc = other ? conjugate(other.inf, { aux: other.aux, isc: other.isc }) : null;
+      const oc = other ? conjOf(other) : null;
       const cands = shuffle([...new Set(own.filter(f => fold(f) !== fold(hit.form)))]).slice(0, 2);
-      if (oc) { const f = primary(oc.tenses.presente[Math.floor(Math.random() * 6)]); if (fold(f) !== fold(hit.form)) cands.push(f); }
+      if (oc) { const f = pick(oc.tenses.presente, Math.floor(Math.random() * 6)); if (f && fold(f) !== fold(hit.form)) cands.push(f); }
       while (cands.length < 3) { const f = own.find(x => !cands.includes(x) && fold(x) !== fold(hit.form)); if (!f) break; cands.push(f); }
       wrongs = cands;
     } else wrongs = distractors(e, pool, 3).map(d => d.it);
-    return { type: 'mc', itemId: e.id, tag: 'Fill in the blank', center: true, prompt, say: s.it, choices: mcChoices(hit.form, wrongs), answer: hit.form, explain: s.en };
+    return { type: 'mc', itemId: e.id, tag: 'Fill in the blank', center: true, prompt, say: s.it, choices: mcChoices(hit.form, wrongs), answer: hit.form, explain: esc(s.en) };
   }
   return null;
 }
@@ -120,65 +136,87 @@ export function qScramble(e) {
   if (w.length < 4 || w.includes(' ')) return null;
   let letters; let tries = 0;
   do { letters = shuffle(w.split('')).join(''); tries++; } while (letters === w && tries < 10);
-  return { type: 'type', itemId: e.id, tag: 'Unscramble', prompt: html`<div class="big" style="letter-spacing:.12em">${letters}</div><div class="sub">${enOf(e)}</div>`, say: w, answer: [w], placeholder: 'Word…' };
+  return { type: 'type', itemId: e.id, tag: 'Unscramble', prompt: html`<div class="big scramble">${letters}</div><div class="sub">${enOf(e)}</div>`, say: w, answer: [w], placeholder: 'Word…' };
 }
 
 export function qDictation(e) {
   const text = e.kind === 'verb' ? e.inf : (e.pos === 'noun' && !isPluralOnly(e) ? withArticle(e, false) : e.it);
-  return { type: 'type', itemId: e.id, tag: 'Listen and type', prompt: html`<div class="big">🔊</div><div class="sub">Tap the speaker, then type what you hear</div>`, say: text, autoSay: true, answer: [text, it(e)], placeholder: 'What did you hear?', explain: `${enOf(e)}` };
+  return { type: 'type', itemId: e.id, tag: 'Listen and type', prompt: html`<div class="big dict">${raw(icon('ear', { size: 44 }))}</div><div class="sub">Tap the speaker, then type what you hear</div>`, say: text, autoSay: true, answer: [text, it(e)], placeholder: 'What did you hear?', explain: esc(enOf(e)) };
 }
 
 // ---------- verbs ----------
 export const DRILL_TENSES = ['presente', 'passatoProssimo', 'imperfetto', 'futuro', 'condizionale', 'congiuntivoPresente', 'passatoRemoto', 'imperativo', 'congiuntivoImperfetto', 'trapassatoProssimo'];
+const personsOf = (tense) => (tense === 'imperativo' ? IMP_PERSONS : PERSONS);
+const tagFor = (tense, p) => `${TENSE_BY_KEY[tense].name} · ${personsOf(tense)[p]}`;
+
+// Picks a usable (tense, person) cell: the requested one, another person of the same tense, or another drill tense.
+// Irregular cells are preferred half of the time so drills spend more time where learners slip.
+function pickCell(e, c, tense, person = null) {
+  const irr = c.irregular ? irregularCells(e.inf, { aux: e.aux, isc: e.isc }) : {};
+  const choose = (t) => {
+    const forms = c.tenses[t]; if (!forms) return null;
+    const ok = usablePersons(forms); if (!ok.length) return null;
+    if (person != null && ok.includes(person)) return { tense: t, p: person };
+    const irrOk = (irr[t] || []).filter(i => ok.includes(i));
+    const from = irrOk.length && Math.random() < .5 ? irrOk : ok;
+    return { tense: t, p: sample(from) };
+  };
+  const first = choose(tense);
+  if (first) return first;
+  for (const t of shuffle(DRILL_TENSES.filter(k => k !== tense))) { const alt = choose(t); if (alt) return alt; }
+  return null;
+}
 
 export function verbForm(e, tense, person) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
+  const c = conjOf(e);
   const t = c.tenses[tense];
-  if (!t) return null;
-  return { conj: c, form: t[person], persons: tense === 'imperativo' ? IMP_PERSONS : PERSONS };
+  if (!t || !usable(t[person])) return null;
+  return { conj: c, form: t[person], persons: personsOf(tense) };
 }
 
 export function qConjType(e, tense, person = null) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
-  const t = c.tenses[tense]; if (!t) return null;
-  const persons = tense === 'imperativo' ? IMP_PERSONS : PERSONS;
-  const p = person == null ? Math.floor(Math.random() * persons.length) : person;
-  const form = t[p];
-  const T = TENSE_BY_KEY[tense];
-  return { type: 'type', itemId: e.id, tag: T.name, prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[p]}</b> · ${T.en}${e.aux === 'both' && T.compound ? ' (use avere)' : ''}</div><div class="tiny muted mt"><span class="itx inline" role="button" tabindex="0"><span class="it">meaning ▾</span><span class="tr">${e.en}</span></span></div>`, say: primary(form), answer: accepted(form), accept: (v) => checkTyped(v, accepted(form)), placeholder: `${persons[p]} …`, explain: c.irregular ? 'Irregular verb.' : '' };
+  const c = conjOf(e);
+  const cell = pickCell(e, c, tense, person); if (!cell) return null;
+  const persons = personsOf(cell.tense);
+  const form = c.tenses[cell.tense][cell.p];
+  const T = TENSE_BY_KEY[cell.tense];
+  return { type: 'type', itemId: e.id, tag: tagFor(cell.tense, cell.p), prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[cell.p]}</b> · ${T.en}${e.aux === 'both' && T.compound ? ' (use avere)' : ''}</div>${raw(meaning(e))}`, say: primary(form), answer: accepted(form), accept: (v) => checkTyped(v, accepted(form)), placeholder: `${persons[cell.p]} …`, explain: c.irregular ? 'Irregular verb.' : '' };
 }
 
 export function qConjMC(e, tense, pool = [], person = null) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
-  const t = c.tenses[tense]; if (!t) return null;
-  const persons = tense === 'imperativo' ? IMP_PERSONS : PERSONS;
-  const p = person == null ? Math.floor(Math.random() * persons.length) : person;
+  const c = conjOf(e);
+  const cell = pickCell(e, c, tense, person); if (!cell) return null;
+  const t = c.tenses[cell.tense]; const p = cell.p;
+  const persons = personsOf(cell.tense);
   const correct = primary(t[p]);
   const wrong = new Set();
   // other persons of the same tense
-  for (const i of shuffle([0, 1, 2, 3, 4, 5].filter(i => i !== p && i < t.length))) { const f = primary(t[i]); if (f !== correct) wrong.add(f); if (wrong.size >= 2) break; }
+  for (const i of shuffle(usablePersons(t).filter(i => i !== p))) { const f = primary(t[i]); if (f !== correct) wrong.add(f); if (wrong.size >= 2) break; }
   // same person, other tense
-  for (const tk of shuffle(DRILL_TENSES.filter(k => k !== tense && c.tenses[k] && k !== 'imperativo'))) { const f = primary(c.tenses[tk][Math.min(p, 5)]); if (f !== correct && !wrong.has(f)) { wrong.add(f); break; } }
-  // a plausible wrong regularisation for irregular verbs
-  if (wrong.size < 3) { const others = pool.filter(x => x.kind === 'verb' && x.id !== e.id); if (others.length) { const o = sample(others); const oc = conjugate(o.inf, { aux: o.aux, isc: o.isc }); const f = oc.tenses[tense] ? primary(oc.tenses[tense][p]) : null; if (f && f !== correct) wrong.add(f); } }
-  const T = TENSE_BY_KEY[tense];
-  return { type: 'mc', itemId: e.id, tag: T.name, center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[p]}</b> · ${T.en}</div><div class="tiny muted mt"><span class="itx inline" role="button" tabindex="0"><span class="it">meaning ▾</span><span class="tr">${e.en}</span></span></div>`, say: correct, choices: mcChoices(correct, [...wrong].slice(0, 3)), answer: correct };
+  for (const tk of shuffle(DRILL_TENSES.filter(k => k !== cell.tense && c.tenses[k] && k !== 'imperativo'))) { const f = c.tenses[tk][Math.min(p, 5)]; if (!usable(f)) continue; const pf = primary(f); if (pf !== correct && !wrong.has(pf)) { wrong.add(pf); break; } }
+  // a form of another verb in the same cell
+  if (wrong.size < 3) { const others = pool.filter(x => x.kind === 'verb' && x.id !== e.id); if (others.length) { const o = sample(others); const oc = conjOf(o); const f = oc.tenses[cell.tense] ? oc.tenses[cell.tense][p] : null; if (usable(f) && primary(f) !== correct) wrong.add(primary(f)); } }
+  if (!wrong.size) return null;
+  const T = TENSE_BY_KEY[cell.tense];
+  return { type: 'mc', itemId: e.id, tag: tagFor(cell.tense, p), center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[p]}</b> · ${T.en}</div>${raw(meaning(e))}`, say: correct, choices: mcChoices(correct, [...wrong].slice(0, 3)), answer: correct };
 }
 
 export function qTenseDetective(e) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
-  const tenses = DRILL_TENSES.filter(k => c.tenses[k] && k !== 'imperativo');
+  const c = conjOf(e);
+  const tenses = DRILL_TENSES.filter(k => k !== 'imperativo' && usablePersons(c.tenses[k]).length);
+  if (tenses.length < 2) return null;
   const tense = sample(tenses);
-  const p = Math.floor(Math.random() * 6);
+  const p = sample(usablePersons(c.tenses[tense]));
   const form = primary(c.tenses[tense][p]);
   const T = TENSE_BY_KEY[tense];
   const wrongT = pickN(tenses.filter(k => k !== tense), 3).map(k => TENSE_BY_KEY[k].name);
-  return { type: 'mc', itemId: e.id, tag: 'Which tense is this?', center: true, prompt: html`<div class="big md">${PERSONS[p]} ${form}</div><div class="sub">${e.inf} · <span class="itx inline" role="button" tabindex="0"><span class="it">meaning ▾</span><span class="tr">${e.en}</span></span></div>`, say: form, choices: mcChoices(T.name, wrongT), answer: T.name, explain: T.en };
+  return { type: 'mc', itemId: e.id, tag: 'Which tense is this?', center: true, prompt: html`<div class="big md">${PERSONS[p]} ${form}</div><div class="sub">${e.inf}</div>${raw(meaning(e))}`, say: form, choices: mcChoices(T.name, wrongT), answer: T.name, explain: esc(T.en) };
 }
 
 export function qPersonDetective(e) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
-  const tenses = ['presente', 'imperfetto', 'futuro', 'condizionale', 'passatoRemoto', 'congiuntivoPresente'].filter(k => c.tenses[k]);
+  const c = conjOf(e);
+  const tenses = ['presente', 'imperfetto', 'futuro', 'condizionale', 'passatoRemoto', 'congiuntivoPresente'].filter(k => c.tenses[k] && usablePersons(c.tenses[k]).length === 6);
+  if (!tenses.length) return null;
   const tense = sample(tenses);
   const t = c.tenses[tense];
   const unique = PERSONS.map((_, i) => primary(t[i]));
@@ -186,31 +224,37 @@ export function qPersonDetective(e) {
   const form = unique[p];
   const validPersons = PERSONS.filter((_, i) => unique[i] === form);
   const wrongs = pickN(PERSONS.filter(x => !validPersons.includes(x)), 3);
+  if (!wrongs.length) return null;
   const T = TENSE_BY_KEY[tense];
   return { type: 'mc', itemId: e.id, tag: 'Who is the subject?', center: true, prompt: html`<div class="big md">${form}</div><div class="sub">${e.inf} · ${T.name}</div>`, say: form, choices: shuffle([{ label: validPersons.join(' / '), correct: true }, ...wrongs.map(l => ({ label: l }))]), answer: validPersons.join(' / ') };
 }
 
 export function qAux(e) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
+  const c = conjOf(e);
+  if (!usable(c.nonFinite.participioPassato)) return null;
   const pp = primary(c.nonFinite.participioPassato);
   const aux = e.aux === 'both' ? 'avere / essere' : e.aux;
   const choices = [{ label: 'avere', correct: e.aux === 'avere' }, { label: 'essere', correct: e.aux === 'essere' }, { label: 'both (depends on meaning)', correct: e.aux === 'both' }];
-  return { type: 'mc', itemId: e.id, tag: 'Which auxiliary?', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">passato prossimo: ___ ${pp}</div>`, say: primary(c.tenses.passatoProssimo[2]), choices, answer: aux, explain: e.aux === 'essere' ? (e.trans === 'vr' ? 'Reflexive and pronominal verbs always take essere.' : 'Intransitive verbs of motion, change or state take essere; the participle agrees with the subject.') : e.aux === 'both' ? 'Essere when used intransitively, avere when there is a direct object.' : 'Transitive verbs (and many intransitive ones) take avere.' };
+  if (!choices.some(x => x.correct)) return null;
+  const sayForm = c.tenses.passatoProssimo && usable(c.tenses.passatoProssimo[2]) ? primary(c.tenses.passatoProssimo[2]) : e.inf;
+  return { type: 'mc', itemId: e.id, tag: 'Which auxiliary?', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">passato prossimo: <span class="blank">?</span> ${pp}</div>`, say: sayForm, choices, answer: aux, explain: e.aux === 'essere' ? (e.trans === 'vr' ? 'Reflexive and pronominal verbs always take essere.' : 'Intransitive verbs of motion, change or state take essere; the participle agrees with the subject.') : e.aux === 'both' ? 'Essere when used intransitively, avere when there is a direct object.' : 'Transitive verbs (and many intransitive ones) take avere.' };
 }
 
 export function qParticiple(e, typed = true) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
+  const c = conjOf(e);
   const pp = c.nonFinite.participioPassato;
-  if (typed) return { type: 'type', itemId: e.id, tag: 'Past participle', prompt: html`<div class="big md">${e.inf}</div><div class="sub">participio passato · ${c.irregular ? 'irregular?' : 'regular'}</div>`, say: primary(pp), answer: accepted(pp), placeholder: 'participio…' };
+  if (!usable(pp)) return null;
+  if (typed) return { type: 'type', itemId: e.id, tag: 'Participio passato', prompt: html`<div class="big md">${e.inf}</div><div class="sub">past participle · ${c.irregular ? 'irregular?' : 'regular'}</div>`, say: primary(pp), answer: accepted(pp), placeholder: 'participio…' };
   const stem = e.inf.replace(/(are|ere|ire|arsi|ersi|irsi|rre|rsi)$/, '');
   const wrong = new Set([stem + 'ato', stem + 'uto', stem + 'ito', stem + 'to', stem + 'so'].filter(x => !accepted(pp).includes(x)));
-  return { type: 'mc', itemId: e.id, tag: 'Past participle', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">participio passato</div>`, say: primary(pp), choices: mcChoices(primary(pp), [...wrong].slice(0, 3)), answer: primary(pp) };
+  return { type: 'mc', itemId: e.id, tag: 'Participio passato', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">past participle</div>`, say: primary(pp), choices: mcChoices(primary(pp), [...wrong].slice(0, 3)), answer: primary(pp) };
 }
 
 export function qGerund(e) {
-  const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
+  const c = conjOf(e);
   const g = c.nonFinite.gerundio;
-  return { type: 'type', itemId: e.id, tag: 'Gerund', prompt: html`<div class="big md">${e.inf}</div><div class="sub">gerundio (sto …)</div>`, say: primary(g), answer: accepted(g), placeholder: '-ando / -endo' };
+  if (!usable(g)) return null;
+  return { type: 'type', itemId: e.id, tag: 'Gerundio', prompt: html`<div class="big md">${e.inf}</div><div class="sub">gerund (sto …)</div>`, say: primary(g), answer: accepted(g), placeholder: '-ando / -endo' };
 }
 
 const PREPS = ['a', 'di', 'da', 'in', 'con', 'su', 'per', 'tra'];
@@ -221,7 +265,7 @@ export function qPattern(e) {
   const prep = m[2].toLowerCase();
   const rest = p.slice(m[1].length + 1 + m[2].length + 1);
   const wrong = pickN(PREPS.filter(x => x !== prep && x !== (prep === 'tra' ? 'fra' : '')), 3);
-  return { type: 'mc', itemId: e.id, tag: 'Which preposition?', center: true, prompt: html`<div class="big md">${m[1]} <span class="blank">?</span> ${rest}</div><div class="sub"><span class="itx inline" role="button" tabindex="0"><span class="it">meaning ▾</span><span class="tr">${e.en}</span></span></div>`, say: p, choices: mcChoices(prep, wrong), answer: prep, explain: (e.patterns || []).join(' · ') };
+  return { type: 'mc', itemId: e.id, tag: 'Which preposition?', center: true, prompt: html`<div class="big md">${m[1]} <span class="blank">?</span> ${rest}</div>${raw(meaning(e))}`, say: p, choices: mcChoices(prep, wrong), answer: prep, explain: esc((e.patterns || []).join(' · ')) };
 }
 
 export function qVerbTranslateMC(e, pool) { return qTranslateMC(e, pool.filter(x => x.kind === 'verb'), 'it-en'); }

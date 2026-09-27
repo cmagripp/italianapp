@@ -8,7 +8,7 @@ import { IT_POS } from '../components.js';
 import { conjugate, primary } from '../conjugator.js';
 import { GAMES } from '../games/index.js';
 import { posterHTML } from './games.js';
-import { setScene, orbit, ticker, reel, mount, countUp } from '../fx.js';
+import { setScene, orbit, ticker, reel, mount, countUp, parallax } from '../fx.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const REEL_GAMES = ['flashcards', 'quiz', 'conj-drill', 'crossword', 'speed'];
@@ -37,12 +37,15 @@ function nightCard(e, kind) {
   const word = e.kind === 'verb' ? e.inf : (plural ? e.pl : e.it);
   const say = e.kind === 'verb' ? e.inf : (isNoun ? withArticle(e, plural) : e.it);
   const href = '#/entry/' + encodeURIComponent(e.id);
-  let tags = '';
+  let tags = '', extra = '';
   if (e.kind === 'verb') {
     const c = conjugate(e.inf, { aux: e.aux, isc: e.isc });
-    tags = html`<span>verbo</span><span>${c.group}</span><span>${c.irregular ? 'irregolare' : 'regolare'}</span>`;
-  } else tags = html`<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${e.g === 'mf' ? 'm · f' : e.g}</span>`) : ''}`;
-  const extra = e.kind === 'verb' ? html`<div class="night-extra mono">p.p. ${primary(conjugate(e.inf, { aux: e.aux, isc: e.isc }).nonFinite.participioPassato)}</div>` : (e.cat && CATS[e.cat] ? html`<div class="night-extra mono">${CATS[e.cat].name}</div>` : '');
+    tags = html`<span>${c.group}</span><span>${c.irregular ? 'irregolare' : 'regolare'}</span>`;
+    extra = html`<div class="night-extra mono">p.p. ${primary(c.nonFinite.participioPassato)} · aux. ${e.aux === 'both' ? 'avere / essere' : e.aux}</div>`;
+  } else {
+    tags = html`<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${e.g === 'mf' ? 'm · f' : e.g}</span>`) : ''}`;
+    extra = e.cat && CATS[e.cat] ? html`<div class="night-extra mono">${CATS[e.cat].name}</div>` : '';
+  }
   return html`<article class="night-card glass float ${kind === 'verb' ? 'delay' : ''}" style="--glow:${kind === 'verb' ? 'var(--gold)' : 'var(--amalfi)'}" data-href="${href}">
     <div class="night-top"><span class="kicker">${kind === 'verb' ? 'Verb of the night' : 'Word of the night'}</span><a class="icon-btn night-open" href="${href}" aria-label="Open ${word}">${ic('chevronRight', { size: 20 })}</a></div>
     <div class="night-hw">${art ? raw(html`<span class="article">${art}</span>`) : ''}<a class="word" href="${href}" style="--hw:${fit(word)}px">${word}</a></div>
@@ -82,13 +85,13 @@ export async function render(root) {
 
   root.innerHTML = html`
     <div class="home">
-      <header class="greet">
+      <header class="greet"><div class="greet-inner" data-parallax>
         <div class="greet-row">
           <h1 class="greet-title">${raw(tr(greetIt, greetEn))}, ${p.name}.</h1>
           <span class="avatar" aria-hidden="true">${p.avatar}</span>
         </div>
         <div class="greet-meta mono">${raw(tr(dateIt, dateEn))}<i>·</i><span class="streak">${ic('flame', { size: 14 })}${streak} day${streak === 1 ? '' : 's'}</span><i>·</i><span>${fmtNum(p.stats.xp)} XP</span></div>
-      </header>
+      </div></header>
 
       <div class="ticker home-ticker" data-ticker></div>
 
@@ -131,6 +134,7 @@ export async function render(root) {
   ticker(home.querySelector('[data-ticker]'), tickerWords);
   home.querySelectorAll('[data-count]').forEach((el, i) => setTimeout(() => countUp(el, Number(el.dataset.count), { duration: 900 }), 200 + i * 120));
   const reelApi = reel(home.querySelector('[data-reel]'));
+  const unParallax = parallax(home.querySelector('[data-parallax]'), 0.12);
   const orbitApi = orbit(home.querySelector('[data-orbit]'), { rings: rings(), current: lvl, center: { value: fmtNum(p.stats.xp), label: 'XP' }, onSelect: setLevel });
 
   function setLevel(L) {
@@ -155,5 +159,5 @@ export async function render(root) {
     const card = ev.target.closest('[data-href]');
     if (card && !ev.target.closest('a, button, .itx, input')) location.hash = card.dataset.href;
   });
-  return () => { reelApi.destroy(); };
+  return () => { reelApi.destroy(); unParallax(); };
 }

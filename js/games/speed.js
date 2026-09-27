@@ -1,55 +1,77 @@
-// Speed round: answer as many multiple-choice questions as possible before the timer runs out.
-import { html, raw, esc, haptic, speak } from '../ui.js';
+// Speed round: answer as many multiple-choice questions as possible before the gold timer rail drains.
+import { html, raw, esc, haptic, speak, speakBtn, icon } from '../ui.js';
 import { store } from '../store.js';
 import { shuffle, sample } from '../data.js';
-import { qTranslateMC, qConjMC, DRILL_TENSES } from './questions.js';
+import { qTranslateMC, qConjMC } from './questions.js';
 import { showResults } from './engine.js';
+import fx from '../fx.js';
 
 export function startSpeed(root, ctx) {
   const items = shuffle(ctx.items);
   const pool = ctx.pool;
-  const DURATION = ctx.options?.seconds || 60;
+  const DURATION = Math.max(3, Number(ctx.options?.seconds) || 60);
   const verbsOnly = ctx.options?.mode === 'conj';
   let idx = 0, correct = 0, wrong = 0, streak = 0, best = 0; const missed = new Set(); const answered = new Set();
   const start = Date.now(); let timer = null; let ended = false;
 
   function nextQ() {
-    const e = items[idx % items.length]; idx++;
-    if (verbsOnly && e.kind === 'verb') return qConjMC(e, sample(ctx.options?.tenses || ['presente', 'passatoProssimo', 'imperfetto', 'futuro']), pool) || qTranslateMC(e, pool);
-    return qTranslateMC(e, pool, Math.random() < 0.5 ? 'it-en' : 'en-it');
+    for (let tries = 0; tries < items.length; tries++) {
+      const e = items[idx % items.length]; idx++;
+      const q = verbsOnly && e.kind === 'verb'
+        ? (qConjMC(e, sample(ctx.options?.tenses || ['presente', 'passatoProssimo', 'imperfetto', 'futuro']), pool) || qTranslateMC(e, pool))
+        : qTranslateMC(e, pool, Math.random() < 0.5 ? 'it-en' : 'en-it');
+      if (q) return q;
+    }
+    return null;
   }
+  root.innerHTML = html`<div class="game-top"><a class="icon-btn" href="${ctx.backHref}" aria-label="Quit">${raw(icon('x', { size: 20 }))}</a><div class="rail-wrap"><div class="timer-rail" aria-hidden="true"><div class="fill" data-fill style="width:100%"></div></div><span class="rail-count timer" data-timer>${DURATION}s</span></div></div>
+    <div class="speed-stats" aria-live="polite">
+      <div class="ss ok"><span class="num" data-correct>0</span><span class="lab">correct</span></div>
+      <div class="ss streak"><span class="num" data-streak>0</span><span class="lab">streak</span></div>
+      <div class="ss ko"><span class="num" data-wrong>0</span><span class="lab">wrong</span></div>
+    </div>
+    <div class="speed-q" data-q></div>`;
+  fx.mount(root);
+  const qArea = root.querySelector('[data-q]');
+  const fill = root.querySelector('[data-fill]');
+  const timerEl = root.querySelector('[data-timer]');
+  const stat = (sel, v) => { const el = root.querySelector(sel); if (el) el.textContent = String(v); };
+
   function render() {
     if (ended) return;
     const q = nextQ();
-    const left = Math.max(0, DURATION - Math.floor((Date.now() - start) / 1000));
-    root.innerHTML = html`<div class="game-top"><a class="icon-btn" href="${ctx.backHref}">✕</a><div class="bar timer-bar"><div class="bar-fill" style="width:${Math.round((left / DURATION) * 100)}%"></div></div><div class="score timer" data-timer>${left}s</div></div>
-      <div class="row between mb"><span class="badge ok">✓ ${correct}</span><span class="badge">streak ${streak}</span><span class="badge">✗ ${wrong}</span></div>
-      <div class="q-card pop"><div class="prompt">${q.tag}</div>${raw(q.prompt)}</div>
-      <div class="choices">${raw(q.choices.map((c, k) => html`<button class="choice center" data-c="${k}">${c.label}</button>`).join(''))}</div>`;
-    root.querySelector('.choices').addEventListener('click', (ev) => {
+    if (!q) return finish();
+    qArea.innerHTML = html`<div class="q-card"><div class="prompt">${q.tag}</div>${raw(q.prompt)}</div>
+      <div class="choices">${raw(q.choices.map((c, k) => html`<button type="button" class="choice center" data-c="${k}">${c.label}</button>`).join(''))}</div>`;
+    fx.mount(qArea, { stagger: 30 });
+    qArea.querySelector('.choices').addEventListener('click', (ev) => {
       const b = ev.target.closest('[data-c]'); if (!b || ended) return;
       const c = q.choices[Number(b.dataset.c)];
       const ok = !!c.correct;
       haptic(ok ? 'success' : 'error');
       if (ok) { correct++; streak++; best = Math.max(best, streak); } else { wrong++; streak = 0; missed.add(q.itemId); }
       if (!answered.has(q.itemId)) { answered.add(q.itemId); store.recordAnswer(q.itemId, ok, { quality: ok ? 4 : 1, xp: ok ? 1 : 0 }); }
-      root.querySelectorAll('[data-c]').forEach((x, k) => { x.setAttribute('disabled', ''); if (q.choices[k].correct) x.classList.add('correct'); else if (k === Number(b.dataset.c)) x.classList.add('wrong'); });
-      setTimeout(render, ok ? 250 : 700);
+      stat('[data-correct]', correct); stat('[data-wrong]', wrong); stat('[data-streak]', streak);
+      const sEl = root.querySelector('[data-streak]'); if (sEl && ok) fx.pulse(sEl.parentElement);
+      qArea.querySelectorAll('[data-c]').forEach((x, k) => { x.setAttribute('disabled', ''); if (q.choices[k].correct) x.classList.add('correct'); else if (k === Number(b.dataset.c)) x.classList.add('wrong'); else x.classList.add('dim'); });
+      setTimeout(render, ok ? 260 : 700);
     });
   }
-  timer = setInterval(() => {
-    const left = Math.max(0, DURATION - Math.floor((Date.now() - start) / 1000));
-    const t = root.querySelector('[data-timer]'); if (t) t.textContent = left + 's';
-    const bar = root.querySelector('.timer-bar .bar-fill'); if (bar) bar.style.width = Math.round((left / DURATION) * 100) + '%';
-    if (left <= 0) finish();
-  }, 250);
+  const tick = () => {
+    const leftMs = Math.max(0, DURATION * 1000 - (Date.now() - start));
+    const pct = (leftMs / (DURATION * 1000)) * 100;
+    if (fill) { fill.style.width = pct.toFixed(1) + '%'; fill.classList.toggle('low', leftMs < 10000); }
+    if (timerEl) timerEl.textContent = Math.ceil(leftMs / 1000) + 's';
+    if (leftMs <= 0) finish();
+  };
+  timer = setInterval(tick, 100);
   function finish() {
     if (ended) return; ended = true; clearInterval(timer);
     const total = correct + wrong;
     const result = { gameId: 'speed', total, correct, wrong, score: total ? Math.round((correct / total) * 100) : 0, missed: [...missed], secs: DURATION };
     result.xp = correct + best * 2;
     store.recordGame('speed', result);
-    showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, extraHTML: html`<div class="grid3 mb"><div class="stat"><div class="num">${correct}</div><div class="lab">correct</div></div><div class="stat"><div class="num">${best}</div><div class="lab">best streak</div></div><div class="stat"><div class="num">${total ? Math.round(DURATION / total * 10) / 10 : 0}s</div><div class="lab">per answer</div></div></div>` });
+    showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, extraHTML: html`<div class="grid3 mb speed-summary"><div class="stat"><div class="num">${correct}</div><div class="lab">correct</div></div><div class="stat"><div class="num gold">${best}</div><div class="lab">best streak</div></div><div class="stat"><div class="num">${total ? Math.round(DURATION / total * 10) / 10 : 0}s</div><div class="lab">per answer</div></div></div>` });
   }
   render();
   return () => { ended = true; clearInterval(timer); };

@@ -26,13 +26,19 @@ const GLYPH = {
   sentence: 'arrow', gender: 'orbit', plurals: 'plus', dictation: 'ear', reverse: 'arrow', speed: 'flame',
   'conj-drill': 'edit', 'conj-choice': 'check', 'tense-detective': 'search', aux: 'dial', participles: 'book', patterns: 'orbit', 'verb-quiz': 'sparkle',
 };
+const TAGLINE = {
+  flashcards: 'Flip & rate', quiz: 'Mixed choice', typing: 'Type the Italian', matching: 'Pair them up', hangman: 'Letter by letter', crossword: 'Clued in English',
+  cloze: 'Complete the sentence', scramble: 'Unscramble the letters', sentence: 'Order the words', gender: 'Il, la, lo…', plurals: 'Singular → plural', dictation: 'Listen & type',
+  reverse: 'Type the English', speed: '60 seconds', 'conj-drill': 'Type the form', 'conj-choice': 'Multiple choice', 'tense-detective': 'Which tense? Who?', aux: 'Essere or avere',
+  participles: 'Participio & gerundio', patterns: 'Which preposition?', 'verb-quiz': 'Everything, one round',
+};
 export const KIND_LABEL = { any: 'Vocabulary', word: 'Vocabulary', noun: 'Nouns', verb: 'Verbs' };
 
 // posterHTML(game, { href }) → <a class="poster"> (href) or <button class="poster" data-game> (no href)
 export function posterHTML(g, { href = null, stats = null } = {}) {
   const [p1, p2] = PALETTE[g.id] || ['#e0673f', '#b8323f'];
   const st = stats || (store.current?.stats?.games || {})[g.id];
-  const sub = st && st.played ? `Best ${st.best}% · ${st.played} play${st.played === 1 ? '' : 's'}` : g.desc;
+  const sub = st && st.played ? `Best ${st.best}% · ${st.played} play${st.played === 1 ? '' : 's'}` : (TAGLINE[g.id] || g.desc);
   const inner = html`<span class="poster-ghost" aria-hidden="true">${g.name.slice(0, 1)}</span>
     <span class="poster-glyph">${ic(GLYPH[g.id] || 'play', { size: 22 })}</span>
     <span class="poster-kicker">${KIND_LABEL[g.kind] || 'Vocabulary'}</span>
@@ -81,17 +87,17 @@ export function openSourcePicker(game, presetSrc) {
   const toggleLabel = () => { const k = tenseItems[dialIdx].key; return (chosen.tenses.includes(k) ? 'Remove ' : 'Add ') + tenseItems[dialIdx].label; };
 
   const body = html`
-    <div class="picker">
-      <div class="picker-desc">${game.desc}</div>
-      <div class="kicker picker-kicker">Play with</div>
+    <div class="srcp">
+      <div class="srcp-desc">${game.desc}</div>
+      <div class="kicker srcp-kicker">Play with</div>
       <div data-sources>${raw(sourceList())}</div>
-      ${opts.length ? raw(opts.map(o => html`<div class="kicker picker-kicker">${o.label}</div>
-        <div class="chips picker-chips">${raw(o.choices.map(([v, l]) => html`<button type="button" class="chip ${chosen[o.key] === v ? 'on' : ''}" data-opt="${o.key}" data-val="${v}" aria-pressed="${chosen[o.key] === v ? 'true' : 'false'}">${l}</button>`).join(''))}</div>`).join('')) : ''}
-      ${game.tenses ? raw(html`<div class="kicker picker-kicker">Tenses</div>
-        <div class="picker-dial"><div class="dial" data-dial aria-label="Tense"></div></div>
-        <div class="picker-tense-row"><button type="button" class="btn sm secondary" data-tense-toggle>${toggleLabel()}</button><span class="tiny muted">turn the dial, add what you want to drill</span></div>
-        <div class="tags picker-tags" data-tense-tags>${raw(tenseTags())}</div>`) : ''}
-      <button type="button" class="btn primary block picker-start" data-start>Start ${game.name}${ic('arrow', { size: 20 })}</button>
+      ${opts.length ? raw(opts.map(o => html`<div class="kicker srcp-kicker">${o.label}</div>
+        <div class="chips srcp-chips">${raw(o.choices.map(([v, l]) => html`<button type="button" class="chip ${chosen[o.key] === v ? 'on' : ''}" data-opt="${o.key}" data-val="${v}" aria-pressed="${chosen[o.key] === v ? 'true' : 'false'}">${l}</button>`).join(''))}</div>`).join('')) : ''}
+      ${game.tenses ? raw(html`<div class="kicker srcp-kicker">Tenses</div>
+        <div class="srcp-dial"><div class="dial" data-dial aria-label="Tense"></div></div>
+        <div class="srcp-tense-row"><button type="button" class="btn sm secondary" data-tense-toggle>${toggleLabel()}</button><span class="tiny muted">turn the dial, add what you want to drill</span></div>
+        <div class="tags srcp-tags" data-tense-tags>${raw(tenseTags())}</div>`) : ''}
+      <button type="button" class="btn primary block srcp-start" data-start>Start ${game.name}${ic('arrow', { size: 20 })}</button>
     </div>`;
   const s = sheet(body, { title: game.name, onClose: () => { dialApi && dialApi.destroy(); } });
   let dialApi = null;

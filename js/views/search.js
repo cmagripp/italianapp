@@ -1,6 +1,9 @@
-// Standalone search screen (same as Words tab search, focused).
+// Standalone search screen: the Words hub with the search field focused.
 import { render as renderWords } from './words.js';
+import { setTitle } from '../app.js';
 export async function render(root) {
-  await renderWords(root);
-  setTimeout(() => root.querySelector('#q')?.focus(), 100);
+  const cleanup = await renderWords(root);
+  setTitle('Search');
+  setTimeout(() => root.querySelector('#q')?.focus({ preventScroll: true }), 120);
+  return cleanup;
 }

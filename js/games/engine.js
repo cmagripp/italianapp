@@ -1,11 +1,18 @@
-// Shared game engine: question runner (multiple choice / typed answers), feedback, and results screen.
-import { html, raw, esc, toast, haptic, speak, speakBtn, $, $$ } from '../ui.js';
+// Shared game engine: question runner (multiple choice / typed answers), feedback bar, results screen,
+// the quit + rail header, letter keyboards and the fixed keyboard dock used by crossword and hangman.
+import { html, raw, esc, toast, haptic, speak, speakBtn, icon, $, $$ } from '../ui.js';
 import { store } from '../store.js';
 import { getEntry, headword, shortEn } from '../data.js';
 import { normalizeAnswer, stripAccents } from '../conjugator.js';
 import { entryRow } from '../components.js';
+import fx from '../fx.js';
 
 export const ACCENTS = ['à', 'è', 'é', 'ì', 'ò', 'ù'];
+// Three tidy rows: 9 · 9 · 8 (+ backspace) keys — fits 375px with 44px-tall keys.
+export const KEY_ROWS = ['abcdefghi', 'jklmnopqr', 'stuvwxyz'];
+export const pad2 = (n) => String(Math.max(0, n | 0)).padStart(2, '0');
+const ic = (name, opts) => raw(icon(name, opts));
+const BACKSPACE_SVG = '<svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.5 5.5H19a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5H9.5L3.5 12z"/><path d="m11.5 9.5 5 5M16.5 9.5l-5 5"/></svg>';
 
 export function checkTyped(answer, acceptedForms, { strict = null } = {}) {
   const accentStrict = strict ?? !!store.settings.accentStrict;
@@ -23,8 +30,9 @@ export function checkTyped(answer, acceptedForms, { strict = null } = {}) {
   return { ok: false };
 }
 
+// Accent bar: 40px glass keys (styled by app.css `.accents .chip`).
 export function accentBar() {
-  return html`<div class="chips mt" data-accents>${raw(ACCENTS.map(a => html`<button type="button" class="chip sm" data-ins="${a}">${a}</button>`).join(''))}<button type="button" class="chip sm" data-ins="'">'</button></div>`;
+  return html`<div class="accents mt" data-accents role="group" aria-label="Accented letters">${raw(ACCENTS.map(a => html`<button type="button" class="chip" data-ins="${a}">${a}</button>`).join(''))}<button type="button" class="chip" data-ins="'" aria-label="Apostrophe">'</button></div>`;
 }
 export function bindAccentBar(root, input) {
   root.addEventListener('click', (ev) => {
@@ -37,39 +45,107 @@ export function bindAccentBar(root, input) {
 }
 
 export function typedInputHTML({ placeholder = 'Type in Italian…', big = true, value = '' } = {}) {
-  return html`<input class="input ${big ? 'big' : ''}" data-answer type="text" placeholder="${placeholder}" value="${value}" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="go">
+  return html`<input class="input ${big ? 'big' : ''}" data-answer type="text" placeholder="${placeholder}" value="${value}" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-label="Your answer">
     ${raw(accentBar())}
-    <button class="btn primary block mt" data-check>Check</button>`;
+    <button type="button" class="btn primary block mt" data-check>Check</button>`;
 }
 
-// A question: { type: 'mc'|'type', itemId, prompt (html), say?, choices: [{label, correct, sub?}], answer: string|string[], explain (html), xp?, kind? }
+// ---------- header: quit button + progress rail + mono counter ----------
+// gameTop('#/games', { i: 2, total: 12 }) → segments (done / current / todo) and "03 / 12"; `count` overrides the text.
+export function gameTop(backHref, { i = 0, total = 0, count = null } = {}) {
+  const useSegments = total > 0 && total <= 20;
+  const segs = useSegments ? Array.from({ length: total }, (_, k) => `<span class="${k < i ? 'done' : k === i ? 'cur' : ''}"></span>`).join('') : '';
+  const bar = `<div class="bar thin"><div class="bar-fill" style="width:${total ? Math.round((Math.min(i, total) / total) * 100) : 0}%"></div></div>`;
+  const text = count != null ? count : (total ? `${pad2(Math.min(i + 1, total))} / ${pad2(total)}` : '');
+  return html`<div class="game-top"><a class="icon-btn" href="${backHref}" aria-label="Quit">${ic('x', { size: 20 })}</a><div class="rail-wrap">${raw(useSegments ? `<div class="rail" aria-hidden="true">${segs}</div>` : bar)}<span class="rail-count">${text}</span></div></div>`;
+}
+// Legacy signature kept for callers that pass a percentage.
+export function gameHeader(backHref, progress, scoreText) {
+  return html`<div class="game-top"><a class="icon-btn" href="${backHref}" aria-label="Quit">${ic('x', { size: 20 })}</a><div class="rail-wrap"><div class="bar thin"><div class="bar-fill" style="width:${Math.max(0, Math.min(100, Number(progress) || 0))}%"></div></div><span class="rail-count">${scoreText}</span></div></div>`;
+}
+
+// ---------- feedback bar (slides up, sticky at the bottom) ----------
+// title / detail are HTML strings (escape what you interpolate).
+export function feedbackHTML({ ok, title, detail = '', nextLabel = 'Continue', say = null, accent = null } = {}) {
+  return `<div class="feedback-bar" data-feedback-bar>
+    <div class="feedback ${ok ? 'ok' : 'ko'}" role="status"><span class="fb-ic">${icon(ok ? 'check' : 'x', { size: 20 })}</span><div class="fb-main"><div class="fb-title">${title}</div>${detail ? `<div class="detail">${detail}</div>` : ''}</div>${say ? speakBtn(say, 'sm') : ''}</div>
+    <button type="button" class="btn ${accent || (ok ? 'primary' : 'accent')} block" data-next>${esc(nextLabel)}</button></div>`;
+}
+
+// ---------- letter keyboard ----------
+// keyboardHTML({ backspace: true, state: { a: 'used hit' } }) → .keyboard > .krow > button.k[data-l]
+export function keyboardHTML({ rows = KEY_ROWS, backspace = false, state = {} } = {}) {
+  return `<div class="keyboard" role="group" aria-label="Letters">${rows.map((r, ri) => `<div class="krow">${[...r].map(l => `<button type="button" class="k ${state[l] || ''}" data-l="${l}">${l}</button>`).join('')}${backspace && ri === rows.length - 1 ? `<button type="button" class="k k-back" data-l="⌫" aria-label="Backspace">${BACKSPACE_SVG}</button>` : ''}</div>`).join('')}</div>`;
+}
+
+// ---------- keyboard dock ----------
+// Fixed glass dock above the safe area. It lives on <body> (so page transforms never move it) and adds a spacer
+// (.dock-space) at the end of `root` so nothing interactive can sit under it. Returns { el, set(html), measure(), destroy() }.
+export function mountDock(root, innerHTML, { cls = '' } = {}) {
+  const el = document.createElement('div');
+  el.className = `dock ${cls}`.trim();
+  el.setAttribute('data-dock', '');
+  el.innerHTML = `<div class="dock-inner">${innerHTML}</div>`;
+  const space = document.createElement('div');
+  space.className = 'dock-space no-mount';
+  space.setAttribute('aria-hidden', 'true');
+  root.append(space);
+  document.body.append(el);
+  document.body.classList.add('has-dock');
+  let raf = 0, dead = false;
+  const measure = () => {
+    raf = 0;
+    if (dead) return;
+    const h = el.offsetHeight;
+    space.style.height = `${h + 12}px`;
+    document.documentElement.style.setProperty('--game-dock', `${h}px`);
+  };
+  const queue = () => { if (!raf) raf = requestAnimationFrame(measure); };
+  const ro = window.ResizeObserver ? new ResizeObserver(queue) : null;
+  if (ro) ro.observe(el);
+  window.addEventListener('resize', queue);
+  measure();
+  return {
+    el, space, measure,
+    set(inner) { el.querySelector('.dock-inner').innerHTML = inner; measure(); },
+    destroy() {
+      if (dead) return; dead = true;
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', queue);
+      el.remove(); space.remove();
+      document.body.classList.remove('has-dock');
+      document.documentElement.style.removeProperty('--game-dock');
+    },
+  };
+}
+
+// ---------- question runner ----------
+// A question: { type: 'mc'|'type', itemId, tag (mono kicker), prompt (html), say?, autoSay?, center?,
+//               choices: [{label, correct, sub?, html?}], answer: string|string[], accept?(value), placeholder?, explain (html), kind? }
 export function runDrill(root, questions, opts = {}) {
   const { title = 'Drill', gameId = 'drill', onDone = null, xpPer = 2, autoAdvance = true, passScore = null, record = true, backHref = '#/games' } = opts;
   const total = questions.length;
   const state = { i: 0, correct: 0, wrong: 0, missed: [], perItem: {}, start: Date.now(), answers: [] };
   let locked = false;
 
-  function header() {
-    return html`<div class="game-top"><a class="icon-btn" href="${backHref}" aria-label="Quit">✕</a><div class="bar"><div class="bar-fill" style="width:${Math.round((state.i / total) * 100)}%"></div></div><div class="score">${state.correct}/${total}</div></div>`;
-  }
   function renderQ() {
     locked = false;
     const q = questions[state.i];
     if (!q) return finish();
     let body = '';
     if (q.type === 'mc') {
-      body = html`<div class="choices ${q.choices.length === 2 ? 'two' : ''}">${raw(q.choices.map((c, idx) => html`<button class="choice ${q.center ? 'center' : ''}" data-choice="${idx}">${raw(c.html || esc(c.label))}${c.sub ? raw(`<div class="tiny muted">${esc(c.sub)}</div>`) : ''}</button>`).join(''))}</div>`;
+      body = html`<div class="choices ${q.choices.length === 2 ? 'two' : ''}">${raw(q.choices.map((c, idx) => html`<button type="button" class="choice ${q.center ? 'center' : ''}" data-choice="${idx}"><span class="choice-label">${raw(c.html || esc(c.label))}${c.sub ? raw(`<span class="tiny muted">${esc(c.sub)}</span>`) : ''}</span></button>`).join(''))}</div>`;
     } else {
-      body = typedInputHTML({ placeholder: q.placeholder || 'Type your answer…' });
+      body = html`<div class="typed">${raw(typedInputHTML({ placeholder: q.placeholder || 'Type your answer…' }))}<button type="button" class="btn ghost block mt" data-skip>I don't know</button></div>`;
     }
-    root.innerHTML = header() + html`<div class="q-card pop">${q.tag ? raw(html`<div class="prompt">${q.tag}</div>`) : ''}${raw(q.prompt)}${q.say ? raw(`<div class="mt">${speakBtn(q.say)}</div>`) : ''}</div>` + body + '<div data-feedback></div>';
+    root.innerHTML = gameTop(backHref, { i: state.i, total }) + html`<div class="q-card">${q.tag ? raw(html`<div class="prompt">${q.tag}</div>`) : ''}${raw(q.prompt)}${q.say ? raw(`<div class="q-say">${speakBtn(q.say)}</div>`) : ''}</div>` + body + '<div data-feedback></div>';
+    fx.mount(root);
     if (q.type !== 'mc') {
       const input = root.querySelector('[data-answer]');
       bindAccentBar(root, input);
-      setTimeout(() => input.focus(), 50);
+      setTimeout(() => { if (root.contains(input)) input.focus({ preventScroll: true }); }, 60);
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitTyped(); } });
       root.querySelector('[data-check]').addEventListener('click', submitTyped);
-      root.querySelector('[data-check]').insertAdjacentHTML('afterend', '<button class="btn ghost block mt" data-skip>I don\'t know</button>');
       root.querySelector('[data-skip]').addEventListener('click', () => grade(false, '', q, ''));
     } else {
       root.querySelectorAll('[data-choice]').forEach(b => b.addEventListener('click', () => { if (locked) return; const idx = Number(b.dataset.choice); const c = q.choices[idx]; grade(!!c.correct, c.label, q, idx); }));
@@ -103,19 +179,22 @@ export function runDrill(root, questions, opts = {}) {
       });
     } else {
       const input = root.querySelector('[data-answer]'); input.setAttribute('disabled', '');
-      const chk = root.querySelector('[data-check]'); if (chk) chk.remove();
-      const sk = root.querySelector('[data-skip]'); if (sk) sk.remove();
-      if (!ok) input.classList.add('shake');
+      input.classList.add(ok ? 'is-ok' : 'is-ko');
+      root.querySelector('[data-check]')?.remove();
+      root.querySelector('[data-skip]')?.remove();
+      root.querySelector('[data-accents]')?.remove();
+      if (!ok) fx.shake(input);
     }
-    const answerText = Array.isArray(q.answer) ? q.answer[0] : (q.answer || (q.choices || []).find(c => c.correct)?.label || '');
+    const answerText = String(Array.isArray(q.answer) ? q.answer[0] : (q.answer || (q.choices || []).find(c => c.correct)?.label || '')).split('|')[0];
+    const title = ok
+      ? (res.accentIssue ? `Correct — mind the accent: <b>${esc(answerText)}</b>` : 'Correct!')
+      : `Not quite — the answer is <b>${esc(answerText)}</b>`;
     const fb = root.querySelector('[data-feedback]');
-    fb.innerHTML = html`<div class="feedback ${ok ? 'ok' : 'ko'} pop">${ok ? (res.accentIssue ? '✓ Correct — mind the accent: ' + answerText : '✓ Correct!') : '✗ Not quite. Answer: ' + String(answerText).split('|')[0]}
-      ${q.explain ? raw(`<div class="detail">${q.explain}</div>`) : ''}</div>
-      <button class="btn ${ok ? 'primary' : 'accent'} block" data-next>${state.i + 1 >= total ? 'See results' : 'Continue'}</button>`;
+    fb.innerHTML = feedbackHTML({ ok, title, detail: q.explain || '', nextLabel: state.i + 1 >= total ? 'See results' : 'Continue' });
     if (q.say && !ok) speak(q.say);
     fb.querySelector('[data-next]').addEventListener('click', next);
     if (ok && autoAdvance && q.type === 'mc') setTimeout(() => { if (locked && root.contains(fb)) next(); }, 700);
-    if (ok && res.accentIssue) toast('Remember the accent: ' + String(answerText).split('|')[0]);
+    if (ok && res.accentIssue) toast('Remember the accent: ' + answerText);
   }
   function next() { state.i++; renderQ(); }
   function finish() {
@@ -130,29 +209,47 @@ export function runDrill(root, questions, opts = {}) {
   return { state };
 }
 
+// ---------- results ----------
+function levelColor() {
+  try { const c = getComputedStyle(document.documentElement).getPropertyValue('--lvl-current').trim(); return c && !c.startsWith('var(') ? c : null; } catch { return null; }
+}
 export function showResults(root, result, opts = {}) {
   const { backHref = '#/games', onReplay = null, onPractice = null, passScore = null, extraHTML = '' } = opts;
-  const passed = passScore == null ? null : result.score >= passScore;
-  const emoji = result.score === 100 ? '🏆' : result.score >= 80 ? '🎉' : result.score >= 50 ? '👍' : '💪';
-  const missed = result.missed.map(getEntry).filter(Boolean);
-  root.innerHTML = html`<div class="result-hero pop">
-      <div class="big">${emoji}</div>
-      <h2>${result.score}%</h2>
-      <p class="muted">${result.correct} of ${result.total} correct${result.secs ? ' · ' + result.secs + 's' : ''} · +${result.xp} XP</p>
+  const score = Math.max(0, Math.min(100, Number(result.score) || 0));
+  const passed = passScore == null ? null : score >= passScore;
+  const [word, kind] = score === 100 ? ['Perfetto', 'ok'] : score >= 80 ? ['Bravo', 'ok'] : score >= 50 ? ['Bene', 'info'] : ['Riprova', 'ko'];
+  const missed = (result.missed || []).map(getEntry).filter(Boolean);
+  const actions = [];
+  if (onPractice && missed.length) actions.push('<button type="button" class="btn accent" data-practice>Practice missed</button>');
+  if (onReplay) actions.push('<button type="button" class="btn primary" data-replay>Play again</button>');
+  actions.push(html`<a class="btn ghost" href="${backHref}">Done</a>`);
+  root.innerHTML = html`<div class="results result-hero">
+      <div class="score-ring" style="--p:0"><div class="score" data-score>0%</div></div>
+      <div class="results-stamp" data-stamp></div>
+      <p class="results-line">${result.correct} of ${result.total} correct${result.secs ? ' · ' + result.secs + 's' : ''} · +${result.xp || 0} XP</p>
       ${passed === true ? raw('<span class="badge ok">Passed</span>') : passed === false ? raw(html`<span class="badge">Score ${passScore}% or more to pass</span>`) : ''}
     </div>
     ${raw(extraHTML)}
-    ${missed.length ? raw(`<div class="section"><div class="section-head"><h2>To review</h2></div><div class="list result-list">${missed.map(e => entryRow(e)).join('')}</div></div>`) : ''}
-    <div class="sticky-actions">
-      ${onPractice && missed.length ? raw('<button class="btn accent grow" data-practice>Practice missed</button>') : ''}
-      ${onReplay ? raw('<button class="btn primary grow" data-replay>Play again</button>') : ''}
-      <a class="btn ghost grow" href="${backHref}">Done</a>
-    </div>`;
+    ${missed.length ? raw(`<div class="section results-missed"><div class="sec-head"><div><span class="kicker">Da rivedere</span><span class="title">To review</span></div><span class="rail-count">${missed.length}</span></div><div class="list result-list">${missed.map(e => entryRow(e)).join('')}</div></div>`) : ''}
+    <div class="sticky-actions results-actions n${actions.length}">${raw(actions.join(''))}</div>`;
+  fx.mount(root);
   if (onReplay) root.querySelector('[data-replay]')?.addEventListener('click', onReplay);
   if (onPractice) root.querySelector('[data-practice]')?.addEventListener('click', () => onPractice(missed));
-  const xpEl = document.createElement('div'); xpEl.className = 'xp-float'; xpEl.textContent = `+${result.xp} XP`; document.body.append(xpEl); setTimeout(() => xpEl.remove(), 1000);
-}
-
-export function gameHeader(backHref, progress, scoreText) {
-  return html`<div class="game-top"><a class="icon-btn" href="${backHref}" aria-label="Quit">✕</a><div class="bar"><div class="bar-fill" style="width:${progress}%"></div></div><div class="score">${scoreText}</div></div>`;
+  const ring = root.querySelector('.score-ring');
+  const scoreEl = root.querySelector('[data-score]');
+  const reduced = fx.reducedMotion();
+  requestAnimationFrame(() => { if (ring.isConnected) ring.style.setProperty('--p', String(score)); });
+  fx.countUp(scoreEl, score, { suffix: '%', duration: reduced ? 0 : 900 });
+  const stampHost = root.querySelector('[data-stamp]');
+  const stampAt = reduced ? 0 : 650;
+  setTimeout(() => {
+    if (!root.contains(stampHost)) return;
+    fx.stamp(stampHost, word.toUpperCase(), kind);
+    if (score >= 80) {
+      const lvl = levelColor();
+      fx.confetti([...(lvl ? [lvl] : []), '#f2c14e', '#ffd97a', '#38bdf8', '#e0673f', '#2dd4bf'], { origin: { x: .5, y: .3 } });
+      haptic('success');
+    }
+  }, stampAt);
+  const xpEl = document.createElement('div'); xpEl.className = 'xp-float'; xpEl.textContent = `+${result.xp || 0} XP`; document.body.append(xpEl); setTimeout(() => xpEl.remove(), 1000);
 }

@@ -5,7 +5,7 @@ import { setTitle } from '../app.js';
 import { store } from '../store.js';
 import { data, getEntry, article, withArticle, headword, isPluralOnly, isUncountable, fold } from '../data.js';
 import { conjugate, primary, splitClitic } from '../conjugator.js';
-import { setScene, mount } from '../fx.js';
+import { setScene, mount, reducedMotion } from '../fx.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const refHref = (id) => '#/reference/' + encodeURIComponent(id);
@@ -176,10 +176,12 @@ function renderTopic(root, topics, topic, i) {
     </div>
     <p class="center"><a class="btn sm ghost" href="#/grammar">${ic('list', { size: 16 })} All grammar topics</a></p>`;
   mount(root);
-  root.addEventListener('click', (ev) => {
+  const onClick = (ev) => {
     const j = ev.target.closest('[data-jump]'); if (!j) return;
-    const el = root.querySelector('#' + j.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
+    const el = root.querySelector('#' + j.dataset.jump); if (el) el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+  };
+  root.addEventListener('click', onClick);
+  return () => root.removeEventListener('click', onClick);
 }
 
 export async function render(root, params) {
@@ -192,5 +194,5 @@ export async function render(root, params) {
     root.innerHTML = html`<div class="empty"><p>Nessun tema con questo nome.</p><a class="btn primary" href="#/grammar">All grammar topics</a></div>`;
     return;
   }
-  renderTopic(root, topics, topics[i], i);
+  return renderTopic(root, topics, topics[i], i);
 }
