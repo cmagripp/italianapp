@@ -114,4 +114,174 @@ Text contrast ≥ 4.5:1 (ink on glass over dark is fine; in light mode `.glass` 
 
 ## 7. Implemented CSS & JS reference
 
-(Appended by the design-system engineer after implementation: every token, class and `fx.js` API actually shipped, with one-line usage notes. Feature engineers use exactly these.)
+What actually shipped. Feature engineers use exactly these names; anything not listed here does not exist in `css/app.css` / `js/fx.js`.
+
+### 7.1 Files & ground rules
+
+- `css/app.css` — the whole system, in numbered sections: 1 tokens · 2 base · 3 utilities · 4 aurora · 5 shell · 6 glass & panes · 7 buttons/chips/level chips/tags · 8 type blocks · 9 rows/dots/rail/orbit · 10 forms & controls · 11 reference (tense table, dial, fan, accordion) · 12 reel/posters/float/deck · 13 dropdown & sheet · 14 games · 15 scenes/mount/motion · 16 reduced motion & responsive. `css/learn.css`, `css/reference.css`, `css/games.css` are loaded after it and may only add feature-specific rules.
+- `js/fx.js` — motion + interactive pieces (§7.5). `js/icons.js` — SVG icons (§7.6). `js/ui.js` — html/esc/raw, toast, sheet, dialogs, TTS, `tr/trBlock/enPill`, `levelBadge`, `secHead`, `iconBtn` (§7.7). `js/components.js` — entry rows, heroes, conjugation pane, action bar, list picker (§7.8).
+- `index.html` — fonts preconnect + link, `div.aurora` (3 `.orb` + `.grain`) before `#view`, `#topbar` (`#backBtn` glass circle with chevron, `#topTitle`, `#enToggle`), floating glass dock `#tabs` with inline SVG icons and `a[data-tab]`.
+- `dev/fx.html` — the FX lab: every piece live, with a theme toggle. Open `http://127.0.0.1:8123/dev/fx.html`.
+- **Theme**: Notte is the default (`:root`, also `:root[data-theme="dark"]`); Mezzogiorno = `:root[data-theme="light"]`. `app.js` maps the profile setting `auto` → Notte; light is opt-in. Both themes set `color-scheme`.
+- **Level tint**: `fx.setScene(level)` (or `setScene(colors, { level })`) writes `data-level` on `<html>`, which sets `--lvl-current`; `--tint` = 12 % of it. App-level defaults are applied per route in `app.js` (`applyScene`): home = gold/amalfi/terracotta, games = terracotta/violet/turquoise, words/reference = amalfi/gold/olive, profile = gold/turquoise/violet, learn/review/scope = the user's level. Views refine with `setScene(entry.level)`.
+- **Blur budget**: `.card` is *flat* glass (no backdrop-filter) so long screens stay cheap; opt in with `.glass` / `.card.glass` / `.glass-strong` for hero panes (≤ 6 per screen). `.row-entry`, `.tile`, `.choice`, `.chip`, `.btn` are flat.
+- **Z-layers**: `.aurora` 0 · `#view` 1 · `.sticky-actions`/`.cw-panel` 5 · `.dock` 10 · `#topbar`/`#tabs` 50 · `.sheet-wrap`/`.dropdown-layer` 100 · `#toast` 200 · confetti/`.xp-float` 300.
+- **Motion**: only `transform`/`opacity` are animated (plus `filter: blur` on `.scene` entry and `grid-template-rows` on accordions); `prefers-reduced-motion` turns ambient motion off and shortens everything to 120 ms fades; `html.paused` (set by fx.js on `document.hidden`) pauses orbs, ticker and floats.
+- **Testing**: the sandbox's TLS proxy is untrusted by Playwright's Chromium, so the scratchpad scripts (`smoke.mjs`, `shots.mjs`, `fxlab.mjs`, `flow.mjs`) launch contexts with `ignoreHTTPSErrors: true` (real Google Fonts render) and ignore only console errors whose source is `fonts.googleapis.com` / `fonts.gstatic.com`.
+
+### 7.2 Tokens (on `:root`)
+
+Colour: `--bg-0 --bg-1 --bg-2 · --ink --ink-2 --ink-3 --ink-4 · --glass --glass-strong --glass-border --glass-highlight --hairline · --gold --gold-2 --terracotta --amalfi --turquoise --lemon --olive --wine --plaster · --lvl-A1 … --lvl-C2 · --lvl-current (set by data-level) · --tint · --ok --ko --warn --info · --stage-new --stage-learning --stage-review --stage-mastered · --on-gold (text on gold) --on-lvl (text on a level fill) · --orb-1 --orb-2 --orb-3 (aurora colours, registered with @property so they cross-fade) · --orb-opacity --grain-opacity · --shadow-1 --shadow-2`.
+Type: `--font-display --font-text --font-mono`. Radii: `--r-s 12 · --r-m 20 · --r-l 28 · --r-pill`. Motion: `--ease-out --ease-in-out --ease-spring · --t-fast 160 · --t-base 260 · --t-slow 420 · --t-scene 700 · --t-ambient 70s`. Layout: `--top-h 52 · --dock-h 64 · --dock-gap 10 · --sat --sab --sal --sar (safe areas) · --gutter 16 · --content-max 720`.
+Legacy aliases kept for old views: `--bg --bg2 --bg3 --fg --fg2 --fg3 --line --primary --primary-2 --primary-soft --accent --accent-soft --danger --shadow --radius --tab-h --font`.
+Type scale in use: `.mono/.kicker/.label` 11 mono uppercase `.12em` · `.small` 13 · body 15 · `.lead` 17 · `h3` 22 · `h2` 28 · `h1` 36 · `.headword .word` 34–64 via `--hw` (`hwSize(word)` in components) · `.results .score` 72.
+
+### 7.3 Shell
+
+```html
+<div class="aurora"><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="grain"></div></div>  <!-- fx.mountAurora() adopts it -->
+<header id="topbar"><button id="backBtn" class="icon-btn back-btn"><svg…chevron/></button><div id="topTitle" class="title">…</div><button id="enToggle" class="en-toggle">EN</button></header>
+<main id="view">…</main>
+<nav id="tabs"><a href="#/home" data-tab="home"><svg class="ic"/><span>Home</span></a>…</nav>
+```
+- `#topbar.scrolled` (added by fx.js after 8 px of scroll) shows the blurred backdrop + hairline; `.back-btn.show` reveals the back button; `#enToggle.on` is gold.
+- `#view.scene-out` / `#view.scene-in` are toggled by `app.js` around every route change (160 ms out, 260 ms in). Views can additionally call `fx.mount(root)` for the staggered pane rise.
+- `body.no-tabs` hides the dock and shrinks the bottom padding (games, walkthroughs). `body.no-scroll` is set while a sheet is open. `body.show-en` reveals every `.itx .tr`.
+- `#toast` (`toast(msg, { kind: 'ok'|'ko' })`) is a glass pill above the dock.
+- `.loading .spinner .loading-word .loading-sub` is the boot state.
+
+### 7.4 Component classes (HTML sketches)
+
+**Glass** — `.glass` (blurred) · `.glass-strong` · `.glass-flat` (no blur) · `.glass-tint` (uses `--tint`; override inline `style="--tint:…"`) · `.card` (flat glass with 16 px padding; `.card.glass` blurs; `.card.tight`, `.card.accent` gold-terracotta wash, `.card.warm`) · `.pad` / `.pad-l` paddings for bare glass divs.
+```html
+<div class="glass pad">…</div>   <div class="card"><h4>Kicker</h4>…</div>
+```
+
+**Buttons** — `.btn` (56 px pill, glass) + `.primary` (gold gradient, sheen once on mount and on hover/focus; `fx.sheen(btn)` or `.sheen` re-runs it) · `.secondary` · `.ghost` · `.accent` (terracotta) · `.danger` (wine) · `.on` (gold-tinted toggled state) · sizes `.sm` 40 / `.xs` 32 · `.block` · `.grow`. Icons inside: `${raw(icon('star',{size:16}))}`. `.icon-btn` 40 px glass circle (`.lg` 48). `.action-bar` flex-wrap row of `.btn.sm`.
+```html
+<button class="btn primary block">Continue</button> <button class="icon-btn" aria-label="Star">${icon('star')}</button>
+```
+
+**Chips & level chips & tags** — `.chips` (wrap) / `.chips.scroll` (one row, edge-masked, full-bleed) with `.chip` (36 px, mono) `.chip.on` (level colour fill) `.chip.sm` (32 px) `.chip.gold.on`. `.lvl.lvl-A1…C2` outline chip (`.on`/`.fill` filled, `.lg` 40 px) — `levelBadge('B1')`. `.tags` mono labels auto-separated by `·`; a `.lvl` may be the first child.
+```html
+<div class="chips scroll"><button class="chip on">Presente</button><button class="chip">Imperfetto</button></div>
+<div class="tags"><span class="lvl lvl-A1">A1</span><span>verbo</span><span>-are</span><span>irregolare</span><span>aux. avere</span></div>
+```
+
+**Headword block**
+```html
+<div class="headword [center]">
+  <div class="hw-line"><span class="article">la</span><span class="word" style="--hw:64px">casa</span></div>
+  <div class="hw-row">${enPill('house; home')}${speakBtn('la casa','lg')}</div>
+  <div class="tags">…</div>
+</div>
+```
+`enPill(en)` renders `<span class="itx headword-en"><span class="it">EN</span><span class="tr">…</span></span>` — the glass pill slides open on tap and is forced open by `body.show-en`. Add `.word.long` or set `--hw` (components use `hwSize()`); `fx.riseLetters(wordEl)` animates the letters.
+
+**Speak button** — `speakBtn(text, cls)` → `<button class="speak [sm|lg]" data-say="…">` with the speaker icon; it pulses (`.speaking`) while the utterance plays.
+
+**Section header** — `.sec-head` with `.kicker` + `.title` (+ `.more` link); `.sec-head.in-pane` inside a card. Helper `secHead('Tonight','Il piano', { href:'#/learn', more:'All' })`.
+
+**Entry row** — `entryRow(e, { showLevel, extra, href })` →
+```html
+<a class="row-entry glass-flat" href="#/entry/…" data-id="…"><span class="dot stage-review"></span>
+  <span class="re-main"><span class="re-hw">andare<span class="kind">verbo</span></span><span class="re-sub">to go · vi</span></span>
+  <span class="re-side"><span class="lvl lvl-A1">A1</span><span class="check-mark">${icon('check')}</span>…extra…</span></a>
+```
+`.item` (legacy `.main .hw .sub`) shares the same look; `label.row-entry` with a leading checkbox/radio is styled too.
+
+**Dots, rail, orbit** — `.dot.stage-new|learning|review|mastered` (8 px, 12 px glow; `.dot.gold`); legacy `.stage.new|learning|review|mastered` still works. `.rail > span` segments with `.done` (level colour) / `.cur` (gold glow); `.rail.v` vertical; `.rail-wrap` + `.rail-count` mono counter.
+```html
+<div class="rail-wrap"><div class="rail"><span class="done"></span><span class="cur"></span><span></span></div><span class="rail-count">02 / 03</span></div>
+<div class="orbit"></div>  <!-- fx.orbit(el, { rings, current, center, onSelect }) -->
+```
+
+**Tense table** — `conjTable(conj, key)` →
+```html
+<div class="tense-table" data-tense="presente">
+  <div class="trow [irr]" style="--i:0"><span class="person">io</span><span class="form">sono<span class="alt">also: …</span></span><button class="speak sm">…</button></div> ×6
+</div>
+```
+Rows rise in with a 40 ms stagger from `--i`; `.irr` = terracotta rule + form (computed with `regularForm`). `table.conj` (legacy) is restyled too.
+
+**Dial** — `.dial-wrap > .dial` (+ optional `.icon-btn.dial-menu` at the right). `fx.dial()` fills `.dial` with `.dial-arc`, `.dial-notch` and `.dial-items > button.dial-item[data-i][data-key]` (`.on` selected) containing `.dial-label` (display 22) and `.dial-sub` (mono). 124 px tall, `touch-action: pan-y`, edge-masked.
+
+**Fan** — `.fan` (260 px tall, `perspective`) with `button.fan-card[data-i]` → `.flip > .face.front | .face.back` (`.face.back .sub` for the small caption). `.fan-card.flipped` flips, `.lift` raises, `.fan.spread` lays a 2/3-column grid. `--tint` per card colours the back. `.fan-tools` centred row for "Flip all / Spread" buttons.
+
+**Reel & posters**
+```html
+<div class="reel [compact]">
+  <button class="poster [sm] [active]" style="--p1:#e0673f;--p2:#b8323f"><span class="poster-kicker">Verbs</span><span class="poster-title">Conjugation drill</span><span class="sub">Type the form</span></button>…
+</div>
+```
+`fx.reel(el)` keeps `.active` on the centred poster and tilts the others via `--ry`. `.reel` is full-bleed with centring padding; `.reel.compact` snaps loosely from the gutter.
+
+**Float & deck** — `.float` (6 s bob, glow from `--glow`; `.float.delay` offsets the phase). `.deck > .deck-card` shows two peeking, rotated glass cards behind the top one.
+
+**Dropdown** — created by `fx.dropdown()`: `.dropdown-layer > .dropdown-backdrop + .dropdown.glass-strong[.open][.up]` containing `.dropdown-list > button.opt[data-value][.on] > .opt-main > .opt-label + .opt-sub` and the check icon; `.dropdown-title` for a mono heading when passing your own HTML.
+
+**Sheet** — `sheet(html, { title })` → `.sheet-wrap.open > .sheet-backdrop + .sheet(.glass-strong look) > .sheet-handle + .sheet-title + .sheet-body`. Drag the handle down 80 px or press Escape to close; `[data-close]` inside closes; `close({ silent:true })` skips `onClose`.
+
+**Question runner** — `.q-card` (blurred, level-tinted glow) with `.prompt` (mono kicker), `.big` / `.big.md`, `.sub`, `.sentence`, `.blank`. `.choices[.two] > button.choice[.center]` — the A/B/C/D index is a CSS counter; `.correct` (ok tint, check icon, pulse) `.wrong` (ko tint, shake) `.dim`. `.feedback.ok|ko` slides up (`.detail` inside). `.input.big` (display 24, centred). Accent keys: `.accents > .chip` or the engine's `[data-accents] .chip` (40 px glass keys).
+
+**Results** — `.results > .score-ring[style="--p:87"] > .score` (display 72, use `fx.countUp`) + `fx.stamp(el, 'IMPARATO', 'ok')` (`.stamp.ok|ko|info`, `.stamp.abs` corner-positioned) + `fx.confetti(colors)`. Legacy `.result-hero h2` renders the score in gold gradient.
+
+**Scenes (walkthroughs)**
+```html
+<div class="scenes">  <!-- vertical snap container, full height, bleeds under the top bar -->
+  <section class="scene [in]" style="--orb-1:…"><div class="scene-head"><span class="step">03 / 12</span><span class="title">…</span></div>
+    <div class="scene-body">…</div><div class="scene-foot"><button class="btn primary block">Avanti</button><span class="hint">swipe up</span></div></section>
+</div>
+```
+Add `.in` (or `.enter`) when a scene becomes current for the 700 ms scale/blur entry; `.rise > span` letters stagger 30 ms (`fx.riseLetters`).
+
+**Mount & misc motion** — `.mount` (+ `--i`) rise-in, applied by `fx.mount(root)`; `.stagger > *` CSS-only version (12 children); `.tw .tw-word` (typewriter words); `.pop`, `.shake` (`fx.shake`), `.pulse` (`fx.pulse`), `.glow`.
+
+**Ticker** — `.ticker > .track` (fx.ticker fills it twice, 40 s loop, edge-masked).
+
+**Empty state** — `.empty` (display italic sentence + one `.btn`; no emoji).
+
+**Accordion** — `.acc[.open] > button.acc-head (kicker/title + chevron icon) + .acc-body > .acc-inner > .in`. Toggling is delegated globally by fx.js (no binding needed).
+
+**Keyboard dock** — `.dock` fixed above the safe area (glass-strong, 28 px top radius) holding `.keyboard > .k[.used|.hit|.miss]`; `.dock-space` reserves room below content. `.cw-wrap` (glass frame, internal scroll), `.cw .c[.sel|.cur|.ok|.bad|.black] .n`, `.cw-panel` (sticky glass strip), `.clues .clue.on` are restyled for the crossword; `.hang-word .l`, `.hang-fig` (draw-on strokes), `.lives`; `.match-grid .m[.sel|.done|.bad]` (matched tiles dissolve); `.chip-word[.used|.sel|.ok|.ko]`, `.answer-area`, `.bank-area`; `.flash[.flipped] .inner .face.front|.back` (deck peeking behind), `.grade`.
+
+**Forms & controls** — `.input` (52 px glass; `select.input` gets a caret; `textarea.input`), `.search-box > .ico + .input` (display placeholder), `.field > label`, `.opt-row > … .lab/.sub`, `.switch[.on]`, `.seg > button[.on]` (mono segmented), `.kv` (dt mono), `.bar > .bar-fill` (`.thin`, `.accent`, `.timer-bar`), `.stat > .num + .lab`, `.ring[style="--p:60"] > span`, `.heat > .d.l1…l4`, `.avatar` (gold ring), `.lv` level square, `.letter-grid`, `.stepper > .s[.done|.cur]`, `.sticky-actions`, `.xp-float`.
+
+**Utilities** — `.row .col .gap .gap-s .grow .wrap .between · .mt .mb .mt-s .mb-s .mt-l .mb-l · .hidden .center · .muted .faint .tiny .small .bold .gold · .display[.it] .italic .mono .kicker .label .lead · .grid2 .grid3[.wide] · .section .section-head · .hairline · .tile > .ico .name .desc`.
+
+**Tap-to-reveal** — unchanged mechanism: `tr(it, en)` inline `.itx`, `trBlock(it, en)` block, `enPill(en)` headword pill; `.itx.open` or `body.show-en` reveal `.tr`; the global click handler ignores taps on buttons/links inside.
+
+### 7.5 `js/fx.js` API
+
+```js
+import fx, { mountAurora, setScene, SCENES, dial, fan, reel, dropdown, confetti, stamp, typewriter, riseLetters, parallax, mount, orbit, ticker, countUp, sheen, shake, pulse, reducedMotion } from './fx.js';
+```
+- `mountAurora()` → adopts/creates `.aurora` before `#view`, binds the single rAF scroll loop (orb parallax −0.08×scroll via `--py`, `#topbar.scrolled`, registered parallax elements) and the `document.hidden` pause. Called once by `app.js`.
+- `setScene(levelOrColors, { level })` → `'B1'` (level: colours + `data-level`), `'home'|'learn'|'games'|'reference'|'words'|'profile'` (section palette), or `['#…','#…','#…']`; `{ level:'A2' }` sets the tint alongside custom colours, `{ level:false }` clears it. `SCENES` holds all palettes.
+- `dial(el, { items:[{ key, label, sub }], index, onChange(i, item), step=30, radius=280 })` → `{ select(i, { silent }), index, destroy() }`. Drag/swipe (velocity fling), tap, Arrow/Home/End keys.
+- `fan(el, [{ front, back, tint, key }], { onFlip(i, flipped, card), onAllFlipped(), spread })` → `{ flipAll(toBack?), spread(bool?) → bool, layout(), destroy(), cards }`. `front`/`back` are HTML strings (escape them yourself).
+- `reel(el)` → `{ update(), scrollTo(i, smooth), destroy() }`.
+- `dropdown(anchorEl, contentHTML | [{ value, label, sub, selected }], { onSelect(value, optEl) → return false to keep open, align:'start'|'end', width, onClose })` → `{ close(), el }`. Anchored below (flips above when needed), closes on outside tap, Escape, scroll or resize.
+- `confetti(colors, { duration=900, count=110, origin:{x,y} })` → cancel fn. Canvas overlay, removes itself, skipped under reduced motion.
+- `stamp(el, text, kind='ok'|'ko'|'info')` → the `.stamp` element (replaces a previous one in `el`).
+- `typewriter(el, text, { msPerWord=60, keep })` → Promise; wraps words in `.tw-word`.
+- `riseLetters(el)` → wraps characters in `<span style="--i">` and adds `.rise`.
+- `parallax(el, factor=0.15)` → unregister fn (uses the shared scroll loop).
+- `mount(rootEl, { stagger=50, selector })` → adds `.mount` + `--i` to the children (skips `.no-mount`).
+- `orbit(el, { rings:[{ key, label, learned, total, color }], current, center:{ value, label }, onSelect(key) })` → `{ update(data) }` (SVG rings; the fill animates in).
+- `ticker(el, words)` → `{ update(words) }`.
+- `countUp(el, to, { from, duration=900, suffix, decimals })` → Promise.
+- `sheen(btn)`, `shake(el)`, `pulse(el)`, `reducedMotion()`.
+- Global: clicks on `.acc > .acc-head` toggle `.acc.open`.
+
+### 7.6 `js/icons.js`
+
+`icon(name, { size=24, cls, stroke=1.75, label })` → SVG string (`''` for unknown names). Names: `home book play search user chevron back chevronRight chevronDown chevronUp speaker star list check x plus minus dial spread flip flame orbit dots trash arrow refresh sparkle lock cloud ear edit`. Use inside `html\`\`` with `raw(icon('check'))`. Also re-exported from `ui.js`.
+
+### 7.7 `js/ui.js` (changes)
+
+`speakBtn(text, cls)` now renders the SVG speaker; `speak(text, { rate, force, button })` pulses `button.speaking`. `levelBadge(level, cls)` → `.lvl.lvl-XX`. New: `enPill(en)`, `secHead(kicker, title, { href, more, cls })`, `iconBtn(name, { label, cls, attrs })`, `icon`. `sheet()` gained Escape + drag-to-dismiss and `close({ silent:true })`. `toast`, `confirmDialog`, `promptDialog`, `tr`, `trBlock`, `haptic`, `fmtNum`, `relTime`, `pct`, `progressBar`, `onEnter`, `scrollTop`, `$`, `$$`, `el`, `html`, `raw`, `esc` are unchanged.
+
+### 7.8 `js/components.js` (changes)
+
+`entryRow`/`entryList` → `.row-entry`. `wordHero`/`verbHero` → `.headword` with `enPill` + `.tags` (Italian grammar labels: `IT_POS`, gender). `wordForms` → `.forms-grid .f` with small speak buttons. `wordCard`/`verbUsage` → `.card`s with `.sec-head.in-pane` kickers (`Forme`, `Esempio`, `Reggenza`, `Uso`, `Esempi`). `conjTable(conj, key)` → `.tense-table` with `.irr` from `regularForm(inf, tenseKey, personIdx, { aux, isc })` (exported; returns the regular form or `null`). `conjSection(e, conj, { defaultTense })` → `.card.conj-card[data-tense]` with the table/fan `.view-toggle`, the `.dial-wrap` (dial + `[data-dial-menu]` dropdown of all tenses), `.tense-note`, `[data-conj-table]`, `.nonfinite`. `bindConjSection(root, conj)` → `{ select(key), tense, destroy() }` (wires the dial, the dropdown, the fan view and its Flip-all/Spread tools). `actionBar` → `.action-bar` of `.btn.sm` with icons (same `data-act` values); `openListPicker` → sheet of `label.row-entry` checkboxes. Also exported: `hwSize(word)`, `TENSE_HELP`, `IT_POS`, `stageOf`, `verbCard`, `bindActionBar`.

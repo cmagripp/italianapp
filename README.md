@@ -64,3 +64,15 @@ Progress lives on the device by default. To sync a user across devices, create a
 ## Backups and multiple devices
 
 Progress is per user and per device. Use **Me → Export backup** to download a JSON file and **Import backup** on another device (merge or replace). Keep a backup before clearing Safari's website data.
+
+## Testing
+
+Besides the conjugation-engine checks (`node tools/test-conjugator.mjs`), two Playwright scripts exercise the whole app in headless Chromium at phone sizes — no npm scripts or build step, just Node plus the `playwright` package and a Chromium build (see `tests/README.md` for where the scripts look for them):
+
+```bash
+(python3 -m http.server 8123 --bind 127.0.0.1 >/dev/null 2>&1 &)   # or let the scripts start it
+node tests/e2e.mjs            # every route + the learning, review, game, list, search, theme, export and persistence flows
+node tests/layout-audit.mjs   # every route × 3 phone viewports × light/dark: overflow, tap targets, overlaps, small inputs, clipped headings
+```
+
+Both print a report, write `tests/report-*.json`, exit non-zero on failures, accept route filters as arguments (`node tests/e2e.mjs game/ review`) and take screenshots into `tests/shots/` with `SHOTS=1`.

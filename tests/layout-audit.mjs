@@ -1,0 +1,266 @@
+#!/usr/bin/env node
+// Layout audit: every route × three phone viewports × both themes. Reports horizontal overflow, elements wider than the
+// viewport, small tap targets, overlapping interactive elements, crossword grid centring, inputs that trigger iOS zoom
+// (font-size < 16px) and clipped headings.
+//
+//   node tests/layout-audit.mjs                     everything (3 viewports run in parallel)
+//   node tests/layout-audit.mjs game/ profile       only routes containing a filter (filters also match "375x667" / "light")
+//   SHOTS=1 node tests/layout-audit.mjs             screenshots into tests/shots/layout_<viewport>_<theme>_<route>.png
+//   SOFT=taps,inputs node tests/layout-audit.mjs    downgrade categories to warnings (overflow,wide,taps,overlaps,crossword,inputs,headings,console)
+//
+// Exit code 1 when anything failed. JSON report: tests/report-layout.json. See tests/README.md.
+import {
+  loadPlaywright, launchBrowser, contextOptions, ensureServer, BASE, allRoutes, cliFilters, matches, routeSlug,
+  makeSink, attachCollectors, boot, gotoRoute, settle, viewText, seedProgress, shot, writeReport, wait, pad,
+} from './lib.mjs';
+
+const filters = cliFilters();
+const SOFT = new Set((process.env.SOFT || '').split(',').map(s => s.trim()).filter(Boolean));
+const MIN_TAP = Number(process.env.MIN_TAP || 40);
+const CENTRE_TOL = Number(process.env.CENTRE_TOL || 6);
+const MAX_LIST = 12;
+const THEMES = ['dark', 'light'];
+const CATEGORIES = ['overflow', 'wide', 'taps', 'overlaps', 'crossword', 'inputs', 'headings', 'console'];
+
+const { chromium, devices, from } = await loadPlaywright();
+const VIEWPORTS = [
+  { name: 'iphone13', options: { ...devices['iPhone 13'] } },
+  { name: '375x667', options: { ...devices['iPhone 13'], viewport: { width: 375, height: 667 } } },
+  { name: '430x932', options: { ...devices['iPhone 13'], viewport: { width: 430, height: 932 } } },
+];
+
+// ---------- in-page audit (self-contained: it is serialised into the browser) ----------
+const AUDIT = ({ mode, phase, isCrossword, minTap, maxList }) => {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const round = (n, d = 0) => Math.round(n * 10 ** d) / 10 ** d;
+  const styleMemo = new Map();
+  const style = (el) => { let s = styleMemo.get(el); if (!s) { s = getComputedStyle(el); styleMemo.set(el, s); } return s; };
+  const desc = (el) => {
+    const tag = el.tagName.toLowerCase();
+    const id = el.id ? '#' + el.id : '';
+    const cls = (el.getAttribute('class') || '').trim().split(/\s+/).filter(Boolean).slice(0, 3).map(c => '.' + c).join('');
+    const data = [...el.attributes].filter(a => a.name.startsWith('data-')).slice(0, 2).map(a => `[${a.name}${a.value ? '=' + a.value.slice(0, 16) : ''}]`).join('');
+    const text = (el.getAttribute('aria-label') || el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 32);
+    return `${tag}${id}${cls}${data}${text ? ` "${text}"` : ''}`;
+  };
+  const skip = (el) => !!el.closest('#toast, .aurora, .xp-float, [aria-hidden="true"]');
+  const visMemo = new Map();
+  const visible = (el) => {
+    if (!el || el === document.documentElement) return true;
+    if (visMemo.has(el)) return visMemo.get(el);
+    const cs = style(el);
+    const v = cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) !== 0 && visible(el.parentElement);
+    visMemo.set(el, v); return v;
+  };
+  const shown = (el) => { if (!visible(el)) return false; const r = el.getBoundingClientRect(); return r.width >= 1 && r.height >= 1; };
+  const clippedByAncestor = (el) => { let p = el.parentElement; while (p && p !== document.body) { if (/(auto|scroll|hidden|clip)/.test(style(p).overflowX)) return true; p = p.parentElement; } return false; };
+  const isChrome = (el) => { let e = el; while (e && e !== document.body) { const p = style(e).position; if (p === 'fixed' || p === 'sticky') return true; e = e.parentElement; } return false; };
+  const out = { vw, vh, scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight, counts: {}, overflow: null, wide: [], taps: [], overlaps: [], crossword: null, inputs: [], headings: [] };
+  const push = (cat, item) => { out.counts[cat] = (out.counts[cat] || 0) + 1; if (out[cat].length < maxList) out[cat].push(item); };
+
+  // overlapping interactive elements (inline elements are compared fragment by fragment so wrapped spans do not collide)
+  const INTERACTIVE = 'a[href], button, input, select, textarea, summary, [role="button"], [tabindex]:not([tabindex="-1"])';
+  const items = [...document.querySelectorAll(INTERACTIVE)]
+    .filter(el => !skip(el) && !el.closest('.fan, .deck, .reel, .stack') && shown(el) && style(el).pointerEvents !== 'none')
+    .slice(0, 700)
+    .map(el => ({ el, rects: [...el.getClientRects()].filter(r => r.width >= 1 && r.height >= 1), chrome: isChrome(el) }));
+  const bottomChrome = (it) => { const r = it.el.getBoundingClientRect(); return (r.top + r.bottom) / 2 > vh / 2; };
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      const A = items[i], B = items[j];
+      if (A.el.contains(B.el) || B.el.contains(A.el)) continue;
+      if (A.chrome !== B.chrome) { // fixed/sticky chrome vs content: only where the content cannot scroll out from under it
+        const bc = bottomChrome(A.chrome ? A : B);
+        if (phase === 'top' && bc) continue;
+        if (phase === 'bottom' && !bc) continue;
+      }
+      let hit = null;
+      for (const ra of A.rects) { for (const rb of B.rects) {
+        const ix = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left), iy = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+        if (ix > 4 && iy > 4) { hit = { ix: round(ix), iy: round(iy) }; break; }
+      } if (hit) break; }
+      if (hit) push('overlaps', { a: desc(A.el), b: desc(B.el), ...hit, phase, chrome: A.chrome || B.chrome });
+    }
+  }
+  if (mode !== 'full') return out;
+
+  out.overflow = out.scrollWidth > vw ? { scrollWidth: out.scrollWidth, vw } : null;
+  if (out.overflow) out.counts.overflow = 1;
+
+  // elements wider than the viewport (top-most offender only; children of scroll/clip containers are skipped)
+  const flagged = new Set();
+  for (const el of document.querySelectorAll('#view, #view *, #topbar, #topbar *, #tabs, #tabs *')) {
+    if (skip(el) || !shown(el)) continue;
+    const r = el.getBoundingClientRect();
+    if (r.right <= vw + 1 && r.left >= -1) continue;
+    if (clippedByAncestor(el)) continue;
+    if (flagged.has(el.parentElement)) { flagged.add(el); continue; }
+    flagged.add(el);
+    push('wide', { el: desc(el), left: round(r.left), right: round(r.right), width: round(r.width) });
+  }
+
+  // tap targets
+  for (const el of document.querySelectorAll('button, a.btn, .choice, .chip, .k, .m, #tabs a')) {
+    if (skip(el) || !shown(el)) continue;
+    const r = el.getBoundingClientRect();
+    if (r.height < minTap) push('taps', { el: desc(el), h: round(r.height, 1), w: round(r.width, 1) });
+  }
+
+  // crossword grid centring
+  if (isCrossword) {
+    const g = document.querySelector('.cw');
+    if (!g) out.crossword = { found: false };
+    else { const r = g.getBoundingClientRect(); const centre = r.left + r.width / 2; out.crossword = { found: true, centre: round(centre, 1), delta: round(Math.abs(centre - vw / 2), 1), width: round(r.width), left: round(r.left, 1) }; }
+  }
+
+  // inputs that make iOS Safari zoom on focus
+  for (const el of document.querySelectorAll('input:not([type="hidden"]):not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea')) {
+    if (skip(el) || !shown(el)) continue;
+    const fs = parseFloat(style(el).fontSize);
+    if (fs < 16) push('inputs', { el: desc(el), fontSize: fs });
+  }
+
+  // clipped headings
+  for (const el of document.querySelectorAll('h1, h2, h3')) {
+    if (skip(el) || !shown(el) || !el.clientWidth) continue;
+    if (el.scrollWidth > el.clientWidth + 1) push('headings', { el: desc(el), scrollWidth: el.scrollWidth, clientWidth: el.clientWidth });
+  }
+  return out;
+};
+
+async function auditRoute(page, route) {
+  const isCrossword = /\/game\/crossword/.test(route);
+  await page.waitForFunction(() => !/scene-(in|out)/.test(document.querySelector('#view')?.className || ''), null, { timeout: 2500 }).catch(() => {});
+  await wait(350); // let pop-in / stamp animations finish before measuring
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const top = await page.evaluate(AUDIT, { mode: 'full', phase: 'top', isCrossword, minTap: MIN_TAP, maxList: MAX_LIST });
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await wait(250);
+  const bottom = await page.evaluate(AUDIT, { mode: 'overlaps', phase: 'bottom', isCrossword, minTap: MIN_TAP, maxList: MAX_LIST });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const seen = new Set(top.overlaps.map(o => o.a + '|' + o.b));
+  for (const o of bottom.overlaps) { const k = o.a + '|' + o.b; if (!seen.has(k)) { seen.add(k); top.overlaps.push(o); } }
+  if (seen.size) top.counts.overlaps = seen.size; else delete top.counts.overlaps;
+  if (top.crossword && (!top.crossword.found || top.crossword.delta > CENTRE_TOL)) top.counts.crossword = 1;
+  return top;
+}
+
+// ---------- per viewport run (viewports run in parallel contexts) ----------
+const results = []; const sinks = {};
+async function runViewport(browser, routesFor, vp) {
+  const ctx = await browser.newContext(contextOptions(vp.options, { reducedMotion: 'reduce' }));
+  const page = await ctx.newPage(); page.setDefaultTimeout(5000);
+  const sink = makeSink(); sinks[vp.name] = sink; attachCollectors(page, sink);
+  let seeded = null;
+  try {
+    sink.current = `${vp.name}:boot`;
+    await boot(page);
+    if (process.env.SEED !== '0') seeded = await seedProgress(page, { words: 20, verbs: 10 });
+    const routes = await routesFor(page);
+    for (const theme of THEMES) {
+      await page.emulateMedia({ colorScheme: theme });
+      await page.evaluate((t) => { document.documentElement.dataset.theme = t; }, theme);
+      const list = routes.filter(r => matches(`${vp.name}/${theme}:${r}`, filters));
+      for (const route of list) {
+        const tag = `${vp.name}/${theme}:${route}`; sink.current = tag;
+        const n = sink.errors.length; const t0 = Date.now();
+        const rec = { viewport: vp.name, theme, route, ms: 0, findings: null, consoleErrors: [], failures: 0, warnings: 0, categories: [] };
+        try {
+          await gotoRoute(page, route);
+          const themeNow = await page.evaluate(() => document.documentElement.dataset.theme);
+          if (themeNow !== theme) { await page.evaluate((t) => { document.documentElement.dataset.theme = t; }, theme); await wait(150); }
+          rec.findings = await auditRoute(page, route);
+          rec.text = await viewText(page, 90);
+          rec.shot = await shot(page, `layout_${vp.name}_${theme}_${routeSlug(route)}`);
+        } catch (err) { rec.error = err.message.split('\n')[0]; }
+        rec.consoleErrors = sink.errors.slice(n).map(e => e.text);
+        if (rec.consoleErrors.length) rec.findings ??= { counts: {} }, rec.findings.counts.console = rec.consoleErrors.length;
+        if (rec.error) rec.findings ??= { counts: {} }, rec.findings.counts.exception = 1;
+        for (const [cat, c] of Object.entries(rec.findings?.counts || {})) { if (!c) continue; rec.categories.push(cat); if (SOFT.has(cat)) rec.warnings += c; else rec.failures += c; }
+        rec.ms = Date.now() - t0;
+        results.push(rec);
+      }
+      console.log(`  ${vp.name} ${vp.options.viewport.width}×${vp.options.viewport.height} ${theme}: ${list.length} routes audited`);
+    }
+  } finally { await ctx.close().catch(() => {}); }
+  return seeded;
+}
+
+// ---------- main ----------
+const stopServer = await ensureServer();
+const browser = await launchBrowser(chromium);
+const report = { suite: 'layout', generatedAt: new Date().toISOString(), base: BASE, playwright: from, viewports: VIEWPORTS.map(v => ({ name: v.name, ...v.options.viewport })), themes: THEMES, filters, soft: [...SOFT], minTap: MIN_TAP, centreTolerance: CENTRE_TOL, results: [], summary: {}, consoleErrors: [] };
+let exitCode = 0;
+console.log(`Parola layout audit · ${BASE} · ${VIEWPORTS.map(v => `${v.name} ${v.options.viewport.width}×${v.options.viewport.height}`).join(', ')} · themes ${THEMES.join('/')} · playwright from ${from}${filters.length ? ` · filters: ${filters.join(', ')}` : ''}`);
+try {
+  let routesPromise = null;
+  const routesFor = (page) => (routesPromise ||= allRoutes(page));
+  await Promise.all(VIEWPORTS.map(vp => runViewport(browser, routesFor, vp)));
+} catch (err) { console.log('\nFATAL', err); report.fatal = String(err && err.stack || err); exitCode = 2; }
+finally { await browser.close().catch(() => {}); stopServer(); }
+
+// ---------- report ----------
+results.sort((a, b) => VIEWPORTS.findIndex(v => v.name === a.viewport) - VIEWPORTS.findIndex(v => v.name === b.viewport) || THEMES.indexOf(a.theme) - THEMES.indexOf(b.theme));
+report.results = results;
+report.consoleErrors = Object.values(sinks).flatMap(s => s.errors);
+const fmt = (r) => {
+  const f = r.findings || {}; const c = f.counts || {}; const parts = [];
+  if (r.error) parts.push(`EXCEPTION ${r.error}`);
+  if (f.overflow) parts.push(`overflow ${f.overflow.scrollWidth}>${f.overflow.vw}`);
+  if (c.wide) parts.push(`wide ${c.wide}`);
+  if (c.taps) parts.push(`taps<${MIN_TAP} ${c.taps}`);
+  if (c.overlaps) parts.push(`overlaps ${c.overlaps}`);
+  if (f.crossword) parts.push(f.crossword.found ? `crossword Δ${f.crossword.delta}px${f.crossword.delta > CENTRE_TOL ? ' OFF-CENTRE' : ''}` : 'crossword grid MISSING');
+  if (c.inputs) parts.push(`inputs<16px ${c.inputs}`);
+  if (c.headings) parts.push(`clipped-h ${c.headings}`);
+  if (c.console) parts.push(`console ${c.console}`);
+  return parts.join(' · ');
+};
+for (const vp of VIEWPORTS) for (const theme of THEMES) {
+  const rows = results.filter(r => r.viewport === vp.name && r.theme === theme);
+  if (!rows.length) continue;
+  const bad = rows.filter(r => r.failures || r.warnings);
+  console.log(`\n${vp.name} ${vp.options.viewport.width}×${vp.options.viewport.height} · ${theme} — ${rows.length - bad.length}/${rows.length} routes clean`);
+  for (const r of rows) console.log(`  ${r.failures ? '✗' : r.warnings ? '!' : '✓'} ${pad(r.route, 44)} ${fmt(r) || 'clean'}`);
+}
+
+// details: worst offenders per category, deduplicated by element description
+const detail = (cat, mapFn, n = 12) => {
+  const seen = new Map();
+  for (const r of results) for (const it of (r.findings?.[cat] || [])) { const k = mapFn(it); const v = seen.get(k) || { n: 0, where: new Set() }; v.n++; v.where.add(`${r.viewport}/${r.theme} ${r.route}`); seen.set(k, v); }
+  const rows = [...seen.entries()].sort((a, b) => b[1].n - a[1].n).slice(0, n);
+  if (!rows.length) return;
+  console.log(`\n${cat} — ${seen.size} distinct, ${[...seen.values()].reduce((a, v) => a + v.n, 0)} occurrences (top ${rows.length})`);
+  for (const [k, v] of rows) console.log(`  ${pad(v.n + '×', 5)} ${k}\n        e.g. ${[...v.where].slice(0, 2).join(' | ')}`);
+};
+detail('wide', it => `${it.el}  (${it.left}→${it.right}, ${it.width}px)`);
+detail('taps', it => `${it.el}  (${it.h}px tall)`);
+detail('overlaps', it => `${it.a}  ×  ${it.b}  (${it.ix}×${it.iy}px${it.chrome ? ', chrome' : ''})`);
+detail('inputs', it => `${it.el}  (${it.fontSize}px)`);
+detail('headings', it => `${it.el}  (${it.scrollWidth}>${it.clientWidth})`);
+const cw = results.filter(r => r.findings?.crossword);
+if (cw.length) { console.log('\ncrossword grid centring'); for (const r of cw) console.log(`  ${r.findings.crossword.found ? (r.findings.crossword.delta > CENTRE_TOL ? '✗' : '✓') : '✗'} ${r.viewport}/${r.theme}: ${r.findings.crossword.found ? `centre ${r.findings.crossword.centre} vs ${r.findings.vw / 2} (Δ${r.findings.crossword.delta}px, width ${r.findings.crossword.width})` : 'grid not found'}`); }
+if (report.consoleErrors.length) {
+  console.log(`\nConsole / page / network errors: ${report.consoleErrors.length}`);
+  const seen = new Map();
+  for (const e of report.consoleErrors) { const k = e.text.split('\n')[0].slice(0, 160); const v = seen.get(k) || { n: 0, at: new Set() }; v.n++; v.at.add(e.at); seen.set(k, v); }
+  [...seen.entries()].slice(0, 20).forEach(([k, v]) => console.log(`  - ${v.n}× ${k}  [${[...v.at].slice(0, 3).join(', ')}${v.at.size > 3 ? ', …' : ''}]`));
+}
+
+const byCategory = {};
+for (const r of results) for (const [cat, c] of Object.entries(r.findings?.counts || {})) byCategory[cat] = (byCategory[cat] || 0) + c;
+const failing = results.filter(r => r.failures);
+const routeTotals = {};
+for (const r of failing) routeTotals[r.route] = (routeTotals[r.route] || 0) + r.failures;
+report.summary = {
+  combos: results.length, clean: results.filter(r => !r.failures && !r.warnings).length, failingCombos: failing.length,
+  failures: results.reduce((a, r) => a + r.failures, 0) + (report.fatal ? 1 : 0), warnings: results.reduce((a, r) => a + r.warnings, 0),
+  byCategory, worstRoutes: Object.entries(routeTotals).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([route, n]) => ({ route, findings: n })),
+  categories: CATEGORIES,
+};
+const file = writeReport('layout', report);
+const s = report.summary;
+console.log(`\nSummary: ${s.clean}/${s.combos} route×viewport×theme combos clean · ${s.failingCombos} failing · ${Object.entries(byCategory).map(([k, v]) => `${k} ${v}`).join(', ') || 'no findings'} → ${s.failures ? `${s.failures} FAILURES` : 'PASS'}${s.warnings ? ` (${s.warnings} soft warnings)` : ''}`);
+if (s.worstRoutes.length) console.log('Worst routes: ' + s.worstRoutes.slice(0, 6).map(w => `${w.route} (${w.findings})`).join(', '));
+console.log(`Report: ${file}`);
+process.exit(exitCode || (s.failures ? 1 : 0));

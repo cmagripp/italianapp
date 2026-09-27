@@ -126,7 +126,12 @@ export function attachCollectors(page, sink, base = BASE) {
 
 // ---------- navigation ----------
 export async function boot(page, base = BASE) {
-  await page.goto(base + 'index.html#/home', { waitUntil: 'load' });
+  // domcontentloaded: the `load` event waits for the Google Fonts stylesheet, which can be slow or blocked offline.
+  await page.goto(base + 'index.html#/home', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await waitForBoot(page);
+}
+export async function reloadApp(page) {
+  await page.reload({ waitUntil: 'domcontentloaded', timeout: 30000 });
   await waitForBoot(page);
 }
 export async function waitForBoot(page) {
