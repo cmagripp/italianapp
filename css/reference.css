@@ -7,17 +7,17 @@
 .ref-hero { padding: 6px 0 18px; }
 .ref-hero .kicker { display: block; margin-bottom: 10px; }
 .ref-title { font-family: var(--font-display); font-weight: 600; font-size: 42px; line-height: 1; letter-spacing: -.025em; font-variation-settings: "opsz" 144; margin: 0; }
-.ref-title em { font-style: italic; font-weight: 500; color: var(--gold); }
+.ref-title em { font-style: italic; font-weight: 500; color: var(--gold-text); }
 .ref-hero .lead { margin: 12px 0 0; }
 .ref-search { padding: 8px; margin-bottom: 18px; border-radius: 22px; }
 .ref-search .search-box .input { height: 60px; border-radius: 16px; padding-left: 54px; padding-right: 52px; font-size: 22px; }
-.ref-search .search-box .ico { left: 18px; color: var(--gold); }
+.ref-search .search-box .ico { left: 18px; color: var(--gold-text); }
 .ref-search .search-box .ico .ic { width: 22px; height: 22px; }
 .ref-search .search-box .clear-q { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
 .ref-search .input::-webkit-search-cancel-button { display: none; }
 
 .re-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); border: 1px solid var(--hairline); border-radius: 6px; padding: 4px 6px 3px; line-height: 1; white-space: nowrap; }
-.re-tag.verb { color: var(--terracotta); border-color: color-mix(in srgb, var(--terracotta) 40%, transparent); }
+.re-tag.verb { color: var(--terracotta-text); border-color: color-mix(in srgb, var(--terracotta) 40%, transparent); }
 .re-tag.word { color: var(--amalfi); border-color: color-mix(in srgb, var(--amalfi) 40%, transparent); }
 
 .ref-panel { margin: 0 0 22px; }
@@ -25,7 +25,7 @@
 .ref-panel .panel-head { align-items: center; margin-bottom: 10px; }
 .ref-panel .panel-head .title { overflow-wrap: anywhere; }
 .ref-panel .panel-side { display: flex; align-items: center; gap: 10px; flex: none; }
-.ref-panel .panel-count { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--gold); }
+.ref-panel .panel-count { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--gold-text); }
 .ref-chips { margin-bottom: 6px; }
 .ref-topics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .ref-topic { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-height: 76px; padding: 12px; text-align: left; color: var(--ink); border-radius: 16px;
@@ -41,7 +41,7 @@
 .gram-list { display: flex; flex-direction: column; gap: 8px; }
 .gram-row { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 12px 12px 14px; color: var(--ink); border-radius: var(--r-m); transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
 .gram-row:active { transform: scale(.985); background: var(--glass-strong); }
-.gram-row .gr-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--gold); flex: none; width: 22px; }
+.gram-row .gr-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--gold-text); flex: none; width: 22px; }
 .gram-row .gr-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .gram-row .gr-title { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.15; letter-spacing: -.01em; }
 .gram-row .gr-sub { font-size: 13px; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.35; }
@@ -57,7 +57,7 @@
 .ref-id .tags > .lvl:not(:first-child) { margin-left: 12px; }
 .ref-target { scroll-margin-top: calc(var(--top-h) + var(--sat) + 74px); }
 .ref-jumps { margin-bottom: 14px; }
-.ref-link { font-weight: 700; color: var(--gold); border-bottom: 1px solid color-mix(in srgb, var(--gold) 40%, transparent); }
+.ref-link { font-weight: 700; color: var(--gold-text); border-bottom: 1px solid color-mix(in srgb, var(--gold) 40%, transparent); }
 
 /* sticky mini header (appended to body, shown once the headword scrolls away) */
 .ref-mini { position: fixed; top: calc(var(--top-h) + var(--sat) + 6px); left: calc(16px + var(--sal)); right: calc(16px + var(--sar)); max-width: calc(var(--content-max) - 32px); margin: 0 auto; z-index: 10; height: 56px;
@@ -80,7 +80,7 @@
 .glance .g-cell.m .g-val { font-size: 17px; }
 .glance .g-cell.l .g-val { font-size: 15px; letter-spacing: -.015em; }
 .glance .g-cell.xl .g-val { font-size: 13px; letter-spacing: -.02em; }
-.glance .g-cell.irr .g-val { color: var(--terracotta); }
+.glance .g-cell.irr .g-val { color: var(--terracotta-text); }
 
 /* why it's irregular */
 .why-lead { font-size: 15px; line-height: 1.55; margin: 0 0 10px; }
@@ -90,7 +90,7 @@
 .why-item:last-child { border-bottom: 0; }
 .why-tense { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.2; }
 .why-persons { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
-.why-forms { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.3; color: var(--terracotta); overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+.why-forms { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.3; color: var(--terracotta-text); overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 .why-forms .wf { white-space: nowrap; display: inline-block; }
 .why-forms i { font-style: normal; color: var(--ink-4); margin: 0 7px; font-weight: 400; }
 .why-reg { font-size: 12px; color: var(--ink-3); }
@@ -101,7 +101,7 @@
 /* family & related chips */
 .family, .rel-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .family .chip, .rel-chips .chip { text-transform: none; letter-spacing: 0; font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--ink); }
-.family .chip.root { border-color: color-mix(in srgb, var(--gold) 60%, transparent); color: var(--gold); }
+.family .chip.root { border-color: color-mix(in srgb, var(--gold) 60%, transparent); color: var(--gold-text); }
 .rel-chips .chip.plain { color: var(--ink-2); font-style: italic; font-weight: 500; }
 .rel-group { margin-top: 14px; }
 .rel-group:first-of-type { margin-top: 0; }
@@ -126,7 +126,7 @@
 .ref-fan .fan-card .face.front { font-size: 10px; letter-spacing: .06em; padding: 12px 6px; white-space: nowrap; } /* .pl label rules live in learn.css */
 .ref-fan .fan-card .face.back { padding: 10px 6px; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 .ref-fan .fan-card .face.back .form { display: block; max-width: 100%; line-height: 1.1; }
-.ref-fan .fan-card .face.back .form.irr { color: var(--terracotta); }
+.ref-fan .fan-card .face.back .form.irr { color: var(--terracotta-text); }
 .ref-fan:not(.spread) .fan-card.flipped .flip { transform: rotateY(180deg) translateY(-10px); }
 @media (max-width: 389px) { .ref-fan { --fan-step: 12px; } }
 .ref-tense-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 2px 0 2px; }
@@ -147,7 +147,7 @@
 .ref-acc-tense + .ref-acc-tense { border-top: 1px solid var(--glass-border); margin-top: 6px; padding-top: 12px; }
 .ref-acc-tense .ref-tense-head { margin-bottom: 2px; }
 .ref-acc-tense .ref-tense-name { font-size: 18px; }
-.nonfinite .nf.irr .val { color: var(--terracotta); }
+.nonfinite .nf.irr .val { color: var(--terracotta-text); }
 .nonfinite .nf .val { overflow-wrap: anywhere; }
 
 /* progress */
@@ -166,18 +166,18 @@
 .rule-item .rk { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); padding-top: 5px; }
 .rule-item .rv { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.2; letter-spacing: -.01em; overflow-wrap: anywhere; }
 .rule-item .rt { grid-column: 2; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
-.rule-item.irregular .rv { color: var(--terracotta); }
+.rule-item.irregular .rv { color: var(--terracotta-text); }
 .rule-item.invariable .rv, .rule-item.none .rv { color: var(--amalfi); }
 .cues { display: flex; flex-direction: column; }
 .cue { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: start; padding: 11px 0; border-bottom: 1px solid var(--hairline); }
 .cue:last-child { border-bottom: 0; }
-.cue-end { font-family: var(--font-display); font-weight: 600; font-size: 21px; color: var(--gold); line-height: 1.1; overflow-wrap: anywhere; }
+.cue-end { font-family: var(--font-display); font-weight: 600; font-size: 21px; color: var(--gold-text); line-height: 1.1; overflow-wrap: anywhere; }
 .cue-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .cue-text { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
 .cue-flag { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .cue.ok .cue-flag { color: var(--ok); }
 .cue.exception .cue-flag { color: var(--warn); }
-.cue.exception .cue-end { color: var(--terracotta); }
+.cue.exception .cue-end { color: var(--terracotta-text); }
 
 /* ---------- grammar reading layout ---------- */
 .gram-head { padding: 2px 0 14px; }
@@ -187,10 +187,10 @@
 .gram-summary { font-size: 16px; color: var(--ink-2); margin: 12px 0 0; line-height: 1.55; }
 .gram-toc { margin-bottom: 12px; }
 .gram-toc .chip { text-transform: none; letter-spacing: 0; font-family: var(--font-text); font-weight: 600; font-size: 13px; color: var(--ink); }
-.gram-toc .chip .tiny { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; color: var(--gold); }
+.gram-toc .chip .tiny { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; color: var(--gold-text); }
 .gram-sec { padding: 18px 16px 16px; scroll-margin-top: calc(var(--top-h) + var(--sat) + 12px); }
 .gram-sec-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
-.gram-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; color: var(--gold); flex: none; }
+.gram-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; color: var(--gold-text); flex: none; }
 .gram-sec h2 { font-size: 24px; margin: 0; line-height: 1.12; }
 .gram-p { font-size: 15.5px; line-height: 1.65; margin: 0 0 10px; }
 .gram-p:last-child { margin-bottom: 0; }
@@ -207,7 +207,7 @@
 .gram-ex { margin-top: 12px; }
 .gram-ex .example:last-child { margin-bottom: 0; }
 .gram-tip { margin-top: 12px; }
-.gram-tip .kicker { display: block; margin-bottom: 4px; color: var(--gold); }
+.gram-tip .kicker { display: block; margin-bottom: 4px; color: var(--gold-text); }
 .gram-live { margin-top: 14px; padding: 12px 12px 4px; border-radius: 16px; background: color-mix(in srgb, var(--amalfi) 7%, transparent); border: 1px solid color-mix(in srgb, var(--amalfi) 26%, transparent); }
 .gram-live > .kicker { display: block; margin-bottom: 4px; color: var(--amalfi); }
 .live-list { display: flex; flex-direction: column; }
