@@ -712,7 +712,8 @@ table.conj tr.irr td.form { color: var(--terracotta); }
 .dock-space { height: 260px; }
 
 /* crossword */
-.cw-wrap { overflow: auto; max-height: 46vh; -webkit-overflow-scrolling: touch; padding: 10px; border-radius: var(--r-m); background: var(--glass); border: 1px solid var(--glass-border); }
+/* crossword: the frame bleeds to the screen edge so the grid keeps the full 16px-gutter width crossword.js sizes its cells for */
+.cw-wrap { overflow: auto; max-height: 46vh; -webkit-overflow-scrolling: touch; padding: 12px var(--gutter); margin: 0 calc(-1 * var(--gutter)); background: var(--glass); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
 .cw-panel { position: sticky; bottom: calc(var(--sab) + 8px); padding: 10px 12px; margin-top: 10px; z-index: 5; border-radius: var(--r-m); background: var(--glass-strong); -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%); border: 1px solid var(--glass-border); box-shadow: var(--shadow-2), inset 0 1px 0 var(--glass-highlight); }
 .cw-panel .keyboard .k { width: 30px; }
 .cw { display: grid; gap: 2px; margin: 0 auto; width: max-content; }

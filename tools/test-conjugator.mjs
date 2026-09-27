@@ -213,8 +213,8 @@ T('fendere', { passatoRemoto: ['fendetti', null, 'fendette', null, null, 'fendet
 no('fendere', 'passatoRemoto', 0, 'fendi'); no('fendere', 'passatoRemoto', 2, 'fende');
 T('espandere', { passatoRemoto: ['espansi', 'espandesti', 'espanse'], pp: 'espanso', presente: ['espando', 'espandi'] });
 T('spandere', { pp: 'spanto', passatoRemoto: ['spansi'] });
-T('succedere', { passatoRemoto: ['successe'], pp: 'successo' });
-T('succedere', { passatoRemoto: ['succedette'], pp: 'succeduto' });
+T('succedere', { passatoRemoto: ['successi', null, 'successe'], pp: 'successo', passatoProssimo: [null, null, 'è successo/a'] }, { aux: 'essere' });
+T('succedere', { passatoRemoto: ['succedetti', null, 'succedette'], pp: 'succeduto', passatoProssimo: [null, null, 'è succeduto/a'] }, { aux: 'essere' });
 T('convergere', { passatoRemoto: ['conversi', 'convergesti', 'converse'], pp: 'converso', presente: ['convergo', 'convergi'] });
 T('divergere', { passatoRemoto: ['diversi'], pp: '—', presente: ['divergo'] });
 T('aspergere', { passatoRemoto: ['aspersi'], pp: 'asperso' });
@@ -714,7 +714,12 @@ cells('andare', { aux: 'essere' }, { presente: [0, 1, 2, 5], futuro: ALL6, condi
 cells('prendere', {}, { passatoRemoto: [0, 2, 5], participioPassato: [0] }, ['presente', 'imperfetto', 'futuro', 'condizionale', 'congiuntivoPresente', 'congiuntivoImperfetto', 'imperativo', 'gerundio']);
 cells('potere', {}, { presente: [0, 1, 2, 3, 5], imperativo: [0, 1, 2, 3, 4] }, ['passatoRemoto', 'participioPassato']);
 cells('dire', {}, { participioPassato: [0], gerundio: [0] });
-cells('venire', {}, { presente: [0, 1, 2, 5], passatoRemoto: [0, 2, 5], futuro: ALL6 }, ['participioPassato']);
+cells('venire', {}, { presente: [0, 1, 2, 5], passatoRemoto: [0, 2, 5], futuro: ALL6, participioPassato: [0] }, ['imperfetto', 'gerundio']);
+// compound alternatives are distributed on both sides, never "se l'è|se la è cavata"
+T('vedersela', { passatoProssimo: ['me la sono veduta'] });
+T('apparire', { passatoProssimo: ['sono apparso/a'], trapassatoProssimo: [null, null, 'era apparso/a'] }, { aux: 'essere' });
+no('cavarsela', 'passatoProssimo', 2, "se l'è");
+T('cavarsela', { passatoProssimo: [null, null, 'se la è cavata'] });
 cells('avere', {}, { presente: [0, 1, 2, 3, 5], passatoRemoto: [0, 2, 5], futuro: ALL6 }, ['imperfetto', 'participioPassato', 'gerundio']);
 cells('porre', {}, { presente: ALL6, participioPassato: [0], gerundio: [0] }, ['futuro']);
 cells('fare', {}, { presente: [0, 1, 3, 5], participioPassato: [0], gerundio: [0], futuro: ALL6 });

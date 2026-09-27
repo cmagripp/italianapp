@@ -351,8 +351,10 @@ function build(infinitive, meta = {}, regular = false) {
     if (cl.elideAvere) return cl.elideAvere + forms[i];
     return pronForm(cl.pron[i], forms[i], clitic, false, auxKey === 'essere');
   };
+  // auxiliary + participle, distributing alternatives on both sides ("se l'è cavata|se la è cavata", "è apparso/a|apparito/a")
+  const compound = (auxForm, pp) => alts(auxForm).flatMap(a => alts(pp).map(p => a + ' ' + p)).join('|');
   for (const [tk, ak] of Object.entries(COMPOUND_MAP)) {
-    t[tk] = PERSONS.map((_, i) => { const p = ppFor(i); return p == null ? MISSING : auxWith(A[ak], i) + ' ' + p; });
+    t[tk] = PERSONS.map((_, i) => { const p = ppFor(i); return p == null ? MISSING : compound(auxWith(A[ak], i), p); });
   }
   // Imperative
   if (par.imp) {
@@ -373,15 +375,15 @@ function build(infinitive, meta = {}, regular = false) {
     participioPassato: par.pp,
     participioPresente: par.presPart,
     gerundio: cl ? attachClitic(par.ger, cl.ger) : par.ger,
-    gerundioPassato: noPP ? MISSING : (auxKey === 'essere' ? 'essendo ' : 'avendo ') + (cl && cl.ppFixed ? fixedPP(par.pp, cl.ppFixed) : (auxKey === 'essere' ? agreePP(par.pp, 0) : alts(par.pp)[0])),
+    gerundioPassato: noPP ? MISSING : compound(auxKey === 'essere' ? 'essendo' : 'avendo', ppFor(0)),
   };
   // infinito passato
   if (noPP) nonFinite.infinitoPassato = MISSING;
   else if (cl) {
-    if (cl.elideAvere) nonFinite.infinitoPassato = 'aver' + cl.attach[1].replace(/^se/, '') + ' ' + fixedPP(par.pp, cl.ppFixed);
-    else if (auxKey === 'essere') nonFinite.infinitoPassato = 'esser' + cl.attach[1] + ' ' + (cl.ppFixed ? fixedPP(par.pp, cl.ppFixed) : agreePP(par.pp, 0));
-    else nonFinite.infinitoPassato = 'aver' + cl.attach[1] + ' ' + alts(par.pp)[0];
-  } else nonFinite.infinitoPassato = (auxKey === 'essere' ? 'essere ' + agreePP(par.pp, 0) : 'avere ' + alts(par.pp)[0]);
+    if (cl.elideAvere) nonFinite.infinitoPassato = compound('aver' + cl.attach[1].replace(/^se/, ''), ppFor(0));
+    else if (auxKey === 'essere') nonFinite.infinitoPassato = compound('esser' + cl.attach[1], ppFor(0));
+    else nonFinite.infinitoPassato = compound('aver' + cl.attach[1], ppFor(0));
+  } else nonFinite.infinitoPassato = compound(auxKey === 'essere' ? 'essere' : 'avere', ppFor(0));
 
   const result = {
     inf, base, root, prefix, clitic, cls: par.cls, isc: par.isc, aux, auxBoth: meta.aux === 'both',
