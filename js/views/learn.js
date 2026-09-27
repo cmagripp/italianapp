@@ -1,5 +1,5 @@
 // Learn hub: scope line (glass dropdown), NEXT UP decks (verbs / words), review ring, verb lab tiles.
-import { html, raw, esc, tr, enPill, speakBtn, levelBadge, secHead, relTime, toast, icon } from '../ui.js';
+import { html, raw, tr, enPill, speakBtn, levelBadge, secHead, relTime, toast, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
 import { data, itemsForScope, describeScope, LEVELS, LEVEL_INFO, CATS, article, withArticle, isPluralOnly } from '../data.js';

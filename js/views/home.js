@@ -1,6 +1,6 @@
 // Home: greeting, ticker of recent words, TONIGHT pane (counters + weekly rail + Continue), orbit of levels,
 // word & verb of the night, reel of game posters.
-import { html, raw, esc, tr, enPill, speakBtn, levelBadge, secHead, fmtNum, toast, icon } from '../ui.js';
+import { html, raw, tr, enPill, speakBtn, levelBadge, secHead, fmtNum, toast, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store, todayKey } from '../store.js';
 import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, CATS } from '../data.js';
@@ -8,7 +8,7 @@ import { IT_POS } from '../components.js';
 import { conjugate, primary } from '../conjugator.js';
 import { GAMES } from '../games/index.js';
 import { posterHTML } from './games.js';
-import { setScene, orbit, ticker, reel, mount, countUp, sheen } from '../fx.js';
+import { setScene, orbit, ticker, reel, mount, countUp } from '../fx.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const REEL_GAMES = ['flashcards', 'quiz', 'conj-drill', 'crossword', 'speed'];
