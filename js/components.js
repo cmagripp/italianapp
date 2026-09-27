@@ -225,7 +225,10 @@ export function conjSection(e, conj, { defaultTense = 'presente' } = {}) {
       <div class="sec-head in-pane" style="margin:0"><div><span class="kicker">Forme</span><span class="title">Modi e tempi</span></div></div>
       <div class="view-toggle" role="group" aria-label="Table or cards"><button type="button" class="on" data-view="table" aria-label="Table">${ic('list', { size: 18 })}</button><button type="button" data-view="fan" aria-label="Card fan">${ic('spread', { size: 18 })}</button></div>
     </div>
-    <div class="dial" data-dial aria-label="Tense"><div class="tabs">${raw(TENSE_ITEMS.map(t => html`<button type="button" class="tab ${t.key === defaultTense ? 'on' : ''}" data-tense="${t.key}">${t.label}</button>`).join(''))}</div></div>
+    <div class="dial-wrap">
+      <div class="dial" data-dial aria-label="Tense"><div class="tabs">${raw(TENSE_ITEMS.map(t => html`<button type="button" class="tab ${t.key === defaultTense ? 'on' : ''}" data-tense="${t.key}">${t.label}</button>`).join(''))}</div></div>
+      <button type="button" class="icon-btn dial-menu" data-dial-menu aria-label="All tenses" aria-haspopup="menu">${ic('chevronDown', { size: 18 })}</button>
+    </div>
     <div class="tense-note" data-tense-note>${TENSE_HELP[defaultTense]}</div>
     <div data-conj-table>${raw(conjTable(conj, defaultTense))}</div>
     <div class="nonfinite">

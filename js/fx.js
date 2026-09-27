@@ -118,7 +118,7 @@ export function mount(rootEl, { stagger = 50, selector = null } = {}) {
 
 // ---------- rotary dial ----------
 // dial(el, { items:[{key,label,sub}], index, onChange(i, item) }) → { select(i), destroy(), index }
-export function dial(el, { items = [], index = 0, onChange = null, step = 24, radius = 230 } = {}) {
+export function dial(el, { items = [], index = 0, onChange = null, step = 30, radius = 280 } = {}) {
   if (!el) return { select: noop, destroy: noop, get index() { return 0; } };
   el.classList.add('dial');
   el.setAttribute('role', 'listbox');
@@ -148,9 +148,9 @@ export function dial(el, { items = [], index = 0, onChange = null, step = 24, ra
       const x = Math.sin(rad) * radius;
       const y = (1 - Math.cos(rad)) * radius;
       const dist = Math.abs(d);
-      const s = Math.max(.5, 1 - dist * .17);
-      const o = dist > 2.7 ? 0 : Math.max(0, 1 - dist * .3);
-      b.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${y.toFixed(1)}px) rotate(${a.toFixed(1)}deg) scale(${s.toFixed(3)})`;
+      const s = Math.max(.5, 1 - dist * .22);
+      const o = dist > 2.4 ? 0 : Math.max(0, 1 - dist * .38);
+      b.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${y.toFixed(1)}px) rotate(${(a * .6).toFixed(1)}deg) scale(${s.toFixed(3)})`;
       b.style.opacity = o.toFixed(2);
       b.style.pointerEvents = o < .1 ? 'none' : '';
       const on = i === cur && Math.abs(offset) < .01;
@@ -267,7 +267,7 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
         b.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
         b.style.zIndex = i === lifted ? 20 : 1;
       } else {
-        const rot = n > 1 ? ((i - mid) / (n - 1)) * 44 : 0;
+        const rot = n > 1 ? ((i - mid) / (n - 1)) * 52 : 0;
         const dy = Math.pow(Math.abs(i - mid), 2) * 6 + 12 + lift;
         b.style.transform = `translate(-50%, 0) rotate(${rot.toFixed(2)}deg) translateY(${dy.toFixed(1)}px)`;
         b.style.zIndex = i === lifted ? 20 : 1 + i;

@@ -85,7 +85,7 @@
 {"it":"topo","en":"mouse","pos":"noun","g":"m","pl":"topi","level":"A1","cat":"animals","ex":"Il gatto guarda il topo.","exEn":"The cat is watching the mouse."},
 {"it":"leone","en":"lion","pos":"noun","g":"m","pl":"leoni","fem":"leonessa","level":"A1","cat":"animals","ex":"Il leone vive in Africa.","exEn":"The lion lives in Africa."},
 {"it":"elefante","en":"elephant","pos":"noun","g":"m","pl":"elefanti","fem":"elefantessa","level":"A1","cat":"animals","ex":"L'elefante è molto grande.","exEn":"The elephant is very big."},
-{"it":"coniglio","en":"rabbit","pos":"noun","g":"m","pl":"conigli","level":"A1","cat":"animals","ex":"Il coniglio mangia una carota.","exEn":"The rabbit is eating a carrot."},
+{"it":"coniglio","en":"rabbit","pos":"noun","g":"m","pl":"conigli","fem":"coniglia","level":"A1","cat":"animals","ex":"Il coniglio mangia una carota.","exEn":"The rabbit is eating a carrot."},
 {"it":"farfalla","en":"butterfly","pos":"noun","g":"f","pl":"farfalle","level":"A1","cat":"animals","ex":"Una farfalla è sul fiore.","exEn":"A butterfly is on the flower.","note":"Also the pasta shape 'farfalle'."},
 {"it":"fiore","en":"flower","pos":"noun","g":"m","pl":"fiori","level":"A1","cat":"animals","ex":"Compro dei fiori per mia madre.","exEn":"I am buying some flowers for my mother.","note":"Masculine: il fiore, i fiori."},
 {"it":"albero","en":"tree","pos":"noun","g":"m","pl":"alberi","level":"A1","cat":"animals","ex":"Nel parco ci sono tanti alberi.","exEn":"In the park there are lots of trees."},
