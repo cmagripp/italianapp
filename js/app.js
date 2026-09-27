@@ -64,7 +64,7 @@ async function render() {
   if (currentCleanup) { try { currentCleanup(); } catch { /* ignore */ } currentCleanup = null; }
   const seq = ++renderSeq;
   if (!m) { navigate('#/home', { replace: true }); return; }
-  const tab = TABS.includes(parts[0]) ? parts[0] : (parts[0] === 'learn' || parts[0] === 'review' || parts[0] === 'verb' || parts[0] === 'word' ? 'learn' : parts[0] === 'game' ? 'games' : ['browse', 'list', 'lists', 'entry', 'search', 'add'].includes(parts[0]) ? 'words' : parts[0] === 'settings' ? 'profile' : lastTab);
+  const tab = TABS.includes(parts[0]) ? parts[0] : (parts[0] === 'learn' || parts[0] === 'review' || parts[0] === 'verb' || parts[0] === 'word' ? 'learn' : parts[0] === 'game' ? 'games' : ['browse', 'list', 'lists', 'entry', 'search', 'add', 'reference', 'grammar'].includes(parts[0]) ? 'words' : parts[0] === 'settings' ? 'profile' : lastTab);
   lastTab = tab;
   $$('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.tab === tab));
   setChrome({ tabs: true, back: !isTabRoute() });
@@ -106,6 +106,9 @@ route('browse/:level?/:cat?', () => import('./views/browse.js'));
 route('lists', () => import('./views/lists.js'));
 route('list/:id', () => import('./views/list.js'));
 route('entry/:id', () => import('./views/entry.js'));
+route('reference', () => import('./views/reference.js'));
+route('reference/:id', () => import('./views/referenceEntry.js'));
+route('grammar/:topic?', () => import('./views/grammar.js'));
 route('add', () => import('./views/addWord.js'));
 route('profile', () => import('./views/profile.js'));
 route('settings', () => import('./views/profile.js'));

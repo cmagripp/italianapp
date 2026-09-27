@@ -15,6 +15,7 @@ export async function render(root) {
     <div id="browse">
       <div class="grid2 mb">
         <a class="tile" href="#/lists"><span class="ico">📋</span><span class="name">My lists</span><span class="desc">${lists.length} list${lists.length === 1 ? '' : 's'} · word bank ${store.lists.bank.items.length}</span></a>
+        <a class="tile" href="#/reference"><span class="ico">📖</span><span class="name">Reference</span><span class="desc">Full overview of any word or verb</span></a>
         <a class="tile" href="#/add"><span class="ico">➕</span><span class="name">Add a word</span><span class="desc">Custom words & verbs</span></a>
         <a class="tile" href="#/list/learned-words"><span class="ico">✅</span><span class="name">Learned words</span><span class="desc">${learnedW} words</span></a>
         <a class="tile" href="#/list/learned-verbs"><span class="ico">🏁</span><span class="name">Learned verbs</span><span class="desc">${learnedV} verbs</span></a>
