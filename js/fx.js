@@ -249,7 +249,8 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
   });
   const seen = new Set();
   let isSpread = !!startSpread;
-  let lifted = -1;
+  let lifted = -1;   // the card tapped last: raised a little while it turns (spread grid only)
+  let drawn = -1;    // the flipped card pulled out of the hand so its whole back stays readable
   let liftTimer = 0;
   let allFired = false;
   const PIVOT_EXTRA = 150; // matches .fan-card { transform-origin: 50% calc(100% + 150px) }
