@@ -560,7 +560,9 @@ table.conj tr.irr td.form { color: var(--terracotta-text); }
 
 /* card fan: fx.fan() places every card so its left strip (with the index at the top-left) stays exposed and tappable;
    overflow-x: clip keeps a tilted corner inside the pane instead of widening the page */
-.fan { position: relative; height: 260px; perspective: 1100px; overflow-x: clip; }
+.fan { position: relative; height: 260px; perspective: 1100px; overflow-x: clip; transition: height var(--t-slow) var(--ease-out); }
+/* the flipped card is drawn out of the hand (fx.fan slides it down and brings it to the front): its whole back reads, every neighbour stays tappable */
+.fan .fan-card.drawn .face { box-shadow: var(--shadow-2), inset 0 1px 0 var(--glass-highlight); }
 .fan .fan-card { position: absolute; left: 50%; top: 0; width: var(--fw, 108px); height: var(--fh, 152px); transform-origin: 50% calc(100% + 150px); transition: transform var(--t-slow) var(--ease-spring), z-index 0s; text-align: center; color: var(--ink); -webkit-tap-highlight-color: transparent; }
 .fan.spread .fan-card { transform-origin: 50% 50%; }
 .fan .fan-card .flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform var(--t-slow) var(--ease-in-out); }
@@ -845,7 +847,7 @@ body.no-tabs .sticky-actions { bottom: calc(var(--sab) + 12px); }
   .aurora .orb { translate: 0 0; }
   #view.scene-out, #view.scene-in, .scene.enter, .scene.in, .mount, .stagger > *, .rise > span, .tense-table .trow, .tw .tw-word, .feedback, .stamp, .pop { animation-duration: 120ms !important; animation-delay: 0ms !important; animation-name: fadeOnly !important; }
   .btn.primary::after { animation: none !important; }
-  .dial .dial-item, .fan .fan-card, .fan .fan-card .flip, .poster, .sheet, .dropdown, .switch::after, .acc .acc-body { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
+  .dial .dial-item, .fan, .fan .fan-card, .fan .fan-card .flip, .poster, .sheet, .dropdown, .switch::after, .acc .acc-body { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
   .choice.correct, .choice.wrong, .shake, .match-grid .m.bad { animation: none !important; }
   @keyframes fadeOnly { from { opacity: 0; } to { opacity: 1; } }
 }

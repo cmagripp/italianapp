@@ -277,6 +277,7 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
         const y = r * (ch + gap) + 8 + lift;
         b.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
         b.style.zIndex = i === lifted ? 20 : 1;
+        b.classList.remove('drawn'); // nothing overlaps in the grid, so no card needs pulling out
       });
       return;
     }
@@ -296,16 +297,20 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
       span *= 0.85;
     }
     const pivot = ch / 2 + PIVOT_EXTRA;
-    const maxDy = Math.pow(mid, 2) * 5 + 8 + pivot * (1 - Math.cos((span / 2) * Math.PI / 180));
-    el.style.height = `${Math.round(ch + maxDy + 30)}px`;
+    const parab = (i) => Math.pow(Math.abs(i - mid), 2) * 5 + 8; // outer cards sit a little lower, like a held hand
+    const maxDy = parab(0) + pivot * (1 - Math.cos((span / 2) * Math.PI / 180));
+    // The drawn card slides down out of the hand and stays in front, so its back is never hidden by a neighbour.
+    // It slides far enough that its top edge clears the centre of every other card: they all stay tappable.
+    const pull = drawn >= 0 && n > 1 ? Math.round(ch / 2 + (parab(0) - 8) + 16) : 0;
+    el.style.height = `${Math.round(ch + maxDy + 30 + pull)}px`;
     els.forEach((b, i) => {
-      const lift = i === lifted ? -18 : 0;
       const rot = n > 1 ? ((i - mid) / (n - 1)) * span : 0;
       // the far pivot swings the card sideways by pivot·sin(rot); subtract it so the centre lands on (i−mid)·step
       const x = (i - mid) * step - pivot * Math.sin(rot * Math.PI / 180) - extMargin(b);
-      const dy = Math.pow(Math.abs(i - mid), 2) * 5 + 8 + lift;
+      const dy = parab(i) + (i === drawn ? pull : 0);
       b.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), 0) rotate(${rot.toFixed(2)}deg) translateY(${dy.toFixed(1)}px)`;
-      b.style.zIndex = i === lifted ? 20 : 1 + i;
+      b.style.zIndex = i === drawn ? 20 : 1 + i;
+      b.classList.toggle('drawn', i === drawn);
     });
   }
   // a stylesheet may spread the cards with margin-left (older fan CSS): neutralise it so the layout above is the truth
@@ -318,7 +323,9 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
     const b = e.target.closest('.fan-card'); if (!b) return;
     const i = Number(b.dataset.i);
     const flipped = b.classList.toggle('flipped');
-    // the tapped card rises to the front while it flips, then settles back into the hand so its neighbour is tappable again
+    // In the hand, the card just flipped slides out to the front so its form stays readable; the card drawn before it
+    // slides back in. Turning a drawn card back over returns it. In the grid the tapped card only rises while it turns.
+    if (flipped) drawn = i; else if (drawn === i) drawn = -1;
     b.classList.toggle('lift', true);
     els.forEach((x) => { if (x !== b) x.classList.remove('lift'); });
     lifted = i;
@@ -337,6 +344,7 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
     flipAll(toBack = null) {
       const target = toBack == null ? !els.every(b => b.classList.contains('flipped')) : !!toBack;
       els.forEach((b, i) => { b.classList.toggle('flipped', target); if (target) seen.add(i); });
+      if (!target && drawn >= 0) { drawn = -1; layout(); } // turned back over: the drawn card returns to the hand
       if (target && !allFired && n > 0) { allFired = true; onAllFlipped && onAllFlipped(); }
     },
     spread(on = null) { isSpread = on == null ? !isSpread : !!on; layout(); return isSpread; },
