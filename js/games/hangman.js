@@ -12,7 +12,8 @@ const PARTS = [
   { circle: [82, 38, 11] }, { d: 'M82 49V84' }, { d: 'M82 58L66 74M82 58L98 74' }, { d: 'M82 84L70 106M82 84L94 106' },
 ];
 const MAX = PARTS.length;
-const figureSVG = () => `<svg class="hang-fig" viewBox="0 0 120 130" aria-hidden="true">${PARTS.map((p, k) => p.circle
+// The gallows is pre-drawn as a faint ghost (so the card is not empty before the first miss); each miss draws a part on top.
+const figureSVG = () => `<svg class="hang-fig" viewBox="0 0 120 130" aria-hidden="true">${PARTS.slice(0, 4).map(p => `<path class="ghost" d="${p.d}"/>`).join('')}${PARTS.map((p, k) => p.circle
   ? `<circle class="part figure" data-part="${k}" cx="${p.circle[0]}" cy="${p.circle[1]}" r="${p.circle[2]}" pathLength="100"/>`
   : `<path class="part ${k >= 4 ? 'figure' : ''}" data-part="${k}" d="${p.d}" pathLength="100"/>`).join('')}</svg>`;
 

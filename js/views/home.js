@@ -51,7 +51,7 @@ function nightCard(e, kind) {
     <div class="night-hw">${art ? raw(html`<span class="article">${art}</span>`) : ''}<a class="word" href="${href}" style="--hw:${fit(word)}px">${word}</a></div>
     <div class="hw-row">${raw(enPill(e.en))}${raw(speakBtn(say))}</div>
     <div class="tags">${raw(levelBadge(e.level || 'A1'))}${raw(tags)}</div>
-    ${raw(extra)}
+    ${extra ? raw(extra) : raw('<div class="night-extra mono">&nbsp;</div>')}
   </article>`;
 }
 
@@ -90,7 +90,7 @@ export async function render(root) {
           <h1 class="greet-title">${raw(tr(greetIt, greetEn))}, ${p.name}.</h1>
           <span class="avatar" aria-hidden="true">${p.avatar}</span>
         </div>
-        <div class="greet-meta mono">${raw(tr(dateIt, dateEn))}<i>·</i><span class="streak">${ic('flame', { size: 14 })}${streak} day${streak === 1 ? '' : 's'}</span><i>·</i><span>${fmtNum(p.stats.xp)} XP</span></div>
+        <div class="greet-meta mono"><span class="greet-date">${raw(tr(dateIt, dateEn))}</span><span class="greet-stats"><span class="streak">${ic('flame', { size: 14 })}${streak} day${streak === 1 ? '' : 's'}</span><i>·</i><span>${fmtNum(p.stats.xp)} XP</span></span></div>
       </div></header>
 
       <div class="ticker home-ticker" data-ticker></div>
@@ -155,7 +155,8 @@ export async function render(root) {
   }
 
   home.addEventListener('click', (ev) => {
-    const lb = ev.target.closest('[data-level]'); if (lb) { setLevel(lb.dataset.level); return; }
+    const lb = ev.target.closest('button[data-level]'); if (lb) { setLevel(lb.dataset.level); return; } // never <html data-level>
+
     const card = ev.target.closest('[data-href]');
     if (card && !ev.target.closest('a, button, .itx, input')) location.hash = card.dataset.href;
   });

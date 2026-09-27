@@ -36,6 +36,7 @@ export function startSpeed(root, ctx) {
   const fill = root.querySelector('[data-fill]');
   const timerEl = root.querySelector('[data-timer]');
   const stat = (sel, v) => { const el = root.querySelector(sel); if (el) el.textContent = String(v); };
+  let firstQ = true;
 
   function render() {
     if (ended) return;
@@ -43,7 +44,8 @@ export function startSpeed(root, ctx) {
     if (!q) return finish();
     qArea.innerHTML = html`<div class="q-card"><div class="prompt">${q.tag}</div>${raw(q.prompt)}</div>
       <div class="choices">${raw(q.choices.map((c, k) => html`<button type="button" class="choice center" data-c="${k}">${c.label}</button>`).join(''))}</div>`;
-    fx.mount(qArea, { stagger: 30 });
+    // only the first question rises in: in a timed round the choices must not move after every answer
+    if (firstQ) { fx.mount(qArea, { stagger: 30 }); firstQ = false; }
     qArea.querySelector('.choices').addEventListener('click', (ev) => {
       const b = ev.target.closest('[data-c]'); if (!b || ended) return;
       const c = q.choices[Number(b.dataset.c)];

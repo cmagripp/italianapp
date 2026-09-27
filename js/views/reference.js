@@ -36,12 +36,12 @@ export const refList = (entries) => `<div class="list">${entries.map(e => refRow
 
 const isIrregular = (e) => conjugate(e.inf, { aux: e.aux, isc: e.isc }).irregular;
 const GROUP_CHIPS = [
-  { key: 'are', label: 'verbs -are', kicker: 'Verbi', title: 'Verbs in -are', filter: e => verbGroup(e) === '-are' },
+  { key: 'are', label: '-are', kicker: 'Verbi', title: 'Verbs in -are', filter: e => verbGroup(e) === '-are' },
   { key: 'ere', label: '-ere', kicker: 'Verbi', title: 'Verbs in -ere', filter: e => verbGroup(e) === '-ere' },
   { key: 'ire', label: '-ire', kicker: 'Verbi', title: 'Verbs in -ire', filter: e => verbGroup(e) === '-ire' },
   { key: 'rre', label: '-rre', kicker: 'Verbi', title: 'Verbs in -rre', filter: e => verbGroup(e) === '-rre' },
-  { key: 'irregular', label: 'irregular verbs', kicker: 'Verbi', title: 'Irregular verbs', filter: e => isIrregular(e) },
-  { key: 'a1', label: 'A1 top verbs', kicker: 'Verbi', title: 'The A1 verbs', filter: e => e.level === 'A1', keepOrder: true },
+  { key: 'irregular', label: 'irregolari', kicker: 'Verbi', title: 'Irregular verbs', filter: e => isIrregular(e) },
+  { key: 'a1', label: 'top A1', kicker: 'Verbi', title: 'The A1 verbs', filter: e => e.level === 'A1', keepOrder: true },
 ];
 const PAGE = 40;
 

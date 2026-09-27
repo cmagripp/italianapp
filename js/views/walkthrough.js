@@ -221,26 +221,36 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
   };
   container.addEventListener('scroll', onScroll, { passive: true });
 
-  // keyboard-safe inputs: mark the scene, let its body scroll, bring the field up
-  const onFocusIn = (ev) => {
-    const inp = ev.target.closest && ev.target.closest('input, textarea');
-    if (!inp) return;
+  // keyboard-safe inputs: mark the scene (.kb hides the footer), let its body scroll and keep the field, the accent bar
+  // and Check in the visible strip. Runs on focus and again whenever the (visual) viewport changes while a field is
+  // focused — on iOS the field is usually focused before the keyboard has finished opening.
+  const focusedField = () => { const a = document.activeElement; return a && a.matches && a.matches('input, textarea') && container.contains(a) ? a : null; };
+  let kbTimer = null;
+  function keepFieldVisible(inp) {
+    if (!inp || !inp.isConnected) return;
     const sc = inp.closest('.scene'); if (!sc) return;
     sc.classList.add('kb');
     const b = sc.querySelector('.scene-body');
     b.classList.add('scrollable');
-    setTimeout(() => {
-      if (!inp.isConnected) return;
-      const r = inp.getBoundingClientRect(), br = b.getBoundingClientRect();
-      const want = Math.min(140, br.height * .3);
-      const delta = (r.top - br.top) - want;
-      if (delta > 8) b.scrollTop += delta;
-    }, 80);
+    const r = inp.getBoundingClientRect(), br = b.getBoundingClientRect();
+    const kb = parseFloat(container.style.getPropertyValue('--kb')) || 0;
+    const visible = br.height - kb; // the part of the body not covered by the keyboard
+    // room to spare: keep the question above the field; tight: the field goes to the top so the bar and Check fit under it
+    const want = visible > 440 ? Math.min(140, visible * .3) : 12;
+    const delta = (r.top - br.top) - want;
+    if (Math.abs(delta) > 8) b.scrollTop += delta;
+  }
+  const scheduleKb = (inp, ms = 80) => { clearTimeout(kbTimer); kbTimer = setTimeout(() => keepFieldVisible(inp), ms); };
+  const onFocusIn = (ev) => {
+    const inp = ev.target.closest && ev.target.closest('input, textarea');
+    if (!inp || !inp.closest('.scene')) return;
+    inp.closest('.scene').classList.add('kb');
+    scheduleKb(inp, 80);
   };
   const onFocusOut = () => {
     setTimeout(() => {
-      const a = document.activeElement;
-      if (a && a.closest && a.closest('input, textarea') && container.contains(a)) return;
+      if (focusedField()) return;
+      clearTimeout(kbTimer);
       container.querySelectorAll('.scene.kb').forEach(sc => sc.classList.remove('kb'));
       checkOverflow(scenes[current]);
     }, 120);
@@ -248,9 +258,13 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
   container.addEventListener('focusin', onFocusIn);
   container.addEventListener('focusout', onFocusOut);
   const vv = window.visualViewport;
-  const onVV = () => { const kb = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop || 0)); container.style.setProperty('--kb', `${Math.round(kb)}px`); };
+  const onVV = () => {
+    const kb = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop || 0));
+    container.style.setProperty('--kb', `${Math.round(kb)}px`);
+    const f = focusedField(); if (f) scheduleKb(f, 60);
+  };
   if (vv) vv.addEventListener('resize', onVV);
-  const onResize = () => checkOverflow(scenes[current]);
+  const onResize = () => { checkOverflow(scenes[current]); const f = focusedField(); if (f) scheduleKb(f, 60); };
   window.addEventListener('resize', onResize);
 
   // first scene
@@ -263,6 +277,7 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     destroy() {
       destroyed = true;
       clearTimeout(gotoTimer);
+      clearTimeout(kbTimer);
       io.disconnect();
       mo.disconnect();
       cancelAnimationFrame(moRaf);

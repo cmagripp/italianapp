@@ -100,7 +100,7 @@
 .res-head .seg { max-width: 300px; }
 .results .row-entry .re-hw .kind { display: none; }
 .re-tag { order: -1; display: inline-flex; align-items: center; height: 22px; padding: 0 7px; border-radius: 7px; border: 1px solid var(--hairline); font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
-.re-tag.verb { color: var(--terracotta); border-color: color-mix(in srgb, var(--terracotta) 45%, transparent); }
+.re-tag.verb { color: var(--terracotta-text); border-color: color-mix(in srgb, var(--terracotta) 45%, transparent); }
 .results .empty .tr { display: block; }
 
 /* ---------- 5. BROWSE ---------- */
@@ -122,9 +122,14 @@
 .filters .chip .glyph { font-size: 15px; line-height: 1; }
 .lvl-chip { --c: var(--gold); color: var(--c); border-color: color-mix(in srgb, var(--c) 45%, transparent); font-weight: 600; }
 .lvl-chip.on { background: var(--c); color: var(--on-lvl); border-color: transparent; box-shadow: 0 8px 20px -8px var(--c); }
-.state-seg { margin: 2px 0 12px; }
-.count-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 4px 0 10px; min-height: 40px; }
-.count-row .kicker { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* one row: the learning-state picker (a gold chip that opens a dropdown) followed by the part-of-speech chips */
+.filters .state-chip { gap: 4px; padding-right: 10px; color: var(--ink); }
+.filters .state-chip .ic { width: 14px; height: 14px; color: var(--ink-3); }
+.filters .state-chip.on { background: linear-gradient(135deg, var(--gold), var(--gold-2)); color: var(--on-gold); border-color: transparent; box-shadow: 0 8px 20px -8px var(--gold); }
+.filters .state-chip.on .ic { color: var(--on-gold); }
+.filters .filter-sep { flex: none; width: 1px; height: 24px; margin: 0 4px; background: var(--glass-border); align-self: center; }
+.count-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin: 4px 0 10px; min-height: 40px; }
+.count-row .kicker { min-width: 0; line-height: 1.4; padding-top: 12px; overflow-wrap: anywhere; }
 .count-row .btn { flex: none; }
 
 .grp { margin-bottom: 18px; }
@@ -147,7 +152,7 @@
 .bank-pane .bp-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .bank-pane .bp-name { font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.05; letter-spacing: -.01em; }
 .bank-pane .bp-sub { font-size: 13px; color: var(--ink-2); }
-.bank-pane .bp-count { font-family: var(--font-display); font-weight: 600; font-size: 40px; line-height: 1; letter-spacing: -.03em; color: var(--gold); font-variation-settings: "opsz" 72; flex: none; }
+.bank-pane .bp-count { font-family: var(--font-display); font-weight: 600; font-size: 40px; line-height: 1; letter-spacing: -.03em; color: var(--gold-text); font-variation-settings: "opsz" 72; flex: none; }
 
 .grp-kicker { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 8px; }
 .list-row { display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 12px; min-height: 72px;
@@ -182,15 +187,17 @@
 /* ---------- 8. ENTRY CODEX ---------- */
 .codex { position: relative; }
 .codex .headword { padding-top: 0; }
-.codex .headword .article, .pg-add .headword .article { font-size: 26px; }
 .codex .headword .hw-line { padding-right: 8px; }
 .glance { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 2px 0 14px; }
 .glance .g { display: flex; align-items: center; gap: 6px; min-height: 64px; padding: 8px 8px 8px 12px; border-radius: 14px; min-width: 0;
   background: var(--glass); border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight); }
+.glance .g.wide { grid-column: 1 / -1; }
 .glance .g .gt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .glance .g .lab { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
-.glance .g .val { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.15; letter-spacing: -.01em; overflow-wrap: anywhere; }
-.glance .g.irr .val { color: var(--terracotta); }
+/* forms are never broken mid-word: long ones get the whole row (.wide) and a slightly smaller size */
+.glance .g .val { font-family: var(--font-display); font-weight: 600; font-size: clamp(16px, 4.8vw, 20px); line-height: 1.15; letter-spacing: -.015em; overflow-wrap: normal; word-break: normal; hyphens: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.glance .g.multi .val { white-space: normal; } /* "-rre · irregolare" may wrap at the separator */
+.glance .g.irr .val { color: var(--terracotta-text); }
 
 .jump-bar { position: sticky; top: calc(var(--top-h) + var(--sat) + 4px); z-index: 10; display: flex; align-items: center; gap: 8px; margin: 0 calc(-1 * var(--gutter)) 14px; padding: 6px var(--gutter);
   border-bottom: 1px solid transparent; transition: background var(--t-base), border-color var(--t-base); }
@@ -209,9 +216,11 @@
 .codex .example > .speak { right: 8px; top: 50%; margin-top: -20px; }
 .codex .view-toggle { padding: 2px; border-radius: 14px; }
 .codex .view-toggle button { width: 46px; height: 40px; border-radius: 11px; }
-.codex .dial-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 40px; column-gap: 6px; align-items: start; }
-.codex .dial-wrap .dial-menu { position: static; width: 40px; height: 40px; margin-top: 42px; }
 .codex .conj-card { padding-left: 14px; padding-right: 14px; }
+.codex .conj-card .dial-wrap { margin-top: 4px; }
+/* the card hand may use the whole pane width (it bleeds into the card padding, never past the glass edge) */
+.codex .conj-card .fan, .codex .forms-card .fan { margin-left: -14px; margin-right: -14px; }
+.codex .forms-card { padding-left: 14px; padding-right: 14px; }
 .codex .acc:not(.open) .acc-inner { visibility: hidden; transition: visibility 0s linear var(--t-slow); }
 .codex .acc.open .acc-inner { visibility: visible; }
 .codex .acc .acc-head .title { font-size: 20px; }
@@ -223,7 +232,7 @@
 .pat .pattern { margin: 0; }
 .rel-chips { margin-top: 12px; }
 .rel-chips .chip { text-transform: none; letter-spacing: 0; font-family: var(--font-display); font-size: 16px; font-weight: 500; color: var(--ink); }
-.rel-chips a.chip { color: var(--gold); }
+.rel-chips a.chip { color: var(--gold-text); }
 
 .forms-card .conj-head { margin-bottom: 10px; }
 .forms-card .fan-tools { margin-top: 4px; }
@@ -260,7 +269,7 @@
 .pg-add .similar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 14px; }
 .pg-add .similar:empty { display: none; }
 .pg-add .similar .kicker { margin-right: 4px; }
-.pg-add .similar a.chip { text-transform: none; letter-spacing: 0; font-family: var(--font-display); font-size: 16px; font-weight: 500; color: var(--gold); }
+.pg-add .similar a.chip { text-transform: none; letter-spacing: 0; font-family: var(--font-display); font-size: 16px; font-weight: 500; color: var(--gold-text); }
 .pg-add .fset { padding: 12px 12px 2px; margin-bottom: 14px; border-radius: 16px; border: 1px dashed var(--glass-border); }
 .pg-add .fset .fset-kicker { display: block; margin-bottom: 10px; }
 
@@ -270,11 +279,12 @@
 
 /* ---------- 11. REDUCED MOTION & RESPONSIVE ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .sbar, .sbar .clear, .qtile, .topic, .list-row .lr-main, .bank-pane, .jump-bar, .jump-bar .jb-word, .pick-state, .lvl-chip { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
+  .sbar, .sbar .clear, .qtile, .topic, .list-row .lr-main, .bank-pane, .jump-bar, .jump-bar .jb-word, .pick-state, .lvl-chip, .state-chip { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
 }
 @media (min-width: 560px) {
   .topic-grid { grid-template-columns: repeat(4, 1fr); }
   .glance { grid-template-columns: repeat(4, 1fr); }
+  .glance .g.wide { grid-column: span 2; }
   .drill-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 359px) {

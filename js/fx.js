@@ -250,45 +250,79 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
   const seen = new Set();
   let isSpread = !!startSpread;
   let lifted = -1;
+  let liftTimer = 0;
   let allFired = false;
+  const PIVOT_EXTRA = 150; // matches .fan-card { transform-origin: 50% calc(100% + 150px) }
+  const MIN_STRIP = 46;    // every card keeps at least this much of its left side (index + tap target) uncovered
 
   function layout() {
     const mid = (n - 1) / 2;
     const w = el.clientWidth || 340;
-    const cols = n <= 4 ? 2 : 3;
     const gap = 12;
-    const cw = Math.min(124, Math.floor((w - gap * (cols - 1)) / cols));
-    const ch = Math.round(cw * 1.42);
-    el.style.setProperty('--fw', `${cw}px`);
-    el.style.setProperty('--fh', `${ch}px`);
-    const rows = Math.ceil(n / cols);
     el.classList.toggle('spread', isSpread);
-    el.style.height = isSpread ? `${rows * ch + (rows - 1) * gap + 16}px` : `${ch + 90}px`;
-    els.forEach((b, i) => {
-      const lift = i === lifted ? -18 : 0;
-      if (isSpread) {
+    if (isSpread) {
+      const cols = n <= 4 ? 2 : 3;
+      const cw = Math.min(124, Math.floor((w - gap * (cols - 1)) / cols));
+      const ch = Math.round(cw * 1.42);
+      el.style.setProperty('--fw', `${cw}px`);
+      el.style.setProperty('--fh', `${ch}px`);
+      const rows = Math.ceil(n / cols);
+      el.style.height = `${rows * ch + (rows - 1) * gap + 16}px`;
+      els.forEach((b, i) => {
+        const lift = i === lifted ? -18 : 0;
         const r = Math.floor(i / cols), c = i % cols;
         const gridW = cols * cw + (cols - 1) * gap;
-        const x = -gridW / 2 + c * (cw + gap);
+        const x = -gridW / 2 + c * (cw + gap) - extMargin(b);
         const y = r * (ch + gap) + 8 + lift;
         b.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
         b.style.zIndex = i === lifted ? 20 : 1;
-      } else {
-        const rot = n > 1 ? ((i - mid) / (n - 1)) * 52 : 0;
-        const dy = Math.pow(Math.abs(i - mid), 2) * 6 + 12 + lift;
-        b.style.transform = `translate(-50%, 0) rotate(${rot.toFixed(2)}deg) translateY(${dy.toFixed(1)}px)`;
-        b.style.zIndex = i === lifted ? 20 : 1 + i;
-      }
+      });
+      return;
+    }
+    // The hand. Cards are laid out by their centres, `step` apart: wide enough that the centre of every card
+    // (and its top-left index) is uncovered by the next card, and narrow enough that the whole hand fits. Small
+    // hands fan less (the spread scales with (n−1)/5) and the tilt is reduced until the outer cards stay inside.
+    const maxW = n <= 3 ? 108 : n <= 4 ? 116 : 92;
+    const cw = Math.max(64, Math.min(maxW, Math.floor((w - 4) / (1 + (n - 1) * 0.54))));
+    const ch = Math.round(cw * 1.42);
+    el.style.setProperty('--fw', `${cw}px`);
+    el.style.setProperty('--fh', `${ch}px`);
+    const step = n > 1 ? Math.max(MIN_STRIP, Math.min(cw * 0.7, (w - 4 - cw) / (n - 1))) : 0;
+    let span = n > 1 ? Math.min(52, 52 * (n - 1) / 5) : 0;
+    const half = (a) => (cw * Math.cos(a) + ch * Math.sin(a)) / 2;
+    for (let k = 0; k < 12 && span > 4; k++) {
+      if (mid * step + half((span / 2) * Math.PI / 180) <= w / 2 + 6) break;
+      span *= 0.85;
+    }
+    const pivot = ch / 2 + PIVOT_EXTRA;
+    const maxDy = Math.pow(mid, 2) * 5 + 8 + pivot * (1 - Math.cos((span / 2) * Math.PI / 180));
+    el.style.height = `${Math.round(ch + maxDy + 30)}px`;
+    els.forEach((b, i) => {
+      const lift = i === lifted ? -18 : 0;
+      const rot = n > 1 ? ((i - mid) / (n - 1)) * span : 0;
+      // the far pivot swings the card sideways by pivot·sin(rot); subtract it so the centre lands on (i−mid)·step
+      const x = (i - mid) * step - pivot * Math.sin(rot * Math.PI / 180) - extMargin(b);
+      const dy = Math.pow(Math.abs(i - mid), 2) * 5 + 8 + lift;
+      b.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), 0) rotate(${rot.toFixed(2)}deg) translateY(${dy.toFixed(1)}px)`;
+      b.style.zIndex = i === lifted ? 20 : 1 + i;
     });
+  }
+  // a stylesheet may spread the cards with margin-left (older fan CSS): neutralise it so the layout above is the truth
+  function extMargin(b) { const m = parseFloat(getComputedStyle(b).marginLeft); return Number.isFinite(m) ? m : 0; }
+  function settle() {
+    clearTimeout(liftTimer);
+    liftTimer = setTimeout(() => { lifted = -1; els.forEach(x => x.classList.remove('lift')); layout(); }, reducedMotion() ? 150 : 900);
   }
   const click = (e) => {
     const b = e.target.closest('.fan-card'); if (!b) return;
     const i = Number(b.dataset.i);
     const flipped = b.classList.toggle('flipped');
+    // the tapped card rises to the front while it flips, then settles back into the hand so its neighbour is tappable again
     b.classList.toggle('lift', true);
     els.forEach((x) => { if (x !== b) x.classList.remove('lift'); });
     lifted = i;
     layout();
+    settle();
     if (flipped) seen.add(i);
     onFlip && onFlip(i, flipped, cards[i]);
     if (!allFired && seen.size === n && n > 0) { allFired = true; onAllFlipped && onAllFlipped(); }
@@ -306,7 +340,7 @@ export function fan(el, cards = [], { onFlip = null, onAllFlipped = null, spread
     },
     spread(on = null) { isSpread = on == null ? !isSpread : !!on; layout(); return isSpread; },
     layout,
-    destroy() { el.removeEventListener('click', click); ro && ro.disconnect(); el.innerHTML = ''; el.style.height = ''; el.classList.remove('fan', 'spread'); },
+    destroy() { clearTimeout(liftTimer); el.removeEventListener('click', click); ro && ro.disconnect(); el.innerHTML = ''; el.style.height = ''; el.classList.remove('fan', 'spread'); },
   };
 }
 
@@ -372,11 +406,21 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
     const vw = window.innerWidth, vh = window.innerHeight;
     const w = Math.min(width || Math.max(220, r.width), vw - 24);
     panel.style.width = `${w}px`;
+    panel.style.maxHeight = '';
     const ph = panel.offsetHeight;
     let left = align === 'end' ? r.right - w : r.left;
     left = clamp(left, 12, vw - w - 12);
-    const below = r.bottom + 8 + ph <= vh - 12;
-    const top = below ? r.bottom + 8 : Math.max(12, r.top - 8 - ph);
+    // never under the top bar: the panel opens below the anchor when it fits, above it otherwise, and is capped to the
+    // room on that side (it scrolls internally) instead of sliding under the bar
+    const bar = doc.getElementById('topbar');
+    const topMin = Math.max(12, bar ? bar.getBoundingClientRect().bottom + 8 : 12);
+    const roomBelow = vh - 12 - (r.bottom + 8);
+    const roomAbove = r.top - 8 - topMin;
+    const below = ph <= roomBelow || roomBelow >= roomAbove;
+    const room = Math.max(120, below ? roomBelow : roomAbove);
+    const h = Math.min(ph, room);
+    if (ph > room) panel.style.maxHeight = `${room}px`;
+    const top = below ? r.bottom + 8 : Math.max(topMin, r.top - 8 - h);
     panel.classList.toggle('up', !below);
     panel.style.left = `${left}px`; panel.style.top = `${top}px`;
     panel.style.setProperty('--ox', `${clamp(r.left + r.width / 2 - left, 16, w - 16)}px`);
@@ -523,7 +567,7 @@ export function orbit(el, { rings = [], current = null, center = null, onSelect 
         <circle class="track" cx="${cx}" cy="${cy}" r="${rad.toFixed(1)}"/>
         <circle class="fill" cx="${cx}" cy="${cy}" r="${rad.toFixed(1)}" stroke-dasharray="${(circ * p).toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 ${cx} ${cy})" style="--i:${i}"/>
         <circle class="hit" cx="${cx}" cy="${cy}" r="${rad.toFixed(1)}"/>
-        <text class="lab" x="${(cx + 6).toFixed(1)}" y="${(cy - rad + 4).toFixed(1)}">${esc(r.label || r.key)}</text>
+        <text class="lab" text-anchor="end" x="${(cx - 7).toFixed(1)}" y="${(cy - rad + 3.5).toFixed(1)}">${esc(r.label || r.key)}</text>
       </g>`;
     }).join('');
     el.innerHTML = `<svg viewBox="0 0 ${2 * R} ${2 * R}" aria-hidden="true">${circles}</svg>

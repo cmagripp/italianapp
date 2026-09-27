@@ -44,10 +44,10 @@ body.walkthrough #view { padding-bottom: 0; }
 .wt-cta[disabled] { opacity: .9; }
 /* while the step is not done the CTA folds into the hint line as a small lock pill; it grows into the block button on ready */
 .wt-scene .scene-foot.locked { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 12px; min-height: 40px; padding-top: 2px; }
-.wt-scene .scene-foot.locked .wt-cta.locked { width: auto; height: 34px; padding: 0 12px 0 10px; gap: 6px; flex: none; border-radius: var(--r-pill);
+.wt-scene .scene-foot.locked .wt-cta.locked { width: auto; height: 40px; padding: 0 12px 0 10px; gap: 6px; flex: none; border-radius: var(--r-pill);
   font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
 .wt-scene .scene-foot.locked .wt-cta.locked .ic { width: 14px; height: 14px; }
-.wt-scene .scene-foot.locked .foot-row { flex: 0 1 auto; min-height: 34px; gap: 8px; }
+.wt-scene .scene-foot.locked .foot-row { flex: 0 1 auto; min-height: 40px; gap: 8px; }
 .wt-scene .scene-foot.locked .foot-row .hint { text-align: left; }
 .wt-scene .scene-foot:not(.locked) .wt-cta { animation: ctaGrow var(--t-slow) var(--ease-out) both; transform-origin: 50% 100%; }
 @keyframes ctaGrow { from { opacity: .3; transform: scaleY(.55); } to { opacity: 1; transform: none; } }
@@ -92,7 +92,8 @@ body.walkthrough #view { padding-bottom: 0; }
 .pat-row.seen { border-color: color-mix(in srgb, var(--ok) 45%, var(--glass-border)); }
 .pat-row.seen .pat-check { display: inline-flex; }
 .pat-row.seen .pat-text { color: var(--ink); }
-.pat-foot { margin-top: 12px; justify-content: center; }
+.pat-foot { margin-top: 12px; margin-left: 0; clip-path: none; justify-content: center; }
+.pat-foot > :first-child::before { content: none; }
 .pat-ex { display: flex; align-items: flex-start; gap: 8px; padding: 4px 12px 10px; }
 .pat-ex .itx.block { flex: 1; min-width: 0; }
 .pat-ex .it { font-family: var(--font-display); font-weight: 500; font-size: 18px; line-height: 1.3; }
@@ -123,7 +124,8 @@ body.walkthrough #view { padding-bottom: 0; }
 .fan-stage > .fan-inner { min-height: 0; }
 .fan-stage.collapsed { grid-template-rows: 0fr; opacity: 0; pointer-events: none; margin: 0; }
 .fan-stage.collapsed > .fan-inner { overflow: hidden; }
-.wt-fan { width: min(100%, 320px); margin: 0 auto; --fan-step: 20px; }
+/* 300px wide → fx.js sizes the cards 92×131, which leaves room for the wider hand below on a 390px phone */
+.wt-fan { width: min(100%, 300px); margin: 0 auto; --fan-step: 18px; }
 /* The hand (fx.js) rotates the cards around a pivot below them, which leaves each card a ~40px visible strip: too narrow
    to tap and to show "LUI/LEI". A per-card horizontal offset (--i × step, centred on the hand) widens every strip;
    the spread grid keeps fx.js's exact positions. --fan-n is set by the view. */
@@ -131,9 +133,12 @@ body.walkthrough #view { padding-bottom: 0; }
 .wt-fan .fan-card[data-i="2"], .ref-fan .fan-card[data-i="2"] { --i: 2; } .wt-fan .fan-card[data-i="3"], .ref-fan .fan-card[data-i="3"] { --i: 3; }
 .wt-fan .fan-card[data-i="4"], .ref-fan .fan-card[data-i="4"] { --i: 4; } .wt-fan .fan-card[data-i="5"], .ref-fan .fan-card[data-i="5"] { --i: 5; }
 .wt-fan:not(.spread) .fan-card { margin-left: calc((var(--i, 0) - (var(--fan-n, 6) - 1) / 2) * var(--fan-step, 20px)); transition: transform var(--t-slow) var(--ease-spring), margin var(--t-slow) var(--ease-spring), z-index 0s; }
-.wt-fan .fan-card .face.front { font-size: 11px; letter-spacing: .1em; padding: 12px 8px; white-space: nowrap; }
+/* the person label must fit the visible strip of a card in the hand: "LUI/LEI" wraps after the slash (wbr) */
+.wt-fan .fan-card .face.front { font-size: 10px; letter-spacing: .06em; padding: 12px 6px; white-space: nowrap; }
+.wt-fan .fan-card .face.front .pl, .ref-fan .fan-card .face.front .pl { display: block; max-width: 40px; white-space: normal; line-height: 1.2; text-align: left; }
+.wt-fan.spread .fan-card .face.front .pl, .ref-fan.spread .fan-card .face.front .pl { max-width: none; text-align: center; }
 .wt-fan:not(.spread) .fan-card.flipped .flip { transform: rotateY(180deg) translateY(-10px); }
-.wt-fan .fan-card .face.back { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+.wt-fan .fan-card .face.back { padding: 10px 6px; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 .wt-fan .fan-card .face.back .form { display: block; max-width: 100%; }
 .wt-fan .fan-card .face.back .form.irr { color: var(--terracotta); }
 .wt-fan .fan-card .face.back .form.none { color: var(--ink-3); font-size: 26px; }
@@ -207,6 +212,10 @@ body.walkthrough #view { padding-bottom: 0; }
 
 /* ---------- 9. DRILL & RESULTS ---------- */
 .drill-host { min-height: 220px; }
+/* the runner's feedback bar sticks to the bottom of the scrolling scene body: its wrapper joins the host's flow
+   (display: contents) so the bar can slide up inside the host instead of being boxed in a wrapper of its own height */
+.wt-scene .drill-host [data-feedback] { display: contents; }
+.wt-scene .drill-host .feedback-bar { position: sticky; bottom: 10px; z-index: 3; }
 .drill-intro { text-align: center; padding: 40px 0; }
 .drill-intro .lead { font-size: 28px; margin: 6px 0 0; }
 .drill-host .game-top { margin-bottom: 10px; }
@@ -249,7 +258,7 @@ body.walkthrough #view { padding-bottom: 0; }
   .wt-q .big.md { font-size: 24px; }
   .fin-xp .display { font-size: 36px; }
   .fin-actions .row.gap .btn.grow { font-size: 14px; padding: 0 10px; }
-  .wt-fan { --fan-step: 16px; }
+  .wt-fan { --fan-step: 15px; }
 }
 @media (max-height: 700px) {
   .wt-scene .scene-body { padding: 8px 0; }

@@ -58,14 +58,14 @@
 .picker {
   display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 8px 0 14px; border-radius: var(--r-pill); flex: none; max-width: 56%;
   background: var(--glass-strong); border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight);
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--gold); white-space: nowrap;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--gold-text); white-space: nowrap;
   transition: transform var(--t-fast) var(--ease-out), background var(--t-base);
 }
 .picker .val { overflow: hidden; text-overflow: ellipsis; }
 .picker .lvl { height: 22px; min-width: 30px; font-size: 11px; }
 .picker .ic { width: 16px; height: 16px; color: var(--ink-3); transition: transform var(--t-base) var(--ease-out); }
 .picker:active { transform: scale(.97); background: var(--glass); }
-.picker[aria-expanded="true"] .ic { transform: rotate(180deg); color: var(--gold); }
+.picker[aria-expanded="true"] .ic { transform: rotate(180deg); color: var(--gold-text); }
 
 /* ---------- 2. PROFILE ---------- */
 .me .sec-head .title.itx { cursor: pointer; }
@@ -95,10 +95,11 @@
 .me-name { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.1; letter-spacing: -.01em; overflow-wrap: anywhere; }
 .me-xp { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
 .me-xp .num { font-family: var(--font-display); font-weight: 600; font-size: 44px; line-height: 1; letter-spacing: -.02em; font-variation-settings: "opsz" 144; font-variant-numeric: tabular-nums; background: linear-gradient(135deg, var(--gold), var(--gold-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+:root[data-theme="light"] .me-xp .num { background-image: linear-gradient(135deg, var(--gold-text), #b8800a); }
 .me-xp .unit { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
 .me-streak { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
 .me-streak .ic { width: 15px; height: 15px; color: var(--terracotta); }
-.me-streak i { font-style: normal; color: var(--ink-4); }
+.me-streak i { font-style: normal; color: var(--ink-3); }
 .me-actions { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
 
 /* stat tiles */
@@ -124,7 +125,8 @@
 
 /* backup & cloud sync */
 .me .card p { color: var(--ink-2); font-size: 14px; }
-.me .card p a { font-weight: 700; }
+.me .card p a { font-weight: 700; display: inline-flex; align-items: center; min-height: 40px; margin: -10px 0; vertical-align: middle; } /* 40px hit box without growing the line */
+.me .card .row.gap .btn.grow { min-width: 0; padding-left: 12px; padding-right: 12px; font-size: 15px; } /* "Create account" fits a 375px half-row */
 .sync-on { display: flex; align-items: center; gap: 12px; padding: 12px 12px; border-radius: 16px; background: var(--glass-strong); border: 1px solid var(--glass-border); margin-bottom: 4px; }
 .sync-on .sync-ico { color: var(--turquoise); }
 .sync-on .lab { font-weight: 700; overflow-wrap: anywhere; } .sync-on .sub { font-size: 13px; color: var(--ink-2); }
@@ -145,7 +147,7 @@
 .user-card.cur .uc-av { box-shadow: 0 0 0 2px var(--bg-0), 0 0 0 3.5px var(--gold); }
 .user-card .uc-name { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.15; letter-spacing: -.01em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .user-card .uc-sub { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
-.user-card.cur .uc-sub { color: var(--gold); }
+.user-card.cur .uc-sub { color: var(--gold-text); }
 .user-card .uc-menu { position: absolute; top: 4px; right: 4px; width: 40px; height: 40px; background: transparent; border: 0; box-shadow: none; color: var(--ink-3); }
 .user-card .uc-menu .ic { width: 20px; height: 20px; }
 .user-card.new { border-style: dashed; background: transparent; box-shadow: none; color: var(--ink-2); }
@@ -163,14 +165,17 @@
 .av-grid .btn.on { background: color-mix(in srgb, var(--gold) 20%, var(--glass)); border-color: var(--gold); box-shadow: 0 0 24px -8px var(--gold); }
 
 /* ---------- 3. SCOPE ---------- */
+/* One level selector: the dial (its sub-label carries the item count, a gold dot marks levels already in scope); the
+   hero word below gets air from a lower, fainter tick arc; a compact row of level pills shows the multi-selection. */
 .scope .scope-hero { position: relative; padding-top: 4px; }
 .scope .scope-hero > .kicker { display: block; text-align: center; }
-.scope .scope-dial { height: 150px; }
+.scope .scope-dial { height: 136px; }
+.scope .scope-dial .dial-arc { opacity: .28; top: 14px; }
 .scope .scope-dial .dial-item { min-height: 72px; justify-content: center; padding: 6px 14px; }
 .scope .scope-dial .dial-label { font-size: 32px; font-variation-settings: "opsz" 72; letter-spacing: -.02em; }
 .scope .scope-dial .dial-sub { font-size: 10px; }
 .scope .scope-dial .dial-item.on .dial-label { text-shadow: 0 0 28px color-mix(in srgb, var(--gold) 70%, transparent); }
-.scope .scope-word { text-align: center; margin-top: -8px; }
+.scope .scope-word { text-align: center; margin-top: 10px; }
 .scope .scope-word .headword { padding: 0 0 6px; }
 .scope .scope-word .headword .word { transition: opacity var(--t-base); }
 .scope .scope-word .headword-en { min-height: 40px; }
@@ -179,11 +184,13 @@
 .scope .scope-meta > * + *::before { content: "·"; color: var(--ink-4); margin: 0 8px; font-weight: 700; }
 .scope .scope-meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .scope .scope-meta b { color: var(--ink-2); font-weight: 600; }
+.scope .scope-sel { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.scope .scope-sel > .kicker { flex: none; }
+.scope .scope-levels { display: flex; gap: 6px; flex: 1; min-width: 0; }
+.scope .scope-levels .lvl { flex: 1; min-width: 0; padding: 0; cursor: pointer; transition: transform var(--t-fast) var(--ease-out), background var(--t-base), color var(--t-base), box-shadow var(--t-base); }
+.scope .scope-levels .lvl:active { transform: scale(.94); }
 .scope .chip { height: 40px; }
 .scope .chip.sm { height: 40px; padding: 0 14px; font-size: 10px; }
-.scope .level-chips { margin-top: 14px; }
-.scope .level-chips .chip .tiny { font-family: var(--font-mono); letter-spacing: .06em; }
-.scope .level-chips .chip.on .tiny { opacity: .85; }
 .scope .mode-seg { margin: 18px 0 14px; }
 .scope .topics-note { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin: 10px 0 12px; }
 .scope .topics .chips { gap: 8px; }
@@ -193,9 +200,16 @@
 .scope .scope-note .itx .tr { font-family: var(--font-text); font-size: 15px; }
 .scope .list label.row-entry input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--gold); margin: 0; flex: none; }
 .scope .list label.row-entry .re-hw { font-size: 19px; }
-.scope .sticky-actions .btn .count { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; font-weight: 600; padding: 4px 10px; border-radius: var(--r-pill); background: rgba(0,0,0,.12); }
-.scope .sticky-actions { margin-top: 20px; }
 .scope .empty { padding: 28px 12px; }
+/* "Use this scope": in the flow (its slot sits between the mode segment and the topics) until the slot scrolls under the
+   top bar; then .docked turns it into a fixed glass dock above the tab bar and .scope-space keeps the last chips clear of it */
+.scope-cta { margin: 0 0 14px; }
+.scope-dock { padding: 8px; border-radius: 34px; }
+.scope-dock.docked { position: fixed; left: max(16px, var(--sal)); right: max(16px, var(--sar)); bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 12px); z-index: 10; max-width: calc(var(--content-max) - 32px); margin: 0 auto;
+  background: var(--glass-strong); -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid var(--glass-border); box-shadow: var(--shadow-2), inset 0 1px 0 var(--glass-highlight); animation: rise var(--t-base) var(--ease-out) both; }
+.scope-dock .btn .count { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; font-weight: 600; padding: 4px 10px; border-radius: var(--r-pill); background: rgba(0,0,0,.12); }
+.scope-space { height: 92px; } /* always reserved (dock height + 16), so docking never changes the page height under the reader */
 
 /* ---------- 4. PLAY ---------- */
 .play-empty { padding: 56px 12px 24px; gap: 14px; }
@@ -212,7 +226,7 @@
 .review-strip .kicker { flex: none; }
 .review-strip .kicker .tr { font-family: var(--font-mono); font-style: normal; }
 .review-strip .due { flex: 1; min-width: 0; font-family: var(--font-display); font-weight: 600; font-size: 18px; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.review-strip .due b { color: var(--gold); font-weight: 600; }
+.review-strip .due b { color: var(--gold-text); font-weight: 600; }
 .review-strip .lvl { flex: none; margin-right: 6px; }
 
 /* ---------- 6. REDUCED MOTION & RESPONSIVE ---------- */
@@ -220,7 +234,8 @@ html.paused .me-avatar::before { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .me-avatar::before { animation: none !important; }
   .me .heat .d { animation-duration: 120ms !important; animation-delay: 0ms !important; animation-name: fadeOnly !important; }
-  .me .seg::before, .scope .seg::before, .picker .ic, .user-card, .me .switch::before { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
+  .me .seg::before, .scope .seg::before, .picker .ic, .user-card, .me .switch::before, .scope .scope-levels .lvl { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
+  .scope-dock { animation-duration: 120ms !important; animation-name: fadeOnly !important; }
 }
 @media (max-width: 359px) {
   .me-hero { grid-template-columns: 1fr; }

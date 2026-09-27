@@ -10,14 +10,14 @@
 .game-top .rail-wrap { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; }
 .game-top .rail, .game-top .bar, .game-top .timer-rail { flex: 1; min-width: 0; }
 .game-top .rail-count { font-variant-numeric: tabular-nums; }
-.game-top .timer { color: var(--gold); min-width: 34px; text-align: right; }
+.game-top .timer { color: var(--gold-text); min-width: 34px; text-align: right; }
 
 /* ---------- 2. QUESTION RUNNER ---------- */
 .q-card { padding: 24px 18px 22px; }
 .q-card .prompt { margin-bottom: 12px; }
 .q-card .q-say { display: flex; justify-content: center; margin-top: 14px; }
 .q-card .q-en { display: flex; justify-content: center; margin-top: 12px; }
-.q-card .big.dict { display: flex; justify-content: center; color: var(--gold); line-height: 1; }
+.q-card .big.dict { display: flex; justify-content: center; color: var(--gold-text); line-height: 1; }
 .q-card .big.scramble { letter-spacing: .14em; text-transform: lowercase; }
 .q-card .sub b { color: var(--ink); }
 /* cloze sentence: the whole Italian line is tap-to-reveal */
@@ -68,18 +68,25 @@ body.no-tabs .feedback-bar { bottom: calc(var(--sab) + 12px); }
 .results-stamp { position: relative; z-index: 2; display: flex; justify-content: center; min-height: 54px; margin: -26px 0 2px; pointer-events: none; }
 .results-line { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); margin: 10px 0 10px; font-variant-numeric: tabular-nums; }
 .results .badge { margin-top: 2px; }
-.results-missed { margin-top: 20px; }
+.results-missed { margin-top: 20px; padding-bottom: 140px; } /* room for the fixed action dock: no "To review" row can sit under it */
 .results-missed .sec-head { align-items: center; margin-bottom: 10px; }
 .result-list .row-entry { cursor: pointer; }
+/* Action dock (markup order in engine.js: [Practice missed] [Play again (primary)] [Done]): a fixed glass bar above the safe
+   area with the two primary actions side by side (Play again first) and Done as a text link spanning the second row. */
 .results-actions {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; margin-top: 18px; border-radius: 26px;
+  position: fixed; left: max(16px, var(--sal)); right: max(16px, var(--sar)); bottom: calc(var(--sab) + 12px); z-index: 10; max-width: calc(var(--content-max) - 32px); margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; border-radius: 28px;
   background: var(--glass-strong); -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%);
   border: 1px solid var(--glass-border); box-shadow: var(--shadow-2), inset 0 1px 0 var(--glass-highlight);
 }
-.results-actions .btn { padding-left: 12px; padding-right: 12px; font-size: 15px; }
-.results-actions .btn.primary, .results-actions.n1 > .btn, .results-actions.n2 > .btn { grid-column: 1 / -1; }
+body:not(.no-tabs) .results-actions { bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 12px); }
+.results-actions .btn { padding-left: 12px; padding-right: 12px; font-size: 15px; min-width: 0; }
+.results-actions .btn.primary { order: -1; }
+.results-actions .btn.ghost { grid-column: 1 / -1; height: 40px; background: none; border: 0; box-shadow: none; color: var(--gold-text); font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+.results-actions.n2 > .btn.primary { grid-column: 1 / -1; }
+.results-actions.n1 > .btn.ghost { height: 56px; background: var(--glass); border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight); color: var(--ink); font-family: var(--font-text); font-size: 16px; letter-spacing: -.005em; text-transform: none; font-weight: 700; }
 .speed-summary { padding: 14px 8px 4px; }
-.speed-summary .num.gold { color: var(--gold); }
+.speed-summary .num.gold { color: var(--gold-text); }
 
 /* ---------- 5. KEYBOARD DOCK (on <body>, fixed above the safe area) ---------- */
 .dock { padding: 10px 12px calc(10px + var(--sab)); border-radius: var(--r-l) var(--r-l) 0 0; border: 1px solid var(--glass-border); border-bottom: 0; }
@@ -96,7 +103,7 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 .keyboard.off { pointer-events: none; opacity: .5; }
 .dock-clue { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 6px 6px 6px 12px; border-radius: 14px; background: var(--glass); border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight); }
 .dock-clue .dc-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.dock-clue .dc-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.dock-clue .dc-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-text); }
 .dock-clue .dc-text { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.2; letter-spacing: -.01em; overflow-wrap: anywhere; }
 .dock-clue .btn.xs { flex: none; }
 .dock-clue.verdict .dc-num { color: var(--ink-3); }
@@ -123,7 +130,7 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 .clues .clues-col .kicker { display: block; padding: 10px 12px 4px; }
 .clues .clue { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 6px 12px; border-radius: 12px; text-align: left; color: var(--ink); font-weight: 500; transition: background var(--t-fast); }
 .clues .clue:active { background: var(--glass-strong); }
-.clues .clue b { flex: none; min-width: 18px; margin: 0; color: var(--gold); font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.clues .clue b { flex: none; min-width: 18px; margin: 0; color: var(--gold-text); font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
 .clues .clue .clue-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .clues .clue .clue-len { flex: none; font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); }
 .clues .clue.on { background: var(--glass-strong); border: 1px solid var(--glass-border); padding: 5px 11px; }
@@ -134,6 +141,7 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 /* ---------- 7. HANGMAN ---------- */
 .hang-card { padding-bottom: 20px; }
 .hang-fig { display: block; width: 104px; height: 113px; margin: 14px auto 0; overflow: visible; }
+.hang-fig .ghost { stroke: var(--ink); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: .15; } /* the gallows, pre-drawn faintly */
 .hang-fig .part { stroke: var(--ink-3); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: 100; visibility: hidden; animation: none; transition: stroke-dashoffset .55s var(--ease-out), visibility 0s; }
 .hang-fig .part.figure { stroke: var(--ink); }
 .hang-fig .part.on { stroke-dashoffset: 0; visibility: visible; }
@@ -152,23 +160,37 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 .match-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px; }
 .match-grid .m { min-height: 64px; height: 100%; padding: 12px 10px; }
 .match-grid .m[data-side="b"] { font-family: var(--font-text); font-weight: 600; font-size: 15px; color: var(--ink-2); }
-.match-grid .m[data-side="b"].sel { color: var(--gold); }
+.match-grid .m[data-side="b"].sel { color: var(--gold-text); }
 .match-grid .m.done { opacity: 0; transform: scale(.7); visibility: hidden; transition: opacity var(--t-slow), transform var(--t-slow) var(--ease-in-out), visibility 0s var(--t-slow); }
 
 /* ---------- 9. FLASHCARDS ---------- */
 .flash { touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: pointer; outline: none; transition: transform var(--t-slow) var(--ease-spring), opacity var(--t-base); }
 .flash.dragging { transition: none; }
 .flash:focus-visible .inner { box-shadow: 0 0 0 2px var(--gold); border-radius: var(--r-l); }
-.flash .face { will-change: transform; }
-.flash .face.front .word { font-variation-settings: "opsz" 144; }
+.flash .face { will-change: transform; overflow: hidden; }
+/* front: level-tinted glass, a faint ghost initial, the level/pos kicker and a 64px headword */
+.flash .face.front { background-image: linear-gradient(160deg, color-mix(in srgb, var(--fc, var(--lvl-current)) 24%, transparent), transparent 62%), radial-gradient(90% 60% at 50% 100%, color-mix(in srgb, var(--fc, var(--lvl-current)) 10%, transparent), transparent 70%); border-color: color-mix(in srgb, var(--fc, var(--lvl-current)) 40%, var(--glass-border)); }
+.flash .face .ghost { position: absolute; left: -6px; top: -34px; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 230px; line-height: 1; letter-spacing: -.05em; color: var(--fc, var(--lvl-current)); opacity: .09; pointer-events: none; font-variation-settings: "opsz" 144; }
+.flash .face .fc-kicker { position: relative; margin-bottom: 14px; color: var(--ink-3); }
+.flash .face .word, .flash .face .en, .flash .face .ex, .flash .face .hint { position: relative; }
+.flash .face.front .word { font-size: clamp(44px, 15vw, 64px); font-variation-settings: "opsz" 144; }
+.flash .face.front .word.mid { font-size: clamp(34px, 11vw, 48px); }
+.flash .face.front .word.long { font-size: clamp(26px, 8vw, 34px); }
+.flash .face.front .hint { margin-top: 18px; }
 .flash .swipe-tag { position: absolute; top: 18px; z-index: 3; padding: 6px 10px; border-radius: 8px; border: 2px solid currentColor; font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; opacity: 0; transition: opacity var(--t-fast); pointer-events: none; }
 .flash .swipe-tag.left { right: 18px; color: var(--ko); transform: rotate(8deg); }
 .flash .swipe-tag.right { left: 18px; color: var(--ok); transform: rotate(-8deg); }
 .flash[data-swipe="left"] .swipe-tag.left, .flash[data-swipe="right"] .swipe-tag.right { opacity: 1; }
 .flash .ex.mono-line { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .flash-tools { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 0 14px; }
+/* rate bar: four glass buttons, each with a coloured top hairline (ko → warn → gold → ok) instead of solid fills */
 .grade { gap: 8px; }
-.grade .btn { min-height: 56px; }
+.grade .btn { min-height: 56px; overflow: visible; background: var(--glass); border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight); color: var(--ink); }
+.grade .btn::before { content: ""; position: absolute; top: -1px; left: 22%; right: 22%; height: 2px; border-radius: 2px; background: var(--gc, var(--gold)); box-shadow: 0 0 12px var(--gc, var(--gold)); }
+.grade .btn small { color: var(--ink-2); opacity: 1; }
+.grade .btn[data-q="1"] { --gc: var(--ko); } .grade .btn[data-q="3"] { --gc: var(--warn); } .grade .btn[data-q="4"] { --gc: var(--gold); } .grade .btn[data-q="5"] { --gc: var(--ok); }
+.grade .btn[data-q="4"] { background: color-mix(in srgb, var(--gold) 14%, var(--glass)); border-color: color-mix(in srgb, var(--gold) 40%, var(--glass-border)); }
+.grade .btn:active { background: var(--glass-strong); }
 .flash-hint { text-align: center; margin: 12px 0 0; }
 
 /* ---------- 10. SENTENCE BUILDER ---------- */
@@ -192,7 +214,7 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 .speed-stats .num { display: block; font-family: var(--font-display); font-weight: 600; font-size: 28px; line-height: 1; letter-spacing: -.02em; font-variation-settings: "opsz" 72; font-variant-numeric: tabular-nums; }
 .speed-stats .lab { display: block; margin-top: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
 .speed-stats .ss.ok .num { color: var(--ok); } .speed-stats .ss.ko .num { color: var(--ko); }
-.speed-stats .streak .num { font-size: 52px; color: var(--gold); font-variation-settings: "opsz" 144; text-shadow: 0 0 24px color-mix(in srgb, var(--gold) 45%, transparent); }
+.speed-stats .streak .num { font-size: 52px; color: var(--gold-text); font-variation-settings: "opsz" 144; text-shadow: 0 0 24px color-mix(in srgb, var(--gold) 45%, transparent); }
 .speed-stats .streak.pulse { animation: pulseOk .3s var(--ease-out); }
 .speed-q .choices { gap: 8px; }
 

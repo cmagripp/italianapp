@@ -14,10 +14,12 @@ export function startFlashcards(root, ctx) {
   let flipped = false;
   const dir = ctx.options?.dir || 'it-en';
 
+  const kicker = (e) => `${e.level || 'A1'} · ${e.kind === 'verb' ? 'verbo' : e.pos}${e.pos === 'noun' ? ' · ' + (e.g === 'mf' ? 'm/f' : e.g) : ''}`;
   function front(e) {
-    if (dir === 'en-it') return html`<div class="en">${shortEn(e.en)}</div><div class="hint">${e.kind === 'verb' ? 'verbo' : e.pos}${e.pos === 'noun' ? ' · ' + (e.g === 'mf' ? 'm/f' : e.g) : ''} · tap to flip</div>`;
     const w = e.kind === 'verb' ? e.inf : headword(e);
-    return html`<div class="word ${w.length > 14 ? 'long' : ''}">${w}</div><div class="hint">tap to flip</div>`;
+    const ghost = html`<span class="ghost" aria-hidden="true">${(e.kind === 'verb' ? e.inf : e.it || w).slice(0, 1)}</span>`;
+    if (dir === 'en-it') return html`${raw(ghost)}<div class="fc-kicker kicker">${kicker(e)}</div><div class="en">${shortEn(e.en)}</div><div class="hint">tap to flip</div>`;
+    return html`${raw(ghost)}<div class="fc-kicker kicker">${kicker(e)}</div><div class="word ${w.length > 14 ? 'long' : w.length > 9 ? 'mid' : ''}">${w}</div><div class="hint">tap to flip</div>`;
   }
   function back(e) {
     const plural = e.kind === 'word' && e.pos === 'noun' && e.pl && e.pl !== '-' && !isPluralOnly(e) ? html`<div class="ex">pl. ${withArticle(e, true)}</div>` : '';
@@ -38,7 +40,7 @@ export function startFlashcards(root, ctx) {
     flipped = false;
     const say = e.kind === 'verb' ? e.inf : (e.pos === 'noun' && !isPluralOnly(e) ? withArticle(e) : e.it);
     root.innerHTML = gameTop(ctx.backHref, { i, total }) + html`
-      <div class="flash" data-flash role="button" tabindex="0" aria-label="Flashcard, tap to flip">
+      <div class="flash" data-flash role="button" tabindex="0" aria-label="Flashcard, tap to flip" style="--fc:var(--lvl-${e.level || 'A1'})">
         <span class="swipe-tag left" aria-hidden="true">Again</span><span class="swipe-tag right" aria-hidden="true">Good</span>
         <div class="inner">
           <div class="face front">${raw(front(e))}</div>
@@ -47,10 +49,10 @@ export function startFlashcards(root, ctx) {
       </div>
       <div class="flash-tools">${raw(speakBtn(say, 'lg'))}<a class="btn sm ghost" href="#/entry/${encodeURIComponent(e.id)}">Details</a></div>
       <div class="grade" data-grade style="visibility:hidden" role="group" aria-label="How well did you know it?">
-        <button type="button" class="btn danger" data-q="1">Again<small>forgot</small></button>
-        <button type="button" class="btn" data-q="3">Hard<small>barely</small></button>
-        <button type="button" class="btn primary" data-q="4">Good<small>knew it</small></button>
-        <button type="button" class="btn accent" data-q="5">Easy<small>instantly</small></button>
+        <button type="button" class="btn secondary" data-q="1">Again<small>forgot</small></button>
+        <button type="button" class="btn secondary" data-q="3">Hard<small>barely</small></button>
+        <button type="button" class="btn secondary" data-q="4">Good<small>knew it</small></button>
+        <button type="button" class="btn secondary" data-q="5">Easy<small>instantly</small></button>
       </div>
       <p class="flash-hint kicker" data-hint-line>Flip the card, then rate how well you knew it</p>`;
     fx.mount(root);

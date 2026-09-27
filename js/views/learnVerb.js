@@ -239,7 +239,8 @@ export async function render(root, params) {
           const missing = main === MISSING;
           const isIrr = irrSet.has(i) && !missing;
           return {
-            key: PERSONS[i], front: esc(PERSONS[i]),
+            // "lui/lei" may wrap after the slash: the label has to fit the card's visible strip in the hand
+            key: PERSONS[i], front: `<span class="pl">${esc(PERSONS[i]).replace('/', '/<wbr>')}</span>`,
             back: missing ? `<span class="form none">—</span><span class="sub">no form</span>` : `<span class="form ${isIrr ? 'irr' : ''}" style="font-size:${wordFs(main)}px">${esc(main)}</span><span class="sub">${esc(PERSONS[i])}</span>`,
             tint: missing ? 'var(--ink-4)' : isIrr ? 'var(--terracotta)' : `var(--lvl-${level})`,
           };
@@ -269,7 +270,9 @@ export async function render(root, params) {
           });
           api.setHint(q.type === 'type' ? 'Type the form — accents below' : 'Choose the right form');
           api.refresh();
-          if (q.type === 'type') setTimeout(() => host.querySelector('[data-answer]')?.focus({ preventScroll: true }), 420);
+          // once the fan has folded away, bring the whole check (question + every choice) into view
+          setTimeout(() => { if (host.isConnected) { api.refresh(); revealInScroller(host, { pad: 8 }); } }, 460);
+          if (q.type === 'type') setTimeout(() => host.querySelector('[data-answer]')?.focus({ preventScroll: true }), 520);
         }
         function finish() {
           state = 'done';
@@ -312,6 +315,7 @@ export async function render(root, params) {
         host.classList.add('in');
         chk = renderCheck(host, q, { limit: 3, onDone: () => api.ready() });
         api.refresh();
+        requestAnimationFrame(() => revealInScroller(host, { pad: 8 }));
       };
       api.setHelper(() => (chk ? chk.helper() : null));
     },

@@ -126,7 +126,7 @@ function tenseTable(conj, key, cells, { compact = false } = {}) {
 function fanCards(conj, key, cells) {
   const t = conj.tenses[key] || [];
   const persons = key === 'imperativo' ? IMP_PERSONS : PERSONS;
-  return t.map((f, i) => { const form = primary(f); const irr = form !== MISSING && rowIsIrr(conj, cells, key, i); return { key: persons[i], front: esc(persons[i]), back: `<span class="form${irr ? ' irr' : ''}" style="font-size:${wordFs(form)}px">${esc(form)}</span><span class="sub">${esc(persons[i])}${irr ? ' · irr.' : ''}</span>`, tint: irr ? 'var(--terracotta)' : null, len: Math.max(...form.split(' ').map(w => w.length)) }; });
+  return t.map((f, i) => { const form = primary(f); const irr = form !== MISSING && rowIsIrr(conj, cells, key, i); return { key: persons[i], front: `<span class="pl">${esc(persons[i]).replace('/', '/<wbr>')}</span>`, back: `<span class="form${irr ? ' irr' : ''}" style="font-size:${wordFs(form)}px">${esc(form)}</span><span class="sub">${esc(persons[i])}${irr ? ' · irr.' : ''}</span>`, tint: irr ? 'var(--terracotta)' : null, len: Math.max(...form.split(' ').map(w => w.length)) }; });
 }
 const MOODS = [['indicativo', 'Indicativo'], ['condizionale', 'Condizionale'], ['congiuntivo', 'Congiuntivo'], ['imperativo', 'Imperativo']];
 
@@ -329,7 +329,7 @@ function renderVerb(root, e) {
     card.dataset.tense = key;
   }
   // step/radius keep the two neighbours on each side inside the strip (±1 dimmed, ±2 faint but tappable — see reference.css)
-  const d = dial(dialEl, { items, index: idx(key), step: 24, radius: 250, onChange: (i, it) => { key = it.key; show(); } });
+  const d = dial(dialEl, { items, index: idx(key), step: 27, radius: 260, onChange: (i, it) => { key = it.key; show(); } });
   show();
   // "Flip all" turns every back up; overlapping backs are illegible in the hand, so the fan spreads at the same time
   const flipAllSpread = () => {

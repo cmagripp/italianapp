@@ -6,7 +6,7 @@ import { GAMES, TENSE_OPTIONS } from '../games/index.js';
 import { TENSE_BY_KEY } from '../conjugator.js';
 import { sourceChoices, resolveSource } from '../source.js';
 import { LEVELS, LEVEL_INFO } from '../data.js';
-import { reel, dial, mount } from '../fx.js';
+import { reel, dial, dropdown, mount } from '../fx.js';
 
 let lastSrc = 'scope';
 const ic = (name, opts) => raw(icon(name, opts));
@@ -63,41 +63,32 @@ export function openSourcePicker(game, presetSrc) {
   let dialIdx = Math.max(0, tenseItems.findIndex(t => t.key === chosen.tenses[0]));
 
   const countFor = (c) => c.spec === chosen.src ? resolveSource(c.spec).filter(kindFilter(game)).length : c.count;
-  const mine = choices.filter(c => !c.spec.startsWith('level:'));
   const levelOf = (spec) => spec.startsWith('level:') ? spec.slice(6) : null;
-  const sourceList = () => html`
-    <div class="src-list" role="radiogroup" aria-label="Play with">${raw(mine.map(c => {
-      const on = c.spec === chosen.src; const n = countFor(c);
-      return html`<button type="button" class="src-row ${on ? 'on' : ''}" role="radio" aria-checked="${on ? 'true' : 'false'}" data-src="${c.spec}">
-        <span class="src-main"><span class="src-label">${c.label}</span><span class="src-sub">${c.sub}</span></span>
-        <span class="src-count">${n}</span><span class="src-check">${ic('check', { size: 18 })}</span></button>`;
-    }).join(''))}</div>
-    <div class="kicker src-kicker">Or a whole level</div>
-    <div class="src-levels" role="radiogroup" aria-label="Level">${raw(LEVELS.map(L => {
-      const spec = 'level:' + L; const on = spec === chosen.src;
-      return html`<button type="button" class="lvl lvl-${L} lg ${on ? 'on' : ''}" role="radio" aria-checked="${on ? 'true' : 'false'}" data-src="${spec}">${L}</button>`;
-    }).join(''))}</div>
-    <div class="src-levelnote mono" data-levelnote>${raw(levelNote())}</div>`;
-  function levelNote() {
-    const L = levelOf(chosen.src); if (!L) return '&nbsp;';
-    const c = choices.find(x => x.spec === chosen.src);
-    return esc(`${L} · ${LEVEL_INFO[L].name} · ${c ? countFor(c) : 0} items`);
-  }
+  const current = () => choices.find(c => c.spec === chosen.src) || choices[0];
+  // "Play with" is one glass row: the current source with its count; tapping it opens a dropdown of every source
+  // (learned sets, word bank, lists, then the six levels) so the tense dial and Start stay above the fold.
+  const sourceRow = () => {
+    const c = current(); const L = levelOf(c.spec);
+    return html`<button type="button" class="src-row src-pick on" data-src-pick aria-haspopup="menu" aria-expanded="false" aria-label="Play with: ${c.label}">
+      <span class="src-main"><span class="src-label">${c.label}</span><span class="src-sub">${L ? `${LEVEL_INFO[L].name} · every word and verb` : c.sub}</span></span>
+      <span class="src-count">${countFor(c)}</span>${ic('chevronDown', { size: 18 })}</button>`;
+  };
+  const sourceOptions = () => choices.map(c => ({ value: c.spec, label: c.label, sub: `${c.sub} · ${countFor(c)}`, selected: c.spec === chosen.src }));
   const tenseTags = () => chosen.tenses.map(k => html`<span>${TENSE_BY_KEY[k]?.name || k}</span>`).join('');
   const toggleLabel = () => { const k = tenseItems[dialIdx].key; return (chosen.tenses.includes(k) ? 'Remove ' : 'Add ') + tenseItems[dialIdx].label; };
 
   const body = html`
     <div class="srcp">
       <div class="srcp-desc">${game.desc}</div>
-      <div class="kicker srcp-kicker">Play with</div>
-      <div data-sources>${raw(sourceList())}</div>
-      ${opts.length ? raw(opts.map(o => html`<div class="kicker srcp-kicker">${o.label}</div>
-        <div class="chips srcp-chips">${raw(o.choices.map(([v, l]) => html`<button type="button" class="chip ${chosen[o.key] === v ? 'on' : ''}" data-opt="${o.key}" data-val="${v}" aria-pressed="${chosen[o.key] === v ? 'true' : 'false'}">${l}</button>`).join(''))}</div>`).join('')) : ''}
       ${game.tenses ? raw(html`<div class="kicker srcp-kicker">Tenses</div>
         <div class="srcp-dial"><div class="dial" data-dial aria-label="Tense"></div></div>
         <div class="srcp-tense-row"><button type="button" class="btn sm secondary" data-tense-toggle>${toggleLabel()}</button><span class="tiny muted">turn the dial, add what you want to drill</span></div>
         <div class="tags srcp-tags" data-tense-tags>${raw(tenseTags())}</div>`) : ''}
-      <button type="button" class="btn primary block srcp-start" data-start>Start ${game.name}${ic('arrow', { size: 20 })}</button>
+      <div class="kicker srcp-kicker">Play with</div>
+      <div data-sources>${raw(sourceRow())}</div>
+      ${opts.length ? raw(opts.map(o => html`<div class="kicker srcp-kicker">${o.label}</div>
+        <div class="chips srcp-chips">${raw(o.choices.map(([v, l]) => html`<button type="button" class="chip ${chosen[o.key] === v ? 'on' : ''}" data-opt="${o.key}" data-val="${v}" aria-pressed="${chosen[o.key] === v ? 'true' : 'false'}">${l}</button>`).join(''))}</div>`).join('')) : ''}
+      <div class="srcp-foot"><button type="button" class="btn primary block srcp-start" data-start>Start ${game.name}${ic('arrow', { size: 20 })}</button></div>
     </div>`;
   const s = sheet(body, { title: game.name, onClose: () => { dialApi && dialApi.destroy(); } });
   let dialApi = null;
@@ -107,8 +98,11 @@ export function openSourcePicker(game, presetSrc) {
     markPicked();
   }
   s.body.addEventListener('click', (ev) => {
-    const src = ev.target.closest('[data-src]');
-    if (src) { chosen.src = src.dataset.src; s.body.querySelector('[data-sources]').innerHTML = sourceList(); return; }
+    const pick = ev.target.closest('[data-src-pick]');
+    if (pick) {
+      dropdown(pick, sourceOptions(), { width: Math.min(340, window.innerWidth - 32), onSelect: (v) => { chosen.src = v; s.body.querySelector('[data-sources]').innerHTML = sourceRow(); } });
+      return;
+    }
     const o = ev.target.closest('[data-opt]');
     if (o) { chosen[o.dataset.opt] = o.dataset.val; s.body.querySelectorAll(`[data-opt="${o.dataset.opt}"]`).forEach(x => { const on = x === o; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }); return; }
     if (ev.target.closest('[data-tense-toggle]')) {

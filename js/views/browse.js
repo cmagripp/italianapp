@@ -68,12 +68,16 @@ export async function render(root, params, query) {
     return html`<div class="lvl-hero glass glass-tint" style="--hc:${hc};--tint:color-mix(in srgb, ${hc} 12%, transparent)">${raw(body)}${raw(meta)}${raw(rail)}</div>`;
   }
 
+  const stateLabel = () => (filter.state ? (STATES.find(([v]) => v === filter.state) || STATES[0])[1] : 'State');
+  // At most three rows before the content: level chips (when browsing all levels), topic chips (when no topic is set) and one
+  // row that merges the learning-state picker (a chip that opens a dropdown) with the part-of-speech chips.
   function filters() {
     const rows = [];
     if (!level) rows.push(html`<div class="chips scroll" aria-label="Level"><a class="chip lvl-chip on" style="--c:${hc}" href="#/browse${cat ? '/all/' + cat : ''}${q}">All levels</a>${raw(LEVELS.map(L => html`<a class="chip lvl-chip" style="--c:var(--lvl-${L})" href="#/browse/${L}${cat ? '/' + cat : ''}${q}">${L}</a>`).join(''))}</div>`);
     if (!cat) rows.push(html`<div class="chips scroll" aria-label="Topic"><a class="chip on" href="#/browse/${level || 'all'}${q}">All topics</a>${raw(catsHere.map(c => html`<a class="chip" href="#/browse/${level || 'all'}/${c}${q}"><span class="glyph">${CATS[c]?.icon || ''}</span>${shortCat(c)}</a>`).join(''))}</div>`);
-    if (posHere.length > 1) rows.push(html`<div class="chips scroll" aria-label="Part of speech"><button type="button" class="chip ${!filter.pos ? 'on' : ''}" data-pos="">All</button>${raw(posHere.map(p => html`<button type="button" class="chip ${filter.pos === p ? 'on' : ''}" data-pos="${p}">${POS_NAME[p] || p}</button>`).join(''))}</div>`);
-    rows.push(html`<div class="seg state-seg" role="group" aria-label="Learning state">${raw(STATES.map(([v, l]) => html`<button type="button" class="${filter.state === v ? 'on' : ''}" data-state="${v}">${l}</button>`).join(''))}</div>`);
+    const stateChip = html`<button type="button" class="chip state-chip ${filter.state ? 'on' : ''}" data-state-menu aria-haspopup="menu" aria-expanded="false" aria-label="Learning state">${stateLabel()}${ic('chevronDown', { size: 14 })}</button>`;
+    const posChips = posHere.length > 1 ? html`<span class="filter-sep" aria-hidden="true"></span><button type="button" class="chip ${!filter.pos ? 'on' : ''}" data-pos="">All</button>${raw(posHere.map(p => html`<button type="button" class="chip ${filter.pos === p ? 'on' : ''}" data-pos="${p}">${POS_NAME[p] || p}</button>`).join(''))}` : '';
+    rows.push(html`<div class="chips scroll filter-row" aria-label="State and part of speech">${raw(stateChip)}${raw(posChips)}</div>`);
     return rows.join('');
   }
 
@@ -85,7 +89,7 @@ export async function render(root, params, query) {
     const visible = new Set(ordered.slice(0, shown).map(e => e.id));
     const vis = groups.map(g => ({ key: g.key, total: g.items.length, items: g.items.filter(e => visible.has(e.id)) })).filter(g => g.items.length);
     const left = ordered.length - shown;
-    return html`<div class="count-row"><span class="kicker">${items.length} entries · ${learned} learned</span><button type="button" class="btn sm" data-actions aria-haspopup="menu">${ic('play', { size: 16 })}Play · Study${ic('chevronDown', { size: 16 })}</button></div>
+    return html`<div class="count-row"><span class="kicker">${items.length} · ${learned} learned</span><button type="button" class="btn sm" data-actions aria-haspopup="menu">${ic('play', { size: 16 })}Play · Study${ic('chevronDown', { size: 16 })}</button></div>
       ${items.length
         ? raw(vis.map(g => html`<section class="grp"><div class="grp-head"><span class="kicker">${raw(groupLabel(g.key))}</span><span class="kicker n">${g.total}</span></div><div class="list">${raw(g.items.map(e => entryRow(e, { showLevel: false })).join(''))}</div></section>`).join(''))
         : raw(html`<div class="empty"><p>${raw(tr('Niente qui, per ora.', 'Nothing here, for now.'))}</p><p class="small muted">Try another filter.</p></div>`)}
@@ -109,7 +113,14 @@ export async function render(root, params, query) {
   function draw() {
     root.innerHTML = html`<div class="pg pg-browse">${raw(hero())}<div class="filters">${raw(filters())}</div><div data-body>${raw(body())}</div></div>`;
     root.querySelectorAll('[data-pos]').forEach(b => b.addEventListener('click', () => { filter.pos = b.dataset.pos; shown = PAGE; root.querySelectorAll('[data-pos]').forEach(x => x.classList.toggle('on', x === b)); redrawBody(); }));
-    root.querySelectorAll('[data-state]').forEach(b => b.addEventListener('click', () => { filter.state = b.dataset.state; shown = PAGE; root.querySelectorAll('[data-state]').forEach(x => x.classList.toggle('on', x === b)); redrawBody(); }));
+    root.querySelector('[data-state-menu]')?.addEventListener('click', (ev) => {
+      const chip = ev.currentTarget;
+      dropdown(chip, STATES.map(([v, l]) => ({ value: v, label: l, sub: v === '' ? 'Every entry' : v === 'unlearned' ? 'Not yet learned' : v === 'learned' ? 'Marked learned' : 'Stage: mastered', selected: filter.state === v })), { width: 240, onSelect: (v) => {
+        filter.state = v; shown = PAGE;
+        chip.classList.toggle('on', !!v); chip.innerHTML = stateLabel() + icon('chevronDown', { size: 14 });
+        redrawBody();
+      } });
+    });
     bindBody();
     mount(root.firstElementChild);
   }

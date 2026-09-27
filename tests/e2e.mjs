@@ -34,11 +34,18 @@ const errorsSince = (n) => sink.errors.slice(n).map(e => e.text);
 // ---------- generic helpers ----------
 async function has(sel) { return (await page.locator(sel).count()) > 0; }
 // Real click first (so unreachable controls surface as warnings), DOM click as a fallback so a flow can still progress.
-async function tap(target, { timeout = 1500, label = '', js = false } = {}) {
+// soft: the control may legitimately vanish while we try (a "Continue" that auto-advances after a correct answer) —
+// then the tap counts as done instead of failing the flow.
+async function tap(target, { timeout = 1500, label = '', js = false, soft = false } = {}) {
   const loc = (typeof target === 'string' ? page.locator(target) : target).first();
   if (js) { await loc.evaluate(el => el.click()); return 'js'; } // timed rounds: no time for the actionability checks
   try { await loc.click({ timeout }); return 'click'; } catch (err) {
-    try { await loc.evaluate(el => el.click()); sink.push('warn', `used a DOM click for ${label || target} (real click failed: ${String(err.message).split('\n')[0].slice(0, 120)})`); return 'js'; } catch { throw err; }
+    if (soft && !(await loc.count())) return 'gone';
+    try { await loc.evaluate(el => el.click(), null, { timeout: 500 }); sink.push('warn', `used a DOM click for ${label || target} (real click failed: ${String(err.message).split('\n')[0].slice(0, 120)})`); return 'js'; }
+    catch (err2) {
+      if (soft && !(await loc.count())) return 'gone';
+      throw new Error(`${String(err.message).split('\n')[0].slice(0, 100)} — DOM click for ${label || target} failed too: ${String(err2.message).split('\n')[0].slice(0, 100)}`);
+    }
   }
 }
 async function isResults() {
@@ -70,7 +77,7 @@ async function playToResults({ maxSteps = 120, idleLimit = 20, fast = false } = 
   const act = (a) => { actions.push(a); idle = 0; };
   for (let step = 0; step < maxSteps; step++) {
     if (await isResults()) return { ok: true, steps: step, actions };
-    if (await has('[data-next]')) { await tap('[data-next]', { label: '[data-next]', js: fast }); tried.clear(); act('next'); await wait(fast ? 120 : 250); continue; }
+    if (await has('[data-next]')) { await tap('[data-next]', { label: '[data-next]', js: fast, soft: true }); tried.clear(); act('next'); await wait(fast ? 120 : 250); continue; }
     if (await has('[data-results]')) { await tap('[data-results]', { label: '[data-results]' }); act('results'); await wait(300); continue; }
     // multiple choice (drills, speed round)
     const choices = page.locator('button.choice:not([disabled])');
@@ -192,11 +199,12 @@ async function playWalkthrough({ maxScenes = 16 } = {}) {
       continue;
     }
     const ss = `.wt-scene[data-i="${st.i}"]`;
-    // one thing the scene marks as "next": Reveal all, Not sure — show me, an unopened pattern…
-    if (await has(`${ss} [data-next], .dropdown-layer .dropdown.open [data-value]`)) {
-      const inDropdown = await has('.dropdown-layer .dropdown.open [data-value]');
-      await tap(inDropdown ? '.dropdown-layer .dropdown.open [data-value]' : `${ss} [data-next]`, { label: `[data-next] (${st.key})` }); await wait(350); continue;
-    }
+    // a glass dropdown (Cases & patterns) takes the [data-next] hook while open: confirm it, then open the next pattern.
+    // DOM clicks here: the row hands the hook to the dropdown the moment it opens, which trips a real click's retries.
+    if (await has('.dropdown-layer .dropdown.open [data-value]')) { await tap('.dropdown-layer .dropdown.open [data-value]', { js: true }); await wait(450); continue; }
+    if (await has(`${ss} [data-pat]:not(.seen)`)) { await tap(`${ss} [data-pat]:not(.seen)`, { js: true }); await wait(500); continue; }
+    // one thing the scene marks as "next": Reveal all, Not sure — show me…
+    if (await has(`${ss} [data-next]`)) { await tap(`${ss} [data-next]`, { label: `[data-next] (${st.key})` }); await wait(350); continue; }
     if (await has(`${ss} .tw-tap.target`)) { await tap(`${ss} .tw-tap.target`, { label: 'tap the word' }); await wait(300); continue; }
     if (await has(`${ss} .fan-card:not(.flipped)`)) { await tap(`${ss} .fan-card:not(.flipped)`, { label: 'fan card' }); await wait(250); continue; }
     const choices = page.locator(`${ss} button.choice:not([disabled])`);
@@ -205,8 +213,8 @@ async function playWalkthrough({ maxScenes = 16 } = {}) {
       await page.locator(`${ss} input[data-answer]`).first().fill('prova');
       await tap(`${ss} [data-check]`, { label: '[data-check]' }); await wait(300); continue;
     }
-    // the drill's feedback bar (inline or in the fixed dock) and any other data-next hook
-    if (await has('[data-feedback-bar] [data-next]')) { await tap('[data-feedback-bar] [data-next]', { label: 'Continue' }); await wait(300); continue; }
+    // the in-scene drill's feedback bar ("Continue" auto-advances after a correct answer, so it may vanish under us)
+    if (await has('[data-feedback-bar] [data-next]')) { await tap('[data-feedback-bar] [data-next]', { label: 'Continue', soft: true }); await wait(300); continue; }
     if (await has(`${ss} [data-skip]:not([hidden])`)) { await tap(`${ss} [data-skip]:not([hidden])`, { label: '[data-skip]' }); await wait(300); continue; }
     await wait(250);
   }

@@ -161,21 +161,18 @@ export function mountDock(root, innerHTML, { cls = '' } = {}) {
 // ---------- question runner ----------
 // A question: { type: 'mc'|'type', itemId, tag (mono kicker), prompt (html), say?, autoSay?, center?,
 //               choices: [{label, correct, sub?, html?}], answer: string|string[], accept?(value), placeholder?, explain (html), kind? }
-// opts.dock: 'auto' (default) shows the feedback in a fixed glass dock when the runner lives inside a walkthrough scene
-// (a scroll-snapped card where a sticky bar could sit below the fold), true forces it, false keeps the inline bar.
-// Returns { state, destroy() } — destroy() removes a live dock; hosts that unmount mid-question must call it.
+// Returns { state, destroy() }; destroy() stops a runner whose host is being unmounted mid-question (no further renders).
+// The feedback bar is rendered inline after the choices and scrolled into view; inside a walkthrough scene it is also
+// sticky to the bottom of the scrolling scene body (css/learn.css), so a wrong answer never strands the learner.
 export function runDrill(root, questions, opts = {}) {
-  const { title = 'Drill', gameId = 'drill', onDone = null, xpPer = 2, autoAdvance = true, passScore = null, record = true, backHref = '#/games', dock: dockOpt = 'auto' } = opts;
+  const { title = 'Drill', gameId = 'drill', onDone = null, xpPer = 2, autoAdvance = true, passScore = null, record = true, backHref = '#/games' } = opts;
   const total = questions.length;
   const state = { i: 0, correct: 0, wrong: 0, missed: [], perItem: {}, start: Date.now(), answers: [] };
   let locked = false;
-  let dock = null, dead = false;
-  const useDock = dockOpt === true || (dockOpt === 'auto' && !!root.closest('.wt-scene'));
-  const dropDock = () => { if (dock) { dock.destroy(); dock = null; } };
+  let dead = false;
 
   function renderQ() {
     locked = false;
-    dropDock();
     if (dead) return;
     const q = questions[state.i];
     if (!q) return finish();
@@ -237,25 +234,16 @@ export function runDrill(root, questions, opts = {}) {
       ? (res.accentIssue ? `Correct — mind the accent: <b>${esc(answerText)}</b>` : 'Correct!')
       : res.articleIssue ? `Right word, wrong article — it is <b>${esc(answerText)}</b>`
         : `Not quite — the answer is <b>${esc(answerText)}</b>`;
-    const html_ = feedbackHTML({ ok, title, detail: q.explain || '', nextLabel: state.i + 1 >= total ? 'See results' : 'Continue' });
-    let fb;
-    if (useDock) {
-      dropDock();
-      dock = mountDock(root, html_, { cls: 'fb-dock' });
-      fb = dock.el;
-    } else {
-      fb = root.querySelector('[data-feedback]');
-      fb.innerHTML = html_;
-      revealInScroller(fb);
-    }
+    const fb = root.querySelector('[data-feedback]');
+    fb.innerHTML = feedbackHTML({ ok, title, detail: q.explain || '', nextLabel: state.i + 1 >= total ? 'See results' : 'Continue' });
+    requestAnimationFrame(() => { if (root.contains(fb)) revealInScroller(fb.firstElementChild || fb); });
     if (q.say && !ok) speak(q.say);
     fb.querySelector('[data-next]').addEventListener('click', next);
-    if (ok && autoAdvance && q.type === 'mc') setTimeout(() => { if (locked && !dead && (useDock ? dock && dock.el === fb : root.contains(fb))) next(); }, 700);
+    if (ok && autoAdvance && q.type === 'mc') setTimeout(() => { if (locked && !dead && root.contains(fb)) next(); }, 700);
     if (ok && res.accentIssue) toast('Remember the accent: ' + answerText);
   }
   function next() { if (dead) return; state.i++; renderQ(); }
   function finish() {
-    dropDock();
     const secs = Math.round((Date.now() - state.start) / 1000);
     const result = { gameId, title, total, correct: state.correct, wrong: state.wrong, score: total ? Math.round((state.correct / total) * 100) : 0, missed: [...new Set(state.missed)], secs, perItem: state.perItem, answers: state.answers };
     result.xp = state.correct * xpPer + (result.score === 100 && total >= 5 ? 10 : 0);
@@ -264,7 +252,7 @@ export function runDrill(root, questions, opts = {}) {
     showResults(root, result, opts);
   }
   renderQ();
-  return { state, destroy() { dead = true; dropDock(); } };
+  return { state, destroy() { dead = true; } };
 }
 
 // ---------- results ----------

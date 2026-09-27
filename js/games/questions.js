@@ -282,12 +282,16 @@ export function qPattern(e) {
   const { p, m } = sample(pats);
   const prep = m[2].toLowerCase();
   const rest = p.slice(m[1].length + 1 + m[2].length + 1);
-  // "essere di un posto" and "essere in un posto" are both patterns: a preposition that completes another valid pattern
-  // of this verb with the same remainder is a right answer too, so it cannot be a distractor
-  const twin = (x) => pats.some(o => o !== undefined && fold(o.m[1]) === fold(m[1]) && fold(o.m[2]) === x && fold(o.p.slice(o.m[1].length + 1 + o.m[2].length + 1)) === fold(rest));
-  const wrong = pickN(PREPS.filter(x => x !== prep && !(prep === 'tra' && x === 'fra') && !(prep === 'fra' && x === 'tra') && !twin(x)), 3);
+  // "essere di un posto" and "essere in un posto" are both patterns: with the same verb and remainder the prompt
+  // "essere ? un posto" has two right answers, so every twin preposition is offered and accepted (never a distractor)
+  const remainderOf = (o) => fold(o.p.slice(o.m[1].length + 1 + o.m[2].length + 1));
+  const twins = [...new Set(pats.filter(o => o !== undefined && fold(o.m[1]) === fold(m[1]) && remainderOf(o) === fold(rest)).map(o => o.m[2].toLowerCase()).filter(x => x !== prep))];
+  const alias = (x) => (prep === 'tra' && x === 'fra') || (prep === 'fra' && x === 'tra');
+  const wrong = pickN(PREPS.filter(x => x !== prep && !alias(x) && !twins.includes(x)), Math.max(2, 3 - twins.length));
   if (wrong.length < 2) return null;
-  return { type: 'mc', itemId: e.id, tag: 'Which preposition?', center: true, prompt: html`<div class="big md">${m[1]} <span class="blank">?</span> ${rest}</div>${raw(meaning(e))}`, say: p, choices: mcChoices(prep, wrong), answer: prep, explain: esc((e.patterns || []).join(' · ')) };
+  const choices = shuffle([{ label: prep, correct: true }, ...twins.map(t => ({ label: t, correct: true })), ...wrong.map(l => ({ label: l }))]);
+  const explain = esc((e.patterns || []).join(' · ')) + (twins.length ? ` — ${esc([prep, ...twins].join(' / '))} all work here.` : '');
+  return { type: 'mc', itemId: e.id, tag: 'Which preposition?', center: true, prompt: html`<div class="big md">${m[1]} <span class="blank">?</span> ${rest}</div>${raw(meaning(e))}`, say: p, choices, answer: prep, explain };
 }
 
 export function qVerbTranslateMC(e, pool) { return qTranslateMC(e, pool.filter(x => x.kind === 'verb'), 'it-en'); }

@@ -26,11 +26,13 @@ function jumpBar(e, sections) {
 function verbPage(e) {
   const conj = conjugate(e.inf, { aux: e.aux, isc: e.isc });
   const nf = conj.nonFinite; const pp = accepted(nf.participioPassato); const ger = primary(nf.gerundio);
+  // a long form (proponendo, sopravvissuto…) takes the whole row instead of being hyphenated in a half-width tile
+  const wide = (s) => (String(s).length > 8 ? 'wide' : '');
   const glance = html`<div class="glance">
     <div class="g"><span class="gt"><span class="lab">Ausiliare</span><span class="val">${AUX_LABEL[e.aux] || e.aux}</span></span></div>
-    <div class="g"><span class="gt"><span class="lab">Participio</span><span class="val">${pp[0]}</span></span>${raw(speakBtn(pp[0], 'sm'))}</div>
-    <div class="g"><span class="gt"><span class="lab">Gerundio</span><span class="val">${ger}</span></span>${raw(speakBtn(ger, 'sm'))}</div>
-    <div class="g ${conj.irregular ? 'irr' : ''}"><span class="gt"><span class="lab">Gruppo</span><span class="val">${conj.group} · ${conj.irregular ? 'irregolare' : 'regolare'}</span></span></div>
+    <div class="g ${wide(pp[0])}"><span class="gt"><span class="lab">Participio</span><span class="val">${pp[0]}</span></span>${raw(speakBtn(pp[0], 'sm'))}</div>
+    <div class="g ${wide(ger)}"><span class="gt"><span class="lab">Gerundio</span><span class="val">${ger}</span></span>${raw(speakBtn(ger, 'sm'))}</div>
+    <div class="g multi ${conj.irregular ? 'irr' : ''}"><span class="gt"><span class="lab">Gruppo</span><span class="val">${conj.group} · ${conj.irregular ? 'irregolare' : 'regolare'}</span></span></div>
   </div>`;
   const patterns = (e.patterns || []).map(p => html`<span class="pat"><span class="pattern">${p}</span>${raw(speakBtn(p, 'sm'))}</span>`).join('');
   const reggenza = html`${patterns ? raw(`<div class="pat-list">${patterns}</div>`) : ''}<dl class="kv">
@@ -141,7 +143,8 @@ export async function render(root, params) {
   const cleanups = [];
   if (isVerb) { const c = bindConjSection(codex, page.conj); if (c) cleanups.push(() => c.destroy()); }
   else cleanups.push(bindForms(codex, e, page.cells));
-  bindActionBar(root, e, () => { codex.querySelector('[data-actions]').innerHTML = actionsHTML(e); codex.querySelector('[data-progress]').innerHTML = progressHTML(e); });
+  // bound on the codex element (which leaves with the view) and unbound on cleanup, so it never outlives this entry
+  cleanups.push(bindActionBar(codex, e, () => { codex.querySelector('[data-actions]').innerHTML = actionsHTML(e); codex.querySelector('[data-progress]').innerHTML = progressHTML(e); }));
 
   // sticky jump bar: reveals the headword once the identity block has scrolled under the top bar
   const bar = codex.querySelector('[data-jump]'); const hw = codex.querySelector('[data-headword]');

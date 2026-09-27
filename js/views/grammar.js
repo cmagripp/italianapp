@@ -110,10 +110,23 @@ function liveExamples(topicId, section, idx) {
 }
 
 // ---------- rendering ----------
+const cell = (c) => (c === '—' || c === '' ? raw(`<span class="faint">${c || '—'}</span>`) : c);
+// Tables with up to three columns stay tables. Wider ones would need a horizontal scroller on a phone, so they are
+// stacked: a paradigm table (empty first header: persons down the side, verbs/genders across) becomes one card per
+// column with person → form rows; a record table (named first column) becomes one card per row with header → value rows.
 function tableHTML(rows) {
   if (!rows || !rows.length) return '';
   const [head, ...body] = rows;
-  return html`<div class="gtable-wrap"><table class="gtable"><thead><tr>${raw(head.map(c => html`<th>${c}</th>`).join(''))}</tr></thead><tbody>${raw(body.map(r => html`<tr>${raw(r.map((c, i) => html`<td class="${i === 0 ? 'lab' : ''}">${c === '—' || c === '' ? raw(`<span class="faint">${c || '—'}</span>`) : c}</td>`).join(''))}</tr>`).join(''))}</tbody></table></div>`;
+  if (head.length >= 4) {
+    const paradigm = !String(head[0] || '').trim();
+    if (paradigm) {
+      const cards = head.slice(1).map((h, j) => html`<div class="gcard"><div class="gcard-title">${h}</div>${raw(body.map(r => html`<div class="gs-row ${String(r[0]).length > 12 ? 'stack' : ''}"><span class="gs-k">${r[0]}</span><span class="gs-v">${cell(r[j + 1] ?? '')}</span></div>`).join(''))}</div>`);
+      return `<div class="gstack">${cards.join('')}</div>`;
+    }
+    const cards = body.map(r => html`<div class="gcard"><div class="gcard-title">${cell(r[0])}</div>${raw(head.slice(1).map((h, j) => html`<div class="gs-row"><span class="gs-k">${h}</span><span class="gs-v">${cell(r[j + 1] ?? '')}</span></div>`).join(''))}</div>`);
+    return `<div class="gstack records">${cards.join('')}</div>`;
+  }
+  return html`<div class="gtable-wrap"><table class="gtable"><thead><tr>${raw(head.map(c => html`<th>${c}</th>`).join(''))}</tr></thead><tbody>${raw(body.map(r => html`<tr>${raw(r.map((c, i) => html`<td class="${i === 0 ? 'lab' : ''}">${cell(c)}</td>`).join(''))}</tr>`).join(''))}</tbody></table></div>`;
 }
 function examplesHTML(exs) {
   if (!exs || !exs.length) return '';

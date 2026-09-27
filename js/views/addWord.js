@@ -49,7 +49,7 @@ export async function render(root, params, query) {
     const word = w || 'parola';
     const art = pos === 'noun' && w ? article({ pos: 'noun', it: w, g: seg.g }, false) : '';
     const say = art ? (art.endsWith("'") ? art + word : art + ' ' + word) : word;
-    pvCard.innerHTML = html`<div class="headword"><div class="hw-line">${art ? raw(`<span class="article">${esc(art)}</span>`) : ''}<span class="word ${w ? '' : 'ph'}" style="--hw:${Math.min(48, hwSize(word))}px">${word}</span></div>
+    pvCard.innerHTML = html`<div class="headword"><div class="hw-line" style="--hw:${Math.min(48, hwSize(word))}px">${art ? raw(`<span class="article">${esc(art)}</span>`) : ''}<span class="word ${w ? '' : 'ph'}">${word}</span></div>
       <div class="hw-row">${raw(enPill(en || 'meaning…'))}${w ? raw(speakBtn(say, 'lg')) : ''}</div>
       <div class="tags">${raw(levelBadge(level))}<span>${IT_POS[pos] || pos}</span>${pos === 'noun' ? raw(html`<span>${IT_GENDER[seg.g]}</span>`) : ''}${pos === 'verb' ? raw(html`<span>aux. ${seg.aux === 'both' ? 'avere / essere' : seg.aux}</span>`) : ''}<span>${CATS[cat]?.name || cat}</span></div></div>`;
   };

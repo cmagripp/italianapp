@@ -39,10 +39,12 @@ export function wordHero(e) {
   const art = isNoun ? article(e, isPluralOnly(e)) : '';
   const word = isPluralOnly(e) ? e.pl : e.it;
   const cat = CATS[e.cat];
+  // --hw lives on .hw-line so the article scales with the word (see .headword .article)
   return html`<div class="headword" data-headword>
-    <div class="hw-line">${art ? raw(`<span class="article">${esc(art)}</span>`) : ''}<span class="word" style="--hw:${hwSize(word)}px">${word}</span></div>
+    <div class="hw-line" style="--hw:${hwSize(word)}px">${art ? raw(`<span class="article">${esc(art)}</span>`) : ''}<span class="word">${word}</span></div>
     <div class="hw-row">${raw(enPill(e.en))}${raw(speakBtn(isNoun ? withArticle(e, isPluralOnly(e)) : e.it, 'lg'))}</div>
-    <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${IT_GENDER[e.g] || e.g}</span>`) : ''}${cat ? raw(html`<span>${cat.name}</span>`) : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
+    <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${IT_GENDER[e.g] || e.g}</span>`) : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
+    ${cat ? raw(html`<span class="hw-cat">${cat.name}</span>`) : ''}
   </div>`;
 }
 
@@ -82,9 +84,10 @@ const TRANS_LABEL = { vt: 'transitive', vi: 'intransitive', vr: 'reflexive / pro
 export function verbHero(e, conj) {
   const cat = CATS[e.cat];
   return html`<div class="headword" data-headword>
-    <div class="hw-line"><span class="word" style="--hw:${hwSize(e.inf)}px">${e.inf}</span></div>
+    <div class="hw-line" style="--hw:${hwSize(e.inf)}px"><span class="word">${e.inf}</span></div>
     <div class="hw-row">${raw(enPill(e.en))}${raw(speakBtn(e.inf, 'lg'))}</div>
-    <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>verbo</span><span>${conj.group}</span><span>${conj.irregular ? 'irregolare' : 'regolare'}</span><span>aux. ${AUX_LABEL[e.aux] || e.aux}</span>${cat ? raw(html`<span>${cat.name}</span>`) : ''}</div>
+    <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>verbo</span><span>${conj.group}</span><span>${conj.irregular ? 'irregolare' : 'regolare'}</span><span>aux. ${AUX_LABEL[e.aux] || e.aux}</span></div>
+    ${cat ? raw(html`<span class="hw-cat">${cat.name}</span>`) : ''}
   </div>`;
 }
 
@@ -212,12 +215,15 @@ export function conjTable(conj, key) {
 function fanCards(conj, key) {
   const t = conj.tenses[key] || [];
   const persons = key === 'imperativo' ? IMP_PERSONS : PERSONS;
-  return t.map((f, i) => ({ key: persons[i], front: esc(persons[i]), back: `${esc(primary(f))}<span class="sub">${esc(persons[i])}</span>` }));
+  const longest = (s) => Math.max(...String(s).split(' ').map(w => w.length));
+  // "lui/lei" may break after the slash (never mid-word) so the index stays inside the card's exposed strip
+  return t.map((f, i) => { const form = primary(f); return { key: persons[i], front: esc(persons[i]).replace('/', '/<wbr>'), back: `<span class="form ${longest(form) > 7 ? 'long' : ''}">${esc(form)}</span><span class="sub">${esc(persons[i])}</span>` }; });
 }
 
 const TENSE_ITEMS = TENSES.map(t => ({ key: t.key, label: t.name, sub: t.mood }));
 
 // Conjugation pane: dial to pick the tense, table (or card fan) below, non-finite forms. Bind with bindConjSection(root, conj).
+// The tools row (table/fan toggle + "Tutti i tempi" dropdown) sits under the title, above the dial, so the menu opens downward.
 export function conjSection(e, conj, { defaultTense = 'presente' } = {}) {
   const nf = conj.nonFinite;
   return html`<div class="card conj-card" data-conj data-tense="${defaultTense}">
@@ -225,7 +231,7 @@ export function conjSection(e, conj, { defaultTense = 'presente' } = {}) {
       <div class="sec-head in-pane" style="margin:0"><div><span class="kicker">Forme</span><span class="title">Modi e tempi</span></div></div>
       <div class="conj-tools">
         <div class="view-toggle" role="group" aria-label="Table or cards"><button type="button" class="on" data-view="table" aria-label="Table">${ic('list', { size: 18 })}</button><button type="button" data-view="fan" aria-label="Card fan">${ic('spread', { size: 18 })}</button></div>
-        <button type="button" class="icon-btn dial-menu" data-dial-menu aria-label="All tenses" aria-haspopup="menu">${ic('chevronDown', { size: 18 })}</button>
+        <button type="button" class="btn xs secondary dial-menu" data-dial-menu aria-label="All tenses" aria-haspopup="menu" aria-expanded="false">${ic('list', { size: 16 })}Tutti i tempi</button>
       </div>
     </div>
     <div class="dial-wrap">
@@ -270,7 +276,7 @@ export function bindConjSection(root, conj) {
     const t = ev.target.closest('.tab[data-tense]');
     if (t) { d.select(idx(t.dataset.tense)); return; }
     const menu = ev.target.closest('[data-dial-menu]');
-    if (menu) dropdown(menu, items.map(i => ({ value: i.key, label: i.label, sub: i.sub, selected: i.key === key })), { align: 'end', width: 260, onSelect: (v) => d.select(idx(v)) });
+    if (menu) dropdown(menu, items.map(i => ({ value: i.key, label: i.label, sub: i.sub, selected: i.key === key })), { align: 'end', width: 272, onSelect: (v) => d.select(idx(v)) });
   });
   return { select: (k) => d.select(idx(k)), get tense() { return key; }, destroy: () => { d.destroy(); fanApi && fanApi.destroy(); } };
 }
@@ -310,7 +316,8 @@ export function actionBar(e) {
     ${e.custom ? raw(`<button type="button" class="btn sm danger" data-act="delete-custom">${icon('trash', { size: 16 })}Delete</button>`) : ''}
   </div>`;
 }
-// Idempotent: views bind this on the persistent #view element on every render, so the previous handler is removed first.
+// Binds the [data-act] handler on `root` — bind it on the view's own element (the one that leaves with the view), not on the
+// persistent #view — and returns an unbind function for the view's cleanup. A previous binding on the same element is replaced.
 export function bindActionBar(root, e, rerender) {
   if (root.__actionBarHandler) root.removeEventListener('click', root.__actionBarHandler);
   const handler = async (ev) => {
@@ -323,4 +330,5 @@ export function bindActionBar(root, e, rerender) {
   };
   root.__actionBarHandler = handler;
   root.addEventListener('click', handler);
+  return () => { if (root.__actionBarHandler === handler) { root.removeEventListener('click', handler); root.__actionBarHandler = null; } };
 }

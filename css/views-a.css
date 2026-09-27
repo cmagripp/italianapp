@@ -27,9 +27,11 @@ a.poster { color: #fff; }
 .greet-title .itx:not(.open) .it { text-decoration-color: color-mix(in srgb, var(--gold) 55%, transparent); }
 .greet-title .itx .tr { font-style: normal; font-family: var(--font-text); font-size: 15px; font-weight: 500; }
 .greet .avatar { margin-top: 4px; }
-.greet-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 10px; color: var(--ink-3); }
-.greet-meta i { font-style: normal; color: var(--ink-4); }
-.greet-meta .streak { display: inline-flex; align-items: center; gap: 4px; color: var(--gold); }
+/* date, then "streak · XP" as one unit: on narrow screens the unit wraps whole instead of leaving "1,240 XP" dangling */
+.greet-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-top: 10px; color: var(--ink-3); }
+.greet-meta .greet-stats { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.greet-meta i { font-style: normal; color: var(--ink-3); }
+.greet-meta .streak { display: inline-flex; align-items: center; gap: 4px; color: var(--gold-text); }
 .greet-meta .streak .ic { width: 14px; height: 14px; }
 .greet-meta .itx .tr { font-style: normal; font-size: 11px; }
 
@@ -41,13 +43,13 @@ a.poster { color: #fff; }
 .tonight-days { color: var(--ink-3); flex: none; padding-bottom: 6px; }
 .counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 18px; }
 .counters .stat .num { font-size: 42px; font-variation-settings: "opsz" 144; font-variant-numeric: tabular-nums; color: var(--ink); }
-.counters .stat:first-child .num { color: var(--gold); }
+.counters .stat:first-child .num { color: var(--gold-text); }
 .counters .stat .lab { font-size: 10px; margin-top: 8px; }
 .week { margin-bottom: 18px; }
 .week .rail { gap: 5px; }
 .week .rail > span { height: 5px; border-radius: 3px; }
 .week-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 8px; text-align: center; font-size: 10px; color: var(--ink-3); }
-.week-days .today { color: var(--gold); font-weight: 600; }
+.week-days .today { color: var(--gold-text); font-weight: 600; }
 .tonight-hint { text-align: center; color: var(--ink-3); margin-top: 10px; }
 
 /* Orbit */
@@ -62,20 +64,19 @@ a.poster { color: #fff; }
 .orbit-levels .lvl:active { transform: scale(.94); }
 .orbit-hint { font-size: 10px; color: var(--ink-3); margin-top: 12px; }
 
-/* Word & verb of the night */
-.night { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
-.night-card { position: relative; padding: 14px 14px 16px; cursor: pointer; }
+/* Word & verb of the night: equal-height cards, the mono footer line pinned to the bottom */
+.night { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch; }
+.night-card { position: relative; display: flex; flex-direction: column; padding: 14px 14px 16px; cursor: pointer; }
 .night-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-height: 40px; }
 .night-top .kicker { padding-top: 4px; line-height: 1.3; }
 .night-open { color: var(--ink-2); }
 .night-hw { margin-top: 6px; line-height: 1; }
 .night-hw .article { display: block; font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 15px; color: var(--ink-2); margin-bottom: 2px; }
-.night-hw .word { display: block; color: var(--ink); font-family: var(--font-display); font-weight: 600; font-size: var(--hw, 28px); line-height: 1.05; letter-spacing: -.02em; font-variation-settings: "opsz" 144; overflow-wrap: anywhere; }
+.night-hw .word { display: block; color: var(--ink); font-family: var(--font-display); font-weight: 600; font-size: var(--hw, 28px); line-height: 1.05; letter-spacing: -.02em; font-variation-settings: "opsz" 144; overflow-wrap: anywhere; padding: 5px 0; margin: -5px 0; }
 .night-card .hw-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.night-card .tags { margin-top: 12px; font-size: 10px; letter-spacing: .1em; }
-.night-card .tags > * + *::before { margin: 0 6px; }
-.night-extra { margin-top: 10px; color: var(--ink-3); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; overflow-wrap: anywhere; }
-.home-foot { margin-top: 8px; color: var(--ink-4); }
+.night-card .tags { --sep: 18px; margin-top: 12px; font-size: 10px; letter-spacing: .08em; }
+.night-extra { margin-top: auto; padding-top: 12px; color: var(--ink-3); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.home-foot { margin-top: 8px; color: var(--ink-3); }
 
 /* ==========================================================================
    LEARN HUB
@@ -135,7 +136,7 @@ a.poster { color: #fff; }
 .play-hero p { margin-bottom: 14px; }
 .play-hero-ctas { display: flex; flex-wrap: wrap; gap: 8px; }
 .games-section .reel { margin-top: -4px; }
-.games-foot { color: var(--ink-4); }
+.games-foot { color: var(--ink-3); }
 
 /* source picker sheet */
 .srcp-desc { font-size: 14px; color: var(--ink-2); margin-bottom: 4px; }
@@ -149,19 +150,19 @@ a.poster { color: #fff; }
 .src-label { font-weight: 600; font-size: 15px; line-height: 1.2; }
 .src-sub { font-size: 12px; color: var(--ink-2); }
 .src-count { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--ink-3); flex: none; }
-.src-check { display: inline-flex; color: var(--gold); opacity: 0; transition: opacity var(--t-fast); flex: none; }
-.src-row.on .src-check { opacity: 1; }
-.src-kicker { margin: 14px 0 8px; }
-.src-levels { display: flex; gap: 6px; }
-.src-levels .lvl { flex: 1; min-width: 0; padding: 0; cursor: pointer; transition: transform var(--t-fast) var(--ease-out), background var(--t-base), color var(--t-base); }
-.src-levels .lvl:active { transform: scale(.94); }
-.src-levelnote { min-height: 16px; margin-top: 8px; color: var(--ink-3); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.src-pick .ic-chevronDown { flex: none; color: var(--ink-3); }
+.src-pick[aria-expanded="true"] .ic-chevronDown { transform: rotate(180deg); }
+.srcp-kicker:first-child { margin-top: 0; }
 .srcp-chips .chip { height: 40px; }
 .srcp-dial { margin: 0 -8px; }
 .srcp-tense-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
-.srcp-tags { margin-top: 10px; min-height: 20px; color: var(--gold); }
+.srcp-tags { margin-top: 10px; min-height: 20px; color: var(--gold-text); }
 .dial .dial-item.picked::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); margin-top: 2px; }
-.srcp-start { margin-top: 20px; }
+/* Start is a sticky footer of the sheet: it pulls itself into the sheet's bottom padding (safe area included) and keeps
+   a fade of the sheet colour above the button so rows scrolling under it never show through */
+.srcp-foot { position: sticky; bottom: 0; z-index: 2; margin: 16px -16px calc(-1 * (20px + var(--sab))); padding: 12px 16px calc(16px + var(--sab));
+  background: linear-gradient(180deg, transparent 0, var(--pane-bg) 14px); }
+.srcp-start { margin: 0; }
 
 /* ---------- responsive & motion ---------- */
 @media (max-width: 359px) {
@@ -173,6 +174,6 @@ a.poster { color: #fff; }
   .lab-grid { grid-template-columns: repeat(4, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .deck.live > .deck-card, .deck.live > .deck-card > *, .src-row, .src-levels .lvl, .orbit-levels .lvl { transition-duration: 120ms !important; }
+  .deck.live > .deck-card, .deck.live > .deck-card > *, .src-row, .orbit-levels .lvl { transition-duration: 120ms !important; }
   .deck.live > .deck-card.leaving { transition: none; }
 }

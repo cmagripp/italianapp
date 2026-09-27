@@ -49,6 +49,12 @@
 
 /* ---------- entry pages ---------- */
 .ref-id { padding-top: 2px; }
+/* the shared .tags row hides its first separator by hanging 24px into the gutter behind a clip-path; on the codex page
+   it stays inside the viewport and simply drops that first dot */
+.ref-id .tags { margin-left: 0; clip-path: none; }
+.ref-id .tags > :first-child::before { content: none; }
+.ref-id .tags > .lvl { margin-left: 0; }
+.ref-id .tags > .lvl:not(:first-child) { margin-left: 12px; }
 .ref-target { scroll-margin-top: calc(var(--top-h) + var(--sat) + 74px); }
 .ref-jumps { margin-bottom: 14px; }
 .ref-link { font-weight: 700; color: var(--gold); border-bottom: 1px solid color-mix(in srgb, var(--gold) 40%, transparent); }
@@ -109,18 +115,20 @@
 .ref-conj .conj-head .sec-head { margin: 0; }
 /* dial: the view passes step 24° / radius 250 so ±1 sit close and ±2 still reach the strip; fx.js fades items two steps
    away to opacity 0 and switches their pointer events off — keep those two faint and tappable (a peek at the next tense) */
-.ref-conj .dial { height: 150px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.ref-conj .dial { height: 168px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.ref-conj .dial .dial-item:not(.on) .dial-label { font-size: 15px; }
+.ref-conj .dial .dial-item:not(.on) .dial-sub { font-size: 9px; }
 .ref-conj .dial .dial-item.on + .dial-item + .dial-item,
 .ref-conj .dial .dial-item:has(+ .dial-item + .dial-item.on) { opacity: .25 !important; pointer-events: auto !important; }
 /* card fan: same hand spacing as the walkthrough (see learn.css), forms never break mid-word, a flipped card lifts */
-.ref-fan { --fan-step: 20px; }
+.ref-fan { width: min(100%, 300px); margin: 0 auto; --fan-step: 16px; }
 .ref-fan:not(.spread) .fan-card { margin-left: calc((var(--i, 0) - (var(--fan-n, 6) - 1) / 2) * var(--fan-step, 20px)); transition: transform var(--t-slow) var(--ease-spring), margin var(--t-slow) var(--ease-spring), z-index 0s; }
-.ref-fan .fan-card .face.front { font-size: 11px; letter-spacing: .1em; padding: 12px 8px; white-space: nowrap; }
-.ref-fan .fan-card .face.back { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+.ref-fan .fan-card .face.front { font-size: 10px; letter-spacing: .06em; padding: 12px 6px; white-space: nowrap; } /* .pl label rules live in learn.css */
+.ref-fan .fan-card .face.back { padding: 10px 6px; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 .ref-fan .fan-card .face.back .form { display: block; max-width: 100%; line-height: 1.1; }
 .ref-fan .fan-card .face.back .form.irr { color: var(--terracotta); }
 .ref-fan:not(.spread) .fan-card.flipped .flip { transform: rotateY(180deg) translateY(-10px); }
-@media (max-width: 389px) { .ref-fan { --fan-step: 16px; } }
+@media (max-width: 389px) { .ref-fan { --fan-step: 12px; } }
 .ref-tense-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 2px 0 2px; }
 .ref-tense-name { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -.01em; line-height: 1.1; }
 .ref-tense-en { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); text-align: right; }
