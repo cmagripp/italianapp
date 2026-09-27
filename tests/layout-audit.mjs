@@ -203,34 +203,38 @@ finally { await browser.close().catch(() => {}); stopServer(); }
 results.sort((a, b) => VIEWPORTS.findIndex(v => v.name === a.viewport) - VIEWPORTS.findIndex(v => v.name === b.viewport) || THEMES.indexOf(a.theme) - THEMES.indexOf(b.theme));
 report.results = results;
 report.consoleErrors = Object.values(sinks).flatMap(s => s.errors);
-const fmt = (r) => {
-  const f = r.findings || {}; const c = f.counts || {}; const parts = [];
-  if (r.error) parts.push(`EXCEPTION ${r.error}`);
-  if (f.overflow) parts.push(`overflow ${f.overflow.scrollWidth}>${f.overflow.vw}`);
-  if (c.wide) parts.push(`wide ${c.wide}`);
-  if (c.taps) parts.push(`taps<${MIN_TAP} ${c.taps}`);
-  if (c.overlaps) parts.push(`overlaps ${c.overlaps}`);
-  if (f.crossword) parts.push(f.crossword.found ? `crossword Δ${f.crossword.delta}px${f.crossword.delta > CENTRE_TOL ? ' OFF-CENTRE' : ''}` : 'crossword grid MISSING');
-  if (c.inputs) parts.push(`inputs<16px ${c.inputs}`);
-  if (c.headings) parts.push(`clipped-h ${c.headings}`);
-  if (c.console) parts.push(`console ${c.console}`);
-  return parts.join(' · ');
-};
-for (const vp of VIEWPORTS) for (const theme of THEMES) {
-  const rows = results.filter(r => r.viewport === vp.name && r.theme === theme);
-  if (!rows.length) continue;
-  const bad = rows.filter(r => r.failures || r.warnings);
-  console.log(`\n${vp.name} ${vp.options.viewport.width}×${vp.options.viewport.height} · ${theme} — ${rows.length - bad.length}/${rows.length} routes clean`);
-  for (const r of rows) console.log(`  ${r.failures ? '✗' : r.warnings ? '!' : '✓'} ${pad(r.route, 44)} ${fmt(r) || 'clean'}`);
+// One line per route, findings aggregated over the viewport×theme combos (the JSON keeps every combo separately).
+const LABEL = { exception: 'EXCEPTION', overflow: 'overflow', wide: 'wide', taps: `taps<${MIN_TAP}`, overlaps: 'overlaps', crossword: 'crossword', inputs: 'inputs<16px', headings: 'clipped-h', console: 'console' };
+const combos = [...new Set(results.map(r => `${r.viewport}/${r.theme}`))];
+const routeOrder = [...new Set(results.map(r => r.route))];
+console.log(`\nRoutes (${routeOrder.length}) — findings aggregated over ${combos.length} viewport×theme combos; "(2/6: …)" = only in some combos`);
+for (const route of routeOrder) {
+  const rows = results.filter(r => r.route === route);
+  const parts = [];
+  for (const cat of ['exception', 'overflow', 'wide', 'taps', 'overlaps', 'crossword', 'inputs', 'headings', 'console']) {
+    const hits = rows.filter(r => r.findings?.counts?.[cat]);
+    if (!hits.length) continue;
+    let txt;
+    if (cat === 'crossword') { const ds = hits.map(r => r.findings.crossword?.found ? r.findings.crossword.delta : null); txt = ds.includes(null) ? 'crossword grid MISSING' : `crossword OFF-CENTRE Δ${Math.min(...ds)}–${Math.max(...ds)}px`; }
+    else if (cat === 'overflow') { const ws = hits.map(r => r.findings.overflow.scrollWidth); txt = `overflow ${Math.min(...ws)}–${Math.max(...ws)}>vw`; }
+    else if (cat === 'exception') txt = `EXCEPTION ${hits[0].error}`;
+    else { const ns = hits.map(r => r.findings.counts[cat]); const lo = Math.min(...ns), hi = Math.max(...ns); txt = `${LABEL[cat]} ${lo === hi ? lo : `${lo}–${hi}`}`; }
+    if (hits.length < rows.length) txt += ` (${hits.length}/${rows.length}: ${hits.map(r => `${r.viewport}/${r.theme}`).slice(0, 3).join(', ')}${hits.length > 3 ? ', …' : ''})`;
+    parts.push(txt);
+  }
+  const fail = rows.some(r => r.failures), warn = rows.some(r => r.warnings);
+  console.log(`  ${fail ? '✗' : warn ? '!' : '✓'} ${pad(route, 44)} ${parts.join(' · ') || 'clean'}`);
 }
 
 // details: worst offenders per category, deduplicated by element description
+const distinct = {};
 const detail = (cat, mapFn, n = 12) => {
   const seen = new Map();
   for (const r of results) for (const it of (r.findings?.[cat] || [])) { const k = mapFn(it); const v = seen.get(k) || { n: 0, where: new Set() }; v.n++; v.where.add(`${r.viewport}/${r.theme} ${r.route}`); seen.set(k, v); }
+  distinct[cat] = seen.size;
   const rows = [...seen.entries()].sort((a, b) => b[1].n - a[1].n).slice(0, n);
   if (!rows.length) return;
-  console.log(`\n${cat} — ${seen.size} distinct, ${[...seen.values()].reduce((a, v) => a + v.n, 0)} occurrences (top ${rows.length})`);
+  console.log(`\n${LABEL[cat]} — ${seen.size} distinct element${seen.size === 1 ? '' : 's'}, ${[...seen.values()].reduce((a, v) => a + v.n, 0)} occurrences over all combos (top ${rows.length}; lists are capped at ${MAX_LIST} per route)`);
   for (const [k, v] of rows) console.log(`  ${pad(v.n + '×', 5)} ${k}\n        e.g. ${[...v.where].slice(0, 2).join(' | ')}`);
 };
 detail('wide', it => `${it.el}  (${it.left}→${it.right}, ${it.width}px)`);
@@ -252,15 +256,18 @@ for (const r of results) for (const [cat, c] of Object.entries(r.findings?.count
 const failing = results.filter(r => r.failures);
 const routeTotals = {};
 for (const r of failing) routeTotals[r.route] = (routeTotals[r.route] || 0) + r.failures;
+const cleanRoutes = routeOrder.filter(route => results.filter(r => r.route === route).every(r => !r.failures && !r.warnings));
 report.summary = {
+  routes: routeOrder.length, cleanRoutes: cleanRoutes.length,
   combos: results.length, clean: results.filter(r => !r.failures && !r.warnings).length, failingCombos: failing.length,
   failures: results.reduce((a, r) => a + r.failures, 0) + (report.fatal ? 1 : 0), warnings: results.reduce((a, r) => a + r.warnings, 0),
-  byCategory, worstRoutes: Object.entries(routeTotals).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([route, n]) => ({ route, findings: n })),
+  byCategory, distinctByCategory: distinct, worstRoutes: Object.entries(routeTotals).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([route, n]) => ({ route, findings: n })),
   categories: CATEGORIES,
 };
 const file = writeReport('layout', report);
 const s = report.summary;
-console.log(`\nSummary: ${s.clean}/${s.combos} route×viewport×theme combos clean · ${s.failingCombos} failing · ${Object.entries(byCategory).map(([k, v]) => `${k} ${v}`).join(', ') || 'no findings'} → ${s.failures ? `${s.failures} FAILURES` : 'PASS'}${s.warnings ? ` (${s.warnings} soft warnings)` : ''}`);
+const catLine = Object.entries(byCategory).map(([k, v]) => `${LABEL[k] || k} ${distinct[k] != null ? `${distinct[k]} distinct/` : ''}${v}`).join(', ') || 'no findings';
+console.log(`\nSummary: ${s.cleanRoutes}/${s.routes} routes clean in every combo · ${s.clean}/${s.combos} route×viewport×theme combos clean · ${catLine} → ${s.failures ? `${s.failures} FAILURES` : 'PASS'}${s.warnings ? ` (${s.warnings} soft warnings)` : ''}`);
 if (s.worstRoutes.length) console.log('Worst routes: ' + s.worstRoutes.slice(0, 6).map(w => `${w.route} (${w.findings})`).join(', '));
 console.log(`Report: ${file}`);
 process.exit(exitCode || (s.failures ? 1 : 0));

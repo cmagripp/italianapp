@@ -209,7 +209,7 @@ function applyPrefix(p, par, base) {
       // compounds of dire have no apostrophe form (contraddici, benedici); fare/stare/dare keep it (rifa', ridà, ristà)
       const extra = base === 'dire' ? [] : alts(par.imp[0]).map(a => p + a);
       const forms = [p + full, ...extra.filter(x => x !== p + full)];
-      if (base === 'fare' || base === 'stare') forms.push(p + alts(par.pres[2])[0].slice(0, -1) + 'à');
+      if (base === 'fare' || base === 'stare' || base === 'dare') forms.push(p + alts(par.pres[2])[0].slice(0, -1) + 'à');
       out.imp[0] = forms.join('|');
     }
   }
