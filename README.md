@@ -57,6 +57,10 @@ tools/                                    validator, data builder, engine tests
 
 Add entries to any file under `data/vocab/` or `data/verbs/` following `data/SCHEMA.md`, validate with `node tools/validate.mjs <file>`, then rebuild with `node tools/build-data.mjs`. Duplicates across files are merged automatically (the lowest CEFR level wins).
 
+## Cloud sync across devices (optional)
+
+Progress lives on the device by default. To sync a user across devices, create a free [Supabase](https://supabase.com) project, run the SQL shown under **Me → Cloud sync → Show setup SQL** (it creates a `parola_profiles` table with row-level security so each account can only read its own row), enable Email auth, then paste the project URL and anon key into the app and sign in. The app merges the cloud copy with the local one (newest answer per item wins, lists are unioned) and pushes changes automatically.
+
 ## Backups and multiple devices
 
 Progress is per user and per device. Use **Me → Export backup** to download a JSON file and **Import backup** on another device (merge or replace). Keep a backup before clearing Safari's website data.

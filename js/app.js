@@ -2,6 +2,7 @@
 import { store } from './store.js';
 import { loadData, registerCustom } from './data.js';
 import { $, $$, toast } from './ui.js';
+import { startAutoSync, isEnabled as syncEnabled } from './sync.js';
 
 const routes = [];
 let currentCleanup = null;
@@ -121,6 +122,8 @@ async function boot() {
     $('#view').innerHTML = `<div class="empty"><div class="big">📡</div><p>Could not load the dictionary.</p><p class="tiny muted">${err.message}</p><button class="btn primary" onclick="location.reload()">Retry</button></div>`;
     return;
   }
+  if (syncEnabled()) startAutoSync();
+  store.on('profile', () => { if (syncEnabled()) startAutoSync(); });
   $('#enToggle').addEventListener('click', () => { store.setSetting('showEn', store.settings.showEn === 'always' ? 'tap' : 'always'); toast(store.settings.showEn === 'always' ? 'English shown everywhere' : 'Tap Italian text to reveal English'); });
   $('#backBtn').addEventListener('click', () => back());
   window.addEventListener('hashchange', render);

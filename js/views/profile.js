@@ -4,6 +4,7 @@ import { setTitle } from '../app.js';
 import { store, todayKey } from '../store.js';
 import { data, LEVELS, LEVEL_INFO, registerCustom } from '../data.js';
 import { stage } from '../srs.js';
+import * as sync from '../sync.js';
 
 const AVATARS = ['🇮🇹', '🍕', '🍝', '🛵', '🎭', '⚽', '🍷', '🏛️', '🌋', '🎨', '☕', '🐈', '🦁', '🌊', '🍋', '🎻'];
 
@@ -54,6 +55,8 @@ export async function render(root) {
         <input type="file" accept="application/json,.json" data-file class="hidden">
       </div>
 
+      <div class="card" data-sync-card>${raw(syncCard())}</div>
+
       <div class="card"><h4>Users on this device</h4>
         <div class="list">${raw(store.profiles.map(u => html`<div class="item" data-user="${u.id}" style="${u.id === p.id ? 'border:2px solid var(--primary)' : ''}"><span class="avatar" style="width:36px;height:36px;font-size:18px">${u.avatar || '🇮🇹'}</span><div class="main"><div class="hw">${u.name}</div><div class="sub">${u.id === p.id ? 'current' : 'tap to switch'}</div></div>${store.profiles.length > 1 ? raw(html`<button class="icon-btn" data-del-user="${u.id}" aria-label="Delete user">🗑️</button>`) : ''}</div>`).join(''))}</div>
         <div class="row gap mt"><button class="btn grow" data-new-user>＋ New user</button><button class="btn grow ghost" data-rename>Rename me</button></div>
@@ -82,6 +85,7 @@ export async function render(root) {
         toast('Backup imported', { kind: 'ok' }); draw();
       } catch (err) { toast('Import failed: ' + err.message, { kind: 'ko', ms: 3000 }); }
     });
+    bindSync(root, draw);
     root.querySelector('[data-reset]').addEventListener('click', async () => { if (await confirmDialog('Reset all learning progress for this user? Lists and custom words are kept.', { ok: 'Reset', danger: true })) { await store.resetProgress(); toast('Progress reset'); draw(); } });
     root.querySelector('[data-new-user]').addEventListener('click', async () => { const name = await promptDialog('Name for the new user', { placeholder: 'e.g. Marco' }); if (name) { await store.createProfile(name, AVATARS[Math.floor(Math.random() * AVATARS.length)]); registerCustom(store.current.custom); toast('Welcome, ' + name + '!', { kind: 'ok' }); draw(); } });
     root.querySelector('[data-rename]').addEventListener('click', async () => { const name = await promptDialog('Your name', { value: p.name }); if (name) { store.renameProfile(name); draw(); } });
@@ -94,4 +98,44 @@ export async function render(root) {
     });
   }
   draw();
+}
+
+
+function syncCard() {
+  const c = sync.getConfig();
+  const on = sync.isEnabled();
+  return html`<h4>Cloud sync <span class="tiny muted">(optional)</span></h4>
+    <p class="small muted">Keep this user's progress in sync across devices with your own free <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> project. Paste the project URL and anon key, then sign in. <button class="link" data-sync-sql>Show setup SQL</button></p>
+    ${on ? raw(html`<div class="opt-row"><div><div class="lab">Signed in as ${c.email}</div><div class="sub">${c.lastSync ? 'Last sync ' + new Date(c.lastSync).toLocaleString() : 'Not synced yet'}</div></div><span class="badge ok">on</span></div>
+      <div class="row gap mt"><button class="btn primary grow" data-sync-now>Sync now</button><button class="btn ghost grow" data-sync-out>Sign out</button></div>`)
+    : raw(html`<div class="field"><label>Supabase project URL</label><input class="input" data-sync="url" value="${c.url}" placeholder="https://xxxx.supabase.co" autocapitalize="off" autocorrect="off"></div>
+      <div class="field"><label>Anon (public) key</label><input class="input" data-sync="key" value="${c.anonKey}" placeholder="eyJ…" autocapitalize="off" autocorrect="off"></div>
+      <div class="field"><label>Email</label><input class="input" data-sync="email" type="email" value="${c.email}" autocapitalize="off"></div>
+      <div class="field"><label>Password</label><input class="input" data-sync="pass" type="password"></div>
+      <div class="row gap"><button class="btn primary grow" data-sync-in>Sign in</button><button class="btn grow" data-sync-up>Create account</button></div>`)}
+    <div class="tiny muted mt" data-sync-status></div>`;
+}
+function bindSync(root, draw) {
+  const card = root.querySelector('[data-sync-card]'); if (!card) return;
+  const status = (m, kind = '') => { const el = card.querySelector('[data-sync-status]'); if (el) { el.textContent = m; el.style.color = kind === 'ko' ? 'var(--danger)' : ''; } };
+  const creds = () => ({ url: card.querySelector('[data-sync="url"]')?.value || '', key: card.querySelector('[data-sync="key"]')?.value || '', email: card.querySelector('[data-sync="email"]')?.value || '', pass: card.querySelector('[data-sync="pass"]')?.value || '' });
+  card.addEventListener('click', async (ev) => {
+    const b = ev.target.closest('button'); if (!b) return;
+    try {
+      if (b.hasAttribute('data-sync-sql')) { sheet(html`<p class="small">Run this once in your Supabase project (SQL editor), then enable Email auth in Authentication → Providers:</p><pre class="card flat" style="white-space:pre-wrap;font-size:12px">${sync.SETUP_SQL}</pre>`, { title: 'Setup SQL' }); return; }
+      if (b.hasAttribute('data-sync-in') || b.hasAttribute('data-sync-up')) {
+        const { url, key, email, pass } = creds();
+        if (!url || !key || !email || !pass) { status('Please fill in all four fields.', 'ko'); return; }
+        await sync.configure(url, key);
+        status('Connecting…');
+        if (b.hasAttribute('data-sync-up')) { const r = await sync.signUp(email, pass); if (!r.confirmed) { status('Account created. Confirm the email Supabase sent you, then sign in.'); return; } }
+        else await sync.signIn(email, pass);
+        status('Signed in. Syncing…');
+        await sync.syncNow(); registerCustom(store.current.custom); sync.startAutoSync();
+        toast('Cloud sync enabled', { kind: 'ok' }); draw(); return;
+      }
+      if (b.hasAttribute('data-sync-now')) { status('Syncing…'); await sync.syncNow(); registerCustom(store.current.custom); toast('Synced', { kind: 'ok' }); draw(); return; }
+      if (b.hasAttribute('data-sync-out')) { sync.signOut(); toast('Signed out of cloud sync'); draw(); return; }
+    } catch (err) { status('Error: ' + err.message, 'ko'); }
+  });
 }
