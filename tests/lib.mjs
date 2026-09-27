@@ -182,7 +182,9 @@ export async function shot(page, name) {
   if (!SHOTS) return null;
   fs.mkdirSync(SHOTS_DIR, { recursive: true });
   const file = path.join(SHOTS_DIR, name.replace(/[^a-z0-9_.-]+/gi, '_') + '.png');
-  try { await page.screenshot({ path: file, fullPage: false }); return path.relative(ROOT, file); } catch { return null; }
+  // own timeout: the glass/blur-heavy pages can take a few seconds to paint on the first capture
+  try { await page.screenshot({ path: file, fullPage: false, timeout: 15000 }); return path.relative(ROOT, file); }
+  catch (err) { console.log(`  (screenshot ${path.basename(file)} failed: ${String(err.message).split('\n')[0].slice(0, 100)})`); return null; }
 }
 export function writeReport(name, data) {
   const file = path.join(TESTS_DIR, `report-${name}.json`);

@@ -245,13 +245,13 @@ function cliticInfo(clitic) {
 
 // Proclitic + finite form, with elision: "ce la ho" -> "ce l'ho", "me la aspetto" -> "me l'aspetto" (also accepted unelided),
 // locative "ci è" -> "c'è", "ci entra" -> "c'entra" (also accepted unelided). Before a form of avere the elision is mandatory.
-function pronForm(pron, form, clitic, strict) {
+function pronForm(pron, form, clitic, strict, ciElide) {
   if (form === MISSING) return form;
   if (/l[ao]$/.test(pron)) {
     if (strict || /^h/.test(form)) return `${pron.slice(0, -2)}l'${form}`;
     if (/^[aeiouàèéìòù]/.test(form)) return `${pron.slice(0, -2)}l'${form}|${pron} ${form}`;
   }
-  if (clitic === 'ci' && /^[eè]/.test(form)) return `c'${form}|ci ${form}`;
+  if (clitic === 'ci' && ciElide && /^[eè]/.test(form)) return `c'${form}|ci ${form}`;
   return pron + ' ' + form;
 }
 
@@ -325,7 +325,8 @@ function build(infinitive, meta = {}, regular = false) {
 
   const t = {};
   const strictElision = root === 'avere';
-  const withPron = (arr) => (cl ? arr.map((f, i) => alts(f).map(a => pronForm(cl.pron[i], a, clitic, strictElision)).join('|')) : arr);
+  const ciElide = root === 'essere' || root === 'entrare'; // c'è, c'era, c'entra
+  const withPron = (arr) => (cl ? arr.map((f, i) => alts(f).map(a => pronForm(cl.pron[i], a, clitic, strictElision, ciElide)).join('|')) : arr);
   t.presente = withPron(par.pres);
   t.imperfetto = withPron(par.imperf);
   t.passatoRemoto = withPron(par.pr);
@@ -345,7 +346,7 @@ function build(infinitive, meta = {}, regular = false) {
   const auxWith = (forms, i) => {
     if (!cl) return forms[i];
     if (cl.elideAvere) return cl.elideAvere + forms[i];
-    return pronForm(cl.pron[i], forms[i], clitic, false);
+    return pronForm(cl.pron[i], forms[i], clitic, false, auxKey === 'essere');
   };
   for (const [tk, ak] of Object.entries(COMPOUND_MAP)) {
     t[tk] = PERSONS.map((_, i) => { const p = ppFor(i); return p == null ? MISSING : auxWith(A[ak], i) + ' ' + p; });
@@ -355,10 +356,10 @@ function build(infinitive, meta = {}, regular = false) {
     if (cl) {
       t.imperativo = [
         attachClitic(par.imp[0], cl.attach[0]),
-        pronForm(cl.pron[2], alts(par.imp[1])[0], clitic, strictElision),
+        pronForm(cl.pron[2], alts(par.imp[1])[0], clitic, strictElision, ciElide),
         attachClitic(par.imp[2], cl.attach[2]),
         attachClitic(par.imp[3], cl.attach[3]),
-        pronForm(cl.pron[5], alts(par.imp[4])[0], clitic, strictElision),
+        pronForm(cl.pron[5], alts(par.imp[4])[0], clitic, strictElision, ciElide),
       ];
     } else t.imperativo = par.imp.slice();
   } else t.imperativo = null;

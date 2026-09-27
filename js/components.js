@@ -308,13 +308,17 @@ export function actionBar(e) {
     ${e.custom ? raw(`<button type="button" class="btn sm danger" data-act="delete-custom">${icon('trash', { size: 16 })}Delete</button>`) : ''}
   </div>`;
 }
+// Idempotent: views bind this on the persistent #view element on every render, so the previous handler is removed first.
 export function bindActionBar(root, e, rerender) {
-  root.addEventListener('click', async (ev) => {
+  if (root.__actionBarHandler) root.removeEventListener('click', root.__actionBarHandler);
+  const handler = async (ev) => {
     const b = ev.target.closest('[data-act]'); if (!b) return;
     const act = b.dataset.act;
     if (act === 'bank') { if (store.inList('bank', e.id)) { store.removeFromList('bank', e.id); toast('Removed from word bank'); } else { store.addToList('bank', e.id); toast('Saved to word bank', { kind: 'ok' }); } rerender && rerender(); }
     else if (act === 'lists') openListPicker(e.id);
     else if (act === 'learned') { if (store.isLearned(e.id)) { store.unlearn(e.id); toast('Unmarked'); } else { store.markLearned(e.id, e.kind); toast('Marked as learned', { kind: 'ok' }); } rerender && rerender(); }
     else if (act === 'delete-custom') { const { confirmDialog } = await import('./ui.js'); if (await confirmDialog('Delete this custom word?', { ok: 'Delete', danger: true })) { store.removeCustomWord(e.id); const { registerCustom } = await import('./data.js'); registerCustom(store.current.custom); location.hash = '#/lists'; } }
-  });
+  };
+  root.__actionBarHandler = handler;
+  root.addEventListener('click', handler);
 }
