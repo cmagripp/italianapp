@@ -6,10 +6,10 @@ import { setTitle } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, data, shuffle, sample, CATS, LEVELS, shortEn } from '../data.js';
 import { hwSize } from '../components.js';
-import { conjugate, irregularCells, PERSONS, TENSE_BY_KEY, primary, accepted, MISSING } from '../conjugator.js';
+import { conjugate, irregularCells, splitClitic, PERSONS, TENSE_BY_KEY, primary, accepted, MISSING } from '../conjugator.js';
 import { fan, dropdown, typewriter, riseLetters, stamp, SCENES } from '../fx.js';
-import { runDrill } from '../games/engine.js';
-import { qTranslateMC, qConjMC, qConjType, qAux, qParticiple, qPattern, qCloze, mcChoices } from '../games/questions.js';
+import { runDrill, revealInScroller } from '../games/engine.js';
+import { qTranslateMC, qConjMC, qConjType, qAux, qParticiple, qPattern, qCloze, mcChoices, findInSentence } from '../games/questions.js';
 import { nextNew } from './learn.js';
 import { createWalkthrough, renderCheck, renderResults, celebrate } from './walkthrough.js';
 
@@ -48,6 +48,9 @@ const PREP_FORMS = {
   su: ['su', 'sul', 'sullo', 'sulla', 'sui', 'sugli', 'sulle', "sull'"], con: ['con'], per: ['per'], tra: ['tra', 'fra'], fra: ['fra', 'tra'],
 };
 const PLACEHOLDERS = new Set(['qualcuno', 'qualcosa', 'fare', 'un', 'una', 'uno', 'il', 'lo', 'la', 'le', 'i', 'gli', "l'", 'che', 'di', 'a', 'da', 'in', 'con', 'su', 'per', 'tra', 'fra', 'se', 'si']);
+// Verbs whose English subject is not the Italian one (mi piace = I like it, literally "it pleases me"): the meet floats
+// show the Italian forms alone rather than a misleading "I like".
+const NO_PERSON_GLOSS = /^(piacere|dispiacere|servire|mancare|interessare|bastare|esserci|occorrere|importare|sembrare|convenire|spettare|toccare|succedere|capitare)$/;
 
 // "to eat" → I eat / you eat / he or she eats (naive English inflection for the meet-card floats)
 function enPerson(en, i) {
@@ -67,15 +70,18 @@ function enPerson(en, i) {
 const wordFs = (form) => { const n = Math.max(...String(form).split(/\s+/).map(w => w.length)); return n <= 5 ? 22 : n <= 7 ? 19 : n <= 9 ? 16 : n <= 11 ? 14 : 12; };
 const words = (s) => String(s || '').toLowerCase().replace(/[.,;:!?«»"()]/g, ' ').split(/\s+/).filter(Boolean);
 
-// pick the example that contains the pattern's preposition (or another content word of the pattern), else the first
-function exampleFor(pattern, examples, inf) {
+// The example that shows the pattern: one containing its preposition (in any articulated form) or another content word.
+// A bare "verb + qualcosa/qualcuno" pattern is illustrated by any sentence that uses the verb; otherwise null ("no example yet")
+// rather than an unrelated sentence.
+function exampleFor(pattern, examples, e) {
   if (!examples.length) return null;
-  const toks = words(pattern).filter(t => t !== inf.toLowerCase());
+  const inf = e.inf.toLowerCase();
+  const toks = words(pattern).filter(t => t !== inf);
   const prep = toks.find(t => PREP_FORMS[t]);
-  if (prep) { const set = new Set(PREP_FORMS[prep]); const hit = examples.find(x => words(x.it).some(w => set.has(w))); if (hit) return hit; }
+  if (prep) { const set = new Set(PREP_FORMS[prep]); return examples.find(x => words(x.it).some(w => set.has(w))) || null; }
   const content = toks.filter(t => !PLACEHOLDERS.has(t) && t.length > 2);
-  for (const c of content) { const hit = examples.find(x => words(x.it).includes(c)); if (hit) return hit; }
-  return examples[0];
+  if (content.length) { for (const c of content) { const hit = examples.find(x => words(x.it).includes(c)); if (hit) return hit; } return null; }
+  return examples.find(x => findInSentence(x.it, e)) || null;
 }
 const availablePersons = (forms) => forms.map((f, i) => (primary(f) && primary(f) !== MISSING ? i : -1)).filter(i => i >= 0);
 const cleanChoices = (q) => { if (q && q.choices) q.choices = q.choices.filter(c => c.label !== MISSING); return q; };

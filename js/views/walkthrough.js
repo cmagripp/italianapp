@@ -14,7 +14,7 @@
 import { html, raw, esc, haptic, speak, icon } from '../ui.js';
 import { setChrome } from '../app.js';
 import { setScene, mount, reducedMotion, sheen, shake, countUp, stamp, confetti, SCENES } from '../fx.js';
-import { checkTyped, accentBar, bindAccentBar } from '../games/engine.js';
+import { checkTyped, accentBar, bindAccentBar, revealInScroller } from '../games/engine.js';
 import { shuffle } from '../data.js';
 
 const pad2 = (n) => String(n).padStart(2, '0');
@@ -62,13 +62,13 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     if (!s) return;
     const b = s.body;
     const more = b.classList.contains('scrollable') && b.scrollHeight - b.clientHeight - b.scrollTop > 12;
-    s.el.classList.toggle('more', more);
+    if (s.el.classList.contains('more') !== more) s.el.classList.toggle('more', more);
   }
   function checkOverflow(s) {
     if (!s || s.el.hidden) return;
     const b = s.body;
-    b.classList.remove('scrollable');
-    if (b.scrollHeight > b.clientHeight + 6) b.classList.add('scrollable');
+    const want = b.scrollHeight > b.clientHeight + 6;
+    if (b.classList.contains('scrollable') !== want) b.classList.toggle('scrollable', want);
     paintMore(s);
   }
 
@@ -149,6 +149,7 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
       goto,
       isCurrent: () => current === i,
       setHint(text) { s.hint.textContent = text || ''; },
+      setLockLabel(text) { const lab = !s.ready && s.cta && s.cta.querySelector('.lab'); if (lab) lab.textContent = text || s.def.lockLabel || 'Complete this step'; },
       parallax(target, factor = 0.15) { if (target) parallaxItems.push({ el: target, scene: el, factor }); },
     };
     if (s.cta) s.cta.addEventListener('click', () => { if (s.ready) goto(i + 1); });
@@ -195,6 +196,14 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
     for (const en of entries) if (en.isIntersecting && en.intersectionRatio >= .55) setCurrent(Number(en.target.dataset.i));
   }, { root: container, threshold: [.55] });
   scenes.forEach(s => io.observe(s.el));
+  // content that arrives later (drill questions, typewriter, feedback) changes the body height: re-check overflow
+  let moRaf = 0;
+  const ownClass = (r) => r.type === 'attributes' && r.attributeName === 'class' && (r.target.classList.contains('scene-body') || r.target.classList.contains('wt-scene') || r.target.classList.contains('scene-foot'));
+  const mo = new MutationObserver((records) => {
+    if (records.every(ownClass)) return; // our own .scrollable / .more / .locked toggles
+    if (!moRaf) moRaf = requestAnimationFrame(() => { moRaf = 0; if (!destroyed) checkOverflow(scenes[current]); });
+  });
+  mo.observe(container, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden', 'class'] });
 
   // parallax of registered elements (hero word on the meet card) against the deck scroll
   let raf = 0;
@@ -255,6 +264,8 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
       destroyed = true;
       clearTimeout(gotoTimer);
       io.disconnect();
+      mo.disconnect();
+      cancelAnimationFrame(moRaf);
       container.removeEventListener('scroll', onScroll);
       container.removeEventListener('focusin', onFocusIn);
       container.removeEventListener('focusout', onFocusOut);
@@ -290,11 +301,14 @@ export function renderCheck(host, q, { prompt = null, limit = null, revealLabel 
     const kind = ok ? 'ok' : revealed ? 'info' : 'ko';
     const line = ok ? `${icon('check', { size: 18 })} ${res.accentIssue ? 'Right — mind the accent: ' + esc(ans) : 'Esatto'}`
       : revealed ? `${icon('sparkle', { size: 18 })} ${esc(ans)}`
-        : `${icon('x', { size: 18 })} Not quite — ${esc(ans)}`;
+        : res.articleIssue ? `${icon('x', { size: 18 })} Mind the article — ${esc(ans)}`
+          : `${icon('x', { size: 18 })} Not quite — ${esc(ans)}`;
     fb.innerHTML = `<div class="feedback ${kind}">${line}${q.explain ? `<div class="detail">${q.explain}</div>` : ''}</div>`;
     haptic(ok ? 'success' : 'error');
     if (speakAnswer && q.say && (!ok || revealed)) speak(q.say);
     onDone && onDone(ok, { revealed, res });
+    // the verdict must be seen: bring it into view once the scene has re-measured its body
+    requestAnimationFrame(() => { if (fb.isConnected) revealInScroller(fb); });
   };
 
   if (q.type === 'mc') {
@@ -330,6 +344,7 @@ export function renderCheck(host, q, { prompt = null, limit = null, revealLabel 
     const finish = (ok, res, revealed) => {
       if (state.answered) return;
       state.answered = true;
+      input.blur(); // release the keyboard (and the scene's .kb state) before the field is disabled
       input.disabled = true;
       host.querySelector('.wt-typed-actions')?.remove();
       host.querySelector('[data-accents]')?.remove();
