@@ -42,7 +42,7 @@ export const IRREGULAR = {
   valere: { pres: ['valgo', 'vali', 'vale', 'valiamo', 'valete', 'valgono'], pr: 'vals', fut: 'varr', pp: 'valso' },
   dolere: { pres: ['dolgo', 'duoli', 'duole', 'doliamo|dogliamo', 'dolete', 'dolgono'], pr: 'dols', fut: 'dorr', pp: 'doluto' },
   parere: { pres: ['paio', 'pari', 'pare', 'paiamo', 'parete', 'paiono'], pr: 'parv', fut: 'parr', pp: 'parso', imp: null },
-  solere: { pres: ['soglio', 'suoli', 'suole', 'sogliamo', 'solete', 'sogliono'], pr: null, fut: null, pp: 'solito', imp: null },
+  solere: { pres: ['soglio', 'suoli', 'suole', 'sogliamo', 'solete', 'sogliono'], pr: null, fut: null, pp: null, imp: null },
   soddisfare: { cls: 'ere', stem: 'soddisfac', pres: ['soddisfaccio|soddisfo', 'soddisfai|soddisfi', 'soddisfa|soddisfà', 'soddisfacciamo|soddisfiamo', 'soddisfate', 'soddisfanno|soddisfano'], pr: 'soddisfec', fut: 'soddisfar|soddisfer', subj: ['soddisfaccia|soddisfi', 'soddisfaccia|soddisfi', 'soddisfaccia|soddisfi', 'soddisfacciamo|soddisfiamo', 'soddisfacciate|soddisfiate', 'soddisfacciano|soddisfino'], imp: ["soddisfa|soddisfa'|soddisfai", 'soddisfaccia|soddisfi', 'soddisfacciamo|soddisfiamo', 'soddisfate', 'soddisfacciano|soddisfino'], pp: 'soddisfatto' },
   piacere: { pres: ['piaccio', 'piaci', 'piace', 'piacciamo', 'piacete', 'piacciono'], pr: 'piacqu', pp: 'piaciuto' },
   tacere: { pres: ['taccio', 'taci', 'tace', 'tacciamo', 'tacete', 'tacciono'], pr: 'tacqu', pp: 'taciuto' },
