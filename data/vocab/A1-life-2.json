@@ -77,7 +77,7 @@
 {"it":"borsa","en":"bag; handbag","pos":"noun","g":"f","pl":"borse","level":"A1","cat":"clothing","ex":"Il telefono è nella borsa.","exEn":"The phone is in the bag.","note":"Also 'la Borsa' = the stock exchange."},
 {"it":"occhiali","en":"glasses; spectacles","pos":"noun","g":"m","pl":"occhiali","level":"A1","cat":"clothing","ex":"Senza occhiali non vedo niente.","exEn":"Without glasses I can't see anything.","note":"Plural noun; 'occhiali da sole' = sunglasses."},
 {"it":"maglione","en":"sweater; jumper","pos":"noun","g":"m","pl":"maglioni","level":"A1","cat":"clothing","ex":"Questo maglione è di lana.","exEn":"This sweater is made of wool."},
-{"it":"jeans","en":"jeans","pos":"noun","g":"m","pl":"jeans","level":"A1","cat":"clothing","ex":"Porto i jeans tutti i giorni.","exEn":"I wear jeans every day.","note":"Invariable plural noun: i jeans."},
+{"it":"jeans","en":"jeans","pos":"noun","g":"m","pl":"jeans","level":"A1","cat":"clothing","ex":"Porto i jeans tutti i giorni.","exEn":"I wear jeans every day.","note":"Plural only: i jeans (the same form in the plural)."},
 {"it":"taglia","en":"size (of clothes)","pos":"noun","g":"f","pl":"taglie","level":"A1","cat":"clothing","ex":"Che taglia porta? La media.","exEn":"What size do you take? Medium.","note":"For shoes the word is 'numero'."},
 {"it":"sveglia","en":"alarm clock; wake-up call","pos":"noun","g":"f","pl":"sveglie","level":"A1","cat":"daily","ex":"La sveglia suona alle sette.","exEn":"The alarm goes off at seven."},
 {"it":"orologio","en":"watch; clock","pos":"noun","g":"m","pl":"orologi","level":"A1","cat":"daily","ex":"Il mio orologio è nuovo.","exEn":"My watch is new."},

@@ -22,11 +22,14 @@ const ISC_PRES = ['isco', 'isci', 'isce', 'iamo', 'ite', 'iscono'];
 const ISC_SUBJ = ['isca', 'isca', 'isca', 'iamo', 'iate', 'iscano'];
 
 // -ire verbs that do NOT take -isc- (used when metadata does not say)
-const NON_ISC = new Set(['aprire', 'coprire', 'dormire', 'partire', 'sentire', 'servire', 'seguire', 'vestire', 'offrire', 'soffrire', 'fuggire', 'bollire', 'cucire', 'divertire', 'avvertire', 'convertire', 'invertire', 'pentire', 'mentire', 'assorbire', 'nutrire', 'applaudire', 'sfuggire', 'scoprire', 'riaprire', 'ricoprire', 'riempire', 'empire', 'venire', 'salire', 'uscire', 'morire', 'udire', 'inseguire', 'proseguire', 'conseguire', 'eseguire', 'perseguire', 'susseguire', 'investire', 'travestire', 'svestire', 'rivestire', 'sovvertire', 'pervertire', 'sovvenire', 'ripartire', 'spartire', 'compartire', 'consentire', 'dissentire', 'risentire', 'presentire', 'acconsentire', 'apparire', 'comparire', 'scomparire', 'trasparire', 'sparire', 'inghiottire', 'seppellire', 'assalire', 'risalire', 'muggire', 'sbollire', 'ribollire', 'sdrucire', 'scucire', 'ricucire', 'sortire', 'languire', 'ruggire', 'riconvertire', 'riavvertire', 'rioffrire', 'riservire', 'ridormire', 'addormire', 'sopraddormire', 'assentire', 'aborrire', 'sbollire', 'riassorbire', 'divergire']);
+const NON_ISC = new Set(['aprire', 'coprire', 'dormire', 'partire', 'sentire', 'servire', 'seguire', 'vestire', 'offrire', 'soffrire', 'fuggire', 'bollire', 'cucire', 'divertire', 'avvertire', 'convertire', 'invertire', 'pentire', 'mentire', 'assorbire', 'nutrire', 'applaudire', 'sfuggire', 'rifuggire', 'scoprire', 'riaprire', 'ricoprire', 'riempire', 'empire', 'venire', 'salire', 'uscire', 'morire', 'udire', 'inseguire', 'proseguire', 'conseguire', 'eseguire', 'perseguire', 'susseguire', 'investire', 'travestire', 'svestire', 'rivestire', 'sovvertire', 'pervertire', 'sovvenire', 'ripartire', 'spartire', 'compartire', 'consentire', 'dissentire', 'risentire', 'presentire', 'acconsentire', 'apparire', 'comparire', 'scomparire', 'trasparire', 'sparire', 'inghiottire', 'seppellire', 'assalire', 'risalire', 'muggire', 'sbollire', 'ribollire', 'sdrucire', 'scucire', 'ricucire', 'sortire', 'languire', 'ruggire', 'riconvertire', 'riavvertire', 'rioffrire', 'riservire', 'ridormire', 'addormire', 'sopraddormire', 'assentire', 'aborrire', 'sbollire', 'riassorbire', 'divergire']);
 // -isc- exceptions inside NON_ISC family: sparire, inghiottire, seppellire, muggire, ruggire, languire, sortire, spartire, compartire take -isc-
 const ISC_OVERRIDE = new Set(['sparire', 'inghiottire', 'seppellire', 'muggire', 'ruggire', 'languire', 'sortire', 'spartire', 'compartire', 'aborrire', 'divergire']);
 
-const STRESSED_IARE = new Set(['sciare', 'inviare', 'spiare', 'avviare', 'rinviare', 'deviare', 'obliare', 'espiare', 'ovviare', 'fuorviare', 'sviare', 'traviare', 'striare', 'ammaliare', 'ravviare', 'riavviare', 'reinviare', 'disviare']);
+const STRESSED_IARE = new Set(['sciare', 'inviare', 'spiare', 'avviare', 'rinviare', 'deviare', 'obliare', 'espiare', 'ovviare', 'fuorviare', 'sviare', 'traviare', 'striare', 'ravviare', 'riavviare', 'reinviare', 'disviare']);
+
+// present participles that do not follow the plain -ente pattern (looked up by root; prefixes apply: veniente -> conveniente)
+const PRES_PART = { sapere: 'sapiente', venire: 'veniente', parere: 'parvente', cuocere: 'cocente', nuocere: 'nocente', muovere: 'movente', dormire: 'dormiente', nutrire: 'nutriente', salire: 'saliente', obbedire: 'obbediente', ubbidire: 'ubbidiente', esordire: 'esordiente', patire: 'paziente', sentire: 'senziente', capire: 'capiente' };
 
 const PREFIXES = ['ri', 'ra', 're', 's', 'dis', 'di', 'con', 'com', 'cor', 'col', 'co', 'a', 'ac', 'ad', 'af', 'ag', 'al', 'ap', 'ar', 'as', 'at', 'av', 'ab', 'am', 'an', 'in', 'im', 'il', 'ir', 'e', 'es', 'ex', 'de', 'pre', 'pro', 'per', 'tra', 'tras', 'trans', 'sotto', 'sopra', 'so', 'sur', 'su', 'sus', 'sub', 'inter', 'intra', 'intro', 'contra', 'contro', 'o', 'ob', 'oc', 'of', 'op', 'ot', 'retro', 'circon', 'circo', 'para', 'ben', 'bene', 'mal', 'male', 'sod', 'sof', 'sog', 'sop', 'sor', 'sos', 'sot', 'sov', 'stra', 'rin', 'ricon', 'pos', 'post', 'anti', 'estro', 'ultra', 'tele', 'auto', 'mano', 'man', 'rif', 'rap', 'rac', 'rag', 'ram', 'ras', 'rat', 'rav', 'scom', 'scon', 'sof', 'sub', 'sud', 'suf', 'sug', 'sup', 'soc', 'sog', 'sot', 'sov', 'fram', 'fra', 'frap', 'coin', 'contrap', 'contrav', 'contrad', 'contraf', 'sopraf', 'soprag', 'soprav', 'sopras', 'sovrap', 'presup', 'predis', 'indis', 'ricom', 'decom', 'giustap', 'equi', 'appar', 'intrat', 'trat', 'addi', 'capo', 'sottin', 'frain', 'condi', 'rias', 'compro', 'ripro', 'copro', 'discon', 'dif', 'ef', 'sup', 'sot', 'ante', 'mis', 'i', 'rim', 'se'];
 
@@ -187,7 +190,7 @@ function baseParadigm(inf, opts) {
   else if (cls === 'ere' && /sist$/.test(stem)) pp = stem + 'ito';
   else pp = joinAlts(stem, E.pp, cls, stressedI);
   const ger = e.ger || joinAlts(stem, E.ger, cls, stressedI);
-  const presPart = cls === 'are' ? stem + 'ante' : (isc ? stem + 'ente' : stem + 'ente');
+  const presPart = e.presPart || PRES_PART[inf] || (cls === 'are' ? stem + 'ante' : stem + 'ente');
 
   return { cls, isc, pres, imperf, pr, fut, cond, subj, subjImp, imp, pp, ger, presPart, irregular: !!opts.entry, defective };
 }
@@ -255,6 +258,8 @@ function pronForm(pron, form, clitic, strict, ciElide) {
     if (/^[aeiouàèéìòù]/.test(form)) return `${pron.slice(0, -2)}l'${form}|${pron} ${form}`;
   }
   if (clitic === 'ci' && ciElide && /^[eè]/.test(form)) return `c'${form}|ci ${form}`;
+  // "ne" elides before a form of essere starting in e: se n'è andato, me n'ero accorto (also accepted unelided)
+  if (/ne$/.test(pron) && ciElide && /^[eè]/.test(form)) return `${pron.slice(0, -1)}'${form}|${pron} ${form}`;
   return pron + ' ' + form;
 }
 
@@ -322,6 +327,8 @@ function build(infinitive, meta = {}, regular = false) {
 
   let aux = meta.aux || (cl && cl.aux) || 'avere';
   if (cl && cl.aux) aux = cl.aux;
+  // verbs that take either auxiliary (salire, scendere, piovere…): avere stays the primary form, the essere form is also listed and accepted
+  const both = aux === 'both' && !cl;
   if (aux === 'both') aux = 'avere';
   const auxKey = aux === 'essere' ? 'essere' : 'avere';
   const A = AUX_FORMS[auxKey];
@@ -344,7 +351,7 @@ function build(infinitive, meta = {}, regular = false) {
     if (noPP) return null;
     if (cl && cl.ppFixed) return fixedPP(par.pp, cl.ppFixed);
     if (auxKey === 'essere') return agreePP(par.pp, i);
-    return alts(par.pp)[0];
+    return par.pp; // all participle alternatives are accepted (ho perso | ho perduto), the first stays primary
   };
   const auxWith = (forms, i) => {
     if (!cl) return forms[i];
@@ -354,7 +361,7 @@ function build(infinitive, meta = {}, regular = false) {
   // auxiliary + participle, distributing alternatives on both sides ("se l'è cavata|se la è cavata", "è apparso/a|apparito/a")
   const compound = (auxForm, pp) => alts(auxForm).flatMap(a => alts(pp).map(p => a + ' ' + p)).join('|');
   for (const [tk, ak] of Object.entries(COMPOUND_MAP)) {
-    t[tk] = PERSONS.map((_, i) => { const p = ppFor(i); return p == null ? MISSING : compound(auxWith(A[ak], i), p); });
+    t[tk] = PERSONS.map((_, i) => { const p = ppFor(i); if (p == null) return MISSING; const f = compound(auxWith(A[ak], i), p); return both ? f + '|' + compound(AUX_FORMS.essere[ak][i], agreePP(par.pp, i)) : f; });
   }
   // Imperative
   if (par.imp) {
@@ -375,7 +382,8 @@ function build(infinitive, meta = {}, regular = false) {
     participioPassato: par.pp,
     participioPresente: par.presPart,
     gerundio: cl ? attachClitic(par.ger, cl.ger) : par.ger,
-    gerundioPassato: noPP ? MISSING : compound(auxKey === 'essere' ? 'essendo' : 'avendo', ppFor(0)),
+    // the clitic attaches to the auxiliary gerund: essendosi alzato, avendocela fatta, essendosene andato
+    gerundioPassato: noPP ? MISSING : compound((auxKey === 'essere' ? 'essendo' : 'avendo') + (cl ? cl.ger : ''), ppFor(0)) + (both ? '|' + compound('essendo', agreePP(par.pp, 0)) : ''),
   };
   // infinito passato
   if (noPP) nonFinite.infinitoPassato = MISSING;
@@ -383,7 +391,7 @@ function build(infinitive, meta = {}, regular = false) {
     if (cl.elideAvere) nonFinite.infinitoPassato = compound('aver' + cl.attach[1].replace(/^se/, ''), ppFor(0));
     else if (auxKey === 'essere') nonFinite.infinitoPassato = compound('esser' + cl.attach[1], ppFor(0));
     else nonFinite.infinitoPassato = compound('aver' + cl.attach[1], ppFor(0));
-  } else nonFinite.infinitoPassato = compound(auxKey === 'essere' ? 'essere' : 'avere', ppFor(0));
+  } else nonFinite.infinitoPassato = compound(auxKey === 'essere' ? 'essere' : 'avere', ppFor(0)) + (both ? '|' + compound('essere', agreePP(par.pp, 0)) : '');
 
   const result = {
     inf, base, root, prefix, clitic, cls: par.cls, isc: par.isc, aux, auxBoth: meta.aux === 'both',

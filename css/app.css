@@ -674,6 +674,7 @@ table.conj tr.irr td.form { color: var(--terracotta-text); }
 .sheet-wrap.open::after { opacity: 1; }
 .sheet-wrap.open .sheet-backdrop { opacity: 1; }
 .sheet-wrap.open .sheet { transform: translateY(0); }
+.sheet:focus-visible { outline: none; } /* the pane takes focus on open (ui.js) so Tab walks its controls; the pane itself is not a control */
 .sheet-body { padding-bottom: 4px; }
 /* touch-action: none — a finger dragging the handle must reach ui.js's pointer handlers instead of starting a scroll of the
    sheet (which cancels the pointer and leaves the sheet open); the pseudo-element is an invisible 32px-tall grab zone */

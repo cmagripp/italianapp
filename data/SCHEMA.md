@@ -59,7 +59,7 @@ Fields:
 - `en` (required): English meaning(s); separate alternatives with `; `.
 - `pos` (required): one of `noun`, `adj`, `adv`, `prep`, `conj`, `pron`, `num`, `det`, `interj`, `expr`.
 - `g` (required for nouns): `m`, `f`, or `mf` (same form for both genders, e.g. "cantante", "turista").
-- `pl` (required for nouns): plural form. Invariable nouns repeat the singular (e.g. "città" → "città"). Uncountable/singular-only nouns use `"-"`.
+- `pl` (required for nouns): plural form. Invariable nouns repeat the singular (e.g. "città" → "città"). Uncountable/singular-only nouns use `"-"`. Plural-only nouns (occhiali, nozze, affari) put the plural in both `it` and `pl` and say so in `note` ("Plural only", "Usually plural", "Plural in this sense"…); the app then shows them with the plural article. A note for an invariable singular (serie, caricabatterie) should say "invariable".
 - `fem` (optional, nouns for people/animals with a distinct feminine form): e.g. `"amico"` → `"fem": "amica"`.
 - `forms` (required for adjectives with variable endings): `[ms, fs, mp, fp]`, e.g. `["bello","bella","belli","belle"]`, `["grande","grande","grandi","grandi"]`. Invariable adjectives (`blu`, `rosa`) may omit it.
 - `level` (required), `cat` (required): see above.

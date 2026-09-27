@@ -4,7 +4,7 @@ import { setTitle } from '../app.js';
 import { store } from '../store.js';
 import { GAMES, TENSE_OPTIONS } from '../games/index.js';
 import { TENSE_BY_KEY } from '../conjugator.js';
-import { sourceChoices, resolveSource } from '../source.js';
+import { sourceChoices, resolveSource, sourceLabel } from '../source.js';
 import { LEVELS, LEVEL_INFO } from '../data.js';
 import { reel, dial, dropdown, mount } from '../fx.js';
 
@@ -55,6 +55,12 @@ const kindFilter = (game) => (e) => game.kind === 'any' ? true : game.kind === '
 
 export function openSourcePicker(game, presetSrc) {
   const choices = sourceChoices();
+  // a selection handed in by a screen (the custom-words collection plays "ids:…") is offered as its own source instead of
+  // silently falling back to the study scope
+  if (presetSrc && /^(ids|list):/.test(presetSrc) && !choices.some(c => c.spec === presetSrc)) {
+    const n = resolveSource(presetSrc).length;
+    if (n) choices.unshift({ spec: presetSrc, label: sourceLabel(presetSrc), sub: `${n} ${n === 1 ? 'item' : 'items'} chosen for this game`, count: n });
+  }
   const opts = game.options || [];
   const chosen = { src: presetSrc || lastSrc, tenses: ['presente', 'passatoProssimo'] };
   if (!choices.some(c => c.spec === chosen.src)) chosen.src = 'scope';
@@ -100,7 +106,7 @@ export function openSourcePicker(game, presetSrc) {
   s.body.addEventListener('click', (ev) => {
     const pick = ev.target.closest('[data-src-pick]');
     if (pick) {
-      dropdown(pick, sourceOptions(), { width: Math.min(340, window.innerWidth - 32), onSelect: (v) => { chosen.src = v; s.body.querySelector('[data-sources]').innerHTML = sourceRow(); } });
+      dropdown(pick, sourceOptions(), { width: Math.min(340, window.innerWidth - 32), onSelect: (v) => { chosen.src = v; const host = s.body.querySelector('[data-sources]'); host.innerHTML = sourceRow(); host.querySelector('[data-src-pick]')?.focus({ preventScroll: true }); } });
       return;
     }
     const o = ev.target.closest('[data-opt]');
@@ -169,6 +175,8 @@ export async function render(root, params, query) {
       const i = (g.kind === 'verb' ? verbs : vocab).findIndex(x => x.id === g.id);
       const r = reels[g.kind === 'verb' ? 1 : 0]; if (r && i >= 0) setTimeout(() => r.scrollTo(i, false), 60);
       openSourcePicker(g, query.src);
+      // the deep link has done its job: coming back from the game (top-bar back, swipe) must show the hub, not the sheet again
+      try { history.replaceState(history.state, '', location.href.replace(/#\/games\?.*$/, '#/games')); } catch { /* ignore */ }
     }
   }
   return () => reels.forEach(r => r.destroy());

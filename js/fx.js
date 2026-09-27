@@ -445,12 +445,25 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
     anchorEl.setAttribute('aria-expanded', 'false');
     doc.removeEventListener('keydown', onKey);
     window.removeEventListener('resize', place);
-    window.removeEventListener('scroll', close, true);
+    window.removeEventListener('scroll', onScroll, true);
     if (openDropdown === api) openDropdown = null;
+    // keyboard users get their place back: focus that was moved into the panel returns to the anchor
+    if (panel.contains(doc.activeElement) && anchorEl.isConnected) { try { anchorEl.focus({ preventScroll: true }); } catch { /* ignore */ } }
     setTimeout(() => layer.remove(), reducedMotion() ? 0 : 200);
     onClose && onClose();
   };
-  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  // the page scrolling away closes the menu; the panel scrolling its own options (13 sources, a long list) must not
+  const onScroll = (e) => { if (e.target === panel || (e.target instanceof Node && panel.contains(e.target))) return; close(); };
+  const options = () => [...panel.querySelectorAll('[data-value]')];
+  const focusOpt = (o) => { if (!o) return; try { o.focus({ preventScroll: true }); o.scrollIntoView({ block: 'nearest' }); } catch { /* ignore */ } };
+  const onKey = (e) => {
+    if (e.key === 'Escape') { close(); return; }
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+    const os = options(); if (!os.length) return;
+    e.preventDefault();
+    const i = os.indexOf(doc.activeElement);
+    focusOpt(os[e.key === 'Home' ? 0 : e.key === 'End' ? os.length - 1 : i < 0 ? 0 : clamp(i + (e.key === 'ArrowDown' ? 1 : -1), 0, os.length - 1)]);
+  };
   backdrop.addEventListener('click', close);
   panel.addEventListener('click', (e) => {
     const o = e.target.closest('[data-value]'); if (!o) return;
@@ -459,7 +472,9 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
   });
   doc.addEventListener('keydown', onKey);
   window.addEventListener('resize', place);
-  setTimeout(() => window.addEventListener('scroll', close, true), 50);
+  setTimeout(() => window.addEventListener('scroll', onScroll, true), 50);
+  // the menu is operable from the keyboard: the current option (or the first) takes focus once the panel is placed
+  setTimeout(() => { if (!closed) focusOpt(panel.querySelector('[data-value].on') || options()[0]); }, 60);
   const api = { close, el: panel };
   openDropdown = api;
   return api;

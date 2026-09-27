@@ -20,8 +20,8 @@ export const GRAMMAR_FALLBACK = [
   { id: 'auxiliaries', title: 'Essere or avere?', titleIt: 'Essere o avere?', summary: 'Choosing the auxiliary in compound tenses, and when the participle agrees.', practiceGame: 'aux' },
   { id: 'reflexives', title: 'Reflexive & pronominal verbs', titleIt: 'Verbi riflessivi e pronominali', summary: 'mi/ti/si… before the verb, attached to the imperative, and essere in the past.', practiceGame: 'conj-drill' },
   { id: 'spelling', title: 'Spelling changes in verbs', titleIt: 'Cambi di ortografia', summary: '-care/-gare, -ciare/-giare and -iare: keeping the sound when the ending changes.', practiceGame: 'conj-drill' },
-  { id: 'isc', title: 'The -isc- verbs', titleIt: 'I verbi in -isc-', summary: 'capisco, finisci, preferisce: which -ire verbs take the infix.', practiceGame: 'conj-drill' },
-  { id: 'imperative', title: 'Imperative & formal Lei', titleIt: "L'imperativo", summary: 'Commands with tu, noi, voi, the polite Lei, negatives and pronouns.', practiceGame: 'conj-choice' },
+  { id: 'isc', title: 'The -isc- verbs', titleIt: 'I verbi in -isc-', summary: 'capisco, finisci, preferisce: which -ire verbs take the infix.', practiceGame: 'conj-choice' },
+  { id: 'imperative', title: 'Imperative & formal Lei', titleIt: "L'imperativo", summary: 'Commands with tu, noi, voi, the polite Lei, negatives and pronouns.', practiceGame: 'conj-drill' },
   { id: 'pronouns', title: 'Object pronouns', titleIt: 'I pronomi', summary: 'Direct, indirect, combined and where they go.', practiceGame: 'cloze' },
   { id: 'prepositions', title: 'Prepositions', titleIt: 'Le preposizioni', summary: 'di, a, da, in, con, su, per, tra: articulated forms and verb patterns.', practiceGame: 'patterns' },
 ];
@@ -45,10 +45,12 @@ const pad2 = (n) => String(n).padStart(2, '0');
 // ---------- live examples from the dictionary ----------
 const nouns = () => data.vocab.filter(e => e.pos === 'noun');
 const byLevel = (a, b) => 'A1A2B1B2C1C2'.indexOf(a.level || 'C2') - 'A1A2B1B2C1C2'.indexOf(b.level || 'C2');
-const LO_RE = /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou]|j)/;
+const LO_RE = /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou])/; // same rule as article() in data.js
 const first = (arr, n) => arr.slice().sort(byLevel).slice(0, n);
 const liveRow = (e, it, note) => html`<a class="live-row" href="${refHref(e.id)}"><span class="lr-main"><span class="lr-it">${it}</span>${note ? raw(html`<span class="lr-note">${note}</span>`) : ''}</span>${raw(speakBtn(it, 'sm'))}${ic('chevronRight', { size: 18 })}</a>`;
 const conjOf = (e) => conjugate(e.inf, { aux: e.aux, isc: e.isc });
+// io form, or the third person for an impersonal verb (volerci → ci vuole, not "ci voglio")
+const presOf = (e) => primary(conjOf(e).tenses.presente[/impersonal/i.test(e.usage || '') ? 2 : 0]);
 
 function liveExamples(topicId, section, idx) {
   const h = fold(section.heading || '');
@@ -57,33 +59,35 @@ function liveExamples(topicId, section, idx) {
   const pushN = (list, fn, n = 6) => { for (const e of first(list, n)) rows.push(fn(e)); };
   if (topicId === 'articles') {
     if (/lo|gli/.test(h) && idx < 3) pushN(nouns().filter(e => e.g === 'm' && LO_RE.test(fold(e.it)) && e.pl && e.pl !== '-' && !isPluralOnly(e)), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, e.en.split(';')[0]));
-    else if (/ending|-o, -a, -e/.test(h)) {
+    else if (/-o, -a, -e/.test(h)) {
       pushN(nouns().filter(e => e.g === 'f' && /o$/.test(e.it) && !e.it.includes(' ')), e => liveRow(e, withArticle(e), 'feminine in -o'), 3);
       pushN(nouns().filter(e => e.g === 'm' && /ma$/.test(e.it) && !e.it.includes(' ')), e => liveRow(e, withArticle(e), 'masculine in -ma'), 3);
     } else if (/feminine endings|-ione|-tà/.test(h)) pushN(nouns().filter(e => e.g === 'f' && /(tà|tù|ione|trice|ie)$/.test(e.it)), e => liveRow(e, withArticle(e), e.en.split(';')[0]));
   } else if (topicId === 'plurals') {
     if (/irregular/.test(h)) { kicker = 'Irregular plurals in the dictionary'; pushN(nouns().filter(e => /irregular/i.test(e.note || '') && e.pl && e.pl !== '-'), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, e.en.split(';')[0]), 8); }
     else if (/-co|-go|-ca|-ga/.test(h)) {
-      pushN(nouns().filter(e => /[cg]o$/.test(e.it) && /(chi|ghi)$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, 'keeps the hard sound'), 3);
-      pushN(nouns().filter(e => /[cg]o$/.test(e.it) && /(ci|gi)$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, 'softens: no h'), 3);
-      pushN(nouns().filter(e => /[cg]a$/.test(e.it) && /(che|ghe)$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, '-ca/-ga → -che/-ghe'), 2);
+      const masc = /-co|-go/.test(h); // the -ca/-ga section shows only feminine nouns
+      if (masc) pushN(nouns().filter(e => /[cg]o$/.test(e.it) && /(chi|ghi)$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, 'keeps the hard sound'), 3);
+      if (masc) pushN(nouns().filter(e => /[cg]o$/.test(e.it) && /(ci|gi)$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, 'softens: no h'), 3);
+      pushN(nouns().filter(e => /[cg]a$/.test(e.it) && /(che|ghe)$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, '-ca/-ga → -che/-ghe'), masc ? 2 : 6);
     } else if (/invariab/.test(h)) pushN(nouns().filter(e => e.pl === e.it && !isPluralOnly(e) && !e.it.includes(' ')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, /[àèéìòù]$/.test(e.it) ? 'stressed final vowel' : /[^aeiou]$/.test(e.it) ? 'loanword' : 'invariable'), 6);
-    else if (/-io/.test(h)) pushN(nouns().filter(e => /io$/.test(e.it) && e.pl && e.pl !== '-'), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, /ii$/.test(e.pl) ? 'stressed i: -ii' : 'one i'), 6);
+    else if (/-io/.test(h)) pushN(nouns().filter(e => /io$/.test(e.it) && /i$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, /ii$/.test(e.pl) ? 'stressed i: -ii' : 'one i'), 6);
   } else if (topicId === 'adjectives') {
     const adjs = data.vocab.filter(e => e.pos === 'adj');
     if (/four|-o\b|first|class/.test(h) && idx < 2) pushN(adjs.filter(e => e.forms && e.forms.length === 4 && e.forms[0] !== e.forms[1]), e => liveRow(e, e.forms.join(' · '), e.en.split(';')[0]), 5);
     else if (/two|-e\b/.test(h)) pushN(adjs.filter(e => e.forms && e.forms.length === 4 && e.forms[0] === e.forms[1]), e => liveRow(e, `${e.forms[0]} · ${e.forms[2]}`, e.en.split(';')[0]), 5);
-    else if (/invariab|colou?r/.test(h)) pushN(adjs.filter(e => !e.forms), e => liveRow(e, e.it, 'invariable'), 5);
+    else if (/invariab|colou?r/.test(h)) pushN(adjs.filter(e => !e.forms && !/feminine only/i.test(e.note || '')), e => liveRow(e, e.it, 'invariable'), 5);
   } else if (topicId === 'isc') {
     if (idx === 0) { kicker = '-isc- verbs in the dictionary'; pushN(data.verbs.filter(e => e.isc === true), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.presente[0])}`, e.en), 8); }
     else if (/without|not|no -isc|dorm|part|apr/.test(h)) { kicker = '-ire verbs without -isc-'; pushN(data.verbs.filter(e => e.isc === false && /ire$/.test(e.inf)), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.presente[0])}`, e.en), 8); }
   } else if (topicId === 'auxiliaries') {
-    if (/essere/.test(h) && !/avere|both|either/.test(h)) pushN(data.verbs.filter(e => e.aux === 'essere' && !/si$|sene$/.test(e.inf)), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.passatoProssimo[0])}`, e.en), 6);
-    else if (/avere/.test(h) && !/essere|both|either/.test(h)) pushN(data.verbs.filter(e => e.aux === 'avere'), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.passatoProssimo[0])}`, e.en), 6);
+    if (/reflexive|pronominal/.test(h)) pushN(data.verbs.filter(e => e.aux === 'essere' && /si$/.test(e.inf)), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.passatoProssimo[0])}`, e.en), 6);
+    else if (/essere/.test(h) && !/avere|both|either/.test(h)) pushN(data.verbs.filter(e => e.aux === 'essere' && !/si$|sene$/.test(e.inf)), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.passatoProssimo[0])}`, e.en), 6);
+    else if (/avere/.test(h) && !/essere|both|either/.test(h)) pushN(data.verbs.filter(e => e.aux === 'avere' && (/intransitiv/.test(h) ? e.trans === 'vi' : /^transitiv/.test(h) ? /^vt/.test(e.trans || '') : true)), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.passatoProssimo[0])}`, e.en), 6);
     else if (/both|either|change|meaning/.test(h)) { kicker = 'Verbs that take both'; pushN(data.verbs.filter(e => e.aux === 'both'), e => liveRow(e, e.inf, e.en), 8); }
   } else if (topicId === 'reflexives') {
-    if (idx === 0) pushN(data.verbs.filter(e => /si$/.test(e.inf)), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.presente[0])}`, e.en), 6);
-    else if (/pronominal|-sene|-sela|-cela|andarsene|farcela/.test(h)) { kicker = 'Pronominal verbs'; pushN(data.verbs.filter(e => /(sene|sela|cela|celo|sele|la|ci|ne)$/.test(e.inf) && !/si$/.test(e.inf) && splitClitic(e.inf).clitic), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.presente[0])}`, e.en), 6); }
+    if (idx === 0) pushN(data.verbs.filter(e => /si$/.test(e.inf)), e => liveRow(e, `${e.inf} → ${presOf(e)}`, e.en), 6);
+    else if (/pronominal|-sene|-sela|-cela|andarsene|farcela/.test(h)) { kicker = 'Pronominal verbs'; pushN(data.verbs.filter(e => /(sene|sela|cela|celo|sele|la|ci|ne)$/.test(e.inf) && !/si$/.test(e.inf) && splitClitic(e.inf).clitic), e => liveRow(e, `${e.inf} → ${presOf(e)}`, e.en), 6); }
   } else if (topicId === 'spelling') {
     if (/-care|-gare/.test(h)) pushN(data.verbs.filter(e => /[cg]are$/.test(e.inf)), e => { const c = conjOf(e); return liveRow(e, `${e.inf} → ${primary(c.tenses.presente[1])} · ${primary(c.tenses.futuro[0])}`, e.en); }, 6);
     else if (/-ciare|-giare|-sciare/.test(h)) pushN(data.verbs.filter(e => /(ciare|giare)$/.test(e.inf)), e => { const c = conjOf(e); return liveRow(e, `${e.inf} → ${primary(c.tenses.presente[1])} · ${primary(c.tenses.futuro[0])}`, e.en); }, 6);
@@ -94,11 +98,11 @@ function liveExamples(topicId, section, idx) {
       for (const end of ['are', 'ere', 'ire']) { const e = data.verbs.filter(v => v.level === 'A1' && v.inf.endsWith(end) && !v.irregular && !conjOf(v).irregular && !splitClitic(v.inf).clitic)[0]; if (e) { const c = conjOf(e); rows.push(liveRow(e, `${e.inf} → ${primary(c.tenses.presente[0])} · ${primary(c.tenses.passatoProssimo[0])} · ${primary(c.tenses.futuro[0])}`, `${c.group} · ${e.en}`)); } }
     }
   } else if (topicId === 'imperative') {
-    if (/irregular|tu\b|short|apostrophe/.test(h)) { kicker = 'Irregular tu imperatives'; for (const inf of ['andare', 'fare', 'dire', 'dare', 'stare', 'essere', 'avere', 'sapere']) { const e = getEntry('v:' + inf); if (e && conjOf(e).tenses.imperativo) rows.push(liveRow(e, `${e.inf} → ${conjOf(e).tenses.imperativo[0].split('|').join(' / ')}`, `Lei: ${primary(conjOf(e).tenses.imperativo[1])}`)); } }
+    if (/irregular|short|apostrophe/.test(h)) { kicker = 'Irregular tu imperatives'; for (const inf of ['andare', 'fare', 'dire', 'dare', 'stare', 'essere', 'avere', 'sapere']) { const e = getEntry('v:' + inf); if (e && conjOf(e).tenses.imperativo) rows.push(liveRow(e, `${e.inf} → ${conjOf(e).tenses.imperativo[0].split('|').join(' / ')}`, `Lei: ${primary(conjOf(e).tenses.imperativo[1])}`)); } }
   } else if (topicId === 'pronouns') {
-    if (/combined|attached|verb/.test(h) && idx > 1) { kicker = 'Verbs with a built-in pronoun'; pushN(data.verbs.filter(e => { const c = splitClitic(e.inf).clitic; return c && c !== 'si'; }), e => liveRow(e, `${e.inf} → ${primary(conjOf(e).tenses.presente[0])}`, e.en), 6); }
+    if (/combined|attached|verb/.test(h) && idx > 1) { kicker = 'Verbs with a built-in pronoun'; pushN(data.verbs.filter(e => { const c = splitClitic(e.inf).clitic; return c && c !== 'si'; }), e => liveRow(e, `${e.inf} → ${presOf(e)}`, e.en), 6); }
   } else if (topicId === 'prepositions') {
-    if (/verb|di\b|a\b|pattern/.test(h)) {
+    if (/verb|^di and a\b|pattern/.test(h)) {
       kicker = 'Verb patterns from the dictionary';
       const pats = [];
       for (const e of data.verbs.slice().sort(byLevel)) { for (const p of e.patterns || []) if (/\b(di|a) (fare|qualcuno|qualcosa)\b/.test(p) && pats.length < 8 && !pats.some(x => x.p === p)) pats.push({ e, p }); if (pats.length >= 8) break; }

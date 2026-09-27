@@ -91,10 +91,17 @@ export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, 
     </div>`;
   document.body.append(wrap);
   document.body.classList.add('no-scroll');
-  requestAnimationFrame(() => wrap.classList.add('open'));
   let closed = false;
   const pane = wrap.querySelector('.sheet');
-  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  // Keyboard and screen-reader users land inside the sheet: the pane takes focus (Tab then walks its own controls) and
+  // the app behind it is inert while any sheet is open; focus goes back to the opener on close.
+  const opener = document.activeElement;
+  const chrome = ['view', 'topbar', 'tabs'].map(id => document.getElementById(id)).filter(Boolean);
+  pane.setAttribute('tabindex', '-1');
+  chrome.forEach(el => el.setAttribute('inert', ''));
+  requestAnimationFrame(() => { wrap.classList.add('open'); if (!closed && !pane.contains(document.activeElement)) pane.focus({ preventScroll: true }); });
+  // an open dropdown menu over the sheet takes the Escape itself (fx.js): one key press must not dismiss both layers
+  const onKey = (e) => { if (e.key === 'Escape' && !document.querySelector('.dropdown-layer')) close(); };
   const close = (opts) => {
     if (closed) return; closed = true;
     openSheets.delete(close);
@@ -102,6 +109,8 @@ export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, 
     wrap.classList.remove('open');
     document.body.classList.remove('no-scroll');
     document.removeEventListener('keydown', onKey);
+    if (!openSheets.size) chrome.forEach(el => el.removeAttribute('inert'));
+    if (wrap.contains(document.activeElement) && opener && opener.isConnected && typeof opener.focus === 'function') { try { opener.focus({ preventScroll: true }); } catch { /* ignore */ } }
     setTimeout(() => wrap.remove(), 320);
     if (!silent && onClose) onClose();
   };

@@ -62,7 +62,13 @@ function buildSearchIndex() {
   searchIndex = [];
   for (const e of data.byId.values()) {
     const it = fold(e.it), en = fold(e.en);
-    searchIndex.push({ e, it, en, enParts: en.split(/;|,/).map(x => x.trim().replace(/^to /, '').replace(/^(the|a|an) /, '')) });
+    // inflected forms a learner meets in texts and on the cards: the plural, the feminine, the four adjective forms
+    const forms = new Set();
+    if (e.pl && !/^[-—]$/.test(e.pl)) forms.add(fold(e.pl));
+    if (e.fem) forms.add(fold(e.fem));
+    for (const f of e.forms || []) if (f) forms.add(fold(f));
+    forms.delete(it);
+    searchIndex.push({ e, it, en, forms: [...forms], enParts: en.split(/;|,/).map(x => x.trim().replace(/^to /, '').replace(/^(the|a|an) /, '')) });
   }
 }
 
@@ -70,18 +76,24 @@ export function search(query, { limit = 40, kind = null } = {}) {
   const q = fold(query).trim();
   if (!q) return [];
   if (!searchIndex) buildSearchIndex();
-  const qNoTo = q.replace(/^to /, '');
+  // the indexed English parts are stored without "to" / "the" / "a", so the query loses them too; "to …" asks for a verb
+  const qNoTo = q.replace(/^to /, '').replace(/^(the|a|an) /, '');
+  const wantVerb = /^to /.test(q);
+  // headwords are shown with their article ("la casa", "l'acqua", "gli uomini"), so the query is also tried without it
+  const qNoArt = q.replace(/^(il|lo|la|i|gli|le|un|uno|una) |^(l|un)'/, '');
+  const qs = qNoArt && qNoArt !== q ? [q, qNoArt] : [q];
   const results = [];
   for (const r of searchIndex) {
     if (kind && r.e.kind !== kind) continue;
-    let score = 0;
+    let score = 0, m;
     if (r.it === q) score = 100;
-    else if (r.enParts.some(p => p === q || p === qNoTo)) score = 95;
-    else if (r.it.startsWith(q)) score = 80 - Math.min(20, r.it.length - q.length);
+    else if (r.enParts.some(p => p === q || p === qNoTo)) score = wantVerb && r.e.kind === 'verb' ? 98 : 95;
+    else if (qs.length > 1 && r.it === qs[1]) score = 97; // "il quale" is the pronoun itself before "quale"
+    else if (qs.some(x => r.forms.includes(x))) score = 90;
+    else if ((m = qs.find(x => r.it.startsWith(x)))) score = 80 - Math.min(20, r.it.length - m.length);
     else if (r.enParts.some(p => p.startsWith(qNoTo))) score = 70;
-    else if (r.it.includes(q)) score = 50;
+    else if (qs.some(x => r.it.includes(x))) score = qs.some(x => r.it.split(' ').includes(x)) ? 60 : 50; // a whole word of a phrase (a casa) above a fragment (casamatta)
     else if (r.en.includes(qNoTo)) score = 40;
-    else if (r.it.split(' ').some(w => w.startsWith(q))) score = 45;
     if (score) results.push({ e: r.e, score: score - LEVELS.indexOf(r.e.level) * 0.5 });
   }
   results.sort((a, b) => b.score - a.score || a.e.it.length - b.e.it.length);
@@ -91,7 +103,7 @@ export function search(query, { limit = 40, kind = null } = {}) {
 // ---------- articles ----------
 function startsLo(w) {
   const s = fold(w);
-  return /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou]|j)/.test(s);
+  return /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou])/.test(s); // loanwords in j- sound /dʒ/ and take il: il jazz, i jeans
 }
 function startsVowel(w) { return /^h?[aeiouàèéìíîòóùú]/.test(fold(w)); } // a leading h is silent: l'hotel, gli hobby
 
@@ -106,7 +118,9 @@ export function article(entry, plural = false) {
     return plural ? (startsLo(w) || startsVowel(w) ? 'gli/le' : 'i/le') : (startsVowel(w) ? "l'" : (startsLo(w) ? 'lo/la' : 'il/la'));
   }
   if (g === 'f') return plural ? 'le' : (startsVowel(w) ? "l'" : 'la');
-  if (plural && /o$/.test(fold(entry.it)) && /a$/.test(fold(w))) return 'le'; // uovo → le uova, braccio → le braccia
+  // uovo → le uova, braccio → le braccia; the same gender switch with a plural not in -a: le orecchie, le carceri, le greggi
+  if (plural && ((/o$/.test(fold(entry.it)) && /a$/.test(fold(w))) || /^(orecchio|carcere|gregge)$/.test(fold(entry.it)))) return 'le';
+  if (plural && fold(entry.it) === 'dio') return 'gli'; // the one plural that takes gli before a consonant: gli dei
   if (plural) return (startsLo(w) || startsVowel(w)) ? 'gli' : 'i';
   return startsVowel(w) ? "l'" : (startsLo(w) ? 'lo' : 'il');
 }
@@ -114,7 +128,16 @@ export const withArticle = (entry, plural = false) => {
   const a = article(entry, plural); const w = plural ? entry.pl : entry.it;
   if (!a) return w; return a.endsWith("'") ? a + w : a + ' ' + w;
 };
-export function isPluralOnly(e) { return e.pos === 'noun' && e.pl === e.it && /(plural[- ]only|solo (al )?plurale|plurale tantum|plural noun|only in the plural|always plural|plurale)/i.test(e.note || '') && !/invariab/i.test(e.note || '') && /[ie]$/.test(e.it); }
+// A noun stored in its plural form (occhiali, affari, media): the note says so in one of the usual phrasings, and an
+// invariable singular (serie, crisi, caricabatterie) is never one, whatever else its note says about plurals.
+const PLURAL_ONLY_RE = /(plural[- ]only|solo (al )?plurale|plurale tantum|plural noun|only in the plural|always plural|plurale|^plural\b|(usually|normally|mostly|often|generally|almost only|almost always|only|literary|feminine|masculine|the) plural|plural (of|form|feminine|masculine|in\b)|used in the plural|in the plural)/i;
+export function isPluralOnly(e) {
+  if (e.pos !== 'noun' || e.pl !== e.it) return false;
+  const note = e.note || '';
+  if (!PLURAL_ONLY_RE.test(note) || /invariab/i.test(note)) return false;
+  // the head noun must look plural (lenti a contatto, generalità); a loanword (jeans, social) only when the note opens by saying so
+  return /[iea]$/.test(fold(e.it).split(' ')[0]) || /^(plural[- ]only|always plural|usually plural)/i.test(note);
+}
 export function isUncountable(e) { return e.pos === 'noun' && (e.pl === '-' || e.pl === '—'); }
 
 // Display headword: nouns with article, verbs as infinitive

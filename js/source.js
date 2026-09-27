@@ -27,10 +27,10 @@ export function resolveSource(spec = 'scope') {
     case 'bank': return (store.lists.bank?.items || []).map(getEntry).filter(Boolean);
     case 'list': return (store.lists[a]?.items || []).map(getEntry).filter(Boolean);
     case 'level': return [...data.vocab, ...data.verbs, ...custom.map(getEntry)].filter(e => e && e.level === a && (!b || e.cat === b));
-    case 'cat': return [...data.vocab, ...data.verbs].filter(e => e.cat === a);
+    case 'cat': return [...data.vocab, ...data.verbs, ...custom.map(getEntry)].filter(e => e && e.cat === a);
     case 'recent': return (store.current.recent || []).map(getEntry).filter(Boolean);
     case 'all': return [...data.vocab, ...data.verbs, ...custom.map(getEntry).filter(Boolean)];
-    case 'ids': return safeDecode(a || '').split(',').map(s => s.trim()).filter(Boolean).map(getEntry).filter(Boolean);
+    case 'ids': return [...new Set(safeDecode(a || '').split(',').map(s => s.trim()).filter(Boolean))].map(getEntry).filter(Boolean);
     case 'scope':
     default: return itemsForScope(store.scope, store);
   }
@@ -45,8 +45,8 @@ export function sourceLabel(spec = 'scope') {
     case 'due': return 'Due for review';
     case 'bank': return 'My word bank';
     case 'list': return store.lists[a]?.name || 'List';
-    case 'level': return `Level ${a}${b ? ' · ' + (CATS[b]?.name || b) : ''}`;
-    case 'cat': return CATS[a]?.name || a;
+    case 'level': return a ? `Level ${a}${b ? ' · ' + (CATS[b]?.name || b) : ''}` : 'Level'; // "level:" alone must not label an empty game "<b></b>"
+    case 'cat': return CATS[a]?.name || a || 'Topic';
     case 'recent': return 'Recently viewed';
     case 'all': return 'All words & verbs';
     case 'ids': return 'Selected items';
@@ -56,17 +56,19 @@ export function sourceLabel(spec = 'scope') {
 
 // Options for the picker
 export function sourceChoices() {
-  const learnedV = store.learnedIds('v:').length, learnedW = store.learnedIds().length - learnedV, due = store.dueIds().length;
+  // every count is what the spec really resolves to: progress or list ids whose entry no longer exists, and custom words
+  // at a level, would otherwise make the picker promise a different number than the game gets
+  const n = (spec) => resolveSource(spec).length;
   const out = [
-    { spec: 'scope', label: 'Current study scope', sub: describeScope(store.scope, store), count: itemsForScope(store.scope, store).length },
-    { spec: 'due', label: 'Due for review', sub: 'Spaced-repetition queue', count: due },
-    { spec: 'learned', label: 'Everything I have learned', sub: 'Words and verbs marked learned', count: learnedW + learnedV },
-    { spec: 'learned-verbs', label: 'My learned verbs', sub: 'Verbs whose introduction you completed', count: learnedV },
-    { spec: 'learned-words', label: 'My learned words', sub: 'Vocabulary you completed', count: learnedW },
-    { spec: 'bank', label: 'My word bank', sub: 'Saved words', count: store.lists.bank?.items.length || 0 },
+    { spec: 'scope', label: 'Current study scope', sub: describeScope(store.scope, store), count: n('scope') },
+    { spec: 'due', label: 'Due for review', sub: 'Spaced-repetition queue', count: n('due') },
+    { spec: 'learned', label: 'Everything I have learned', sub: 'Words and verbs marked learned', count: n('learned') },
+    { spec: 'learned-verbs', label: 'My learned verbs', sub: 'Verbs whose introduction you completed', count: n('learned-verbs') },
+    { spec: 'learned-words', label: 'My learned words', sub: 'Vocabulary you completed', count: n('learned-words') },
+    { spec: 'bank', label: 'My word bank', sub: 'Saved words', count: n('bank') },
   ];
-  for (const l of Object.values(store.lists)) if (l.id !== 'bank') out.push({ spec: 'list:' + l.id, label: l.name, sub: 'Custom list', count: l.items.length });
-  for (const L of LEVELS) out.push({ spec: 'level:' + L, label: `Level ${L} · ${LEVEL_INFO[L].name}`, sub: 'All words and verbs at this level', count: data.vocab.filter(e => e.level === L).length + data.verbs.filter(e => e.level === L).length });
-  out.push({ spec: 'recent', label: 'Recently viewed', sub: 'Last 30 entries you opened', count: (store.current.recent || []).length });
+  for (const l of Object.values(store.lists)) if (l.id !== 'bank') out.push({ spec: 'list:' + l.id, label: l.name, sub: 'Custom list', count: n('list:' + l.id) });
+  for (const L of LEVELS) out.push({ spec: 'level:' + L, label: `Level ${L} · ${LEVEL_INFO[L].name}`, sub: 'All words and verbs at this level', count: n('level:' + L) });
+  out.push({ spec: 'recent', label: 'Recently viewed', sub: 'Last 30 entries you opened', count: n('recent') });
   return out;
 }

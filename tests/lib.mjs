@@ -191,6 +191,67 @@ export async function seedProgress(page, { words = 20, verbs = 10 } = {}) {
   }, { words, verbs });
 }
 
+// ---------- answer oracle ----------
+// Computes the accepted answer for the question shown inside rootSel (a walkthrough scene or a drill host) from the
+// dictionary and the conjugation engine, so a flow can pass a drill instead of guessing. `id` is the entry the
+// walkthrough is about. Returns { tag, type: 'mc'|'type'|'none', choices, answer, index, text }: `index` is the choice
+// to tap (-1 when none matches), `text` what to type; both are null/-1 for a question the oracle does not recognise.
+export async function answerOracle(page, rootSel, id) {
+  return page.evaluate(async ({ rootSel, id }) => {
+    const D = await import('./js/data.js');
+    const C = await import('./js/conjugator.js');
+    const root = document.querySelector(rootSel) || document;
+    const N = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+    const T = (sel) => N(root.querySelector(sel)?.textContent);
+    const tag = T('.q-card .prompt'), big = T('.q-card .big');
+    // a choice's label without its sub line (runDrill wraps it in .choice-label + .tiny, the auxiliary tiles in .aux-word + .aux-sub)
+    const labelOf = (b) => { const c = (b.querySelector('.choice-label, .aux-word') || b).cloneNode(true); c.querySelectorAll('.tiny, .aux-sub').forEach(x => x.remove()); return N(c.textContent); };
+    const choices = [...root.querySelectorAll('button.choice:not([disabled])')].map(labelOf);
+    const type = root.querySelector('input[data-answer]:not([disabled])') ? 'type' : choices.length ? 'mc' : 'none';
+    const e = D.getEntry(id);
+    const conj = e && e.kind === 'verb' ? C.conjugate(e.inf, { aux: e.aux, isc: e.isc }) : null;
+    const tenseByName = (name) => C.TENSES.find(t => t.name === name);
+    const formsOf = (t, personName) => {
+      const persons = t.key === 'imperativo' ? C.IMP_PERSONS : C.PERSONS;
+      const p = persons.findIndex(x => D.fold(x) === D.fold(personName));
+      return conj && conj.tenses[t.key] && p >= 0 ? C.accepted(conj.tenses[t.key][p]) : [];
+    };
+    const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    let answer = null; let m;
+    if (!e) answer = null;
+    else if ((m = tag.match(/^(.*?) · (io|tu|lui\/lei|noi|voi|loro|Lei|Loro)$/)) && tenseByName(m[1])) answer = formsOf(tenseByName(m[1]), m[2]);
+    else if ((m = tag.match(/^Quick check · (.+)$/)) && tenseByName(m[1])) answer = formsOf(tenseByName(m[1]), big.replace('?', '').trim());
+    else if (/closest in meaning|What does it mean|Type the English/i.test(tag)) answer = D.shortEn(e.en);
+    else if (/Choose the Italian/i.test(tag)) answer = e.kind === 'verb' ? e.inf : D.headword(e);
+    else if (/Which auxiliary/i.test(tag)) answer = e.aux === 'both' ? 'both (depends on meaning)' : (e.aux || 'avere');
+    else if (/^Passato prossimo$/i.test(tag) && root.querySelector('.aux-tile')) answer = e.aux === 'both' ? 'entrambi' : e.aux === 'essere' ? 'essere' : 'avere';
+    else if (/participio passato/i.test(tag)) answer = conj ? C.accepted(conj.nonFinite.participioPassato) : null;
+    else if (/^gerundio$/i.test(tag)) answer = conj ? C.accepted(conj.nonFinite.gerundio) : null;
+    else if (/Which preposition/i.test(tag)) {
+      // "pensare ? qualcuno" → the preposition of the pattern with that verb and remainder (twins are all accepted)
+      const words = big.replace('?', ' ').split(/\s+/).filter(Boolean);
+      const hits = (e.patterns || []).map(p => p.match(/^(\S+)\s+(a|di|da|in|con|su|per|tra|fra)\s+(.+)$/i)).filter(Boolean)
+        .filter(x => D.fold(x[1]) === D.fold(words[0] || '') && D.fold(x[3]) === D.fold(words.slice(1).join(' ')));
+      answer = hits.map(x => x[2].toLowerCase());
+    } else if (/Fill in the blank/i.test(tag)) {
+      const it = root.querySelector('.q-card .sentence .it'); const blank = it && it.querySelector('.blank');
+      if (blank) {
+        const nodes = [...it.childNodes]; const k = nodes.indexOf(blank);
+        const before = N(nodes.slice(0, k).map(n => n.textContent).join('')), after = N(nodes.slice(k + 1).map(n => n.textContent).join(''));
+        const re = new RegExp('^' + esc(D.fold(before)) + '\\s*(.+?)\\s*' + esc(D.fold(after)) + '$');
+        const sentences = e.kind === 'verb' ? (e.examples || []).map(x => x.it) : (e.ex ? [e.ex] : []);
+        answer = sentences.map(s => (D.fold(N(s)).match(re) || [])[1]).filter(Boolean);
+      }
+    } else if (/Which article/i.test(tag)) answer = D.article(e, false);
+    else if (/Choose the plural|Type the plural/i.test(tag)) answer = e.pl;
+    else if (/Ascolta/i.test(tag)) answer = D.headword(e);
+    else if (/Scrivi|Type the Italian/i.test(tag)) answer = e.kind === 'verb' ? e.inf : e.it;
+    const list = (Array.isArray(answer) ? answer : [answer]).filter(a => a != null && a !== '' && a !== C.MISSING);
+    const index = type === 'mc' ? choices.findIndex(c => list.some(a => D.fold(c) === D.fold(a))) : -1;
+    return { tag, type, choices, answer: list[0] ?? null, index, text: type === 'type' && list[0] ? list[0] : null };
+  }, { rootSel, id });
+}
+
 // ---------- screenshots & reports ----------
 export async function shot(page, name) {
   if (!SHOTS) return null;

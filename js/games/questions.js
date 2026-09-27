@@ -173,8 +173,9 @@ export function qScramble(e) {
 }
 
 export function qDictation(e) {
-  // a noun of either gender is read with one article ("il cantante", never "il/la cantante"); both articles are accepted
-  const full = e.kind === 'verb' ? e.inf : (e.pos === 'noun' && !isPluralOnly(e) ? withArticle(e, false) : e.it);
+  // a noun of either gender is read with one article ("il cantante", never "il/la cantante"); both articles are accepted.
+  // A plural-only noun is read with its plural article (gli occhiali), which is then a right answer too.
+  const full = e.kind === 'verb' ? e.inf : (e.pos === 'noun' ? withArticle(e, isPluralOnly(e)) : e.it);
   const text = full.replace(/^(\S+?)\/\S+ /, '$1 ');
   return { type: 'type', itemId: e.id, tag: 'Listen and type', prompt: html`<div class="big dict">${raw(icon('ear', { size: 44 }))}</div><div class="sub">Tap the speaker, then type what you hear</div>`, say: text, autoSay: true, answer: [text, it(e), full], placeholder: 'What did you hear?', explain: esc(enOf(e)) };
 }

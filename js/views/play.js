@@ -23,7 +23,10 @@ export async function render(root, params, query) {
   setChrome({ tabs: false, back: true });
   const src = query.src || 'scope';
   let items = resolveSource(src);
-  if (game.kind === 'verb') items = items.filter(e => e.kind === 'verb');
+  // the speed round's "Conjugations (verbs)" and matching's "Verb ↔ participle / present form" are verb rounds whatever the
+  // source holds: on Level A1 (917 words, 124 verbs) they would otherwise be word rounds with a few verb questions
+  const verbRound = (game.id === 'speed' || game.id === 'matching') && (query.mode === 'conj' || query.mode === 'participle');
+  if (game.kind === 'verb' || verbRound) items = items.filter(e => e.kind === 'verb');
   else if (game.kind === 'noun') items = items.filter(e => e.kind === 'word' && e.pos === 'noun');
   else if (game.kind === 'word') items = items.filter(e => e.kind === 'word');
   const options = { ...query };
@@ -33,14 +36,16 @@ export async function render(root, params, query) {
   sceneFor(src, items);
   if (items.length < game.min) {
     const lvl = store.settings.level || 'A1';
-    const what = game.kind === 'verb' ? 'verbs' : game.kind === 'noun' ? 'nouns' : 'items';
+    const what = game.kind === 'verb' || verbRound ? 'verbs' : game.kind === 'noun' ? 'nouns' : 'items';
     const learnedHint = src.startsWith('learned') ? html`<p class="why">Complete verb or word introductions in <a href="#/learn">Learn</a> to build up this list, or play with a level instead.</p>` : '';
+    // "Use level" keeps every option the learner chose (mode, direction, typed answers, tenses): only the source changes
+    const useLevel = new URLSearchParams({ ...query, src: 'level:' + lvl }).toString();
     root.innerHTML = html`<div class="empty play-empty">
       <span class="kicker">${game.name}</span>
       <p>${raw(tr('Troppo poche parole qui.', 'Too few words here.'))}</p>
       <p class="why"><b>${sourceLabel(src)}</b> has ${items.length} usable ${what}; this game needs at least ${game.min}.</p>
       ${raw(learnedHint)}
-      <div class="row gap"><a class="btn primary" href="#/game/${game.id}?src=level:${lvl}${query.tenses ? '&tenses=' + query.tenses : ''}">Use level ${lvl}</a><a class="btn ghost" href="#/games?pick=${game.id}">Choose another source</a></div>
+      <div class="row gap"><a class="btn primary" href="#/game/${game.id}?${useLevel}">Use level ${lvl}</a><a class="btn ghost" href="#/games?pick=${game.id}">Choose another source</a></div>
     </div>`;
     return () => setChrome({ tabs: true });
   }

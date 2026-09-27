@@ -238,7 +238,10 @@ export function runDrill(root, questions, opts = {}) {
     fb.innerHTML = feedbackHTML({ ok, title, detail: q.explain || '', nextLabel: state.i + 1 >= total ? 'See results' : 'Continue' });
     requestAnimationFrame(() => { if (root.contains(fb)) revealInScroller(fb.firstElementChild || fb); });
     if (q.say && !ok) speak(q.say);
-    fb.querySelector('[data-next]').addEventListener('click', next);
+    const nextBtn = fb.querySelector('[data-next]');
+    nextBtn.addEventListener('click', next);
+    // Enter checked the answer (the field is disabled now): Enter again continues, without a hunt for the button
+    nextBtn.focus({ preventScroll: true });
     if (ok && autoAdvance && q.type === 'mc') setTimeout(() => { if (locked && !dead && root.contains(fb)) next(); }, 700);
     if (ok && res.accentIssue) toast('Remember the accent: ' + answerText);
   }

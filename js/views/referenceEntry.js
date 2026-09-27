@@ -19,7 +19,7 @@ const TRANS_EN = { vt: 'transitive', vi: 'intransitive', vr: 'reflexive / pronom
 const GENDER_IT = { m: 'maschile', f: 'femminile', mf: 'm · f' };
 const NF_NAME = { participioPassato: 'Participio passato', gerundio: 'Gerundio' };
 const tenseName = (k) => TENSE_BY_KEY[k]?.name || NF_NAME[k] || k;
-const LO_RE = /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou]|j)/;
+const LO_RE = /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou])/; // same rule as article() in data.js
 const VOWEL_RE = /^[aeiouàèéìíîòóùú]/;
 const link = (e, text) => html`<a class="ref-link" href="${refHref(e.id)}">${text || (e.kind === 'verb' ? e.inf : e.it)}</a>`;
 const chipLink = (e, cls = '') => html`<a class="chip ${cls}" href="${refHref(e.id)}">${e.kind === 'verb' ? e.inf : e.it}</a>`;
@@ -263,7 +263,7 @@ function renderVerb(root, e) {
         <div class="nf ${cells.participioPassato && pp[0] !== MISSING ? 'irr' : ''}"><div class="lab">Participio passato</div><div class="val">${pp[0]}${pp.length > 1 ? raw(` <span class="muted small">/ ${esc(pp.slice(1).join(' / '))}</span>`) : ''}</div></div>
         <div class="nf ${cells.gerundio ? 'irr' : ''}"><div class="lab">Gerundio</div><div class="val">${primary(nf.gerundio)}</div></div>
         <div class="nf"><div class="lab">Participio presente</div><div class="val">${primary(nf.participioPresente)}</div></div>
-        <div class="nf"><div class="lab">Infinito passato</div><div class="val">${nf.infinitoPassato}</div></div>
+        <div class="nf"><div class="lab">Infinito passato</div><div class="val">${primary(nf.infinitoPassato)}</div></div>
         <div class="nf"><div class="lab">Gerundio passato</div><div class="val">${primary(nf.gerundioPassato)}</div></div>
       </div>
     </div>
@@ -440,8 +440,10 @@ function articleRule(e) {
     let why;
     if (g === 'mf') why = (pv || plo) ? 'gli for men, le for women.' : 'i for men, le for women.';
     else if (g === 'f') why = 'le — feminine plural, never elided (le amiche).';
+    else if (article(e, true) === 'le') why = 'le — this masculine noun has a feminine plural, so the plural takes the feminine article.'; // le uova, le braccia, le orecchie
     else if (pv) why = 'gli — masculine plural before a vowel (gli amici), never shortened.';
     else if (plo) why = `gli — masculine plural before ${soundOf(plFirst)}, the plural of lo.`;
+    else if (article(e, true) === 'gli') why = 'gli — the one plural that takes gli before an ordinary consonant: gli dei (never i dei).';
     else why = 'i — masculine plural before an ordinary consonant, the plural of il.';
     items.push({ k: plOnly ? 'solo plurale' : 'plurale', v: withArticle(e, true), text: plOnly ? `Plural-only noun: it is always ${withArticle(e, true)}. ${why}` : why });
     if (!plOnly) { const r = pluralRule(e); items.push({ k: 'formazione', v: `${e.it} → ${e.pl}`, text: r.text, kind: r.kind }); }

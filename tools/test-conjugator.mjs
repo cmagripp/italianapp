@@ -218,7 +218,7 @@ T('succedere', { passatoRemoto: ['succedetti', null, 'succedette'], pp: 'succedu
 T('convergere', { passatoRemoto: ['conversi', 'convergesti', 'converse'], pp: 'converso', presente: ['convergo', 'convergi'] });
 T('divergere', { passatoRemoto: ['diversi'], pp: '—', presente: ['divergo'] });
 T('aspergere', { passatoRemoto: ['aspersi'], pp: 'asperso' });
-T('indulgere', { passatoRemoto: ['indulsi'], pp: 'indulso', presente: ['indulgo'] });
+T('indulgere', { passatoRemoto: ['indulsi'], pp: 'indulto', presente: ['indulgo'] });
 T('ergere', { pp: 'erto', passatoRemoto: ['ersi'] });
 T('configgere', { pp: 'confitto', passatoRemoto: ['confissi'] });
 T('infiggere', { pp: 'infisso', passatoRemoto: ['infissi'] });
@@ -333,6 +333,8 @@ none('solere', 'imperativo');
 T('urgere', { presente: [null, null, 'urge', null, null, 'urgono'], imperfetto: [null, null, 'urgeva'], pp: '—', passatoRemoto: [null, null, '—'] });
 T('splendere', { presente: ['splendo'], passatoRemoto: ['splendei'], pp: '—' });
 T('competere', { pp: '—', presente: ['competo'] });
+T('delinquere', { pp: '—', passatoRemoto: ['—'], futuro: ['—'], passatoProssimo: ['—'] });
+none('delinquere', 'imperativo');
 checks++; if (MISSING !== '—') { fails++; console.log('FAIL MISSING placeholder'); }
 checks++; if (!conjugate('dirimere').defective.includes('participioPassato')) { fails++; console.log('FAIL dirimere.defective'); }
 checks++; if (conjugate('capire').defective.length) { fails++; console.log('FAIL capire.defective should be empty'); }
@@ -743,6 +745,82 @@ cells('restringere', {}, { passatoRemoto: [0, 2, 5], participioPassato: [0] }, [
   checks++; if (regularParadigm('prendere').tenses.passatoRemoto[0] !== 'prendei|prendetti') { fails++; console.log('FAIL regularParadigm prendere pr alternatives'); }
   checks++; if (conjugate('andare').tenses.presente[0] !== 'vado') { fails++; console.log('FAIL conjugate cache must not be polluted by regularParadigm'); }
 }
+
+// ---------------------------------------------------------------------------------------------------
+// Engine audit: compound gerund with clitics, "ne" elision, both-auxiliary verbs, participle alternatives,
+// passato remoto alternatives, present participles, gaps for verbs added by hand
+// ---------------------------------------------------------------------------------------------------
+function nf(inf, key, expected, meta) {
+  checks++;
+  const got = conjugate(inf, meta).nonFinite[key];
+  if (got == null || !accepted(got).includes(expected)) { fails++; console.log(`FAIL ${inf} ${key}: expected "${expected}", got "${got}"`); }
+}
+// the clitic attaches to the auxiliary of the compound gerund, exactly as in the past infinitive
+nf('alzarsi', 'gerundioPassato', 'essendosi alzato/a', { aux: 'essere' }); nf('alzarsi', 'infinitoPassato', 'essersi alzato/a', { aux: 'essere' });
+nf('andarsene', 'gerundioPassato', 'essendosene andato/a', { aux: 'essere' });
+nf('farcela', 'gerundioPassato', 'avendocela fatta'); nf('farcela', 'infinitoPassato', 'avercela fatta');
+nf('metterci', 'gerundioPassato', 'avendoci messo'); nf('cavarsela', 'gerundioPassato', 'essendosela cavata');
+nf('smetterla', 'gerundioPassato', 'avendola smessa'); nf('uscirne', 'gerundioPassato', 'essendone uscito/a', { aux: 'essere' });
+nf('mangiare', 'gerundioPassato', 'avendo mangiato'); nf('andare', 'gerundioPassato', 'essendo andato/a', { aux: 'essere' });
+checks++; if (accepted(conjugate('alzarsi', { aux: 'essere' }).nonFinite.gerundioPassato).includes('essendo alzato/a')) { fails++; console.log('FAIL alzarsi gerundioPassato must not drop the clitic'); }
+// "ne" elides before a form of essere starting in e (also accepted unelided)
+T('andarsene', { passatoProssimo: [null, null, "se n'è andato/a"], trapassatoProssimo: ["me n'ero andato/a", null, "se n'era andato/a", null, null, "se n'erano andati/e"] }, { aux: 'essere' });
+T('andarsene', { passatoProssimo: [null, null, 'se ne è andato/a'], trapassatoProssimo: ['me ne ero andato/a'], imperfetto: ['me ne andavo'], presente: ['me ne vado'] }, { aux: 'essere' });
+T('fregarsene', { passatoProssimo: [null, null, "se n'è fregato/a"] }, { aux: 'essere' });
+T('accorgersene', { passatoProssimo: [null, null, "se n'è accorto/a", null, null, 'se ne sono accorti/e'] });
+T('uscirne', { passatoProssimo: ['ne sono uscito/a', null, "n'è uscito/a"] }, { aux: 'essere' });
+checks++; if (!isCorrectForm("se n'è andato", conjugate('andarsene', { aux: 'essere' }).tenses.passatoProssimo[2])) { fails++; console.log("FAIL isCorrectForm se n'è andato"); }
+// verbs that take both auxiliaries: avere is primary (the drill says "use avere"), the essere form is listed and accepted
+T('salire', { passatoProssimo: ['ho salito', 'hai salito', 'ha salito', 'abbiamo salito', 'avete salito', 'hanno salito'] }, { aux: 'both', isc: false });
+T('salire', { passatoProssimo: ['sono salito/a', 'sei salito/a', 'è salito/a', 'siamo saliti/e', 'siete saliti/e', 'sono saliti/e'], trapassatoProssimo: ['ero salito/a'], futuroAnteriore: ['sarò salito/a'], condizionalePassato: ['sarei salito/a'], congiuntivoPassato: ['sia salito/a'], congiuntivoTrapassato: ['fossi salito/a'], trapassatoRemoto: ['fui salito/a'] }, { aux: 'both', isc: false });
+checks++; if (primary(conjugate('salire', { aux: 'both', isc: false }).tenses.passatoProssimo[0]) !== 'ho salito') { fails++; console.log('FAIL salire both: avere must stay primary'); }
+T('scendere', { passatoProssimo: ['ho sceso', 'sono sceso/a'].map((f, i) => (i ? null : f)) }, { aux: 'both' }); T('scendere', { passatoProssimo: ['sono sceso/a', null, 'è sceso/a'] }, { aux: 'both' });
+T('piovere', { passatoProssimo: [null, null, 'è piovuto/a'] }, { aux: 'both' }); T('piovere', { passatoProssimo: [null, null, 'ha piovuto'] }, { aux: 'both' });
+T('crescere', { passatoProssimo: ['sono cresciuto/a'] }, { aux: 'both' }); T('correre', { passatoProssimo: ['ho corso', null, null, null, null, 'hanno corso'] }, { aux: 'both' }); T('correre', { passatoProssimo: [null, null, 'è corso/a'] }, { aux: 'both' });
+nf('salire', 'infinitoPassato', 'essere salito/a', { aux: 'both', isc: false }); nf('salire', 'infinitoPassato', 'avere salito', { aux: 'both', isc: false }); nf('salire', 'gerundioPassato', 'essendo salito/a', { aux: 'both', isc: false });
+T('mangiare', { passatoProssimo: ['ho mangiato'] }, { aux: 'both' }); no('mangiare', 'passatoProssimo', 0, 'ho mangiato|sono mangiato/a');
+no('andare', 'passatoProssimo', 0, 'ho andato', { aux: 'essere' }); no('fare', 'passatoProssimo', 0, 'sono fatto/a');
+checks++; if (!isCorrectForm('sono salita', conjugate('salire', { aux: 'both', isc: false }).tenses.passatoProssimo[0])) { fails++; console.log('FAIL isCorrectForm sono salita (both)'); }
+// every participle alternative is accepted in the compound tenses with avere too
+T('perdere', { passatoProssimo: ['ho perso', null, 'ha perso'] }); T('perdere', { passatoProssimo: ['ho perduto', null, 'ha perduto'] });
+T('vedere', { passatoProssimo: ['ho visto'] }); T('vedere', { passatoProssimo: ['ho veduto'] });
+checks++; if (primary(conjugate('perdere').tenses.passatoProssimo[0]) !== 'ho perso') { fails++; console.log('FAIL perdere passatoProssimo primary'); }
+// passato remoto alternatives (Treccani): persi / perdetti / perdei; bevvi / bevetti; risolsi / risolvetti; aprii / apersi, offrii / offersi
+T('perdere', { passatoRemoto: ['persi', 'perdesti', 'perse', 'perdemmo', 'perdeste', 'persero'] });
+T('perdere', { passatoRemoto: ['perdetti', null, 'perdette', null, null, 'perdettero'] }); T('perdere', { passatoRemoto: ['perdei', null, 'perdé', null, null, 'perderono'] });
+checks++; if (primary(conjugate('perdere').tenses.passatoRemoto[2]) !== 'perse') { fails++; console.log('FAIL perdere passatoRemoto primary'); }
+T('disperdere', { passatoRemoto: ['dispersi', null, 'disperse'] }); T('disperdere', { passatoRemoto: ['disperdetti'] });
+T('bere', { passatoRemoto: ['bevetti', null, 'bevette', null, null, 'bevettero'] }); T('bere', { passatoRemoto: ['bevvi', 'bevesti', 'bevve', 'bevemmo', 'beveste', 'bevvero'] });
+checks++; if (primary(conjugate('bere').tenses.passatoRemoto[0]) !== 'bevvi') { fails++; console.log('FAIL bere passatoRemoto primary'); }
+T('risolvere', { passatoRemoto: ['risolvetti', null, 'risolvette'] }); T('risolvere', { passatoRemoto: ['risolvei', null, 'risolvé'] }); T('risolvere', { passatoRemoto: ['risolsi', 'risolvesti', 'risolse'] });
+T('assolvere', { passatoRemoto: ['assolvetti'] }); T('dissolvere', { passatoRemoto: ['dissolvei'] });
+T('aprire', { passatoRemoto: ['aprii', 'apristi', 'aprì', 'aprimmo', 'apriste', 'aprirono'] }); T('aprire', { passatoRemoto: ['apersi', null, 'aperse', null, null, 'apersero'] });
+checks++; if (primary(conjugate('aprire').tenses.passatoRemoto[2]) !== 'aprì') { fails++; console.log('FAIL aprire passatoRemoto primary'); }
+T('coprire', { passatoRemoto: ['coprii', null, 'coprì'] }); T('coprire', { passatoRemoto: ['copersi', null, 'coperse'] });
+T('scoprire', { passatoRemoto: ['scoprii', null, 'scoprì'] }); T('scoprire', { passatoRemoto: ['scopersi'] }); T('riaprire', { passatoRemoto: ['riaprii'] });
+T('offrire', { passatoRemoto: ['offrii', 'offristi', 'offrì', 'offrimmo', 'offriste', 'offrirono'] }); T('offrire', { passatoRemoto: ['offersi', null, 'offerse', null, null, 'offersero'] });
+T('soffrire', { passatoRemoto: ['soffrii', null, 'soffrì'] }); T('soffrire', { passatoRemoto: ['soffersi', null, 'sofferse'] });
+// dovere / dolere / compiere alternatives
+T('dovere', { congiuntivoPresente: ['deva', 'deva', 'deva', 'dobbiamo', 'dobbiate', 'devano'] }); T('dovere', { congiuntivoPresente: ['debba', null, null, null, null, 'debbano'] });
+checks++; if (primary(conjugate('dovere').tenses.congiuntivoPresente[0]) !== 'debba') { fails++; console.log('FAIL dovere congiuntivo primary'); }
+T('dolere', { congiuntivoPresente: ['dolga', null, null, 'dogliamo', 'dogliate', 'dolgano'] }); T('dolere', { congiuntivoPresente: [null, null, null, 'doliamo', 'doliate'] });
+T('compiere', { futuro: ['compierò', null, 'compierà'], condizionale: ['compierei'], imperfetto: ['compievo', null, 'compieva'] });
+T('compiere', { futuro: ['compirò', 'compirai', 'compirà', 'compiremo', 'compirete', 'compiranno'], imperfetto: ['compivo', 'compivi', 'compiva', 'compivamo', 'compivate', 'compivano'] });
+checks++; if (primary(conjugate('compiere').tenses.futuro[0]) !== 'compirò') { fails++; console.log('FAIL compiere futuro primary'); }
+// inferire: "to infer" is regular (the strong forms are "inferire un colpo"); no ghost forms like "inferie"
+T('inferire', { passatoRemoto: ['inferii', 'inferisti', 'inferì', 'inferimmo', 'inferiste', 'inferirono'], pp: 'inferito', presente: ['inferisco'], passatoProssimo: ['ho inferito'] }, { isc: true });
+T('inferire', { passatoRemoto: ['infersi', null, 'inferse', null, null, 'infersero'], pp: 'inferto', passatoProssimo: ['ho inferto'] }, { isc: true });
+no('inferire', 'passatoRemoto', 2, 'inferie', { isc: true }); no('inferire', 'passatoRemoto', 5, 'inferiero', { isc: true });
+checks++; if (primary(conjugate('inferire', { isc: true }).tenses.passatoRemoto[2]) !== 'inferì') { fails++; console.log('FAIL inferire passatoRemoto primary'); }
+// present participles that do not follow the plain -ente pattern (prefixes apply)
+for (const [inf, f] of Object.entries({ sapere: 'sapiente', venire: 'veniente', convenire: 'conveniente', provenire: 'proveniente', dormire: 'dormiente', obbedire: 'obbediente', ubbidire: 'ubbidiente', cuocere: 'cocente', parere: 'parvente', nutrire: 'nutriente', salire: 'saliente', esordire: 'esordiente', patire: 'paziente', capire: 'capiente', sentire: 'senziente', uscire: 'uscente', seguire: 'seguente', morire: 'morente', servire: 'servente', parlare: 'parlante', fare: 'facente', dire: 'dicente', porre: 'ponente', condurre: 'conducente', trarre: 'traente', piacere: 'piacente', vivere: 'vivente' })) nf(inf, 'participioPresente', f);
+// verbs not in the data set but reachable through "Add word"
+T('sommettere', { passatoRemoto: ['sommisi', 'sommettesti', 'sommise'], pp: 'sommesso', presente: ['sommetto'] });
+T('rifuggire', { presente: ['rifuggo', 'rifuggi', 'rifugge', 'rifuggiamo', 'rifuggite', 'rifuggono'], congiuntivoPresente: ['rifugga'] }); no('rifuggire', 'presente', 0, 'rifuggisco');
+T('trasalire', { presente: ['trasalisco', 'trasalisci', 'trasalisce', 'trasaliamo', 'trasalite', 'trasaliscono'], congiuntivoPresente: ['trasalisca'], imperativo: ['trasalisci', 'trasalisca'], pp: 'trasalito', passatoRemoto: ['trasalii', null, 'trasalì'] });
+T('trasalire', { presente: ['trasalgo', null, null, null, null, 'trasalgono'], congiuntivoPresente: ['trasalga'] });
+checks++; if (primary(conjugate('trasalire').tenses.presente[0]) !== 'trasalisco') { fails++; console.log('FAIL trasalire primary'); }
+T('ammaliare', { presente: ['ammalio', 'ammali', 'ammalia', 'ammaliamo', 'ammaliate', 'ammaliano'], congiuntivoPresente: ['ammali', null, null, null, null, 'ammalino'] }); no('ammaliare', 'presente', 1, 'ammalii');
 
 // answer checking
 checks++; if (!isCorrectForm('andata', 'andato/a')) { fails++; console.log('FAIL isCorrectForm agreement'); }

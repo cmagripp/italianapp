@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-09-27T13:12:14.465Z",
+  "builtAt": "2026-09-27T16:32:04.556Z",
   "vocab": {
     "total": 6943,
     "byLevel": {
@@ -41,8 +41,8 @@
       "science": 164
     },
     "byPos": {
-      "noun": 4614,
-      "expr": 794,
+      "noun": 4613,
+      "expr": 795,
       "interj": 47,
       "adv": 228,
       "adj": 995,
@@ -63,6 +63,6 @@
       "C1": 199,
       "C2": 187
     },
-    "irregular": 351
+    "irregular": 352
   }
 }

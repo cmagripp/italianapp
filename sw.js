@@ -1,7 +1,7 @@
 // Service worker: offline cache for the app shell (HTML, CSS, every JS module) and the dictionary data.
 // Bump VERSION when a file is added to SHELL or the data schema changes (old caches are dropped on activate).
 // Ordinary data updates need no bump: /data/ is served from the cache and refreshed in the background.
-const VERSION = 'parola-v3';
+const VERSION = 'parola-v4';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
@@ -12,9 +12,10 @@ const SHELL = [
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',
 ];
 // files are added one by one so a single missing file cannot void the whole precache (addAll is all-or-nothing);
-// cache: 'reload' bypasses the HTTP cache (GitHub Pages sends max-age=600), or a new worker could pin the previous
-// build's copies under the new VERSION for the first ten minutes after a deploy
-self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => Promise.all(SHELL.map(u => c.add(new Request(u, { cache: 'reload' })).catch(() => null)))).then(() => self.skipWaiting())); });
+// cache: 'no-cache' revalidates every file with the origin (GitHub Pages sends max-age=600, so a plain lookup could pin
+// the previous build's copies under the new VERSION for ten minutes after a deploy) while an unchanged file still comes
+// back as a 304 instead of a full re-download ('reload' would fetch the 3.4 MB dictionary a second time on first install)
+self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => Promise.all(SHELL.map(u => c.add(new Request(u, { cache: 'no-cache' })).catch(() => null)))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 // store only successful responses (a 404 or 5xx must never be served offline later)
 function put(req, res) {
@@ -24,16 +25,20 @@ function put(req, res) {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET' || !req.url.startsWith(self.location.origin)) return;
-  // network first for JS/HTML/CSS (so updates arrive on the next launch); data: cache first, refreshed in the background
+  // network first for JS/HTML/CSS (so updates arrive on the next launch); data: cache first, refreshed in the background.
+  // Every network fetch revalidates with the origin (cache: 'no-cache'): a plain fetch would honour the browser HTTP cache
+  // (max-age=600 on GitHub Pages), so a relaunch shortly after a deploy could mix modules of two builds — the ones fetched
+  // over ten minutes ago from the new build, the rest stale from disk — and a screen would fail to import for the whole
+  // session. A conditional request costs one 304 round trip per file and the data refresh sees a data-only deploy at once.
   const isData = req.url.includes('/data/');
   if (isData) {
     e.respondWith(caches.match(req).then(hit => {
-      const refresh = fetch(req).then(res => put(req, res));
+      const refresh = fetch(req, { cache: 'no-cache' }).then(res => put(req, res));
       if (hit) { e.waitUntil(refresh.catch(() => null)); return hit; }
       return refresh;
     }));
   } else {
     // offline: the cached copy; index.html only stands in for page navigations, never for a module or asset
-    e.respondWith(fetch(req).then(res => put(req, res)).catch(() => caches.match(req).then(hit => hit || (req.mode === 'navigate' ? caches.match('./index.html') : Response.error()))));
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(res => put(req, res)).catch(() => caches.match(req).then(hit => hit || (req.mode === 'navigate' ? caches.match('./index.html') : Response.error()))));
   }
 });

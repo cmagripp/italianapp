@@ -56,7 +56,7 @@
       },
       {
         "heading": "When to use lo and gli",
-        "body": "*Lo* (plural *gli*) replaces *il* (plural *i*) before a masculine noun that begins with an *impure s* (s followed by a consonant: *sport, studio, sbaglio*), with *z* (*zaino, zucchero*), with *gn* (*gnocco*), with *ps* or *pn* (*psicologo, pneumatico*), with *x* or *y* (*xilofono, yogurt*), or with *i* followed by a vowel (*iodio, yogurt*). *Gli* is also the plural before any vowel (*gli amici, gli uomini*). The same rule decides the indefinite article *uno* and the articulated prepositions (*allo, dello, sullo, negli, dagli*).",
+        "body": "*Lo* (plural *gli*) replaces *il* (plural *i*) before a masculine noun that begins with an *impure s* (s followed by a consonant: *sport, studio, sbaglio*), with *z* (*zaino, zucchero*), with *gn* (*gnocco*), with *ps* or *pn* (*psicologo, pneumatico*), with *x* or *y* (*xilofono, yogurt*), or with *i* followed by a vowel (*iodio, iato*). *Gli* is also the plural before any vowel (*gli amici, gli uomini*). The same rule decides the indefinite article *uno* and the articulated prepositions (*allo, dello, sullo, negli, dagli*).",
         "table": [
           [
             "Initial sound",
@@ -179,7 +179,7 @@
         ]
       },
       {
-        "heading": "Reliable feminine endings: -tà, -tù, -ione, -ice, -ie",
+        "heading": "Reliable feminine endings: -tà, -tù, -ione, -trice, -ie",
         "body": "Some endings are almost always feminine. Nouns in *-tà* and *-tù* (*la città, la libertà, la virtù*) are feminine and invariable in the plural. Nouns in *-ione* (*la stazione, la lezione, la televisione*) are feminine, as are those in *-trice* (*l'attrice, la scrittrice*) and *-ie* (*la serie, la specie*). Nouns in *-i* are mostly feminine and invariable (*la crisi, l'analisi, la tesi*), though *il brindisi* is masculine.",
         "table": [
           [
@@ -232,7 +232,7 @@
       },
       {
         "heading": "Masculine nouns in -a: Greek words, -ista, -ore",
-        "body": "A group of nouns of Greek origin ending in *-ma* is masculine and forms its plural in *-i*: *il problema / i problemi, il tema, il sistema, il programma, il clima, il dramma, il diploma, il panorama, il teorema*. Other masculine *-a* nouns include *il poeta, il pianeta, il papa, il papà, il cinema, il vaglia*. Nouns in *-ista* (*il/la turista, il/la giornalista, il/la dentista*) and *-cida*, *-iatra* (*il/la farmacista, il/la pediatra*) have the same form for both genders in the singular; the article tells the gender, and the plural is *-isti* (m) / *-iste* (f). Masculine nouns in *-ore* (*l'attore, il pittore, lo scrittore*) usually have a feminine in *-trice* (*l'attrice, la pittrice, la scrittrice*); *il dottore* has *la dottoressa*, *il professore* has *la professoressa*.",
+        "body": "A group of nouns of Greek origin ending in *-ma* is masculine and forms its plural in *-i*: *il problema / i problemi, il tema, il sistema, il programma, il clima, il dramma, il diploma, il panorama, il teorema*. Other masculine *-a* nouns include *il poeta, il pianeta, il papa, il papà, il cinema, il vaglia*. Nouns in *-ista* (*il/la turista, il/la giornalista, il/la dentista*) and *-cida*, *-iatra* (*l'omicida, il/la pediatra*) have the same form for both genders in the singular; the article tells the gender, and the plural is *-isti* (m) / *-iste* (f). Masculine nouns in *-ore* (*l'attore, il pittore, lo scrittore*) usually have a feminine in *-trice* (*l'attrice, la pittrice, la scrittrice*); *il dottore* has *la dottoressa*, *il professore* has *la professoressa*.",
         "table": [
           [
             "Group",
@@ -398,7 +398,7 @@
       },
       {
         "heading": "-co / -go: stress decides",
-        "body": "For masculine nouns in *-co* and *-go*, the general rule depends on where the stress falls. If the stress is on the syllable immediately before the ending (*fuò-co, àl-bergo*), the plural keeps the hard sound with *h*: *fuochi, alberghi, parchi, giochi, laghi, luoghi*. If the stress falls earlier (*mè-di-co, psi-cò-lo-go*), the plural is *-ci / -gi*: *medici, psicologi, sindaci, biologi*. The most important exceptions are stressed on the penultimate syllable yet still soften: *amico → amici, nemico → nemici, greco → greci, porco → porci*. Words in *-logo* referring to people take *-logi* (*psicologi, biologi*), while things in *-logo* take *-loghi* (*cataloghi, dialoghi, monologhi*).",
+        "body": "For masculine nouns in *-co* and *-go*, the general rule depends on where the stress falls. If the stress is on the syllable immediately before the ending (*fuò-co, al-bèr-go*), the plural keeps the hard sound with *h*: *fuochi, alberghi, parchi, giochi, laghi, luoghi*. If the stress falls earlier (*mè-di-co, psi-cò-lo-go*), the plural is *-ci / -gi*: *medici, psicologi, sindaci, biologi*. The most important exceptions are stressed on the penultimate syllable yet still soften: *amico → amici, nemico → nemici, greco → greci, porco → porci*. Words in *-logo* referring to people take *-logi* (*psicologi, biologi*), while things in *-logo* take *-loghi* (*cataloghi, dialoghi, monologhi*).",
         "table": [
           [
             "Rule",
@@ -736,7 +736,7 @@
     "sections": [
       {
         "heading": "Two agreement classes",
-        "body": "Every adjective agrees in gender and number with the noun it describes. Adjectives in *-o* have four forms (*-o, -a, -i, -e*): *rosso, rossa, rossi, rosse*. Adjectives in *-e* have only two (*-e* singular, *-i* plural) and do not mark gender: *grande, grandi; verde, verdi; felice, felici*. A few adjectives in *-a* (*ottimista, egoista, belga, rosa*) behave like *-ista* nouns: *ottimista* for both genders in the singular, *ottimisti / ottimiste* in the plural. When one adjective describes nouns of different genders, it goes masculine plural: *Marco e Anna sono simpatici*.",
+        "body": "Every adjective agrees in gender and number with the noun it describes. Adjectives in *-o* have four forms (*-o, -a, -i, -e*): *rosso, rossa, rossi, rosse*. Adjectives in *-e* have only two (*-e* singular, *-i* plural) and do not mark gender: *grande, grandi; verde, verdi; felice, felici*. A few adjectives in *-a* (*ottimista, egoista, belga*) behave like *-ista* nouns: *ottimista* for both genders in the singular, *ottimisti / ottimiste* in the plural. When one adjective describes nouns of different genders, it goes masculine plural: *Marco e Anna sono simpatici*.",
         "table": [
           [
             "",
@@ -1012,7 +1012,7 @@
           [
             "uno",
             "buono",
-            "buono studente, buono sconto"
+            "buono studente, buono zaino"
           ],
           [
             "una",
@@ -1181,14 +1181,14 @@
           [
             "alto",
             "superiore / più alto",
-            "il più alto (supremo)",
-            "altissimo"
+            "il più alto",
+            "altissimo / supremo, sommo"
           ],
           [
             "basso",
             "inferiore / più basso",
-            "il più basso (infimo)",
-            "bassissimo"
+            "il più basso",
+            "bassissimo / infimo"
           ],
           [
             "bene (adv.)",
@@ -1551,7 +1551,7 @@
       },
       {
         "heading": "Futuro semplice and futuro anteriore",
-        "body": "Futuro semplice: infinitive minus the final *-e* + *-ò, -ai, -à, -emo, -ete, -anno*; *-are* verbs change *a* to *e* (*parlerò*), and some verbs contract the stem (*avrò, andrò, saprò, vedrò, vivrò, potrò, dovrò, verrò, vorrò, rimarrò, berrò, terrò, sarò, farò, darò, starò*). It expresses future actions, promises and predictions, and, very often, conjecture about the present (*Sarà a casa* = he is probably at home; *Che ore saranno?*). Futuro anteriore: future of *avere/essere* + participle (*avrò parlato, sarò andato*); it marks an action that will be completed before another future action (*Quando avrò finito, ti chiamerò*) and conjecture about the past (*Avrà perso il treno* = he must have missed the train).",
+        "body": "Futuro semplice: infinitive minus the final *-e* + *-ò, -ai, -à, -emo, -ete, -anno*; *-are* verbs change *a* to *e* (*parlerò*), and some verbs contract the stem (*avrò, andrò, saprò, vedrò, vivrò, potrò, dovrò, verrò, vorrò, rimarrò, berrò, terrò, sarò*), while *fare, dare, stare* keep their *a* (*farò, darò, starò*). It expresses future actions, promises and predictions, and, very often, conjecture about the present (*Sarà a casa* = he is probably at home; *Che ore saranno?*). Futuro anteriore: future of *avere/essere* + participle (*avrò parlato, sarò andato*); it marks an action that will be completed before another future action (*Quando avrò finito, ti chiamerò*) and conjecture about the past (*Avrà perso il treno* = he must have missed the train).",
         "table": [
           [
             "",
@@ -2337,7 +2337,7 @@
       },
       {
         "heading": "Verbs that take both, with a change of meaning",
-        "body": "A group of verbs is transitive in one use and intransitive in another, and the auxiliary switches accordingly: *avere* when there is a direct object, *essere* when the subject undergoes the process. Compare *cambiare* (*Ho cambiato lavoro*, I changed jobs, vs *Sono cambiato*, I have changed), *cominciare/iniziare* and *finire/terminare* (*Ho cominciato il libro* vs *Il film è cominciato*), and *passare* (*Ho passato l'esame* vs *È passato un anno*). With movement verbs the contrast is between an object or an activity and a destination: *salire/scendere* (*Ho salito le scale* vs *Sono salito in camera*) and *correre* (*Ho corso tutto il giorno* vs *Sono corso a casa*). *Aumentare, diminuire, migliorare, peggiorare, guarire, crescere, bruciare, suonare* follow the same logic.",
+        "body": "A group of verbs is transitive in one use and intransitive in another, and the auxiliary switches accordingly: *avere* when there is a direct object, *essere* when the subject undergoes the process. Compare *cambiare* (*Ho cambiato lavoro*, I changed jobs, vs *Sono cambiato*, I have changed), *cominciare/iniziare* and *finire/terminare* (*Ho cominciato il libro* vs *Il film è cominciato*), and *passare* (*Ho passato l'esame* vs *È passato un anno*). With movement verbs the contrast is between an object or an activity and a destination: *salire/scendere* (*Ho salito le scale* vs *Sono salito in camera*) and *correre* (*Ho corso tutto il giorno* vs *Sono corso a casa*). *Aumentare, diminuire, migliorare, peggiorare, guarire, crescere, bruciare* follow the same logic.",
         "table": [
           [
             "Verb",
@@ -2385,9 +2385,9 @@
             "I bambini sono cresciuti."
           ],
           [
-            "suonare",
-            "Ho suonato il piano.",
-            "Il telefono è suonato."
+            "bruciare",
+            "Ho bruciato la torta.",
+            "La casa è bruciata."
           ],
           [
             "vivere",
@@ -2476,7 +2476,7 @@
       },
       {
         "heading": "Kinds of reflexive: true, indirect, reciprocal, pronominal",
-        "body": "In a true reflexive the pronoun is the direct object (*Mi lavo* = I wash myself). In an indirect reflexive the pronoun is an indirect object and the verb has its own direct object, often a body part or clothing, where Italian uses the reflexive instead of a possessive: *Mi lavo le mani; Si è messa il cappotto*. In a reciprocal reflexive a plural subject does the action to each other (*Ci telefoniamo ogni giorno; Si amano*). Pronominal (intransitive) verbs simply exist with the pronoun and have no reflexive meaning: *arrabbiarsi, accorgersi, pentirsi, vergognarsi, lamentarsi, ammalarsi, fidarsi, ricordarsi, dimenticarsi, sbrigarsi, annoiarsi*; some verbs are more emotional or intensive in the pronominal form (*mangiarsi una pizza, bersi un caffè, dormirsi una bella dormita*).",
+        "body": "In a true reflexive the pronoun is the direct object (*Mi lavo* = I wash myself). In an indirect reflexive the pronoun is an indirect object and the verb has its own direct object, often a body part or clothing, where Italian uses the reflexive instead of a possessive: *Mi lavo le mani; Si è messa il cappotto*. In a reciprocal reflexive a plural subject does the action to each other (*Ci telefoniamo ogni giorno; Si amano*). Pronominal (intransitive) verbs simply exist with the pronoun and have no reflexive meaning: *arrabbiarsi, accorgersi, pentirsi, vergognarsi, lamentarsi, ammalarsi, fidarsi, ricordarsi, dimenticarsi, sbrigarsi, annoiarsi*; some verbs are more emotional or intensive in the pronominal form (*mangiarsi una pizza, bersi un caffè, farsi una bella dormita*).",
         "table": [
           [
             "Type",
@@ -3410,7 +3410,7 @@
       },
       {
         "heading": "Verbs that do not take -isc-",
-        "body": "A smaller but very common group conjugates without *-isc-*. Learn these as a list: *dormire, partire, sentire, aprire, coprire, scoprire, offrire, soffrire, servire, seguire, inseguire, vestire, divertire, avvertire, convertire, invertire, fuggire, sfuggire, bollire, cucire, mentire* (both), *pentirsi, consentire, acconsentire, assentire, dissentire, riempire, morire, venire, salire, udire, uscire, dire*. The last six are irregular in other ways (*muoio, vengo, salgo, odo, esco, dico*), but none of them uses *-isc-*. Compounds follow the base verb: *riaprire, ricoprire, ripartire, risentire, rivestire* stay without *-isc-*, while *ripulire, rifinire, ridefinire* keep it.",
+        "body": "A smaller but very common group conjugates without *-isc-*. Learn these as a list: *dormire, partire, sentire, aprire, coprire, scoprire, offrire, soffrire, servire, seguire, inseguire, vestire, divertire, avvertire, convertire, invertire, fuggire, sfuggire, bollire, cucire, mentire* (both), *pentirsi, consentire, acconsentire, assentire, dissentire, riempire, morire, venire, salire, udire, uscire, dire*. The last six are irregular in other ways (*muoio, vengo, salgo, odo, esco, dico*), but none of them uses *-isc-*. Compounds follow the base verb: *riaprire, ricoprire, risentire, rivestire* stay without *-isc-* (so does *ripartire* meaning *to leave again*, while *ripartire* meaning *to divide up* is *ripartisco*), while *ripulire, rifinire, ridefinire* keep it.",
         "table": [
           [
             "Verb",

@@ -196,7 +196,8 @@ async function boot() {
   await store.init();
   applyTheme(); applyEnToggle();
   store.on('settings', () => { applyTheme(); applyEnToggle(); });
-  store.on('profile', () => { registerCustom(store.current.custom); applyTheme(); applyEnToggle(); });
+  // a user switch, delete, create or imported backup may change the level: the scene (html[data-level], aurora tint) follows at once
+  store.on('profile', () => { registerCustom(store.current.custom); applyTheme(); applyEnToggle(); applyScene(lastTab, parse().parts); });
   try {
     await dataReady;
     registerCustom(store.current.custom);

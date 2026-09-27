@@ -243,7 +243,7 @@ export function conjSection(e, conj, { defaultTense = 'presente' } = {}) {
       <div class="nf"><div class="lab">Infinito</div><div class="val">${nf.infinito}</div></div>
       <div class="nf"><div class="lab">Participio passato</div><div class="val">${primary(nf.participioPassato)}</div></div>
       <div class="nf"><div class="lab">Gerundio</div><div class="val">${primary(nf.gerundio)}</div></div>
-      <div class="nf"><div class="lab">Infinito passato</div><div class="val">${nf.infinitoPassato}</div></div>
+      <div class="nf"><div class="lab">Infinito passato</div><div class="val">${primary(nf.infinitoPassato)}</div></div>
     </div>
   </div>`;
 }

@@ -1,6 +1,7 @@
 // Persistent per-user storage: profiles, item progress (SRS), lists, custom words, settings and stats.
 // Primary storage is IndexedDB (large quota, survives Safari homescreen installs); localStorage is the fallback.
 import { schedule as srsSchedule } from './srs.js';
+import { data, LEVELS } from './data.js'; // data.js imports nothing, so no cycle
 
 const DB_NAME = 'italiano-db';
 const KV = 'kv';
@@ -39,7 +40,7 @@ async function kvGet(key) {
 }
 async function kvSet(key, value) {
   const d = await db();
-  if (!d) { try { localStorage.setItem('kv:' + key, JSON.stringify(value)); } catch { /* quota */ } return; }
+  if (!d) { try { localStorage.setItem('kv:' + key, JSON.stringify(value)); return true; } catch { return false; /* quota */ } }
   return new Promise((resolve) => {
     try {
       const tx = d.transaction(KV, 'readwrite');
@@ -88,6 +89,19 @@ function newProfile(name, avatar) {
     scope: { mode: 'level', levels: ['A1'], cats: [], lists: [] },
     recent: [],
   };
+}
+// Fill in whatever a stored, older or imported profile lacks (custom, lists.bank, name, stats.days, a valid level…):
+// every screen assumes the full shape, and a hand-edited or foreign backup must not crash Lists, Add word or Me.
+function normalize(p) {
+  const fresh = newProfile(p.name || 'Learner', p.avatar);
+  p.name ||= fresh.name; p.avatar ||= fresh.avatar;
+  p.settings = { ...fresh.settings, ...(p.settings || {}) };
+  if (!LEVELS.includes(p.settings.level)) p.settings.level = DEFAULT_SETTINGS.level;
+  p.items ||= {}; p.lists ||= fresh.lists; p.lists.bank ||= fresh.lists.bank; p.custom ||= {};
+  for (const l of Object.values(p.lists)) if (l && !Array.isArray(l.items)) l.items = [];
+  p.stats = { ...fresh.stats, ...(p.stats || {}) }; p.stats.days ||= {}; p.stats.games ||= {};
+  p.scope = { ...fresh.scope, ...(p.scope || {}) }; p.recent ||= [];
+  return p;
 }
 
 class Store extends EventTarget {
@@ -148,10 +162,7 @@ class Store extends EventTarget {
     const pending = this._takePending(id);
     if (pending) { p = pending; this._dirty = true; }
     if (!p) { p = newProfile(meta ? meta.name : 'Learner', meta && meta.avatar); p.id = id; }
-    // upgrade missing fields
-    const fresh = newProfile(p.name, p.avatar);
-    p.settings = { ...fresh.settings, ...(p.settings || {}) };
-    p.items ||= {}; p.lists ||= fresh.lists; p.lists.bank ||= fresh.lists.bank; p.custom ||= {}; p.stats = { ...fresh.stats, ...(p.stats || {}) }; p.scope = { ...fresh.scope, ...(p.scope || {}) }; p.recent ||= [];
+    normalize(p); // upgrade missing fields
     this.current = p;
     this._setCurrentId(id);
     this.touchDay();
@@ -170,12 +181,16 @@ class Store extends EventTarget {
     return p;
   }
   async deleteProfile(id) {
+    const wasCurrent = !!this.current && this.current.id === id;
+    // a save still pending for the deleted user (switchProfile starts with saveNow) would re-create its record after kvDel
+    if (wasCurrent) { clearTimeout(this._saveTimer); this._dirty = false; }
     this.profiles = this.profiles.filter(p => p.id !== id);
-    await kvDel('profile:' + id);
-    try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ }
     if (this.profiles.length === 0) { const p = newProfile('Learner'); this.profiles.push({ id: p.id, name: p.name, avatar: p.avatar, created: p.created }); await kvSet('profile:' + p.id, p); }
     this._persistIndex();
-    if (!this.current || this.current.id === id) await this.switchProfile(this.profiles[0].id);
+    if (wasCurrent || !this.current) await this.switchProfile(this.profiles[0].id);
+    await kvDel('profile:' + id);
+    try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ }
+    try { localStorage.removeItem('it.sync.' + id); } catch { /* ignore */ } // the deleted user's cloud tokens must not stay on the device
     this.emit('change');
   }
   renameProfile(name, avatar) {
@@ -196,8 +211,15 @@ class Store extends EventTarget {
     clearTimeout(this._saveTimer);
     const meta = this.profiles.find(p => p.id === this.current.id);
     if (meta) { meta.lastActive = Date.now(); this._persistIndex(); }
-    const ok = await kvSet('profile:' + this.current.id, this.current);
-    if (ok) { try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === this.current.id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
+    const cur = this.current;
+    const ok = await kvSet('profile:' + cur.id, cur);
+    if (ok) { try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === cur.id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
+    else if (this.current === cur) {
+      // a failed write (quota, transient IndexedDB error after backgrounding) must not be lost while the screen still
+      // shows the change: keep the profile dirty so the next save retries, mirror it to localStorage for the next start,
+      // and let the app tell the learner
+      this._dirty = true; this._mirrorPending(); this.emit('saveError');
+    }
   }
 
   // ---------- settings ----------
@@ -210,13 +232,18 @@ class Store extends EventTarget {
   markLearned(id, kind) {
     const it = this.ensureItem(id);
     if (!it.learned) {
+      // the reward (XP, learned counters, today's new items) is for the first time only: "Unmarked" keeps learnedAt, so
+      // toggling Mark learned on an entry cannot farm 30 XP and a "new verb" per tap
+      const first = !it.learnedAt;
       it.learned = true; it.learnedAt = Date.now(); it.last = Date.now(); // `last` is what cloud sync compares: newest copy wins
       if (it.s < 1) it.s = 1;
       if (!it.due) { it.due = Date.now() + 8 * 3600e3; it.iv = 0; }
-      if (kind === 'verb') this.current.stats.verbsLearned = (this.current.stats.verbsLearned || 0) + 1;
-      else this.current.stats.wordsLearned = (this.current.stats.wordsLearned || 0) + 1;
-      const day = this._day(); day.new = (day.new || 0) + 1; if (kind === 'verb') day.newVerbs = (day.newVerbs || 0) + 1;
-      this.addXP(kind === 'verb' ? 30 : 10, false);
+      if (first) {
+        if (kind === 'verb') this.current.stats.verbsLearned = (this.current.stats.verbsLearned || 0) + 1;
+        else this.current.stats.wordsLearned = (this.current.stats.wordsLearned || 0) + 1;
+        const day = this._day(); day.new = (day.new || 0) + 1; if (kind === 'verb') day.newVerbs = (day.newVerbs || 0) + 1;
+        this.addXP(kind === 'verb' ? 30 : 10, false);
+      }
     }
     this.save();
   }
@@ -239,9 +266,12 @@ class Store extends EventTarget {
   isLearned(id) { const it = this.current.items[id]; return !!(it && it.learned); }
   // a custom verb (c:…) is a verb too: the 'v:' prefix alone would file it under the learned words
   isVerbId(id) { return id.startsWith('v:') || (id.startsWith('c:') && this.current.custom?.[id]?.pos === 'verb'); }
-  learnedIds(prefix) { return Object.entries(this.current.items).filter(([id, it]) => it.learned && (!prefix || (prefix === 'v:' ? this.isVerbId(id) : id.startsWith(prefix)))).map(([id]) => id); }
+  // progress keyed to an id the dictionary no longer has (an entry renamed or dropped by a data rebuild, a backup from
+  // another version) is kept but not counted: Home/Learn/Me would otherwise promise reviews that Review cannot show
+  known(id) { return !data.loaded || data.byId.has(id) || (id.startsWith('c:') && !!this.current.custom?.[id]); }
+  learnedIds(prefix) { return Object.entries(this.current.items).filter(([id, it]) => it.learned && this.known(id) && (!prefix || (prefix === 'v:' ? this.isVerbId(id) : id.startsWith(prefix)))).map(([id]) => id); }
   learnedWordIds() { return this.learnedIds().filter(id => !this.isVerbId(id)); }
-  dueIds(now = Date.now()) { return Object.entries(this.current.items).filter(([, it]) => (it.learned || it.seen > 0) && it.due && it.due <= now).map(([id]) => id); }
+  dueIds(now = Date.now()) { return Object.entries(this.current.items).filter(([id, it]) => (it.learned || it.seen > 0) && this.known(id) && it.due && it.due <= now).map(([id]) => id); }
 
   // ---------- lists ----------
   get lists() { return this.current.lists; }
@@ -262,7 +292,7 @@ class Store extends EventTarget {
     return id;
   }
   updateCustomWord(id, patch) { if (this.current.custom[id]) { Object.assign(this.current.custom[id], patch, { modified: Date.now() }); this.save(); } }
-  removeCustomWord(id) { delete this.current.custom[id]; for (const l of Object.values(this.current.lists)) l.items = l.items.filter(x => x !== id); delete this.current.items[id]; this.save(); }
+  removeCustomWord(id) { delete this.current.custom[id]; for (const l of Object.values(this.current.lists)) l.items = l.items.filter(x => x !== id); delete this.current.items[id]; this.current.recent = (this.current.recent || []).filter(x => x !== id); this.save(); }
 
   // ---------- stats ----------
   _day() { const k = todayKey(); return (this.current.stats.days[k] ||= { new: 0, reviews: 0, correct: 0, wrong: 0, xp: 0, games: 0, time: 0 }); }
@@ -303,19 +333,17 @@ class Store extends EventTarget {
     const p = obj.profile || obj;
     if (!p || !p.items || !p.lists) throw new Error('Not a valid backup file');
     if (merge) {
-      const cur = this.current;
+      const cur = normalize(this.current);
       for (const [id, it] of Object.entries(p.items)) { const c = cur.items[id]; if (!c || (it.last || 0) > (c.last || 0)) cur.items[id] = it; }
-      for (const [id, l] of Object.entries(p.lists)) { if (!cur.lists[id]) cur.lists[id] = l; else cur.lists[id].items = [...new Set([...cur.lists[id].items, ...l.items])]; }
+      for (const [id, l] of Object.entries(p.lists)) { if (!cur.lists[id]) cur.lists[id] = { ...l, items: Array.isArray(l.items) ? l.items : [] }; else cur.lists[id].items = [...new Set([...(cur.lists[id].items || []), ...(l.items || [])])]; }
       for (const [id, w] of Object.entries(p.custom || {})) { const c = cur.custom[id]; if (!c || (w.modified || w.created || 0) > (c.modified || c.created || 0)) cur.custom[id] = w; }
       cur.stats.xp = Math.max(cur.stats.xp, p.stats?.xp || 0);
       cur.stats.bestStreak = Math.max(cur.stats.bestStreak || 0, p.stats?.bestStreak || 0);
       for (const [d, v] of Object.entries(p.stats?.days || {})) if (!cur.stats.days[d]) cur.stats.days[d] = v;
     } else {
       p.id = this.current.id; // keep current slot
+      normalize(p); // a partial or foreign backup gets custom, lists.bank, name, a valid level… like a stored profile does
       this.current = p;
-      const fresh = newProfile(p.name, p.avatar);
-      p.settings = { ...fresh.settings, ...(p.settings || {}) };
-      p.stats = { ...fresh.stats, ...(p.stats || {}) }; p.scope = { ...fresh.scope, ...(p.scope || {}) }; p.recent ||= [];
       const meta = this.profiles.find(x => x.id === p.id); if (meta) { meta.name = p.name; meta.avatar = p.avatar; this._persistIndex(); }
     }
     this._dirty = true;
