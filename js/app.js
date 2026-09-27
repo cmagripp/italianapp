@@ -1,13 +1,16 @@
-// App shell: boot, router, top bar, tabs, global translation toggle.
+// App shell: boot, router, top bar, floating dock, global translation toggle, scene transitions, aurora backdrop.
 import { store } from './store.js';
 import { loadData, registerCustom } from './data.js';
-import { $, $$, toast } from './ui.js';
+import { $, $$, toast, esc } from './ui.js';
+import { icon } from './icons.js';
+import { mountAurora, setScene, SCENES, reducedMotion } from './fx.js';
 import { startAutoSync, isEnabled as syncEnabled } from './sync.js';
 
 const routes = [];
 let currentCleanup = null;
 let lastTab = 'home';
 const TABS = ['home', 'learn', 'games', 'words', 'profile'];
+const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
 export function route(pattern, loader) { routes.push({ pattern: pattern.split('/').filter(Boolean), loader }); }
 
@@ -56,7 +59,20 @@ function match(parts) {
   return null;
 }
 
+// Default aurora colours per section; views may refine with fx.setScene(level) afterwards.
+function applyScene(tab, parts) {
+  const level = store.current?.settings?.level || 'A1';
+  const head = parts[0];
+  if (head === 'learn' || head === 'review' || head === 'scope') setScene(level);
+  else if (tab === 'home') setScene(SCENES.home, { level });
+  else if (tab === 'games') setScene(SCENES.games, { level });
+  else if (tab === 'words') setScene(SCENES.reference, { level });
+  else if (tab === 'profile') setScene(SCENES.profile, { level });
+  else setScene(level);
+}
+
 let renderSeq = 0;
+const onSceneIn = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('scene-in'); };
 async function render() {
   const { parts, query } = parse();
   const m = match(parts);
@@ -68,27 +84,42 @@ async function render() {
   lastTab = tab;
   $$('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.tab === tab));
   setChrome({ tabs: true, back: !isTabRoute() });
-  root.innerHTML = '';
-  root.scrollTop = 0; window.scrollTo(0, 0);
+  applyScene(tab, parts);
+  // scene transition: outgoing scale .98 + fade 160ms, incoming from scale 1.03 + 8px + fade 260ms
+  const animate = !reducedMotion() && root.childElementCount > 0;
+  root.classList.remove('scene-in');
+  if (animate) root.classList.add('scene-out');
   try {
-    const mod = await m.r.loader();
+    const [mod] = await Promise.all([m.r.loader(), animate ? wait(150) : null]);
     if (seq !== renderSeq) return;
+    root.classList.remove('scene-out');
+    root.innerHTML = '';
+    root.scrollTop = 0; window.scrollTo(0, 0);
     const cleanup = await mod.render(root, m.params, query);
+    if (seq !== renderSeq) { if (typeof cleanup === 'function') { try { cleanup(); } catch { /* ignore */ } } return; }
     if (typeof cleanup === 'function') currentCleanup = cleanup;
+    if (!reducedMotion()) { root.classList.add('scene-in'); root.addEventListener('animationend', onSceneIn, { once: true }); }
   } catch (err) {
     console.error(err);
-    root.innerHTML = `<div class="empty"><div class="big">😵</div><p>Something went wrong.</p><p class="tiny muted">${String(err && err.message || err)}</p><a class="btn" href="#/home">Go home</a></div>`;
+    root.classList.remove('scene-out');
+    root.innerHTML = `<div class="empty"><p>Qualcosa è andato storto.</p><p class="tiny muted">${esc(err && err.message || err)}</p><a class="btn primary" href="#/home">Go home</a></div>`;
   }
 }
 
 function applyTheme() {
   const t = store.current?.settings?.theme || 'auto';
-  if (t === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', t);
+  // Notte (dark) is the default look; Mezzogiorno (light) is opt-in.
+  if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  else document.documentElement.removeAttribute('data-theme');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', t === 'light' ? '#f4efe6' : '#070912');
 }
 function applyEnToggle() {
   const on = store.current?.settings?.showEn === 'always';
   document.body.classList.toggle('show-en', on);
-  const b = $('#enToggle'); b.classList.toggle('on', on); b.textContent = on ? 'EN ✓' : 'EN';
+  const b = $('#enToggle'); b.classList.toggle('on', on);
+  b.innerHTML = on ? 'EN' + icon('check', { size: 14 }) : 'EN';
+  b.setAttribute('aria-pressed', on ? 'true' : 'false');
   b.title = on ? 'English shown everywhere (tap to hide until tapped)' : 'Tap Italian text to reveal English (tap to always show)';
 }
 
@@ -115,6 +146,8 @@ route('settings', () => import('./views/profile.js'));
 route('scope', () => import('./views/scope.js'));
 
 async function boot() {
+  mountAurora();
+  setScene(SCENES.home);
   await store.init();
   applyTheme(); applyEnToggle();
   store.on('settings', () => { applyTheme(); applyEnToggle(); });
@@ -123,7 +156,7 @@ async function boot() {
     await loadData();
     registerCustom(store.current.custom);
   } catch (err) {
-    $('#view').innerHTML = `<div class="empty"><div class="big">📡</div><p>Could not load the dictionary.</p><p class="tiny muted">${err.message}</p><button class="btn primary" onclick="location.reload()">Retry</button></div>`;
+    $('#view').innerHTML = `<div class="empty"><p>Could not load the dictionary.</p><p class="tiny muted">${esc(err.message)}</p><button class="btn primary" onclick="location.reload()">Retry</button></div>`;
     return;
   }
   if (syncEnabled()) startAutoSync();

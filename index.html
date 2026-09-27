@@ -5,34 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
   <title>Parola — Italian words & verbs</title>
   <meta name="description" content="Learn Italian vocabulary and verbs from A1 to C2 with adaptive drills, conjugation tables and games.">
-  <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#141412" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#070912">
+  <meta name="color-scheme" content="dark light">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Parola">
   <meta name="format-detection" content="telephone=no">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/learn.css">
   <link rel="stylesheet" href="css/reference.css">
   <link rel="stylesheet" href="css/games.css">
 </head>
 <body>
+  <div class="aurora" aria-hidden="true"><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="grain"></div></div>
   <header id="topbar">
-    <button class="icon-btn back-btn" id="backBtn" aria-label="Back">‹</button>
+    <button class="icon-btn back-btn" id="backBtn" aria-label="Back" type="button">
+      <svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 6-6 6 6 6"/></svg>
+    </button>
     <div class="title" id="topTitle">Parola</div>
-    <button class="en-toggle" id="enToggle" title="Show English translations">EN</button>
+    <button class="en-toggle" id="enToggle" title="Show English translations" type="button" aria-pressed="false">EN</button>
   </header>
-  <main id="view"><div class="loading"><div class="spinner"></div>Loading dictionary…</div></main>
-  <nav id="tabs">
-    <a href="#/home" data-tab="home"><span class="ico">🏠</span>Home</a>
-    <a href="#/learn" data-tab="learn"><span class="ico">📚</span>Learn</a>
-    <a href="#/games" data-tab="games"><span class="ico">🎮</span>Play</a>
-    <a href="#/words" data-tab="words"><span class="ico">🔍</span>Words</a>
-    <a href="#/profile" data-tab="profile"><span class="ico">👤</span>Me</a>
+  <main id="view"><div class="loading"><div class="spinner"></div><span class="loading-word">Parola</span><span class="loading-sub">caricamento…</span></div></main>
+  <nav id="tabs" aria-label="Sections">
+    <a href="#/home" data-tab="home"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M10 20v-5h4v5"/></svg><span>Home</span></a>
+    <a href="#/learn" data-tab="learn"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 7.5h7"/></svg><span>Learn</span></a>
+    <a href="#/games" data-tab="games"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg><span>Play</span></a>
+    <a href="#/words" data-tab="words"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg><span>Words</span></a>
+    <a href="#/profile" data-tab="profile"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg><span>Me</span></a>
   </nav>
   <script type="module" src="js/app.js"></script>
   <noscript>This app needs JavaScript.</noscript>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <title>Parola · FX lab</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../css/app.css">
+  <style>
+    .lab-section { margin-bottom: 32px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .swatch { height: 40px; border-radius: 10px; border: 1px solid var(--glass-border); }
+    .lab-log { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: .06em; margin-top: 8px; min-height: 16px; }
+    #stampTarget { position: relative; min-height: 120px; display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body class="no-tabs">
+  <header id="topbar">
+    <button class="icon-btn back-btn" id="backBtn" aria-label="Back" type="button"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 6-6 6 6 6"/></svg></button>
+    <div class="title" id="topTitle">FX lab</div>
+    <button class="en-toggle" id="themeToggle" type="button" title="Toggle theme">NOTTE</button>
+  </header>
+  <main id="view">
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Tokens</span><span class="title">Palette &amp; type</span></div><a class="more" href="../index.html">App</a></div>
+      <div class="swatches mb">
+        <div class="swatch" style="background:var(--gold)"></div><div class="swatch" style="background:var(--terracotta)"></div><div class="swatch" style="background:var(--amalfi)"></div><div class="swatch" style="background:var(--turquoise)"></div><div class="swatch" style="background:var(--olive)"></div><div class="swatch" style="background:var(--wine)"></div>
+        <div class="swatch" style="background:var(--lvl-A1)"></div><div class="swatch" style="background:var(--lvl-A2)"></div><div class="swatch" style="background:var(--lvl-B1)"></div><div class="swatch" style="background:var(--lvl-B2)"></div><div class="swatch" style="background:var(--lvl-C1)"></div><div class="swatch" style="background:var(--lvl-C2)"></div>
+      </div>
+      <div class="headword" id="hw">
+        <div class="hw-line"><span class="article">la</span><span class="word" id="riseWord" style="--hw:64px">notte</span></div>
+        <div class="hw-row"><span class="itx headword-en" role="button" tabindex="0"><span class="it">EN</span><span class="tr">night; the night-time</span></span><button class="speak lg" type="button" aria-label="Listen"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/></svg></button></div>
+        <div class="tags"><span class="lvl lvl-A1">A1</span><span>nome</span><span>femminile</span><span>Time &amp; calendar</span></div>
+      </div>
+      <div class="lab-row mt">
+        <button class="btn primary" type="button">Continue</button>
+        <button class="btn secondary" type="button">Secondary</button>
+        <button class="btn ghost sm" type="button">Ghost</button>
+        <button class="btn danger xs" type="button">Danger</button>
+        <button class="icon-btn" type="button" aria-label="Star"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9l-5.3 2.8 1.1-5.9-4.3-4.1 5.9-.8z"/></svg></button>
+      </div>
+      <div class="chips scroll mt"><button class="chip on" type="button">Presente</button><button class="chip" type="button">Passato prossimo</button><button class="chip" type="button">Imperfetto</button><button class="chip" type="button">Futuro</button><button class="chip" type="button">Condizionale</button><button class="chip" type="button">Congiuntivo</button></div>
+      <div class="lab-row mt"><span class="lvl lvl-A1 on">A1</span><span class="lvl lvl-A2">A2</span><span class="lvl lvl-B1">B1</span><span class="lvl lvl-B2">B2</span><span class="lvl lvl-C1">C1</span><span class="lvl lvl-C2">C2</span><span class="dot stage-new"></span><span class="dot stage-learning"></span><span class="dot stage-review"></span><span class="dot stage-mastered"></span></div>
+      <div class="rail-wrap mt"><div class="rail"><span class="done"></span><span class="done"></span><span class="done"></span><span class="cur"></span><span></span><span></span><span></span><span></span></div><span class="rail-count">04 / 08</span></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Ticker</span><span class="title">Recently learned</span></div></div>
+      <div id="ticker"></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Rotary dial</span><span class="title">Choose a tense</span></div></div>
+      <div class="card glass"><div id="dial"></div><div class="lab-log" id="dialLog">presente</div></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Card fan</span><span class="title">essere · presente</span></div><a class="more" href="#" id="fanSpread">Spread</a></div>
+      <div class="card glass"><div id="fan"></div><div class="fan-tools"><button class="btn xs ghost" type="button" id="fanFlip">Flip all</button><button class="btn xs ghost" type="button" id="fanToggle">Spread</button></div><div class="lab-log" id="fanLog">tap a card</div></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Reel</span><span class="title">Games</span></div></div>
+      <div class="reel" id="reel">
+        <button class="poster" style="--p1:#e0673f;--p2:#b8323f" type="button"><span class="poster-kicker">Vocabulary</span><span class="poster-title">Flashcards</span><span class="sub">Flip &amp; rate</span></button>
+        <button class="poster" style="--p1:#38bdf8;--p2:#4c5bd4" type="button"><span class="poster-kicker">Vocabulary</span><span class="poster-title">Quick quiz</span><span class="sub">Mixed choice</span></button>
+        <button class="poster" style="--p1:#f2c14e;--p2:#e0673f" type="button"><span class="poster-kicker">Verbs</span><span class="poster-title">Conjugation drill</span><span class="sub">Type the form</span></button>
+        <button class="poster" style="--p1:#2dd4bf;--p2:#0f766e" type="button"><span class="poster-kicker">Vocabulary</span><span class="poster-title">Crossword</span><span class="sub">Clued in English</span></button>
+        <button class="poster" style="--p1:#a78bfa;--p2:#5b3fb5" type="button"><span class="poster-kicker">Verbs</span><span class="poster-title">Tense detective</span><span class="sub">Which tense?</span></button>
+      </div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Dropdown</span><span class="title">Scope</span></div></div>
+      <div class="lab-row"><button class="btn secondary sm" type="button" id="ddBtn">Level A1 · Food<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></svg></button><span class="lab-log" id="ddLog"></span></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Stamp &amp; confetti</span><span class="title">Results</span></div></div>
+      <div class="card glass results"><div class="score-ring" style="--p:87"><div class="score" id="score">0</div></div><div id="stampTarget"></div>
+        <div class="lab-row" style="justify-content:center"><button class="btn primary sm" type="button" id="stampOk">Stamp IMPARATO</button><button class="btn secondary sm" type="button" id="stampKo">RIPROVA</button><button class="btn secondary sm" type="button" id="confetti">Confetti</button></div></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Orbit</span><span class="title">Levels</span></div></div>
+      <div class="card glass"><div id="orbit"></div><div class="lab-log center" id="orbitLog">tap a ring</div></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Typewriter &amp; float</span><span class="title">Example</span></div></div>
+      <div class="grid2">
+        <div class="card float" style="--glow:var(--lvl-A1);margin:0"><span class="kicker">Word of the night</span><div class="display" style="font-size:28px">la luna</div><div class="muted small">the moon</div></div>
+        <div class="card float delay" style="--glow:var(--gold);margin:0"><span class="kicker">Verb of the night</span><div class="display" style="font-size:28px">sognare</div><div class="muted small">to dream</div></div>
+      </div>
+      <div class="example mt"><div class="it" id="tw"></div></div>
+      <div class="lab-row mt"><button class="btn ghost sm" type="button" id="twBtn">Type it again</button><button class="btn ghost sm" type="button" id="riseBtn">Rise letters</button></div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Accordion &amp; rows</span><span class="title">Codex</span></div></div>
+      <div class="acc open"><button class="acc-head" type="button" aria-expanded="true"><span><span class="kicker">Reggenza</span><span class="title">Cases &amp; patterns</span></span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><div class="in"><span class="pattern">pensare a qualcuno</span><span class="pattern">pensare di fare</span></div></div></div></div>
+      <div class="acc"><button class="acc-head" type="button" aria-expanded="false"><span><span class="kicker">Esempi</span><span class="title">Examples</span></span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><div class="in"><div class="example"><div class="it">Penso spesso a te.</div></div></div></div></div></div>
+      <div class="list mt">
+        <a class="row-entry glass-flat" href="#"><span class="dot stage-review"></span><span class="re-main"><span class="re-hw">andare<span class="kind">verbo</span></span><span class="re-sub">to go · vi</span></span><span class="re-side"><span class="lvl lvl-A1">A1</span></span></a>
+        <a class="row-entry glass-flat" href="#"><span class="dot stage-mastered"></span><span class="re-main"><span class="re-hw">la finestra</span><span class="re-sub">window · f</span></span><span class="re-side"><span class="lvl lvl-A1">A1</span><span class="check-mark"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></span></a>
+      </div>
+      <div class="tense-table mt">
+        <div class="trow" style="--i:0"><span class="person">io</span><span class="form">sono</span><button class="speak sm" type="button" aria-label="Listen"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg></button></div>
+        <div class="trow irr" style="--i:1"><span class="person">tu</span><span class="form">sei<span class="alt">also: se'</span></span><button class="speak sm" type="button" aria-label="Listen"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg></button></div>
+      </div>
+    </div>
+
+    <div class="lab-section">
+      <div class="sec-head"><div><span class="kicker">Question</span><span class="title">Choices</span></div></div>
+      <div class="q-card"><div class="prompt">Presente · tu</div><div class="big">essere</div><div class="sub">choose the form</div></div>
+      <div class="choices"><button class="choice" type="button">sono</button><button class="choice correct" type="button">sei</button><button class="choice wrong" type="button">è</button><button class="choice dim" type="button">siamo</button></div>
+      <div class="feedback ok mt">Correct — <span class="detail">sei is the tu form of essere.</span></div>
+      <input class="input big mt" placeholder="scrivi…"><div class="accents mt"><button class="chip" type="button">à</button><button class="chip" type="button">è</button><button class="chip" type="button">é</button><button class="chip" type="button">ì</button><button class="chip" type="button">ò</button><button class="chip" type="button">ù</button></div>
+    </div>
+  </main>
+  <script type="module">
+    import fx, { mountAurora, setScene, dial, fan, reel, dropdown, confetti, stamp, typewriter, riseLetters, orbit, ticker, countUp, mount } from '../js/fx.js';
+    mountAurora(); setScene('A1');
+    mount(document.getElementById('view'));
+    const log = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+    document.getElementById('themeToggle').addEventListener('click', (e) => {
+      const light = document.documentElement.dataset.theme !== 'light';
+      if (light) document.documentElement.dataset.theme = 'light'; else delete document.documentElement.dataset.theme;
+      e.currentTarget.textContent = light ? 'MEZZOGIORNO' : 'NOTTE';
+    });
+    ticker(document.getElementById('ticker'), ['la notte', 'sognare', 'la luna', 'il mare', 'guidare', 'la strada', 'l\'oro', 'il faro']);
+    const tenses = [['presente','Presente','indicativo'],['passatoProssimo','Passato prossimo','indicativo'],['imperfetto','Imperfetto','indicativo'],['futuro','Futuro semplice','indicativo'],['condizionale','Condizionale','condizionale'],['congiuntivoPresente','Congiuntivo presente','congiuntivo'],['imperativo','Imperativo','imperativo']].map(([key,label,sub]) => ({ key, label, sub }));
+    window.dialApi = dial(document.getElementById('dial'), { items: tenses, index: 0, onChange: (i, it) => log('dialLog', it.key) });
+    const persons = ['io','tu','lui/lei','noi','voi','loro']; const forms = ['sono','sei','è','siamo','siete','sono'];
+    window.fanApi = fan(document.getElementById('fan'), persons.map((p, i) => ({ front: p, back: `${forms[i]}<span class="sub">${p}</span>` })), { onFlip: (i, f) => log('fanLog', `${persons[i]} → ${f ? forms[i] : '…'}`), onAllFlipped: () => log('fanLog', 'all flipped') });
+    document.getElementById('fanFlip').addEventListener('click', () => fanApi.flipAll());
+    document.getElementById('fanToggle').addEventListener('click', (e) => { const on = fanApi.spread(); e.currentTarget.textContent = on ? 'Fan' : 'Spread'; });
+    document.getElementById('fanSpread').addEventListener('click', (e) => { e.preventDefault(); fanApi.spread(); });
+    window.reelApi = reel(document.getElementById('reel'));
+    document.getElementById('ddBtn').addEventListener('click', (e) => {
+      window.ddApi = dropdown(e.currentTarget, [{ value: 'A1', label: 'Level A1', sub: '612 words', selected: true }, { value: 'A2', label: 'Level A2', sub: '980 words' }, { value: 'bank', label: 'My word bank', sub: '14 items' }, { value: 'learned', label: 'Everything learned' }], { onSelect: (v) => log('ddLog', 'picked ' + v) });
+    });
+    document.getElementById('stampOk').addEventListener('click', () => { stamp(document.getElementById('stampTarget'), 'Imparato', 'ok'); countUp(document.getElementById('score'), 87, { suffix: '%' }); });
+    document.getElementById('stampKo').addEventListener('click', () => { stamp(document.getElementById('stampTarget'), 'Riprova', 'ko'); countUp(document.getElementById('score'), 42, { suffix: '%' }); });
+    document.getElementById('confetti').addEventListener('click', () => confetti(['#f2c14e', '#38bdf8', '#e0673f', '#2dd4bf']));
+    orbit(document.getElementById('orbit'), { rings: [{ key: 'A1', learned: 320, total: 612 }, { key: 'A2', learned: 110, total: 980 }, { key: 'B1', learned: 40, total: 1200 }, { key: 'B2', learned: 0, total: 1300 }, { key: 'C1', learned: 0, total: 700 }, { key: 'C2', learned: 0, total: 600 }], current: 'A1', center: { value: '1,240', label: 'XP' }, onSelect: (k) => { setScene(k); log('orbitLog', 'scene ' + k); } });
+    const sentence = 'Stanotte guidiamo lungo la costa, sotto una luna d\'oro.';
+    typewriter(document.getElementById('tw'), sentence);
+    document.getElementById('twBtn').addEventListener('click', () => typewriter(document.getElementById('tw'), sentence));
+    document.getElementById('riseBtn').addEventListener('click', () => riseLetters(document.getElementById('riseWord')));
+    riseLetters(document.getElementById('riseWord'));
+    countUp(document.getElementById('score'), 87, { suffix: '%' });
+    window.fx = fx;
+  </script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 // UI helpers: HTML escaping, DOM building, toasts, bottom sheets, modals, text-to-speech, haptics.
 import { store } from './store.js';
+import { icon } from './icons.js';
 
+export { icon };
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
@@ -47,12 +49,22 @@ export function tr(itText, enText, cls = '') {
 export function trBlock(itText, enText, cls = '') {
   return html`<div class="itx block ${cls}" role="button" tabindex="0"><div class="it">${itText}</div><div class="tr">${enText}</div></div>`;
 }
+// The headword "EN" pill: a glass pill that slides open to reveal the translation (same .itx mechanism).
+export function enPill(enText, cls = '') {
+  return html`<span class="itx headword-en ${cls}" role="button" tabindex="0" aria-label="Show English"><span class="it">EN</span><span class="tr">${enText}</span></span>`;
+}
 // global delegated handler for .itx
 document.addEventListener('click', (ev) => {
   const t = ev.target.closest('.itx');
   if (!t) return;
   if (ev.target.closest('a,button,.speak,input')) return;
   t.classList.toggle('open');
+});
+document.addEventListener('keydown', (ev) => {
+  if (ev.key !== 'Enter' && ev.key !== ' ') return;
+  const t = ev.target.closest && ev.target.closest('.itx');
+  if (!t || ev.target !== t) return;
+  ev.preventDefault(); t.classList.toggle('open');
 });
 
 // ---------- toast ----------
@@ -77,14 +89,28 @@ export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, 
   document.body.append(wrap);
   document.body.classList.add('no-scroll');
   requestAnimationFrame(() => wrap.classList.add('open'));
-  const close = () => {
+  let closed = false;
+  const pane = wrap.querySelector('.sheet');
+  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  const close = (opts) => {
+    if (closed) return; closed = true;
+    const silent = !!(opts && opts.silent === true);
     wrap.classList.remove('open');
     document.body.classList.remove('no-scroll');
-    setTimeout(() => wrap.remove(), 220);
-    onClose && onClose();
+    document.removeEventListener('keydown', onKey);
+    setTimeout(() => wrap.remove(), 320);
+    if (!silent && onClose) onClose();
   };
+  document.addEventListener('keydown', onKey);
   wrap.querySelector('.sheet-backdrop').addEventListener('click', close);
   wrap.addEventListener('click', (e) => { if (e.target.closest('[data-close]')) close(); });
+  // drag the handle down to dismiss
+  let dragY = null;
+  const handle = wrap.querySelector('.sheet-handle');
+  handle.addEventListener('pointerdown', (e) => { dragY = e.clientY; pane.style.transition = 'none'; try { handle.setPointerCapture(e.pointerId); } catch { /* ignore */ } });
+  handle.addEventListener('pointermove', (e) => { if (dragY == null) return; const dy = Math.max(0, e.clientY - dragY); pane.style.transform = `translateY(${dy}px)`; });
+  const endDrag = (e) => { if (dragY == null) return; const dy = Math.max(0, e.clientY - dragY); dragY = null; pane.style.transition = ''; pane.style.transform = ''; if (dy > 80) close(); };
+  handle.addEventListener('pointerup', endDrag); handle.addEventListener('pointercancel', endDrag);
   onOpen && onOpen(wrap.querySelector('.sheet-body'), close);
   return { close, body: wrap.querySelector('.sheet-body'), root: wrap };
 }
@@ -99,7 +125,7 @@ export function confirmDialog(message, { ok = 'OK', cancel = 'Cancel', danger = 
     s.body.addEventListener('click', (e) => {
       const b = e.target.closest('[data-act]'); if (!b) return;
       const val = b.dataset.act === 'ok';
-      s.root.classList.remove('open'); document.body.classList.remove('no-scroll'); setTimeout(() => s.root.remove(), 220);
+      s.close({ silent: true });
       resolve(val);
     });
   });
@@ -115,7 +141,7 @@ export function promptDialog(message, { value = '', placeholder = '', ok = 'Save
         <button class="btn primary grow" data-act="ok">${ok}</button>
       </div>`, { onClose: () => { if (!done) resolve(null); } });
     const input = s.body.querySelector('input');
-    setTimeout(() => input.focus(), 250);
+    setTimeout(() => input.focus(), 320);
     const finish = (v) => { done = true; s.close(); resolve(v); };
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') finish(input.value.trim()); });
     s.body.addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; finish(b.dataset.act === 'ok' ? input.value.trim() : null); });
@@ -133,7 +159,11 @@ export function italianVoice() {
   if (pref) { const v = it.find(x => x.name === pref); if (v) return v; }
   return it.find(v => /alice|federica|luca|paola/i.test(v.name)) || it.find(v => v.localService) || it[0] || null;
 }
-export function speak(text, { rate = null, force = false } = {}) {
+let activeSpeakBtn = null, speakTimer = null;
+function clearSpeaking() { if (activeSpeakBtn) activeSpeakBtn.classList.remove('speaking'); activeSpeakBtn = null; clearTimeout(speakTimer); }
+// speak(text, { rate, force, button }) — `button` (a .speak element) pulses while the utterance plays.
+export function speak(text, { rate = null, force = false, button = null } = {}) {
+  clearSpeaking();
   if (!window.speechSynthesis || !text) return false;
   if (!force && store.current && store.current.settings.tts === false) return false;
   try {
@@ -142,16 +172,21 @@ export function speak(text, { rate = null, force = false } = {}) {
     u.lang = 'it-IT';
     const v = italianVoice(); if (v) u.voice = v;
     u.rate = rate ?? (store.current?.settings?.ttsRate || 0.9);
+    if (button) {
+      activeSpeakBtn = button; button.classList.add('speaking');
+      speakTimer = setTimeout(clearSpeaking, Math.max(1500, String(text).length * 110));
+      u.onend = u.onerror = () => { if (activeSpeakBtn === button) clearSpeaking(); };
+    }
     speechSynthesis.speak(u);
     return true;
-  } catch { return false; }
+  } catch { clearSpeaking(); return false; }
 }
-export const speakBtn = (text, cls = '') => html`<button class="speak ${cls}" type="button" data-say="${text}" aria-label="Listen">🔊</button>`;
+export const speakBtn = (text, cls = '') => html`<button class="speak ${cls}" type="button" data-say="${text}" aria-label="Listen">${raw(icon('speaker'))}</button>`;
 document.addEventListener('click', (ev) => {
   const b = ev.target.closest('[data-say]');
   if (!b) return;
   ev.preventDefault(); ev.stopPropagation();
-  speak(b.dataset.say, { force: true });
+  speak(b.dataset.say, { force: true, button: b.classList.contains('speak') ? b : null });
 });
 
 export function haptic(kind = 'light') {
@@ -168,7 +203,15 @@ export function relTime(ts) {
   return diff > 0 ? `in ${s}` : `${s} ago`;
 }
 export function pct(a, b) { return b ? Math.round((a / b) * 100) : 0; }
-export function levelBadge(level) { return html`<span class="badge lvl lvl-${level}">${level}</span>`; }
+// Level chip: <span class="lvl lvl-B1">B1</span> (add 'on' to fill)
+export function levelBadge(level, cls = '') { return html`<span class="lvl lvl-${level} ${cls}">${level}</span>`; }
 export function progressBar(value, max, cls = '') { return html`<div class="bar ${cls}"><div class="bar-fill" style="width:${max ? Math.min(100, Math.round((value / max) * 100)) : 0}%"></div></div>`; }
+// Section header: kicker + display title (+ optional right link)
+export function secHead(kicker, title, { href = null, more = null, cls = '' } = {}) {
+  return html`<div class="sec-head ${cls}"><div><span class="kicker">${kicker}</span><span class="title">${title}</span></div>${href ? raw(html`<a class="more" href="${href}">${more || 'All'}</a>`) : ''}</div>`;
+}
+export function iconBtn(name, { label = '', cls = '', attrs = '' } = {}) {
+  return html`<button type="button" class="icon-btn ${cls}" aria-label="${label}" ${raw(attrs)}>${raw(icon(name))}</button>`;
+}
 export function onEnter(input, fn) { input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); fn(); } }); }
 export function scrollTop() { window.scrollTo({ top: 0 }); }
