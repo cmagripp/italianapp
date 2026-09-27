@@ -1,0 +1,4857 @@
+[
+  {
+    "id": "articles",
+    "title": "Articles & gender",
+    "titleIt": "Articoli e genere",
+    "summary": "How to choose il/lo/l'/la and un/uno/una/un', and how a noun's ending tells you its gender.",
+    "practiceGame": "gender",
+    "sections": [
+      {
+        "heading": "Definite articles",
+        "body": "Italian has seven forms of *the*, chosen by the gender and number of the noun and by the first sound of the word that follows. The basic masculine forms are *il* (singular) and *i* (plural); the basic feminine forms are *la* (singular) and *le* (plural). Before a vowel, both *lo* and *la* shorten to *l'* in the singular; in the plural, *gli* is kept whole and *le* is never shortened.",
+        "table": [
+          [
+            "",
+            "Masculine sing.",
+            "Masculine pl.",
+            "Feminine sing.",
+            "Feminine pl."
+          ],
+          [
+            "Before most consonants",
+            "il libro",
+            "i libri",
+            "la casa",
+            "le case"
+          ],
+          [
+            "Before a vowel",
+            "l'amico",
+            "gli amici",
+            "l'amica",
+            "le amiche"
+          ],
+          [
+            "Before s+consonant, z, gn, ps, pn, x, y, i+vowel",
+            "lo studente, lo zio",
+            "gli studenti, gli zii",
+            "la stanza",
+            "le stanze"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Il treno per Roma parte alle otto.",
+            "en": "The train to Rome leaves at eight."
+          },
+          {
+            "it": "Gli studenti aspettano lo psicologo.",
+            "en": "The students are waiting for the psychologist."
+          },
+          {
+            "it": "L'acqua è fredda, ma le onde sono calme.",
+            "en": "The water is cold, but the waves are calm."
+          }
+        ]
+      },
+      {
+        "heading": "When to use lo and gli",
+        "body": "*Lo* (plural *gli*) replaces *il* (plural *i*) before a masculine noun that begins with an *impure s* (s followed by a consonant: *sport, studio, sbaglio*), with *z* (*zaino, zucchero*), with *gn* (*gnocco*), with *ps* or *pn* (*psicologo, pneumatico*), with *x* or *y* (*xilofono, yogurt*), or with *i* followed by a vowel (*iodio, yogurt*). *Gli* is also the plural before any vowel (*gli amici, gli uomini*). The same rule decides the indefinite article *uno* and the articulated prepositions (*allo, dello, sullo, negli, dagli*).",
+        "table": [
+          [
+            "Initial sound",
+            "Singular",
+            "Plural"
+          ],
+          [
+            "s + consonant",
+            "lo sport, lo specchio",
+            "gli sport, gli specchi"
+          ],
+          [
+            "z",
+            "lo zaino, lo zio",
+            "gli zaini, gli zii"
+          ],
+          [
+            "gn",
+            "lo gnomo",
+            "gli gnomi"
+          ],
+          [
+            "ps / pn",
+            "lo psicologo, lo pneumatico",
+            "gli psicologi, gli pneumatici"
+          ],
+          [
+            "x / y",
+            "lo xilofono, lo yogurt",
+            "gli xilofoni, gli yogurt"
+          ],
+          [
+            "i + vowel",
+            "lo iato",
+            "gli iati"
+          ],
+          [
+            "any vowel",
+            "l'albero, l'uomo",
+            "gli alberi, gli uomini"
+          ]
+        ],
+        "tip": "The rule is about sound, not spelling: *lo sport* but *il sole*, because in *sole* the s is followed by a vowel. In everyday speech *il pneumatico* is also heard and accepted."
+      },
+      {
+        "heading": "Indefinite articles",
+        "body": "The indefinite article has four written forms. Masculine *un* is used before consonants and vowels alike and never takes an apostrophe (*un amico*). Masculine *uno* follows exactly the same rule as *lo* (*uno studente, uno zio, uno psicologo, uno yogurt*). Feminine *una* becomes *un'* before a vowel (*un'amica, un'ora*), so an apostrophe after *un* always signals a feminine noun.",
+        "table": [
+          [
+            "",
+            "Masculine",
+            "Feminine"
+          ],
+          [
+            "Before a consonant",
+            "un libro",
+            "una casa"
+          ],
+          [
+            "Before a vowel",
+            "un amico",
+            "un'amica"
+          ],
+          [
+            "Before s+cons., z, gn, ps, x, y",
+            "uno studente, uno zaino",
+            "una stanza, una zia"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ho comprato un ombrello e un'agenda.",
+            "en": "I bought an umbrella and a diary."
+          },
+          {
+            "it": "C'è uno sconosciuto alla porta.",
+            "en": "There is a stranger at the door."
+          }
+        ],
+        "tip": "*Un'amica* (f) but *un amico* (m): the apostrophe is the only visible difference in speech, so remember that *un* is never shortened."
+      },
+      {
+        "heading": "Gender from the ending: -o, -a, -e",
+        "body": "Most nouns ending in *-o* are masculine (*il libro, il tavolo*) and most nouns ending in *-a* are feminine (*la casa, la sedia*). Nouns ending in *-e* can be either gender and must be learned with their article: *il pane, il fiore, il nome* are masculine, *la notte, la chiave, la carne* are feminine. A few *-o* nouns are feminine (*la mano, la radio, la foto, la moto, l'auto*), mostly because they are shortenings of longer feminine words (*fotografia, motocicletta, automobile*).",
+        "table": [
+          [
+            "Ending",
+            "Usual gender",
+            "Examples",
+            "Watch out"
+          ],
+          [
+            "-o",
+            "masculine",
+            "il libro, il gatto, il vino",
+            "la mano, la foto, la radio, la moto, l'auto"
+          ],
+          [
+            "-a",
+            "feminine",
+            "la casa, la pizza, la strada",
+            "il problema, il papà, il cinema, il poeta"
+          ],
+          [
+            "-e",
+            "either",
+            "il pane, il sole / la notte, la neve",
+            "learn each one with its article"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "La mano destra mi fa male.",
+            "en": "My right hand hurts."
+          },
+          {
+            "it": "Il fiore è sul tavolo accanto alla chiave.",
+            "en": "The flower is on the table next to the key."
+          }
+        ]
+      },
+      {
+        "heading": "Reliable feminine endings: -tà, -tù, -ione, -ice, -ie",
+        "body": "Some endings are almost always feminine. Nouns in *-tà* and *-tù* (*la città, la libertà, la virtù*) are feminine and invariable in the plural. Nouns in *-ione* (*la stazione, la lezione, la televisione*) are feminine, as are those in *-trice* (*l'attrice, la scrittrice*) and *-ie* (*la serie, la specie*). Nouns in *-i* are mostly feminine and invariable (*la crisi, l'analisi, la tesi*), though *il brindisi* is masculine.",
+        "table": [
+          [
+            "Ending",
+            "Gender",
+            "Examples",
+            "Plural"
+          ],
+          [
+            "-tà / -tù",
+            "feminine",
+            "la città, l'università, la gioventù",
+            "invariable: le città"
+          ],
+          [
+            "-ione",
+            "feminine",
+            "la stazione, l'opinione, la nazione",
+            "-ioni: le stazioni"
+          ],
+          [
+            "-trice",
+            "feminine",
+            "l'attrice, la direttrice",
+            "-trici: le attrici"
+          ],
+          [
+            "-i",
+            "feminine (mostly)",
+            "la crisi, l'analisi, l'ipotesi",
+            "invariable: le crisi"
+          ],
+          [
+            "-ie",
+            "feminine",
+            "la serie, la specie",
+            "invariable: le serie"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "La stazione è vicina all'università.",
+            "en": "The station is near the university."
+          },
+          {
+            "it": "Questa crisi durerà anni.",
+            "en": "This crisis will last for years."
+          }
+        ]
+      },
+      {
+        "heading": "Masculine nouns in -a: Greek words, -ista, -ore",
+        "body": "A group of nouns of Greek origin ending in *-ma* is masculine and forms its plural in *-i*: *il problema / i problemi, il tema, il sistema, il programma, il clima, il dramma, il diploma, il panorama, il teorema*. Other masculine *-a* nouns include *il poeta, il pianeta, il papa, il papà, il cinema, il vaglia*. Nouns in *-ista* (*il/la turista, il/la giornalista, il/la dentista*) and *-cida*, *-iatra* (*il/la farmacista, il/la pediatra*) have the same form for both genders in the singular; the article tells the gender, and the plural is *-isti* (m) / *-iste* (f). Masculine nouns in *-ore* (*l'attore, il pittore, lo scrittore*) usually have a feminine in *-trice* (*l'attrice, la pittrice, la scrittrice*); *il dottore* has *la dottoressa*, *il professore* has *la professoressa*.",
+        "table": [
+          [
+            "Group",
+            "Masculine",
+            "Feminine",
+            "Plural"
+          ],
+          [
+            "Greek -ma",
+            "il problema, il sistema",
+            "—",
+            "i problemi, i sistemi"
+          ],
+          [
+            "-ista",
+            "il turista, il pianista",
+            "la turista, la pianista",
+            "i turisti / le turiste"
+          ],
+          [
+            "-ore / -trice",
+            "l'attore, il traduttore",
+            "l'attrice, la traduttrice",
+            "gli attori / le attrici"
+          ],
+          [
+            "-ore / -essa",
+            "il dottore, il professore",
+            "la dottoressa, la professoressa",
+            "i dottori / le dottoresse"
+          ],
+          [
+            "-e / -essa",
+            "lo studente, il principe",
+            "la studentessa, la principessa",
+            "gli studenti / le studentesse"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Abbiamo un problema con il programma.",
+            "en": "We have a problem with the programme."
+          },
+          {
+            "it": "La giornalista ha intervistato l'attrice.",
+            "en": "The journalist interviewed the actress."
+          }
+        ],
+        "tip": "If a noun ends in *-ma* and is an abstract or technical word (*problema, sistema, tema, clima, schema*), bet on masculine. Everyday *-ma* nouns like *la mamma, la crema, la lacrima, la fiamma* are feminine."
+      },
+      {
+        "heading": "Foreign words and abbreviations",
+        "body": "Nouns borrowed from other languages ending in a consonant are usually masculine and invariable: *il computer / i computer, il film, lo sport, il bar, il weekend, l'autobus, lo yogurt*. They take the article the initial sound requires (*lo sport, lo yogurt, l'hotel*). A few are feminine because of the Italian word they replace: *la mail / l'e-mail* (from *la posta*), *la chat*, *la password* (*la parola d'ordine*), *la star*. Abbreviations keep the gender of the full word: *la foto (fotografia), la bici (bicicletta), il cinema (cinematografo), il frigo (frigorifero), la metro (metropolitana)*. Acronyms follow the gender of their main noun: *la TV, la BBC, il PIL, l'ONU (f)*.",
+        "examples": [
+          {
+            "it": "Ho visto un film al cinema e poi ho preso la metro.",
+            "en": "I saw a film at the cinema and then took the metro."
+          },
+          {
+            "it": "Ti mando una mail con la password.",
+            "en": "I'll send you an email with the password."
+          }
+        ]
+      },
+      {
+        "heading": "Using or dropping the article",
+        "body": "Italian uses the definite article more than English. It appears before general and abstract nouns (*Amo la musica; Il tempo vola*), before languages (*Studio l'italiano*), before possessives (*la mia casa*), before titles when speaking about someone (*Il dottor Rossi è arrivato*), before days of the week to mean *every* (*Il lunedì vado in palestra*), and with time and dates (*Sono le tre; il 5 maggio*). It is dropped before singular family members with a possessive (*mia madre, tuo fratello*, but *la mia mamma, i miei fratelli*), in many fixed expressions with *in* and *a* (*in cucina, a casa, a scuola, in ufficio*), and when addressing someone by title (*Buongiorno, dottor Rossi*).",
+        "examples": [
+          {
+            "it": "Il sabato mia sorella va sempre in piscina.",
+            "en": "On Saturdays my sister always goes to the pool."
+          },
+          {
+            "it": "La signora Bianchi parla bene il francese.",
+            "en": "Mrs Bianchi speaks French well."
+          },
+          {
+            "it": "Buonasera, signora Bianchi!",
+            "en": "Good evening, Mrs Bianchi!"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "plurals",
+    "title": "Plurals",
+    "titleIt": "Il plurale dei nomi",
+    "summary": "Regular plural endings, the spelling rules for -co/-go/-ca/-ga/-cia/-gia/-io, invariable nouns, and the irregular and double plurals you must memorise.",
+    "practiceGame": "plurals",
+    "sections": [
+      {
+        "heading": "The three regular patterns",
+        "body": "Italian plurals change the final vowel rather than adding *-s*. Nouns in *-o* take *-i*, nouns in *-a* take *-e*, and nouns in *-e* take *-i* whatever their gender. The article changes with the noun (*il → i, lo/l' → gli, la/l' → le*). Masculine nouns in *-a* (*il problema, il poeta, il turista*) follow the *-e/-i* logic rather than the *-a/-e* one: *i problemi, i poeti, i turisti*.",
+        "table": [
+          [
+            "Singular",
+            "Plural",
+            "Examples"
+          ],
+          [
+            "-o (m)",
+            "-i",
+            "il libro → i libri; l'anno → gli anni"
+          ],
+          [
+            "-a (f)",
+            "-e",
+            "la casa → le case; la ragazza → le ragazze"
+          ],
+          [
+            "-a (m)",
+            "-i",
+            "il problema → i problemi; il pianista → i pianisti"
+          ],
+          [
+            "-e (m or f)",
+            "-i",
+            "il fiore → i fiori; la notte → le notti"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "I ragazzi e le ragazze arrivano alle nove.",
+            "en": "The boys and girls arrive at nine."
+          },
+          {
+            "it": "Le chiavi sono sui tavoli.",
+            "en": "The keys are on the tables."
+          }
+        ]
+      },
+      {
+        "heading": "-ca / -ga → -che / -ghe",
+        "body": "Feminine nouns in *-ca* and *-ga* insert an *h* in the plural to keep the hard *k* and *g* sounds: *l'amica → le amiche, la banca → le banche, la riga → le righe, la collega → le colleghe*. Masculine nouns in *-ca* and *-ga* take *-chi* and *-ghi* instead: *il collega → i colleghi, il monarca → i monarchi, lo stratega → gli strateghi*. The same *h* appears in adjectives (*bianca → bianche, lunga → lunghe*).",
+        "table": [
+          [
+            "Singular",
+            "Plural"
+          ],
+          [
+            "l'amica (f)",
+            "le amiche"
+          ],
+          [
+            "la bottega (f)",
+            "le botteghe"
+          ],
+          [
+            "il collega (m)",
+            "i colleghi"
+          ],
+          [
+            "la collega (f)",
+            "le colleghe"
+          ],
+          [
+            "il belga (m) / la belga (f)",
+            "i belgi / le belghe"
+          ]
+        ],
+        "tip": "*Belga* is the one common exception: masculine plural *i belgi*, not *belghi*."
+      },
+      {
+        "heading": "-co / -go: stress decides",
+        "body": "For masculine nouns in *-co* and *-go*, the general rule depends on where the stress falls. If the stress is on the syllable immediately before the ending (*fuò-co, àl-bergo*), the plural keeps the hard sound with *h*: *fuochi, alberghi, parchi, giochi, laghi, luoghi*. If the stress falls earlier (*mè-di-co, psi-cò-lo-go*), the plural is *-ci / -gi*: *medici, psicologi, sindaci, biologi*. The most important exceptions are stressed on the penultimate syllable yet still soften: *amico → amici, nemico → nemici, greco → greci, porco → porci*. Words in *-logo* referring to people take *-logi* (*psicologi, biologi*), while things in *-logo* take *-loghi* (*cataloghi, dialoghi, monologhi*).",
+        "table": [
+          [
+            "Rule",
+            "Singular",
+            "Plural"
+          ],
+          [
+            "Stress on penultimate → -chi/-ghi",
+            "il fuoco, il parco, l'albergo, il lago",
+            "i fuochi, i parchi, gli alberghi, i laghi"
+          ],
+          [
+            "Stress on antepenultimate → -ci/-gi",
+            "il medico, il sindaco, lo psicologo",
+            "i medici, i sindaci, gli psicologi"
+          ],
+          [
+            "Exceptions (penultimate but -ci)",
+            "l'amico, il nemico, il greco, il porco",
+            "gli amici, i nemici, i greci, i porci"
+          ],
+          [
+            "-logo (things) → -loghi",
+            "il catalogo, il dialogo",
+            "i cataloghi, i dialoghi"
+          ],
+          [
+            "Either accepted",
+            "il chirurgo, lo stomaco",
+            "i chirurghi/chirurgi, gli stomaci/stomachi"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "I miei amici sono medici in due alberghi diversi.",
+            "en": "My friends are doctors at two different hotels."
+          },
+          {
+            "it": "I cataloghi dei parchi sono pronti.",
+            "en": "The catalogues of the parks are ready."
+          }
+        ]
+      },
+      {
+        "heading": "-cia / -gia: does the i carry stress or follow a vowel?",
+        "body": "Feminine nouns in *-cia* and *-gia* keep the *i* in the plural when the *i* is stressed (*la farmacìa → le farmacie, la bugìa → le bugie, l'allergìa → le allergie*) or when *-cia/-gia* is preceded by a vowel (*la camicia → le camicie, la valigia → le valigie, la ciliegia → le ciliegie*). When the ending is preceded by a consonant and the *i* is unstressed, the *i* drops: *l'arancia → le arance, la spiaggia → le spiagge, la faccia → le facce, la pioggia → le piogge*. The *i* was only there to soften the *c/g* before *a*, and *-e* is already a soft vowel.",
+        "table": [
+          [
+            "Condition",
+            "Singular",
+            "Plural"
+          ],
+          [
+            "Stressed i",
+            "la farmacia, la bugia, l'energia",
+            "le farmacie, le bugie, le energie"
+          ],
+          [
+            "Vowel before -cia/-gia",
+            "la camicia, la valigia, la ciliegia",
+            "le camicie, le valigie, le ciliegie"
+          ],
+          [
+            "Consonant before -cia/-gia",
+            "l'arancia, la spiaggia, la faccia, la goccia",
+            "le arance, le spiagge, le facce, le gocce"
+          ]
+        ],
+        "tip": "*Valige* and *ciliege* are also seen and accepted, but the vowel-before rule gives the safer exam spelling *valigie, ciliegie*."
+      },
+      {
+        "heading": "-io: one i or two?",
+        "body": "Masculine nouns in *-io* form the plural with a single *-i* when the *i* is unstressed: *lo studio → gli studi, il figlio → i figli, il viaggio → i viaggi, l'occhio → gli occhi, il negozio → i negozi*. When the *i* is stressed (*zìo, addìo, pendìo, mormorìo*), the plural has two: *gli zii, gli addii, i pendii*. The rare ambiguities that arise (*principi* = princes or principles) are resolved by context or, formally, by an accent (*princìpi* = principles).",
+        "table": [
+          [
+            "Singular",
+            "Stress",
+            "Plural"
+          ],
+          [
+            "lo studio",
+            "unstressed i",
+            "gli studi"
+          ],
+          [
+            "il figlio",
+            "unstressed i",
+            "i figli"
+          ],
+          [
+            "l'esempio",
+            "unstressed i",
+            "gli esempi"
+          ],
+          [
+            "lo zio",
+            "stressed i",
+            "gli zii"
+          ],
+          [
+            "l'addio",
+            "stressed i",
+            "gli addii"
+          ]
+        ]
+      },
+      {
+        "heading": "Invariable nouns",
+        "body": "Several groups of nouns do not change in the plural, so only the article shows the number. These are: nouns with a final accented vowel (*la città → le città, il caffè → i caffè, l'università → le università*); nouns ending in a consonant, mostly foreign (*il bar → i bar, lo sport → gli sport, il film → i film*); monosyllables (*il re → i re, la gru → le gru*); nouns in *-i* and *-ie* (*la crisi → le crisi, la serie → le serie*, except *la moglie → le mogli* and *la superficie → le superfici*); abbreviations (*la foto → le foto, il cinema → i cinema, la bici → le bici, l'auto → le auto, la moto → le moto*); and a handful of nouns in *-a* like *il vaglia → i vaglia*.",
+        "table": [
+          [
+            "Type",
+            "Examples"
+          ],
+          [
+            "Accented final vowel",
+            "le città, i caffè, le virtù, i lunedì"
+          ],
+          [
+            "Ending in a consonant",
+            "i bar, gli sport, i computer, gli autobus"
+          ],
+          [
+            "Monosyllables",
+            "i re, le gru, i tè"
+          ],
+          [
+            "-i / -ie",
+            "le crisi, le analisi, le tesi, le serie, le specie"
+          ],
+          [
+            "Abbreviations",
+            "le foto, le moto, le auto, i cinema, i frigo, le bici"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ho visitato tre città e ho fatto molte foto.",
+            "en": "I visited three cities and took a lot of photos."
+          },
+          {
+            "it": "I film di quei re sono lunghi.",
+            "en": "The films about those kings are long."
+          }
+        ]
+      },
+      {
+        "heading": "Irregular plurals",
+        "body": "A small set of nouns has an irregular plural inherited from Latin. *L'uomo → gli uomini* is the most frequent. *Il dio → gli dei* also takes the unusual article *gli* before a consonant (*gli dei*, not *i dei*). *Il bue → i buoi*, *il tempio → i templi*, *la mano → le mani* (feminine in *-o*, plural *-i*), *l'ala → le ali* and *l'arma → le armi* (feminine in *-a* with plural *-i*), *la moglie → le mogli*, *la superficie → le superfici*.",
+        "table": [
+          [
+            "Singular",
+            "Plural",
+            "Note"
+          ],
+          [
+            "l'uomo",
+            "gli uomini",
+            "the most common irregular"
+          ],
+          [
+            "il dio",
+            "gli dei",
+            "plural article gli before a consonant"
+          ],
+          [
+            "il bue",
+            "i buoi",
+            ""
+          ],
+          [
+            "la mano",
+            "le mani",
+            "feminine in -o"
+          ],
+          [
+            "l'ala",
+            "le ali",
+            "feminine -a → -i"
+          ],
+          [
+            "l'arma",
+            "le armi",
+            "feminine -a → -i"
+          ],
+          [
+            "il tempio",
+            "i templi",
+            "not tempi (tempi = times)"
+          ],
+          [
+            "la moglie",
+            "le mogli",
+            ""
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Gli uomini antichi pregavano molti dei.",
+            "en": "Ancient men prayed to many gods."
+          },
+          {
+            "it": "Ho le mani fredde e le ali del cappello si sono rotte.",
+            "en": "My hands are cold and the brim of my hat has broken."
+          }
+        ]
+      },
+      {
+        "heading": "Double plurals: braccio/braccia, uovo/uova",
+        "body": "Some masculine nouns in *-o*, mostly parts of the body, have a feminine plural in *-a* which is the normal, concrete one (*il braccio → le braccia, il dito → le dita, l'osso → le ossa, il ginocchio → le ginocchia, il labbro → le labbra, il ciglio → le ciglia, l'uovo → le uova, il paio → le paia, il centinaio → le centinaia, il migliaio → le migliaia, il miglio → le miglia, il riso → le risa*). Several also keep a regular masculine plural in *-i* with a different, often figurative or individual, meaning: *i bracci* (arms of a chair, of a river), *i diti* (individual fingers considered one by one), *gli ossi* (bones for a dog), *i muri* (individual walls) vs *le mura* (city walls), *i membri* (members) vs *le membra* (limbs), *i frutti* (results, individual fruits) vs *le frutta* (rare: fruit as food, usually *la frutta*), *i cigli* (edges of a road) vs *le ciglia* (eyelashes).",
+        "table": [
+          [
+            "Singular",
+            "Feminine plural (concrete, collective)",
+            "Masculine plural (other meaning)"
+          ],
+          [
+            "il braccio",
+            "le braccia (a person's arms)",
+            "i bracci (arms of a chair, cross, river)"
+          ],
+          [
+            "il dito",
+            "le dita (fingers as a set)",
+            "i diti (fingers taken singly: i diti indici)"
+          ],
+          [
+            "l'osso",
+            "le ossa (skeleton)",
+            "gli ossi (loose bones, e.g. for a dog)"
+          ],
+          [
+            "il muro",
+            "le mura (city walls)",
+            "i muri (walls of a house)"
+          ],
+          [
+            "il membro",
+            "le membra (limbs)",
+            "i membri (members of a group)"
+          ],
+          [
+            "il ciglio",
+            "le ciglia (eyelashes)",
+            "i cigli (road edges)"
+          ],
+          [
+            "l'uovo",
+            "le uova",
+            "—"
+          ],
+          [
+            "il ginocchio",
+            "le ginocchia",
+            "i ginocchi (also accepted)"
+          ],
+          [
+            "il paio / il centinaio / il migliaio",
+            "le paia / le centinaia / le migliaia",
+            "—"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Mi fanno male le braccia e le ginocchia.",
+            "en": "My arms and knees hurt."
+          },
+          {
+            "it": "Le mura di Lucca sono famose; i muri di casa mia sono bianchi.",
+            "en": "Lucca's city walls are famous; the walls of my house are white."
+          },
+          {
+            "it": "Ho comprato due paia di scarpe e sei uova.",
+            "en": "I bought two pairs of shoes and six eggs."
+          }
+        ],
+        "tip": "Adjectives agree with the feminine plural: *le braccia lunghe, le uova fresche, le dita sporche*."
+      },
+      {
+        "heading": "Plural-only and singular-only nouns",
+        "body": "Some nouns exist only in the plural: *gli occhiali* (glasses), *i pantaloni* (trousers), *le forbici* (scissors), *le nozze* (wedding), *le ferie* (holidays from work), *i dintorni* (surroundings), *le stoviglie* (crockery), *i viveri* (provisions), *le posate* (cutlery), *le redini* (reins), *gli spiccioli* (small change). They take plural verbs and plural adjectives (*I pantaloni sono stretti*). Others are normally singular only: mass nouns (*il latte, il pane, la fame, la sete*), abstractions (*il coraggio, la pazienza*) and collective *la gente*, which takes a singular verb (*La gente parla*), unlike English *people*.",
+        "table": [
+          [
+            "Plural only",
+            "Meaning"
+          ],
+          [
+            "gli occhiali",
+            "glasses"
+          ],
+          [
+            "i pantaloni",
+            "trousers"
+          ],
+          [
+            "le forbici",
+            "scissors"
+          ],
+          [
+            "le nozze",
+            "wedding"
+          ],
+          [
+            "le ferie",
+            "annual leave"
+          ],
+          [
+            "i dintorni",
+            "surroundings"
+          ],
+          [
+            "le posate",
+            "cutlery"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Dove sono i miei occhiali? Le forbici sono nel cassetto.",
+            "en": "Where are my glasses? The scissors are in the drawer."
+          },
+          {
+            "it": "La gente è stanca di aspettare.",
+            "en": "People are tired of waiting."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "adjectives",
+    "title": "Adjectives",
+    "titleIt": "Gli aggettivi",
+    "summary": "Agreement, invariable colours, where the adjective goes and how position changes meaning, the special forms of bello/quello/buono, and comparatives and superlatives.",
+    "practiceGame": "quiz",
+    "sections": [
+      {
+        "heading": "Two agreement classes",
+        "body": "Every adjective agrees in gender and number with the noun it describes. Adjectives in *-o* have four forms (*-o, -a, -i, -e*): *rosso, rossa, rossi, rosse*. Adjectives in *-e* have only two (*-e* singular, *-i* plural) and do not mark gender: *grande, grandi; verde, verdi; felice, felici*. A few adjectives in *-a* (*ottimista, egoista, belga, rosa*) behave like *-ista* nouns: *ottimista* for both genders in the singular, *ottimisti / ottimiste* in the plural. When one adjective describes nouns of different genders, it goes masculine plural: *Marco e Anna sono simpatici*.",
+        "table": [
+          [
+            "",
+            "Masc. sing.",
+            "Fem. sing.",
+            "Masc. pl.",
+            "Fem. pl."
+          ],
+          [
+            "-o class",
+            "nuovo",
+            "nuova",
+            "nuovi",
+            "nuove"
+          ],
+          [
+            "-e class",
+            "grande",
+            "grande",
+            "grandi",
+            "grandi"
+          ],
+          [
+            "-ista class",
+            "ottimista",
+            "ottimista",
+            "ottimisti",
+            "ottimiste"
+          ],
+          [
+            "-co / -go (stress before)",
+            "bianco, lungo",
+            "bianca, lunga",
+            "bianchi, lunghi",
+            "bianche, lunghe"
+          ],
+          [
+            "-co (stress earlier)",
+            "simpatico",
+            "simpatica",
+            "simpatici",
+            "simpatiche"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Le case nuove sono grandi e luminose.",
+            "en": "The new houses are big and bright."
+          },
+          {
+            "it": "I ragazzi sono simpatici; le ragazze sono simpatiche.",
+            "en": "The boys are nice; the girls are nice."
+          }
+        ],
+        "tip": "Feminine adjectives in *-ca/-ga* always take *-che/-ghe* (*simpatiche, larghe*); masculine *-co* follows the stress rule of nouns (*bianchi* but *simpatici*)."
+      },
+      {
+        "heading": "Invariable adjectives and colours",
+        "body": "Colours that come from nouns are invariable: *rosa* (pink), *viola* (purple), *blu* (blue), *beige, lilla, arancione* (often used invariably, though *arancioni* is also heard), *marrone* (*marroni* is accepted). Compound colours are invariable too: *verde scuro, rosso chiaro, giallo limone*. Most colours are ordinary adjectives and agree normally: *rosso, giallo, nero, bianco, verde, grigio, azzurro*. Other invariables include *pari, dispari, perbene, dabbene* and words like *super, extra* used as adjectives.",
+        "table": [
+          [
+            "Type",
+            "Examples",
+            "With a plural noun"
+          ],
+          [
+            "Regular colours",
+            "rosso, nero, verde, azzurro",
+            "scarpe rosse, occhi verdi"
+          ],
+          [
+            "Invariable colours",
+            "rosa, viola, blu, beige, lilla",
+            "scarpe rosa, occhi blu"
+          ],
+          [
+            "Two-word colours",
+            "verde scuro, rosso fuoco, grigio perla",
+            "giacche verde scuro"
+          ],
+          [
+            "Other invariables",
+            "pari, dispari, perbene",
+            "numeri pari, persone perbene"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ha comprato due maglie blu e una sciarpa rosa.",
+            "en": "She bought two blue sweaters and a pink scarf."
+          },
+          {
+            "it": "Le pareti sono verde chiaro.",
+            "en": "The walls are light green."
+          }
+        ]
+      },
+      {
+        "heading": "Position: after the noun by default",
+        "body": "The neutral position of an Italian adjective is after the noun: *una macchina rossa, un libro interessante*. Adjectives that classify or distinguish (colours, shapes, nationalities, materials, technical or relational adjectives, past participles) must follow: *il vino italiano, la chiesa gotica, un tavolo rotondo, il partito socialista*. Adjectives modified by an adverb also follow (*una casa molto grande*). A small group of very common descriptive adjectives (*bello, brutto, buono, cattivo, grande, piccolo, giovane, vecchio, nuovo, stesso, altro, primo, ultimo*) often goes before the noun when it expresses a subjective or expected quality rather than a contrast. Placing an adjective before the noun makes it feel more emotional or literary; placing it after makes it more precise and restrictive.",
+        "examples": [
+          {
+            "it": "Abbiamo visto un bel film francese.",
+            "en": "We saw a lovely French film."
+          },
+          {
+            "it": "È una persona gentile e una brava insegnante.",
+            "en": "She is a kind person and a good teacher."
+          },
+          {
+            "it": "Preferisco le scarpe nere alle scarpe marroni.",
+            "en": "I prefer the black shoes to the brown ones."
+          }
+        ],
+        "tip": "Possessives, demonstratives, numbers and quantity words (*molto, poco, tanto, troppo, ogni, qualche*) always precede the noun."
+      },
+      {
+        "heading": "Adjectives that change meaning with position",
+        "body": "With some adjectives the position is not just a matter of style: before the noun they have a figurative or evaluative meaning, after the noun a literal one. *Un grande uomo* is a great man; *un uomo grande* is a big man. *Un povero ragazzo* is an unfortunate boy; *un ragazzo povero* has no money. *Un vecchio amico* is a long-standing friend; *un amico vecchio* is elderly. *Una nuova macchina* is a different car (new to me); *una macchina nuova* is brand new. *Una certa notizia* is some news or other; *una notizia certa* is confirmed.",
+        "table": [
+          [
+            "Adjective",
+            "Before the noun",
+            "After the noun"
+          ],
+          [
+            "grande",
+            "un grande artista (great)",
+            "un artista grande (big, tall)"
+          ],
+          [
+            "povero",
+            "un povero uomo (unfortunate)",
+            "un uomo povero (poor, penniless)"
+          ],
+          [
+            "vecchio",
+            "un vecchio amico (long-standing)",
+            "un amico vecchio (elderly)"
+          ],
+          [
+            "nuovo",
+            "una nuova casa (another, new to me)",
+            "una casa nuova (newly built)"
+          ],
+          [
+            "certo",
+            "una certa persona (a certain, some)",
+            "una persona certa (sure, reliable)"
+          ],
+          [
+            "caro",
+            "un caro amico (dear)",
+            "un ristorante caro (expensive)"
+          ],
+          [
+            "diverso / vario",
+            "diversi libri (several)",
+            "libri diversi (different)"
+          ],
+          [
+            "semplice",
+            "una semplice domanda (just a question)",
+            "una domanda semplice (easy)"
+          ],
+          [
+            "unico",
+            "l'unico figlio (the only)",
+            "un figlio unico (an only child / unique)"
+          ],
+          [
+            "alto",
+            "un alto funzionario (high-ranking)",
+            "un funzionario alto (tall)"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "È un vecchio amico, ma non è un uomo vecchio.",
+            "en": "He is an old friend, but he is not an old man."
+          },
+          {
+            "it": "Ho comprato diversi vestiti, tutti di colori diversi.",
+            "en": "I bought several dresses, all in different colours."
+          }
+        ]
+      },
+      {
+        "heading": "Bello and quello follow the definite article",
+        "body": "When *bello* and *quello* stand before a noun, their endings copy the definite article that the noun would take: *bel / quel* (like *il*), *bei / quei* (like *i*), *bello / quello* (like *lo*), *begli / quegli* (like *gli*), *bell' / quell'* before a vowel in the singular, *bella / quella* (like *la*), *belle / quelle* (like *le*). After the noun, or after *essere*, *bello* is regular: *un ragazzo bello, i film sono belli*. Note *begli* before masculine plural vowels and impure s (*begli occhi, begli studenti*) but *bei* before ordinary consonants (*bei libri*).",
+        "table": [
+          [
+            "Article",
+            "bello",
+            "quello",
+            "Example"
+          ],
+          [
+            "il",
+            "bel",
+            "quel",
+            "bel libro, quel libro"
+          ],
+          [
+            "i",
+            "bei",
+            "quei",
+            "bei libri, quei libri"
+          ],
+          [
+            "lo",
+            "bello",
+            "quello",
+            "bello specchio, quello zaino"
+          ],
+          [
+            "gli",
+            "begli",
+            "quegli",
+            "begli occhi, quegli alberi, quegli studenti"
+          ],
+          [
+            "l' (m)",
+            "bell'",
+            "quell'",
+            "bell'albero, quell'uomo"
+          ],
+          [
+            "la",
+            "bella",
+            "quella",
+            "bella casa, quella ragazza"
+          ],
+          [
+            "l' (f)",
+            "bell'",
+            "quell'",
+            "bell'idea, quell'amica"
+          ],
+          [
+            "le",
+            "belle",
+            "quelle",
+            "belle case, quelle idee"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Che begli occhi ha quel bambino!",
+            "en": "What beautiful eyes that child has!"
+          },
+          {
+            "it": "Quegli studenti hanno scritto dei bei temi.",
+            "en": "Those students wrote some nice essays."
+          }
+        ],
+        "tip": "As a pronoun (without a noun), *quello* has only four forms: *quello, quella, quelli, quelle* (*Quale vuoi? Quelli.*)."
+      },
+      {
+        "heading": "Buono behaves like un / una",
+        "body": "Before a noun, the singular of *buono* follows the indefinite article. Masculine *buon* (like *un*) is used before consonants and vowels: *un buon libro, un buon amico, buon appetito*. *Buono* (like *uno*) before impure s, z, ps, gn, y: *un buono studente, un buono zaino*. Feminine *buona* before consonants and *buon'* before vowels: *una buona pizza, una buon'idea* (though *buona idea* is now also common). The plurals are regular (*buoni, buone*); *santo* works the same way (*san Pietro, sant'Antonio, santo Stefano, santa Maria, sant'Anna*), and *grande* may shorten to *gran* before a consonant (*un gran piacere, una gran fame*).",
+        "table": [
+          [
+            "Like",
+            "Form",
+            "Example"
+          ],
+          [
+            "un",
+            "buon",
+            "buon giorno, buon anno, buon appetito"
+          ],
+          [
+            "uno",
+            "buono",
+            "buono studente, buono sconto"
+          ],
+          [
+            "una",
+            "buona",
+            "buona sera, buona fortuna"
+          ],
+          [
+            "un'",
+            "buon'",
+            "buon'idea, buon'amica"
+          ],
+          [
+            "plural",
+            "buoni / buone",
+            "buoni amici, buone vacanze"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Buon viaggio e buona fortuna!",
+            "en": "Have a good trip and good luck!"
+          },
+          {
+            "it": "È un buono studente e un buon amico.",
+            "en": "He is a good student and a good friend."
+          }
+        ]
+      },
+      {
+        "heading": "Comparatives",
+        "body": "The comparative of majority uses *più* and the comparative of minority uses *meno*; the comparative of equality uses *(così)… come* or *(tanto)… quanto*. The second term of comparison is introduced by *di* when comparing two nouns or pronouns (*Marco è più alto di Luca; Roma è più grande di Firenze*) and by *che* when comparing two adjectives, two verbs, two adverbs, two quantities, or two nouns preceded by a preposition (*È più bello che utile; È più facile parlare che scrivere; Ci sono più ragazzi che ragazze; Fa più caldo a Roma che a Milano*). Before a number or a clause, use *di* (*più di dieci; più di quanto pensassi*).",
+        "table": [
+          [
+            "Type",
+            "Structure",
+            "Example"
+          ],
+          [
+            "Majority",
+            "più + adj + di / che",
+            "Anna è più veloce di Marco."
+          ],
+          [
+            "Minority",
+            "meno + adj + di / che",
+            "Questo libro è meno noioso di quello."
+          ],
+          [
+            "Equality",
+            "(così) adj come / (tanto) adj quanto",
+            "Lei è (tanto) brava quanto lui."
+          ],
+          [
+            "Two qualities",
+            "più… che",
+            "È più furbo che intelligente."
+          ],
+          [
+            "Two actions / adverbs",
+            "più… che",
+            "Mi piace più leggere che guardare la TV."
+          ],
+          [
+            "With a number",
+            "più di",
+            "Ha più di trent'anni."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Il treno è più comodo dell'autobus, ma meno veloce dell'aereo.",
+            "en": "The train is more comfortable than the bus, but slower than the plane."
+          },
+          {
+            "it": "In questa classe ci sono più italiani che stranieri.",
+            "en": "In this class there are more Italians than foreigners."
+          }
+        ],
+        "tip": "Quick test: if the two things being compared are on either side of a single adjective and are both nouns/pronouns, use *di*; if you could put *che* between two parallel items of the same type, use *che*."
+      },
+      {
+        "heading": "Superlatives",
+        "body": "The relative superlative (*the most / the least*) is formed with the definite article plus *più/meno* and the adjective, with the group introduced by *di* (or *fra/tra*): *il ragazzo più alto della classe, la città meno cara d'Italia*. The article is not repeated when the adjective follows the noun (*il film più bello*, not *il film il più bello*). The absolute superlative (*very…*) is made by adding *-issimo/a/i/e* to the adjective stem (*bellissimo, facilissimo, elegantissima*); *-co/-go* adjectives keep the hard sound (*stanchissimo, larghissimo*). Alternatives are *molto/assai/estremamente* + adjective, prefixes like *stra-, arci-, super-* (*strapieno, arcinoto*), and repetition (*piano piano*).",
+        "table": [
+          [
+            "Adjective",
+            "Absolute superlative",
+            "Relative superlative"
+          ],
+          [
+            "alto",
+            "altissimo",
+            "il più alto (di)"
+          ],
+          [
+            "facile",
+            "facilissimo",
+            "il più facile (di)"
+          ],
+          [
+            "stanco",
+            "stanchissimo",
+            "il più stanco (di)"
+          ],
+          [
+            "largo",
+            "larghissimo",
+            "il più largo (di)"
+          ],
+          [
+            "celebre",
+            "celeberrimo",
+            "il più celebre (di)"
+          ],
+          [
+            "semplice",
+            "semplicissimo",
+            "il più semplice (di)"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "È la spiaggia più bella della Sardegna.",
+            "en": "It is the most beautiful beach in Sardinia."
+          },
+          {
+            "it": "La pasta era buonissima e il conto bassissimo.",
+            "en": "The pasta was delicious and the bill very low."
+          }
+        ]
+      },
+      {
+        "heading": "Irregular comparatives: migliore, peggiore, maggiore, minore",
+        "body": "*Buono, cattivo, grande* and *piccolo* have regular forms (*più buono, più cattivo, più grande, più piccolo*) alongside Latin-derived irregular ones: *migliore* (better), *peggiore* (worse), *maggiore* (greater, elder, main), *minore* (smaller, younger, lesser). Their absolute superlatives are *ottimo, pessimo, massimo, minimo*, and their relative superlatives are *il migliore, il peggiore, il maggiore, il minore*. *Migliore* and *peggiore* are preferred for quality and abstract comparison; *più buono* often means literally tastier or kinder. *Maggiore/minore* are used for age among siblings (*il fratello maggiore*), importance (*la maggior parte*) and abstract size, while *più grande/più piccolo* is used for physical size. The adverbs work the same way: *bene → meglio, male → peggio* (never *più bene*).",
+        "table": [
+          [
+            "Adjective",
+            "Comparative",
+            "Relative superlative",
+            "Absolute superlative"
+          ],
+          [
+            "buono",
+            "migliore / più buono",
+            "il migliore",
+            "ottimo / buonissimo"
+          ],
+          [
+            "cattivo",
+            "peggiore / più cattivo",
+            "il peggiore",
+            "pessimo / cattivissimo"
+          ],
+          [
+            "grande",
+            "maggiore / più grande",
+            "il maggiore",
+            "massimo / grandissimo"
+          ],
+          [
+            "piccolo",
+            "minore / più piccolo",
+            "il minore",
+            "minimo / piccolissimo"
+          ],
+          [
+            "alto",
+            "superiore / più alto",
+            "il più alto (supremo)",
+            "altissimo"
+          ],
+          [
+            "basso",
+            "inferiore / più basso",
+            "il più basso (infimo)",
+            "bassissimo"
+          ],
+          [
+            "bene (adv.)",
+            "meglio",
+            "il meglio",
+            "benissimo / ottimamente"
+          ],
+          [
+            "male (adv.)",
+            "peggio",
+            "il peggio",
+            "malissimo / pessimamente"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Questo ristorante è migliore di quello, ma il vino è pessimo.",
+            "en": "This restaurant is better than that one, but the wine is terrible."
+          },
+          {
+            "it": "Mia sorella maggiore canta meglio di me.",
+            "en": "My elder sister sings better than I do."
+          }
+        ],
+        "tip": "*Migliore/peggiore* drop the final *-e* before a noun in fixed phrases: *il miglior amico, la peggior figura*. *Maggiore* likewise: *la maggior parte*."
+      }
+    ]
+  },
+  {
+    "id": "tenses",
+    "title": "The tense system",
+    "titleIt": "I tempi verbali",
+    "summary": "A map of every Italian tense and mood: how each one is formed in one line, when it is used, and examples.",
+    "practiceGame": "tense-detective",
+    "sections": [
+      {
+        "heading": "Overview: moods and tenses",
+        "body": "Italian verbs are organised into moods (*modi*) and, within each mood, tenses (*tempi*). The indicative states facts and has eight tenses: four simple (*presente, imperfetto, passato remoto, futuro semplice*) and four compound (*passato prossimo, trapassato prossimo, trapassato remoto, futuro anteriore*). The conditional has a present and a past, the subjunctive (*congiuntivo*) has four tenses, and the imperative has only a present. Every compound tense is built with the auxiliary *avere* or *essere* in the corresponding simple tense plus the past participle (*-ato, -uto, -ito*). Regular verbs fall into three conjugations by their infinitive ending: *-are* (*parlare*), *-ere* (*credere*), *-ire* (*dormire*, and the *-isc-* group like *finire*).",
+        "table": [
+          [
+            "Mood",
+            "Simple tenses",
+            "Compound tenses (aux + participle)"
+          ],
+          [
+            "Indicativo",
+            "presente, imperfetto, passato remoto, futuro semplice",
+            "passato prossimo, trapassato prossimo, trapassato remoto, futuro anteriore"
+          ],
+          [
+            "Condizionale",
+            "presente",
+            "passato"
+          ],
+          [
+            "Congiuntivo",
+            "presente, imperfetto",
+            "passato, trapassato"
+          ],
+          [
+            "Imperativo",
+            "presente",
+            "—"
+          ],
+          [
+            "Forme indefinite",
+            "infinito, gerundio, participio presente/passato",
+            "infinito passato, gerundio passato"
+          ]
+        ]
+      },
+      {
+        "heading": "Presente",
+        "body": "Formation: stem + *-o, -i, -a/-e, -iamo, -ate/-ete/-ite, -ano/-ono*. The present covers what is happening now, general truths and habits, and, very commonly, the near future (*Domani parto*). Italian has no separate continuous form: *mangio* is both *I eat* and *I am eating*; *stare + gerundio* (*sto mangiando*) stresses that the action is in progress right now. The present with *da* + time expresses how long something has been going on: *Studio italiano da due anni* (I have been studying Italian for two years).",
+        "table": [
+          [
+            "",
+            "parlare",
+            "credere",
+            "dormire",
+            "finire (-isc-)"
+          ],
+          [
+            "io",
+            "parlo",
+            "credo",
+            "dormo",
+            "finisco"
+          ],
+          [
+            "tu",
+            "parli",
+            "credi",
+            "dormi",
+            "finisci"
+          ],
+          [
+            "lui/lei",
+            "parla",
+            "crede",
+            "dorme",
+            "finisce"
+          ],
+          [
+            "noi",
+            "parliamo",
+            "crediamo",
+            "dormiamo",
+            "finiamo"
+          ],
+          [
+            "voi",
+            "parlate",
+            "credete",
+            "dormite",
+            "finite"
+          ],
+          [
+            "loro",
+            "parlano",
+            "credono",
+            "dormono",
+            "finiscono"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ogni mattina prendo il treno delle sette.",
+            "en": "Every morning I take the seven o'clock train."
+          },
+          {
+            "it": "Abito a Torino da tre anni.",
+            "en": "I have been living in Turin for three years."
+          }
+        ]
+      },
+      {
+        "heading": "Passato prossimo and trapassato prossimo",
+        "body": "Passato prossimo: present of *avere* or *essere* + past participle (*ho parlato, sono andato*). It is the everyday past tense for completed actions and events, especially those with a link to the present or set in a defined time frame (*ieri, la settimana scorsa, due anni fa, già, mai*), and in the spoken language of most of Italy it has replaced the *passato remoto* even for distant events. With *essere* the participle agrees with the subject: *Maria è andata, i ragazzi sono partiti*. Trapassato prossimo: imperfect of *avere/essere* + participle (*avevo parlato, ero andato*); it is the past of the past, an action completed before another past action, typically after *quando, dopo che, appena, perché, già* (*Quando sono arrivato, il film era già cominciato*).",
+        "table": [
+          [
+            "",
+            "parlare (pass. prossimo)",
+            "andare (pass. prossimo)",
+            "parlare (trapassato)",
+            "andare (trapassato)"
+          ],
+          [
+            "io",
+            "ho parlato",
+            "sono andato/a",
+            "avevo parlato",
+            "ero andato/a"
+          ],
+          [
+            "tu",
+            "hai parlato",
+            "sei andato/a",
+            "avevi parlato",
+            "eri andato/a"
+          ],
+          [
+            "lui/lei",
+            "ha parlato",
+            "è andato/a",
+            "aveva parlato",
+            "era andato/a"
+          ],
+          [
+            "noi",
+            "abbiamo parlato",
+            "siamo andati/e",
+            "avevamo parlato",
+            "eravamo andati/e"
+          ],
+          [
+            "voi",
+            "avete parlato",
+            "siete andati/e",
+            "avevate parlato",
+            "eravate andati/e"
+          ],
+          [
+            "loro",
+            "hanno parlato",
+            "sono andati/e",
+            "avevano parlato",
+            "erano andati/e"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ieri sera abbiamo mangiato fuori.",
+            "en": "Last night we ate out."
+          },
+          {
+            "it": "Laura è partita per Londra due giorni fa.",
+            "en": "Laura left for London two days ago."
+          },
+          {
+            "it": "Non aveva mai visto il mare prima di quel viaggio.",
+            "en": "She had never seen the sea before that trip."
+          }
+        ]
+      },
+      {
+        "heading": "Imperfetto",
+        "body": "Formation: stem + *-avo/-evo/-ivo, -avi, -ava, -avamo, -avate, -avano* (the *-v-* is the signature); only *essere* is irregular (*ero, eri, era, eravamo, eravate, erano*), and a few verbs use an old stem (*fare → facevo, dire → dicevo, bere → bevevo, tradurre → traducevo*). It describes the past as ongoing or unfinished: background and description (weather, age, feelings, appearance), habits and repeated actions (*da bambino giocavo sempre fuori*), actions in progress when something else happened, and simultaneous actions. It is also used for politeness (*Volevo un caffè*) and in the *if*-clause of colloquial hypotheticals (*Se lo sapevo, venivo*).",
+        "table": [
+          [
+            "",
+            "parlare",
+            "credere",
+            "dormire",
+            "essere",
+            "fare"
+          ],
+          [
+            "io",
+            "parlavo",
+            "credevo",
+            "dormivo",
+            "ero",
+            "facevo"
+          ],
+          [
+            "tu",
+            "parlavi",
+            "credevi",
+            "dormivi",
+            "eri",
+            "facevi"
+          ],
+          [
+            "lui/lei",
+            "parlava",
+            "credeva",
+            "dormiva",
+            "era",
+            "faceva"
+          ],
+          [
+            "noi",
+            "parlavamo",
+            "credevamo",
+            "dormivamo",
+            "eravamo",
+            "facevamo"
+          ],
+          [
+            "voi",
+            "parlavate",
+            "credevate",
+            "dormivate",
+            "eravate",
+            "facevate"
+          ],
+          [
+            "loro",
+            "parlavano",
+            "credevano",
+            "dormivano",
+            "erano",
+            "facevano"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Quando ero piccolo, andavo al mare ogni estate.",
+            "en": "When I was little, I used to go to the seaside every summer."
+          },
+          {
+            "it": "Pioveva e faceva freddo, così siamo rimasti a casa.",
+            "en": "It was raining and cold, so we stayed at home."
+          }
+        ]
+      },
+      {
+        "heading": "Passato remoto and trapassato remoto",
+        "body": "Passato remoto: stem + *-ai/-ei(-etti)/-ii, -asti/-esti/-isti, -ò/-é(-ette)/-ì, -ammo/-emmo/-immo, -aste/-este/-iste, -arono/-erono(-ettero)/-irono*; many *-ere* verbs are irregular in the *io, lui, loro* forms (*ebbi, dissi, feci, scrissi, vidi, venni, presi, seppi, volli, nacqui*) in a 1-3-3 pattern, with *tu, noi, voi* regular. It presents a completed action as detached from the present and is the tense of written narrative, history, biography and fairy tales; it is still current in spoken Southern Italian and Tuscan, while elsewhere speech uses the *passato prossimo*. You must recognise it to read literature and newspapers and to pass B2 and above. Trapassato remoto: *passato remoto* of *avere/essere* + participle (*ebbi parlato, fui andato*); it is literary and appears only after *quando, dopo che, (non) appena, finché* when the main verb is in the *passato remoto* (*Appena ebbe finito, tutti applaudirono*).",
+        "table": [
+          [
+            "",
+            "parlare",
+            "credere",
+            "dormire",
+            "essere",
+            "avere",
+            "fare"
+          ],
+          [
+            "io",
+            "parlai",
+            "credei / credetti",
+            "dormii",
+            "fui",
+            "ebbi",
+            "feci"
+          ],
+          [
+            "tu",
+            "parlasti",
+            "credesti",
+            "dormisti",
+            "fosti",
+            "avesti",
+            "facesti"
+          ],
+          [
+            "lui/lei",
+            "parlò",
+            "credé / credette",
+            "dormì",
+            "fu",
+            "ebbe",
+            "fece"
+          ],
+          [
+            "noi",
+            "parlammo",
+            "credemmo",
+            "dormimmo",
+            "fummo",
+            "avemmo",
+            "facemmo"
+          ],
+          [
+            "voi",
+            "parlaste",
+            "credeste",
+            "dormiste",
+            "foste",
+            "aveste",
+            "faceste"
+          ],
+          [
+            "loro",
+            "parlarono",
+            "crederono / credettero",
+            "dormirono",
+            "furono",
+            "ebbero",
+            "fecero"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Dante nacque a Firenze nel 1265 e morì a Ravenna nel 1321.",
+            "en": "Dante was born in Florence in 1265 and died in Ravenna in 1321."
+          },
+          {
+            "it": "La principessa aprì la porta e vide un lupo.",
+            "en": "The princess opened the door and saw a wolf."
+          },
+          {
+            "it": "Dopo che furono partiti, la casa rimase vuota.",
+            "en": "After they had left, the house remained empty."
+          }
+        ]
+      },
+      {
+        "heading": "Futuro semplice and futuro anteriore",
+        "body": "Futuro semplice: infinitive minus the final *-e* + *-ò, -ai, -à, -emo, -ete, -anno*; *-are* verbs change *a* to *e* (*parlerò*), and some verbs contract the stem (*avrò, andrò, saprò, vedrò, vivrò, potrò, dovrò, verrò, vorrò, rimarrò, berrò, terrò, sarò, farò, darò, starò*). It expresses future actions, promises and predictions, and, very often, conjecture about the present (*Sarà a casa* = he is probably at home; *Che ore saranno?*). Futuro anteriore: future of *avere/essere* + participle (*avrò parlato, sarò andato*); it marks an action that will be completed before another future action (*Quando avrò finito, ti chiamerò*) and conjecture about the past (*Avrà perso il treno* = he must have missed the train).",
+        "table": [
+          [
+            "",
+            "parlare",
+            "credere",
+            "dormire",
+            "essere",
+            "avere"
+          ],
+          [
+            "io",
+            "parlerò",
+            "crederò",
+            "dormirò",
+            "sarò",
+            "avrò"
+          ],
+          [
+            "tu",
+            "parlerai",
+            "crederai",
+            "dormirai",
+            "sarai",
+            "avrai"
+          ],
+          [
+            "lui/lei",
+            "parlerà",
+            "crederà",
+            "dormirà",
+            "sarà",
+            "avrà"
+          ],
+          [
+            "noi",
+            "parleremo",
+            "crederemo",
+            "dormiremo",
+            "saremo",
+            "avremo"
+          ],
+          [
+            "voi",
+            "parlerete",
+            "crederete",
+            "dormirete",
+            "sarete",
+            "avrete"
+          ],
+          [
+            "loro",
+            "parleranno",
+            "crederanno",
+            "dormiranno",
+            "saranno",
+            "avranno"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "L'anno prossimo andremo in Giappone.",
+            "en": "Next year we will go to Japan."
+          },
+          {
+            "it": "Quando avrai letto il libro, me lo presterai?",
+            "en": "When you have read the book, will you lend it to me?"
+          },
+          {
+            "it": "Non risponde: sarà uscito.",
+            "en": "He's not answering: he must have gone out."
+          }
+        ],
+        "tip": "After *quando, appena, se* Italian uses the future where English uses the present: *Quando arriverò, ti chiamerò*."
+      },
+      {
+        "heading": "Condizionale presente and passato",
+        "body": "Condizionale presente: same stem as the future + *-ei, -esti, -ebbe, -emmo, -este, -ebbero* (*parlerei, avrei, sarei, andrei, vorrei*). It expresses what would happen under a condition, polite requests and wishes (*Vorrei un caffè; Potresti aiutarmi?*), advice (*Dovresti riposare*), and unconfirmed reports (*Il ministro sarebbe pronto a dimettersi*). Condizionale passato: conditional of *avere/essere* + participle (*avrei parlato, sarei andato*); it expresses what would have happened (*Sarei venuto, ma ero malato*), unconfirmed past reports, and, unlike English, the future in the past: *Ha detto che sarebbe arrivato alle otto* (he said he would arrive at eight).",
+        "table": [
+          [
+            "",
+            "parlare",
+            "essere",
+            "avere",
+            "volere"
+          ],
+          [
+            "io",
+            "parlerei",
+            "sarei",
+            "avrei",
+            "vorrei"
+          ],
+          [
+            "tu",
+            "parleresti",
+            "saresti",
+            "avresti",
+            "vorresti"
+          ],
+          [
+            "lui/lei",
+            "parlerebbe",
+            "sarebbe",
+            "avrebbe",
+            "vorrebbe"
+          ],
+          [
+            "noi",
+            "parleremmo",
+            "saremmo",
+            "avremmo",
+            "vorremmo"
+          ],
+          [
+            "voi",
+            "parlereste",
+            "sareste",
+            "avreste",
+            "vorreste"
+          ],
+          [
+            "loro",
+            "parlerebbero",
+            "sarebbero",
+            "avrebbero",
+            "vorrebbero"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Mi piacerebbe vivere al mare.",
+            "en": "I would like to live by the sea."
+          },
+          {
+            "it": "Avrei comprato la casa, ma costava troppo.",
+            "en": "I would have bought the house, but it cost too much."
+          },
+          {
+            "it": "Mi ha promesso che mi avrebbe scritto.",
+            "en": "She promised me she would write to me."
+          }
+        ],
+        "tip": "Distinguish *parleremo* (future, one m) from *parleremmo* (conditional, double m)."
+      },
+      {
+        "heading": "Congiuntivo: presente, passato, imperfetto, trapassato",
+        "body": "Congiuntivo presente: stem + *-i, -i, -i, -iamo, -iate, -ino* for *-are* verbs and *-a, -a, -a, -iamo, -iate, -ano* for *-ere/-ire* verbs (*creda, dorma, finisca*), with irregulars such as *sia, abbia, vada, faccia, dica, possa, voglia, debba, sappia, stia, dia, venga, esca*; the *passato* is *abbia/sia* + participle. Congiuntivo imperfetto: stem + *-assi/-essi/-issi, -assi/-essi/-issi, -asse/-esse/-isse, -assimo/-essimo/-issimo, -aste/-este/-iste, -assero/-essero/-issero* (irregular only *fossi, dessi, stessi* and old-stem *facessi, dicessi, bevessi, traducessi*); the *trapassato* is *avessi/fossi* + participle. The subjunctive is required in subordinate clauses after verbs of opinion, doubt, wish, emotion and necessity (*penso che, credo che, voglio che, spero che, è necessario che, mi dispiace che*), after conjunctions like *benché, sebbene, affinché, purché, prima che, a meno che, senza che*, after indefinites (*chiunque, qualunque*) and in relative clauses after a superlative or *unico* (*È il film più bello che abbia visto*). Sequence of tenses: with a present or future main verb use *presente* (same time or later) or *passato* (earlier): *Penso che abbia ragione; Spero che siate arrivati bene*; with a past or conditional main verb use *imperfetto* (same time or later) or *trapassato* (earlier): *Pensavo che fosse stanco; Non sapevo che avesse già mangiato; Vorrei che tu venissi*. The imperfect and *trapassato* also build hypotheticals (*Se avessi tempo, viaggerei; Se avessi avuto tempo, avrei viaggiato*) and follow *come se* and *magari* (*Parla come se fosse un esperto; Magari fosse vero!*). Because the three singular forms are identical, the subject pronoun is often stated.",
+        "table": [
+          [
+            "",
+            "parlare (pres.)",
+            "finire (pres.)",
+            "essere (pres.)",
+            "avere (pres.)",
+            "parlare (imperf.)",
+            "essere (imperf.)",
+            "avere (imperf.)"
+          ],
+          [
+            "che io",
+            "parli",
+            "finisca",
+            "sia",
+            "abbia",
+            "parlassi",
+            "fossi",
+            "avessi"
+          ],
+          [
+            "che tu",
+            "parli",
+            "finisca",
+            "sia",
+            "abbia",
+            "parlassi",
+            "fossi",
+            "avessi"
+          ],
+          [
+            "che lui/lei",
+            "parli",
+            "finisca",
+            "sia",
+            "abbia",
+            "parlasse",
+            "fosse",
+            "avesse"
+          ],
+          [
+            "che noi",
+            "parliamo",
+            "finiamo",
+            "siamo",
+            "abbiamo",
+            "parlassimo",
+            "fossimo",
+            "avessimo"
+          ],
+          [
+            "che voi",
+            "parliate",
+            "finiate",
+            "siate",
+            "abbiate",
+            "parlaste",
+            "foste",
+            "aveste"
+          ],
+          [
+            "che loro",
+            "parlino",
+            "finiscano",
+            "siano",
+            "abbiano",
+            "parlassero",
+            "fossero",
+            "avessero"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Penso che Luca abbia ragione.",
+            "en": "I think Luca is right."
+          },
+          {
+            "it": "Credevo che tu fossi a Roma.",
+            "en": "I thought you were in Rome."
+          },
+          {
+            "it": "Se avessi saputo, sarei venuto prima.",
+            "en": "If I had known, I would have come earlier."
+          }
+        ],
+        "tip": "No subjunctive after verbs of certainty (*so che, è chiaro che, sono sicuro che*) or when both clauses share a subject: *Penso di avere ragione*, not *penso che io abbia*."
+      },
+      {
+        "heading": "Imperativo",
+        "body": "Formation: *tu* uses the present indicative ending except for *-are* verbs, which take *-a* (*parla! credi! dormi! finisci!*); *noi* and *voi* are identical to the present indicative (*parliamo! parlate!*); the formal *Lei* and *Loro* use the present subjunctive (*parli! parlino!*). The negative *tu* imperative is *non* + infinitive (*Non parlare!*); the other persons simply add *non*. Irregular *tu* forms include *sii, abbi, sappi, va'/vai, fa'/fai, da'/dai, sta'/stai, di'*. The imperative gives orders, instructions, advice and invitations, and it is softened with *pure, per favore* or *un attimo*.",
+        "table": [
+          [
+            "",
+            "parlare",
+            "prendere",
+            "dormire",
+            "finire",
+            "essere",
+            "avere"
+          ],
+          [
+            "tu",
+            "parla",
+            "prendi",
+            "dormi",
+            "finisci",
+            "sii",
+            "abbi"
+          ],
+          [
+            "Lei",
+            "parli",
+            "prenda",
+            "dorma",
+            "finisca",
+            "sia",
+            "abbia"
+          ],
+          [
+            "noi",
+            "parliamo",
+            "prendiamo",
+            "dormiamo",
+            "finiamo",
+            "siamo",
+            "abbiamo"
+          ],
+          [
+            "voi",
+            "parlate",
+            "prendete",
+            "dormite",
+            "finite",
+            "siate",
+            "abbiate"
+          ],
+          [
+            "tu (negative)",
+            "non parlare",
+            "non prendere",
+            "non dormire",
+            "non finire",
+            "non essere",
+            "non avere"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Prendi l'ombrello, non dimenticarlo!",
+            "en": "Take the umbrella, don't forget it!"
+          },
+          {
+            "it": "Signora, si accomodi e aspetti un attimo.",
+            "en": "Madam, take a seat and wait a moment."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "passato-imperfetto",
+    "title": "Passato prossimo vs imperfetto",
+    "titleIt": "Passato prossimo e imperfetto",
+    "summary": "When a past action is a completed event (passato prossimo) and when it is ongoing, habitual or background (imperfetto), how the two work together in a story, and how stare + gerundio fits in.",
+    "practiceGame": "tense-detective",
+    "sections": [
+      {
+        "heading": "The core contrast",
+        "body": "Both tenses talk about the past, but they look at it differently. The *passato prossimo* presents an action as a completed event with a beginning and an end, a point on the timeline: *Ho mangiato una pizza*. The *imperfetto* presents an action as a state or a process seen from the inside, without focusing on its start or finish: *Mangiavo una pizza (quando…)*. The choice is not about how long ago something happened but about whether you are reporting an event or describing a situation.",
+        "table": [
+          [
+            "Passato prossimo",
+            "Imperfetto"
+          ],
+          [
+            "completed event, result",
+            "ongoing situation, no end in view"
+          ],
+          [
+            "single action or a counted series (tre volte)",
+            "habit, repetition (ogni giorno, sempre)"
+          ],
+          [
+            "moves the story forward",
+            "sets the scene, describes"
+          ],
+          [
+            "Ieri ho lavorato dieci ore.",
+            "Ieri lavoravo quando mi hai chiamato."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ho vissuto a Milano per cinque anni.",
+            "en": "I lived in Milan for five years (completed period)."
+          },
+          {
+            "it": "Vivevo a Milano quando ho conosciuto Sara.",
+            "en": "I was living in Milan when I met Sara."
+          }
+        ]
+      },
+      {
+        "heading": "What the imperfetto is for",
+        "body": "Use the *imperfetto* to describe people, places, weather and feelings in the past (*Era alto, aveva gli occhi verdi; Faceva caldo; Ero stanco*), to give age and clock time (*Avevo dieci anni; Erano le tre*), for habits and repeated actions (*Ogni estate andavamo in montagna; La domenica mangiavamo dalla nonna*), for two actions going on at the same time (*Mentre lui cucinava, io leggevo*), for mental states and intentions (*Pensavo che fosse vero; Volevo dirtelo*), and for an action in progress interrupted by another. Verbs of state and perception (*essere, avere, sapere, conoscere, volere, sembrare, stare*) are very often in the *imperfetto* because they naturally describe situations rather than events.",
+        "examples": [
+          {
+            "it": "Da bambina avevo i capelli lunghi e portavo sempre gli occhiali.",
+            "en": "As a child I had long hair and always wore glasses."
+          },
+          {
+            "it": "Era mezzanotte, la strada era deserta e nevicava.",
+            "en": "It was midnight, the street was deserted and it was snowing."
+          },
+          {
+            "it": "Mentre aspettavo l'autobus, ascoltavo la musica.",
+            "en": "While I was waiting for the bus, I was listening to music."
+          }
+        ]
+      },
+      {
+        "heading": "What the passato prossimo is for",
+        "body": "Use the *passato prossimo* for single completed actions (*Ho comprato il pane*), for a sequence of events one after the other (*Mi sono alzato, ho fatto colazione e sono uscito*), for actions that happened a specific number of times (*Sono andato in Sicilia tre volte*), for an action with a stated, closed duration (*Ha lavorato lì per due anni*), and for a sudden change of state or feeling (*Ho avuto paura; Ha capito tutto*). Even long-lasting situations take the *passato prossimo* if they are presented as finished blocks: *Sono stato malato per un mese*.",
+        "examples": [
+          {
+            "it": "Stamattina mi sono svegliato tardi, ho perso il treno e sono arrivato in ritardo.",
+            "en": "This morning I woke up late, missed the train and arrived late."
+          },
+          {
+            "it": "Abbiamo abitato a Bologna dal 2010 al 2015.",
+            "en": "We lived in Bologna from 2010 to 2015."
+          },
+          {
+            "it": "Quando ho visto il conto, ho avuto un colpo.",
+            "en": "When I saw the bill, I got a shock."
+          }
+        ]
+      },
+      {
+        "heading": "Signal words",
+        "body": "Time expressions are strong clues but not laws: what matters is whether the action is presented as an event or as a situation. Words that count or bound an action point to the *passato prossimo*; words that express repetition, duration without limits or simultaneity point to the *imperfetto*. Note that *sempre* and *mai* work with both: *Ha sempre lavorato molto* (over a whole finished period) versus *Lavorava sempre fino a tardi* (habit).",
+        "table": [
+          [
+            "Passato prossimo",
+            "Imperfetto"
+          ],
+          [
+            "ieri, l'altro ieri, stamattina",
+            "mentre, intanto"
+          ],
+          [
+            "una volta, due volte, più volte",
+            "sempre, di solito, spesso, ogni giorno, tutti i giorni"
+          ],
+          [
+            "improvvisamente, all'improvviso, a un tratto",
+            "da bambino, da giovane, a quei tempi, una volta (= once upon a time)"
+          ],
+          [
+            "poi, dopo, alla fine, subito",
+            "la domenica, il sabato (= every Sunday/Saturday)"
+          ],
+          [
+            "per + finished period: per due ore, per tre anni",
+            "generalmente, normalmente, di tanto in tanto"
+          ],
+          [
+            "nel 2010, l'anno scorso, un mese fa",
+            "tutte le mattine, ogni tanto, di rado"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Di solito prendevo l'autobus, ma ieri ho preso un taxi.",
+            "en": "I usually took the bus, but yesterday I took a taxi."
+          },
+          {
+            "it": "All'improvviso la luce è andata via.",
+            "en": "Suddenly the power went out."
+          }
+        ]
+      },
+      {
+        "heading": "The two tenses together in narration",
+        "body": "A story in Italian alternates the two tenses. The *imperfetto* paints the background, what was going on, how things looked and felt; the *passato prossimo* supplies the events that happen against that background and push the story forward. The classic pattern is an action in progress (*imperfetto*) interrupted by a sudden event (*passato prossimo*), typically with *mentre* or *quando*: *Mentre dormivo, è suonato il telefono; Guardavo la TV quando è arrivato Marco*. When *quando* introduces two events in sequence, both go in the *passato prossimo*: *Quando è arrivato Marco, abbiamo cenato*.",
+        "table": [
+          [
+            "Background (imperfetto)",
+            "Event (passato prossimo)"
+          ],
+          [
+            "Era una bella giornata e c'era molta gente in spiaggia.",
+            "A un certo punto un bambino ha gridato."
+          ],
+          [
+            "Camminavo per il centro e pensavo ai fatti miei,",
+            "quando ho incontrato un vecchio compagno di scuola."
+          ],
+          [
+            "Non avevo fame,",
+            "così ho ordinato solo un caffè."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ieri sera pioveva, non avevo voglia di uscire, quindi ho ordinato una pizza e ho guardato un film.",
+            "en": "Last night it was raining, I didn't feel like going out, so I ordered a pizza and watched a film."
+          },
+          {
+            "it": "Mentre facevo la doccia, qualcuno ha bussato alla porta.",
+            "en": "While I was having a shower, someone knocked at the door."
+          }
+        ],
+        "tip": "Ask two questions: *What happened?* (event → passato prossimo) and *What was it like / what was going on?* (situation → imperfetto)."
+      },
+      {
+        "heading": "Verbs that change meaning: sapere, conoscere, potere, volere, dovere",
+        "body": "With verbs of knowledge and modality the tense choice changes the English translation. *Sapevo* means *I knew*, while *ho saputo* means *I found out*. *Conoscevo* is *I knew (someone)*, *ho conosciuto* is *I met (for the first time)*. *Volevo* is *I wanted (to)*, *ho voluto* is *I insisted on / decided to*; *non ho voluto* is *I refused*. *Potevo* is *I was able to (in general)*, *ho potuto* is *I managed to (on that occasion)*. *Dovevo* is *I was supposed to* (with no guarantee I did), *ho dovuto* is *I had to (and did)*.",
+        "table": [
+          [
+            "Verb",
+            "Imperfetto",
+            "Passato prossimo"
+          ],
+          [
+            "sapere",
+            "Sapevo la risposta. (I knew)",
+            "Ho saputo la notizia ieri. (I found out)"
+          ],
+          [
+            "conoscere",
+            "Conoscevo già Paolo. (I knew him)",
+            "Ho conosciuto Paolo a Roma. (I met him)"
+          ],
+          [
+            "volere",
+            "Volevo venire. (I wanted to)",
+            "Ha voluto pagare lui. (He insisted on paying)"
+          ],
+          [
+            "potere",
+            "Potevo uscire quando volevo. (I was allowed)",
+            "Non ho potuto venire. (I wasn't able to, that time)"
+          ],
+          [
+            "dovere",
+            "Dovevo studiare. (I was supposed to)",
+            "Ho dovuto studiare. (I had to, and did)"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Non sapevo che fossi sposato: l'ho saputo solo ieri.",
+            "en": "I didn't know you were married: I only found out yesterday."
+          },
+          {
+            "it": "Volevo chiamarti, ma non ho potuto.",
+            "en": "I wanted to call you, but I couldn't."
+          }
+        ]
+      },
+      {
+        "heading": "Stare + gerundio: the progressive",
+        "body": "*Stare* + gerund (*-ando* for *-are* verbs, *-endo* for *-ere/-ire*: *parlando, leggendo, dormendo*; irregular *facendo, dicendo, bevendo, traducendo, ponendo*) highlights that an action is in progress at a precise moment. In the present, *sto mangiando* is a more emphatic *mangio*; in the past, *stavo mangiando* is a more emphatic *mangiavo* and is used only in the *imperfetto* form, never with the *passato prossimo*. It is the natural choice for the interrupted-action pattern: *Stavo uscendo quando è squillato il telefono*. It cannot express habits, states or the future, so *Sto abitando a Roma* is wrong for *I live in Rome*, and *sto andando* cannot mean *I am going (tomorrow)*.",
+        "table": [
+          [
+            "Tense",
+            "Forms of stare",
+            "Example"
+          ],
+          [
+            "presente",
+            "sto, stai, sta, stiamo, state, stanno + gerundio",
+            "Sto studiando per l'esame."
+          ],
+          [
+            "imperfetto",
+            "stavo, stavi, stava, stavamo, stavate, stavano + gerundio",
+            "Stavo studiando quando sei arrivato."
+          ],
+          [
+            "congiuntivo presente",
+            "stia, stia, stia, stiamo, stiate, stiano + gerundio",
+            "Penso che stia dormendo."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Cosa stai facendo? Sto cucinando.",
+            "en": "What are you doing? I'm cooking."
+          },
+          {
+            "it": "I bambini stavano giocando in giardino quando ha cominciato a piovere.",
+            "en": "The children were playing in the garden when it started to rain."
+          }
+        ],
+        "tip": "Pronouns can go before *stare* or attach to the gerund: *lo sto leggendo* or *sto leggendolo*."
+      }
+    ]
+  },
+  {
+    "id": "auxiliaries",
+    "title": "Essere or avere?",
+    "titleIt": "Gli ausiliari essere e avere",
+    "summary": "Which auxiliary each verb takes in compound tenses, how the participle agrees, what happens with modal verbs, and the verbs that take both.",
+    "practiceGame": "aux",
+    "sections": [
+      {
+        "heading": "Transitive verbs take avere",
+        "body": "Every compound tense (*passato prossimo, trapassato, futuro anteriore, condizionale passato, congiuntivo passato…*) is built with *avere* or *essere* plus the past participle. The first and biggest rule is that a verb used transitively, that is with a direct object, always takes *avere*: *Ho mangiato la pasta; Abbiamo visto un film; Hai letto il giornale?*. This holds even when the object is left unsaid (*Ho già mangiato*). The participle after *avere* normally stays in the masculine singular form.",
+        "examples": [
+          {
+            "it": "Ho comprato due biglietti per il concerto.",
+            "en": "I bought two tickets for the concert."
+          },
+          {
+            "it": "Hanno finito il lavoro in tempo.",
+            "en": "They finished the work on time."
+          }
+        ],
+        "tip": "Test: can you ask *chi? / che cosa?* after the verb and get a direct object? Then *avere*."
+      },
+      {
+        "heading": "Intransitives of motion, change and state take essere",
+        "body": "Intransitive verbs that express movement from one place to another, a change of state, or staying in a state take *essere*: *andare, venire, arrivare, partire, entrare, uscire, tornare, salire, scendere, cadere, nascere, morire, diventare, crescere, invecchiare, guarire, restare, rimanere, stare, essere* itself. Impersonal verbs and verbs of happening also take *essere* (*succedere, accadere, capitare, bastare, servire, sembrare, costare, valere, piacere, mancare, dispiacere*), as do weather verbs (*è piovuto* or *ha piovuto*, both accepted). With *essere* the participle agrees with the subject in gender and number.",
+        "table": [
+          [
+            "Group",
+            "Verbs",
+            "Example"
+          ],
+          [
+            "Movement to/from",
+            "andare, venire, arrivare, partire, entrare, uscire, tornare, salire, scendere, cadere, fuggire, scappare",
+            "Siamo arrivati tardi."
+          ],
+          [
+            "Change of state",
+            "nascere, morire, diventare, crescere, invecchiare, guarire, dimagrire, ingrassare, sparire, apparire",
+            "È diventata avvocato."
+          ],
+          [
+            "Staying / being",
+            "essere, stare, restare, rimanere, esistere, vivere (also avere)",
+            "Sono rimasti a casa."
+          ],
+          [
+            "Happening / impersonal",
+            "succedere, accadere, capitare, bastare, servire, sembrare, costare, durare, piacere, mancare",
+            "Cos'è successo? Mi è piaciuto."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Maria è uscita alle otto ed è tornata a mezzanotte.",
+            "en": "Maria went out at eight and came back at midnight."
+          },
+          {
+            "it": "I prezzi sono aumentati e la qualità è peggiorata.",
+            "en": "Prices have gone up and quality has got worse."
+          }
+        ]
+      },
+      {
+        "heading": "Intransitives that still take avere",
+        "body": "Many intransitive verbs describe an activity rather than a movement or change, and these take *avere*: *dormire, camminare, viaggiare, lavorare, ridere, piangere, parlare, telefonare, rispondere, sorridere, sciare, nuotare, passeggiare, giocare, ballare, cenare, pranzare, abitare, funzionare, tossire, starnutire*. The distinction is between moving somewhere (*essere*) and the activity of moving (*avere*): *Sono andato a piedi* but *Ho camminato per due ore*. Verbs of sound and bodily activity (*dormire, russare, ridere, tossire*) are always *avere*.",
+        "table": [
+          [
+            "Verb",
+            "Passato prossimo",
+            "Note"
+          ],
+          [
+            "dormire",
+            "ho dormito",
+            "activity, not change"
+          ],
+          [
+            "camminare / passeggiare",
+            "ho camminato / ho passeggiato",
+            "the activity, not the destination"
+          ],
+          [
+            "viaggiare",
+            "ho viaggiato",
+            "but sono andato / sono partito"
+          ],
+          [
+            "telefonare / rispondere",
+            "ho telefonato / ho risposto",
+            "indirect object, still avere"
+          ],
+          [
+            "ridere / piangere",
+            "ho riso / ho pianto",
+            ""
+          ],
+          [
+            "abitare / vivere",
+            "ho abitato / ho (sono) vissuto",
+            "vivere accepts both"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ho dormito dieci ore e ho camminato tutto il giorno.",
+            "en": "I slept ten hours and walked all day."
+          },
+          {
+            "it": "Le ho telefonato ieri, ma non ha risposto.",
+            "en": "I phoned her yesterday, but she didn't answer."
+          }
+        ]
+      },
+      {
+        "heading": "Reflexive, pronominal and impersonal si take essere",
+        "body": "All verbs used with a reflexive or pronominal pronoun (*mi, ti, si, ci, vi, si*) take *essere*, whatever their meaning: *mi sono alzato, si è lavata, ci siamo divertiti, si sono incontrati, se n'è andato*. The participle agrees with the subject: *Anna si è svegliata; i ragazzi si sono vestiti*. The impersonal or passive *si* also takes *essere*: *Si è mangiato bene; Si sono vendute molte case*, and with the impersonal *si* the participle of a normally-*avere* verb stays masculine singular while that of an *essere* verb goes plural (*Si è andati al mare*). Note that *lavarsi le mani* keeps *essere* even though there is a direct object: *Mi sono lavato le mani*.",
+        "examples": [
+          {
+            "it": "Ci siamo svegliati tardi e ci siamo vestiti in fretta.",
+            "en": "We woke up late and got dressed in a hurry."
+          },
+          {
+            "it": "Si è parlato molto di questo problema.",
+            "en": "There has been a lot of talk about this problem."
+          }
+        ]
+      },
+      {
+        "heading": "Participle agreement",
+        "body": "With *essere* the participle always agrees with the subject: *è andato / andata / andati / andate*. With *avere* the participle agrees with a direct object only when that object comes before the verb as a pronoun; agreement is compulsory with *lo, la, li, le* and with *ne* (*L'ho vista; Li ho comprati; Le ho mangiate; Ne ho presi due*), and optional with *mi, ti, ci, vi* used as direct objects (*Ci hanno visti* or *visto*). Before *ho/ha/hai/hanno*, *lo* and *la* elide to *l'* (*l'ho visto, l'ho vista*), while *li* and *le* never elide. With reflexive verbs and a direct object pronoun, the participle agrees with the object rather than the subject: *Mi sono lavato le mani → Me le sono lavate*.",
+        "table": [
+          [
+            "Sentence",
+            "Agreement",
+            "Why"
+          ],
+          [
+            "Ho visto Maria.",
+            "visto",
+            "object follows the verb"
+          ],
+          [
+            "L'ho vista.",
+            "vista",
+            "la before avere: compulsory"
+          ],
+          [
+            "Ho comprato i libri. → Li ho comprati.",
+            "comprati",
+            "li before avere: compulsory"
+          ],
+          [
+            "Hai letto le lettere? Le ho lette.",
+            "lette",
+            "le before avere: compulsory"
+          ],
+          [
+            "Quante mele hai preso? Ne ho prese tre.",
+            "prese",
+            "ne: agrees with the quantity"
+          ],
+          [
+            "Maria, ti ho chiamato / chiamata.",
+            "either",
+            "ti: optional"
+          ],
+          [
+            "Anna si è messa le scarpe. → Se le è messe.",
+            "messe",
+            "reflexive + preceding object"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Le chiavi? Le ho lasciate in macchina.",
+            "en": "The keys? I left them in the car."
+          },
+          {
+            "it": "Hai visto Marco e Luca? Sì, li ho visti stamattina.",
+            "en": "Have you seen Marco and Luca? Yes, I saw them this morning."
+          }
+        ]
+      },
+      {
+        "heading": "Modal verbs: potere, dovere, volere, sapere",
+        "body": "When *potere, dovere, volere* (and *sapere* in the sense of *to know how*) govern an infinitive, they take the auxiliary that the infinitive would take: *Ho dovuto lavorare* (lavorare → avere) but *Sono dovuto partire* (partire → essere), with the participle agreeing with the subject in the *essere* case (*Maria è voluta andare*). In everyday speech *avere* is increasingly accepted with these verbs (*Ho dovuto partire*), but exams expect the formal rule. When the modal stands alone with no infinitive, it takes *avere*: *Non ho potuto; Ho voluto così*. With a reflexive infinitive the auxiliary depends on where the pronoun goes: pronoun before the modal → *essere* (*Mi sono dovuto alzare*), pronoun attached to the infinitive → *avere* (*Ho dovuto alzarmi*).",
+        "table": [
+          [
+            "Infinitive takes",
+            "Sentence",
+            "Auxiliary"
+          ],
+          [
+            "avere",
+            "Ho potuto finire il libro.",
+            "avere"
+          ],
+          [
+            "essere",
+            "Sono potuta uscire presto.",
+            "essere (agrees)"
+          ],
+          [
+            "essere",
+            "Non siamo voluti restare.",
+            "essere (agrees)"
+          ],
+          [
+            "reflexive, pronoun before",
+            "Ci siamo dovuti fermare.",
+            "essere"
+          ],
+          [
+            "reflexive, pronoun attached",
+            "Abbiamo dovuto fermarci.",
+            "avere"
+          ],
+          [
+            "no infinitive",
+            "Non ha potuto.",
+            "avere"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ieri sono dovuta andare dal dentista.",
+            "en": "Yesterday I had to go to the dentist."
+          },
+          {
+            "it": "Non abbiamo potuto dormire per il rumore.",
+            "en": "We couldn't sleep because of the noise."
+          }
+        ]
+      },
+      {
+        "heading": "Verbs that take both, with a change of meaning",
+        "body": "A group of verbs is transitive in one use and intransitive in another, and the auxiliary switches accordingly: *avere* when there is a direct object, *essere* when the subject undergoes the process. Compare *cambiare* (*Ho cambiato lavoro*, I changed jobs, vs *Sono cambiato*, I have changed), *cominciare/iniziare* and *finire/terminare* (*Ho cominciato il libro* vs *Il film è cominciato*), and *passare* (*Ho passato l'esame* vs *È passato un anno*). With movement verbs the contrast is between an object or an activity and a destination: *salire/scendere* (*Ho salito le scale* vs *Sono salito in camera*) and *correre* (*Ho corso tutto il giorno* vs *Sono corso a casa*). *Aumentare, diminuire, migliorare, peggiorare, guarire, crescere, bruciare, suonare* follow the same logic.",
+        "table": [
+          [
+            "Verb",
+            "With avere (transitive / activity)",
+            "With essere (intransitive / change)"
+          ],
+          [
+            "cambiare",
+            "Ho cambiato casa.",
+            "Il tempo è cambiato."
+          ],
+          [
+            "cominciare",
+            "Ha cominciato la lezione alle nove.",
+            "La lezione è cominciata alle nove."
+          ],
+          [
+            "finire",
+            "Ho finito i compiti.",
+            "Le vacanze sono finite."
+          ],
+          [
+            "passare",
+            "Abbiamo passato una bella serata.",
+            "Sono passati due mesi. / Sono passato da te."
+          ],
+          [
+            "salire / scendere",
+            "Ha salito le scale di corsa.",
+            "È salita al terzo piano."
+          ],
+          [
+            "correre",
+            "Ho corso dieci chilometri.",
+            "È corso a chiamare aiuto."
+          ],
+          [
+            "aumentare / diminuire",
+            "Hanno aumentato i prezzi.",
+            "I prezzi sono aumentati."
+          ],
+          [
+            "crescere",
+            "Ha cresciuto tre figli.",
+            "I bambini sono cresciuti."
+          ],
+          [
+            "suonare",
+            "Ho suonato il piano.",
+            "Il telefono è suonato."
+          ],
+          [
+            "vivere",
+            "Ho vissuto anni difficili.",
+            "Ho / Sono vissuto a Roma. (both)"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Il concerto è cominciato tardi perché il pianista ha cominciato a suonare solo alle dieci.",
+            "en": "The concert started late because the pianist only started playing at ten."
+          },
+          {
+            "it": "Ho passato le vacanze al mare e sono passate in un attimo.",
+            "en": "I spent my holidays at the seaside and they went by in a flash."
+          }
+        ],
+        "tip": "*Essere* takes *essere* (*sono stato*), *avere* takes *avere* (*ho avuto*), and *stare* takes *essere* (*sono stato*)."
+      }
+    ]
+  },
+  {
+    "id": "reflexives",
+    "title": "Reflexive & pronominal verbs",
+    "titleIt": "I verbi riflessivi e pronominali",
+    "summary": "The reflexive pronouns, where they go, reciprocal meaning, and the pronominal idioms (andarsene, farcela, cavarsela, metterci/volerci…) with their conjugation pattern.",
+    "practiceGame": "conj-drill",
+    "sections": [
+      {
+        "heading": "Reflexive pronouns and conjugation",
+        "body": "A reflexive verb is one whose subject and object are the same person: *lavarsi* (to wash oneself), *alzarsi* (to get up), *chiamarsi* (to be called). The infinitive ends in *-si*; in conjugation the pronoun (*mi, ti, si, ci, vi, si*) precedes the verb and matches the subject. In compound tenses reflexive verbs always take *essere*, and the participle agrees with the subject. Many everyday verbs about daily routine are reflexive: *svegliarsi, alzarsi, lavarsi, vestirsi, pettinarsi, truccarsi, sedersi, riposarsi, addormentarsi, divertirsi, annoiarsi, sposarsi, trasferirsi*.",
+        "table": [
+          [
+            "",
+            "alzarsi (presente)",
+            "alzarsi (passato prossimo)",
+            "vestirsi (presente)"
+          ],
+          [
+            "io",
+            "mi alzo",
+            "mi sono alzato/a",
+            "mi vesto"
+          ],
+          [
+            "tu",
+            "ti alzi",
+            "ti sei alzato/a",
+            "ti vesti"
+          ],
+          [
+            "lui/lei",
+            "si alza",
+            "si è alzato/a",
+            "si veste"
+          ],
+          [
+            "noi",
+            "ci alziamo",
+            "ci siamo alzati/e",
+            "ci vestiamo"
+          ],
+          [
+            "voi",
+            "vi alzate",
+            "vi siete alzati/e",
+            "vi vestite"
+          ],
+          [
+            "loro",
+            "si alzano",
+            "si sono alzati/e",
+            "si vestono"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Mi sveglio alle sette ma mi alzo alle otto.",
+            "en": "I wake up at seven but get up at eight."
+          },
+          {
+            "it": "Ieri Laura si è addormentata sul divano.",
+            "en": "Yesterday Laura fell asleep on the sofa."
+          }
+        ]
+      },
+      {
+        "heading": "Kinds of reflexive: true, indirect, reciprocal, pronominal",
+        "body": "In a true reflexive the pronoun is the direct object (*Mi lavo* = I wash myself). In an indirect reflexive the pronoun is an indirect object and the verb has its own direct object, often a body part or clothing, where Italian uses the reflexive instead of a possessive: *Mi lavo le mani; Si è messa il cappotto*. In a reciprocal reflexive a plural subject does the action to each other (*Ci telefoniamo ogni giorno; Si amano*). Pronominal (intransitive) verbs simply exist with the pronoun and have no reflexive meaning: *arrabbiarsi, accorgersi, pentirsi, vergognarsi, lamentarsi, ammalarsi, fidarsi, ricordarsi, dimenticarsi, sbrigarsi, annoiarsi*; some verbs are more emotional or intensive in the pronominal form (*mangiarsi una pizza, bersi un caffè, dormirsi una bella dormita*).",
+        "table": [
+          [
+            "Type",
+            "Example",
+            "Meaning"
+          ],
+          [
+            "True reflexive",
+            "Mi lavo. / Si pettina.",
+            "the subject acts on itself"
+          ],
+          [
+            "Indirect reflexive",
+            "Mi lavo i denti. / Ti metti la giacca.",
+            "action on one's own body part or belonging"
+          ],
+          [
+            "Reciprocal",
+            "Si salutano. / Ci scriviamo.",
+            "each other"
+          ],
+          [
+            "Pronominal",
+            "Mi arrabbio. / Si è accorto dell'errore.",
+            "no 'self' meaning; the pronoun is part of the verb"
+          ],
+          [
+            "Intensive",
+            "Mi sono mangiato tutta la torta.",
+            "colloquial emphasis"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Non mi ricordo il suo nome, mi vergogno!",
+            "en": "I don't remember her name, I'm embarrassed!"
+          },
+          {
+            "it": "Si è tolto le scarpe e si è seduto.",
+            "en": "He took off his shoes and sat down."
+          }
+        ],
+        "tip": "With an indirect reflexive and a preceding object pronoun the participle agrees with the object: *Mi sono lavato le mani → Me le sono lavate*."
+      },
+      {
+        "heading": "Where the pronoun goes",
+        "body": "With a conjugated verb the reflexive pronoun stands before it: *mi alzo, ti sei alzato, si alzerà, non mi alzo*. It attaches to the end of an infinitive, which drops its final *-e* (*alzarsi, devo alzarmi, prima di lavarti*), to the end of a gerund (*alzandomi, vestendosi*) and to the *tu, noi, voi* imperative (*alzati! alziamoci! alzatevi!*), but it precedes the formal *Lei* imperative (*si alzi, si accomodi*). With a modal verb (*dovere, potere, volere*) both positions are possible: *mi devo alzare* or *devo alzarmi*; in the compound tenses the first takes *essere* (*mi sono dovuto alzare*) and the second *avere* (*ho dovuto alzarmi*). The negative *tu* imperative also allows both: *non ti alzare* or *non alzarti*.",
+        "table": [
+          [
+            "Context",
+            "Position",
+            "Example"
+          ],
+          [
+            "Conjugated verb",
+            "before",
+            "Ci vediamo domani."
+          ],
+          [
+            "Infinitive",
+            "attached (drop -e)",
+            "Voglio riposarmi. / È ora di alzarsi."
+          ],
+          [
+            "Gerund",
+            "attached",
+            "Sbrigandoti, arrivi in tempo."
+          ],
+          [
+            "Imperative tu/noi/voi",
+            "attached",
+            "Siediti! Sbrighiamoci! Divertitevi!"
+          ],
+          [
+            "Imperative Lei",
+            "before",
+            "Si sieda, signora."
+          ],
+          [
+            "Modal + infinitive",
+            "before the modal or attached",
+            "Mi voglio sposare. / Voglio sposarmi."
+          ],
+          [
+            "Negative tu imperative",
+            "either",
+            "Non preoccuparti! / Non ti preoccupare!"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Dovete svegliarvi presto: svegliatevi alle sei!",
+            "en": "You have to wake up early: wake up at six!"
+          },
+          {
+            "it": "Ci siamo potuti riposare solo la sera.",
+            "en": "We were only able to rest in the evening."
+          }
+        ]
+      },
+      {
+        "heading": "Reciprocal use",
+        "body": "With a plural subject, reflexive pronouns often mean *each other* or *one another*: *Marco e Anna si amano; Ci sentiamo ogni giorno; Vi conoscete?*. Almost any transitive or indirect verb can be made reciprocal this way (*abbracciarsi, baciarsi, salutarsi, incontrarsi, aiutarsi, capirsi, sposarsi, scriversi, telefonarsi, odiarsi*). When it matters to distinguish reciprocal from true reflexive (*Si guardano* = they look at each other, or each looks at himself?), add *l'un l'altro / l'una l'altra, a vicenda, reciprocamente* or *tra di loro*. In compound tenses the auxiliary is *essere* and the participle is plural: *Si sono conosciuti a Roma*.",
+        "examples": [
+          {
+            "it": "Ci siamo incontrati per caso e ci siamo abbracciati.",
+            "en": "We met by chance and hugged each other."
+          },
+          {
+            "it": "I due fratelli non si parlano da anni.",
+            "en": "The two brothers haven't spoken to each other for years."
+          },
+          {
+            "it": "Si aiutano l'un l'altro.",
+            "en": "They help one another."
+          }
+        ]
+      },
+      {
+        "heading": "Pronominal idioms: andarsene, farcela, cavarsela…",
+        "body": "Italian has a family of idiomatic verbs formed with two pronouns, usually a reflexive plus *ne* or *la*. *Andarsene* (to go away, to leave) combines *si* + *ne*; *farcela* (to manage, to make it) combines *ci* + *la*; *cavarsela* (to get by, to cope), *prendersela* (to take offence, to get upset with someone), *sentirsela* (to feel up to), *godersela / spassarsela* (to enjoy oneself), *aspettarsela* (to expect it), *smetterla / finirla / piantarla* (to stop it) combine *si* or nothing + *la*; *fregarsene / infischiarsene* (not to care), *intendersene* (to be an expert in), *accorgersene* (to notice it), *approfittarsene* (to take advantage) combine *si* + *ne*. In these verbs the *la* and *ne* are frozen and never change, while the reflexive part agrees with the subject.",
+        "table": [
+          [
+            "Verb",
+            "Meaning",
+            "Pronouns",
+            "Present (io / lui)",
+            "Passato prossimo (io)"
+          ],
+          [
+            "andarsene",
+            "to go away",
+            "si + ne",
+            "me ne vado / se ne va",
+            "me ne sono andato/a"
+          ],
+          [
+            "farcela",
+            "to manage, to make it",
+            "ci + la",
+            "ce la faccio / ce la fa",
+            "ce l'ho fatta"
+          ],
+          [
+            "cavarsela",
+            "to get by",
+            "si + la",
+            "me la cavo / se la cava",
+            "me la sono cavata"
+          ],
+          [
+            "prendersela (con)",
+            "to get upset (with)",
+            "si + la",
+            "me la prendo / se la prende",
+            "me la sono presa"
+          ],
+          [
+            "fregarsene (di)",
+            "not to care (about)",
+            "si + ne",
+            "me ne frego / se ne frega",
+            "me ne sono fregato/a"
+          ],
+          [
+            "sentirsela (di)",
+            "to feel up to",
+            "si + la",
+            "me la sento / se la sente",
+            "me la sono sentita"
+          ],
+          [
+            "smetterla (di)",
+            "to stop it",
+            "la",
+            "la smetto / la smette",
+            "l'ho smessa"
+          ],
+          [
+            "intendersene (di)",
+            "to know a lot about",
+            "si + ne",
+            "me ne intendo / se ne intende",
+            "me ne sono inteso/a"
+          ],
+          [
+            "accorgersene",
+            "to notice it",
+            "si + ne",
+            "me ne accorgo / se ne accorge",
+            "me ne sono accorto/a"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "È tardi, me ne vado. Ve ne andate anche voi?",
+            "en": "It's late, I'm leaving. Are you leaving too?"
+          },
+          {
+            "it": "Non ce la faccio più! Ma alla fine ce l'abbiamo fatta.",
+            "en": "I can't take it any more! But in the end we made it."
+          },
+          {
+            "it": "Non prendertela, se la caverà.",
+            "en": "Don't be upset, he'll manage."
+          }
+        ],
+        "tip": "In *farcela* and the other *-la* verbs the participle always ends in *-a* (*ce l'ho fatta, me la sono cavata, l'ha smessa*) because it agrees with the frozen feminine *la*."
+      },
+      {
+        "heading": "The full pattern: andarsene and farcela",
+        "body": "In *andarsene* the reflexive pronoun changes with the person and becomes *me, te, se, ce, ve, se* in front of *ne*. In compound tenses the auxiliary is *essere* and the participle agrees with the subject; in the imperative the pronouns attach to the verb (*vattene! andiamocene! andatevene!*, formal *se ne vada*). In *farcela* the *ce* is invariable and only *fare* is conjugated; the auxiliary is *avere* and the participle is always *fatta*. *Cavarsela* and *prendersela* follow the *andarsene* pattern for the reflexive part but with *la*: *me la cavo, te la cavi, se la cava, ce la caviamo, ve la cavate, se la cavano*.",
+        "table": [
+          [
+            "",
+            "andarsene (pres.)",
+            "andarsene (pass. pross.)",
+            "farcela (pres.)",
+            "farcela (pass. pross.)"
+          ],
+          [
+            "io",
+            "me ne vado",
+            "me ne sono andato/a",
+            "ce la faccio",
+            "ce l'ho fatta"
+          ],
+          [
+            "tu",
+            "te ne vai",
+            "te ne sei andato/a",
+            "ce la fai",
+            "ce l'hai fatta"
+          ],
+          [
+            "lui/lei",
+            "se ne va",
+            "se n'è andato/a",
+            "ce la fa",
+            "ce l'ha fatta"
+          ],
+          [
+            "noi",
+            "ce ne andiamo",
+            "ce ne siamo andati/e",
+            "ce la facciamo",
+            "ce l'abbiamo fatta"
+          ],
+          [
+            "voi",
+            "ve ne andate",
+            "ve ne siete andati/e",
+            "ce la fate",
+            "ce l'avete fatta"
+          ],
+          [
+            "loro",
+            "se ne vanno",
+            "se ne sono andati/e",
+            "ce la fanno",
+            "ce l'hanno fatta"
+          ],
+          [
+            "imperativo tu / voi",
+            "vattene! / andatevene!",
+            "—",
+            "—",
+            "—"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Se ne sono andati senza salutare.",
+            "en": "They left without saying goodbye."
+          },
+          {
+            "it": "Ce la fai a portare le valigie? Sì, ce la faccio.",
+            "en": "Can you manage to carry the suitcases? Yes, I can."
+          }
+        ]
+      },
+      {
+        "heading": "Metterci and volerci",
+        "body": "*Volerci* (to take, to be needed) is impersonal: the subject is the time or thing required, so the verb is third person singular or plural (*ci vuole un'ora, ci vogliono due ore*) and the auxiliary is *essere* (*ci è voluta un'ora, ci sono volute due ore*). *Metterci* (to take, to spend time) has a personal subject, the person who spends the time: *ci metto un'ora, ci mettiamo due ore*; its auxiliary is *avere* and the participle is invariable (*ci ho messo un'ora, ci abbiamo messo due ore*). Both are extremely common when talking about journeys, cooking and work: *Quanto ci vuole per arrivare? Ci vogliono venti minuti. Quanto ci metti? Ci metto venti minuti*.",
+        "table": [
+          [
+            "",
+            "volerci (impersonal)",
+            "metterci (personal)"
+          ],
+          [
+            "Present",
+            "ci vuole / ci vogliono",
+            "ci metto, ci metti, ci mette, ci mettiamo, ci mettete, ci mettono"
+          ],
+          [
+            "Passato prossimo",
+            "c'è voluto/a, ci sono voluti/e",
+            "ci ho messo, ci hai messo, ci ha messo…"
+          ],
+          [
+            "Futuro",
+            "ci vorrà / ci vorranno",
+            "ci metterò, ci metterai…"
+          ],
+          [
+            "Example",
+            "Ci vogliono tre uova per la torta.",
+            "Ci metto dieci minuti a fare la torta."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Per andare a Napoli in treno ci vuole un'ora; io ci metto di più in macchina.",
+            "en": "It takes an hour to get to Naples by train; it takes me longer by car."
+          },
+          {
+            "it": "Ci sono voluti tre giorni, ma ci abbiamo messo tutto il nostro impegno.",
+            "en": "It took three days, but we put all our effort into it."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "spelling",
+    "title": "Spelling changes in verbs",
+    "titleIt": "Le particolarità ortografiche dei verbi",
+    "summary": "The h in -care/-gare, the dropped i in -ciare/-giare/-sciare, stressed vs unstressed -iare, the -gnare noi forms, written accents, and apostrophe imperatives with doubled clitics.",
+    "practiceGame": "conj-drill",
+    "sections": [
+      {
+        "heading": "-care and -gare add an h before e and i",
+        "body": "Verbs like *cercare, giocare, pagare, spiegare, dimenticare, pregare, toccare, legare* have a hard *k* or *g* sound in the infinitive. Whenever an ending begins with *e* or *i*, an *h* is inserted to keep that hard sound: *cerchi, cerchiamo, cercherò, cercherei, che io cerchi*. This affects the *tu* and *noi* forms of the present indicative, the whole future and conditional, and the whole present subjunctive (and therefore the *Lei* imperative). It is purely a spelling device: the pronunciation of the stem never changes.",
+        "table": [
+          [
+            "",
+            "cercare (presente)",
+            "pagare (presente)",
+            "cercare (futuro)",
+            "pagare (cong. pres.)"
+          ],
+          [
+            "io",
+            "cerco",
+            "pago",
+            "cercherò",
+            "paghi"
+          ],
+          [
+            "tu",
+            "cerchi",
+            "paghi",
+            "cercherai",
+            "paghi"
+          ],
+          [
+            "lui/lei",
+            "cerca",
+            "paga",
+            "cercherà",
+            "paghi"
+          ],
+          [
+            "noi",
+            "cerchiamo",
+            "paghiamo",
+            "cercheremo",
+            "paghiamo"
+          ],
+          [
+            "voi",
+            "cercate",
+            "pagate",
+            "cercherete",
+            "paghiate"
+          ],
+          [
+            "loro",
+            "cercano",
+            "pagano",
+            "cercheranno",
+            "paghino"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Giochi a tennis? Giocheremo insieme domenica.",
+            "en": "Do you play tennis? We'll play together on Sunday."
+          },
+          {
+            "it": "Signora, paghi alla cassa, per favore.",
+            "en": "Madam, please pay at the till."
+          }
+        ]
+      },
+      {
+        "heading": "-ciare, -giare, -sciare drop the i before e and i",
+        "body": "In *cominciare, mangiare, lasciare, viaggiare, baciare, parcheggiare, noleggiare, bruciare, fasciare* the *i* of the stem is there only to keep the *c, g, sc* soft before *a* and *o*. When the ending itself begins with *e* or *i*, that *i* is redundant and is dropped, so you never write a double *i*: *cominci* (not *comincii*), *mangiamo, mangerò, lascerei, che tu cominci*. This affects the same forms as the *-care/-gare* rule: *tu* and *noi* present, future, conditional and present subjunctive.",
+        "table": [
+          [
+            "",
+            "cominciare (presente)",
+            "mangiare (presente)",
+            "lasciare (futuro)",
+            "mangiare (cong. pres.)"
+          ],
+          [
+            "io",
+            "comincio",
+            "mangio",
+            "lascerò",
+            "mangi"
+          ],
+          [
+            "tu",
+            "cominci",
+            "mangi",
+            "lascerai",
+            "mangi"
+          ],
+          [
+            "lui/lei",
+            "comincia",
+            "mangia",
+            "lascerà",
+            "mangi"
+          ],
+          [
+            "noi",
+            "cominciamo",
+            "mangiamo",
+            "lasceremo",
+            "mangiamo"
+          ],
+          [
+            "voi",
+            "cominciate",
+            "mangiate",
+            "lascerete",
+            "mangiate"
+          ],
+          [
+            "loro",
+            "cominciano",
+            "mangiano",
+            "lasceranno",
+            "mangino"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Cominci tu o comincio io? Cominceremo insieme.",
+            "en": "Will you start or shall I? We'll start together."
+          },
+          {
+            "it": "Mangeremmo volentieri fuori, se non piovesse.",
+            "en": "We would gladly eat out, if it weren't raining."
+          }
+        ]
+      },
+      {
+        "heading": "-iare: does the i carry the stress?",
+        "body": "For other verbs in *-iare* the question is whether the *i* is stressed in the *io* form. If it is unstressed (*stùdio, càmbio, còpio, invìdio*), the *i* merges with the *-i* ending and you write a single *i*: *studi, cambi, copi* (tu), *che tu studi*. If the *i* is stressed (*invìo, scìo, spìo, avvìo, oblìo*), it is kept and the *tu* and subjunctive forms have two: *invii, scii, spii* (tu), *che tu invii*. The *noi* form always has a single *i* (*studiamo, inviamo, sciamo*) because the stress moves to the ending, and the future and conditional never lose the *i* (*studierò, invierò, scierò*).",
+        "table": [
+          [
+            "",
+            "studiare (unstressed i)",
+            "inviare (stressed i)",
+            "sciare (stressed i)"
+          ],
+          [
+            "io",
+            "studio",
+            "invio",
+            "scio"
+          ],
+          [
+            "tu",
+            "studi",
+            "invii",
+            "scii"
+          ],
+          [
+            "lui/lei",
+            "studia",
+            "invia",
+            "scia"
+          ],
+          [
+            "noi",
+            "studiamo",
+            "inviamo",
+            "sciamo"
+          ],
+          [
+            "voi",
+            "studiate",
+            "inviate",
+            "sciate"
+          ],
+          [
+            "loro",
+            "studiano",
+            "inviano",
+            "sciano"
+          ],
+          [
+            "cong. che tu",
+            "studi",
+            "invii",
+            "scii"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Tu studi il tedesco e lui invia i documenti.",
+            "en": "You study German and he sends the documents."
+          },
+          {
+            "it": "Scii bene? No, scio da poco.",
+            "en": "Do you ski well? No, I've only skied for a short while."
+          }
+        ],
+        "tip": "Odd-looking but correct: *tu spii, tu scii, tu invii, che tu avvii*; the second *i* is the ending."
+      },
+      {
+        "heading": "-gnare and -gliare: the noi and voi forms",
+        "body": "Verbs in *-gnare* (*sognare, bagnare, insegnare, guadagnare, disegnare, accompagnare*) keep the *i* of the *-iamo* and *-iate* endings even though the *gn* already sounds palatal: *sogniamo, insegniamo, che voi sogniate, che noi bagniamo*. Spellings like *sognamo* appear in informal writing but are not standard, and exams expect *sogniamo*. Verbs in *-gliare* (*tagliare, sbagliare, svegliare, consigliare*) behave like unstressed *-iare*: *tagli, tagliamo, taglierò, che tu sbagli*.",
+        "table": [
+          [
+            "",
+            "sognare",
+            "insegnare",
+            "sbagliare"
+          ],
+          [
+            "io",
+            "sogno",
+            "insegno",
+            "sbaglio"
+          ],
+          [
+            "tu",
+            "sogni",
+            "insegni",
+            "sbagli"
+          ],
+          [
+            "noi",
+            "sogniamo",
+            "insegniamo",
+            "sbagliamo"
+          ],
+          [
+            "voi",
+            "sognate",
+            "insegnate",
+            "sbagliate"
+          ],
+          [
+            "cong. che voi",
+            "sogniate",
+            "insegniate",
+            "sbagliate"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Insegniamo italiano da dieci anni.",
+            "en": "We have been teaching Italian for ten years."
+          },
+          {
+            "it": "Spero che non sbagliate strada.",
+            "en": "I hope you don't take the wrong road."
+          }
+        ]
+      },
+      {
+        "heading": "Written accents in the future and passato remoto",
+        "body": "Italian marks a written accent on a final stressed vowel, and in verbs this happens in two places. The third person singular of the *futuro semplice* always ends in *-à* (*parlerà, sarà, avrà, farà, andrà*). The third person singular of the regular *passato remoto* ends in *-ò, -é* or *-ì* (*parlò, credé, dormì, finì*); irregular third persons (*fu, ebbe, fece, disse*) have no accent because the stress is not final. The same accent distinguishes *e* (and) from *è* (is), *da* (from) from *dà* (gives), *si* (oneself) from *sì* (yes), *ne* (of it) from *né* (nor), *se* (if) from *sé* (himself), and *la* (the) from *là* (there). Note the direction: *-é* is closed (*credé, perché, poiché*), *-è* is open (*è, caffè, cioè*).",
+        "table": [
+          [
+            "Form",
+            "Accent",
+            "Examples"
+          ],
+          [
+            "futuro, lui/lei",
+            "-à",
+            "mangerà, prenderà, partirà, sarà, avrà"
+          ],
+          [
+            "passato remoto, lui/lei (-are)",
+            "-ò",
+            "parlò, mangiò, andò"
+          ],
+          [
+            "passato remoto, lui/lei (-ere)",
+            "-é (or -ette)",
+            "credé / credette, temé / temette"
+          ],
+          [
+            "passato remoto, lui/lei (-ire)",
+            "-ì",
+            "dormì, partì, finì, capì"
+          ],
+          [
+            "monosyllable pairs",
+            "dà / da, è / e, sì / si, né / ne, sé / se, là / la",
+            "Lui dà tutto. Sì, è vero."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Domani Marco arriverà alle otto e ripartirà subito.",
+            "en": "Tomorrow Marco will arrive at eight and leave again immediately."
+          },
+          {
+            "it": "Nel 1492 Colombo partì da Palos e arrivò in America.",
+            "en": "In 1492 Columbus left from Palos and reached America."
+          }
+        ],
+        "tip": "*Do, sto, fa, va, so, sa* never take an accent; *dà* takes one only to distinguish it from the preposition *da*."
+      },
+      {
+        "heading": "Apostrophe imperatives: va', da', fa', sta', di'",
+        "body": "Five very common verbs have a short *tu* imperative that ends in an apostrophe, marking the dropped syllable: *andare → va'* (or *vai*), *dare → da'* (or *dai*), *fare → fa'* (or *fai*), *stare → sta'* (or *stai*), *dire → di'* (only this form). These are written with an apostrophe, not an accent: *va'* is correct, *và* is a mistake. The longer forms *vai, dai, fai, stai* are equally correct and are the ones usually used when nothing is attached. When a pronoun is attached, the short stem is used and its initial consonant doubles.",
+        "table": [
+          [
+            "Verb",
+            "Short tu imperative",
+            "Long tu imperative",
+            "Example"
+          ],
+          [
+            "andare",
+            "va'",
+            "vai",
+            "Va' a casa! / Vai a casa!"
+          ],
+          [
+            "dare",
+            "da'",
+            "dai",
+            "Da' una mano! / Dai una mano!"
+          ],
+          [
+            "fare",
+            "fa'",
+            "fai",
+            "Fa' presto! / Fai presto!"
+          ],
+          [
+            "stare",
+            "sta'",
+            "stai",
+            "Sta' zitto! / Stai zitto!"
+          ],
+          [
+            "dire",
+            "di'",
+            "—",
+            "Di' la verità!"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Sta' attento e di' sempre la verità.",
+            "en": "Be careful and always tell the truth."
+          },
+          {
+            "it": "Fa' come vuoi, ma va' via subito.",
+            "en": "Do as you like, but go away at once."
+          }
+        ]
+      },
+      {
+        "heading": "Doubling with clitics: dammi, fallo, vattene",
+        "body": "When a pronoun (*mi, ti, lo, la, li, le, ci, vi, ne, gli*) is attached to *va', da', fa', sta', di'*, its first consonant is doubled: *dammi* (give me), *dimmi* (tell me), *fallo* (do it), *falla, falli, falle, fanne* (make some), *vacci* (go there), *stacci* (stay there), *dacci, dalle, dille, dillo, dicci, facci, fatti*, and *vattene* (go away) from *va' + te + ne*. The only pronoun that does not double is *gli*: *dagli, digli, fagli, stagli*. Doubling does not happen with the long forms (*dailo* does not exist; it is *dallo*) nor with other verbs (*prendilo, leggimi, alzati*), and it does not apply to *noi/voi* (*dateci, fatelo, ditemi*). Combined pronouns double too: *dammelo, diglielo* (no doubling before *gli*), *faccelo, dimmelo*.",
+        "table": [
+          [
+            "Base",
+            "+ mi",
+            "+ lo / la",
+            "+ ci",
+            "+ ne",
+            "+ gli",
+            "+ combined"
+          ],
+          [
+            "da'",
+            "dammi",
+            "dallo / dalla",
+            "dacci",
+            "danne",
+            "dagli",
+            "dammelo, daglielo"
+          ],
+          [
+            "di'",
+            "dimmi",
+            "dillo / dilla",
+            "dicci",
+            "dinne",
+            "digli",
+            "dimmelo, diglielo"
+          ],
+          [
+            "fa'",
+            "fammi",
+            "fallo / falla",
+            "facci",
+            "fanne",
+            "fagli",
+            "fammelo, faglielo"
+          ],
+          [
+            "sta'",
+            "stammi",
+            "—",
+            "stacci",
+            "—",
+            "stagli",
+            "stammi bene"
+          ],
+          [
+            "va'",
+            "vammi (rare)",
+            "—",
+            "vacci",
+            "vanne",
+            "vagli",
+            "vattene"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Dimmi la verità e dammi le chiavi.",
+            "en": "Tell me the truth and give me the keys."
+          },
+          {
+            "it": "Non hai finito? Fallo adesso! Poi vattene a dormire.",
+            "en": "Haven't you finished? Do it now! Then go off to bed."
+          },
+          {
+            "it": "Digli che arrivo tardi.",
+            "en": "Tell him I'll be late."
+          }
+        ],
+        "tip": "The same doubling appears in the fixed greeting *Stammi bene!* and in *Vacci piano!* (Take it easy!)."
+      }
+    ]
+  },
+  {
+    "id": "isc",
+    "title": "The -isc- verbs",
+    "titleIt": "I verbi in -ire con -isc-",
+    "summary": "Which -ire verbs insert -isc- (finire, capire, preferire…), which do not (dormire, partire, aprire…), and exactly which forms are affected.",
+    "practiceGame": "conj-choice",
+    "sections": [
+      {
+        "heading": "Two kinds of -ire verb",
+        "body": "Third-conjugation verbs in *-ire* split into two groups with the same endings but a different stem in some forms. The first group conjugates like *dormire* (*dormo, dormi, dorme, dormiamo, dormite, dormono*). The second, larger group inserts *-isc-* between the stem and the ending in the forms where the stress would otherwise fall on the stem: *finisco, finisci, finisce, finiamo, finite, finiscono*. The infinitive does not tell you which group a verb belongs to, so each verb must be learned with its *io* form; dictionaries and this app mark the *-isc-* verbs.",
+        "table": [
+          [
+            "",
+            "dormire (no -isc-)",
+            "finire (-isc-)",
+            "capire (-isc-)"
+          ],
+          [
+            "io",
+            "dormo",
+            "finisco",
+            "capisco"
+          ],
+          [
+            "tu",
+            "dormi",
+            "finisci",
+            "capisci"
+          ],
+          [
+            "lui/lei",
+            "dorme",
+            "finisce",
+            "capisce"
+          ],
+          [
+            "noi",
+            "dormiamo",
+            "finiamo",
+            "capiamo"
+          ],
+          [
+            "voi",
+            "dormite",
+            "finite",
+            "capite"
+          ],
+          [
+            "loro",
+            "dormono",
+            "finiscono",
+            "capiscono"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Capisci l'italiano? Sì, capisco quasi tutto.",
+            "en": "Do you understand Italian? Yes, I understand almost everything."
+          },
+          {
+            "it": "Dormo poco e finisco sempre tardi.",
+            "en": "I sleep little and always finish late."
+          }
+        ]
+      },
+      {
+        "heading": "Verbs that take -isc-",
+        "body": "The majority of *-ire* verbs, including most of those derived from adjectives or nouns and most longer verbs, take *-isc-*. The most frequent are *finire, capire, preferire, pulire, spedire, costruire, restituire, distribuire, contribuire, attribuire, sostituire, colpire, ferire, fiorire, guarire, punire, unire, riunire, sparire, stabilire, suggerire, definire, garantire, gestire, impedire, inserire, chiarire, agire, reagire, obbedire, proibire, tradire, ubbidire, dimagrire, ingrandire, arrossire, impazzire, starnutire, tossire* (also *tosso*), *nutrire* (also *nutro*), *applaudire* (both), *inghiottire* (both), *mentire* (both).",
+        "table": [
+          [
+            "Verb",
+            "io",
+            "loro",
+            "Meaning"
+          ],
+          [
+            "finire",
+            "finisco",
+            "finiscono",
+            "to finish"
+          ],
+          [
+            "capire",
+            "capisco",
+            "capiscono",
+            "to understand"
+          ],
+          [
+            "preferire",
+            "preferisco",
+            "preferiscono",
+            "to prefer"
+          ],
+          [
+            "pulire",
+            "pulisco",
+            "puliscono",
+            "to clean"
+          ],
+          [
+            "spedire",
+            "spedisco",
+            "spediscono",
+            "to send"
+          ],
+          [
+            "costruire",
+            "costruisco",
+            "costruiscono",
+            "to build"
+          ],
+          [
+            "restituire",
+            "restituisco",
+            "restituiscono",
+            "to give back"
+          ],
+          [
+            "colpire",
+            "colpisco",
+            "colpiscono",
+            "to hit, to strike"
+          ],
+          [
+            "guarire",
+            "guarisco",
+            "guariscono",
+            "to heal, to recover"
+          ],
+          [
+            "unire",
+            "unisco",
+            "uniscono",
+            "to join"
+          ],
+          [
+            "suggerire",
+            "suggerisco",
+            "suggeriscono",
+            "to suggest"
+          ],
+          [
+            "gestire",
+            "gestisco",
+            "gestiscono",
+            "to manage"
+          ],
+          [
+            "agire / reagire",
+            "agisco / reagisco",
+            "agiscono / reagiscono",
+            "to act / to react"
+          ],
+          [
+            "sparire",
+            "sparisco",
+            "spariscono",
+            "to disappear"
+          ],
+          [
+            "obbedire / ubbidire",
+            "obbedisco",
+            "obbediscono",
+            "to obey"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Preferisco il treno, ma i miei amici preferiscono l'aereo.",
+            "en": "I prefer the train, but my friends prefer the plane."
+          },
+          {
+            "it": "Ti restituisco il libro domani e ti spedisco gli appunti.",
+            "en": "I'll give you the book back tomorrow and send you the notes."
+          }
+        ]
+      },
+      {
+        "heading": "Verbs that do not take -isc-",
+        "body": "A smaller but very common group conjugates without *-isc-*. Learn these as a list: *dormire, partire, sentire, aprire, coprire, scoprire, offrire, soffrire, servire, seguire, inseguire, vestire, divertire, avvertire, convertire, invertire, fuggire, sfuggire, bollire, cucire, mentire* (both), *pentirsi, consentire, acconsentire, assentire, dissentire, riempire, morire, venire, salire, udire, uscire, dire*. The last six are irregular in other ways (*muoio, vengo, salgo, odo, esco, dico*), but none of them uses *-isc-*. Compounds follow the base verb: *riaprire, ricoprire, ripartire, risentire, rivestire* stay without *-isc-*, while *ripulire, rifinire, ridefinire* keep it.",
+        "table": [
+          [
+            "Verb",
+            "io",
+            "loro",
+            "Meaning"
+          ],
+          [
+            "dormire",
+            "dormo",
+            "dormono",
+            "to sleep"
+          ],
+          [
+            "partire",
+            "parto",
+            "partono",
+            "to leave"
+          ],
+          [
+            "sentire",
+            "sento",
+            "sentono",
+            "to hear, to feel"
+          ],
+          [
+            "aprire",
+            "apro",
+            "aprono",
+            "to open"
+          ],
+          [
+            "coprire / scoprire",
+            "copro / scopro",
+            "coprono / scoprono",
+            "to cover / to discover"
+          ],
+          [
+            "offrire",
+            "offro",
+            "offrono",
+            "to offer"
+          ],
+          [
+            "soffrire",
+            "soffro",
+            "soffrono",
+            "to suffer"
+          ],
+          [
+            "servire",
+            "servo",
+            "servono",
+            "to serve; to be needed"
+          ],
+          [
+            "seguire",
+            "seguo",
+            "seguono",
+            "to follow"
+          ],
+          [
+            "vestire / vestirsi",
+            "vesto / mi vesto",
+            "vestono / si vestono",
+            "to dress / to get dressed"
+          ],
+          [
+            "divertirsi",
+            "mi diverto",
+            "si divertono",
+            "to have fun"
+          ],
+          [
+            "avvertire",
+            "avverto",
+            "avvertono",
+            "to warn, to notice"
+          ],
+          [
+            "fuggire",
+            "fuggo",
+            "fuggono",
+            "to flee"
+          ],
+          [
+            "bollire",
+            "bollo",
+            "bollono",
+            "to boil"
+          ],
+          [
+            "cucire",
+            "cucio",
+            "cuciono",
+            "to sew"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Parto domani e apro il negozio lunedì.",
+            "en": "I leave tomorrow and open the shop on Monday."
+          },
+          {
+            "it": "Ti offro un caffè, se mi segui al bar.",
+            "en": "I'll buy you a coffee, if you follow me to the bar."
+          }
+        ],
+        "tip": "A rough guide: if the stem ends in a consonant cluster like *-rt-, -nt-, -pr-, -fr-, -rv-, -gu-* (*partire, sentire, aprire, offrire, servire, seguire*), the verb is usually plain; verbs built on adjectives (*pulire, guarire, dimagrire, arrossire, impazzire*) take *-isc-*."
+      },
+      {
+        "heading": "Exactly which forms are affected",
+        "body": "The *-isc-* infix appears only where the ending is unstressed, that is in the singular persons and the third person plural. In the present indicative that means *io, tu, lui/lei, loro* (*finisco, finisci, finisce, finiscono*) but not *noi, voi* (*finiamo, finite*). The present subjunctive follows the same pattern (*finisca, finisca, finisca, finiamo, finiate, finiscano*), and so does the imperative, since it borrows those forms: *finisci!* (tu), *finisca!* (Lei), *finiamo!* (noi), *finite!* (voi), *finiscano!* (Loro). Every other tense is completely regular with no *-isc-*: *finivo, finii, finirò, finirei, finissi, finendo, finito*.",
+        "table": [
+          [
+            "Form",
+            "-isc-?",
+            "finire",
+            "capire"
+          ],
+          [
+            "presente io / tu / lui / loro",
+            "yes",
+            "finisco, finisci, finisce, finiscono",
+            "capisco, capisci, capisce, capiscono"
+          ],
+          [
+            "presente noi / voi",
+            "no",
+            "finiamo, finite",
+            "capiamo, capite"
+          ],
+          [
+            "cong. presente io / tu / lui / loro",
+            "yes",
+            "finisca, finisca, finisca, finiscano",
+            "capisca, capisca, capisca, capiscano"
+          ],
+          [
+            "cong. presente noi / voi",
+            "no",
+            "finiamo, finiate",
+            "capiamo, capiate"
+          ],
+          [
+            "imperativo tu / Lei / Loro",
+            "yes",
+            "finisci! finisca! finiscano!",
+            "capisci! capisca! capiscano!"
+          ],
+          [
+            "imperativo noi / voi",
+            "no",
+            "finiamo! finite!",
+            "capiamo! capite!"
+          ],
+          [
+            "imperfetto, passato remoto, futuro, condizionale, cong. imperfetto",
+            "no",
+            "finivo, finii, finirò, finirei, finissi",
+            "capivo, capii, capirò, capirei, capissi"
+          ],
+          [
+            "gerundio, participio",
+            "no",
+            "finendo, finito",
+            "capendo, capito"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Spero che tu capisca e che finiate in tempo.",
+            "en": "I hope you understand and that you finish in time."
+          },
+          {
+            "it": "Pulisci la cucina! Pulite anche il bagno!",
+            "en": "Clean the kitchen! Clean the bathroom too!"
+          }
+        ]
+      },
+      {
+        "heading": "Pronunciation of -isc-",
+        "body": "The *-isc-* cluster is pronounced two ways depending on the following vowel, exactly like *sc* elsewhere in Italian. Before *o* and *a* it is a hard *sk*: *finisco, finiscono, finisca, finiscano*. Before *e* and *i* it is the soft *sh* sound: *finisci, finisce, capisci, capisce*. Because the spelling never adds an *h* here, remember that *-isca* and *-isco* are hard while *-isce* and *-isci* are soft.",
+        "table": [
+          [
+            "Spelling",
+            "Sound",
+            "Forms"
+          ],
+          [
+            "-isco, -iscono, -isca, -iscano",
+            "hard sk",
+            "finisco, capiscono, che lui pulisca"
+          ],
+          [
+            "-isci, -isce",
+            "soft sh",
+            "finisci, capisce, pulisci!"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Lui capisce tutto, ma loro non capiscono niente.",
+            "en": "He understands everything, but they understand nothing."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "imperative",
+    "title": "Imperative & formal Lei",
+    "titleIt": "L'imperativo e la forma di cortesia",
+    "summary": "How to give orders, instructions and advice to tu, noi, voi and the formal Lei, including the negative, the irregular forms and where the pronouns go.",
+    "practiceGame": "conj-drill",
+    "sections": [
+      {
+        "heading": "Regular forms for tu, noi, voi",
+        "body": "The imperative has no *io* form and is used mostly with *tu, noi* and *voi*. For *-ere* and *-ire* verbs the *tu* form is the same as the present indicative (*prendi! dormi! finisci!*); for *-are* verbs it ends in *-a*, the third-person shape (*parla! guarda! aspetta!*). The *noi* form is the present indicative *-iamo* and translates as *let's…* (*andiamo! mangiamo!*); the *voi* form is the present indicative *-ate/-ete/-ite* (*parlate! prendete! dormite!*). The *-isc-* verbs keep the infix in *tu* only (*finisci!* but *finiamo! finite!*), and the spelling rules of the present apply (*cerchiamo! cominciate!*).",
+        "table": [
+          [
+            "",
+            "parlare",
+            "prendere",
+            "dormire",
+            "finire"
+          ],
+          [
+            "tu",
+            "parla!",
+            "prendi!",
+            "dormi!",
+            "finisci!"
+          ],
+          [
+            "noi",
+            "parliamo!",
+            "prendiamo!",
+            "dormiamo!",
+            "finiamo!"
+          ],
+          [
+            "voi",
+            "parlate!",
+            "prendete!",
+            "dormite!",
+            "finite!"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Aspetta un attimo, arrivo subito!",
+            "en": "Wait a moment, I'm coming right away!"
+          },
+          {
+            "it": "Ragazzi, aprite il libro a pagina dieci.",
+            "en": "Everyone, open your books at page ten."
+          },
+          {
+            "it": "Andiamo al cinema stasera!",
+            "en": "Let's go to the cinema tonight!"
+          }
+        ],
+        "tip": "The only form that differs from the present indicative is *tu* of *-are* verbs: *tu parli* (you speak) but *parla!* (speak!)."
+      },
+      {
+        "heading": "The formal Lei and Loro: use the subjunctive",
+        "body": "When addressing someone formally, the imperative uses the third person of the present subjunctive: *parli! prenda! dorma! finisca!* for *Lei*, and *parlino! prendano!* for the rare plural *Loro* (in practice modern Italian addresses a group with *voi*). Irregular subjunctives therefore give irregular formal imperatives: *sia* (essere), *abbia* (avere), *vada* (andare), *venga* (venire), *faccia* (fare), *dica* (dire), *stia* (stare), *dia* (dare), *esca* (uscire), *tenga* (tenere), *sappia* (sapere), *scelga* (scegliere), *beva* (bere), *rimanga* (rimanere), *salga* (salire). The negative simply puts *non* before the verb: *Non si preoccupi; Non fumi qui*.",
+        "table": [
+          [
+            "Verb",
+            "tu",
+            "Lei",
+            "voi"
+          ],
+          [
+            "parlare",
+            "parla",
+            "parli",
+            "parlate"
+          ],
+          [
+            "scusare",
+            "scusa",
+            "scusi",
+            "scusate"
+          ],
+          [
+            "sentire",
+            "senti",
+            "senta",
+            "sentite"
+          ],
+          [
+            "finire",
+            "finisci",
+            "finisca",
+            "finite"
+          ],
+          [
+            "andare",
+            "va' / vai",
+            "vada",
+            "andate"
+          ],
+          [
+            "venire",
+            "vieni",
+            "venga",
+            "venite"
+          ],
+          [
+            "fare",
+            "fa' / fai",
+            "faccia",
+            "fate"
+          ],
+          [
+            "dire",
+            "di'",
+            "dica",
+            "dite"
+          ],
+          [
+            "essere",
+            "sii",
+            "sia",
+            "siate"
+          ],
+          [
+            "avere",
+            "abbi",
+            "abbia",
+            "abbiate"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Scusi, mi dica: dov'è la stazione?",
+            "en": "Excuse me, tell me: where is the station?"
+          },
+          {
+            "it": "Prego, si accomodi e aspetti qui.",
+            "en": "Please take a seat and wait here."
+          },
+          {
+            "it": "Venga pure domani mattina, dottoressa.",
+            "en": "Do come tomorrow morning, doctor."
+          }
+        ]
+      },
+      {
+        "heading": "The negative imperative",
+        "body": "For *tu* the negative imperative is *non* + infinitive, never *non* + the positive form: *Non parlare! Non correre! Non aprire la porta! Non essere triste!*. For *noi, voi* and *Lei* simply put *non* in front of the positive form: *Non parliamo di questo; Non fumate qui; Non si preoccupi*. With pronouns the *tu* negative allows either attachment to the infinitive or the pronoun before it: *Non dirlo a nessuno* or *Non lo dire a nessuno; Non preoccuparti* or *Non ti preoccupare*.",
+        "table": [
+          [
+            "",
+            "Positive",
+            "Negative"
+          ],
+          [
+            "tu",
+            "Mangia! Vieni! Alzati!",
+            "Non mangiare! Non venire! Non alzarti! / Non ti alzare!"
+          ],
+          [
+            "Lei",
+            "Mangi! Venga! Si alzi!",
+            "Non mangi! Non venga! Non si alzi!"
+          ],
+          [
+            "noi",
+            "Mangiamo! Andiamo! Alziamoci!",
+            "Non mangiamo! Non andiamo! Non alziamoci!"
+          ],
+          [
+            "voi",
+            "Mangiate! Venite! Alzatevi!",
+            "Non mangiate! Non venite! Non alzatevi!"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Non toccare niente e non uscire senza giacca!",
+            "en": "Don't touch anything and don't go out without a jacket!"
+          },
+          {
+            "it": "Non dimenticatevi del regalo!",
+            "en": "Don't forget the present!"
+          }
+        ]
+      },
+      {
+        "heading": "Irregular imperatives",
+        "body": "A handful of essential verbs have irregular *tu* forms, and *essere, avere, sapere, volere* are irregular in *voi* too. *Essere* gives *sii, sia, siamo, siate*; *avere* gives *abbi, abbia, abbiamo, abbiate*; *sapere* gives *sappi, sappia, sappiamo, sappiate*; *volere* gives *vogli, voglia, vogliamo, vogliate* (used mostly in the polite *Voglia gradire…*). *Andare, dare, fare, stare, dire* have the short apostrophe forms *va', da', fa', sta', di'* (with *vai, dai, fai, stai* as alternatives for the first four). *Venire, tenere, uscire, salire, scegliere* are regular in *tu* (*vieni, tieni, esci, sali, scegli*) but irregular in *Lei* (*venga, tenga, esca, salga, scelga*).",
+        "table": [
+          [
+            "Verb",
+            "tu",
+            "Lei",
+            "noi",
+            "voi"
+          ],
+          [
+            "essere",
+            "sii",
+            "sia",
+            "siamo",
+            "siate"
+          ],
+          [
+            "avere",
+            "abbi",
+            "abbia",
+            "abbiamo",
+            "abbiate"
+          ],
+          [
+            "sapere",
+            "sappi",
+            "sappia",
+            "sappiamo",
+            "sappiate"
+          ],
+          [
+            "andare",
+            "va' / vai",
+            "vada",
+            "andiamo",
+            "andate"
+          ],
+          [
+            "dare",
+            "da' / dai",
+            "dia",
+            "diamo",
+            "date"
+          ],
+          [
+            "fare",
+            "fa' / fai",
+            "faccia",
+            "facciamo",
+            "fate"
+          ],
+          [
+            "stare",
+            "sta' / stai",
+            "stia",
+            "stiamo",
+            "state"
+          ],
+          [
+            "dire",
+            "di'",
+            "dica",
+            "diciamo",
+            "dite"
+          ],
+          [
+            "venire",
+            "vieni",
+            "venga",
+            "veniamo",
+            "venite"
+          ],
+          [
+            "uscire",
+            "esci",
+            "esca",
+            "usciamo",
+            "uscite"
+          ],
+          [
+            "bere",
+            "bevi",
+            "beva",
+            "beviamo",
+            "bevete"
+          ],
+          [
+            "tenere",
+            "tieni",
+            "tenga",
+            "teniamo",
+            "tenete"
+          ],
+          [
+            "scegliere",
+            "scegli",
+            "scelga",
+            "scegliamo",
+            "scegliete"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Sii gentile e abbi pazienza.",
+            "en": "Be kind and have patience."
+          },
+          {
+            "it": "Sappiate che vi aspettiamo per le otto.",
+            "en": "Know that we expect you by eight."
+          },
+          {
+            "it": "Vieni qui e stai fermo!",
+            "en": "Come here and keep still!"
+          }
+        ]
+      },
+      {
+        "heading": "Where the pronouns go",
+        "body": "With the *tu, noi, voi* imperative, object and reflexive pronouns (*mi, ti, lo, la, li, le, ci, vi, ne, gli, glielo…*) are attached to the end of the verb as a single word: *guardalo, ascoltami, alzati, sediamoci, prendetene, mandaglielo, diteglielo*. The stress stays where it was on the verb (*guàrdalo, telèfonagli*). With the formal *Lei* the pronouns stay before the verb: *lo guardi, mi ascolti, si alzi, glielo mandi*. The only pronoun that is never attached is *loro* (to them), which follows the verb as a separate word, although in modern Italian *gli* replaces it: *Scrivi loro* → *Scrivigli*.",
+        "table": [
+          [
+            "",
+            "tu",
+            "Lei",
+            "voi"
+          ],
+          [
+            "+ lo",
+            "Prendilo!",
+            "Lo prenda!",
+            "Prendetelo!"
+          ],
+          [
+            "+ mi",
+            "Chiamami!",
+            "Mi chiami!",
+            "Chiamatemi!"
+          ],
+          [
+            "+ ci (there)",
+            "Vacci!",
+            "Ci vada!",
+            "Andateci!"
+          ],
+          [
+            "+ ne",
+            "Prendine due!",
+            "Ne prenda due!",
+            "Prendetene due!"
+          ],
+          [
+            "+ reflexive",
+            "Siediti!",
+            "Si sieda!",
+            "Sedetevi!"
+          ],
+          [
+            "+ combined",
+            "Dammelo! Diglielo!",
+            "Me lo dia! Glielo dica!",
+            "Datemelo! Diteglielo!"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Passami il sale, per favore. Signora, mi passi il sale.",
+            "en": "Pass me the salt, please. Madam, pass me the salt."
+          },
+          {
+            "it": "Sono buonissimi: assaggiane uno!",
+            "en": "They're delicious: taste one!"
+          }
+        ],
+        "tip": "After *va', da', fa', sta', di'* the pronoun's consonant doubles: *dammi, dillo, fallo, vacci, stacci* (but *dagli, digli*)."
+      },
+      {
+        "heading": "Softening and replacing the imperative",
+        "body": "A bare imperative can sound abrupt, so Italian softens it with *per favore, per cortesia, pure* (*Entri pure*), *un attimo* or by adding *dai* (*Dai, vieni!*). Requests are often made instead with a question in the present or conditional (*Mi passi il sale? Potresti aiutarmi? Le dispiacerebbe chiudere la finestra?*). Instructions in recipes, manuals and signs use the infinitive (*Cuocere per venti minuti; Non calpestare le aiuole; Spingere*) or the impersonal *si* (*Si prega di non fumare*). For a general public, notices also use *voi* or the infinitive rather than *Lei*.",
+        "examples": [
+          {
+            "it": "Mi faccia un favore: chiuda la porta, per cortesia.",
+            "en": "Do me a favour: close the door, please."
+          },
+          {
+            "it": "Aggiungere il sale e mescolare bene.",
+            "en": "Add the salt and mix well."
+          },
+          {
+            "it": "Dai, sbrigati, che siamo in ritardo!",
+            "en": "Come on, hurry up, we're late!"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pronouns",
+    "title": "Object pronouns",
+    "titleIt": "I pronomi personali complemento",
+    "summary": "Direct and indirect object pronouns, the combined forms (me lo, glielo…), ne and ci, where they go with modals and infinitives, and the stressed forms.",
+    "practiceGame": "cloze",
+    "sections": [
+      {
+        "heading": "Direct object pronouns",
+        "body": "Direct object pronouns replace the noun that receives the action directly (*Vedo Maria → La vedo*). The unstressed forms go immediately before the conjugated verb: *mi, ti, lo, la, La (formal you), ci, vi, li, le*. *Lo* and *la* elide before a vowel or *h* (*l'aspetto, l'ho visto*), *li* and *le* never do. *Lo* can also replace a whole idea (*Lo so* = I know it; *Non lo sapevo*). In the *passato prossimo* the participle agrees with a preceding *lo, la, li, le*: *L'ho vista; Li ho comprati; Le ho lette*.",
+        "table": [
+          [
+            "Person",
+            "Pronoun",
+            "Example"
+          ],
+          [
+            "me",
+            "mi",
+            "Mi chiami domani?"
+          ],
+          [
+            "you (tu)",
+            "ti",
+            "Ti aspetto qui."
+          ],
+          [
+            "him / it (m)",
+            "lo",
+            "Lo conosco bene."
+          ],
+          [
+            "her / it (f)",
+            "la",
+            "La vedo spesso."
+          ],
+          [
+            "you (formal)",
+            "La",
+            "La ringrazio, signora."
+          ],
+          [
+            "us",
+            "ci",
+            "Ci invitano sempre."
+          ],
+          [
+            "you (voi)",
+            "vi",
+            "Vi accompagno io."
+          ],
+          [
+            "them (m)",
+            "li",
+            "Li ho chiamati ieri."
+          ],
+          [
+            "them (f)",
+            "le",
+            "Le ho comprate al mercato."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Conosci Paolo? Sì, lo conosco da anni.",
+            "en": "Do you know Paolo? Yes, I've known him for years."
+          },
+          {
+            "it": "Hai visto le mie chiavi? No, non le ho viste.",
+            "en": "Have you seen my keys? No, I haven't seen them."
+          }
+        ]
+      },
+      {
+        "heading": "Indirect object pronouns",
+        "body": "Indirect object pronouns replace *a* + person: *Scrivo a Marco → Gli scrivo; Telefono a Maria → Le telefono*. The forms are *mi, ti, gli, le, Le (formal), ci, vi, gli* (or *loro* after the verb, formal and rare). They are identical to the direct pronouns except in the third person: *gli* (to him), *le* (to her), *gli* (to them, both genders in modern usage). The participle never agrees with an indirect pronoun: *Le ho telefonato* (I phoned her). Common verbs that take an indirect object in Italian, sometimes unlike English, are *telefonare, chiedere, rispondere, dire, dare, regalare, scrivere, mandare, consigliare, piacere, mancare, sembrare, bastare, servire, interessare*.",
+        "table": [
+          [
+            "Person",
+            "Pronoun",
+            "Example"
+          ],
+          [
+            "to me",
+            "mi",
+            "Mi hai mandato la foto?"
+          ],
+          [
+            "to you (tu)",
+            "ti",
+            "Ti do il mio numero."
+          ],
+          [
+            "to him",
+            "gli",
+            "Gli ho detto tutto."
+          ],
+          [
+            "to her",
+            "le",
+            "Le ho detto tutto."
+          ],
+          [
+            "to you (formal)",
+            "Le",
+            "Le scrivo domani, dottore."
+          ],
+          [
+            "to us",
+            "ci",
+            "Ci hanno offerto un caffè."
+          ],
+          [
+            "to you (voi)",
+            "vi",
+            "Vi spiego la regola."
+          ],
+          [
+            "to them",
+            "gli (loro)",
+            "Gli ho telefonato. / Ho telefonato loro."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Mi piace la pizza, ma a Luca non piace.",
+            "en": "I like pizza, but Luca doesn't."
+          },
+          {
+            "it": "Ho chiesto a Sara un consiglio e le ho scritto una lettera.",
+            "en": "I asked Sara for advice and wrote her a letter."
+          }
+        ],
+        "tip": "*Le* is both *them (f, direct)* and *to her (indirect)*; the verb tells you which: *Le vedo* (I see them) vs *Le parlo* (I talk to her)."
+      },
+      {
+        "heading": "Combined pronouns: me lo, glielo…",
+        "body": "When an indirect and a direct pronoun occur together, the indirect one comes first and changes its vowel: *mi, ti, ci, vi, si* become *me, te, ce, ve, se*, while *gli* and *le* both become *glie-* and join the direct pronoun in one word (*glielo, gliela, glieli, gliele, gliene*). The combined form goes before the conjugated verb (*Te lo do; Glielo dico*) or attaches to an infinitive, gerund or imperative (*Voglio dartelo; Dammelo!*). Agreement of the participle follows the direct pronoun: *Gliel'ho data* (I gave it to her/him), *Me li hanno regalati*. *Glielo* serves for *to him, to her, to them* and the formal *to you*.",
+        "table": [
+          [
+            "",
+            "+ lo",
+            "+ la",
+            "+ li",
+            "+ le",
+            "+ ne"
+          ],
+          [
+            "mi",
+            "me lo",
+            "me la",
+            "me li",
+            "me le",
+            "me ne"
+          ],
+          [
+            "ti",
+            "te lo",
+            "te la",
+            "te li",
+            "te le",
+            "te ne"
+          ],
+          [
+            "gli / le / Le",
+            "glielo",
+            "gliela",
+            "glieli",
+            "gliele",
+            "gliene"
+          ],
+          [
+            "ci",
+            "ce lo",
+            "ce la",
+            "ce li",
+            "ce le",
+            "ce ne"
+          ],
+          [
+            "vi",
+            "ve lo",
+            "ve la",
+            "ve li",
+            "ve le",
+            "ve ne"
+          ],
+          [
+            "si (reflexive)",
+            "se lo",
+            "se la",
+            "se li",
+            "se le",
+            "se ne"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Mi presti la macchina? Te la presto volentieri.",
+            "en": "Will you lend me the car? I'll gladly lend it to you."
+          },
+          {
+            "it": "Hai dato il libro a Marco? Sì, gliel'ho dato ieri.",
+            "en": "Did you give the book to Marco? Yes, I gave it to him yesterday."
+          },
+          {
+            "it": "Se lo è dimenticato di nuovo.",
+            "en": "He forgot it again."
+          }
+        ]
+      },
+      {
+        "heading": "Ne",
+        "body": "*Ne* replaces a phrase introduced by *di* or *da*: a quantity or part of something (*Quante mele vuoi? Ne voglio tre; Ne ho abbastanza*), a topic (*Parliamo di politica → Ne parliamo*), a person or thing introduced by *di* (*Cosa pensi di Marco? Cosa ne pensi?*), and a place one comes from (*Sei uscito dall'ufficio? Ne sono uscito ora*). With numbers and quantities *ne* is compulsory in Italian even where English leaves the pronoun out: *Ne prendo due* (I'll take two). In the *passato prossimo* the participle agrees with the quantity *ne* refers to: *Di mele ne ho mangiate due; Di pane ne ho comprato poco*. *Ne* also appears in idioms: *andarsene, non poterne più, valerne la pena, fregarsene*.",
+        "table": [
+          [
+            "Replaces",
+            "Full sentence",
+            "With ne"
+          ],
+          [
+            "a quantity",
+            "Ho due fratelli.",
+            "Ne ho due."
+          ],
+          [
+            "some / any",
+            "Vuoi del pane?",
+            "Ne vuoi?"
+          ],
+          [
+            "di + topic",
+            "Parliamo del film.",
+            "Ne parliamo."
+          ],
+          [
+            "di + person/thing",
+            "Ho bisogno di aiuto.",
+            "Ne ho bisogno."
+          ],
+          [
+            "da + place",
+            "Torno da Roma.",
+            "Ne torno adesso."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Quanti caffè bevi al giorno? Ne bevo tre.",
+            "en": "How many coffees do you drink a day? I drink three."
+          },
+          {
+            "it": "Che ne dici di andare al mare?",
+            "en": "What do you say to going to the seaside?"
+          }
+        ]
+      },
+      {
+        "heading": "Ci",
+        "body": "Besides meaning *us* and *ourselves*, *ci* replaces a place or a phrase introduced by *a, in, su, da* (a place): *Vai a Roma? Sì, ci vado domani; Sei stato in Sicilia? No, non ci sono mai stato; Ci penso io* (I'll take care of it). It replaces *a* + thing or idea after verbs like *pensare a, credere a, riuscire a, provare a, tenere a* (*Credi ai fantasmi? Non ci credo; Ci riesco*). It also forms *c'è / ci sono* (there is / there are), *volerci, metterci, entrarci* (to have to do with: *Che c'entra?*) and colloquial *averci* (*Ce l'hai un euro?*). When *ci* combines with a direct pronoun it becomes *ce* (*ce lo, ce la…*), and *ci* + *ne* is *ce ne* (*Ce ne sono molti*).",
+        "table": [
+          [
+            "Use",
+            "Example"
+          ],
+          [
+            "place (a / in + place)",
+            "Vado in ufficio: ci vado in bici."
+          ],
+          [
+            "a + thing / idea",
+            "Pensi al lavoro? Sì, ci penso sempre."
+          ],
+          [
+            "c'è / ci sono",
+            "C'è un problema; ci sono due soluzioni."
+          ],
+          [
+            "volerci / metterci",
+            "Ci vuole tempo; ci metto un'ora."
+          ],
+          [
+            "entrarci",
+            "Io non c'entro niente!"
+          ],
+          [
+            "with ne",
+            "Di libri ce ne sono tanti."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Sei mai stato a Venezia? Ci sono stato due volte.",
+            "en": "Have you ever been to Venice? I've been there twice."
+          },
+          {
+            "it": "Non credo alle previsioni: non ci credo mai.",
+            "en": "I don't believe forecasts: I never believe them."
+          }
+        ],
+        "tip": "*Ci* + *è* is written *c'è*; *ci* + *ha* in colloquial *averci* is written *ce l'ha*, never *c'ha* in careful writing."
+      },
+      {
+        "heading": "Position with modals, infinitives, gerunds and imperatives",
+        "body": "Unstressed pronouns go before a conjugated verb (*Lo compro; Non lo compro; Lo ho comprato → L'ho comprato*), and in compound tenses before the auxiliary, never between auxiliary and participle. They attach to the end of an infinitive, which drops its final *-e* (*comprarlo, dirglielo, per vederti*), to a gerund (*vedendolo, parlandogli*), to the *tu/noi/voi* imperative (*compralo, diteglielo*) and to *ecco* (*eccolo, eccomi*). With a modal verb (*dovere, potere, volere, sapere*) or with *stare* + gerund and *cominciare a / finire di* + infinitive, both positions are possible: *Lo voglio comprare* or *Voglio comprarlo; Lo sto leggendo* or *Sto leggendolo*. With the formal *Lei* imperative and after *non* + *tu* infinitive imperative the pronoun goes before (*Lo prenda; Non lo prendere* or *Non prenderlo*).",
+        "table": [
+          [
+            "Structure",
+            "Pronoun before",
+            "Pronoun attached"
+          ],
+          [
+            "conjugated verb",
+            "Lo vedo.",
+            "—"
+          ],
+          [
+            "compound tense",
+            "L'ho visto.",
+            "—"
+          ],
+          [
+            "modal + infinitive",
+            "Lo devo fare.",
+            "Devo farlo."
+          ],
+          [
+            "stare + gerund",
+            "Ti sto ascoltando.",
+            "Sto ascoltandoti."
+          ],
+          [
+            "preposition + infinitive",
+            "—",
+            "Vado a prenderlo."
+          ],
+          [
+            "imperative tu / noi / voi",
+            "—",
+            "Prendilo! Prendiamolo! Prendetelo!"
+          ],
+          [
+            "imperative Lei",
+            "Lo prenda!",
+            "—"
+          ],
+          [
+            "negative tu imperative",
+            "Non lo prendere!",
+            "Non prenderlo!"
+          ],
+          [
+            "ecco",
+            "—",
+            "Eccolo! Eccomi qua!"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Posso aiutarti? / Ti posso aiutare?",
+            "en": "Can I help you?"
+          },
+          {
+            "it": "Ho dimenticato di dirglielo.",
+            "en": "I forgot to tell him."
+          },
+          {
+            "it": "Dove sono i biglietti? Eccoli!",
+            "en": "Where are the tickets? Here they are!"
+          }
+        ]
+      },
+      {
+        "heading": "Stressed pronouns: me, te, lui, lei, noi, voi, loro",
+        "body": "The stressed (tonic) forms *me, te, lui, lei, Lei, noi, voi, loro* and reflexive *sé* are used after prepositions (*con me, per te, da lui, secondo lei, tra noi, senza di voi*), for emphasis or contrast (*Cerca me, non te; Ha chiamato proprio lei*), after *anche, neanche, come, quanto* (*Anche io / anch'io; Come te*) and in exclamations (*Beato te! Povero me!*). As direct objects they follow the verb: *Vedo te* is emphatic where *Ti vedo* is neutral. The indirect object is *a* + stressed form: *a me, a te, a lui* (*A me piace, a lei no*). Never use two pronouns for the same object (*A me mi piace* is colloquial and considered incorrect in writing).",
+        "table": [
+          [
+            "Unstressed (direct / indirect)",
+            "Stressed",
+            "Example"
+          ],
+          [
+            "mi / mi",
+            "me / a me",
+            "Parla con me. A me non importa."
+          ],
+          [
+            "ti / ti",
+            "te / a te",
+            "Vengo da te. Lo dico a te."
+          ],
+          [
+            "lo / gli",
+            "lui / a lui",
+            "Esco con lui. Lo dà a lui."
+          ],
+          [
+            "la / le",
+            "lei / a lei",
+            "Vado da lei. Piace a lei."
+          ],
+          [
+            "ci / ci",
+            "noi / a noi",
+            "Vieni con noi? A noi va bene."
+          ],
+          [
+            "vi / vi",
+            "voi / a voi",
+            "Senza di voi non parto."
+          ],
+          [
+            "li, le / gli",
+            "loro / a loro",
+            "Parlo di loro. Lo regalo a loro."
+          ],
+          [
+            "si (reflexive)",
+            "sé (stesso)",
+            "Pensa solo a sé. Parla tra sé e sé."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ti cerca Marco? No, cerca te, non me!",
+            "en": "Is Marco looking for you? No, he's looking for you, not me!"
+          },
+          {
+            "it": "Secondo me hai ragione, ma secondo loro no.",
+            "en": "In my opinion you're right, but in theirs you're not."
+          }
+        ],
+        "tip": "*Sé* takes an accent to distinguish it from *se* (if); in *se stesso* the accent is optional but *sé stesso* is now recommended."
+      }
+    ]
+  },
+  {
+    "id": "prepositions",
+    "title": "Prepositions",
+    "titleIt": "Le preposizioni",
+    "summary": "The simple prepositions and their articulated forms (del, allo, nella…), the core uses of a/di/da/in/con/su/per/tra, and the verb + preposition patterns you must memorise.",
+    "practiceGame": "patterns",
+    "sections": [
+      {
+        "heading": "The nine simple prepositions",
+        "body": "Italian has nine simple prepositions: *di, a, da, in, con, su, per, tra/fra*. They introduce nouns, pronouns and infinitives and never change form on their own. *Tra* and *fra* mean the same thing (*between, among, in [time]*); choose whichever sounds better next to the following word (*fra tre giorni, tra fratelli*). Many other words work as prepositions too (*senza, dopo, prima di, verso, contro, sopra, sotto, dentro, fuori, davanti a, dietro, vicino a, lontano da, durante, secondo, tranne*).",
+        "table": [
+          [
+            "Preposition",
+            "Core meanings",
+            "Example"
+          ],
+          [
+            "di",
+            "of, 's, from (origin), about, made of, than",
+            "il libro di Anna; sono di Roma; parlare di sport"
+          ],
+          [
+            "a",
+            "to, at, in (cities), by (means), style",
+            "vado a Milano; alle otto; a piedi; alla milanese"
+          ],
+          [
+            "da",
+            "from, by (agent), at someone's place, since/for, purpose",
+            "vengo da Napoli; da due anni; vado dal medico"
+          ],
+          [
+            "in",
+            "in, to (countries, regions), by (transport)",
+            "in Italia; in cucina; in treno"
+          ],
+          [
+            "con",
+            "with",
+            "con Marco; con piacere"
+          ],
+          [
+            "su",
+            "on, about, approximately",
+            "sul tavolo; un libro su Dante; sui trent'anni"
+          ],
+          [
+            "per",
+            "for, through, because of, in order to",
+            "per te; per Roma; per amore; per studiare"
+          ],
+          [
+            "tra / fra",
+            "between, among, in (time from now)",
+            "tra noi; fra un'ora"
+          ]
+        ]
+      },
+      {
+        "heading": "Articulated prepositions",
+        "body": "When *di, a, da, in, su* are followed by a definite article, the two merge into a single word called an articulated preposition (*preposizione articolata*). The article part follows the normal article rules, so the choice of *-l, -llo, -ll', -lla, -i, -gli, -lle* depends on the noun exactly as *il, lo, l', la, i, gli, le* would. *Con* has the optional old forms *col* and *coi* (still common in speech); *per, tra, fra* never merge. *Di* becomes *de-* and *in* becomes *ne-* before the article.",
+        "table": [
+          [
+            "",
+            "il",
+            "lo",
+            "l'",
+            "la",
+            "i",
+            "gli",
+            "le"
+          ],
+          [
+            "di",
+            "del",
+            "dello",
+            "dell'",
+            "della",
+            "dei",
+            "degli",
+            "delle"
+          ],
+          [
+            "a",
+            "al",
+            "allo",
+            "all'",
+            "alla",
+            "ai",
+            "agli",
+            "alle"
+          ],
+          [
+            "da",
+            "dal",
+            "dallo",
+            "dall'",
+            "dalla",
+            "dai",
+            "dagli",
+            "dalle"
+          ],
+          [
+            "in",
+            "nel",
+            "nello",
+            "nell'",
+            "nella",
+            "nei",
+            "negli",
+            "nelle"
+          ],
+          [
+            "su",
+            "sul",
+            "sullo",
+            "sull'",
+            "sulla",
+            "sui",
+            "sugli",
+            "sulle"
+          ],
+          [
+            "con",
+            "col (con il)",
+            "con lo",
+            "con l'",
+            "con la",
+            "coi (con i)",
+            "con gli",
+            "con le"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Le chiavi sono nel cassetto dello scrittoio, accanto agli occhiali.",
+            "en": "The keys are in the drawer of the desk, next to the glasses."
+          },
+          {
+            "it": "Vado dal dentista alle nove e poi all'università.",
+            "en": "I'm going to the dentist at nine and then to the university."
+          }
+        ],
+        "tip": "*Dei, degli, delle* (and *del, dello, della*) also serve as the partitive article meaning *some*: *dei libri, delle amiche, del pane*."
+      },
+      {
+        "heading": "Di and a",
+        "body": "*Di* expresses possession and belonging (*la casa di Marco*), origin with *essere* (*Sono di Torino*), material (*una maglia di lana*), content and topic (*un bicchiere di vino, un libro di storia*), comparison (*più alto di me*), time of day in general (*di mattina, di notte*), and it links many verbs and adjectives to an infinitive (*cercare di, finire di, contento di*). *A* expresses direction and location with cities and small places (*vado a Roma, sono a casa, a scuola, a teatro*), time (*alle tre, a mezzogiorno, a Natale*), indirect object (*do il libro a Luca*), manner and means (*a piedi, a mano, a voce alta, alla griglia*), distance (*a due chilometri*), and age (*a vent'anni*). With cities you use *a*; with countries, regions and large islands you use *in* (*a Parigi, in Francia, in Toscana, in Sicilia*).",
+        "table": [
+          [
+            "di",
+            "a"
+          ],
+          [
+            "il libro di Anna (possession)",
+            "vado a Milano (city)"
+          ],
+          [
+            "sono di Roma (origin)",
+            "sono a casa / a scuola / al bar (place)"
+          ],
+          [
+            "una borsa di pelle (material)",
+            "alle otto, a mezzanotte (time)"
+          ],
+          [
+            "parlare di politica (topic)",
+            "scrivo a Maria (indirect object)"
+          ],
+          [
+            "di sera, di domenica (time in general)",
+            "a piedi, a mano, a memoria (manner)"
+          ],
+          [
+            "finisco di lavorare (verb + di)",
+            "comincio a lavorare (verb + a)"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Il fratello di Luca abita a Bologna e lavora a casa.",
+            "en": "Luca's brother lives in Bologna and works from home."
+          },
+          {
+            "it": "Di sera vado a letto alle undici.",
+            "en": "In the evening I go to bed at eleven."
+          }
+        ]
+      },
+      {
+        "heading": "Da and in",
+        "body": "*Da* is the preposition of origin and starting point: *from* a place or time (*vengo da Roma; dalle nove alle cinque*), the agent of a passive (*scritto da Dante*), duration up to now with the present (*Studio da due ore* = I have been studying for two hours), and *since* (*da ieri*). It also means *at/to the place of a person or business* (*vado dal medico, sono da Marco, mangiamo da Gino*), purpose or use (*occhiali da sole, camera da letto, macchina da scrivere*), value or characteristic (*un francobollo da due euro, una ragazza dagli occhi verdi*), and something to be done (*qualcosa da mangiare, molto da fare*). *In* expresses location and direction with countries, regions, large islands and many enclosed places (*in Italia, in Toscana, in Sardegna, in ufficio, in banca, in centro, in montagna*), means of transport (*in treno, in macchina, in bici*), time in months, seasons and years (*in luglio, in estate, nel 2020*), and how long something takes (*in due ore*).",
+        "table": [
+          [
+            "da",
+            "in"
+          ],
+          [
+            "vengo dalla stazione (from)",
+            "vado in Spagna (country)"
+          ],
+          [
+            "dal 2010 / da due anni (since / for)",
+            "nel 2010 / in aprile / in inverno (time)"
+          ],
+          [
+            "vado dal dottore (at someone's)",
+            "sono in ufficio / in piscina (place)"
+          ],
+          [
+            "un romanzo scritto da Calvino (agent)",
+            "andiamo in aereo (transport)"
+          ],
+          [
+            "occhiali da sole (purpose)",
+            "l'ho finito in un'ora (time taken)"
+          ],
+          [
+            "niente da fare (to be done)",
+            "in fretta, in silenzio (manner)"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Abito in Italia da cinque anni e vado dal parrucchiere in centro.",
+            "en": "I've lived in Italy for five years and I go to the hairdresser in the centre."
+          },
+          {
+            "it": "In estate torniamo dai nonni in Sicilia.",
+            "en": "In summer we go back to our grandparents' in Sicily."
+          }
+        ],
+        "tip": "*Da* + person = *at/to that person's place*: *da me* (at my place), *dal medico* (at the doctor's), *da Luigi* (at Luigi's restaurant)."
+      },
+      {
+        "heading": "Con, su, per, tra/fra",
+        "body": "*Con* means *with*: company (*esco con Anna*), instrument (*scrivo con la penna*), manner (*con calma, con piacere*) and a characteristic (*la ragazza con gli occhiali*). *Su* means *on* or *onto* (*sul tavolo, sali sull'autobus*), *about* (*un documentario sulla natura*) and *approximately* (*un uomo sui cinquant'anni, costa sui venti euro*). *Per* covers *for* (*un regalo per te, per due ore*), *through* (*passo per Firenze*), *because of* (*chiuso per ferie*), *purpose* with an infinitive (*studio per imparare*), *by* with means (*per posta, per telefono*) and *by* in deadlines (*per domani*). *Tra/fra* means *between, among* (*tra Roma e Napoli, fra amici*), *in* with future time (*fra un'ora, tra due giorni*) and *within* (*tra le dieci e le undici*).",
+        "table": [
+          [
+            "Preposition",
+            "Uses",
+            "Examples"
+          ],
+          [
+            "con",
+            "company, instrument, manner",
+            "con Marco; con il coltello; con attenzione"
+          ],
+          [
+            "su",
+            "on, about, around (approximate)",
+            "sul letto; un libro sulla guerra; sui trent'anni"
+          ],
+          [
+            "per",
+            "for, through, because of, purpose, means, deadline",
+            "per me; per il parco; per la pioggia; per capire; per e-mail; per lunedì"
+          ],
+          [
+            "tra / fra",
+            "between, among, in (from now), within",
+            "tra le due; fra colleghi; fra un mese; tra le 9 e le 10"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Parto per Londra fra due settimane e passo per Parigi.",
+            "en": "I'm leaving for London in two weeks and going via Paris."
+          },
+          {
+            "it": "Ho letto un articolo sul cambiamento climatico con grande interesse.",
+            "en": "I read an article on climate change with great interest."
+          }
+        ],
+        "tip": "*Per* + infinitive = *in order to*; *da* + infinitive = *to be done*; *a* + infinitive after motion verbs = purpose (*vado a comprare il pane*)."
+      },
+      {
+        "heading": "Verb + preposition + infinitive",
+        "body": "Many verbs need a fixed preposition before a following infinitive, and this is a matter of memory rather than logic. Verbs of beginning, continuing, learning, going and succeeding usually take *a*: *cominciare a, iniziare a, continuare a, imparare a, insegnare a, riuscire a, provare a, aiutare a, andare a, venire a, invitare a, abituarsi a, prepararsi a, convincere a*. Verbs of ending, trying, deciding, thinking, saying and feeling usually take *di*: *finire di, smettere di, cercare di, decidere di, pensare di, credere di, sperare di, dire di, chiedere di, promettere di, dimenticare di, ricordarsi di, avere bisogno di, avere voglia di, avere paura di, temere di, evitare di, accettare di, rifiutarsi di*. Modal verbs and a few others take no preposition: *dovere, potere, volere, sapere, preferire, desiderare, amare, piacere, lasciare, fare, sembrare*.",
+        "table": [
+          [
+            "+ a + infinitive",
+            "+ di + infinitive",
+            "no preposition"
+          ],
+          [
+            "cominciare a",
+            "finire di",
+            "dovere"
+          ],
+          [
+            "continuare a",
+            "smettere di",
+            "potere"
+          ],
+          [
+            "imparare a",
+            "cercare di",
+            "volere"
+          ],
+          [
+            "riuscire a",
+            "decidere di",
+            "sapere"
+          ],
+          [
+            "provare a",
+            "pensare di",
+            "preferire"
+          ],
+          [
+            "aiutare a",
+            "sperare di",
+            "desiderare"
+          ],
+          [
+            "andare a / venire a",
+            "dire di / chiedere di",
+            "amare / odiare"
+          ],
+          [
+            "invitare a",
+            "promettere di",
+            "piacere"
+          ],
+          [
+            "abituarsi a",
+            "dimenticare di / ricordarsi di",
+            "lasciare / fare"
+          ],
+          [
+            "insegnare a",
+            "avere bisogno di / avere voglia di",
+            "sembrare / bastare"
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Ho cominciato a studiare alle otto e ho finito di studiare a mezzanotte.",
+            "en": "I started studying at eight and finished studying at midnight."
+          },
+          {
+            "it": "Cerco di riuscire a parlare senza pensare di sbagliare.",
+            "en": "I try to manage to speak without thinking about making mistakes."
+          },
+          {
+            "it": "Preferisco restare a casa; non ho voglia di uscire.",
+            "en": "I prefer to stay at home; I don't feel like going out."
+          }
+        ]
+      },
+      {
+        "heading": "Verb + preposition + noun",
+        "body": "Verbs also govern fixed prepositions before nouns and pronouns, and these often differ from English. *Pensare a* (to think about someone or something) but *pensare di* (to have an opinion of); *parlare di* (to talk about) and *parlare con* (to talk to); *dipendere da*; *chiedere qualcosa a qualcuno* (to ask someone for something); *entrare in, uscire da, partire per, arrivare a/in*; *credere a* (a person or claim) and *credere in* (God, values); *fidarsi di, innamorarsi di, ridere di, lamentarsi di, occuparsi di, accorgersi di, vergognarsi di*; *assistere a, partecipare a, rinunciare a, interessarsi a/di, giocare a* (a sport or game) but *suonare* (an instrument, no preposition). Some verbs are transitive in Italian where English uses a preposition: *cercare* (to look for), *aspettare* (to wait for), *ascoltare* (to listen to), *guardare* (to look at), *chiedere* (to ask for), *pagare* (to pay for).",
+        "table": [
+          [
+            "Pattern",
+            "Example"
+          ],
+          [
+            "pensare a qualcuno / qualcosa",
+            "Penso spesso a te."
+          ],
+          [
+            "pensare di + opinion",
+            "Cosa pensi di questo film?"
+          ],
+          [
+            "dipendere da",
+            "Dipende dal tempo."
+          ],
+          [
+            "chiedere qualcosa a qualcuno",
+            "Ho chiesto un favore a Marco."
+          ],
+          [
+            "credere a / credere in",
+            "Non credo alle sue parole. Credo in te."
+          ],
+          [
+            "fidarsi di",
+            "Mi fido di lei."
+          ],
+          [
+            "innamorarsi di",
+            "Si è innamorato di una collega."
+          ],
+          [
+            "partecipare a / assistere a",
+            "Ho partecipato alla riunione."
+          ],
+          [
+            "giocare a",
+            "Giochiamo a carte / a calcio."
+          ],
+          [
+            "entrare in / uscire da",
+            "Entro in classe; esco dall'ufficio."
+          ],
+          [
+            "no preposition (unlike English)",
+            "Cerco le chiavi; aspetto l'autobus; ascolto la radio."
+          ]
+        ],
+        "examples": [
+          {
+            "it": "Non dipende da me: chiedilo al direttore.",
+            "en": "It doesn't depend on me: ask the manager."
+          },
+          {
+            "it": "Aspetto Anna da un'ora e guardo le vetrine.",
+            "en": "I've been waiting for Anna for an hour and looking at the shop windows."
+          }
+        ],
+        "tip": "Learn each verb with its preposition as one unit (*riuscire a, smettere di, dipendere da*), exactly as you learn a noun with its article."
+      }
+    ]
+  }
+]

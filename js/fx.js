@@ -148,8 +148,9 @@ export function dial(el, { items = [], index = 0, onChange = null, step = 30, ra
       const x = Math.sin(rad) * radius;
       const y = (1 - Math.cos(rad)) * radius;
       const dist = Math.abs(d);
-      const s = Math.max(.5, 1 - dist * .22);
-      const o = dist > 2.4 ? 0 : Math.max(0, 1 - dist * .38);
+      // neighbours shrink to .8 (still ≥ 40px tall) and fade out completely by two steps away
+      const s = Math.max(.5, 1 - dist * .2);
+      const o = Math.max(0, 1 - Math.max(0, dist - .2) * .6);
       b.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${y.toFixed(1)}px) rotate(${(a * .6).toFixed(1)}deg) scale(${s.toFixed(3)})`;
       b.style.opacity = o.toFixed(2);
       b.style.pointerEvents = o < .1 ? 'none' : '';

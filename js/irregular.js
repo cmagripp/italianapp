@@ -38,6 +38,7 @@ export const IRREGULAR = {
   morire: { pres: ['muoio', 'muori', 'muore', 'moriamo', 'morite', 'muoiono'], fut: 'morir|morr', pp: 'morto', isc: false },
   udire: { pres: ['odo', 'odi', 'ode', 'udiamo', 'udite', 'odono'], fut: 'udir|udr', isc: false },
   cucire: { pres: ['cucio', 'cuci', 'cuce', 'cuciamo', 'cucite', 'cuciono'], isc: false },
+  sdrucire: { pres: ['sdrucio|sdrucisco', 'sdruci|sdrucisci', 'sdruce|sdrucisce', 'sdruciamo', 'sdrucite', 'sdruciono|sdruciscono'], isc: false },
   rimanere: { pres: ['rimango', 'rimani', 'rimane', 'rimaniamo', 'rimanete', 'rimangono'], pr: 'rimas', fut: 'rimarr', pp: 'rimasto' },
   valere: { pres: ['valgo', 'vali', 'vale', 'valiamo', 'valete', 'valgono'], pr: 'vals', fut: 'varr', pp: 'valso' },
   dolere: { pres: ['dolgo', 'duoli', 'duole', 'doliamo|dogliamo', 'dolete', 'dolgono'], pr: 'dols', fut: 'dorr', pp: 'doluto' },
@@ -97,7 +98,7 @@ export const IRREGULAR = {
   giungere: { pr: 'giuns', pp: 'giunto' },
   dipingere: { pr: 'dipins', pp: 'dipinto' },
   stringere: { pr: 'strins', pp: 'stretto' },
-  restringere: { pr: 'restrins', pp: 'ristretto|restretto' },
+  restringere: { pr: 'restrins', pp: 'ristretto' }, // explicit: the participle changes vowel (not re+stretto)
   fingere: { pr: 'fins', pp: 'finto' },
   tingere: { pr: 'tins', pp: 'tinto' },
   cingere: { pr: 'cins', pp: 'cinto' },

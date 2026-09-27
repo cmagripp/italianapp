@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Spot checks for the conjugation engine. Run: node tools/test-conjugator.mjs
-import { conjugate, primary, accepted, isCorrectForm } from '../js/conjugator.js';
+import { conjugate, primary, accepted, isCorrectForm, irregularCells, regularParadigm, MISSING } from '../js/conjugator.js';
 
 let fails = 0, checks = 0;
 function eq(inf, tense, i, expected, meta) {
@@ -173,6 +173,572 @@ T('entrarci', { presente: ['ci entro', 'ci entri', 'ci entra'], passatoProssimo:
 T('volerci', { passatoProssimo: [null, null, 'ci è voluto/a', null, null, 'ci sono voluti/e'] }, { aux: 'essere' });
 T('distrarsi', { presente: ['mi distraggo'], pp: 'distratto' });
 T('ritrarsi', { presente: ['mi ritraggo'] });
+// stringere and its derivatives: restringere has a vowel change in the participle (ristretto, not re+stretto)
+T('stringere', { presente: ['stringo', 'stringi'], passatoRemoto: ['strinsi', 'stringesti', 'strinse'], pp: 'stretto' });
+T('restringere', { presente: ['restringo', 'restringi'], passatoRemoto: ['restrinsi', 'restringesti', 'restrinse', 'restringemmo', 'restringeste', 'restrinsero'], pp: 'ristretto' });
+T('restringersi', { presente: ['mi restringo'], passatoProssimo: ['mi sono ristretto/a'] });
+T('costringere', { passatoRemoto: ['costrinsi', null, 'costrinse'], pp: 'costretto' });
+T('astringere', { passatoRemoto: ['astrinsi'], pp: 'astretto' });
+checks++; if (accepted(conjugate('restringere').nonFinite.participioPassato).includes('restretto')) { fails++; console.log('FAIL restringere must not accept "restretto"'); }
+// ---------------------------------------------------------------------------------------------------
+// Hardening pass: rare -ere families, -rre derivatives, defective verbs, -iare/-gnare spelling, clitics
+// ---------------------------------------------------------------------------------------------------
+// a form that must NOT be accepted (e.g. "vaitene")
+function no(inf, tense, i, bad, meta) {
+  checks++;
+  const c = conjugate(inf, meta);
+  const forms = tense === 'pp' ? [c.nonFinite.participioPassato] : c.tenses[tense];
+  const got = forms ? forms[tense === 'pp' ? 0 : i] : null;
+  if (got != null && accepted(got).includes(bad)) { fails++; console.log(`FAIL ${inf} ${tense}[${i}]: "${bad}" must not be accepted, got "${got}"`); }
+}
+// a tense that must be absent (defective imperative etc.)
+function none(inf, tense, meta) {
+  checks++;
+  const c = conjugate(inf, meta);
+  if (c.tenses[tense] != null) { fails++; console.log(`FAIL ${inf} ${tense}: expected no forms, got "${c.tenses[tense]}"`); }
+}
+
+// compiere / riempire family: stem in -i absorbs i/ì endings (compì, not "compiì")
+T('compiere', { passatoRemoto: ['compii', 'compisti', 'compì', 'compimmo', 'compiste', 'compirono'], imperfetto: ['compivo', null, null, 'compivamo'], congiuntivoPresente: ['compia', null, null, 'compiamo', 'compiate', 'compiano'], congiuntivoImperfetto: ['compissi'], imperativo: ['compi', 'compia', 'compiamo', 'compite', 'compiano'] });
+T('riempire', { passatoRemoto: ['riempii', 'riempisti', 'riempì', null, null, 'riempirono'], imperfetto: ['riempivo'], congiuntivoPresente: ['riempia', null, null, 'riempiamo', 'riempiate'], imperativo: ['riempi', 'riempia', 'riempiamo', 'riempite', 'riempiano'], pp: 'riempito' });
+T('adempiere', { presente: ['adempio', 'adempi', 'adempie', 'adempiamo', 'adempite', 'adempiono'], passatoRemoto: ['adempii', null, 'adempì'], pp: 'adempiuto', ger: 'adempiendo', futuro: ['adempirò'] });
+T('empire', { presente: ['empio', 'empi', 'empie', 'empiamo', 'empite', 'empiono'], passatoRemoto: [null, null, 'empì'], pp: 'empito', ger: 'empiendo' });
+no('compiere', 'passatoRemoto', 2, 'compiì'); no('riempire', 'passatoRemoto', 2, 'riempiì');
+
+// rare -ere families and alternative participles
+T('restringere', { passatoRemoto: ['restrinsi', 'restringesti', 'restrinse'], pp: 'ristretto', presente: ['restringo'], passatoProssimo: ['ho ristretto'] });
+T('costringere', { pp: 'costretto', passatoRemoto: ['costrinsi'] });
+T('fendere', { passatoRemoto: ['fendei', 'fendesti', 'fendé', 'fendemmo', 'fendeste', 'fenderono'], pp: 'fesso' });
+T('fendere', { passatoRemoto: ['fendetti', null, 'fendette', null, null, 'fendettero'], pp: 'fenduto' });
+no('fendere', 'passatoRemoto', 0, 'fendi'); no('fendere', 'passatoRemoto', 2, 'fende');
+T('espandere', { passatoRemoto: ['espansi', 'espandesti', 'espanse'], pp: 'espanso', presente: ['espando', 'espandi'] });
+T('spandere', { pp: 'spanto', passatoRemoto: ['spansi'] });
+T('succedere', { passatoRemoto: ['successe'], pp: 'successo' });
+T('succedere', { passatoRemoto: ['succedette'], pp: 'succeduto' });
+T('convergere', { passatoRemoto: ['conversi', 'convergesti', 'converse'], pp: 'converso', presente: ['convergo', 'convergi'] });
+T('divergere', { passatoRemoto: ['diversi'], pp: '—', presente: ['divergo'] });
+T('aspergere', { passatoRemoto: ['aspersi'], pp: 'asperso' });
+T('indulgere', { passatoRemoto: ['indulsi'], pp: 'indulso', presente: ['indulgo'] });
+T('ergere', { pp: 'erto', passatoRemoto: ['ersi'] });
+T('configgere', { pp: 'confitto', passatoRemoto: ['confissi'] });
+T('infiggere', { pp: 'infisso', passatoRemoto: ['infissi'] });
+T('intrudere', { pp: 'intruso', passatoRemoto: ['intrusi'] });
+T('recludere', { pp: 'recluso', passatoRemoto: ['reclusi'] });
+T('vilipendere', { pp: 'vilipeso', passatoRemoto: ['vilipesi'] });
+T('riflettere', { pp: 'riflettuto', passatoRemoto: ['riflettei'] });
+T('riflettere', { pp: 'riflesso' });
+T('concedere', { passatoRemoto: ['concessi', 'concedesti', 'concesse'], pp: 'concesso' });
+T('concedere', { passatoRemoto: ['concedetti'] });
+T('esigere', { pp: 'esatto', passatoRemoto: ['esigei'] });
+T('transigere', { pp: 'transatto', passatoRemoto: ['transigei'] });
+T('evolvere', { pp: 'evoluto', passatoRemoto: ['evolvei'] });
+T('devolvere', { pp: 'devoluto' });
+T('possedere', { passatoRemoto: ['possedetti'], congiuntivoPresente: ['possieda'], futuro: ['possederò'] });
+T('soprassedere', { presente: ['soprassiedo'], pp: 'soprasseduto' });
+T('retrocedere', { pp: 'retroceduto', passatoRemoto: ['retrocedei'] });
+T('procedere', { pp: 'proceduto', passatoRemoto: ['procedetti'] });
+T('scuotere', { presente: ['scuoto'], passatoRemoto: ['scossi'], pp: 'scosso' });
+T('percuotere', { pp: 'percosso', passatoRemoto: ['percossi'] });
+T('ledere', { pp: 'leso', passatoRemoto: ['lesi'] });
+T('radere', { pp: 'raso', passatoRemoto: ['rasi'] });
+T('rodere', { pp: 'roso', passatoRemoto: ['rosi'] });
+T('mordere', { pp: 'morso', passatoRemoto: ['morsi'] });
+T('ardere', { pp: 'arso', passatoRemoto: ['arsi'] });
+T('scindere', { pp: 'scisso', passatoRemoto: ['scissi'] });
+T('flettere', { pp: 'flesso', passatoRemoto: ['flessi'] });
+T('incutere', { pp: 'incusso', passatoRemoto: ['incussi'] });
+T('redimere', { pp: 'redento', passatoRemoto: ['redensi'] });
+T('eccellere', { pp: 'eccelso', passatoRemoto: ['eccelsi'] });
+T('espellere', { passatoRemoto: ['espulsi', 'espellesti'] });
+T('rifulgere', { pp: 'rifulso', passatoRemoto: ['rifulsi'] });
+T('estinguere', { pp: 'estinto', passatoRemoto: ['estinsi'] });
+T('frangere', { pp: 'franto' });
+T('ungere', { pp: 'unto', passatoRemoto: ['unsi'] });
+T('mungere', { pp: 'munto', passatoRemoto: ['munsi'] });
+T('pungere', { pp: 'punto', passatoRemoto: ['punsi'] });
+T('fungere', { passatoRemoto: ['funsi'] });
+T('cingere', { pp: 'cinto', passatoRemoto: ['cinsi'] });
+T('tingere', { pp: 'tinto', passatoRemoto: ['tinsi'] });
+T('erigere', { pp: 'eretto', passatoRemoto: ['eressi'] });
+T('dirigere', { passatoRemoto: ['diressi', 'dirigesti'] });
+T('prediligere', { pp: 'prediletto', passatoRemoto: ['predilessi'] });
+T('negligere', { pp: 'negletto' });
+T('affiggere', { pp: 'affisso', passatoRemoto: ['affissi'] });
+T('trafiggere', { pp: 'trafitto', passatoRemoto: ['trafissi'] });
+T('crocifiggere', { pp: 'crocifisso' });
+T('infliggere', { pp: 'inflitto', passatoRemoto: ['inflissi'] });
+T('struggere', { pp: 'strutto', passatoRemoto: ['strussi'] });
+T('porgere', { pp: 'porto', passatoRemoto: ['porsi'] });
+T('scorgere', { pp: 'scorto', passatoRemoto: ['scorsi'] });
+T('torcere', { pp: 'torto', passatoRemoto: ['torsi'] });
+T('spargere', { pp: 'sparso', passatoRemoto: ['sparsi'] });
+T('emergere', { passatoRemoto: ['emersi', 'emergesti'] });
+T('difendere', { pp: 'difeso', passatoRemoto: ['difesi'] });
+T('esplodere', { pp: 'esploso', passatoRemoto: ['esplosi'] });
+T('persuadere', { pp: 'persuaso', passatoRemoto: ['persuasi', 'persuadesti'] });
+T('invadere', { pp: 'invaso', passatoRemoto: ['invasi'] });
+T('uccidere', { pp: 'ucciso', passatoRemoto: ['uccisi'] });
+T('nuocere', { presente: ['nuoccio', 'nuoci', 'nuoce', 'nociamo', 'nuocete', 'nuocciono'], passatoRemoto: ['nocqui', 'nuocesti', 'nocque'], pp: 'nociuto', congiuntivoPresente: ['nuoccia', null, null, null, 'nociate'] });
+T('giacere', { presente: ['giaccio', 'giaci'], passatoRemoto: ['giacqui'], pp: 'giaciuto' });
+T('dolere', { presente: ['dolgo', 'duoli', 'duole', 'doliamo', 'dolete', 'dolgono'], passatoRemoto: ['dolsi'], futuro: ['dorrò'], pp: 'doluto' });
+T('parere', { presente: ['paio', 'pari', 'pare', 'paiamo', 'parete', 'paiono'], passatoRemoto: ['parvi', 'paresti', 'parve'], futuro: ['parrò'], pp: 'parso', congiuntivoPresente: ['paia'] });
+none('parere', 'imperativo');
+T('pascere', { pp: 'pasciuto', passatoRemoto: ['pascei'] });
+T('mescere', { pp: 'mesciuto' });
+
+// -ire: apparire / cucire families, -isc- classification
+T('apparire', { passatoRemoto: ['apparvi', 'apparisti', 'apparve', 'apparimmo', 'appariste', 'apparvero'], congiuntivoPresente: ['appaia', null, null, 'appariamo', 'appariate', 'appaiano'], imperativo: ['appari', 'appaia'] });
+T('apparire', { passatoRemoto: ['apparii', null, 'apparì', null, null, 'apparirono'] });
+T('apparire', { passatoRemoto: ['apparsi', null, 'apparse'] });
+T('comparire', { presente: ['compaio', 'compari', 'compare', 'compariamo', 'comparite', 'compaiono'], passatoRemoto: ['comparvi'], pp: 'comparso' });
+T('scomparire', { presente: ['scompaio'], pp: 'scomparso', passatoRemoto: [null, null, 'scomparve'] });
+T('trasparire', { presente: ['traspaio', 'traspari', 'traspare', 'traspariamo', 'trasparite', 'traspaiono'], passatoRemoto: ['trasparii', null, 'trasparì'], pp: 'trasparso' });
+T('trasparire', { presente: ['trasparisco'], passatoRemoto: ['trasparvi'], pp: 'trasparito', congiuntivoPresente: ['trasparisca'] });
+T('sparire', { presente: ['sparisco', 'sparisci'], pp: 'sparito' });
+T('cucire', { presente: ['cucio', 'cuci', 'cuce', 'cuciamo', 'cucite', 'cuciono'], congiuntivoPresente: ['cucia', null, null, 'cuciamo', 'cuciate', 'cuciano'], imperativo: ['cuci', 'cucia'], pp: 'cucito' });
+T('scucire', { presente: ['scucio', 'scuci'], pp: 'scucito' });
+T('ricucire', { presente: ['ricucio', null, null, null, null, 'ricuciono'] });
+T('sdrucire', { presente: ['sdrucio', 'sdruci', 'sdruce', null, null, 'sdruciono'], congiuntivoPresente: ['sdrucia'] });
+no('sdrucire', 'presente', 0, 'sdruco');
+T('assorbire', { presente: ['assorbo', 'assorbi', 'assorbe', 'assorbiamo', 'assorbite', 'assorbono'], pp: 'assorbito' });
+T('assorbire', { presente: ['assorbisco', null, null, null, null, 'assorbiscono'], pp: 'assorto', congiuntivoPresente: ['assorbisca'] });
+T('spartire', { presente: ['spartisco', 'spartisci', 'spartisce', 'spartiamo', 'spartite', 'spartiscono'], congiuntivoPresente: ['spartisca'], imperativo: ['spartisci'] });
+T('ripartire', { presente: ['riparto', 'riparti', 'riparte'] });
+T('impartire', { presente: ['impartisco'] }, { isc: true });
+T('seppellire', { presente: ['seppellisco'], pp: 'sepolto' });
+T('seppellire', { pp: 'seppellito' });
+T('udire', { presente: ['odo', 'odi', 'ode', 'udiamo', 'udite', 'odono'], futuro: ['udirò'], congiuntivoPresente: ['oda'], imperativo: ['odi', 'oda', 'udiamo', 'udite', 'odano'] });
+T('salire', { imperativo: ['sali', 'salga', 'saliamo', 'salite', 'salgano'], congiuntivoPresente: [null, null, null, 'saliamo', 'saliate', 'salgano'] });
+T('morire', { congiuntivoPresente: ['muoia', null, null, 'moriamo', 'moriate', 'muoiano'], passatoRemoto: ['morii', 'moristi', 'morì'], imperativo: ['muori', 'muoia'] });
+T('morire', { futuro: ['morrò'] });
+T('venire', { imperfetto: ['venivo'], congiuntivoImperfetto: ['venissi'], ger: 'venendo' });
+
+// defective verbs (Treccani): missing participle / compound tenses are shown as "—"
+T('dirimere', { presente: ['dirimo', 'dirimi', 'dirime'], passatoRemoto: ['dirimei'], pp: '—', passatoProssimo: ['—'] });
+none('dirimere', 'imperativo');
+T('esimersi', { presente: ['mi esimo', 'ti esimi', 'si esime', 'ci esimiamo', 'vi esimete', 'si esimono'], pp: '—', futuro: ['mi esimerò'] });
+no('esimersi', 'presente', 3, "c'esimiamo");
+T('incombere', { presente: ['incombo', null, 'incombe'], pp: '—', passatoRemoto: ['incombei'] });
+none('incombere', 'imperativo');
+T('vertere', { presente: ['verto', null, 'verte', null, null, 'vertono'], pp: '—' });
+none('vertere', 'imperativo');
+T('incedere', { presente: ['incedo'], pp: '—', passatoRemoto: ['incedei', null, 'incedé'] });
+T('irrompere', { passatoRemoto: ['irruppi', 'irrompesti', 'irruppe'], pp: '—', presente: ['irrompo'] });
+T('erompere', { passatoRemoto: ['eruppi'], pp: '—' });
+T('prorompere', { passatoRemoto: ['proruppi'], pp: 'prorotto' });
+T('concernere', { presente: ['concerno', null, 'concerne', null, null, 'concernono'], passatoRemoto: ['concernei', null, 'concerné'], pp: 'concernuto' });
+none('concernere', 'imperativo');
+T('solere', { presente: ['soglio', 'suoli', 'suole', 'sogliamo', 'solete', 'sogliono'], imperfetto: ['solevo'], congiuntivoPresente: ['soglia'], passatoRemoto: ['—'], futuro: ['—'], pp: '—' });
+none('solere', 'imperativo');
+T('urgere', { presente: [null, null, 'urge', null, null, 'urgono'], imperfetto: [null, null, 'urgeva'], pp: '—', passatoRemoto: [null, null, '—'] });
+T('splendere', { presente: ['splendo'], passatoRemoto: ['splendei'], pp: '—' });
+T('competere', { pp: '—', presente: ['competo'] });
+checks++; if (MISSING !== '—') { fails++; console.log('FAIL MISSING placeholder'); }
+checks++; if (!conjugate('dirimere').defective.includes('participioPassato')) { fails++; console.log('FAIL dirimere.defective'); }
+checks++; if (conjugate('capire').defective.length) { fails++; console.log('FAIL capire.defective should be empty'); }
+
+// -iare with stressed i, -gnare, other spelling
+T('spiare', { presente: ['spio', 'spii', 'spia', 'spiamo', 'spiate', 'spiano'], congiuntivoPresente: ['spii', null, null, null, null, 'spiino'] });
+T('avviare', { presente: ['avvio', 'avvii'], congiuntivoPresente: ['avvii'] });
+T('ravviare', { presente: ['ravvio', 'ravvii'] });
+T('obliare', { presente: ['oblio', 'oblii'] });
+T('deviare', { presente: ['devio', 'devii'], futuro: ['devierò'] });
+T('espiare', { presente: ['espio', 'espii'] });
+T('odiare', { presente: ['odio', 'odi', 'odia', 'odiamo'] });
+T('calunniare', { presente: ['calunnio', 'calunni'] });
+T('sciare', { congiuntivoPresente: ['scii', null, null, 'sciamo', 'sciate', 'sciino'] });
+T('sognare', { presente: [null, null, null, 'sognamo'], congiuntivoPresente: [null, null, null, 'sogniamo', 'sogniate'] });
+T('sognare', { congiuntivoPresente: [null, null, null, null, 'sognate'] });
+T('bagnare', { presente: [null, null, null, 'bagniamo'], congiuntivoPresente: [null, null, null, null, 'bagniate'], imperativo: [null, null, 'bagniamo'] });
+T('adeguare', { presente: ['adeguo', 'adegui', 'adegua', 'adeguiamo'], futuro: ['adeguerò'] });
+T('permeare', { presente: ['permeo', 'permei', null, 'permeiamo'], futuro: ['permeerò'] });
+T('bearsi', { presente: ['mi beo', 'ti bei', 'si bea'] });
+T('googlare', { presente: ['googlo', 'googli'] });
+
+// pronominal verbs (-sene, -sela, -cela, -ci, -la, -lo)
+T('andarsene', { imperativo: ['vattene', 'se ne vada', 'andiamocene', 'andatevene', 'se ne vadano'], presente: ['me ne vado'], futuro: [null, null, 'se ne andrà'], passatoProssimo: [null, null, 'se ne è andato/a'], ger: 'andandosene' });
+no('andarsene', 'imperativo', 0, 'vaitene');
+T('farcela', { imperativo: ['faccela'], passatoProssimo: ["ce l'ho fatta", null, "ce l'ha fatta", "ce l'abbiamo fatta"], presente: ['ce la faccio'], ger: 'facendocela' });
+no('farcela', 'imperativo', 0, 'faicela');
+T('darsela', { imperativo: ['dattela', 'se la dia', 'diamocela', 'datevela'], presente: ['me la do', 'te la dai', 'se la dà'], passatoProssimo: ['me la sono data', null, "se l'è data"] });
+no('darsela', 'imperativo', 0, 'daitela');
+T('starci', { imperativo: ['stacci', 'ci stia', 'stiamoci', 'stateci'], presente: ['ci sto', 'ci stai', 'ci sta'], passatoProssimo: ['ci sono stato/a'], ger: 'standoci' }, { aux: 'essere' });
+no('starci', 'imperativo', 0, 'staici', { aux: 'essere' });
+T('avercela', { presente: ["ce l'ho", "ce l'hai", "ce l'ha", "ce l'abbiamo", "ce l'avete", "ce l'hanno"], imperfetto: ["ce l'avevo"], passatoProssimo: ["ce l'ho avuta", null, "ce l'ha avuta"], futuro: ["ce l'avrò"] });
+no('avercela', 'presente', 0, 'ce la ho');
+T('esserci', { presente: ['ci sono', 'ci sei', "c'è", 'ci siamo', 'ci siete', 'ci sono'], imperfetto: ["c'ero", "c'eri", "c'era", "c'eravamo", "c'eravate", "c'erano"], passatoProssimo: [null, null, "c'è stato/a"], futuro: [null, null, 'ci sarà'], congiuntivoPresente: [null, null, 'ci sia'], pp: 'stato' }, { aux: 'essere' });
+T('entrarci', { presente: ["c'entro", "c'entri", "c'entra", null, null, "c'entrano"], imperfetto: [null, null, "c'entrava"], passatoProssimo: [null, null, "c'è entrato/a"], imperativo: ['entraci'] }, { aux: 'essere' });
+T('volerci', { passatoProssimo: [null, null, "c'è voluto/a", null, null, 'ci sono voluti/e'], imperfetto: [null, null, 'ci voleva'], trapassatoProssimo: [null, null, "c'era voluto/a"] }, { aux: 'essere' });
+T('metterci', { passatoProssimo: ['ci ho messo', null, 'ci ha messo'], imperativo: ['mettici', 'ci metta', 'mettiamoci', 'metteteci', 'ci mettano'], futuro: ['ci metterò'], ger: 'mettendoci' });
+no('metterci', 'trapassatoRemoto', 0, "c'ebbi messo");
+T('aspettarsela', { presente: ["me l'aspetto", "te l'aspetti", "se l'aspetta"], passatoProssimo: ['me la sono aspettata', null, "se l'è aspettata"] });
+T('aspettarsela', { presente: ['me la aspetto'] });
+T('prendersela', { imperativo: ['prenditela', 'se la prenda', 'prendiamocela', 'prendetevela', 'se la prendano'], passatoProssimo: ['me la sono presa', 'te la sei presa', "se l'è presa", 'ce la siamo presa', 've la siete presa', 'se la sono presa'], ger: 'prendendosela', futuro: ['me la prenderò'] });
+T('sentirsela', { presente: ['me la sento', 'te la senti'], passatoProssimo: ['me la sono sentita'], imperativo: ['sentitela'] });
+T('fregarsene', { imperativo: ['fregatene', 'se ne freghi', 'freghiamocene', 'fregatevene', 'se ne freghino'], congiuntivoPresente: ['me ne freghi'], ger: 'fregandosene' });
+T('intendersene', { presente: ['me ne intendo', null, 'se ne intende'], passatoProssimo: ['me ne sono inteso/a'], imperativo: ['intenditene'] });
+T('accorgersene', { passatoRemoto: ['me ne accorsi'], passatoProssimo: [null, null, 'se ne è accorto/a'], imperativo: ['accorgitene', null, 'accorgiamocene'] });
+T('starsene', { presente: ['me ne sto', 'te ne stai', 'se ne sta', 'ce ne stiamo', 've ne state', 'se ne stanno'], imperativo: ['stattene', 'se ne stia', 'stiamocene', 'statevene'], passatoProssimo: ['me ne sono stato/a'] }, { aux: 'essere' });
+T('venirsene', { presente: ['me ne vengo', 'te ne vieni'], imperativo: ['vienitene'], passatoProssimo: ['me ne sono venuto/a'] });
+T('uscirsene', { presente: ['me ne esco', null, 'se ne esce', 'ce ne usciamo'], imperativo: ['escitene'] });
+T('tornarsene', { presente: ['me ne torno'], passatoProssimo: ['me ne sono tornato/a'], imperativo: ['tornatene'] }, { aux: 'essere' });
+T('dimenticarsene', { presente: ['me ne dimentico', 'te ne dimentichi'], futuro: ['me ne dimenticherò'], imperativo: ['dimenticatene', null, 'dimentichiamocene'] });
+T('infischiarsene', { presente: ['me ne infischio', 'te ne infischi'], imperativo: ['infischiatene'] });
+T('smetterla', { passatoProssimo: ["l'ho smessa", "l'hai smessa", "l'ha smessa"], imperativo: ['smettila', 'la smetta', 'smettiamola', 'smettetela', 'la smettano'], futuro: ['la smetterò'], ger: 'smettendola' });
+T('finirla', { imperativo: ['finiscila', 'la finisca', 'finiamola', 'finitela'], passatoProssimo: ["l'ho finita"], presente: ['la finisco'] });
+T('piantarla', { imperativo: ['piantala'], passatoProssimo: ["l'ho piantata"] });
+T('spuntarla', { passatoProssimo: ["l'ho spuntata", null, "l'ha spuntata"], futuro: ['la spunterò'] });
+T('dirlo', { imperativo: ['dillo', 'lo dica', 'diciamolo', 'ditelo', 'lo dicano'], passatoProssimo: ["l'ho detto"], presente: ['lo dico'] });
+T('farlo', { imperativo: ['fallo', null, 'facciamolo', 'fatelo'], passatoProssimo: ["l'ho fatto"], ger: 'facendolo' });
+T('darla', { imperativo: ['dalla'], passatoProssimo: ["l'ho data"] });
+T('andarci', { imperativo: ['vacci', 'ci vada', 'andiamoci', 'andateci', 'ci vadano'], passatoProssimo: ['ci sono andato/a', null, "c'è andato/a"], presente: ['ci vado'] }, { aux: 'essere' });
+T('pensarci', { imperativo: ['pensaci', 'ci pensi'], passatoProssimo: ['ci ho pensato'], presente: ['ci penso'] });
+T('tenerci', { presente: ['ci tengo', 'ci tieni'], imperativo: ['tienici'], futuro: ['ci terrò'] });
+T('riuscirci', { presente: ['ci riesco'], passatoProssimo: ['ci sono riuscito/a'], imperativo: ['riescici'] }, { aux: 'essere' });
+T('cavarsela', { imperativo: ['cavatela', 'se la cavi', 'caviamocela', 'cavatevela', 'se la cavino'], passatoProssimo: [null, null, "se l'è cavata"], congiuntivoPresente: ['me la cavi'], ger: 'cavandosela' });
+T('sbrigarsela', { presente: ['me la sbrigo', 'te la sbrighi'], futuro: ['me la sbrigherò'], imperativo: ['sbrigatela', null, 'sbrighiamocela'] });
+T('godersela', { presente: ['me la godo'], passatoProssimo: ['me la sono goduta'], imperativo: ['goditela'] });
+T('bersela', { presente: ['me la bevo'], passatoRemoto: ['me la bevvi'], futuro: ['me la berrò'], passatoProssimo: ['me la sono bevuta'] });
+T('vedersela', { passatoProssimo: ['me la sono vista'], imperativo: ['veditela'], futuro: ['me la vedrò'] });
+T('sapersela', { presente: ['me la so', null, 'se la sa'], imperativo: ['sappitela'] });
+T('svignarsela', { presente: ['me la svigno'], passatoProssimo: ['me la sono svignata'], imperativo: ['svignatela'] });
+T('filarsela', { imperativo: ['filatela'], passatoProssimo: [null, null, "se l'è filata"] });
+T('passarsela', { presente: ['me la passo', null, 'se la passa'], imperfetto: ['me la passavo'] });
+// reflexive derivatives (looked up by their base infinitive)
+T('opporsi', { presente: ['mi oppongo', 'ti opponi'], passatoProssimo: ['mi sono opposto/a'], imperativo: ['opponiti', 'si opponga'] });
+T('ridursi', { imperativo: ['riduciti'], passatoProssimo: ['mi sono ridotto/a'], imperfetto: ['mi riducevo'] });
+T('sottrarsi', { passatoProssimo: ['mi sono sottratto/a'], imperativo: ['sottraiti', 'si sottragga'], passatoRemoto: ['mi sottrassi'] });
+T('sedersi', { imperativo: ['siediti', 'si sieda', 'sediamoci', 'sedetevi', 'si siedano'], passatoProssimo: ['mi sono seduto/a'] });
+T('accorgersi', { imperativo: ['accorgiti', 'si accorga', 'accorgiamoci', 'accorgetevi', 'si accorgano'] });
+T('condolersi', { presente: ['mi condolgo', 'ti conduoli', 'si conduole', null, 'vi condolete', 'si condolgono'], passatoRemoto: ['mi condolsi'], futuro: ['mi condorrò'], pp: 'condoluto' });
+T('avvedersi', { passatoRemoto: ['mi avvidi', 'ti avvedesti', 'si avvide'], pp: 'avveduto', futuro: ['mi avvedrò'], passatoProssimo: ['mi sono avveduto/a'] });
+no('avvedersi', 'pp', 0, 'avvisto');
+T('ravvedersi', { passatoRemoto: ['mi ravvidi'], pp: 'ravveduto', passatoProssimo: [null, null, 'si è ravveduto/a'] });
+no('ravvedersi', 'pp', 0, 'ravvisto');
+T('accingersi', { presente: ['mi accingo'], passatoRemoto: ['mi accinsi'], pp: 'accinto' });
+T('astenersi', { presente: ['mi astengo', 'ti astieni'], futuro: ['mi asterrò'], pp: 'astenuto', passatoRemoto: ['mi astenni'] });
+T('attenersi', { presente: ['mi attengo', 'ti attieni', 'si attiene'], imperativo: ['attieniti'] });
+T('intromettersi', { presente: ['mi intrometto'], pp: 'intromesso', passatoRemoto: ['mi intromisi'] });
+T('rivalersi', { presente: ['mi rivalgo'], pp: 'rivalso', futuro: ['mi rivarrò'] });
+T('rapprendersi', { pp: 'rappreso', passatoRemoto: [null, null, 'si rapprese'] });
+T('arrendersi', { pp: 'arreso', passatoRemoto: ['mi arresi'], imperativo: ['arrenditi'] });
+T('prefiggersi', { pp: 'prefisso', passatoRemoto: ['mi prefissi'], passatoProssimo: ['mi sono prefisso/a'] });
+T('imbattersi', { presente: ['mi imbatto'], pp: 'imbattuto', passatoRemoto: ['mi imbattei'] });
+T('genuflettersi', { pp: 'genuflesso', passatoRemoto: ['mi genuflessi'] });
+T('addirsi', { presente: [null, null, 'si addice', null, null, 'si addicono'] });
+
+// prefixed derivatives of fare / dare / stare / andare / dire (accented monosyllables, no "contraddi'")
+T('rifare', { presente: ['rifaccio', 'rifai', 'rifà', 'rifacciamo', 'rifate', 'rifanno'], imperativo: ["rifa'", 'rifaccia', 'rifacciamo', 'rifate', 'rifacciano'], passatoRemoto: ['rifeci', 'rifacesti'], futuro: ['rifarò'], ger: 'rifacendo' });
+T('rifare', { imperativo: ['rifà'], presente: [null, null, 'rifa'] });
+T('disfare', { presente: ['disfaccio', null, 'disfà'], pp: 'disfatto', passatoRemoto: ['disfeci'] });
+T('soddisfare', { presente: ['soddisfaccio', 'soddisfai', 'soddisfa', 'soddisfacciamo', 'soddisfate', 'soddisfanno'], congiuntivoPresente: ['soddisfaccia'], imperativo: ['soddisfa', 'soddisfaccia'], futuro: ['soddisfarò'], passatoRemoto: ['soddisfeci', 'soddisfacesti'], pp: 'soddisfatto', imperfetto: ['soddisfacevo'] });
+T('soddisfare', { presente: ['soddisfo', 'soddisfi', null, 'soddisfiamo', null, 'soddisfano'], congiuntivoPresente: ['soddisfi'], futuro: ['soddisferò'], imperativo: ['soddisfai', 'soddisfi'] });
+T('contraffare', { presente: ['contraffaccio'], pp: 'contraffatto' });
+T('liquefare', { presente: ['liquefaccio', null, 'liquefà'], pp: 'liquefatto' });
+T('strafare', { presente: ['strafaccio', null, 'strafà'], pp: 'strafatto' });
+T('sopraffare', { pp: 'sopraffatto', passatoRemoto: ['sopraffeci'] });
+T('stupefare', { pp: 'stupefatto' });
+T('assuefare', { pp: 'assuefatto' });
+T('tumefare', { pp: 'tumefatto' });
+T('putrefare', { pp: 'putrefatto' });
+T('ridare', { presente: ['ridò', 'ridai', 'ridà', 'ridiamo', 'ridate', 'ridanno'], passatoRemoto: ['ridiedi', 'ridesti', 'ridiede'], congiuntivoPresente: ['ridia'], imperativo: ["rida'", 'ridia'], futuro: ['ridarò'], pp: 'ridato' });
+T('ridare', { imperativo: ['ridà'], presente: ['rido'] });
+T('sottostare', { presente: ['sottostò', 'sottostai', 'sottostà', 'sottostiamo', 'sottostate', 'sottostanno'], passatoRemoto: ['sottostetti'], congiuntivoPresente: ['sottostia'], pp: 'sottostato', imperativo: ['sottostà'] });
+T('riandare', { presente: ['rivado', 'rivai', 'rivà'], futuro: ['riandrò'], imperativo: ["riva'"] }, { aux: 'essere' });
+T('contraddire', { imperativo: ['contraddici', 'contraddica', 'contraddiciamo', 'contraddite', 'contraddicano'], presente: [null, null, null, null, 'contraddite'], passatoRemoto: ['contraddissi'], ger: 'contraddicendo' });
+no('contraddire', 'imperativo', 0, "contraddi'");
+T('benedire', { presente: ['benedico', 'benedici', 'benedice', 'benediciamo', 'benedite', 'benedicono'], passatoRemoto: ['benedissi'], pp: 'benedetto', imperativo: ['benedici'], imperfetto: ['benedicevo'] });
+T('maledire', { pp: 'maledetto', presente: ['maledico'], imperativo: ['maledici'] });
+T('predire', { pp: 'predetto', futuro: ['predirò'] });
+T('disdire', { pp: 'disdetto', presente: ['disdico', 'disdici'] });
+T('indire', { presente: ['indico'], pp: 'indetto', imperativo: ['indici'] });
+no('indire', 'imperativo', 0, "indi'");
+T('interdire', { pp: 'interdetto', passatoRemoto: ['interdissi'] });
+T('risapere', { pp: 'risaputo', futuro: ['risaprò'] });
+T('rivolere', { presente: ['rivoglio', 'rivuoi'], futuro: ['rivorrò'], pp: 'rivoluto' });
+T('riudire', { presente: ['riodo', 'riodi'], futuro: ['riudirò'] });
+T('fuoriuscire', { presente: ['fuoriesco', null, 'fuoriesce'], pp: 'fuoriuscito' });
+// -rre derivatives
+T('riproporre', { presente: ['ripropongo', 'riproponi'], pp: 'riproposto', futuro: ['riproporrò'], passatoRemoto: ['riproposi'] });
+T('sovraesporre', { pp: 'sovraesposto', presente: ['sovraespongo'] });
+T('presupporre', { presente: ['presuppongo'], pp: 'presupposto', passatoRemoto: ['presupposi'], imperfetto: ['presupponevo'] });
+T('contrapporre', { pp: 'contrapposto', ger: 'contrapponendo' });
+T('decomporre', { pp: 'decomposto', presente: ['decompongo'] });
+T('anteporre', { pp: 'anteposto', congiuntivoPresente: ['anteponga'] });
+T('ricondurre', { presente: ['riconduco'], pp: 'ricondotto', passatoRemoto: ['ricondussi'], futuro: ['ricondurrò'], imperfetto: ['riconducevo'] });
+T('riprodurre', { pp: 'riprodotto', presente: ['riproduco', 'riproduci'] });
+T('sedurre', { pp: 'sedotto', passatoRemoto: ['sedussi'], futuro: ['sedurrò'] });
+T('addurre', { pp: 'addotto', presente: ['adduco'] });
+T('introdurre', { pp: 'introdotto', ger: 'introducendo', congiuntivoImperfetto: ['introducessi'] });
+T('dedurre', { pp: 'dedotto', passatoRemoto: ['dedussi', 'deducesti'] });
+T('protrarre', { presente: ['protraggo', 'protrai', 'protrae', 'protraiamo', 'protraete', 'protraggono'], pp: 'protratto', passatoRemoto: ['protrassi'], futuro: ['protrarrò'], imperfetto: ['protraevo'] });
+T('contrarre', { pp: 'contratto', presente: ['contraggo'], ger: 'contraendo' });
+T('estrarre', { pp: 'estratto', passatoRemoto: ['estrassi', 'estraesti'] });
+T('detrarre', { pp: 'detratto' });
+T('ritrarre', { pp: 'ritratto', presente: ['ritraggo'] });
+T('astrarre', { pp: 'astratto' });
+// venire / tenere / valere / cadere / vedere derivatives
+T('sopravvenire', { presente: [null, null, 'sopravviene'], pp: 'sopravvenuto', passatoRemoto: [null, null, 'sopravvenne'] });
+T('contravvenire', { presente: ['contravvengo'], futuro: ['contravverrò'], pp: 'contravvenuto' });
+T('rinvenire', { presente: ['rinvengo', 'rinvieni'], pp: 'rinvenuto', passatoRemoto: ['rinvenni'] });
+T('svenire', { presente: ['svengo', 'svieni', 'sviene'], pp: 'svenuto', futuro: ['sverrò'] });
+T('avvenire', { presente: [null, null, 'avviene'], passatoRemoto: [null, null, 'avvenne'], pp: 'avvenuto' });
+T('convenire', { presente: ['convengo'], futuro: ['converrò'], pp: 'convenuto' });
+T('intrattenere', { presente: ['intrattengo', 'intrattieni'], futuro: ['intratterrò'], pp: 'intrattenuto', passatoRemoto: ['intrattenni'] });
+T('contenere', { presente: ['contengo', null, 'contiene'], pp: 'contenuto', futuro: ['conterrò'] });
+T('detenere', { presente: ['detengo'], passatoRemoto: ['detenni'] });
+T('sostenere', { presente: ['sostengo', 'sostieni', 'sostiene', 'sosteniamo', 'sostenete', 'sostengono'], congiuntivoPresente: ['sostenga'], imperativo: ['sostieni'] });
+T('equivalere', { presente: ['equivalgo', null, 'equivale'], pp: 'equivalso', futuro: ['equivarrò'] });
+T('prevalere', { pp: 'prevalso', passatoRemoto: ['prevalsi'] });
+T('avvalersi', { presente: ['mi avvalgo'], pp: 'avvalso' });
+T('compiacere', { presente: ['compiaccio'], pp: 'compiaciuto', passatoRemoto: ['compiacqui'] });
+T('soggiacere', { presente: ['soggiaccio'], pp: 'soggiaciuto' });
+T('accadere', { passatoRemoto: [null, null, 'accadde'], futuro: [null, null, 'accadrà'], pp: 'accaduto' });
+T('scadere', { futuro: ['scadrò'], passatoRemoto: ['scaddi'], pp: 'scaduto' });
+T('decadere', { futuro: ['decadrò'] });
+T('rivedere', { passatoRemoto: ['rividi'], pp: 'rivisto', futuro: ['rivedrò'] });
+T('intravedere', { pp: 'intravisto', passatoRemoto: ['intravidi'] });
+T('stravedere', { presente: ['stravedo'], pp: 'stravisto' });
+T('prevedere', { futuro: ['prevedrò'], pp: 'previsto', passatoRemoto: ['previdi'] });
+T('provvedere', { futuro: ['provvederò'], condizionale: ['provvederei'] });
+T('richiedere', { passatoRemoto: ['richiesi'], pp: 'richiesto' });
+// -udere / -idere / -adere / -odere derivatives
+T('rinchiudere', { pp: 'rinchiuso', passatoRemoto: ['rinchiusi'] });
+T('racchiudere', { pp: 'racchiuso' });
+T('socchiudere', { pp: 'socchiuso' });
+T('dischiudere', { pp: 'dischiuso' });
+T('richiudere', { pp: 'richiuso' });
+T('includere', { pp: 'incluso', passatoRemoto: ['inclusi'] });
+T('precludere', { pp: 'precluso' });
+T('occludere', { pp: 'occluso' });
+T('illudere', { pp: 'illuso', passatoRemoto: ['illusi'] });
+T('eludere', { pp: 'eluso' });
+T('alludere', { pp: 'alluso', passatoRemoto: ['allusi'] });
+T('colludere', { pp: 'colluso' });
+T('circoncidere', { pp: 'circonciso' });
+T('coincidere', { pp: 'coinciso', passatoRemoto: [null, null, 'coincise'] });
+T('recidere', { pp: 'reciso' });
+T('elidere', { pp: 'eliso' });
+T('collidere', { pp: 'colliso' });
+T('deridere', { pp: 'deriso', passatoRemoto: ['derisi'] });
+T('irridere', { pp: 'irriso' });
+T('suddividere', { pp: 'suddiviso' });
+T('evadere', { pp: 'evaso' });
+T('pervadere', { pp: 'pervaso' });
+T('dissuadere', { pp: 'dissuaso' });
+T('corrodere', { pp: 'corroso', passatoRemoto: ['corrosi'] });
+T('erodere', { pp: 'eroso' });
+T('implodere', { pp: 'imploso' });
+// -ergere / -orgere / -olvere / -ungere / -igere / -iggere / -uotere derivatives
+T('immergere', { pp: 'immerso', passatoRemoto: ['immersi'] });
+T('sommergere', { pp: 'sommerso' });
+T('detergere', { pp: 'deterso' });
+T('assurgere', { pp: 'assurto', passatoRemoto: ['assursi'] });
+T('risorgere', { pp: 'risorto', passatoRemoto: ['risorsi'] });
+T('insorgere', { pp: 'insorto' });
+T('sporgere', { pp: 'sporto', passatoRemoto: ['sporsi'] });
+T('dissolvere', { pp: 'dissolto', passatoRemoto: ['dissolsi'] });
+T('assolvere', { pp: 'assolto', passatoRemoto: ['assolsi'] });
+T('congiungere', { pp: 'congiunto', passatoRemoto: ['congiunsi'] });
+T('disgiungere', { pp: 'disgiunto' });
+T('soggiungere', { pp: 'soggiunto' });
+T('ingiungere', { pp: 'ingiunto' });
+T('sopraggiungere', { pp: 'sopraggiunto', passatoRemoto: [null, null, 'sopraggiunse'] });
+T('espungere', { pp: 'espunto' });
+T('prefiggere', { pp: 'prefisso' });
+T('soffriggere', { pp: 'soffritto' });
+T('rileggere', { pp: 'riletto', passatoRemoto: ['rilessi'] });
+T('rieleggere', { pp: 'rieletto' });
+T('sorreggere', { pp: 'sorretto', passatoRemoto: ['sorressi'] });
+T('correggere', { passatoRemoto: ['corressi'], pp: 'corretto' });
+T('riscuotere', { pp: 'riscosso', passatoRemoto: ['riscossi'] });
+T('ripercuotere', { pp: 'ripercosso' });
+T('rescindere', { pp: 'rescisso', passatoRemoto: ['rescissi'] });
+T('deflettere', { pp: 'deflesso' });
+T('annettere', { pp: 'annesso', passatoRemoto: ['annessi'] });
+T('disconnettere', { pp: 'disconnesso' });
+T('interconnettere', { pp: 'interconnesso' });
+T('sconnettere', { pp: 'sconnesso' });
+T('ridiscutere', { pp: 'ridiscusso' });
+T('presumere', { pp: 'presunto', passatoRemoto: ['presunsi'] });
+T('riassumere', { pp: 'riassunto' });
+T('desumere', { pp: 'desunto' });
+T('comprimere', { pp: 'compresso', passatoRemoto: ['compressi'] });
+T('sopprimere', { pp: 'soppresso' });
+T('imprimere', { pp: 'impresso' });
+T('opprimere', { pp: 'oppresso' });
+T('repellere', { pp: 'repulso' });
+T('avvincere', { pp: 'avvinto' });
+T('evincere', { pp: 'evinto', passatoRemoto: ['evinsi'] });
+T('stravincere', { pp: 'stravinto' });
+T('rimpiangere', { pp: 'rimpianto', passatoRemoto: ['rimpiansi'] });
+T('compiangere', { pp: 'compianto' });
+T('infrangere', { pp: 'infranto', passatoRemoto: ['infransi'] });
+T('sospingere', { pp: 'sospinto' });
+T('respingere', { pp: 'respinto', passatoRemoto: ['respinsi'] });
+T('astringere', { pp: 'astretto' });
+T('attingere', { pp: 'attinto', passatoRemoto: ['attinsi'] });
+T('stingere', { pp: 'stinto' });
+T('recingere', { pp: 'recinto' });
+T('ridipingere', { pp: 'ridipinto' });
+// -gliere / -correre / -mettere / -vivere / -scrivere / -scere / -uovere / -mpere / -rcere / -lgere / -ndere derivatives
+T('accogliere', { presente: ['accolgo', 'accogli'], pp: 'accolto', passatoRemoto: ['accolsi'] });
+T('prescegliere', { pp: 'prescelto', presente: ['prescelgo'] });
+T('distogliere', { pp: 'distolto', presente: ['distolgo'], passatoRemoto: ['distolsi'] });
+T('disciogliere', { pp: 'disciolto' });
+T('ricogliere', { pp: 'ricolto' });
+T('rincorrere', { pp: 'rincorso', passatoRemoto: ['rincorsi'] });
+T('occorrere', { passatoRemoto: [null, null, 'occorse'], pp: 'occorso' });
+T('concorrere', { pp: 'concorso' });
+T('decorrere', { pp: 'decorso' });
+T('incorrere', { pp: 'incorso' });
+T('discorrere', { pp: 'discorso', passatoRemoto: ['discorsi'] });
+T('accorrere', { pp: 'accorso' });
+T('intercorrere', { pp: 'intercorso' });
+T('compromettere', { pp: 'compromesso', passatoRemoto: ['compromisi'] });
+T('frammettere', { pp: 'frammesso' });
+T('manomettere', { pp: 'manomesso', passatoRemoto: ['manomisi'] });
+T('sottomettere', { pp: 'sottomesso' });
+T('dimettere', { pp: 'dimesso' });
+T('emettere', { pp: 'emesso', passatoRemoto: ['emisi'] });
+T('immettere', { pp: 'immesso' });
+T('premettere', { pp: 'premesso' });
+T('omettere', { pp: 'omesso', passatoRemoto: ['omisi'] });
+T('rimettere', { pp: 'rimesso' });
+T('convivere', { pp: 'convissuto', passatoRemoto: ['convissi'], futuro: ['convivrò'] });
+T('rivivere', { pp: 'rivissuto' });
+T('sopravvivere', { futuro: ['sopravvivrò'] });
+T('iscrivere', { pp: 'iscritto', passatoRemoto: ['iscrissi'] });
+T('prescrivere', { pp: 'prescritto' });
+T('sottoscrivere', { pp: 'sottoscritto', passatoRemoto: ['sottoscrissi'] });
+T('trascrivere', { pp: 'trascritto' });
+T('circoscrivere', { pp: 'circoscritto' });
+T('ascrivere', { pp: 'ascritto' });
+T('proscrivere', { pp: 'proscritto' });
+T('riscrivere', { pp: 'riscritto' });
+T('rinascere', { pp: 'rinato', passatoRemoto: ['rinacqui'] });
+T('riconoscere', { pp: 'riconosciuto', passatoRemoto: ['riconobbi'] });
+T('disconoscere', { pp: 'disconosciuto' });
+T('misconoscere', { pp: 'misconosciuto' });
+T('accrescere', { pp: 'accresciuto', passatoRemoto: ['accrebbi'] });
+T('rincrescere', { pp: 'rincresciuto', passatoRemoto: [null, null, 'rincrebbe'] });
+T('decrescere', { pp: 'decresciuto' });
+T('smuovere', { pp: 'smosso', passatoRemoto: ['smossi'] });
+T('rimuovere', { pp: 'rimosso', presente: ['rimuovo'] });
+T('promuovere', { passatoRemoto: ['promossi'] });
+T('corrompere', { pp: 'corrotto', passatoRemoto: ['corruppi'] });
+T('dirompere', { pp: 'dirotto' });
+T('scuocere', { pp: 'scotto', passatoRemoto: ['scossi'] });
+T('cospargere', { pp: 'cosparso', passatoRemoto: ['cosparsi'] });
+T('contorcere', { pp: 'contorto', passatoRemoto: ['contorsi'] });
+T('estorcere', { pp: 'estorto' });
+T('distorcere', { pp: 'distorto' });
+T('storcere', { pp: 'storto', passatoRemoto: ['storsi'] });
+T('ritorcere', { pp: 'ritorto' });
+T('capovolgere', { pp: 'capovolto', passatoRemoto: ['capovolsi'] });
+T('sconvolgere', { pp: 'sconvolto' });
+T('stravolgere', { pp: 'stravolto' });
+T('travolgere', { pp: 'travolto', passatoRemoto: ['travolsi'] });
+T('avvolgere', { pp: 'avvolto' });
+T('involgere', { pp: 'involto' });
+T('rivolgere', { passatoRemoto: ['rivolsi'] });
+T('disperdere', { pp: 'disperso', passatoRemoto: ['dispersi'] });
+T('sperdere', { pp: 'sperso' });
+T('riaccendere', { pp: 'riacceso' });
+T('rinascondere', { pp: 'rinascosto' });
+T('corrispondere', { pp: 'corrisposto', passatoRemoto: ['corrisposi'] });
+T('trasfondere', { pp: 'trasfuso' });
+T('profondere', { pp: 'profuso', passatoRemoto: ['profusi'] });
+T('effondere', { pp: 'effuso' });
+T('rifondere', { pp: 'rifuso' });
+T('infondere', { pp: 'infuso' });
+T('ascendere', { pp: 'asceso', passatoRemoto: ['ascesi'] });
+T('discendere', { pp: 'disceso' });
+T('condiscendere', { pp: 'condisceso' });
+T('trascendere', { pp: 'trasceso' });
+T('propendere', { pp: 'propeso' });
+T('sospendere', { passatoRemoto: ['sospesi'] });
+T('stendere', { pp: 'steso', passatoRemoto: ['stesi'] });
+T('distendere', { pp: 'disteso' });
+T('contendere', { pp: 'conteso' });
+T('protendere', { pp: 'proteso' });
+T('sottintendere', { pp: 'sottinteso', passatoRemoto: ['sottintesi'] });
+T('fraintendere', { pp: 'frainteso', passatoRemoto: ['fraintesi'] });
+T('attendere', { pp: 'atteso', passatoRemoto: ['attesi'] });
+T('disattendere', { passatoRemoto: ['disattesi'] });
+// -ire derivatives
+T('riaprire', { pp: 'riaperto', presente: ['riapro'] });
+T('ricoprire', { pp: 'ricoperto' });
+T('riscoprire', { presente: ['riscopro'] });
+T('riapparire', { presente: ['riappaio'], pp: 'riapparso', passatoRemoto: ['riapparvi'] });
+T('ricomparire', { presente: ['ricompaio'], pp: 'ricomparso' });
+T('assalire', { presente: ['assalgo', 'assali'], congiuntivoPresente: ['assalga'], pp: 'assalito' });
+T('risalire', { presente: ['risalgo', null, null, null, null, 'risalgono'] });
+// regular verbs that must not be derived from a shorter irregular base
+T('rimandare', { presente: ['rimando'], pp: 'rimandato', passatoRemoto: ['rimandai'] });
+T('comandare', { presente: ['comando', 'comandi'], futuro: ['comanderò'] });
+T('sedare', { presente: ['sedo', 'sedi', 'seda'], passatoRemoto: ['sedai'] });
+T('spedire', { presente: ['spedisco'], pp: 'spedito' });
+T('tradire', { presente: ['tradisco'], pp: 'tradito' });
+T('condire', { presente: ['condisco'], pp: 'condito' });
+T('rivendere', { pp: 'rivenduto', passatoRemoto: ['rivendei'] });
+T('ricredersi', { pp: 'ricreduto', presente: ['mi ricredo'] });
+T('presiedere', { presente: ['presiedo', 'presiedi'], pp: 'presieduto', passatoRemoto: ['presiedetti'] });
+T('risiedere', { presente: ['risiedo'], pp: 'risieduto' });
+T('sbattere', { pp: 'sbattuto', passatoRemoto: ['sbattei'] });
+T('preesistere', { pp: 'preesistito' });
+T('accostare', { presente: ['accosto'], futuro: ['accosterò'] });
+T('sostare', { presente: ['sosto'], passatoRemoto: ['sostai'], pp: 'sostato' });
+T('soccombere', { pp: 'soccombuto', presente: ['soccombo'] });
+
+// regularity: regularParadigm / irregularCells power the "why it's irregular" explanations
+const ALL6 = [0, 1, 2, 3, 4, 5];
+function cells(inf, meta, expected, absent = []) {
+  const got = irregularCells(inf, meta);
+  for (const [k, idx] of Object.entries(expected)) {
+    checks++;
+    const g = got[k];
+    if (!g || g.join(',') !== idx.join(',')) { fails++; console.log(`FAIL irregularCells ${inf}.${k}: expected [${idx}], got ${g ? '[' + g + ']' : 'none'}`); }
+  }
+  for (const k of absent) { checks++; if (got[k]) { fails++; console.log(`FAIL irregularCells ${inf}.${k}: expected none, got [${got[k]}]`); } }
+}
+function noCells(inf, meta) {
+  checks++;
+  const got = irregularCells(inf, meta);
+  if (Object.keys(got).length) { fails++; console.log(`FAIL irregularCells ${inf}: expected {}, got ${JSON.stringify(got)}`); }
+}
+cells('essere', { aux: 'essere' }, { presente: ALL6, imperfetto: ALL6, passatoRemoto: ALL6, futuro: ALL6, condizionale: ALL6, congiuntivoPresente: ALL6, congiuntivoImperfetto: ALL6, imperativo: [0, 1, 2, 3, 4], participioPassato: [0] }, ['gerundio']);
+noCells('finire', {}); noCells('finire', { isc: true }); noCells('cercare', {}); noCells('pagare', {}); noCells('mangiare', {}); noCells('cominciare', {});
+noCells('inviare', {}); noCells('sognare', {}); noCells('dormire', { isc: false }); noCells('alzarsi', {}); noCells('capire', {}); noCells('credere', {}); noCells('vendere', {});
+cells('andare', { aux: 'essere' }, { presente: [0, 1, 2, 5], futuro: ALL6, condizionale: ALL6, congiuntivoPresente: [0, 1, 2, 5], imperativo: [0, 1, 4] }, ['imperfetto', 'passatoRemoto', 'congiuntivoImperfetto', 'participioPassato', 'gerundio']);
+cells('prendere', {}, { passatoRemoto: [0, 2, 5], participioPassato: [0] }, ['presente', 'imperfetto', 'futuro', 'condizionale', 'congiuntivoPresente', 'congiuntivoImperfetto', 'imperativo', 'gerundio']);
+cells('potere', {}, { presente: [0, 1, 2, 3, 5], imperativo: [0, 1, 2, 3, 4] }, ['passatoRemoto', 'participioPassato']);
+cells('dire', {}, { participioPassato: [0], gerundio: [0] });
+cells('venire', {}, { presente: [0, 1, 2, 5], passatoRemoto: [0, 2, 5], futuro: ALL6 }, ['participioPassato']);
+cells('avere', {}, { presente: [0, 1, 2, 3, 5], passatoRemoto: [0, 2, 5], futuro: ALL6 }, ['imperfetto', 'participioPassato', 'gerundio']);
+cells('porre', {}, { presente: ALL6, participioPassato: [0], gerundio: [0] }, ['futuro']);
+cells('fare', {}, { presente: [0, 1, 3, 5], participioPassato: [0], gerundio: [0], futuro: ALL6 });
+cells('proporre', {}, { participioPassato: [0] }, ['futuro']);
+cells('andarsene', {}, { presente: [0, 1, 2, 5], imperativo: [0, 1, 4] }, ['participioPassato']);
+cells('dirimere', {}, { participioPassato: [0], imperativo: [0, 1, 2, 3, 4] }, ['presente']);
+cells('compiere', {}, { presente: [4], imperativo: [3] }, ['participioPassato']);
+cells('vedere', {}, { passatoRemoto: [0, 2, 5], participioPassato: [0], futuro: ALL6 }, ['presente']);
+cells('restringere', {}, { passatoRemoto: [0, 2, 5], participioPassato: [0] }, ['presente']);
+{
+  const r = regularParadigm('essere', { aux: 'essere' });
+  checks++; if (r.tenses.presente[0] !== 'esso') { fails++; console.log('FAIL regularParadigm essere presente'); }
+  checks++; if (r.nonFinite.participioPassato !== 'essuto') { fails++; console.log('FAIL regularParadigm essere pp'); }
+  checks++; if (r.irregular) { fails++; console.log('FAIL regularParadigm essere irregular flag'); }
+  checks++; if (r.tenses.passatoProssimo[0] !== 'sono essuto/a') { fails++; console.log('FAIL regularParadigm essere compound'); }
+  checks++; if (regularParadigm('andare').tenses.futuro[0] !== 'anderò') { fails++; console.log('FAIL regularParadigm andare futuro'); }
+  checks++; if (regularParadigm('cercare').tenses.presente[1] !== 'cerchi') { fails++; console.log('FAIL regularParadigm cercare spelling'); }
+  checks++; if (regularParadigm('porre').tenses.futuro[0] !== 'porrò') { fails++; console.log('FAIL regularParadigm porre futuro'); }
+  checks++; if (regularParadigm('capire', { isc: true }).tenses.presente[0] !== 'capisco') { fails++; console.log('FAIL regularParadigm capire isc'); }
+  checks++; if (regularParadigm('alzarsi').tenses.presente[0] !== 'mi alzo') { fails++; console.log('FAIL regularParadigm alzarsi clitic'); }
+  checks++; if (regularParadigm('prendere').tenses.passatoRemoto[0] !== 'prendei|prendetti') { fails++; console.log('FAIL regularParadigm prendere pr alternatives'); }
+  checks++; if (conjugate('andare').tenses.presente[0] !== 'vado') { fails++; console.log('FAIL conjugate cache must not be polluted by regularParadigm'); }
+}
+
 // answer checking
 checks++; if (!isCorrectForm('andata', 'andato/a')) { fails++; console.log('FAIL isCorrectForm agreement'); }
 checks++; if (!isCorrectForm('vai', "va'|vai")) { fails++; console.log('FAIL isCorrectForm alt'); }

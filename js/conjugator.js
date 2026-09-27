@@ -196,20 +196,23 @@ function applyPrefix(p, par, base) {
   if (!p) return par;
   const out = { ...par };
   for (const k of ['pres', 'imperf', 'pr', 'fut', 'cond', 'subj', 'subjImp']) out[k] = prefixArr(p, par[k]);
-  // compounds of fare / stare mark the stressed 3rd person with an accent: rifà, disfà, sottostà
-  if (base === 'fare' || base === 'stare') {
+  // compounds of fare / stare / dare / andare mark the stressed monosyllabic persons with an accent: rifà, sottostà, ridò, ridà, rivà
+  const accented = base === 'fare' || base === 'stare' || base === 'dare' || base === 'andare';
+  const acc3 = accented ? alts(par.pres[2])[0].replace(/[aà]$/, 'à') : null;
+  if (accented) {
     const bare = alts(par.pres[2])[0];
-    out.pres[2] = [p + bare.slice(0, -1) + 'à', p + bare].join('|');
+    out.pres[2] = acc3 === bare ? p + bare : [p + acc3, p + bare].join('|');
+    if (base === 'dare' || base === 'stare') { const b0 = alts(par.pres[0])[0]; out.pres[0] = [p + b0.slice(0, -1) + 'ò', p + b0].join('|'); }
   }
   if (par.imp) {
     out.imp = prefixArr(p, par.imp);
     // derived verbs use the full tu-form (contraddici, rifai) rather than the apostrophe form
     if (/'/.test(par.imp[0])) {
       const full = alts(par.pres[1])[0];
-      // compounds of dire have no apostrophe form (contraddici, benedici); fare/stare/dare keep it (rifa', ridà, ristà)
+      // compounds of dire have no apostrophe form (contraddici, benedici); fare/stare/dare/andare keep it (rifa', rida', rivà)
       const extra = base === 'dire' ? [] : alts(par.imp[0]).map(a => p + a);
       const forms = [p + full, ...extra.filter(x => x !== p + full)];
-      if (base === 'fare' || base === 'stare' || base === 'dare') forms.push(p + alts(par.pres[2])[0].slice(0, -1) + 'à');
+      if (accented) forms.push(p + acc3);
       out.imp[0] = forms.join('|');
     }
   }

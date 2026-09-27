@@ -1,6 +1,6 @@
 // Service worker: offline cache for the app shell and dictionary data.
-const VERSION = 'parola-v1';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './css/app.css', './icons/icon.svg', './data/vocab.json', './data/verbs.json', './data/stats.json'];
+const VERSION = 'parola-v2';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css', './icons/icon.svg', './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json'];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL).catch(() => null)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', (e) => {
