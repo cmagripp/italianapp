@@ -65,6 +65,8 @@ export function wordForms(e) {
     const labs = ['Masch. sing.', 'Femm. sing.', 'Masch. plur.', 'Femm. plur.'];
     return html`<div class="forms-grid">${raw(e.forms.map((f, i) => html`<div class="f"><div class="lab">${labs[i]}</div><div class="val"><span>${f}</span>${raw(speakBtn(f, 'sm'))}</div></div>`).join(''))}</div>`;
   }
+  // incinta: used only with feminine nouns, so it has a singular and a plural but no masculine
+  if (e.pos === 'adj' && /feminine only/i.test(e.note || '') && /a$/.test(e.it)) return html`<div class="forms-grid">${raw([['Femm. sing.', e.it], ['Femm. plur.', e.it.replace(/([cg])a$/, '$1he').replace(/a$/, 'e')]].map(([l, f]) => html`<div class="f"><div class="lab">${l}</div><div class="val"><span>${f}</span>${raw(speakBtn(f, 'sm'))}</div></div>`).join(''))}</div>`;
   if (e.pos === 'adj') return html`<div class="note">Invariable adjective: the same form is used for all genders and numbers.</div>`;
   return '';
 }
@@ -243,7 +245,7 @@ export function conjSection(e, conj, { defaultTense = 'presente' } = {}) {
       <div class="nf"><div class="lab">Infinito</div><div class="val">${nf.infinito}</div></div>
       <div class="nf"><div class="lab">Participio passato</div><div class="val">${primary(nf.participioPassato)}</div></div>
       <div class="nf"><div class="lab">Gerundio</div><div class="val">${primary(nf.gerundio)}</div></div>
-      <div class="nf"><div class="lab">Infinito passato</div><div class="val">${primary(nf.infinitoPassato)}</div></div>
+      <div class="nf"><div class="lab">Infinito passato</div><div class="val">${conj.auxBoth ? accepted(nf.infinitoPassato).join(' / ') : primary(nf.infinitoPassato)}</div></div>
     </div>
   </div>`;
 }
@@ -270,7 +272,8 @@ export function bindConjSection(root, conj) {
   card.addEventListener('click', (ev) => {
     const v = ev.target.closest('[data-view]');
     if (v) { if (v.dataset.view === view) return; view = v.dataset.view; card.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('on', b === v)); show(); return; }
-    if (ev.target.closest('[data-fan-flip]')) { fanApi && fanApi.flipAll(); return; }
+    // with every back up the overlapping hand cuts the forms short, so "Flip all" also spreads the cards
+    if (ev.target.closest('[data-fan-flip]')) { if (!fanApi) return; fanApi.flipAll(); if (fanApi.cards.every(c => c.classList.contains('flipped'))) { fanApi.spread(true); card.querySelector('[data-fan-spread]')?.classList.add('on'); } return; }
     const sp = ev.target.closest('[data-fan-spread]');
     if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const t = ev.target.closest('.tab[data-tense]');

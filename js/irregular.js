@@ -82,6 +82,7 @@ export const IRREGULAR = {
   rispondere: { pr: 'rispos', pp: 'risposto' },
   nascondere: { pr: 'nascos', pp: 'nascosto' },
   perdere: { pr: ['persi|perdetti|perdei', 'perdesti', 'perse|perdette|perdé', 'perdemmo', 'perdeste', 'persero|perdettero|perderono'], pp: 'perso|perduto' },
+  disperdere: { pr: ['dispersi|disperdetti|disperdei', 'disperdesti', 'disperse|disperdette|disperdé', 'disperdemmo', 'disperdeste', 'dispersero|disperdettero|disperderono'], pp: 'disperso' }, // participle disperso only (disperduto is not standard)
   decidere: { pr: 'decis', pp: 'deciso' },
   cidere: { pr: 'cis', pp: 'ciso' },
   uccidere: { pr: 'uccis', pp: 'ucciso' },

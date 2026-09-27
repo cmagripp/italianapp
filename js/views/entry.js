@@ -100,6 +100,12 @@ function bindForms(codex, e, cells) {
   const bodyEl = card.querySelector('[data-forms-body]');
   const tint = `var(--lvl-${e.level || 'A1'})`;
   let view = 'fan'; let api = null; let timer = null;
+  // with every back up the overlapping hand cuts the forms short ("il conigli"), so the cards spread at the same time
+  const flipAllSpread = (toBack = null) => {
+    if (!api) return;
+    api.flipAll(toBack);
+    if (api.cards.every(c => c.classList.contains('flipped'))) { api.spread(true); bodyEl.querySelector('[data-fan-spread]')?.classList.add('on'); }
+  };
   function show() {
     if (api) { api.destroy(); api = null; } clearTimeout(timer);
     if (view === 'fan') {
@@ -107,13 +113,13 @@ function bindForms(codex, e, cells) {
       // the form sits in .form like the other fans, so a long word (otorinolaringoiatra) takes the smaller .long size instead of breaking mid-word at 19px
       const longWord = (v) => String(v).split(/\s+/).some(w => w.length > 9);
       api = fan(bodyEl.querySelector('[data-fan]'), cells.map(([l, v]) => ({ key: l, front: esc(l), back: `<span class="form ${longWord(v) ? 'long' : ''}">${esc(v)}</span><span class="sub">${esc(l)}</span>`, tint })));
-      timer = setTimeout(() => { api && api.flipAll(true); }, reducedMotion() ? 0 : 480);
+      timer = setTimeout(() => flipAllSpread(true), reducedMotion() ? 0 : 480);
     } else bodyEl.innerHTML = wordForms(e);
   }
   card.addEventListener('click', (ev) => {
     const v = ev.target.closest('[data-fview]');
     if (v) { if (v.dataset.fview === view) return; view = v.dataset.fview; card.querySelectorAll('[data-fview]').forEach(b => b.classList.toggle('on', b === v)); show(); return; }
-    if (ev.target.closest('[data-fan-flip]')) { api && api.flipAll(); return; }
+    if (ev.target.closest('[data-fan-flip]')) { flipAllSpread(); return; }
     const sp = ev.target.closest('[data-fan-spread]');
     if (sp) { const on = api && api.spread(); sp.classList.toggle('on', !!on); }
   });

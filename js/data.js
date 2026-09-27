@@ -45,7 +45,10 @@ export async function loadData(base = '') {
 // custom words are registered by the app after the profile loads
 export function registerCustom(customMap) {
   for (const id of [...data.byId.keys()]) if (id.startsWith('c:')) data.byId.delete(id);
-  for (const e of Object.values(customMap || {})) { e.kind = e.pos === 'verb' ? 'verb' : 'word'; if (e.kind === 'verb') e.inf = e.it; data.byId.set(e.id, e); }
+  for (const e of Object.values(customMap || {})) {
+    if (!e || !String(e.id).startsWith('c:')) continue; // a custom entry never replaces a dictionary one (imported backup with a w:/v: id)
+    e.kind = e.pos === 'verb' ? 'verb' : 'word'; if (e.kind === 'verb') e.inf = e.it; data.byId.set(e.id, e);
+  }
   searchIndex = null;
 }
 
@@ -113,8 +116,9 @@ export function article(entry, plural = false) {
   if (!w || w === '-') return '';
   const g = entry.g;
   if (g === 'mf') {
-    // -ista / -a nouns: the listed -i plural is the masculine one (the feminine is -e), so only the masculine article fits
-    if (plural && /a$/.test(fold(entry.it)) && /i$/.test(fold(w))) return (startsLo(w) || startsVowel(w)) ? 'gli' : 'i';
+    // -ista / -a nouns (turista → turisti / turiste) and -o nouns (capo → i capi / le capo): the listed -i plural is the
+    // masculine one, so only the masculine article fits
+    if (plural && /[ao]$/.test(fold(entry.it)) && /i$/.test(fold(w))) return (startsLo(w) || startsVowel(w)) ? 'gli' : 'i';
     return plural ? (startsLo(w) || startsVowel(w) ? 'gli/le' : 'i/le') : (startsVowel(w) ? "l'" : (startsLo(w) ? 'lo/la' : 'il/la'));
   }
   if (g === 'f') return plural ? 'le' : (startsVowel(w) ? "l'" : 'la');

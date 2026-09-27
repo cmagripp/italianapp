@@ -114,6 +114,7 @@ body.walkthrough #view { padding-bottom: 0; }
 .aux-tiles.three .aux-tile .aux-word { font-size: 22px; }
 .aux-tiles.three .aux-tile .aux-sub { font-size: 9px; letter-spacing: .06em; }
 .aux-stamp.stamp.abs { right: 6px; top: 6px; font-size: 10px; padding: 4px 8px; border-width: 2px; letter-spacing: .16em; border-radius: 8px; }
+.aux-tiles.three .aux-stamp.stamp.abs { top: auto; bottom: 6px; font-size: 9px; padding: 3px 6px; }
 
 /* ---------- 5. TENSES: fan hand, collapse, forms strip ---------- */
 .tense-intro { text-align: center; margin-bottom: 6px; }

@@ -812,6 +812,21 @@ T('inferire', { passatoRemoto: ['inferii', 'inferisti', 'inferì', 'inferimmo', 
 T('inferire', { passatoRemoto: ['infersi', null, 'inferse', null, null, 'infersero'], pp: 'inferto', passatoProssimo: ['ho inferto'] }, { isc: true });
 no('inferire', 'passatoRemoto', 2, 'inferie', { isc: true }); no('inferire', 'passatoRemoto', 5, 'inferiero', { isc: true });
 checks++; if (primary(conjugate('inferire', { isc: true }).tenses.passatoRemoto[2]) !== 'inferì') { fails++; console.log('FAIL inferire passatoRemoto primary'); }
+no('inferire', 'passatoRemoto', 0, 'inferi', { isc: true }); checks++; if (primary(conjugate('inferire', { isc: true }).nonFinite.participioPassato) !== 'inferito') { fails++; console.log('FAIL inferire pp primary'); }
+// indulgere: participle indulto (not "indulso"); fendere: fenduto is the primary participle, fesso stays accepted
+T('indulgere', { passatoProssimo: ['ho indulto', null, 'ha indulto'] }); no('indulgere', 'pp', 0, 'indulso'); no('indulgere', 'passatoProssimo', 2, 'ha indulso');
+T('fendere', { passatoProssimo: [null, null, 'ha fenduto'] }); T('fendere', { passatoProssimo: [null, null, 'ha fesso'] });
+checks++; if (primary(conjugate('fendere').nonFinite.participioPassato) !== 'fenduto') { fails++; console.log('FAIL fendere pp primary'); }
+// delinquere: defective (only the infinitive is in use), no invented "delinquuto" / "delinquerò"
+T('delinquere', { condizionale: ['—'], congiuntivoPassato: ['—'], trapassatoProssimo: ['—'] }); no('delinquere', 'pp', 0, 'delinquuto'); no('delinquere', 'futuro', 0, 'delinquerò');
+checks++; if (!['passatoRemoto', 'futuro', 'participioPassato'].every(k => conjugate('delinquere').defective.includes(k))) { fails++; console.log('FAIL delinquere.defective'); }
+// the passato remoto alternatives reach every derived verb, and primaries stay the common forms
+T('sperdere', { passatoRemoto: ['spersi', null, 'sperse'] }); T('sperdere', { passatoRemoto: ['sperdetti', null, 'sperdette'] });
+T('ricoprire', { passatoRemoto: ['ricopersi', null, 'ricoperse'] }); T('riaprire', { passatoRemoto: [null, null, 'riaperse'] });
+T('dissolvere', { passatoRemoto: ['dissolvetti', null, 'dissolvette'] }); T('condolere', { congiuntivoPresente: [null, null, null, 'condogliamo'] });
+for (const [inf, tense, i, p] of [['risolvere', 'passatoRemoto', 0, 'risolsi'], ['offrire', 'passatoRemoto', 2, 'offrì'], ['soffrire', 'passatoRemoto', 0, 'soffrii'], ['scoprire', 'passatoRemoto', 2, 'scoprì'], ['dolere', 'congiuntivoPresente', 3, 'doliamo'], ['compiere', 'imperfetto', 0, 'compivo'], ['compiere', 'condizionale', 0, 'compirei']]) {
+  checks++; if (primary(conjugate(inf).tenses[tense][i]) !== p) { fails++; console.log(`FAIL ${inf} ${tense}[${i}] primary: expected "${p}"`); }
+}
 // present participles that do not follow the plain -ente pattern (prefixes apply)
 for (const [inf, f] of Object.entries({ sapere: 'sapiente', venire: 'veniente', convenire: 'conveniente', provenire: 'proveniente', dormire: 'dormiente', obbedire: 'obbediente', ubbidire: 'ubbidiente', cuocere: 'cocente', parere: 'parvente', nutrire: 'nutriente', salire: 'saliente', esordire: 'esordiente', patire: 'paziente', capire: 'capiente', sentire: 'senziente', uscire: 'uscente', seguire: 'seguente', morire: 'morente', servire: 'servente', parlare: 'parlante', fare: 'facente', dire: 'dicente', porre: 'ponente', condurre: 'conducente', trarre: 'traente', piacere: 'piacente', vivere: 'vivente' })) nf(inf, 'participioPresente', f);
 // verbs not in the data set but reachable through "Add word"

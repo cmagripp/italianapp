@@ -20,7 +20,7 @@ const GENDER_IT = { m: 'maschile', f: 'femminile', mf: 'm · f' };
 const NF_NAME = { participioPassato: 'Participio passato', gerundio: 'Gerundio' };
 const tenseName = (k) => TENSE_BY_KEY[k]?.name || NF_NAME[k] || k;
 const LO_RE = /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou])/; // same rule as article() in data.js
-const VOWEL_RE = /^[aeiouàèéìíîòóùú]/;
+const VOWEL_RE = /^h?[aeiouàèéìíîòóùú]/; // a leading h is silent (l'hotel, gli hobby): same test as startsVowel() in data.js
 const link = (e, text) => html`<a class="ref-link" href="${refHref(e.id)}">${text || (e.kind === 'verb' ? e.inf : e.it)}</a>`;
 const chipLink = (e, cls = '') => html`<a class="chip ${cls}" href="${refHref(e.id)}">${e.kind === 'verb' ? e.inf : e.it}</a>`;
 const joinIt = (arr) => arr.map(f => `<span class="wf">${esc(f)}</span>`).join('<i>·</i>');
@@ -181,6 +181,9 @@ function explainVerb(e, conj, cells) {
   const regular = !items.length;
   if (regular && !conj.clitic && !conj.prefix) lead.push(html`<b>${e.inf}</b> is regular: it follows the <b>${conj.group}</b> paradigm exactly, so every form comes from the stem <b>${stem}-</b> plus the standard endings.`);
   else if (regular) lead.push(html`Every form is regular for the <b>${conj.group}</b> paradigm (stem <b>${stem}-</b>).`);
+  // riflettere, fendere, inferire: the regular participle comes first, an irregular one is listed beside it
+  const ppAlts = accepted(conj.nonFinite.participioPassato).filter(f => f !== MISSING);
+  if (regular && ppAlts.length > 1) lead.push(html`Only the past participle has a second, irregular form: <b>${ppAlts.slice(1).join(' / ')}</b>, beside the regular <b>${ppAlts[0]}</b>.`);
   else {
     const n = simpleIrr.length;
     lead.push(html`Irregular in <b>${n}</b> ${n === 1 ? 'tense' : 'tenses'}${pp ? raw(`, plus the past participle <b>${esc(primary(conj.nonFinite.participioPassato))}</b>`) : ''}${ger ? raw(`${pp ? ' and' : ', plus'} the gerund <b>${esc(primary(conj.nonFinite.gerundio))}</b>`) : ''}.${pp ? ' Every compound tense inherits that participle.' : ''}${isRre ? raw(` Verbs in <b>-rre</b> are contracted infinitives: the real stem is <b>${esc(stem)}-</b> and the endings are those of <b>-ere</b>.`) : ''}`);
@@ -215,6 +218,8 @@ function renderVerb(root, e) {
   const pres = conj.tenses.presente;
   const pp = accepted(conj.nonFinite.participioPassato);
   const nf = conj.nonFinite;
+  // aux 'both' (salire, correre…): the compound forms carry the essere form beside the avere one — show both
+  const nfBoth = (f) => (conj.auxBoth ? accepted(f).join(' / ') : primary(f));
   const drillHref = `#/game/conj-drill?src=ids:${encodeURIComponent(e.id)}&tenses=presente,passatoProssimo,imperfetto,futuro`;
   const jumps = [{ id: 'conj', label: 'Forme' }, { id: 'why', label: why.regular ? 'Regolare' : 'Irregolarità' }, ...(family.length ? [{ id: 'family', label: 'Famiglia' }] : []), { id: 'patterns', label: 'Reggenza' }, { id: 'usage', label: 'Uso' }, { id: 'examples', label: 'Esempi' }, { id: 'related', label: 'Correlati' }, { id: 'progress', label: 'Progressi' }];
   const stemOf = (s) => fold(s);
@@ -229,7 +234,7 @@ function renderVerb(root, e) {
     <div class="headword ref-id" data-headword>
       <div class="hw-line"><span class="word" style="--hw:${hwSize(e.inf)}px" data-rise>${e.inf}</span></div>
       <div class="hw-row">${raw(enPill(e.en))}${raw(speakBtn(e.inf, 'lg'))}</div>
-      <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>verbo</span><span>${conj.group}</span><span>${conj.irregular ? 'irregolare' : 'regolare'}</span><span>aux. ${AUX_LABEL[e.aux] || conj.aux}</span>${e.trans ? raw(html`<span>${TRANS_IT[e.trans] || e.trans}</span>`) : ''}${defective.length ? raw('<span>difettivo</span>') : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
+      <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>verbo</span><span>${conj.group}</span><span>${why.regular ? 'regolare' : 'irregolare'}</span><span>aux. ${AUX_LABEL[e.aux] || conj.aux}</span>${e.trans ? raw(html`<span>${TRANS_IT[e.trans] || e.trans}</span>`) : ''}${defective.length ? raw('<span>difettivo</span>') : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
     </div>
     <div class="glass glance ref-target" id="glance" aria-label="At a glance">
       ${raw(glance('io', primary(pres[0]), rowIsIrr(conj, cells, 'presente', 0)))}${raw(glance('tu', primary(pres[1]), rowIsIrr(conj, cells, 'presente', 1)))}${raw(glance('lui / lei', primary(pres[2]), rowIsIrr(conj, cells, 'presente', 2)))}
@@ -254,7 +259,7 @@ function renderVerb(root, e) {
       <div class="ref-tense-head"><span class="ref-tense-name" data-tense-name></span><span class="ref-tense-en" data-tense-en></span></div>
       <div class="tense-note" data-tense-note></div>
       <div data-conj-table></div>
-      ${conj.irregular ? raw('<div class="ref-legend"><i></i>irregular form (differs from the regular paradigm)</div>') : ''}
+      ${!why.regular ? raw('<div class="ref-legend"><i></i>irregular form (differs from the regular paradigm)</div>') : ''}
       <div class="ref-all" id="all">
         ${raw(MOODS.map(([m, name]) => { const ts = TENSES.filter(t => t.mood === m); return html`<div class="acc" data-mood="${m}"><button type="button" class="acc-head" aria-expanded="false"><span><span class="kicker">Tutti i tempi</span><span class="title">${name}<span class="acc-count">${ts.length} ${ts.length === 1 ? 'tempo' : 'tempi'}</span></span></span>${ic('chevronDown', { size: 20 })}</button><div class="acc-body"><div class="acc-inner"><div class="in" data-lazy="${m}"></div></div></div></div>`; }).join(''))}
       </div>
@@ -263,8 +268,8 @@ function renderVerb(root, e) {
         <div class="nf ${cells.participioPassato && pp[0] !== MISSING ? 'irr' : ''}"><div class="lab">Participio passato</div><div class="val">${pp[0]}${pp.length > 1 ? raw(` <span class="muted small">/ ${esc(pp.slice(1).join(' / '))}</span>`) : ''}</div></div>
         <div class="nf ${cells.gerundio ? 'irr' : ''}"><div class="lab">Gerundio</div><div class="val">${primary(nf.gerundio)}</div></div>
         <div class="nf"><div class="lab">Participio presente</div><div class="val">${primary(nf.participioPresente)}</div></div>
-        <div class="nf"><div class="lab">Infinito passato</div><div class="val">${primary(nf.infinitoPassato)}</div></div>
-        <div class="nf"><div class="lab">Gerundio passato</div><div class="val">${primary(nf.gerundioPassato)}</div></div>
+        <div class="nf"><div class="lab">Infinito passato</div><div class="val">${nfBoth(nf.infinitoPassato)}</div></div>
+        <div class="nf"><div class="lab">Gerundio passato</div><div class="val">${nfBoth(nf.gerundioPassato)}</div></div>
       </div>
     </div>
 
@@ -391,7 +396,9 @@ function pluralRule(e) {
     // work on the changing part
     let s = w, q = p;
     if (a.length > 1) { const i = a.findIndex((x, k) => b[k] !== x); if (i >= 0) { s = fold(a[i]); q = fold(b[i]); } }
-    if (/ca$/.test(s) && /che$/.test(q)) text = '-ca → -che: an h keeps the hard c sound in front of e.';
+    // each regular branch checks that the plural really is the rule's output (uomo → uomini, dio → dèi are irregular)
+    if (/[cg]a$/.test(s) && q === s.slice(0, -1) + 'hi') text = `-${s.slice(-2)} → -${q.slice(-3)}: a masculine noun in -ca/-ga takes the masculine plural, with an h to keep the hard sound (il collega → i colleghi).`;
+    else if (/ca$/.test(s) && /che$/.test(q)) text = '-ca → -che: an h keeps the hard c sound in front of e.';
     else if (/ga$/.test(s) && /ghe$/.test(q)) text = '-ga → -ghe: an h keeps the hard g sound in front of e.';
     else if (/co$/.test(s) && /chi$/.test(q)) text = '-co → -chi: the hard sound is kept with an h (the usual outcome when the stress falls on the second-last syllable).';
     else if (/go$/.test(s) && /ghi$/.test(q)) text = '-go → -ghi: the hard sound is kept with an h (the usual outcome for -go nouns).';
@@ -400,14 +407,14 @@ function pluralRule(e) {
     else if (/cia$/.test(s) && /cie$/.test(q) || /gia$/.test(s) && /gie$/.test(q)) text = `-${s.slice(-3)} → -${q.slice(-3)}: the i is kept because it is stressed or follows a vowel (camicia → camicie).`;
     else if (/cia$/.test(s) && /ce$/.test(q) || /gia$/.test(s) && /ge$/.test(q)) text = `-${s.slice(-3)} → -${q.slice(-2)}: the unstressed i after a consonant drops.`;
     else if (/io$/.test(s) && /ii$/.test(q)) text = '-io → -ii: the i is stressed, so the plural keeps two (zio → zii).';
-    else if (/io$/.test(s) && /i$/.test(q) && !/ii$/.test(q)) text = '-io → -i: the unstressed i of the ending merges with the plural -i, so only one i is written.';
-    else if (/ista$/.test(s) && /ist[ie]$/.test(q)) text = '-ista → -isti (masculine) / -iste (feminine): one singular, two plurals, chosen by the article.';
+    else if (/io$/.test(s) && q === s.slice(0, -1)) text = '-io → -i: the unstressed i of the ending merges with the plural -i, so only one i is written.';
+    else if (/ista$/.test(s) && /ist[ie]$/.test(q) && e.g === 'mf') text = '-ista → -isti (masculine) / -iste (feminine): one singular, two plurals, chosen by the article.';
     else if (/o$/.test(s) && /a$/.test(q)) { text = 'Irregular: a masculine noun in -o with a feminine plural in -a (a relic of the Latin neuter: il braccio → le braccia).'; kind = 'irregular'; }
-    else if (/ma$/.test(s) && /mi$/.test(q) && e.g === 'm') text = '-ma → -mi: masculine nouns in -a (Greek origin) take the masculine plural -i.';
-    else if (/a$/.test(s) && /i$/.test(q) && e.g === 'm') text = '-a → -i: masculine nouns in -a take the masculine plural -i.';
-    else if (/o$/.test(s) && /i$/.test(q)) text = e.g === 'f' ? '-o → -i: the regular -o plural, even though this noun is feminine (la mano → le mani).' : '-o → -i: the regular plural of masculine nouns.';
-    else if (/a$/.test(s) && /e$/.test(q)) text = '-a → -e: the regular plural of feminine nouns.';
-    else if (/e$/.test(s) && /i$/.test(q)) text = '-e → -i: the regular plural of -e nouns, whatever the gender.';
+    else if (/ma$/.test(s) && q === s.slice(0, -1) + 'i' && e.g === 'm') text = '-ma → -mi: masculine nouns in -a (Greek origin) take the masculine plural -i.';
+    else if (/a$/.test(s) && q === s.slice(0, -1) + 'i' && e.g !== 'f') text = '-a → -i: masculine nouns in -a take the masculine plural -i.';
+    else if (/o$/.test(s) && q === s.slice(0, -1) + 'i') text = e.g === 'f' ? '-o → -i: the regular -o plural, even though this noun is feminine (la mano → le mani).' : '-o → -i: the regular plural of masculine nouns.';
+    else if (/a$/.test(s) && q === s.slice(0, -1) + 'e') text = '-a → -e: the regular plural of feminine nouns.';
+    else if (/e$/.test(s) && q === s.slice(0, -1) + 'i') text = '-e → -i: the regular plural of -e nouns, whatever the gender.';
     else { text = 'Irregular plural: this form must be learned as it is.'; kind = 'irregular'; }
   }
   return { text: text + compound + (noteHint ? ` ${noteHint}` : ''), kind };
@@ -424,6 +431,7 @@ function articleRule(e) {
     let why;
     if (g === 'mf') why = vowel ? `l' for both genders: the article loses its vowel before another vowel — only agreement elsewhere shows the gender.` : lo ? `lo ${first} for a man, la ${first} for a woman: lo because the noun starts with ${soundOf(first)}.` : `il ${first} for a man, la ${first} for a woman.`;
     else if (vowel) why = `l' — ${g === 'm' ? 'lo' : 'la'} is elided before a vowel (${g === 'm' ? 'masculine' : 'feminine'} singular).`;
+    if (vowel && /^h/.test(fold(first))) why += ' The h is silent, so the word counts as starting with a vowel.';
     else if (g === 'm' && lo) why = `lo — masculine singular before ${soundOf(first)}; il is not used before this sound.`;
     else if (g === 'm') why = 'il — masculine singular before an ordinary consonant.';
     else why = 'la — feminine singular before a consonant.';
@@ -438,7 +446,12 @@ function articleRule(e) {
   else {
     const plFirst = (e.pl || '').split(' ')[0]; const pv = VOWEL_RE.test(fold(plFirst)), plo = LO_RE.test(fold(plFirst));
     let why;
-    if (g === 'mf') why = (pv || plo) ? 'gli for men, le for women.' : 'i for men, le for women.';
+    if (g === 'mf' && article(e, true).includes('/')) why = (pv || plo) ? 'gli for men, le for women.' : 'i for men, le for women.';
+    else if (g === 'mf') {
+      // turista → i turisti / le turiste, collega → i colleghi / le colleghe, capo → i capi / le capo: the listed plural is the masculine one
+      const pa = article(e, true), one = !/\s/.test(e.it) && /a$/.test(fold(e.it));
+      why = `${pa} — the listed plural is the masculine one (${pa} ${e.pl}); ${one ? `for women it is le ${e.it.replace(/([cg])a$/, '$1he').replace(/a$/, 'e')}` : 'the feminine plural is a separate form (see the note)'}.`;
+    }
     else if (g === 'f') why = 'le — feminine plural, never elided (le amiche).';
     else if (article(e, true) === 'le') why = 'le — this masculine noun has a feminine plural, so the plural takes the feminine article.'; // le uova, le braccia, le orecchie
     else if (pv) why = 'gli — masculine plural before a vowel (gli amici), never shortened.';
@@ -455,7 +468,7 @@ function genderCues(e) {
   const w = fold(e.it.split(' ')[0]); const g = e.g; const cues = [];
   const push = (end, text, status) => cues.push({ end, text, status });
   const ok = (cond) => (cond ? 'ok' : 'exception');
-  if (/ista$/.test(w)) push('-ista', `Nouns in -ista name people by what they do and have one form for both genders: the article decides (il / la ${e.it}). Plural -isti (m) / -iste (f).`, ok(g === 'mf'));
+  if (/ista$/.test(w) && g !== 'f') push('-ista', `Nouns in -ista name people by what they do and have one form for both genders: the article decides (il / la ${e.it}). Plural -isti (m) / -iste (f).`, ok(g === 'mf'));
   else if (/ma$/.test(w) && g === 'm') push('-ma', 'A masculine noun in -a: the -ma words of Greek origin (problema, tema, sistema, clima, programma) are masculine and pluralise in -i.', 'ok');
   else if (/(tà|tù)$/.test(w)) push(w.endsWith('tà') ? '-tà' : '-tù', 'Nouns in -tà / -tù are feminine and never change in the plural (la città → le città).', ok(g === 'f'));
   else if (/ione$/.test(w)) push('-ione', 'Nouns in -ione (-zione, -sione, -gione) are feminine.', ok(g === 'f'));
@@ -487,8 +500,12 @@ function wordForms(e) {
     const labs = ['Masch. sing.', 'Femm. sing.', 'Masch. plur.', 'Femm. plur.'];
     return e.forms.map((f, i) => ({ lab: labs[i], val: f, tint: i % 2 ? 'var(--terracotta)' : 'var(--amalfi)' }));
   }
+  if (femOnly(e)) return [{ lab: 'Femm. sing.', val: e.it, tint: 'var(--terracotta)' }, { lab: 'Femm. plur.', val: femOnlyPl(e), tint: 'var(--terracotta)' }];
   return [];
 }
+// incinta: an adjective used only in the feminine (the entry has no forms array, but it is not invariable)
+const femOnly = (e) => e.pos === 'adj' && !e.forms && /feminine only/i.test(e.note || '') && /a$/.test(e.it);
+const femOnlyPl = (e) => e.it.replace(/([cg])a$/, '$1he').replace(/a$/, 'e');
 
 function agreementItems(e) {
   const nM = getEntry('w:ragazzo|noun') ? 'ragazzo' : 'amico', nF = nM === 'ragazzo' ? 'ragazza' : 'amica';
@@ -500,6 +517,7 @@ function agreementItems(e) {
       { k: 'plurale', v: `${nM.slice(0, -1)}i ${mp} · ${nF.slice(0, -1)}e ${fp}`, text: two ? '-e becomes -i for both genders.' : 'Masculine -i, feminine -e.' },
     ];
   }
+  if (femOnly(e)) return [{ k: 'solo femminile', v: `${e.it} · ${femOnlyPl(e)}`, text: `Used only with feminine nouns: one singular and one plural form (una donna ${e.it}, due donne ${femOnlyPl(e)}).` }];
   return [{ k: 'invariabile', v: e.it, text: 'One form for every gender and number — colours like blu, rosa, viola and most loanwords stay unchanged (i pantaloni blu).' }];
 }
 
@@ -510,7 +528,8 @@ function renderWord(root, e) {
   const cat = CATS[e.cat];
   const forms = wordForms(e);
   const rule = isNoun ? articleRule(e) : e.pos === 'adj' ? agreementItems(e) : [];
-  const cues = isNoun ? genderCues(e) : [];
+  // a plural-only noun is stored in the plural (occhiali, media): its ending is the plural's, not a gender cue
+  const cues = isNoun && !isPluralOnly(e) ? genderCues(e) : [];
   const sameTopic = data.vocab.filter(x => x.id !== e.id && x.cat === e.cat && x.level === e.level).slice(0, 6);
   // synonyms: another entry of the same part of speech that shares a whole gloss ("house" — not "a casa" for casa via "home")
   const glosses = new Set(String(e.en || '').split(/;|,/).map(s => fold(s).trim().replace(/^(to|the|a|an) /, '')).filter(s => s.length > 2));
@@ -530,7 +549,7 @@ function renderWord(root, e) {
     ${jumps.length > 2 ? raw(html`<div class="chips scroll ref-jumps">${raw(jumpChips(jumps))}</div>`) : ''}
 
     ${forms.length ? raw(html`<div class="card ref-target" id="forms">
-      ${raw(secHead('Forme', isNoun ? 'Singular & plural' : 'The four forms', { cls: 'in-pane' }))}
+      ${raw(secHead('Forme', isNoun || forms.length !== 4 ? 'Singular & plural' : 'The four forms', { cls: 'in-pane' }))}
       <div data-fan></div>
       <div class="fan-tools"><button type="button" class="btn xs ghost" data-fan-flip>${ic('flip', { size: 16 })}Flip all</button><button type="button" class="btn xs ghost" data-fan-spread>${ic('spread', { size: 16 })}Spread</button></div>
       <div class="forms-say">${raw(forms.map(f => html`<button type="button" class="chip sm" data-say="${f.val}">${ic('speaker', { size: 14 })}${f.val}</button>`).join(''))}</div>

@@ -71,6 +71,7 @@ export function validateVerbs(arr, file) {
     if (!CATS.has(e.cat)) errors.push(`${where}: bad cat "${e.cat}"`);
     if (!AUX.has(e.aux)) errors.push(`${where}: bad aux "${e.aux}"`);
     if (!TRANS.has(e.trans)) errors.push(`${where}: bad trans "${e.trans}"`);
+    if (typeof e.irregular !== 'boolean') errors.push(`${where}: irregular must be true/false`);
     if (isStr(e.inf)) {
       if (isIre(e.inf.toLowerCase())) { if (typeof e.isc !== 'boolean') errors.push(`${where}: -ire verb needs isc true/false`); }
       else if (e.isc !== undefined) errors.push(`${where}: isc is only for -ire verbs (omit it)`);

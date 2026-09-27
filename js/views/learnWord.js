@@ -217,7 +217,7 @@ export async function render(root, params, query) {
   // ---------- QUICK CHECK ----------
   const quickQuestions = () => [
     qTranslateMC(e, pool, 'it-en'),
-    isNoun ? (qGender(e) || qCloze(e, { pool })) : (qCloze(e, { pool }) || qTranslateMC(e, pool, 'en-it')),
+    (isNoun ? (qGender(e) || qCloze(e, { pool })) : qCloze(e, { pool })) || qTypeIt(e),
     (isNoun && Math.random() < 0.5 ? qPluralMC(e, pool) : null) || qTranslateMC(e, pool, 'en-it'),
   ].filter(Boolean);
   let drill = null, drillTimer = null;

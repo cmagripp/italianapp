@@ -91,7 +91,7 @@ export function createWalkthrough(root, { level = 'A1', scenes: defs = [] } = {}
       s.cta.innerHTML = `<span class="lab">${esc(s.def.cta || 'Avanti')}</span>${icon('arrow', { size: 18 })}`;
       if (current === s.i && !reducedMotion()) sheen(s.cta);
     }
-    s.hint.textContent = s.def.hintReady ?? (s.i === n - 1 ? '' : 'Swipe up or tap to continue');
+    s.hint.textContent = s.def.hintReady ?? (s.i === n - 1 ? '' : (s.body.classList.contains('scrollable') ? 'Tap to continue' : 'Swipe up or tap to continue'));
     reveal(s.i + 1);
     sync();
     checkOverflow(s);
