@@ -287,22 +287,26 @@ export function verbCard(e) {
 }
 
 // ---------- list picker ----------
-export function openListPicker(itemId) {
+// openListPicker(itemId, { onChange }) — onChange fires after every add / remove / new list so the page behind (bank button,
+// "In lists" line) can repaint instead of showing the state from before the sheet opened.
+export function openListPicker(itemId, { onChange = null } = {}) {
   const render = () => {
     const lists = Object.values(store.lists);
     return html`<div class="list">${raw(lists.map(l => html`<label class="row-entry glass-flat"><input type="checkbox" data-list="${l.id}" ${l.items.includes(itemId) ? 'checked' : ''}><span class="re-main"><span class="re-hw">${l.name}</span><span class="re-sub">${l.items.length} items</span></span></label>`).join(''))}</div>
       <button type="button" class="btn secondary block mt" data-new-list>${ic('plus', { size: 18 })} New list</button>`;
   };
+  const changed = () => { if (onChange) { try { onChange(); } catch { /* ignore */ } } };
   const s = sheet(render(), { title: 'Save to list' });
   s.body.addEventListener('change', (ev) => {
     const cb = ev.target.closest('input[data-list]'); if (!cb) return;
     if (cb.checked) { store.addToList(cb.dataset.list, itemId); toast('Added to ' + store.lists[cb.dataset.list].name, { kind: 'ok' }); }
     else store.removeFromList(cb.dataset.list, itemId);
+    changed();
   });
   s.body.addEventListener('click', async (ev) => {
     if (!ev.target.closest('[data-new-list]')) return;
     const name = await promptDialog('Name of the new list', { placeholder: 'e.g. Kitchen words' });
-    if (name) { const id = store.createList(name); store.addToList(id, itemId); s.body.innerHTML = render(); }
+    if (name) { const id = store.createList(name); store.addToList(id, itemId); s.body.innerHTML = render(); changed(); }
   });
 }
 
@@ -324,7 +328,7 @@ export function bindActionBar(root, e, rerender) {
     const b = ev.target.closest('[data-act]'); if (!b) return;
     const act = b.dataset.act;
     if (act === 'bank') { if (store.inList('bank', e.id)) { store.removeFromList('bank', e.id); toast('Removed from word bank'); } else { store.addToList('bank', e.id); toast('Saved to word bank', { kind: 'ok' }); } rerender && rerender(); }
-    else if (act === 'lists') openListPicker(e.id);
+    else if (act === 'lists') openListPicker(e.id, { onChange: () => rerender && rerender() });
     else if (act === 'learned') { if (store.isLearned(e.id)) { store.unlearn(e.id); toast('Unmarked'); } else { store.markLearned(e.id, e.kind); toast('Marked as learned', { kind: 'ok' }); } rerender && rerender(); }
     else if (act === 'delete-custom') { const { confirmDialog } = await import('./ui.js'); if (await confirmDialog('Delete this custom word?', { ok: 'Delete', danger: true })) { store.removeCustomWord(e.id); const { registerCustom } = await import('./data.js'); registerCustom(store.current.custom); location.hash = '#/lists'; } }
   };

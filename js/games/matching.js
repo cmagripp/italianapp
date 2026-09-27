@@ -2,7 +2,7 @@
 // Two columns of equal-height glass tiles; matched pairs dissolve, wrong pairs shake.
 import { html, raw, esc, haptic, speak } from '../ui.js';
 import { store } from '../store.js';
-import { headword, shortEn, shuffle } from '../data.js';
+import { headword, shortEn, shuffle, fold } from '../data.js';
 import { conjugate, primary, PERSONS, MISSING } from '../conjugator.js';
 import { showResults, gameTop, pad2 } from './engine.js';
 import fx from '../fx.js';
@@ -11,8 +11,6 @@ export function startMatching(root, ctx) {
   const mode = ctx.options?.mode || 'translate';
   const all = ctx.items.slice();
   const roundSize = 6;
-  const rounds = [];
-  for (let i = 0; i < all.length; i += roundSize) rounds.push(all.slice(i, i + roundSize));
   let r = 0, mistakes = 0, matched = 0; const missed = new Set(); const start = Date.now();
   const total = all.length;
 
@@ -24,10 +22,23 @@ export function startMatching(root, ctx) {
     }
     return [e.kind === 'verb' ? e.inf : headword(e), shortEn(e.en)];
   }
+  // A round never shows the same text twice (three A1 words mean "you're welcome"): an item whose word or meaning is
+  // already on the board waits for a later round, so every tile has exactly one partner.
+  const pending = all.map(e => { const [a, b] = pairFor(e); return { e, a, b }; });
+  const rounds = [];
+  while (pending.length) {
+    const round = []; const seenA = new Set(), seenB = new Set();
+    for (let i = 0; i < pending.length && round.length < roundSize;) {
+      const p = pending[i];
+      if (seenA.has(fold(p.a)) || seenB.has(fold(p.b))) { i++; continue; }
+      seenA.add(fold(p.a)); seenB.add(fold(p.b)); round.push(p); pending.splice(i, 1);
+    }
+    rounds.push(round);
+  }
   function renderRound() {
-    const items = rounds[r];
-    if (!items) return finish();
-    const pairs = items.map(e => ({ e, ...(([a, b]) => ({ a, b }))(pairFor(e)) }));
+    const pairs = rounds[r];
+    if (!pairs) return finish();
+    const items = pairs.map(p => p.e);
     const left = shuffle(pairs.map(p => ({ id: p.e.id, text: p.a })));
     const right = shuffle(pairs.map(p => ({ id: p.e.id, text: p.b })));
     root.innerHTML = gameTop(ctx.backHref, { i: matched, total, count: `${pad2(matched)} / ${pad2(total)}` }) + html`
@@ -68,7 +79,8 @@ export function startMatching(root, ctx) {
     const correct = Math.max(0, total - missed.size);
     const result = { gameId: 'matching', total, correct, wrong: missed.size, score: total ? Math.round((correct / total) * 100) : 0, missed: [...missed], secs: Math.round((Date.now() - start) / 1000) };
     result.xp = correct * 2 + (mistakes === 0 && total >= 6 ? 10 : 0);
-    store.recordGame('matching', result);
+    // recordAnswer already awarded 2 XP per matched pair: the game record adds only the perfect-run bonus
+    store.recordGame('matching', { ...result, xp: result.xp - correct * 2 });
     showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, extraHTML: html`<p class="center results-line">${mistakes} wrong tap${mistakes === 1 ? '' : 's'}</p>` });
   }
   renderRound();

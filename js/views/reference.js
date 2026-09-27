@@ -34,7 +34,9 @@ export function refRow(e, { showLevel = true, sub = null, extra = '' } = {}) {
 }
 export const refList = (entries) => `<div class="list">${entries.map(e => refRow(e)).join('')}</div>`;
 
-const isIrregular = (e) => conjugate(e.inf, { aux: e.aux, isc: e.isc }).irregular;
+// The build stores the engine's verdict on every dictionary verb (irregularEngine), so the chip does not have to conjugate
+// all 1,185 verbs on tap; a custom verb (no field) still asks the engine.
+const isIrregular = (e) => (typeof e.irregularEngine === 'boolean' ? e.irregularEngine : conjugate(e.inf, { aux: e.aux, isc: e.isc }).irregular);
 const GROUP_CHIPS = [
   { key: 'are', label: '-are', kicker: 'Verbi', title: 'Verbs in -are', filter: e => verbGroup(e) === '-are' },
   { key: 'ere', label: '-ere', kicker: 'Verbi', title: 'Verbs in -ere', filter: e => verbGroup(e) === '-ere' },

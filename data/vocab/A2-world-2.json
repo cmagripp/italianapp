@@ -71,7 +71,7 @@
 {"it":"di solito","en":"usually","pos":"expr","level":"A2","cat":"time","ex":"Di solito faccio colazione al bar.","exEn":"I usually have breakfast at the bar."},
 {"it":"ogni tanto","en":"every now and then; occasionally","pos":"expr","level":"A2","cat":"time","ex":"Ogni tanto ci sentiamo per telefono.","exEn":"Every now and then we talk on the phone."},
 {"it":"durante","en":"during","pos":"prep","level":"A2","cat":"time","ex":"Durante la lezione non si può usare il telefono.","exEn":"During the lesson you can't use your phone."},
-{"it":"fino a","en":"until; as far as; up to","pos":"expr","level":"A2","cat":"time","ex":"Oggi resto in ufficio fino a tardi.","exEn":"Today I'm staying at the office until late.","note":"Combines with the article: 'fino alle sette', 'fino al mese prossimo'."},
+{"it":"fino a","en":"until; as far as; up to","pos":"prep","level":"A2","cat":"time","ex":"Oggi resto in ufficio fino a tardi.","exEn":"Today I'm staying at the office until late.","note":"Combines with the article: 'fino alle sette', 'fino al mese prossimo'."},
 {"it":"periodo","en":"period; time","pos":"noun","g":"m","pl":"periodi","level":"A2","cat":"time","ex":"In questo periodo ho molto lavoro.","exEn":"At the moment I have a lot of work."},
 {"it":"attimo","en":"moment; instant","pos":"noun","g":"m","pl":"attimi","level":"A2","cat":"time","ex":"Aspetta un attimo, arrivo subito.","exEn":"Wait a moment, I'll be right there."},
 {"it":"mezzanotte","en":"midnight","pos":"noun","g":"f","pl":"-","level":"A2","cat":"time","ex":"La festa è finita a mezzanotte.","exEn":"The party ended at midnight."},

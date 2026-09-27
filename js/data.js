@@ -25,18 +25,20 @@ export const GENDER_NAME = { m: 'masculine', f: 'feminine', mf: 'masc./fem.' };
 
 export const data = { vocab: [], verbs: [], byId: new Map(), loaded: false, stats: null };
 
+// A failed response (500 from the host, a captive-portal page) is reported by status instead of as a JSON parse error.
+const getJSON = (url) => fetch(url).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} loading ${url}`); return r.json(); });
 export async function loadData(base = '') {
   const [v, vb, st] = await Promise.all([
-    fetch(base + 'data/vocab.json').then(r => r.json()),
-    fetch(base + 'data/verbs.json').then(r => r.json()),
-    fetch(base + 'data/stats.json').then(r => r.json()).catch(() => null),
+    getJSON(base + 'data/vocab.json'),
+    getJSON(base + 'data/verbs.json'),
+    getJSON(base + 'data/stats.json').catch(() => null),
   ]);
   data.vocab = v; data.verbs = vb; data.stats = st;
   data.byId = new Map();
   for (const e of v) { e.kind = 'word'; data.byId.set(e.id, e); }
   for (const e of vb) { e.kind = 'verb'; e.it = e.inf; data.byId.set(e.id, e); }
   data.loaded = true;
-  buildSearchIndex();
+  searchIndex = null;
   return data;
 }
 
@@ -44,7 +46,7 @@ export async function loadData(base = '') {
 export function registerCustom(customMap) {
   for (const id of [...data.byId.keys()]) if (id.startsWith('c:')) data.byId.delete(id);
   for (const e of Object.values(customMap || {})) { e.kind = e.pos === 'verb' ? 'verb' : 'word'; if (e.kind === 'verb') e.inf = e.it; data.byId.set(e.id, e); }
-  buildSearchIndex();
+  searchIndex = null;
 }
 
 export const getEntry = (id) => data.byId.get(id) || null;
@@ -53,7 +55,9 @@ export const isVerb = (e) => !!e && e.kind === 'verb';
 // ---------- text helpers ----------
 export const fold = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’]/g, "'");
 
-let searchIndex = [];
+// Built lazily on the first search (folding 8,000+ entries is not paid on the boot path) and dropped whenever the
+// entries change (loadData, registerCustom); null = stale.
+let searchIndex = null;
 function buildSearchIndex() {
   searchIndex = [];
   for (const e of data.byId.values()) {
@@ -65,6 +69,7 @@ function buildSearchIndex() {
 export function search(query, { limit = 40, kind = null } = {}) {
   const q = fold(query).trim();
   if (!q) return [];
+  if (!searchIndex) buildSearchIndex();
   const qNoTo = q.replace(/^to /, '');
   const results = [];
   for (const r of searchIndex) {
@@ -88,15 +93,20 @@ function startsLo(w) {
   const s = fold(w);
   return /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou]|j)/.test(s);
 }
-function startsVowel(w) { return /^[aeiouàèéìíîòóùú]/.test(fold(w)); }
+function startsVowel(w) { return /^h?[aeiouàèéìíîòóùú]/.test(fold(w)); } // a leading h is silent: l'hotel, gli hobby
 
 export function article(entry, plural = false) {
   if (!entry || entry.pos !== 'noun') return '';
   const w = plural ? entry.pl : entry.it;
   if (!w || w === '-') return '';
   const g = entry.g;
-  if (g === 'mf') return plural ? (startsLo(w) || startsVowel(w) ? 'gli/le' : 'i/le') : (startsVowel(w) ? "l'" : (startsLo(w) ? 'lo/la' : 'il/la'));
+  if (g === 'mf') {
+    // -ista / -a nouns: the listed -i plural is the masculine one (the feminine is -e), so only the masculine article fits
+    if (plural && /a$/.test(fold(entry.it)) && /i$/.test(fold(w))) return (startsLo(w) || startsVowel(w)) ? 'gli' : 'i';
+    return plural ? (startsLo(w) || startsVowel(w) ? 'gli/le' : 'i/le') : (startsVowel(w) ? "l'" : (startsLo(w) ? 'lo/la' : 'il/la'));
+  }
   if (g === 'f') return plural ? 'le' : (startsVowel(w) ? "l'" : 'la');
+  if (plural && /o$/.test(fold(entry.it)) && /a$/.test(fold(w))) return 'le'; // uovo → le uova, braccio → le braccia
   if (plural) return (startsLo(w) || startsVowel(w)) ? 'gli' : 'i';
   return startsVowel(w) ? "l'" : (startsLo(w) ? 'lo' : 'il');
 }
@@ -104,7 +114,7 @@ export const withArticle = (entry, plural = false) => {
   const a = article(entry, plural); const w = plural ? entry.pl : entry.it;
   if (!a) return w; return a.endsWith("'") ? a + w : a + ' ' + w;
 };
-export function isPluralOnly(e) { return e.pos === 'noun' && e.pl === e.it && /(plural[- ]only|solo (al )?plurale|plurale tantum|plural noun|only in the plural|always plural|plurale)/i.test(e.note || '') && /[ie]$/.test(e.it); }
+export function isPluralOnly(e) { return e.pos === 'noun' && e.pl === e.it && /(plural[- ]only|solo (al )?plurale|plurale tantum|plural noun|only in the plural|always plural|plurale)/i.test(e.note || '') && !/invariab/i.test(e.note || '') && /[ie]$/.test(e.it); }
 export function isUncountable(e) { return e.pos === 'noun' && (e.pl === '-' || e.pl === '—'); }
 
 // Display headword: nouns with article, verbs as infinitive

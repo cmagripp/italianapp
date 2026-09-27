@@ -17,7 +17,9 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <!-- The web fonts must never block first paint: the stylesheet loads as a print sheet (non-blocking) and is switched on
+       when it arrives, the fallback stack renders meanwhile (display=swap); a slow or unreachable fonts host cannot delay the app. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/learn.css">
   <link rel="stylesheet" href="css/reference.css">
@@ -25,6 +27,17 @@
   <link rel="stylesheet" href="css/views-a.css">
   <link rel="stylesheet" href="css/views-b.css">
   <link rel="stylesheet" href="css/views-c.css">
+  <!-- The boot modules and the dictionary start downloading with the HTML instead of after the CSS → app.js → imports chain. -->
+  <link rel="modulepreload" href="js/app.js">
+  <link rel="modulepreload" href="js/store.js">
+  <link rel="modulepreload" href="js/data.js">
+  <link rel="modulepreload" href="js/ui.js">
+  <link rel="modulepreload" href="js/icons.js">
+  <link rel="modulepreload" href="js/fx.js">
+  <link rel="modulepreload" href="js/sync.js">
+  <link rel="modulepreload" href="js/srs.js">
+  <link rel="preload" href="data/vocab.json" as="fetch" crossorigin>
+  <link rel="preload" href="data/verbs.json" as="fetch" crossorigin>
 </head>
 <body>
   <div class="aurora" aria-hidden="true"><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="grain"></div></div>

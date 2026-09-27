@@ -51,7 +51,8 @@ body.walkthrough #view { padding-bottom: 0; }
 .wt-scene .scene-foot.locked .foot-row .hint { text-align: left; }
 .wt-scene .scene-foot:not(.locked) .wt-cta { animation: ctaGrow var(--t-slow) var(--ease-out) both; transform-origin: 50% 100%; }
 @keyframes ctaGrow { from { opacity: .3; transform: scaleY(.55); } to { opacity: 1; transform: none; } }
-.wt-rail { position: fixed; top: calc(var(--top-h) + var(--sat) + 14px); bottom: calc(var(--sab) + 18px); right: max(5px, calc((100vw - var(--content-max)) / 2 + 5px)); width: 4px; height: auto; z-index: 5; gap: 3px; pointer-events: none; }
+/* .rail.v sets height: 100% (viewport-tall for a fixed box): the compound selector outranks it so top + bottom size the rail and its last segments stay on screen */
+.rail.v.wt-rail { position: fixed; top: calc(var(--top-h) + var(--sat) + 14px); bottom: calc(var(--sab) + 18px); right: max(5px, calc((100vw - var(--content-max)) / 2 + 5px)); width: 4px; height: auto; z-index: 5; gap: 3px; pointer-events: none; }
 .wt-rail > span { transition: background var(--t-slow), box-shadow var(--t-slow); }
 
 /* ---------- 2. MEET ---------- */

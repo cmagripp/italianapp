@@ -1,7 +1,7 @@
 // Study scope: which levels / topics / lists feed Learn, Review and the default game source.
 // A rotary level dial colours the scene and adds levels to the multi-select; chips below keep every level toggleable.
 import { html, raw, esc, toast, tr, enPill, speakBtn, icon } from '../ui.js';
-import { setTitle } from '../app.js';
+import { setTitle, back } from '../app.js';
 import { store } from '../store.js';
 import { data, LEVELS, LEVEL_INFO, CATS, itemsForScope } from '../data.js';
 import { setScene, dial, mount } from '../fx.js';
@@ -128,7 +128,8 @@ export async function render(root) {
     store.setScope(sc);
     if (sc.mode === 'level' && sc.levels.length === 1) store.setSetting('level', sc.levels[0]);
     toast('Study scope saved', { kind: 'ok' });
-    history.length > 1 ? history.back() : (location.hash = '#/learn');
+    back('#/learn'); // the router's back(): a raw history.back() on a fresh load of #/scope left the app
+
   });
   wrap.addEventListener('click', (ev) => {
     const t = ev.target;

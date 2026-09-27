@@ -17,7 +17,7 @@ export async function render(root) {
   function draw() {
     const bank = store.lists.bank;
     const custom = Object.values(store.lists).filter(l => l.id !== 'bank');
-    const learnedW = store.learnedIds().filter(id => !id.startsWith('v:')).length, learnedV = store.learnedIds('v:').length;
+    const learnedW = store.learnedWordIds().length, learnedV = store.learnedIds('v:').length;
     const customN = Object.keys(store.current.custom || {}).length;
     const bankLearned = bank.items.filter(id => store.isLearned(id)).length;
     root.innerHTML = html`<div class="pg pg-lists">
@@ -50,7 +50,7 @@ export async function render(root) {
     dropdown(anchor, content, { align: 'end', width: 264, onSelect: async (v) => {
       if (v === 'rename') { const n = await promptDialog('Rename list', { value: l.name }); if (n) { store.renameList(id, n); draw(); } }
       else if (v === 'delete') { if (await confirmDialog(`Delete “${l.name}”? The words themselves are kept.`, { ok: 'Delete', danger: true })) { store.deleteList(id); draw(); } }
-      else if (v === 'play') location.hash = `#/games?pick=quiz&src=list:${id}`;
+      else if (v === 'play') location.hash = `#/games?pick=quiz&src=list:${encodeURIComponent(id)}`;
       else if (v === 'scope') { store.setScope({ mode: 'lists', lists: [id] }); toast('Study scope set to ' + l.name, { kind: 'ok' }); }
     } });
   }

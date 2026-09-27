@@ -3,7 +3,7 @@
 import { html, raw, tr, enPill, speakBtn, levelBadge, secHead, fmtNum, toast, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store, todayKey } from '../store.js';
-import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, CATS } from '../data.js';
+import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, CATS, itemsForScope } from '../data.js';
 import { IT_POS } from '../components.js';
 import { conjugate, primary } from '../conjugator.js';
 import { GAMES } from '../games/index.js';
@@ -56,13 +56,15 @@ function nightCard(e, kind) {
 }
 
 export async function render(root) {
-  setTitle('Parola');
+  setTitle(''); // the top bar shows "Parola" on its own; 'Parola' here made the document title "Parola · Parola"
   const p = store.current;
   const day = store.today();
   const s = p.settings;
   const due = store.dueIds().length;
-  const newWordsLeft = Math.max(0, s.dailyNew - ((day.new || 0) - (day.newVerbs || 0)));
-  const newVerbsLeft = Math.max(0, s.dailyVerbs - (day.newVerbs || 0));
+  // the plan never promises more new items than the study scope still holds (a 2-word list is not "8 new words")
+  const unlearnedInScope = (kind) => itemsForScope(store.scope, store, { kind }).filter(e => !store.isLearned(e.id)).length;
+  const newWordsLeft = Math.min(Math.max(0, s.dailyNew - ((day.new || 0) - (day.newVerbs || 0))), unlearnedInScope('word'));
+  const newVerbsLeft = Math.min(Math.max(0, s.dailyVerbs - (day.newVerbs || 0)), unlearnedInScope('verb'));
   let lvl = LEVELS.includes(s.level) ? s.level : 'A1';
   const hour = new Date().getHours();
   const [greetIt, greetEn] = hour < 12 ? ['Buongiorno', 'Good morning'] : hour < 18 ? ['Buon pomeriggio', 'Good afternoon'] : ['Buonasera', 'Good evening'];

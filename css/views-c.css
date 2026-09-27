@@ -129,7 +129,7 @@
 .me .card .row.gap .btn.grow { min-width: 0; padding-left: 12px; padding-right: 12px; font-size: 15px; } /* "Create account" fits a 375px half-row */
 .sync-on { display: flex; align-items: center; gap: 12px; padding: 12px 12px; border-radius: 16px; background: var(--glass-strong); border: 1px solid var(--glass-border); margin-bottom: 4px; }
 .sync-on .sync-ico { color: var(--turquoise); }
-.sync-on .lab { font-weight: 700; overflow-wrap: anywhere; } .sync-on .sub { font-size: 13px; color: var(--ink-2); }
+.sync-on .lab { font-weight: 700; overflow-wrap: anywhere; } .sync-on .sub { font-size: 13px; color: var(--ink-2); overflow-wrap: anywhere; }
 .sync-status { min-height: 18px; font-size: 13px; color: var(--ink-2); margin-top: 10px; }
 .sync-status.ko { color: var(--ko); }
 .me pre.sql { white-space: pre-wrap; font-family: var(--font-mono); font-size: 12px; line-height: 1.5; padding: 14px; border-radius: 14px; background: var(--glass); border: 1px solid var(--glass-border); color: var(--ink); overflow-wrap: anywhere; }
@@ -243,6 +243,8 @@ html.paused .me-avatar::before { animation-play-state: paused; }
   .me-id { text-align: center; } .me-name, .me-xp, .me-streak { justify-content: center; }
   .me .seg button, .scope .seg button { padding: 0 8px; font-size: 10px; }
 }
+/* the four scope modes ("Levels & topics · My lists · Learned · All") need 345px at 12px side padding: on a 375px phone every label was ellipsised ("A…") */
+@media (max-width: 389px) { .scope .mode-seg button { padding: 0 8px; } }
 @media (min-width: 560px) {
   .me-hero { padding: 24px 24px 20px; }
   .me .heat, .heat-days { grid-template-columns: repeat(7, minmax(0, 44px)); }

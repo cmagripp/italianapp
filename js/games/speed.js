@@ -11,7 +11,7 @@ export function startSpeed(root, ctx) {
   const pool = ctx.pool;
   const DURATION = Math.max(3, Number(ctx.options?.seconds) || 60);
   const verbsOnly = ctx.options?.mode === 'conj';
-  let idx = 0, correct = 0, wrong = 0, streak = 0, best = 0; const missed = new Set(); const answered = new Set();
+  let idx = 0, correct = 0, wrong = 0, streak = 0, best = 0, xpGiven = 0; const missed = new Set(); const answered = new Set();
   const start = Date.now(); let timer = null; let ended = false;
 
   function nextQ() {
@@ -52,7 +52,7 @@ export function startSpeed(root, ctx) {
       const ok = !!c.correct;
       haptic(ok ? 'success' : 'error');
       if (ok) { correct++; streak++; best = Math.max(best, streak); } else { wrong++; streak = 0; missed.add(q.itemId); }
-      if (!answered.has(q.itemId)) { answered.add(q.itemId); store.recordAnswer(q.itemId, ok, { quality: ok ? 4 : 1, xp: ok ? 1 : 0 }); }
+      if (!answered.has(q.itemId)) { answered.add(q.itemId); store.recordAnswer(q.itemId, ok, { quality: ok ? 4 : 1, xp: ok ? 1 : 0 }); if (ok) xpGiven++; }
       stat('[data-correct]', correct); stat('[data-wrong]', wrong); stat('[data-streak]', streak);
       const sEl = root.querySelector('[data-streak]'); if (sEl && ok) fx.pulse(sEl.parentElement);
       qArea.querySelectorAll('[data-c]').forEach((x, k) => { x.setAttribute('disabled', ''); if (q.choices[k].correct) x.classList.add('correct'); else if (k === Number(b.dataset.c)) x.classList.add('wrong'); else x.classList.add('dim'); });
@@ -72,7 +72,8 @@ export function startSpeed(root, ctx) {
     const total = correct + wrong;
     const result = { gameId: 'speed', total, correct, wrong, score: total ? Math.round((correct / total) * 100) : 0, missed: [...missed], secs: DURATION };
     result.xp = correct + best * 2;
-    store.recordGame('speed', result);
+    // recordAnswer already awarded 1 XP per item first answered right: the game record adds the rest
+    store.recordGame('speed', { ...result, xp: result.xp - xpGiven });
     showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, extraHTML: html`<div class="grid3 mb speed-summary"><div class="stat"><div class="num">${correct}</div><div class="lab">correct</div></div><div class="stat"><div class="num gold">${best}</div><div class="lab">best streak</div></div><div class="stat"><div class="num">${total ? Math.round(DURATION / total * 10) / 10 : 0}s</div><div class="lab">per answer</div></div></div>` });
   }
   render();

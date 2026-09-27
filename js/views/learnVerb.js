@@ -50,7 +50,8 @@ const PREP_FORMS = {
 const PLACEHOLDERS = new Set(['qualcuno', 'qualcosa', 'fare', 'un', 'una', 'uno', 'il', 'lo', 'la', 'le', 'i', 'gli', "l'", 'che', 'di', 'a', 'da', 'in', 'con', 'su', 'per', 'tra', 'fra', 'se', 'si']);
 // Verbs whose English subject is not the Italian one (mi piace = I like it, literally "it pleases me"): the meet floats
 // show the Italian forms alone rather than a misleading "I like".
-const NO_PERSON_GLOSS = /^(piacere|dispiacere|servire|mancare|interessare|bastare|esserci|occorrere|importare|sembrare|convenire|spettare|toccare|succedere|capitare)$/;
+// Impersonal weather verbs (piove, nevica) have no "I rain" either.
+const NO_PERSON_GLOSS = /^(piacere|dispiacere|servire|mancare|interessare|bastare|esserci|occorrere|importare|sembrare|convenire|spettare|toccare|succedere|capitare|piovere|nevicare|grandinare|tuonare|lampeggiare|diluviare|piovigginare|nevischiare|albeggiare|imbrunire|annottare)$/;
 
 // "to eat" → I eat / you eat / he or she eats (naive English inflection for the meet-card floats)
 function enPerson(en, i) {
@@ -198,7 +199,7 @@ export async function render(root, params) {
         body.querySelector('.wt-helper')?.remove();
         body.querySelector('.aux-q .blank').textContent = e.aux === 'both' ? 'ha / è' : (e.aux === 'essere' ? 'è' : 'ha');
         const fb = body.querySelector('[data-fb]');
-        fb.innerHTML = `<div class="feedback ${ok ? 'ok' : revealed ? 'info' : 'ko'}">${ok ? icon('check', { size: 18 }) + ' Esatto — ' : revealed ? icon('sparkle', { size: 18 }) + ' ' : icon('x', { size: 18 }) + ' Not quite — '}${esc(e.inf)} takes <b>${esc(correct.label)}</b>.<div class="detail">${q.explain}</div></div>`;
+        fb.innerHTML = `<div class="feedback ${ok ? 'ok' : revealed ? 'info' : 'ko'}">${ok ? icon('check', { size: 18 }) + ' Esatto — ' : revealed ? icon('sparkle', { size: 18 }) + ' ' : icon('x', { size: 18 }) + ' Not quite — '}${esc(e.inf)} takes <b>${correct.key === 'both' ? 'avere or essere' : esc(correct.label)}</b>.<div class="detail">${q.explain}</div></div>`;
         celebrateAux(body.querySelector(`[data-aux="${tiles.indexOf(correct)}"]`), correct.label.toUpperCase());
         haptic(ok ? 'success' : 'error');
         speak(q.say);
@@ -327,7 +328,10 @@ export async function render(root, params) {
     key: 'nonfinite', title: 'Participio & gerundio', colors: ['#a3b86c', '#f2c14e', '#38bdf8'], lockLabel: 'Type both forms', hintLocked: 'Type it, or pick from a list',
     render(body, api) {
       const steps = [];
-      if (hasPP) steps.push({ kind: 'pp', label: 'participio passato', lead: auxKey === 'essere' ? 'sono' : 'ho', answer: accepted(conj.nonFinite.participioPassato), form: pp });
+      // after "sono ?" the agreeing participle is right too (sono andata; me la sono cavata; ce l'ho fatta): accept the
+      // form as it appears in the passato prossimo besides the citation form
+      const ppInUse = accepted(conj.tenses.passatoProssimo && conj.tenses.passatoProssimo[0]).map(f => f.split(' ').pop()).filter(f => f && f !== MISSING);
+      if (hasPP) steps.push({ kind: 'pp', label: 'participio passato', lead: auxKey === 'essere' ? 'sono' : 'ho', answer: [...new Set([...accepted(conj.nonFinite.participioPassato), ...ppInUse])], form: pp });
       if (hasGer) steps.push({ kind: 'ger', label: 'gerundio', lead: 'sto', answer: accepted(conj.nonFinite.gerundio), form: ger });
       body.innerHTML = html`<div class="nf-slots">${raw(steps.map(s => html`<div class="nf-slot glass-flat" data-slot="${s.kind}"><span class="lab">${s.label}</span><span class="val"><span class="lead-word">${s.lead}</span> <span class="ans">?</span></span></div>`).join(''))}</div>
         <div class="row between nf-mode"><span class="kicker" data-nf-step></span><button type="button" class="btn xs ghost" data-mode>${raw(icon('list', { size: 16 }))}Pick instead</button></div>
@@ -403,7 +407,9 @@ export async function render(root, params) {
       const host = api.body.querySelector('[data-host]');
       const start = () => {
         if (drill) drill.destroy();
-        drill = runDrill(host, drillQuestions(), {
+        const qs = drillQuestions();
+        if (qs.length !== 9) api.setHint(`${qs.length} quick questions · pass with ${PASS} %`); // defective verbs get fewer
+        drill = runDrill(host, qs, {
           title: 'Verb drill', gameId: 'verb-intro', backHref: '#/learn', xpPer: 3, passScore: PASS, record: false,
           onDone: (result) => {
             st.result = result;
@@ -451,7 +457,8 @@ export async function render(root, params) {
     },
   };
 
-  const scenesList = [meet, meaning, casesScene, auxScene, ...tenses.map(tenseScene), ...(examples.length ? [examplesScene] : []), nonFiniteScene, drillScene, finito];
+  // a verb without a participle (solere, urgere…) has no compound tenses, so there is no auxiliary to pick (qAux is null)
+  const scenesList = [meet, meaning, casesScene, ...(hasPP ? [auxScene] : []), ...tenses.map(tenseScene), ...(examples.length ? [examplesScene] : []), nonFiniteScene, drillScene, finito];
   const wt = createWalkthrough(root, { level, scenes: scenesList });
   return () => wt.destroy();
 }

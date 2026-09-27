@@ -84,7 +84,7 @@
 {"it":"dente","en":"tooth","pos":"noun","g":"m","pl":"denti","level":"A1","cat":"body","ex":"Mi lavo i denti dopo cena.","exEn":"I brush my teeth after dinner."},
 {"it":"cuore","en":"heart","pos":"noun","g":"m","pl":"cuori","level":"A1","cat":"body","ex":"Il cuore batte forte.","exEn":"The heart is beating fast."},
 {"it":"pancia","en":"belly; tummy","pos":"noun","g":"f","pl":"pance","level":"A1","cat":"body","ex":"Ho mangiato troppo e mi fa male la pancia.","exEn":"I ate too much and my tummy hurts.","note":"Colloquial; 'stomaco' is stomach."},
-{"it":"mal di testa","en":"headache","pos":"expr","level":"A1","cat":"body","ex":"Oggi ho mal di testa.","exEn":"I have a headache today.","note":"Pattern 'avere mal di + body part': mal di pancia, mal di gola, mal di denti."},
+{"it":"mal di testa","en":"headache","pos":"noun","g":"m","pl":"mal di testa","level":"A1","cat":"body","ex":"Oggi ho mal di testa.","exEn":"I have a headache today.","note":"Pattern 'avere mal di + body part': mal di pancia, mal di gola, mal di denti."},
 {"it":"dottore","en":"doctor","pos":"noun","g":"m","pl":"dottori","fem":"dottoressa","level":"A1","cat":"body","ex":"Domani vado dal dottore.","exEn":"Tomorrow I'm going to the doctor.","note":"Also a title for any university graduate. 'Medico' is the profession."},
 {"it":"malato","en":"ill; sick","pos":"adj","forms":["malato","malata","malati","malate"],"level":"A1","cat":"body","ex":"Luca è malato e resta a casa.","exEn":"Luca is ill and is staying at home."},
 {"it":"febbre","en":"fever; temperature","pos":"noun","g":"f","pl":"febbri","level":"A1","cat":"body","ex":"Ho la febbre alta.","exEn":"I have a high temperature.","note":"'Avere la febbre' = to have a fever."},

@@ -6,15 +6,20 @@ const DB_NAME = 'italiano-db';
 const KV = 'kv';
 const LS_PROFILES = 'it.profiles';
 const LS_CURRENT = 'it.currentProfile';
+const LS_PENDING = 'it.pendingProfile'; // unsaved profile mirrored on pagehide (see init)
 
 function openDB() {
-  return new Promise((resolve, reject) => {
-    if (!('indexedDB' in window)) return resolve(null);
-    const req = indexedDB.open(DB_NAME, 1);
-    req.onupgradeneeded = () => { req.result.createObjectStore(KV); };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => resolve(null);
-    req.onblocked = () => resolve(null);
+  return new Promise((resolve) => {
+    // open() itself throws (SecurityError) with Safari's "Block all cookies" and in some private / embedded contexts:
+    // that must fall back to localStorage like a failed open does, not reject and leave the app on its spinner
+    try {
+      if (!('indexedDB' in window) || !window.indexedDB) return resolve(null);
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => { req.result.createObjectStore(KV); };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+      req.onblocked = () => resolve(null);
+    } catch { resolve(null); }
   });
 }
 let dbPromise = null;
@@ -40,7 +45,10 @@ async function kvSet(key, value) {
       const tx = d.transaction(KV, 'readwrite');
       tx.objectStore(KV).put(value, key);
       tx.oncomplete = () => resolve(true);
+      // a transaction that fails at commit (quota exceeded, I/O error) fires only `abort`, not `error`: without this
+      // handler the save promise never settles and everything that awaits it (switch user, import, reset, sync) hangs
       tx.onerror = () => resolve(false);
+      tx.onabort = () => resolve(false);
     } catch { resolve(false); }
   });
 }
@@ -48,7 +56,7 @@ async function kvDel(key) {
   const d = await db();
   if (!d) { try { localStorage.removeItem('kv:' + key); } catch { /* ignore */ } return; }
   return new Promise((resolve) => {
-    try { const tx = d.transaction(KV, 'readwrite'); tx.objectStore(KV).delete(key); tx.oncomplete = () => resolve(true); tx.onerror = () => resolve(false); } catch { resolve(false); }
+    try { const tx = d.transaction(KV, 'readwrite'); tx.objectStore(KV).delete(key); tx.oncomplete = () => resolve(true); tx.onerror = () => resolve(false); tx.onabort = () => resolve(false); } catch { resolve(false); }
   });
 }
 
@@ -94,6 +102,7 @@ class Store extends EventTarget {
       this.profiles.push({ id: p.id, name: p.name, avatar: p.avatar, created: p.created });
       this._persistIndex();
       this.current = p;
+      this.touchDay(); // the first launch is day 1 of the streak like every later one (and marks the profile dirty, so it is really written)
       await this.saveNow();
       this._setCurrentId(p.id);
     } else {
@@ -102,9 +111,28 @@ class Store extends EventTarget {
     }
     // persistent storage request (iOS ignores, but harmless)
     try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch { /* ignore */ }
-    window.addEventListener('pagehide', () => this.saveNow());
+    // An IndexedDB write started during unload may never commit (a change made in the 400 ms before the app is closed or
+    // reloaded was lost), so a dirty profile is also mirrored synchronously to localStorage and picked up on the next start.
+    window.addEventListener('pagehide', () => { this._mirrorPending(); this.saveNow(); });
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') this.saveNow(); });
     return this;
+  }
+  _mirrorPending() {
+    if (!this.current || !this._dirty) return;
+    try { localStorage.setItem(LS_PENDING, JSON.stringify({ id: this.current.id, at: Date.now(), profile: this.current })); } catch { /* quota */ }
+  }
+  // The mirror of a profile is always newer than its IndexedDB copy: every successful saveNow() removes it. It stays until
+  // that write happens (switchProfile schedules one), so a second interrupted unload cannot lose it either.
+  _takePending(id) {
+    let raw = null;
+    try { raw = localStorage.getItem(LS_PENDING); } catch { return null; }
+    if (!raw) return null;
+    try {
+      const pend = JSON.parse(raw);
+      if (!pend || pend.id !== id) return null;
+      if (pend.profile && pend.profile.id === id) return pend.profile;
+      localStorage.removeItem(LS_PENDING); return null;
+    } catch { try { localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } return null; }
   }
 
   _persistIndex() { try { localStorage.setItem(LS_PROFILES, JSON.stringify(this.profiles)); } catch { /* ignore */ } }
@@ -115,8 +143,11 @@ class Store extends EventTarget {
 
   async switchProfile(id) {
     await this.saveNow();
+    const meta = this.profiles.find(x => x.id === id);
     let p = await kvGet('profile:' + id);
-    if (!p) { const meta = this.profiles.find(x => x.id === id); p = newProfile(meta ? meta.name : 'Learner', meta && meta.avatar); p.id = id; }
+    const pending = this._takePending(id);
+    if (pending) { p = pending; this._dirty = true; }
+    if (!p) { p = newProfile(meta ? meta.name : 'Learner', meta && meta.avatar); p.id = id; }
     // upgrade missing fields
     const fresh = newProfile(p.name, p.avatar);
     p.settings = { ...fresh.settings, ...(p.settings || {}) };
@@ -124,6 +155,7 @@ class Store extends EventTarget {
     this.current = p;
     this._setCurrentId(id);
     this.touchDay();
+    if (pending) this.save();
     this.emit('profile', p);
     this.emit('change');
     return p;
@@ -140,6 +172,7 @@ class Store extends EventTarget {
   async deleteProfile(id) {
     this.profiles = this.profiles.filter(p => p.id !== id);
     await kvDel('profile:' + id);
+    try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ }
     if (this.profiles.length === 0) { const p = newProfile('Learner'); this.profiles.push({ id: p.id, name: p.name, avatar: p.avatar, created: p.created }); await kvSet('profile:' + p.id, p); }
     this._persistIndex();
     if (!this.current || this.current.id === id) await this.switchProfile(this.profiles[0].id);
@@ -163,7 +196,8 @@ class Store extends EventTarget {
     clearTimeout(this._saveTimer);
     const meta = this.profiles.find(p => p.id === this.current.id);
     if (meta) { meta.lastActive = Date.now(); this._persistIndex(); }
-    await kvSet('profile:' + this.current.id, this.current);
+    const ok = await kvSet('profile:' + this.current.id, this.current);
+    if (ok) { try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === this.current.id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
   }
 
   // ---------- settings ----------
@@ -176,7 +210,7 @@ class Store extends EventTarget {
   markLearned(id, kind) {
     const it = this.ensureItem(id);
     if (!it.learned) {
-      it.learned = true; it.learnedAt = Date.now();
+      it.learned = true; it.learnedAt = Date.now(); it.last = Date.now(); // `last` is what cloud sync compares: newest copy wins
       if (it.s < 1) it.s = 1;
       if (!it.due) { it.due = Date.now() + 8 * 3600e3; it.iv = 0; }
       if (kind === 'verb') this.current.stats.verbsLearned = (this.current.stats.verbsLearned || 0) + 1;
@@ -186,7 +220,7 @@ class Store extends EventTarget {
     }
     this.save();
   }
-  unlearn(id) { const it = this.current.items[id]; if (it) { it.learned = false; this.save(); } }
+  unlearn(id) { const it = this.current.items[id]; if (it) { it.learned = false; it.last = Date.now(); this.save(); } }
   // record an answer: quality 0-5 (>=3 correct)
   recordAnswer(id, correct, opts = {}) {
     const it = this.ensureItem(id);
@@ -203,7 +237,10 @@ class Store extends EventTarget {
     return it;
   }
   isLearned(id) { const it = this.current.items[id]; return !!(it && it.learned); }
-  learnedIds(prefix) { return Object.entries(this.current.items).filter(([id, it]) => it.learned && (!prefix || id.startsWith(prefix))).map(([id]) => id); }
+  // a custom verb (c:…) is a verb too: the 'v:' prefix alone would file it under the learned words
+  isVerbId(id) { return id.startsWith('v:') || (id.startsWith('c:') && this.current.custom?.[id]?.pos === 'verb'); }
+  learnedIds(prefix) { return Object.entries(this.current.items).filter(([id, it]) => it.learned && (!prefix || (prefix === 'v:' ? this.isVerbId(id) : id.startsWith(prefix)))).map(([id]) => id); }
+  learnedWordIds() { return this.learnedIds().filter(id => !this.isVerbId(id)); }
   dueIds(now = Date.now()) { return Object.entries(this.current.items).filter(([, it]) => (it.learned || it.seen > 0) && it.due && it.due <= now).map(([id]) => id); }
 
   // ---------- lists ----------
@@ -224,13 +261,16 @@ class Store extends EventTarget {
     this.save();
     return id;
   }
-  updateCustomWord(id, patch) { if (this.current.custom[id]) { Object.assign(this.current.custom[id], patch); this.save(); } }
+  updateCustomWord(id, patch) { if (this.current.custom[id]) { Object.assign(this.current.custom[id], patch, { modified: Date.now() }); this.save(); } }
   removeCustomWord(id) { delete this.current.custom[id]; for (const l of Object.values(this.current.lists)) l.items = l.items.filter(x => x !== id); delete this.current.items[id]; this.save(); }
 
   // ---------- stats ----------
   _day() { const k = todayKey(); return (this.current.stats.days[k] ||= { new: 0, reviews: 0, correct: 0, wrong: 0, xp: 0, games: 0, time: 0 }); }
   touchDay() {
     const st = this.current.stats; const today = todayKey();
+    // lastActive after today = the clock went back past midnight (time-zone change westwards, a clock correction):
+    // that day was already counted, so nothing changes until the calendar catches up (the streak must not drop to 1)
+    if (st.lastActive && st.lastActive > today) return;
     if (st.lastActive !== today) {
       const y = new Date(); y.setDate(y.getDate() - 1);
       if (st.lastActive === todayKey(y)) st.streak = (st.streak || 0) + 1;
@@ -266,8 +306,9 @@ class Store extends EventTarget {
       const cur = this.current;
       for (const [id, it] of Object.entries(p.items)) { const c = cur.items[id]; if (!c || (it.last || 0) > (c.last || 0)) cur.items[id] = it; }
       for (const [id, l] of Object.entries(p.lists)) { if (!cur.lists[id]) cur.lists[id] = l; else cur.lists[id].items = [...new Set([...cur.lists[id].items, ...l.items])]; }
-      Object.assign(cur.custom, p.custom || {});
+      for (const [id, w] of Object.entries(p.custom || {})) { const c = cur.custom[id]; if (!c || (w.modified || w.created || 0) > (c.modified || c.created || 0)) cur.custom[id] = w; }
       cur.stats.xp = Math.max(cur.stats.xp, p.stats?.xp || 0);
+      cur.stats.bestStreak = Math.max(cur.stats.bestStreak || 0, p.stats?.bestStreak || 0);
       for (const [d, v] of Object.entries(p.stats?.days || {})) if (!cur.stats.days[d]) cur.stats.days[d] = v;
     } else {
       p.id = this.current.id; // keep current slot

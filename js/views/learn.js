@@ -124,7 +124,10 @@ export async function render(root) {
     const learnedVerbs = store.learnedIds('v:').length;
     const nextDue = Object.values(store.current.items).filter(it => (it.learned || it.seen > 0) && it.due && it.due > Date.now()).reduce((m, it) => Math.min(m, it.due), Infinity);
     const ringPct = Math.min(100, Math.round((due / Math.max(1, s.dailyReviews || 40)) * 100));
-    const sessionN = Math.min(words.length, Math.max(1, s.dailyNew - newWordsDone) || 5);
+    // the ?auto=1 chain runs until the daily goal is met, so the label counts what is left of the goal (capped by the
+    // unlearned words in scope), not the three cards of the deck
+    const wordsLeft = itemsForScope(store.scope, store, { kind: 'word' }).filter(e => !store.isLearned(e.id) && !(store.getItem(e.id)?.seen > 2)).length;
+    const sessionN = Math.max(1, Math.min(wordsLeft, s.dailyNew - newWordsDone));
 
     root.innerHTML = html`
       <div class="learn">

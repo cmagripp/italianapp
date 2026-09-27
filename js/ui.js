@@ -16,7 +16,7 @@ export function html(strings, ...vals) {
     let str;
     if (v == null || v === false) str = '';
     else if (v instanceof Raw) str = v.s;
-    else if (Array.isArray(v)) str = v.map(x => (x instanceof Raw ? x.s : esc(x))).join('');
+    else if (Array.isArray(v)) str = v.map(x => (x instanceof Raw ? x.s : x == null || x === false ? '' : esc(x))).join('');
     else str = esc(v);
     return out + str + s;
   });
@@ -78,6 +78,9 @@ export function toast(msg, { ms = 1800, kind = '' } = {}) {
 }
 
 // ---------- bottom sheet ----------
+// Open sheets are tracked so the router can dismiss them when the screen underneath changes (back button, tab, link).
+const openSheets = new Set();
+export function closeSheets() { for (const close of [...openSheets]) close(); }
 export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, cls = '' } = {}) {
   const wrap = el('div', { class: 'sheet-wrap' });
   wrap.innerHTML = html`<div class="sheet-backdrop"></div>
@@ -94,6 +97,7 @@ export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, 
   const onKey = (e) => { if (e.key === 'Escape') close(); };
   const close = (opts) => {
     if (closed) return; closed = true;
+    openSheets.delete(close);
     const silent = !!(opts && opts.silent === true);
     wrap.classList.remove('open');
     document.body.classList.remove('no-scroll');
@@ -101,6 +105,7 @@ export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, 
     setTimeout(() => wrap.remove(), 320);
     if (!silent && onClose) onClose();
   };
+  openSheets.add(close);
   document.addEventListener('keydown', onKey);
   wrap.querySelector('.sheet-backdrop').addEventListener('click', close);
   wrap.addEventListener('click', (e) => { if (e.target.closest('[data-close]')) close(); });
@@ -161,6 +166,8 @@ export function italianVoice() {
 }
 let activeSpeakBtn = null, speakTimer = null;
 function clearSpeaking() { if (activeSpeakBtn) activeSpeakBtn.classList.remove('speaking'); activeSpeakBtn = null; clearTimeout(speakTimer); }
+// Stops whatever is being read aloud; the router calls it on every navigation so a walkthrough or dictation never keeps talking over the next screen.
+export function stopSpeech() { clearSpeaking(); try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch { /* ignore */ } }
 // speak(text, { rate, force, button }) — `button` (a .speak element) pulses while the utterance plays.
 export function speak(text, { rate = null, force = false, button = null } = {}) {
   clearSpeaking();
@@ -168,7 +175,8 @@ export function speak(text, { rate = null, force = false, button = null } = {}) 
   if (!force && store.current && store.current.settings.tts === false) return false;
   try {
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(String(text).replace(/\|.*$/, '').replace(/\/[ae]\b/g, ''));
+    // "andato/a" is read "andato"; a noun of either gender ("il/la cantante", "i/le clienti") with its first article
+    const u = new SpeechSynthesisUtterance(String(text).replace(/\|.*$/, '').replace(/\/[ae]\b/g, '').replace(/\b(il|lo|i|gli)\/(la|le)\b/g, '$1'));
     u.lang = 'it-IT';
     const v = italianVoice(); if (v) u.voice = v;
     u.rate = rate ?? (store.current?.settings?.ttsRate || 0.9);

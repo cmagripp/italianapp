@@ -53,6 +53,10 @@ export async function render(root) {
   const onResize = () => placeKnobs(wrap, false);
   window.addEventListener('resize', onResize);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (wrap.isConnected) placeKnobs(wrap, false); });
+  // Safari / Chrome list the voices asynchronously (getVoices() is empty on the first call): once they arrive, a screen
+  // that said "No Italian voice found" and hid the Voice picker is drawn again with the real list.
+  const onVoices = () => { if (!wrap.isConnected) return; const sub = wrap.querySelector('[data-voice-sub]'); if (sub && !/^Voice:/.test(sub.textContent) && italianVoice()) draw(); };
+  if (window.speechSynthesis && speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged', onVoices);
 
   function draw() {
     const p = store.current; const s = p.settings; const st = p.stats;
@@ -106,7 +110,7 @@ export async function render(root) {
         ${raw(secHeadIt('Display & sound', 'Schermo e suono', 'Display & sound'))}
         <div class="set-row stack"><div class="set-head"><div class="set-main"><div class="lab">English translations</div><div class="sub">Tap Italian text to reveal it, or show it everywhere</div></div></div>${raw(segHTML('showEn', s.showEn || 'tap'))}</div>
         <div class="set-row stack"><div class="set-head"><div class="set-main"><div class="lab">Theme</div><div class="sub">Notte is the night drive, Mezzogiorno the noon light</div></div></div>${raw(segHTML('theme', s.theme || 'auto'))}</div>
-        <div class="set-row"><div class="set-main"><div class="lab">Pronunciation</div><div class="sub">${voice ? 'Voice: ' + voice.name : 'No Italian voice found on this device'}</div></div>${raw(switchHTML('tts', s.tts !== false, 'Text-to-speech'))}</div>
+        <div class="set-row"><div class="set-main"><div class="lab">Pronunciation</div><div class="sub" data-voice-sub>${voice ? 'Voice: ' + voice.name : 'No Italian voice found on this device'}</div></div>${raw(switchHTML('tts', s.tts !== false, 'Text-to-speech'))}</div>
         ${voices.length > 1 ? raw(html`<div class="set-row"><div class="set-main"><div class="lab">Voice</div><div class="sub">${voices.length} Italian voices available</div></div>${raw(pickerHTML('voice', esc(s.voice && voices.some(v => v.name === s.voice) ? s.voice : 'Automatic'), 'Voice'))}</div>`) : ''}
         <div class="set-row stack"><div class="set-head"><div class="set-main"><div class="lab">Speech rate</div><div class="sub">How fast Italian is read aloud</div></div>${raw(speakBtn('Buongiorno, benvenuto!'))}</div>${raw(segHTML('ttsRate', s.ttsRate ?? 0.9))}</div>
         <div class="set-row"><div class="set-main"><div class="lab">Strict accents</div><div class="sub">Typed answers must carry the right accents (è, à…)</div></div>${raw(switchHTML('accentStrict', !!s.accentStrict, 'Strict accents'))}</div>
@@ -206,6 +210,15 @@ export async function render(root) {
     const s2 = sheet(html`<div class="av-grid">${raw(AVATARS.map(a => html`<button type="button" class="btn ${a === cur ? 'on' : ''}" data-av="${a}" aria-label="Avatar ${a}">${a}</button>`).join(''))}</div>`, { title: 'Choose an avatar' });
     s2.body.addEventListener('click', (e2) => { const b = e2.target.closest('[data-av]'); if (!b) return; store.renameProfile(store.current.name, b.dataset.av); s2.close(); draw(); });
   }
+  // 'merge' | 'replace' | null when the sheet is dismissed. A confirm dialog cannot carry this: its dismissal resolves false,
+  // which used to mean "Replace" and wiped the profile when the sheet was closed with Escape or a tap outside.
+  function importChoice() {
+    return new Promise((resolve) => {
+      const s = sheet(html`<p class="dialog-msg">Merge the backup with the current progress, or replace it?</p>
+        <div class="row gap"><button type="button" class="btn ghost grow" data-choice="cancel">Cancel</button><button type="button" class="btn danger grow" data-choice="replace">Replace</button><button type="button" class="btn primary grow" data-choice="merge">Merge</button></div>`, { title: 'Import backup', onClose: () => resolve(null) });
+      s.body.addEventListener('click', (ev) => { const b = ev.target.closest('[data-choice]'); if (!b) return; s.close({ silent: true }); resolve(b.dataset.choice === 'cancel' ? null : b.dataset.choice); });
+    });
+  }
   function exportBackup() {
     const p = store.current;
     const blob = new Blob([store.exportJSON()], { type: 'application/json' });
@@ -249,17 +262,19 @@ export async function render(root) {
   wrap.addEventListener('change', async (ev) => {
     const file = ev.target.closest('[data-file]'); if (!file) return;
     const f = file.files[0]; if (!f) return;
+    file.value = ''; // so the same file can be chosen again
     try {
       const text = await f.text();
-      const merge = await confirmDialog('Merge with the current progress, or replace it?', { ok: 'Merge', cancel: 'Replace' });
-      await store.importJSON(text, { merge });
+      const choice = await importChoice();
+      if (!choice) return; // dismissed (Escape, backdrop, drag): nothing is touched
+      await store.importJSON(text, { merge: choice === 'merge' });
       registerCustom(store.current.custom);
       toast('Backup imported', { kind: 'ok' }); draw();
     } catch (err) { toast('Import failed: ' + err.message, { kind: 'ko', ms: 3000 }); }
   });
 
   draw();
-  return () => { window.removeEventListener('resize', onResize); clearPress(); };
+  return () => { window.removeEventListener('resize', onResize); if (window.speechSynthesis && speechSynthesis.removeEventListener) speechSynthesis.removeEventListener('voiceschanged', onVoices); clearPress(); };
 }
 
 // ---------- cloud sync pane (behaviour unchanged: configure → signIn/signUp → syncNow → startAutoSync; signOut) ----------
@@ -268,7 +283,7 @@ function syncCard() {
   const on = sync.isEnabled();
   return html`<div class="sec-head in-pane"><div><span class="kicker">Cloud sync · optional</span><span class="title itx" role="button" tabindex="0"><span class="it">Sincronizzazione</span><span class="tr">Cloud sync</span></span></div></div>
     <p>Keep this user's progress in sync across devices with your own free <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> project: paste the project URL and anon key, then sign in.</p>
-    ${on ? raw(html`<div class="sync-on"><span class="icon-btn sync-ico" aria-hidden="true">${ic('cloud', { size: 20 })}</span><div class="grow"><div class="lab">Signed in as ${c.email}</div><div class="sub">${c.lastSync ? 'Last sync ' + new Date(c.lastSync).toLocaleString() : 'Not synced yet'}</div></div><span class="dot stage-mastered" title="Sync on"></span></div>
+    ${on ? raw(html`<div class="sync-on"><span class="icon-btn sync-ico" aria-hidden="true">${ic('cloud', { size: 20 })}</span><div class="grow"><div class="lab">Signed in as ${c.email}</div><div class="sub">${c.lastSync ? 'Last sync ' + new Date(c.lastSync).toLocaleString() : 'Not synced yet'}${c.lastError ? ' · last attempt failed: ' + c.lastError : ''}</div></div><span class="dot ${c.lastError ? 'stage-new' : 'stage-mastered'}" title="${c.lastError ? 'Sync failing' : 'Sync on'}"></span></div>
       <div class="row gap mt"><button type="button" class="btn primary grow" data-sync-now>${ic('refresh', { size: 18 })}Sync now</button><button type="button" class="btn ghost grow" data-sync-out>Sign out</button></div>`)
     : raw(html`<div class="field"><label>Supabase project URL</label><input class="input" data-sync="url" value="${c.url}" placeholder="https://xxxx.supabase.co" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
       <div class="field"><label>Anon (public) key</label><input class="input" data-sync="key" value="${c.anonKey}" placeholder="eyJ…" autocapitalize="off" autocorrect="off" spellcheck="false"></div>

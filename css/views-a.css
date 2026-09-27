@@ -158,9 +158,13 @@ a.poster { color: #fff; }
 .srcp-tense-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
 .srcp-tags { margin-top: 10px; min-height: 20px; color: var(--gold-text); }
 .dial .dial-item.picked::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); margin-top: 2px; }
-/* Start is a sticky footer of the sheet: it pulls itself into the sheet's bottom padding (safe area included) and keeps
-   a fade of the sheet colour above the button so rows scrolling under it never show through */
-.srcp-foot { position: sticky; bottom: 0; z-index: 2; margin: 16px -16px calc(-1 * (20px + var(--sab))); padding: 12px 16px calc(16px + var(--sab));
+/* Start is a sticky footer of the sheet: the sheet gives up its bottom padding to the foot, which carries the safe area
+   itself and keeps a fade of the sheet colour above the button so rows scrolling under it never show through.
+   (A negative margin cannot do this: a sticky box is kept inside the scroller's content box, so the sheet's padding pushed
+   the foot up over the row above it — by the whole safe-area inset on a notched phone.) */
+.sheet:has(.srcp-foot) { padding-bottom: 0; }
+.sheet:has(.srcp-foot) .sheet-body { padding-bottom: 0; }
+.srcp-foot { position: sticky; bottom: 0; z-index: 2; margin: 16px -16px 0; padding: 12px 16px calc(16px + var(--sab));
   background: linear-gradient(180deg, transparent 0, var(--pane-bg) 14px); }
 .srcp-start { margin: 0; }
 

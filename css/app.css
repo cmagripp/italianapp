@@ -84,19 +84,24 @@ html { transition: --orb-1 1.2s var(--ease-in-out), --orb-2 1.2s var(--ease-in-o
 /* ---------- 2. BASE ---------- */
 *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 /* overflow-x: clip on the root (not just body) keeps the layout viewport from widening during the 260ms scene-in scale */
-html { height: 100%; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top-h) + var(--sat) + 8px); overflow-x: clip; }
+html { height: 100%; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top-h) + var(--sat) + 8px); scroll-padding-bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 12px); overflow-x: clip; }
 body {
   margin: 0; min-height: 100%; background: var(--bg-0); color: var(--ink);
   font-family: var(--font-text); font-size: 15px; line-height: 1.5; font-weight: 500;
   padding-top: calc(var(--top-h) + var(--sat)); padding-bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 20px);
   overscroll-behavior-y: none; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; touch-action: manipulation;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden would make <body> a scroll container, and every position: sticky bar (drill feedback,
+     results actions) would then pin to the body box instead of the viewport, i.e. never stick */
+  overflow-x: clip;
 }
-body.no-scroll { overflow: hidden; }
+/* the lock sits on the root: html's own overflow-x: clip stops a body overflow value from propagating to the viewport,
+   so `body.no-scroll { overflow: hidden }` only boxed the body and the page kept scrolling under every open sheet */
+html:has(> body.no-scroll) { overflow-y: hidden; }
 body.no-tabs { padding-bottom: calc(var(--sab) + 20px); }
 body.no-tabs #tabs { display: none; }
 a { color: var(--gold-text); text-decoration: none; }
-button { font-family: inherit; font-size: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+/* user-select: none — a long press on a letter key, choice or chip must not start iOS text selection / the magnifier */
+button { font-family: inherit; font-size: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; -webkit-user-select: none; user-select: none; }
 input, textarea, select { font-family: inherit; font-size: 16px; color: var(--ink); }
 img, svg { display: inline-block; vertical-align: middle; }
 .ic { width: 24px; height: 24px; flex: none; }
@@ -657,9 +662,10 @@ table.conj tr.irr td.form { color: var(--terracotta-text); }
 .dropdown .dropdown-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); padding: 8px 12px 4px; }
 
 .sheet-wrap { position: fixed; inset: 0; z-index: 100; display: flex; align-items: flex-end; justify-content: center; }
-.sheet-backdrop { position: absolute; inset: 0; background: rgba(4,6,14,.5); opacity: 0; transition: opacity var(--t-base); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.sheet-backdrop { position: absolute; inset: 0; background: rgba(4,6,14,.5); opacity: 0; transition: opacity var(--t-base); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); touch-action: none; }
 /* the sheet ends exactly at the viewport bottom (its padding is the safe area); the strip behind it covers the spring overshoot */
-.sheet { position: relative; width: 100%; max-width: var(--content-max); max-height: 88vh; max-height: 88dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+/* z-index 1: the overshoot strip (::after, a later positioned sibling) must paint behind the pane, not as a translucent band over its bottom 48px */
+.sheet { position: relative; z-index: 1; width: 100%; max-width: var(--content-max); max-height: 88vh; max-height: 88dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
   padding: 8px 16px calc(20px + var(--sab));
   background: var(--pane-bg); -webkit-backdrop-filter: blur(24px) saturate(170%); backdrop-filter: blur(24px) saturate(170%);
   border: 1px solid var(--glass-border); border-bottom: 0; border-radius: var(--r-l) var(--r-l) 0 0; box-shadow: var(--shadow-2), inset 0 1px 0 var(--glass-highlight);
@@ -669,7 +675,10 @@ table.conj tr.irr td.form { color: var(--terracotta-text); }
 .sheet-wrap.open .sheet-backdrop { opacity: 1; }
 .sheet-wrap.open .sheet { transform: translateY(0); }
 .sheet-body { padding-bottom: 4px; }
-.sheet-handle { width: 40px; height: 5px; border-radius: 999px; background: var(--glass-border); margin: 6px auto 14px; }
+/* touch-action: none — a finger dragging the handle must reach ui.js's pointer handlers instead of starting a scroll of the
+   sheet (which cancels the pointer and leaves the sheet open); the pseudo-element is an invisible 32px-tall grab zone */
+.sheet-handle { position: relative; width: 40px; height: 5px; border-radius: 999px; background: var(--glass-border); margin: 6px auto 14px; touch-action: none; }
+.sheet-handle::before { content: ""; position: absolute; inset: -12px -40px -14px; }
 .sheet-title { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -.01em; margin-bottom: 12px; line-height: 1.1; }
 .dialog-msg { font-size: 17px; margin-bottom: 16px; font-family: var(--font-display); font-weight: 500; line-height: 1.35; }
 

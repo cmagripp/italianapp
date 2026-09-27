@@ -349,7 +349,7 @@ function renderVerb(root, e) {
     const head = ev.target.closest('.acc-head');
     if (head) { const lazy = head.parentElement.querySelector('[data-lazy]'); if (lazy && !lazy.dataset.done) { lazy.dataset.done = '1'; lazy.innerHTML = TENSES.filter(t => t.mood === lazy.dataset.lazy).map(t => html`<div class="ref-acc-tense"><div class="ref-tense-head"><span class="ref-tense-name">${t.name}</span><span class="ref-tense-en">${t.en}</span></div>${raw(tenseTable(conj, t.key, cells, { compact: true }))}</div>`).join(''); } return; }
     const b = ev.target.closest('[data-act]'); if (!b) return;
-    if (b.dataset.act === 'lists') openListPicker(e.id);
+    if (b.dataset.act === 'lists') openListPicker(e.id, { onChange: paintProgress });
     else if (b.dataset.act === 'learned') { if (store.isLearned(e.id)) { store.unlearn(e.id); toast('Unmarked'); } else { store.markLearned(e.id, 'verb'); toast('Marked as learned', { kind: 'ok' }); } paintProgress(); }
   };
   root.addEventListener('click', onClick);
@@ -582,7 +582,7 @@ function renderWord(root, e) {
     if (ev.target.closest('[data-fan-flip]')) { flipAllSpread(); return; }
     const sp = ev.target.closest('[data-fan-spread]'); if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const b = ev.target.closest('[data-act]'); if (!b) return;
-    if (b.dataset.act === 'lists') openListPicker(e.id);
+    if (b.dataset.act === 'lists') openListPicker(e.id, { onChange: paintProgress });
     else if (b.dataset.act === 'learned') { if (store.isLearned(e.id)) { store.unlearn(e.id); toast('Unmarked'); } else { store.markLearned(e.id, 'word'); toast('Marked as learned', { kind: 'ok' }); } paintProgress(); }
   };
   root.addEventListener('click', onClick);

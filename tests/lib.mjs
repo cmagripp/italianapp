@@ -10,6 +10,7 @@
 //   SHOTS=1         write screenshots into tests/shots/
 //   SEED=0          do not seed learned items into the fresh profile (layout audit only)
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
@@ -21,23 +22,36 @@ export const SHOTS_DIR = path.join(TESTS_DIR, 'shots');
 export const BASE = (process.env.BASE || 'http://127.0.0.1:8123/').replace(/\/?$/, '/');
 export const CHROME = process.env.CHROME || process.env.PLAYWRIGHT_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 export const SHOTS = process.env.SHOTS === '1';
-const DEFAULT_PW_DIR = '/tmp/claude-0/-home-user-italianapp/03954d52-f5f5-57d3-b1d0-493b05f9b4dc/scratchpad';
 
 export const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+// Last resort when nothing is configured: a scratch checkout of playwright under the system temp directory
+// (<tmp>/**/scratchpad/node_modules/playwright, at most three directory levels down so the scan stays cheap).
+function scratchCandidates() {
+  const out = [];
+  const dirs = (d) => { try { return fs.readdirSync(d, { withFileTypes: true }).filter(e => e.isDirectory()).map(e => path.join(d, e.name)); } catch { return []; } };
+  const visit = (d, depth) => {
+    const p = path.join(d, 'scratchpad');
+    if (fs.existsSync(path.join(p, 'node_modules', 'playwright'))) out.push(p);
+    if (depth < 3) for (const sub of dirs(d)) visit(sub, depth + 1);
+  };
+  visit(os.tmpdir(), 0);
+  return out;
+}
 
 // ---------- playwright resolution ----------
 export async function loadPlaywright() {
   const require = createRequire(import.meta.url);
-  const candidates = [process.env.PLAYWRIGHT_DIR, ...(process.env.NODE_PATH || '').split(path.delimiter), DEFAULT_PW_DIR].filter(Boolean);
   let resolved = null;
   try { resolved = require.resolve('playwright'); } catch { /* not on the default lookup path */ }
+  const candidates = resolved ? [] : [process.env.PLAYWRIGHT_DIR, ...(process.env.NODE_PATH || '').split(path.delimiter), ...scratchCandidates()].filter(Boolean);
   for (const c of candidates) {
     if (resolved) break;
     for (const dir of [c, path.dirname(c)]) {
       try { resolved = require.resolve('playwright', { paths: [dir] }); break; } catch { /* keep looking */ }
     }
   }
-  if (!resolved) throw new Error(`Cannot find the playwright package. Set PLAYWRIGHT_DIR (or NODE_PATH) to the directory that contains node_modules/playwright, e.g.\n  PLAYWRIGHT_DIR=${DEFAULT_PW_DIR} node tests/e2e.mjs`);
+  if (!resolved) throw new Error('Cannot find the playwright package. Set PLAYWRIGHT_DIR (or NODE_PATH) to the directory that contains node_modules/playwright, e.g.\n  PLAYWRIGHT_DIR=/path/containing/node_modules node tests/e2e.mjs');
   const dir = path.dirname(resolved);
   const entry = fs.existsSync(path.join(dir, 'index.mjs')) ? path.join(dir, 'index.mjs') : resolved;
   const mod = await import(pathToFileURL(entry).href);

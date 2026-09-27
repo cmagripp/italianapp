@@ -4,23 +4,30 @@
 // Usage: node tools/build-data.mjs
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { validateVocab, validateVerbs } from './validate.mjs';
 import { conjugate } from '../js/conjugator.js';
 
-const ROOT = path.resolve(new URL('..', import.meta.url).pathname);
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const lvl = (l) => LEVELS.indexOf(l);
+let skippedFiles = 0; // unreadable or non-array source files: reported and counted, the build then exits 1
 
 function readDir(dir) {
   const out = [];
   if (!fs.existsSync(dir)) return out;
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort()) {
     const p = path.join(dir, f);
-    try { out.push({ file: p, data: JSON.parse(fs.readFileSync(p, 'utf8')) }); }
-    catch (e) { console.error(`skip ${p}: ${e.message}`); }
+    let data;
+    try { data = JSON.parse(fs.readFileSync(p, 'utf8')); }
+    catch (e) { console.error(`skip ${p}: ${e.message}`); skippedFiles++; continue; }
+    if (!Array.isArray(data)) { console.error(`skip ${p}: root is not an array`); skippedFiles++; continue; }
+    out.push({ file: p, data });
   }
   return out;
 }
+// "<file>#<index> (<lemma>): <message>" → index of the offending entry
+const badIndexes = (errs) => new Set(errs.map(e => { const m = e.match(/#(\d+) /); return m ? Number(m[1]) : -1; }));
 
 const norm = (s) => s.toLowerCase().trim().replace(/\s+/g, ' ');
 const slug = (s) => norm(s).replace(/[^a-z0-9àèéìíîòóùú' ]/g, '').replace(/ /g, '_');
@@ -31,7 +38,7 @@ let vocabIn = 0, vocabErrors = 0;
 for (const { file, data } of readDir(path.join(ROOT, 'data/vocab'))) {
   const errs = validateVocab(data, file);
   if (errs.length) { vocabErrors += errs.length; console.error(`${file}: ${errs.length} validation errors (entries with errors are skipped)`); }
-  const bad = new Set(errs.map(e => Number(e.split('#')[1].split(' ')[0])));
+  const bad = badIndexes(errs);
   data.forEach((e, i) => {
     if (bad.has(i)) return;
     vocabIn++;
@@ -56,7 +63,7 @@ let verbIn = 0, verbErrors = 0;
 for (const { file, data } of readDir(path.join(ROOT, 'data/verbs'))) {
   const errs = validateVerbs(data, file);
   if (errs.length) { verbErrors += errs.length; console.error(`${file}: ${errs.length} validation errors (entries with errors are skipped)`); }
-  const bad = new Set(errs.map(e => Number(e.split('#')[1].split(' ')[0])));
+  const bad = badIndexes(errs);
   data.forEach((e, i) => {
     if (bad.has(i)) return;
     verbIn++;
@@ -93,3 +100,8 @@ console.log('by level (vocab):', stats.vocab.byLevel);
 console.log('by level (verbs):', stats.verbs.byLevel);
 if (flaggedNotCovered.length) console.log(`\nVerbs flagged irregular by data but NOT covered by the engine (${flaggedNotCovered.length}):\n  ${flaggedNotCovered.join(', ')}`);
 if (coveredNotFlagged.length) console.log(`\nVerbs treated as irregular by the engine but flagged regular in data (${coveredNotFlagged.length}):\n  ${coveredNotFlagged.join(', ')}`);
+// Entries or files that were left out make an incomplete dictionary: say so and fail, so a CI or pre-push run cannot ship it.
+if (vocabErrors || verbErrors || skippedFiles) {
+  console.error(`\nBUILD INCOMPLETE: ${vocabErrors + verbErrors} validation error(s) and ${skippedFiles} unreadable file(s) — those entries are missing from data/*.json. Run node tools/validate.mjs data/vocab/*.json data/verbs/*.json, fix them and rebuild.`);
+  process.exit(1);
+}

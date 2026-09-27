@@ -228,7 +228,8 @@ export function startCrossword(root, ctx) {
     const ok = placed.filter(isRight);
     const result = { gameId: 'crossword', total: placed.length, correct: ok.length, wrong: placed.length - ok.length, score: Math.round((ok.length / placed.length) * 100), missed: placed.filter(p => !ok.includes(p)).map(p => p.id), secs: Math.round((Date.now() - start) / 1000) };
     result.xp = ok.length * 3 + (ok.length === placed.length ? 15 : 0);
-    store.recordGame('crossword', result);
+    // check() already awarded 3 XP per correct word: the game record adds only the perfect-puzzle bonus
+    store.recordGame('crossword', { ...result, xp: result.xp - ok.length * 3 });
     cleanup();
     showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice });
   }

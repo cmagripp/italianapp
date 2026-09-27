@@ -9,8 +9,13 @@
 // Exit code 1 when anything failed. JSON report: tests/report-e2e.json. See tests/README.md.
 //
 // Selector policy (the UI is being redesigned): only ids / data-attributes / a few binding class names are used —
-// #view #topbar #tabs a[data-tab] #enToggle #backBtn #q [data-next] [data-answer] [data-check] button.choice
-// [data-flash] [data-grade] [data-q] .cw .k .m [data-export] [data-file] — everything else goes through roles and text.
+// #view #topbar #tabs a[data-tab] #enToggle #backBtn #q #toast [data-next] [data-answer] [data-check] [data-skip]
+// [data-results] [data-hint] button.choice [data-flash] [data-grade] [data-q] [data-add] [data-rm] .cw .k .m
+// [data-export] [data-file] [data-f] [data-save] [data-seg]/[data-v] [data-new] [data-pick] [data-menu] [data-act]
+// [data-new-user] [data-user] [data-kind], the walkthrough deck (.wt-rail .cur / .wt-scene[data-i][data-key] / [data-cta]),
+// the results hero and the glass drop-down (.dropdown-layer .dropdown.open [data-value]) — everything else goes through
+// roles and text. The full list is in tests/README.md.
+import fs from 'node:fs';
 import {
   loadPlaywright, launchBrowser, contextOptions, ensureServer, BASE, allRoutes, cliFilters, matches, routeSlug,
   makeSink, attachCollectors, boot, reloadApp, gotoRoute, settle, viewText, seedProgress, shot, writeReport, wait, ms, pad,
@@ -57,8 +62,9 @@ async function isResults() {
 }
 async function resultsSummary() {
   const t = await page.evaluate(() => document.querySelector('#view')?.innerText || '');
-  const m = t.match(/(\d+)%[\s\S]*?(\d+)\s+of\s+(\d+)\s+correct/i);
-  return m ? `${m[1]}% (${m[2]} of ${m[3]} correct)` : (t.replace(/\s+/g, ' ').slice(0, 80));
+  // the score ring counts up for ~900ms after the results appear, so the percentage is derived from "N of M correct"
+  const m = t.match(/(\d+)\s+of\s+(\d+)\s+correct/i);
+  return m ? `${Number(m[2]) ? Math.round((Number(m[1]) / Number(m[2])) * 100) : 0}% (${m[1]} of ${m[2]} correct)` : (t.replace(/\s+/g, ' ').slice(0, 80));
 }
 async function storeEval(fn, arg) {
   // fn is a string body of an async function receiving ({ store, data }, arg)
@@ -222,6 +228,13 @@ async function playWalkthrough({ maxScenes = 16 } = {}) {
   return { ok: false, scenes: seen, stuck: `${st.key} (${st.i + 1}/${st.n}) ready=${st.ready}: ${st.text}` };
 }
 async function isLearned(id) { return storeEval(`return ctx.store.isLearned(arg);`, id); }
+// review, persistence and the backup round trip need learned items: seed them when such a flow runs on its own
+// (e.g. `node tests/e2e.mjs review`); in a full run the seed-learned flow has already done it.
+async function ensureSeeded() {
+  const n = await storeEval(`return ctx.store.learnedIds().length;`);
+  if (n >= 30) return n;
+  const s = await seedProgress(page, { words: 20, verbs: 10 }); learned.before = s; return s.learned;
+}
 async function finitoSummary() {
   return page.evaluate(() => {
     const fin = document.querySelector('.wt-scene[data-key="finito"] .finito');
@@ -267,8 +280,9 @@ const flows = [
     return `${s.learned} learned (${s.words} words, ${s.verbs} verbs) · home: "${t.slice(0, 60)}"`;
   } },
   { name: 'review', run: async () => {
+    await ensureSeeded();
     await gotoRoute(page, '/review');
-    if (/Nothing to review/i.test(await viewText(page, 120))) throw new Error('review has nothing to review after seeding');
+    if (/Niente da ripassare|Nothing to review/i.test(await viewText(page, 120))) throw new Error('review has nothing to review after seeding');
     const r = await playToResults({ maxSteps: 200 });
     await shot(page, 'e2e_review_results');
     if (!r.ok) throw new Error(`review did not finish: ${r.stuck}`);
@@ -285,6 +299,16 @@ const flows = [
   gameFlow('crossword', 'count=14'),
   gameFlow('sentence', 'count=3'),
   gameFlow('speed', 'seconds=8', { maxSteps: 80, fast: true }),
+  gameFlow('typing', 'count=3'),
+  gameFlow('scramble', 'count=5'),
+  gameFlow('plurals', 'count=5'),
+  gameFlow('dictation', 'count=3'),
+  gameFlow('reverse', 'count=3'),
+  gameFlow('conj-choice', 'tenses=presente&count=3'),
+  gameFlow('tense-detective', 'count=4'),
+  gameFlow('participles', 'count=4'),
+  gameFlow('patterns', 'count=8'),
+  gameFlow('verb-quiz', 'tenses=presente&count=3'),
   { name: 'search', run: async () => {
     await gotoRoute(page, '/search');
     const q = (await has('#q')) ? page.locator('#q') : page.locator('input[type="search"]').first();
@@ -357,9 +381,16 @@ const flows = [
     const d = await dl;
     const toast = await page.locator('#toast').textContent().catch(() => '');
     if (!(await has('[data-file]'))) sink.push('warn', 'import file input [data-file] not found on profile');
-    return `clicked${d ? `, download event "${d.suggestedFilename()}"` : ' (no download event observed)'}${toast ? `, toast "${toast.trim()}"` : ''}`;
+    if (!d) throw new Error('no download event after tapping Export backup');
+    // the file must be a backup the importer accepts: { app, exported, profile: { items, lists, … } }
+    const file = await d.path(); let obj = null;
+    try { obj = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (err) { throw new Error(`downloaded backup is not JSON: ${err.message}`); }
+    if (!obj || !obj.profile || typeof obj.profile.items !== 'object' || typeof obj.profile.lists !== 'object') throw new Error(`downloaded backup lacks profile.items / profile.lists: ${JSON.stringify(obj).slice(0, 120)}`);
+    const learned = Object.values(obj.profile.items).filter(it => it.learned).length;
+    return `download "${d.suggestedFilename()}" (${fs.statSync(file).size} bytes, ${learned} learned items, ${Object.keys(obj.profile.lists).length} lists)${toast ? `, toast "${toast.trim()}"` : ''}`;
   } },
   { name: 'persistence', run: async () => {
+    await ensureSeeded();
     const before = await storeEval(`await ctx.store.saveNow(); return { learned: ctx.store.learnedIds().length, words: ctx.store.learnedIds().filter(id => !id.startsWith('v:')).length, verbs: ctx.store.learnedIds('v:').length, xp: ctx.store.current.stats.xp, lists: Object.keys(ctx.store.lists).length, custom: Object.keys(ctx.store.current.custom).length };`);
     if (before.learned < 1) throw new Error('nothing learned before reload (run the seed-learned flow)');
     await reloadApp(page);
@@ -370,6 +401,101 @@ const flows = [
     const t = await viewText(page, 600);
     if (!new RegExp(`\\b${after.words} words\\b`).test(t) || !new RegExp(`\\b${after.verbs} verbs\\b`).test(t)) throw new Error(`lists view does not show ${after.words} words / ${after.verbs} verbs: "${t.slice(0, 120)}"`);
     return `learned ${after.learned} (${after.words} words, ${after.verbs} verbs), ${after.xp} XP, ${after.lists} lists, ${after.custom} custom — all survived reload`;
+  } },
+  // SM-2 scheduling through the store: first correct answer → 8h, second → 3 days, a wrong one → back in 10 minutes.
+  { name: 'srs', run: async () => {
+    const r = await storeEval(`
+      const id = 'w:casa|noun'; const now = Date.now(); const h = (t) => Math.round((t - now) / 36e5);
+      delete ctx.store.current.items[id]; // start from a pristine item: the A1 game flows may already have played (and missed) it
+      const a = { ...ctx.store.recordAnswer(id, true) }, b = { ...ctx.store.recordAnswer(id, true) }, c = { ...ctx.store.recordAnswer(id, false) };
+      return { a: { reps: a.reps, iv: a.iv, dueH: h(a.due) }, b: { reps: b.reps, iv: b.iv, dueH: h(b.due) }, c: { reps: c.reps, iv: c.iv, lapses: c.lapses, dueMin: Math.round((c.due - now) / 6e4) }, seen: ctx.store.getItem(id).seen, ok: ctx.store.getItem(id).ok };`);
+    if (r.a.reps !== 1 || r.a.dueH !== 8) throw new Error(`first correct answer should be due in 8h with reps 1: ${JSON.stringify(r.a)}`);
+    if (r.b.reps !== 2 || r.b.iv !== 3 || r.b.dueH !== 72) throw new Error(`second correct answer should be due in 3 days: ${JSON.stringify(r.b)}`);
+    if (r.c.reps !== 0 || r.c.lapses !== 1 || r.c.dueMin !== 10) throw new Error(`a wrong answer should reset reps and come back in 10 minutes: ${JSON.stringify(r.c)}`);
+    if (r.seen !== 3 || r.ok !== 2) throw new Error(`answer counters wrong: seen ${r.seen}, ok ${r.ok}`);
+    return `correct → 8h, correct → 3d (iv 3), wrong → 10 min (lapses 1); seen 3, ok 2`;
+  } },
+  { name: 'en-toggle', run: async () => {
+    await gotoRoute(page, '/entry/w:casa|noun');
+    const before = await storeEval(`return ctx.store.settings.showEn;`);
+    await tap('#enToggle', { label: 'EN toggle' }); await wait(300);
+    const on = await page.evaluate(() => document.body.classList.contains('show-en'));
+    const setting = await storeEval(`return ctx.store.settings.showEn;`);
+    if (!on || setting !== 'always') throw new Error(`after tapping EN: body.show-en=${on}, settings.showEn=${setting}`);
+    await tap('#enToggle', { label: 'EN toggle (off)' }); await wait(300);
+    const off = await page.evaluate(() => document.body.classList.contains('show-en'));
+    const back = await storeEval(`return ctx.store.settings.showEn;`);
+    if (off || back !== 'tap') throw new Error(`EN toggle did not switch back: body.show-en=${off}, settings.showEn=${back}`);
+    return `showEn ${before} → always → tap, body.show-en followed`;
+  } },
+  { name: 'grammar-topics', run: async () => {
+    const ids = await page.evaluate(() => import('./js/views/grammar.js').then(m => m.loadGrammar()).then(ts => ts.map(t => t.id)));
+    if (ids.length < 12) throw new Error(`expected 12 grammar topics, got ${ids.length}`);
+    const bad = [];
+    for (const id of ids) {
+      await gotoRoute(page, '/grammar/' + id);
+      const t = await viewText(page, 200);
+      if (!t || /Qualcosa è andato storto|not found/i.test(t)) { bad.push(`${id}: ${t.slice(0, 60) || 'empty #view'}`); continue; }
+      if (!(await has('#view a[href*="#/game/"]'))) bad.push(`${id}: no practice link`);
+    }
+    if (bad.length) throw new Error(bad.join(' · '));
+    return `${ids.length} topics render with a practice link`;
+  } },
+  { name: 'custom-verb', run: async () => {
+    await gotoRoute(page, '/add?it=dormire');
+    const pos = await page.locator('[data-f="pos"]').inputValue();
+    if (pos !== 'verb') throw new Error(`"dormire" was not recognised as a verb (pos=${pos})`);
+    await page.locator('[data-f="en"]').fill('to sleep');
+    await tap('[data-seg="isc"] [data-v="false"]', { label: 'isc: no' });
+    await tap('[data-save]', { label: 'Save (custom verb)' }); await settle(page);
+    const v = await storeEval(`return Object.values(ctx.store.current.custom).find(c => c.inf === 'dormire') || null;`);
+    if (!v || v.pos !== 'verb' || v.isc !== false || v.aux !== 'avere') throw new Error(`custom verb not stored as expected: ${JSON.stringify(v)}`);
+    const t = await viewText(page, 3000);
+    if (!/dormire/i.test(t) || !(await has('#view [data-kind="verb"]'))) throw new Error(`entry view does not show the verb: ${t.slice(0, 120)}`);
+    if (!/\bdormo\b/.test(t)) throw new Error(`entry view shows no conjugation ("dormo") for the custom verb: ${t.slice(0, 160)}`);
+    return `custom verb ${v.id} (aux ${v.aux}, isc ${v.isc}) opened with its conjugation`;
+  } },
+  { name: 'list-delete', run: async () => {
+    const id = await storeEval(`return ctx.store.createList('E2E delete me');`);
+    await gotoRoute(page, '/lists');
+    await tap(`[data-menu="${id}"]`, { label: 'List options' }); await wait(400);
+    await tap('.dropdown-layer .dropdown.open [data-value="delete"]', { js: true }); await wait(400);
+    const dlg = page.locator('[role="dialog"]').last();
+    await tap(dlg.locator('[data-act="ok"]'), { label: 'Delete (confirm)' }); await wait(500);
+    if (!(await storeEval(`return !ctx.store.lists[arg];`, id))) throw new Error('list still exists after Delete');
+    if (/E2E delete me/.test(await viewText(page, 800))) throw new Error('lists view still shows the deleted list');
+    return `list ${id} deleted through its menu`;
+  } },
+  { name: 'import-backup', run: async () => {
+    await ensureSeeded();
+    const before = await storeEval(`await ctx.store.saveNow(); return { json: ctx.store.exportJSON(), learned: ctx.store.learnedIds().length, xp: ctx.store.current.stats.xp, lists: Object.keys(ctx.store.lists).length };`);
+    await storeEval(`await ctx.store.resetProgress();`);
+    if ((await storeEval(`return ctx.store.learnedIds().length;`)) !== 0) throw new Error('resetProgress left learned items behind');
+    await gotoRoute(page, '/profile');
+    await page.locator('[data-file]').setInputFiles({ name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(before.json) });
+    const dlg = page.locator('[role="dialog"]').last();
+    await dlg.waitFor({ timeout: 3000 });
+    await tap(dlg.locator('[data-choice="replace"]'), { label: 'Replace (import)' }); await wait(600); // the sheet offers Cancel / Replace / Merge; dismissing it imports nothing
+    const after = await storeEval(`return { learned: ctx.store.learnedIds().length, xp: ctx.store.current.stats.xp, lists: Object.keys(ctx.store.lists).length };`);
+    const want = { learned: before.learned, xp: before.xp, lists: before.lists };
+    if (JSON.stringify(after) !== JSON.stringify(want)) throw new Error(`import did not restore the backup: expected ${JSON.stringify(want)}, got ${JSON.stringify(after)}`);
+    const toast = await page.locator('#toast').textContent().catch(() => '');
+    return `reset → import (replace) restored ${after.learned} learned, ${after.xp} XP, ${after.lists} lists${toast.trim() ? `, toast "${toast.trim()}"` : ''}`;
+  } },
+  { name: 'users', run: async () => {
+    await gotoRoute(page, '/profile');
+    const first = await storeEval(`return { id: ctx.store.current.id, learned: ctx.store.learnedIds().length };`);
+    await tap('[data-new-user]', { label: 'New user' }); await wait(400);
+    const dlg = page.locator('[role="dialog"]').last();
+    await dlg.locator('input').first().fill('Marco');
+    await tap(dlg.locator('[data-act="ok"]'), { label: 'Save (new user)' }); await wait(600);
+    const cur = await storeEval(`return { id: ctx.store.current.id, name: ctx.store.current.name, learned: ctx.store.learnedIds().length, n: ctx.store.profiles.length };`);
+    if (cur.name !== 'Marco' || cur.id === first.id || cur.learned !== 0 || cur.n < 2) throw new Error(`new user is not active and empty: ${JSON.stringify(cur)}`);
+    await tap(`[data-user="${first.id}"]`, { label: 'switch back to the first user' }); await wait(600);
+    const back = await storeEval(`return { id: ctx.store.current.id, learned: ctx.store.learnedIds().length };`);
+    if (back.id !== first.id || back.learned !== first.learned) throw new Error(`switching back lost progress: ${JSON.stringify({ first, back })}`);
+    await storeEval(`await ctx.store.deleteProfile(arg);`, cur.id);
+    return `created "Marco" (empty), switched back to the first user with ${back.learned} learned items, deleted Marco`;
   } },
 ];
 

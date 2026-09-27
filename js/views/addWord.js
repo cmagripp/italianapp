@@ -71,7 +71,8 @@ export async function render(root, params, query) {
   root.querySelectorAll('[data-seg]').forEach(s => s.addEventListener('click', (ev) => { const b = ev.target.closest('[data-v]'); if (!b) return; seg[s.dataset.seg] = b.dataset.v; s.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); update(); }));
   f('pos').addEventListener('change', update); f('it').addEventListener('input', update); f('en').addEventListener('input', preview); f('cat').addEventListener('change', preview);
   f('level').addEventListener('change', () => { setScene(f('level').value); preview(); });
-  if (/^(il|lo|la|l'|i|gli|le|un|una|uno)\s/i.test(it)) { const m = it.match(/^(il|lo|la|l'|i|gli|le|un|una|uno)\s*(.*)$/i); f('it').value = m[2]; seg.g = /^(la|una|le|l')$/i.test(m[1]) ? 'f' : 'm'; root.querySelectorAll('[data-seg="g"] button').forEach(b => b.classList.toggle('on', b.dataset.v === seg.g)); }
+  // "una parola" → parola (f): the longer articles come first in the alternation so "un" cannot swallow "una"/"uno"
+  if (/^(il|lo|la|l'|i|gli|le|un|una|uno)\s/i.test(it)) { const m = it.match(/^(il|lo|la|l'|i|gli|le|una|uno|un)\s+(.*)$/i); f('it').value = m[2]; seg.g = /^(la|una|le|l')$/i.test(m[1]) ? 'f' : 'm'; root.querySelectorAll('[data-seg="g"] button').forEach(b => b.classList.toggle('on', b.dataset.v === seg.g)); }
   if (/(are|ere|ire|arsi|ersi|irsi)$/.test(it.trim()) && !it.includes(' ')) f('pos').value = 'verb';
   update();
   root.querySelector('[data-save]').addEventListener('click', () => {
@@ -79,6 +80,9 @@ export async function render(root, params, query) {
     if (!w || !en) { toast('Please enter the Italian word and its meaning', { kind: 'ko' }); return; }
     const entry = { it: w.toLowerCase(), en, pos, level: f('level').value, cat: f('cat').value, ex: f('ex').value.trim(), exEn: f('exEn').value.trim(), note: f('note').value.trim() };
     if (pos === 'noun') { entry.g = seg.g; entry.pl = f('pl').value.trim() || guessPlural(entry.it, seg.g); }
+    // a dictionary adjective without `forms` is invariable (blu, rosa); a custom -o / -e adjective gets its four forms so it is
+    // not presented as invariable and its walkthrough shows the agreement cards
+    if (pos === 'adj') { const forms = guessAdjForms(entry.it); if (forms) entry.forms = forms; }
     if (pos === 'verb') { entry.inf = entry.it; entry.aux = seg.aux; entry.trans = /si$/.test(entry.it) ? 'vr' : 'vt'; entry.isc = seg.isc === 'true'; entry.patterns = [entry.it + ' qualcosa']; entry.usage = entry.note || 'Custom verb.'; entry.examples = entry.ex ? [{ it: entry.ex, en: entry.exEn }] : []; if (entry.trans === 'vr') entry.aux = 'essere'; }
     const id = store.addCustomWord(entry);
     registerCustom(store.current.custom);
@@ -88,6 +92,16 @@ export async function render(root, params, query) {
   mount(root.firstElementChild);
 }
 
+function guessAdjForms(w) {
+  if (/\s/.test(w)) return null;
+  if (/ico$/.test(w)) return [w, w.slice(0, -1) + 'a', w.slice(0, -2) + 'ci', w.slice(0, -2) + 'che']; // simpatico → simpatici, simpatiche
+  if (/co$/.test(w)) return [w, w.slice(0, -1) + 'a', w.slice(0, -2) + 'chi', w.slice(0, -2) + 'che'];
+  if (/go$/.test(w)) return [w, w.slice(0, -1) + 'a', w.slice(0, -2) + 'ghi', w.slice(0, -2) + 'ghe'];
+  if (/io$/.test(w)) return [w, w.slice(0, -1) + 'a', w.slice(0, -2) + 'i', w.slice(0, -1) + 'e'];
+  if (/o$/.test(w)) return [w, w.slice(0, -1) + 'a', w.slice(0, -1) + 'i', w.slice(0, -1) + 'e'];
+  if (/e$/.test(w)) return [w, w, w.slice(0, -1) + 'i', w.slice(0, -1) + 'i'];
+  return null; // blu, rosa, viola, loanwords: invariable
+}
 function guessPlural(w, g) {
   if (/[àèéìòù]$/.test(w) || /[^aeiou]$/.test(w)) return w;
   if (/ca$/.test(w)) return w.replace(/ca$/, 'che');

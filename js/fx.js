@@ -393,6 +393,7 @@ export function reel(el) {
 // ---------- glass dropdown ----------
 // dropdown(anchorEl, contentHTML | [{value,label,sub,selected}], { onSelect(value, el), align:'start'|'end', width }) → { close(), el }
 let openDropdown = null;
+export function closeDropdown() { if (openDropdown) openDropdown.close(); }
 export function dropdown(anchorEl, content, { onSelect = null, align = 'start', width = null, onClose = null } = {}) {
   if (!anchorEl) return { close: noop, el: null };
   if (openDropdown) openDropdown.close();

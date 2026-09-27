@@ -7,7 +7,7 @@ import { getEntry, data, shuffle, CATS, LEVELS, POS_NAME, article, withArticle, 
 import { hwSize, IT_POS } from '../components.js';
 import { fan, typewriter, riseLetters, SCENES } from '../fx.js';
 import { runDrill } from '../games/engine.js';
-import { qTranslateMC, qTypeIt, qGender, qPluralMC, qCloze, findInSentence, mcChoices } from '../games/questions.js';
+import { qTranslateMC, qTypeIt, qGender, qPluralMC, qCloze, findInSentence, mcChoices, letterCount } from '../games/questions.js';
 import { nextNew } from './learn.js';
 import { createWalkthrough, renderCheck, renderResults, celebrate } from './walkthrough.js';
 
@@ -33,7 +33,7 @@ function articleNote(e) {
   const w = isPluralOnly(e) ? e.pl : e.it;
   const g = e.g === 'f' ? 'feminine' : e.g === 'm' ? 'masculine' : 'masculine or feminine';
   let why = '';
-  if (art === "l'") why = `it starts with a vowel, so the article elides to l'`;
+  if (art === "l'") why = `it starts with a vowel sound, so the article elides to l'`;
   else if (art === 'lo') why = 'masculine nouns starting with s + consonant, z, gn, ps, x or y take lo';
   else if (art === 'la') why = 'feminine nouns take la';
   else if (art === 'il') why = 'masculine nouns take il';
@@ -205,7 +205,7 @@ export async function render(root, params, query) {
       const q = qTypeIt(e);
       const hint = isNoun ? (e.g === 'mf' ? 'noun' : e.g === 'f' ? 'feminine noun' : 'masculine noun') : (POS_NAME[e.pos] || e.pos);
       const chk = renderCheck(body, q, {
-        prompt: html`<div class="prompt">Scrivi · type the Italian</div><div class="big md">${shortEn(e.en)}</div><div class="sub">${hint}${e.it.length > 2 ? ' · ' + e.it.length + ' letters' : ''}</div>`,
+        prompt: html`<div class="prompt">Scrivi · type the Italian</div><div class="big md">${shortEn(e.en)}</div><div class="sub">${hint}${letterCount(e.it) > 2 ? ' · ' + letterCount(e.it) + ' letters' : ''}</div>`,
         placeholder: 'In italiano…',
         onDone: () => api.ready(),
       });

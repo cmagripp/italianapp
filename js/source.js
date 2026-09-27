@@ -22,7 +22,7 @@ export function resolveSource(spec = 'scope') {
   switch (kind) {
     case 'learned': return store.learnedIds().map(getEntry).filter(Boolean);
     case 'learned-verbs': return store.learnedIds('v:').map(getEntry).filter(Boolean);
-    case 'learned-words': return store.learnedIds().filter(id => !id.startsWith('v:')).map(getEntry).filter(Boolean);
+    case 'learned-words': return store.learnedWordIds().map(getEntry).filter(Boolean);
     case 'due': return store.dueIds().map(getEntry).filter(Boolean);
     case 'bank': return (store.lists.bank?.items || []).map(getEntry).filter(Boolean);
     case 'list': return (store.lists[a]?.items || []).map(getEntry).filter(Boolean);

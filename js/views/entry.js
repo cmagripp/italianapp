@@ -104,7 +104,9 @@ function bindForms(codex, e, cells) {
     if (api) { api.destroy(); api = null; } clearTimeout(timer);
     if (view === 'fan') {
       bodyEl.innerHTML = `<div data-fan></div><div class="fan-tools"><button type="button" class="btn sm ghost" data-fan-flip>${icon('flip', { size: 16 })}Flip all</button><button type="button" class="btn sm ghost" data-fan-spread>${icon('spread', { size: 16 })}Spread</button></div>`;
-      api = fan(bodyEl.querySelector('[data-fan]'), cells.map(([l, v]) => ({ key: l, front: esc(l), back: `${esc(v)}<span class="sub">${esc(l)}</span>`, tint })));
+      // the form sits in .form like the other fans, so a long word (otorinolaringoiatra) takes the smaller .long size instead of breaking mid-word at 19px
+      const longWord = (v) => String(v).split(/\s+/).some(w => w.length > 9);
+      api = fan(bodyEl.querySelector('[data-fan]'), cells.map(([l, v]) => ({ key: l, front: esc(l), back: `<span class="form ${longWord(v) ? 'long' : ''}">${esc(v)}</span><span class="sub">${esc(l)}</span>`, tint })));
       timer = setTimeout(() => { api && api.flipAll(true); }, reducedMotion() ? 0 : 480);
     } else bodyEl.innerHTML = wordForms(e);
   }

@@ -21,19 +21,22 @@ A mobile-first Italian vocabulary and verb trainer (A1 → C2) that runs entirel
 
 ## Hosting (GitHub Pages)
 
-The repo contains a workflow (`.github/workflows/deploy.yml`) that builds the dictionary data, runs the conjugation-engine tests and deploys the site with GitHub Pages on every push to `main`.
+The repo contains a workflow (`.github/workflows/deploy.yml`) that validates the source data (a schema error fails the deploy), builds the dictionary data (an incomplete build fails it too), runs the conjugation-engine tests, checks that `sw.js` precaches every module and stylesheet (`tools/check-shell.mjs`, so a forgotten `SHELL` entry cannot break offline use) and deploys the site with GitHub Pages on every push to `main`.
 
 1. In the GitHub repository go to **Settings → Pages** and set **Source** to **GitHub Actions**.
 2. Merge this branch into `main` (or push to `main`). The *Deploy to GitHub Pages* workflow runs and prints the URL, normally `https://<your-user>.github.io/italianapp/`.
 3. Open the URL on your iPhone in Safari → Share → **Add to Home Screen**. The app then runs full-screen and keeps its data (Safari only evicts storage for sites you never revisit; installed web apps are exempt).
 
-Any static host works too (Netlify, Vercel, Cloudflare Pages, an S3 bucket): upload the repository as-is. Only `data/vocab.json`, `data/verbs.json` and `data/stats.json` need to exist, which `node tools/build-data.mjs` produces.
+Any static host works too (Netlify, Vercel, Cloudflare Pages, an S3 bucket): upload the repository as-is, at the domain root or under any sub-path (every URL in the app is relative). `data/vocab.json`, `data/verbs.json` and `data/stats.json` must exist, which `node tools/build-data.mjs` produces; `data/grammar.json` is hand-written and committed.
+
+**Updates and offline use.** `sw.js` precaches the shell (HTML, CSS, every JS module) and the four data files on first visit, so the whole app works offline afterwards. HTML, CSS and JS are fetched network-first, so a new deploy shows on the next launch (an app that is open while the deploy lands reloads itself on its next navigation, so old and new modules never mix); the data files are served from the cache and refreshed in the background, so new dictionary entries appear one launch later. Bump `VERSION` in `sw.js` when you add a file to its `SHELL` list (new module or stylesheet) or change the data schema — that re-downloads everything and drops the old cache.
 
 ## Running locally
 
 ```bash
-node tools/build-data.mjs        # merge data/vocab/*.json + data/verbs/*.json → data/*.json
+node tools/build-data.mjs        # merge data/vocab/*.json + data/verbs/*.json → data/*.json (exits 1 if any entry or file had to be skipped)
 node tools/test-conjugator.mjs   # 2,400+ conjugation spot checks
+node tools/check-shell.mjs       # sw.js precache list vs the file tree (run after adding a module or stylesheet)
 python3 -m http.server 8000      # or any static server, then open http://localhost:8000
 ```
 
@@ -63,7 +66,7 @@ Add entries to any file under `data/vocab/` or `data/verbs/` following `data/SCH
 
 ## Cloud sync across devices (optional)
 
-Progress lives on the device by default. To sync a user across devices, create a free [Supabase](https://supabase.com) project, run the SQL shown under **Me → Cloud sync → Show setup SQL** (it creates a `parola_profiles` table with row-level security so each account can only read its own row), enable Email auth, then paste the project URL and anon key into the app and sign in. The app merges the cloud copy with the local one (newest answer per item wins, lists are unioned) and pushes changes automatically.
+Progress lives on the device by default. To sync a user across devices, create a free [Supabase](https://supabase.com) project, run the SQL shown under **Me → Cloud sync → Show setup SQL** (it creates a `parola_profiles` table with row-level security so each account can only read its own row), enable Email auth, then paste the project URL and anon key into the app and sign in. The app merges the cloud copy with the local one (newest answer per item wins, lists are unioned) and pushes changes automatically. Settings stay per device. Because lists are unioned, removing a word from a list, deleting a list or a custom word, or resetting progress on one device is undone by the next sync with a device that still has it. If an automatic sync fails, **Me → Cloud sync** shows the last error next to the sync time.
 
 ## Backups and multiple devices
 
@@ -75,7 +78,7 @@ Besides the conjugation-engine checks (`node tools/test-conjugator.mjs`), two Pl
 
 ```bash
 (python3 -m http.server 8123 --bind 127.0.0.1 >/dev/null 2>&1 &)   # or let the scripts start it
-node tests/e2e.mjs            # every route + the learning, review, game, list, search, theme, export and persistence flows
+node tests/e2e.mjs            # every route + the learning, review, all 21 games, list, search, custom word/verb, theme, users, backup round-trip, SRS and persistence flows
 node tests/layout-audit.mjs   # every route × 3 phone viewports × light/dark: overflow, tap targets, overlaps, small inputs, clipped headings
 ```
 

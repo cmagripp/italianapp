@@ -13,9 +13,14 @@ const POS_ORDER = ['noun', 'verb', 'adj', 'adv', 'expr', 'prep', 'conj', 'pron',
 const POS_PLURAL = { noun: 'Nouns', verb: 'Verbs', adj: 'Adjectives', adv: 'Adverbs', expr: 'Expressions', prep: 'Prepositions', conj: 'Conjunctions', pron: 'Pronouns', num: 'Numbers', det: 'Determiners', interj: 'Interjections' };
 const STATES = [['', 'All'], ['unlearned', 'To learn'], ['learned', 'Learned'], ['mastered', 'Mastered']];
 const PAGE = 80;
+// Pages shown per history entry (the router stamps history.state.pid before rendering): coming back from an entry re-paints
+// as many rows as were open, so the restored scroll position lands on the rows the learner was reading.
+const shownMemory = new Map();
+const historyKey = () => (history.state && history.state.pid) || null;
 
 export async function render(root, params, query) {
   const level = params.level && params.level !== 'all' ? params.level : null;
+  if (level && !LEVELS.includes(level)) { setTitle('Browse'); root.innerHTML = html`<div class="empty"><p>${raw(tr('Livello sconosciuto.', 'Unknown level.'))}</p><a class="btn primary" href="#/browse">Browse everything</a></div>`; return; }
   const cat = params.cat || null;
   const kind = query.kind || null;
   setTitle(level && cat ? `${level} · ${CATS[cat]?.name || cat}` : level ? `Level ${level}` : cat ? (CATS[cat]?.name || cat) : kind === 'verb' ? 'All verbs' : 'Browse');
@@ -30,7 +35,10 @@ export async function render(root, params, query) {
   const posOf = (e) => (e.kind === 'verb' ? 'verb' : e.pos);
   const posHere = POS_ORDER.filter(p => base.some(e => posOf(e) === p));
   const catsHere = Object.keys(CATS).filter(c => base.some(e => e.cat === c));
-  let shown = PAGE;
+  const memo = historyKey() && shownMemory.get(historyKey());
+  let shown = memo && memo.pos === filter.pos && memo.state === filter.state ? memo.shown : PAGE;
+  const remember = () => { const k = historyKey(); if (k) shownMemory.set(k, { shown, pos: filter.pos, state: filter.state }); };
+  let cache = null; // the filtered, grouped and sorted entries: computed once per filter change, not on every page
 
   function apply() {
     let items = base;
@@ -81,23 +89,42 @@ export async function render(root, params, query) {
     return rows.join('');
   }
 
+  function current() {
+    if (!cache) { const items = apply(); const groups = grouped(items); cache = { items, groups, ordered: groups.flatMap(g => g.items), learned: items.filter(e => store.isLearned(e.id)).length }; }
+    return cache;
+  }
+  const groupHTML = (g) => html`<section class="grp" data-key="${String(g.key)}"><div class="grp-head"><span class="kicker">${raw(groupLabel(g.key))}</span><span class="kicker n">${g.total}</span></div><div class="list">${raw(g.items.map(e => entryRow(e, { showLevel: false })).join(''))}</div></section>`;
+  const moreLabel = (left) => html`Show ${Math.min(PAGE, left)} more <span class="mono">· ${left} left</span>`;
   function body() {
-    const items = apply();
-    const learned = items.filter(e => store.isLearned(e.id)).length;
-    const groups = grouped(items);
-    const ordered = groups.flatMap(g => g.items);
+    const { items, groups, ordered, learned } = current();
     const visible = new Set(ordered.slice(0, shown).map(e => e.id));
     const vis = groups.map(g => ({ key: g.key, total: g.items.length, items: g.items.filter(e => visible.has(e.id)) })).filter(g => g.items.length);
     const left = ordered.length - shown;
     return html`<div class="count-row"><span class="kicker">${items.length} · ${learned} learned</span><button type="button" class="btn sm" data-actions aria-haspopup="menu">${ic('play', { size: 16 })}Play · Study${ic('chevronDown', { size: 16 })}</button></div>
       ${items.length
-        ? raw(vis.map(g => html`<section class="grp"><div class="grp-head"><span class="kicker">${raw(groupLabel(g.key))}</span><span class="kicker n">${g.total}</span></div><div class="list">${raw(g.items.map(e => entryRow(e, { showLevel: false })).join(''))}</div></section>`).join(''))
+        ? raw(vis.map(groupHTML).join(''))
         : raw(html`<div class="empty"><p>${raw(tr('Niente qui, per ora.', 'Nothing here, for now.'))}</p><p class="small muted">Try another filter.</p></div>`)}
-      ${left > 0 ? raw(html`<button type="button" class="btn ghost block more-btn" data-more>Show ${Math.min(PAGE, left)} more <span class="mono">· ${left} left</span></button>`) : ''}`;
+      ${left > 0 ? raw(html`<button type="button" class="btn ghost block more-btn" data-more>${raw(moreLabel(left))}</button>`) : ''}`;
+  }
+  // "Show more" appends the next page to the groups already on screen instead of re-sorting and re-rendering every row shown so far
+  function showMore() {
+    const { groups, ordered } = current();
+    const from = shown; shown += PAGE; remember();
+    const add = new Set(ordered.slice(from, shown).map(e => e.id));
+    const bodyEl = root.querySelector('[data-body]'), more = bodyEl.querySelector('[data-more]');
+    for (const g of groups) {
+      const items = g.items.filter(e => add.has(e.id));
+      if (!items.length) continue;
+      const sec = bodyEl.querySelector(`.grp[data-key="${CSS.escape(String(g.key))}"]`);
+      if (sec) sec.querySelector('.list').insertAdjacentHTML('beforeend', items.map(e => entryRow(e, { showLevel: false })).join(''));
+      else (more || bodyEl).insertAdjacentHTML(more ? 'beforebegin' : 'beforeend', groupHTML({ key: g.key, total: g.items.length, items }));
+    }
+    const left = ordered.length - shown;
+    if (more) { if (left > 0) more.innerHTML = moreLabel(left); else more.remove(); }
   }
 
   function bindBody() {
-    root.querySelector('[data-more]')?.addEventListener('click', () => { shown += PAGE; redrawBody(); });
+    root.querySelector('[data-more]')?.addEventListener('click', showMore);
     root.querySelector('[data-actions]')?.addEventListener('click', (ev) => {
       dropdown(ev.currentTarget, [
         { value: 'quiz', label: 'Play a quiz', sub: 'Multiple choice with these entries' },
@@ -112,11 +139,11 @@ export async function render(root, params, query) {
   function redrawBody() { root.querySelector('[data-body]').innerHTML = body(); bindBody(); }
   function draw() {
     root.innerHTML = html`<div class="pg pg-browse">${raw(hero())}<div class="filters">${raw(filters())}</div><div data-body>${raw(body())}</div></div>`;
-    root.querySelectorAll('[data-pos]').forEach(b => b.addEventListener('click', () => { filter.pos = b.dataset.pos; shown = PAGE; root.querySelectorAll('[data-pos]').forEach(x => x.classList.toggle('on', x === b)); redrawBody(); }));
+    root.querySelectorAll('[data-pos]').forEach(b => b.addEventListener('click', () => { filter.pos = b.dataset.pos; shown = PAGE; cache = null; remember(); root.querySelectorAll('[data-pos]').forEach(x => x.classList.toggle('on', x === b)); redrawBody(); }));
     root.querySelector('[data-state-menu]')?.addEventListener('click', (ev) => {
       const chip = ev.currentTarget;
       dropdown(chip, STATES.map(([v, l]) => ({ value: v, label: l, sub: v === '' ? 'Every entry' : v === 'unlearned' ? 'Not yet learned' : v === 'learned' ? 'Marked learned' : 'Stage: mastered', selected: filter.state === v })), { width: 240, onSelect: (v) => {
-        filter.state = v; shown = PAGE;
+        filter.state = v; shown = PAGE; cache = null; remember();
         chip.classList.toggle('on', !!v); chip.innerHTML = stateLabel() + icon('chevronDown', { size: 14 });
         redrawBody();
       } });

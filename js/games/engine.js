@@ -247,7 +247,9 @@ export function runDrill(root, questions, opts = {}) {
     const secs = Math.round((Date.now() - state.start) / 1000);
     const result = { gameId, title, total, correct: state.correct, wrong: state.wrong, score: total ? Math.round((state.correct / total) * 100) : 0, missed: [...new Set(state.missed)], secs, perItem: state.perItem, answers: state.answers };
     result.xp = state.correct * xpPer + (result.score === 100 && total >= 5 ? 10 : 0);
-    if (record) store.recordGame(gameId, result);
+    // recordAnswer already awarded xpPer per correct answer: the game record adds only the perfect-run bonus, so the
+    // store gains exactly the "+N XP" the results screen shows
+    if (record) store.recordGame(gameId, { ...result, xp: result.xp - state.correct * xpPer });
     if (onDone) return onDone(result);
     showResults(root, result, opts);
   }

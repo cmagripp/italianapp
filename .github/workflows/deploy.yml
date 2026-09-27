@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -22,10 +22,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Build dictionary data & run engine tests
+      # The default shell (bash -e) stops at the first failing command, so a schema error, an incomplete build, a failing
+      # engine check or a precache list that no longer matches the file tree all fail the job before anything is uploaded.
+      - name: Validate source data, build dictionary data, run engine tests & check the offline shell
         run: |
+          node tools/validate.mjs data/vocab/*.json data/verbs/*.json
           node tools/build-data.mjs
           node tools/test-conjugator.mjs
+          node tools/check-shell.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

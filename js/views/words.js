@@ -18,11 +18,15 @@ export const SHORT_CAT = {
 export const shortCat = (k) => SHORT_CAT[k] || String(CATS[k]?.name || k).split(/[,&]/)[0].trim();
 
 const kindTag = (e) => `<span class="re-tag ${e.kind}">${e.kind === 'verb' ? 'verb' : 'word'}</span>`;
+// The query and kind filter of each history entry (history.state.pid is stamped by the router before rendering), so coming
+// back from an entry shows the results the learner picked from instead of an empty search field.
+const queryMemory = new Map();
+const historyKey = () => (history.state && history.state.pid) || null;
 
 export async function render(root) {
   setTitle('Words');
   const lists = Object.values(store.lists);
-  const learnedW = store.learnedIds().filter(id => !id.startsWith('v:')).length, learnedV = store.learnedIds('v:').length;
+  const learnedW = store.learnedWordIds().length, learnedV = store.learnedIds('v:').length;
   const byLevel = {}; const byCat = {};
   for (const e of [...data.vocab, ...data.verbs]) {
     const L = (byLevel[e.level] ||= { words: 0, verbs: 0, learned: 0 });
@@ -74,9 +78,11 @@ export async function render(root) {
 
   const page = root.firstElementChild;
   const q = root.querySelector('#q'), results = root.querySelector('#results'), browse = root.querySelector('#browse'), sbar = root.querySelector('[data-sbar]');
-  let t = null; let kind = '';
+  const memo = historyKey() && queryMemory.get(historyKey());
+  let t = null; let kind = memo ? memo.kind : '';
   const doSearch = () => {
     const v = q.value.trim();
+    if (historyKey()) queryMemory.set(historyKey(), { q: q.value, kind });
     sbar.classList.toggle('has', !!v);
     if (!v) { results.innerHTML = ''; browse.classList.remove('hidden'); return; }
     browse.classList.add('hidden');
@@ -96,6 +102,7 @@ export async function render(root) {
 
   const r = reel(root.querySelector('[data-reel]'));
   r.scrollTo(Math.max(0, LEVELS.indexOf(myLevel)), false);
+  if (memo && memo.q) { q.value = memo.q; doSearch(); }
   mount(page);
   mount(browse, { stagger: 70 });
   return () => { clearTimeout(t); r.destroy(); };

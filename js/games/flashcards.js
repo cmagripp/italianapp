@@ -115,7 +115,8 @@ export function startFlashcards(root, ctx) {
   function finish() {
     const result = { gameId: 'flashcards', total, correct, wrong: total - correct, score: total ? Math.round((correct / total) * 100) : 0, missed, secs: Math.round((Date.now() - start) / 1000) };
     result.xp = correct * 2;
-    store.recordGame('flashcards', result);
+    // recordAnswer already awarded 2 XP per card rated Hard or better: the game record adds nothing more
+    store.recordGame('flashcards', { ...result, xp: 0 });
     showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice });
   }
   render();

@@ -6,6 +6,8 @@ import { conjugate, irregularCells, splitClitic, PERSONS, IMP_PERSONS, TENSE_BY_
 import { checkTyped } from './engine.js';
 
 const it = (e) => e.kind === 'verb' ? e.inf : e.it;
+// "d'accordo" has 8 letters, "a domani" 7: apostrophes and spaces do not count
+export const letterCount = (w) => String(w || '').replace(/[^\p{L}]/gu, '').length;
 const enOf = (e) => shortEn(e.en);
 const hw = (e) => e.kind === 'verb' ? e.inf : headword(e);
 const conjOf = (e) => conjugate(e.inf, { aux: e.aux, isc: e.isc });
@@ -31,14 +33,22 @@ export function qTranslateMC(e, pool, dir = 'it-en') {
 
 export function qTypeIt(e) {
   const answers = [it(e)];
-  if (e.pos === 'noun') answers.push(withArticle(e, false));
+  if (e.pos === 'noun') answers.push(withArticle(e, isPluralOnly(e)));
+  // another entry with the very same meaning (per favore / per piacere, prego / di niente) is a right answer too
+  const key = fold(enOf(e));
+  for (const x of [...data.vocab, ...data.verbs]) if (x.id !== e.id && x.kind === e.kind && fold(enOf(x)) === key) answers.push(it(x));
   const hint = e.pos === 'noun' ? (e.g === 'mf' ? 'noun' : e.g === 'f' ? 'feminine noun' : 'masculine noun') : (e.kind === 'verb' ? 'verb (infinitive)' : e.pos);
-  return { type: 'type', itemId: e.id, tag: 'Type the Italian', prompt: html`<div class="big md">${enOf(e)}</div><div class="sub">${hint}${e.it.length > 2 ? ' · ' + e.it.length + ' letters' : ''}</div>`, say: it(e), answer: answers, placeholder: 'In italiano…', explain: e.ex ? html`<i>${e.ex}</i>` : '' };
+  const letters = letterCount(e.it);
+  return { type: 'type', itemId: e.id, tag: 'Type the Italian', prompt: html`<div class="big md">${enOf(e)}</div><div class="sub">${hint}${letters > 2 ? ' · ' + letters + ' letters' : ''}</div>`, say: it(e), answer: answers, placeholder: 'In italiano…', explain: e.ex ? html`<i>${e.ex}</i>` : '' };
 }
 
+// "to", a leading article and trailing punctuation never count ("careful!" = "careful"); a sense with a qualifier
+// ("stop (bus, tram, metro)") is also right without it, and a comma-separated sense ("sapling, young shoot") by either part.
+const enKey = (s) => fold(s).trim().replace(/^to /, '').replace(/^(the|a|an) /, '').replace(/[.!?]+$/, '').trim();
 export function qTypeEn(e) {
-  const answers = enChoices(e).flatMap(a => [a, a.replace(/^to /, ''), a.replace(/^(the|a|an) /, '')]);
-  return { type: 'type', itemId: e.id, tag: 'Type the English', prompt: html`<div class="big">${hw(e)}</div>`, say: it(e), answer: answers, placeholder: 'In English…', accept: (v) => { const a = fold(v).trim().replace(/^to /, '').replace(/^(the|a|an) /, '').replace(/[.!?]$/, ''); return { ok: answers.some(x => fold(x) === a) }; } };
+  const senses = enChoices(e);
+  const keys = new Set(senses.flatMap(a => { const core = a.replace(/\s*\([^)]*\)/g, '').trim(); return [a, core, ...(/\band\b/.test(core) ? [] : core.split(/,\s*/))]; }).map(enKey).filter(Boolean));
+  return { type: 'type', itemId: e.id, tag: 'Type the English', prompt: html`<div class="big">${hw(e)}</div>`, say: it(e), answer: senses, placeholder: 'In English…', accept: (v) => ({ ok: keys.has(enKey(v)) }) };
 }
 
 export function qGender(e) {
@@ -59,7 +69,9 @@ export function qPluralMC(e, pool) {
   const wrongs = new Set();
   const base = e.it;
   const cands = [base.replace(/o$/, 'i'), base.replace(/a$/, 'e'), base.replace(/e$/, 'i'), base + 's', base.replace(/o$/, 'a'), base.replace(/a$/, 'i'), base.replace(/co$/, 'ci'), base.replace(/co$/, 'chi'), base.replace(/go$/, 'gi'), base.replace(/go$/, 'ghi'), base.replace(/ca$/, 'che'), base.replace(/io$/, 'ii'), base];
-  for (const c of cands) { if (c !== e.pl && c !== base + 's' || (c === base + 's' && wrongs.size < 1)) wrongs.add(c); if (wrongs.size >= 3) break; }
+  for (const c of cands) { if (c !== e.pl) wrongs.add(c); if (wrongs.size >= 3) break; }
+  // an -e noun or an invariable one (cane, città, bar) has too few look-alikes of its own: other nouns' plurals fill the choices
+  for (const d of distractors(e, pool, 6)) { if (wrongs.size >= 3) break; if (d.pl && d.pl !== '-' && d.pl !== '—' && fold(d.pl) !== fold(e.pl)) wrongs.add(d.pl); }
   const wl = [...wrongs].filter(x => x !== e.pl).slice(0, 3);
   return { type: 'mc', itemId: e.id, tag: 'Choose the plural', center: true, prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), choices: mcChoices(e.pl, wl), answer: e.pl };
 }
@@ -94,13 +106,24 @@ export function findInSentence(sentence, entry) {
   // multi-word lemma
   const lemma = fold(entry.it);
   if (lemma.includes(' ')) {
-    const idx = fold(sentence).indexOf(lemma);
-    if (idx >= 0) return { start: idx, end: idx + lemma.length, form: sentence.slice(idx, idx + lemma.length) };
-    return null;
+    const fs = fold(sentence);
+    const isL = (ch) => !!ch && /\p{L}/u.test(ch);
+    let idx = fs.indexOf(lemma);
+    while (idx >= 0 && isL(fs[idx - 1])) idx = fs.indexOf(lemma, idx + 1);
+    if (idx < 0) return null;
+    let end = idx + lemma.length;
+    // "fino a" inside "fino alle otto": the blank covers the whole articulated preposition, never half a word
+    if (isL(fs[end]) || fs[end] === "'") {
+      const tail = /(^| )(a|di|da|in|su|con)$/.test(lemma) ? fs.slice(end).match(/^(ll'|lla|llo|lle|l|gli|i)(?!\p{L})/u) : null;
+      if (!tail) return null;
+      end += tail[0].length;
+    }
+    return { start: idx, end, form: sentence.slice(idx, end) };
   }
   let pos = 0, best = null;
   for (const w of words) {
-    const clean = fold(w).replace(/^l'|^un'|^d'|^all'|^dell'|^nell'|^sull'|^dall'|^quest'|^quell'/, '');
+    const whole = fold(w);
+    const clean = forms.has(whole) ? whole : whole.replace(/^l'|^un'|^d'|^all'|^dell'|^nell'|^sull'|^dall'|^quest'|^quell'/, '');
     const offset = w.length - clean.length;
     if (clean.length > 1 && forms.has(clean) && (!best || clean.length > best.len)) best = { start: pos + offset, end: pos + w.length, form: w.slice(offset), len: clean.length };
     pos += w.length;
@@ -124,16 +147,19 @@ export function qCloze(e, { typed = false, pool = [] } = {}) {
     let wrongs;
     if (e.kind === 'verb') {
       const c = conjOf(e);
-      const pick = (t, i) => (t && usable(t[i]) ? primary(t[i]) : null);
+      // the gap holds one word, so a distractor is the bare verb form: no clitic ("si alza" → alza), no auxiliary ("ha mangiato" → mangiato)
+      const pick = (t, i) => (t && usable(t[i]) ? primary(t[i]).split(' ').pop().replace(/\/[ae]$/, '') : null);
       const own = [pick(c.tenses.presente, 1), pick(c.tenses.presente, 2), pick(c.tenses.presente, 5), pick(c.tenses.imperfetto, 0), pick(c.tenses.futuro, 2), pick(c.tenses.passatoProssimo, 2), pick(c.tenses.condizionale, 0), pick(c.tenses.congiuntivoPresente, 0), usable(c.nonFinite.participioPassato) ? primary(c.nonFinite.participioPassato) : null, usable(c.nonFinite.gerundio) ? primary(c.nonFinite.gerundio) : null, e.inf].filter(Boolean);
       const other = distractors(e, pool, 1)[0];
       const oc = other ? conjOf(other) : null;
       const cands = shuffle([...new Set(own.filter(f => fold(f) !== fold(hit.form)))]).slice(0, 2);
-      if (oc) { const f = pick(oc.tenses.presente, Math.floor(Math.random() * 6)); if (f && fold(f) !== fold(hit.form)) cands.push(f); }
+      if (oc) { const f = pick(oc.tenses.presente, Math.floor(Math.random() * 6)); if (f && fold(f) !== fold(hit.form) && !cands.some(x => fold(x) === fold(f))) cands.push(f); }
       while (cands.length < 3) { const f = own.find(x => !cands.includes(x) && fold(x) !== fold(hit.form)); if (!f) break; cands.push(f); }
       wrongs = cands;
     } else wrongs = distractors(e, pool, 3).map(d => d.it);
-    return { type: 'mc', itemId: e.id, tag: 'Fill in the blank', center: true, prompt, say: s.it, choices: mcChoices(hit.form, wrongs), answer: hit.form, explain: esc(s.en) };
+    // a lower-case lemma capitalised only by its position ("Chi è…", «D'accordo!») would give the answer away among lower-case choices
+    const label = /^\p{Lu}/u.test(hit.form) && /^\p{Ll}/u.test(e.it) ? hit.form[0].toLowerCase() + hit.form.slice(1) : hit.form;
+    return { type: 'mc', itemId: e.id, tag: 'Fill in the blank', center: true, prompt, say: s.it, choices: mcChoices(label, wrongs), answer: label, explain: esc(s.en) };
   }
   return null;
 }
@@ -147,8 +173,10 @@ export function qScramble(e) {
 }
 
 export function qDictation(e) {
-  const text = e.kind === 'verb' ? e.inf : (e.pos === 'noun' && !isPluralOnly(e) ? withArticle(e, false) : e.it);
-  return { type: 'type', itemId: e.id, tag: 'Listen and type', prompt: html`<div class="big dict">${raw(icon('ear', { size: 44 }))}</div><div class="sub">Tap the speaker, then type what you hear</div>`, say: text, autoSay: true, answer: [text, it(e)], placeholder: 'What did you hear?', explain: esc(enOf(e)) };
+  // a noun of either gender is read with one article ("il cantante", never "il/la cantante"); both articles are accepted
+  const full = e.kind === 'verb' ? e.inf : (e.pos === 'noun' && !isPluralOnly(e) ? withArticle(e, false) : e.it);
+  const text = full.replace(/^(\S+?)\/\S+ /, '$1 ');
+  return { type: 'type', itemId: e.id, tag: 'Listen and type', prompt: html`<div class="big dict">${raw(icon('ear', { size: 44 }))}</div><div class="sub">Tap the speaker, then type what you hear</div>`, say: text, autoSay: true, answer: [text, it(e), full], placeholder: 'What did you hear?', explain: esc(enOf(e)) };
 }
 
 // ---------- verbs ----------
@@ -246,8 +274,8 @@ export function qAux(e) {
   const c = conjOf(e);
   if (!usable(c.nonFinite.participioPassato)) return null;
   const pp = primary(c.nonFinite.participioPassato);
-  const aux = e.aux === 'both' ? 'avere / essere' : e.aux;
   const choices = [{ label: 'avere', correct: e.aux === 'avere' }, { label: 'essere', correct: e.aux === 'essere' }, { label: 'both (depends on meaning)', correct: e.aux === 'both' }];
+  const aux = (choices.find(x => x.correct) || {}).label;
   if (!choices.some(x => x.correct)) return null;
   const sayForm = c.tenses.passatoProssimo && usable(c.tenses.passatoProssimo[2]) ? primary(c.tenses.passatoProssimo[2]) : e.inf;
   return { type: 'mc', itemId: e.id, tag: 'Which auxiliary?', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">passato prossimo: <span class="blank">?</span> ${pp}</div>`, say: sayForm, choices, answer: aux, explain: e.aux === 'essere' ? (e.trans === 'vr' ? 'Reflexive and pronominal verbs always take essere.' : 'Intransitive verbs of motion, change or state take essere; the participle agrees with the subject.') : e.aux === 'both' ? 'Essere when used intransitively, avere when there is a direct object.' : 'Transitive verbs (and many intransitive ones) take avere.' };

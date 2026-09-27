@@ -27,7 +27,7 @@ export async function render(root, params) {
 
   function entries() {
     let ids;
-    if (id === 'learned-words') ids = store.learnedIds().filter(x => !x.startsWith('v:'));
+    if (id === 'learned-words') ids = store.learnedWordIds();
     else if (id === 'learned-verbs') ids = store.learnedIds('v:');
     else if (id === 'custom') ids = Object.keys(store.current.custom || {});
     else ids = list.items;

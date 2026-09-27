@@ -95,7 +95,8 @@ export function startSentence(root, ctx) {
   function finish() {
     const result = { gameId: 'sentence', total, correct, wrong: total - correct, score: total ? Math.round((correct / total) * 100) : 0, missed, secs: Math.round((Date.now() - start) / 1000) };
     result.xp = correct * 3;
-    store.recordGame('sentence', result);
+    // recordAnswer already awarded 3 XP per correct sentence: the game record adds nothing more
+    store.recordGame('sentence', { ...result, xp: 0 });
     showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice });
   }
   if (!total) { root.innerHTML = html`<div class="empty"><p>No example sentences available for this selection.</p><a class="btn primary" href="${ctx.backHref}">Choose another source</a></div>`; return; }
