@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Spot checks for the conjugation engine. Run: node tools/test-conjugator.mjs
-import { conjugate, primary, accepted, isCorrectForm, irregularCells, regularParadigm, MISSING } from '../js/conjugator.js';
+import { conjugate, primary, accepted, isCorrectForm, irregularCells, irregularAlternatives, regularParadigm, MISSING } from '../js/conjugator.js';
 
 let fails = 0, checks = 0;
 function eq(inf, tense, i, expected, meta) {
@@ -829,6 +829,35 @@ for (const [inf, tense, i, p] of [['risolvere', 'passatoRemoto', 0, 'risolsi'], 
 }
 // present participles that do not follow the plain -ente pattern (prefixes apply)
 for (const [inf, f] of Object.entries({ sapere: 'sapiente', venire: 'veniente', convenire: 'conveniente', provenire: 'proveniente', dormire: 'dormiente', obbedire: 'obbediente', ubbidire: 'ubbidiente', cuocere: 'cocente', parere: 'parvente', nutrire: 'nutriente', salire: 'saliente', esordire: 'esordiente', patire: 'paziente', capire: 'capiente', sentire: 'senziente', uscire: 'uscente', seguire: 'seguente', morire: 'morente', servire: 'servente', parlare: 'parlante', fare: 'facente', dire: 'dicente', porre: 'ponente', condurre: 'conducente', trarre: 'traente', piacere: 'piacente', vivere: 'vivente' })) nf(inf, 'participioPresente', f);
+// lexicalised participles of single verbs, also when the verb is a prefix + root derivative (attenere = at- + tenere);
+// the page shows primary(), so the primary is checked. avvenire keeps avveniente: avvenente comes from French avenant.
+for (const [inf, f] of Object.entries({ soffrire: 'sofferente', offrire: 'offerente', consentire: 'consenziente', dissentire: 'dissenziente', assentire: 'assenziente', attenere: 'attinente', attenersi: 'attinente', risalire: 'risalente', avvenire: 'avveniente', provenire: 'proveniente', contenere: 'contenente', appartenere: 'appartenente', salire: 'saliente', sentire: 'senziente' })) {
+  checks++; const got = conjugate(inf).nonFinite.participioPresente; if (primary(got) !== f) { fails++; console.log(`FAIL ${inf} participioPresente primary: expected "${f}", got "${got}"`); }
+}
+nf('attenere', 'participioPresente', 'attenente');
+// both-auxiliary contract: auxBoth marks the verbs whose compound cells carry the essere forms after the avere ones
+for (const [inf, meta, want] of [['salire', { aux: 'both', isc: false }, true], ['piovere', { aux: 'both' }, true], ['mangiare', {}, false], ['andare', { aux: 'essere' }, false], ['alzarsi', { aux: 'both' }, false]]) {
+  checks++; if (conjugate(inf, meta).auxBoth !== want) { fails++; console.log(`FAIL ${inf}.auxBoth: expected ${want}`); }
+}
+checks++; if (conjugate('salire', { aux: 'both', isc: false }).nonFinite.gerundioPassato !== 'avendo salito|essendo salito/a') { fails++; console.log('FAIL salire gerundioPassato both order'); }
+// irregular flag: an entry that only removes forms (pp: null, imp: null…) makes a defective verb, not an irregular one
+for (const inf of ['splendere', 'concernere', 'competere', 'dirimere', 'esimersi', 'incombere', 'vertere', 'delinquere', 'discernere', 'incedere', 'prudere', 'urgere', 'vigere']) {
+  const c = conjugate(inf);
+  checks++; if (c.irregular || !c.defective.length) { fails++; console.log(`FAIL ${inf}: expected regular + defective, got irregular=${c.irregular} defective=[${c.defective}]`); }
+}
+// a verb whose irregular forms are all alternatives beside a regular primary (riflettuto|riflesso) stays irregular:
+// irregularCells lists no cell, irregularAlternatives names the forms (the -isc- / plain pair of -ire verbs is regular)
+for (const [inf, meta, exp] of [['riflettere', {}, { participioPassato: { 0: ['riflesso'] } }], ['fendere', {}, { participioPassato: { 0: ['fesso'] } }], ['inferire', { isc: true }, { passatoRemoto: { 0: ['infersi'], 2: ['inferse'], 5: ['infersero'] }, participioPassato: { 0: ['inferto'] } }], ['assorbire', { isc: false }, { participioPassato: { 0: ['assorto'] } }]]) {
+  checks++; if (!conjugate(inf, meta).irregular) { fails++; console.log(`FAIL ${inf}.irregular must be true`); }
+  noCells(inf, meta);
+  checks++; const got = JSON.stringify(irregularAlternatives(inf, meta)); if (got !== JSON.stringify(exp)) { fails++; console.log(`FAIL irregularAlternatives ${inf}: expected ${JSON.stringify(exp)}, got ${got}`); }
+}
+// the flag is true exactly when some non-defective cell or some alternative is irregular
+for (const [inf, meta] of [['parlare'], ['cercare'], ['finire'], ['essere', { aux: 'essere' }], ['andare', { aux: 'essere' }], ['fare'], ['prendere'], ['perdere'], ['bere'], ['proporre'], ['compiere'], ['offrire'], ['riflettere'], ['fendere'], ['inferire', { isc: true }], ['assorbire', { isc: false }], ['splendere'], ['vigere'], ['dirimere'], ['delinquere']]) {
+  const c = conjugate(inf, meta || {}); const cl = irregularCells(inf, meta || {});
+  const shown = Object.keys(cl).some(k => !c.defective.includes(k)) || Object.keys(irregularAlternatives(inf, meta || {})).length > 0;
+  checks++; if (c.irregular !== shown) { fails++; console.log(`FAIL ${inf}: irregular=${c.irregular} but irregular forms found=${shown}`); }
+}
 // verbs not in the data set but reachable through "Add word"
 T('sommettere', { passatoRemoto: ['sommisi', 'sommettesti', 'sommise'], pp: 'sommesso', presente: ['sommetto'] });
 T('rifuggire', { presente: ['rifuggo', 'rifuggi', 'rifugge', 'rifuggiamo', 'rifuggite', 'rifuggono'], congiuntivoPresente: ['rifugga'] }); no('rifuggire', 'presente', 0, 'rifuggisco');

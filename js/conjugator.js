@@ -28,8 +28,9 @@ const ISC_OVERRIDE = new Set(['sparire', 'inghiottire', 'seppellire', 'muggire',
 
 const STRESSED_IARE = new Set(['sciare', 'inviare', 'spiare', 'avviare', 'rinviare', 'deviare', 'obliare', 'espiare', 'ovviare', 'fuorviare', 'sviare', 'traviare', 'striare', 'ravviare', 'riavviare', 'reinviare', 'disviare']);
 
-// present participles that do not follow the plain -ente pattern (looked up by root; prefixes apply: veniente -> conveniente)
-const PRES_PART = { sapere: 'sapiente', venire: 'veniente', parere: 'parvente', cuocere: 'cocente', nuocere: 'nocente', muovere: 'movente', dormire: 'dormiente', nutrire: 'nutriente', salire: 'saliente', obbedire: 'obbediente', ubbidire: 'ubbidiente', esordire: 'esordiente', patire: 'paziente', sentire: 'senziente', capire: 'capiente' };
+// present participles that do not follow the plain -ente pattern (looked up by root; prefixes apply: veniente -> conveniente;
+// a derived verb listed here keeps its own form instead: attenere -> attinente, risalire -> risalente)
+const PRES_PART = { sapere: 'sapiente', venire: 'veniente', parere: 'parvente', cuocere: 'cocente', nuocere: 'nocente', muovere: 'movente', dormire: 'dormiente', nutrire: 'nutriente', salire: 'saliente', obbedire: 'obbediente', ubbidire: 'ubbidiente', esordire: 'esordiente', patire: 'paziente', sentire: 'senziente', capire: 'capiente', soffrire: 'sofferente', offrire: 'offerente', consentire: 'consenziente', dissentire: 'dissenziente', assentire: 'assenziente', attenere: 'attinente|attenente', risalire: 'risalente' };
 
 const PREFIXES = ['ri', 'ra', 're', 's', 'dis', 'di', 'con', 'com', 'cor', 'col', 'co', 'a', 'ac', 'ad', 'af', 'ag', 'al', 'ap', 'ar', 'as', 'at', 'av', 'ab', 'am', 'an', 'in', 'im', 'il', 'ir', 'e', 'es', 'ex', 'de', 'pre', 'pro', 'per', 'tra', 'tras', 'trans', 'sotto', 'sopra', 'so', 'sur', 'su', 'sus', 'sub', 'inter', 'intra', 'intro', 'contra', 'contro', 'o', 'ob', 'oc', 'of', 'op', 'ot', 'retro', 'circon', 'circo', 'para', 'ben', 'bene', 'mal', 'male', 'sod', 'sof', 'sog', 'sop', 'sor', 'sos', 'sot', 'sov', 'stra', 'rin', 'ricon', 'pos', 'post', 'anti', 'estro', 'ultra', 'tele', 'auto', 'mano', 'man', 'rif', 'rap', 'rac', 'rag', 'ram', 'ras', 'rat', 'rav', 'scom', 'scon', 'sof', 'sub', 'sud', 'suf', 'sug', 'sup', 'soc', 'sog', 'sot', 'sov', 'fram', 'fra', 'frap', 'coin', 'contrap', 'contrav', 'contrad', 'contraf', 'sopraf', 'soprag', 'soprav', 'sopras', 'sovrap', 'presup', 'predis', 'indis', 'ricom', 'decom', 'giustap', 'equi', 'appar', 'intrat', 'trat', 'addi', 'capo', 'sottin', 'frain', 'condi', 'rias', 'compro', 'ripro', 'copro', 'discon', 'dif', 'ef', 'sup', 'sot', 'ante', 'mis', 'i', 'rim', 'se'];
 
@@ -194,7 +195,7 @@ function baseParadigm(inf, opts) {
 
   // A table entry that only removes forms (pp: null, imp: null…) describes a defective verb, not an irregular one:
   // every surviving form is regular, and the UI reports defectiveness separately.
-  const irregular = !!opts.entry && Object.values(opts.entry).some(v => v !== null);
+  const irregular = !!opts.entry && Object.entries(opts.entry).some(([k, v]) => v !== null && k !== 'isc');
   return { cls, isc, pres, imperf, pr, fut, cond, subj, subjImp, imp, pp, ger, presPart, irregular, defective };
 }
 
@@ -326,6 +327,7 @@ function build(infinitive, meta = {}, regular = false) {
   const { prefix, base: root, entry } = regular ? { prefix: '', base, entry: null } : resolve(base);
   let par = baseParadigm(root, { entry, isc: meta.isc });
   par = applyPrefix(prefix, par, root);
+  if (prefix && PRES_PART[base]) par = { ...par, presPart: PRES_PART[base] };
   const cl = clitic ? cliticInfo(clitic) : null;
 
   let aux = meta.aux || (cl && cl.aux) || 'avere';
@@ -396,8 +398,9 @@ function build(infinitive, meta = {}, regular = false) {
     else nonFinite.infinitoPassato = compound('aver' + cl.attach[1], ppFor(0));
   } else nonFinite.infinitoPassato = compound(auxKey === 'essere' ? 'essere' : 'avere', ppFor(0)) + (both ? '|' + compound('essere', agreePP(par.pp, 0)) : '');
 
+  // auxBoth: the verb takes avere or essere (no clitic): every compound cell, infinitoPassato and gerundioPassato list the avere forms first (primary) then the essere ones ("ho salito|sono salito/a"); aux stays 'avere'
   const result = {
-    inf, base, root, prefix, clitic, cls: par.cls, isc: par.isc, aux, auxBoth: meta.aux === 'both',
+    inf, base, root, prefix, clitic, cls: par.cls, isc: par.isc, aux, auxBoth: both,
     irregular: par.irregular, defective: par.defective, tenses: t, nonFinite,
     group: par.cls === 'are' ? '-are' : par.cls === 'ere' ? (/rre$/.test(base) ? '-rre' : '-ere') : (par.isc ? '-ire (-isc-)' : '-ire'),
   };
@@ -432,6 +435,25 @@ export function irregularCells(infinitive, meta = {}) {
   for (const k of ['participioPassato', 'gerundio']) {
     if (primary(actual.nonFinite[k]) !== primary(reg.nonFinite[k])) out[k] = [0];
   }
+  return out;
+}
+
+// Irregular forms accepted only beside a regular primary, in cells irregularCells does not list:
+// riflettere -> { participioPassato: { 0: ['riflesso'] } }; inferire -> { passatoRemoto: { 0: ['infersi'], 2: ['inferse'], 5: ['infersero'] }, participioPassato: { 0: ['inferto'] } }.
+// Together with irregularCells it accounts for conjugate().irregular. For -ire verbs the -isc- / plain pair counts as regular (assorbo|assorbisco).
+export function irregularAlternatives(infinitive, meta = {}) {
+  const actual = conjugate(infinitive, meta);
+  const cells = irregularCells(infinitive, meta);
+  const regs = [regularParadigm(infinitive, meta)];
+  if (actual.cls === 'ire') regs.push(regularParadigm(infinitive, { ...meta, isc: !actual.isc }));
+  const out = {};
+  const add = (k, i, form, regForms) => {
+    if ((cells[k] || []).includes(i)) return;
+    const extra = accepted(form).filter(f => f !== MISSING && !regForms.includes(f));
+    if (extra.length) (out[k] = out[k] || {})[i] = extra;
+  };
+  for (const k of CELL_KEYS) (actual.tenses[k] || []).forEach((f, i) => add(k, i, f, regs.flatMap(r => accepted(r.tenses[k] && r.tenses[k][i]))));
+  for (const k of ['participioPassato', 'gerundio']) add(k, 0, actual.nonFinite[k], regs.flatMap(r => accepted(r.nonFinite[k])));
   return out;
 }
 

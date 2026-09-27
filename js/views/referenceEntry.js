@@ -431,10 +431,10 @@ function articleRule(e) {
     let why;
     if (g === 'mf') why = vowel ? `l' for both genders: the article loses its vowel before another vowel — only agreement elsewhere shows the gender.` : lo ? `lo ${first} for a man, la ${first} for a woman: lo because the noun starts with ${soundOf(first)}.` : `il ${first} for a man, la ${first} for a woman.`;
     else if (vowel) why = `l' — ${g === 'm' ? 'lo' : 'la'} is elided before a vowel (${g === 'm' ? 'masculine' : 'feminine'} singular).`;
-    if (vowel && /^h/.test(fold(first))) why += ' The h is silent, so the word counts as starting with a vowel.';
     else if (g === 'm' && lo) why = `lo — masculine singular before ${soundOf(first)}; il is not used before this sound.`;
     else if (g === 'm') why = 'il — masculine singular before an ordinary consonant.';
     else why = 'la — feminine singular before a consonant.';
+    if (vowel && /^h/.test(fold(first))) why += ' The h is silent, so the word counts as starting with a vowel.';
     items.push({ k: 'determinativo', v: withArticle(e, false), text: why });
     let ind, indText;
     if (g === 'f') { ind = vowel ? "un'" + w : 'una ' + w; indText = vowel ? "un' — feminine una is elided before a vowel; the apostrophe is what marks it as feminine." : 'una — feminine before a consonant (never shortened before a consonant).'; }
