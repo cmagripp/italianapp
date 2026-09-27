@@ -7,7 +7,7 @@ import { setTitle } from '../app.js';
 import { store } from '../store.js';
 import { data, getEntry, article, withArticle, headword, isPluralOnly, isUncountable, CATS, shortEn, fold, LEVELS } from '../data.js';
 import { hwSize, IT_POS, TENSE_HELP, openListPicker } from '../components.js';
-import { conjugate, regularParadigm, irregularCells, splitClitic, primary, accepted, PERSONS, IMP_PERSONS, TENSES, TENSE_BY_KEY, MISSING } from '../conjugator.js';
+import { conjugate, regularParadigm, irregularCells, irregularAlternatives, splitClitic, primary, accepted, PERSONS, IMP_PERSONS, TENSES, TENSE_BY_KEY, MISSING } from '../conjugator.js';
 import { stage, STAGE_LABEL } from '../srs.js';
 import { setScene, mount, dial, fan, dropdown, riseLetters, reducedMotion } from '../fx.js';
 import { refRow, refHref, byLevel } from './reference.js';
@@ -179,11 +179,11 @@ function explainVerb(e, conj, cells) {
     if (!conj.prefix && baseE) lead.push(html`The verb itself is conjugated like ${raw(link(baseE))}.`);
   }
   const regular = !items.length;
-  if (regular && !conj.clitic && !conj.prefix) lead.push(html`<b>${e.inf}</b> is regular: it follows the <b>${conj.group}</b> paradigm exactly, so every form comes from the stem <b>${stem}-</b> plus the standard endings.`);
+  // riflettere, fendere, inferire: every main form is regular, but the engine also lists irregular alternatives (riflesso)
+  const alts = regular ? Object.entries(irregularAlternatives(e.inf, meta)).map(([k, byI]) => ({ name: tenseName(k).toLowerCase(), forms: [...new Set(Object.values(byI).flat())] })) : [];
+  if (alts.length) lead.push(html`<b>${e.inf}</b> is regular in its main forms: each follows the <b>${conj.group}</b> paradigm (stem <b>${stem}-</b>). It also has irregular alternatives: ${raw(alts.map(a => html`<b>${a.forms.join(', ')}</b> (${a.name})`).join(' · '))}.`);
+  else if (regular && !conj.clitic && !conj.prefix) lead.push(html`<b>${e.inf}</b> is regular: it follows the <b>${conj.group}</b> paradigm exactly, so every form comes from the stem <b>${stem}-</b> plus the standard endings.`);
   else if (regular) lead.push(html`Every form is regular for the <b>${conj.group}</b> paradigm (stem <b>${stem}-</b>).`);
-  // riflettere, fendere, inferire: the regular participle comes first, an irregular one is listed beside it
-  const ppAlts = accepted(conj.nonFinite.participioPassato).filter(f => f !== MISSING);
-  if (regular && ppAlts.length > 1) lead.push(html`Only the past participle has a second, irregular form: <b>${ppAlts.slice(1).join(' / ')}</b>, beside the regular <b>${ppAlts[0]}</b>.`);
   else {
     const n = simpleIrr.length;
     lead.push(html`Irregular in <b>${n}</b> ${n === 1 ? 'tense' : 'tenses'}${pp ? raw(`, plus the past participle <b>${esc(primary(conj.nonFinite.participioPassato))}</b>`) : ''}${ger ? raw(`${pp ? ' and' : ', plus'} the gerund <b>${esc(primary(conj.nonFinite.gerundio))}</b>`) : ''}.${pp ? ' Every compound tense inherits that participle.' : ''}${isRre ? raw(` Verbs in <b>-rre</b> are contracted infinitives: the real stem is <b>${esc(stem)}-</b> and the endings are those of <b>-ere</b>.`) : ''}`);
@@ -198,11 +198,11 @@ function explainVerb(e, conj, cells) {
   else if (/(ciare|giare|sciare)$/.test(b) && primary(conj.tenses.presente[1]).endsWith('i') && !primary(conj.tenses.presente[1]).endsWith('ii')) notes.push(html`<b>Spelling:</b> the i of the stem is dropped before e and i — <b>${primary(conj.tenses.presente[1])}</b>, <b>${primary(conj.tenses.futuro[0])}</b>.`);
   else if (/iare$/.test(b)) notes.push(html`<b>Spelling:</b> the stem's i is not doubled before an ending in i — <b>${primary(conj.tenses.presente[1])}</b>${/ii$/.test(primary(conj.tenses.presente[1])) ? ' (here the i is stressed, so it stays)' : ''}.`);
   else if (/gnare$/.test(b)) notes.push(html`<b>Spelling:</b> the noi/voi forms may be written with or without the i — <b>${accepted(conj.tenses.presente[3]).join(' / ')}</b>.`);
-  return { regular, lead, items, notes };
+  return { regular, alts, lead, items, notes };
 }
 
 function whyHTML(why) {
-  return html`${raw(secHead('Irregolarità', why.regular ? 'A regular verb' : "Why it's irregular", { cls: 'in-pane' }))}
+  return html`${raw(secHead('Irregolarità', why.regular ? (why.alts.length ? 'Regular main forms' : 'A regular verb') : "Why it's irregular", { cls: 'in-pane' }))}
     <p class="why-lead">${raw(why.lead.join(' '))}</p>
     ${why.items.length ? raw(`<ul class="why-list">${why.items.map(it => html`<li class="why-item"><span class="why-tense">${it.name}</span><span class="why-persons">${it.persons}</span><span class="why-forms">${raw(joinIt(it.forms))}</span>${it.regForms ? raw(html`<span class="why-reg">regular would be <s>${it.regForms.join(' · ')}</s></span>`) : ''}</li>`).join('')}</ul>`) : ''}
     ${raw(why.notes.map(n => `<p class="why-note">${n}</p>`).join(''))}`;
@@ -221,7 +221,7 @@ function renderVerb(root, e) {
   // aux 'both' (salire, correre…): the compound forms carry the essere form beside the avere one — show both
   const nfBoth = (f) => (conj.auxBoth ? accepted(f).join(' / ') : primary(f));
   const drillHref = `#/game/conj-drill?src=ids:${encodeURIComponent(e.id)}&tenses=presente,passatoProssimo,imperfetto,futuro`;
-  const jumps = [{ id: 'conj', label: 'Forme' }, { id: 'why', label: why.regular ? 'Regolare' : 'Irregolarità' }, ...(family.length ? [{ id: 'family', label: 'Famiglia' }] : []), { id: 'patterns', label: 'Reggenza' }, { id: 'usage', label: 'Uso' }, { id: 'examples', label: 'Esempi' }, { id: 'related', label: 'Correlati' }, { id: 'progress', label: 'Progressi' }];
+  const jumps = [{ id: 'conj', label: 'Forme' }, { id: 'why', label: why.regular && !why.alts.length ? 'Regolare' : 'Irregolarità' }, ...(family.length ? [{ id: 'family', label: 'Famiglia' }] : []), { id: 'patterns', label: 'Reggenza' }, { id: 'usage', label: 'Uso' }, { id: 'examples', label: 'Esempi' }, { id: 'related', label: 'Correlati' }, { id: 'progress', label: 'Progressi' }];
   const stemOf = (s) => fold(s);
   const stem = stemOf(conj.base).slice(0, -3);
   const sameStem = stem.length >= 4 ? [...data.vocab, ...data.verbs].filter(x => x.id !== e.id && fold(x.it || x.inf).startsWith(stem) && !family.includes(x)).sort(byLevel).slice(0, 8) : [];
@@ -234,7 +234,7 @@ function renderVerb(root, e) {
     <div class="headword ref-id" data-headword>
       <div class="hw-line"><span class="word" style="--hw:${hwSize(e.inf)}px" data-rise>${e.inf}</span></div>
       <div class="hw-row">${raw(enPill(e.en))}${raw(speakBtn(e.inf, 'lg'))}</div>
-      <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>verbo</span><span>${conj.group}</span><span>${why.regular ? 'regolare' : 'irregolare'}</span><span>aux. ${AUX_LABEL[e.aux] || conj.aux}</span>${e.trans ? raw(html`<span>${TRANS_IT[e.trans] || e.trans}</span>`) : ''}${defective.length ? raw('<span>difettivo</span>') : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
+      <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>verbo</span><span>${conj.group}</span><span>${conj.irregular ? 'irregolare' : 'regolare'}</span><span>aux. ${AUX_LABEL[e.aux] || conj.aux}</span>${e.trans ? raw(html`<span>${TRANS_IT[e.trans] || e.trans}</span>`) : ''}${defective.length ? raw('<span>difettivo</span>') : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
     </div>
     <div class="glass glance ref-target" id="glance" aria-label="At a glance">
       ${raw(glance('io', primary(pres[0]), rowIsIrr(conj, cells, 'presente', 0)))}${raw(glance('tu', primary(pres[1]), rowIsIrr(conj, cells, 'presente', 1)))}${raw(glance('lui / lei', primary(pres[2]), rowIsIrr(conj, cells, 'presente', 2)))}
@@ -259,7 +259,7 @@ function renderVerb(root, e) {
       <div class="ref-tense-head"><span class="ref-tense-name" data-tense-name></span><span class="ref-tense-en" data-tense-en></span></div>
       <div class="tense-note" data-tense-note></div>
       <div data-conj-table></div>
-      ${!why.regular ? raw('<div class="ref-legend"><i></i>irregular form (differs from the regular paradigm)</div>') : ''}
+      ${conj.irregular ? raw('<div class="ref-legend"><i></i>irregular form (differs from the regular paradigm)</div>') : ''}
       <div class="ref-all" id="all">
         ${raw(MOODS.map(([m, name]) => { const ts = TENSES.filter(t => t.mood === m); return html`<div class="acc" data-mood="${m}"><button type="button" class="acc-head" aria-expanded="false"><span><span class="kicker">Tutti i tempi</span><span class="title">${name}<span class="acc-count">${ts.length} ${ts.length === 1 ? 'tempo' : 'tempi'}</span></span></span>${ic('chevronDown', { size: 20 })}</button><div class="acc-body"><div class="acc-inner"><div class="in" data-lazy="${m}"></div></div></div></div>`; }).join(''))}
       </div>
