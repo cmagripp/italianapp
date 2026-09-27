@@ -1,10 +1,15 @@
 // Italian conjugation engine.
 // conjugate(infinitive, { aux, isc, trans }) -> full paradigm (simple + compound tenses, non-finite forms),
 // with support for spelling changes, irregular verbs, prefixed derivatives, reflexive and pronominal clitics.
+// regularParadigm(inf, meta) -> the same paradigm computed as if the verb were regular (no IRREGULAR/DERIVED lookups).
+// irregularCells(inf, meta) -> { tense: [personIdx...] } of cells whose primary form differs from the regular one.
 import { IRREGULAR, FORCE_REGULAR, DERIVED } from './irregular.js';
 
 export const PERSONS = ['io', 'tu', 'lui/lei', 'noi', 'voi', 'loro'];
 export const IMP_PERSONS = ['tu', 'Lei', 'noi', 'voi', 'Loro'];
+
+// Placeholder for a form a defective verb lacks (e.g. the participle of "dirimere", the passato remoto of "solere").
+export const MISSING = '—';
 
 const END = {
   are: { pres: ['o', 'i', 'a', 'iamo', 'ate', 'ano'], imperf: ['avo', 'avi', 'ava', 'avamo', 'avate', 'avano'], pr: ['ai', 'asti', 'ò', 'ammo', 'aste', 'arono'], subj: ['i', 'i', 'i', 'iamo', 'iate', 'ino'], subjImp: ['assi', 'assi', 'asse', 'assimo', 'aste', 'assero'], pp: 'ato', ger: 'ando', fut: 'er' },
@@ -17,17 +22,17 @@ const ISC_PRES = ['isco', 'isci', 'isce', 'iamo', 'ite', 'iscono'];
 const ISC_SUBJ = ['isca', 'isca', 'isca', 'iamo', 'iate', 'iscano'];
 
 // -ire verbs that do NOT take -isc- (used when metadata does not say)
-const NON_ISC = new Set(['aprire', 'coprire', 'dormire', 'partire', 'sentire', 'servire', 'seguire', 'vestire', 'offrire', 'soffrire', 'fuggire', 'bollire', 'cucire', 'divertire', 'avvertire', 'convertire', 'invertire', 'pentire', 'mentire', 'assorbire', 'nutrire', 'applaudire', 'sfuggire', 'scoprire', 'riaprire', 'ricoprire', 'riempire', 'empire', 'venire', 'salire', 'uscire', 'morire', 'udire', 'inseguire', 'proseguire', 'conseguire', 'eseguire', 'perseguire', 'susseguire', 'investire', 'travestire', 'svestire', 'rivestire', 'sovvertire', 'pervertire', 'sovvenire', 'ripartire', 'spartire', 'compartire', 'consentire', 'dissentire', 'risentire', 'presentire', 'acconsentire', 'apparire', 'comparire', 'scomparire', 'trasparire', 'sparire', 'inghiottire', 'seppellire', 'assalire', 'risalire', 'muggire', 'sbollire', 'ribollire', 'sdrucire', 'scucire', 'ricucire', 'sortire', 'languire', 'ruggire']);
-// -isc- exceptions inside NON_ISC family: sparire, inghiottire, seppellire, muggire, ruggire, languire take -isc-
-const ISC_OVERRIDE = new Set(['sparire', 'inghiottire', 'seppellire', 'muggire', 'ruggire', 'languire', 'sortire']);
+const NON_ISC = new Set(['aprire', 'coprire', 'dormire', 'partire', 'sentire', 'servire', 'seguire', 'vestire', 'offrire', 'soffrire', 'fuggire', 'bollire', 'cucire', 'divertire', 'avvertire', 'convertire', 'invertire', 'pentire', 'mentire', 'assorbire', 'nutrire', 'applaudire', 'sfuggire', 'scoprire', 'riaprire', 'ricoprire', 'riempire', 'empire', 'venire', 'salire', 'uscire', 'morire', 'udire', 'inseguire', 'proseguire', 'conseguire', 'eseguire', 'perseguire', 'susseguire', 'investire', 'travestire', 'svestire', 'rivestire', 'sovvertire', 'pervertire', 'sovvenire', 'ripartire', 'spartire', 'compartire', 'consentire', 'dissentire', 'risentire', 'presentire', 'acconsentire', 'apparire', 'comparire', 'scomparire', 'trasparire', 'sparire', 'inghiottire', 'seppellire', 'assalire', 'risalire', 'muggire', 'sbollire', 'ribollire', 'sdrucire', 'scucire', 'ricucire', 'sortire', 'languire', 'ruggire', 'riconvertire', 'riavvertire', 'rioffrire', 'riservire', 'ridormire', 'addormire', 'sopraddormire', 'assentire', 'aborrire', 'sbollire', 'riassorbire', 'divergire']);
+// -isc- exceptions inside NON_ISC family: sparire, inghiottire, seppellire, muggire, ruggire, languire, sortire, spartire, compartire take -isc-
+const ISC_OVERRIDE = new Set(['sparire', 'inghiottire', 'seppellire', 'muggire', 'ruggire', 'languire', 'sortire', 'spartire', 'compartire', 'aborrire', 'divergire']);
 
-const STRESSED_IARE = new Set(['sciare', 'inviare', 'spiare', 'avviare', 'rinviare', 'deviare', 'obliare', 'espiare', 'ovviare', 'fuorviare', 'sviare', 'traviare', 'striare', 'ammaliare', 'inviare']);
+const STRESSED_IARE = new Set(['sciare', 'inviare', 'spiare', 'avviare', 'rinviare', 'deviare', 'obliare', 'espiare', 'ovviare', 'fuorviare', 'sviare', 'traviare', 'striare', 'ammaliare', 'ravviare', 'riavviare', 'reinviare', 'disviare']);
 
 const PREFIXES = ['ri', 'ra', 're', 's', 'dis', 'di', 'con', 'com', 'cor', 'col', 'co', 'a', 'ac', 'ad', 'af', 'ag', 'al', 'ap', 'ar', 'as', 'at', 'av', 'ab', 'am', 'an', 'in', 'im', 'il', 'ir', 'e', 'es', 'ex', 'de', 'pre', 'pro', 'per', 'tra', 'tras', 'trans', 'sotto', 'sopra', 'so', 'sur', 'su', 'sus', 'sub', 'inter', 'intra', 'intro', 'contra', 'contro', 'o', 'ob', 'oc', 'of', 'op', 'ot', 'retro', 'circon', 'circo', 'para', 'ben', 'bene', 'mal', 'male', 'sod', 'sof', 'sog', 'sop', 'sor', 'sos', 'sot', 'sov', 'stra', 'rin', 'ricon', 'pos', 'post', 'anti', 'estro', 'ultra', 'tele', 'auto', 'mano', 'man', 'rif', 'rap', 'rac', 'rag', 'ram', 'ras', 'rat', 'rav', 'scom', 'scon', 'sof', 'sub', 'sud', 'suf', 'sug', 'sup', 'soc', 'sog', 'sot', 'sov', 'fram', 'fra', 'frap', 'coin', 'contrap', 'contrav', 'contrad', 'contraf', 'sopraf', 'soprag', 'soprav', 'sopras', 'sovrap', 'presup', 'predis', 'indis', 'ricom', 'decom', 'giustap', 'equi', 'appar', 'intrat', 'trat', 'addi', 'capo', 'sottin', 'frain', 'condi', 'rias', 'compro', 'ripro', 'copro', 'discon', 'dif', 'ef', 'sup', 'sot', 'ante', 'mis', 'i', 'rim', 'se'];
 
 // ---------- helpers ----------
 const alts = (s) => String(s).split('|');
-const pfx = (p, s) => alts(s).map(a => p + a).join('|');
+const pfx = (p, s) => alts(s).map(a => (a === MISSING ? a : p + a)).join('|');
 const prefixArr = (p, arr) => arr.map(f => (f == null ? f : pfx(p, f)));
 
 function join(stem, ending, cls, stressedI) {
@@ -40,9 +45,12 @@ function join(stem, ending, cls, stressedI) {
     if (/[cg]$/.test(stem) && (first === 'e' || first === 'i')) return stem + 'h' + ending;
     if (/(ci|gi)$/.test(stem) && (first === 'e' || first === 'i')) return stem.slice(0, -1) + ending;
     if (/i$/.test(stem) && first === 'i') return stem.slice(0, -1) + ending;
+    // -gnare: the noi/voi forms in -iamo/-iate may be written with or without the i (sogniamo / sognamo)
+    if (/gn$/.test(stem) && (ending === 'iamo' || ending === 'iate')) return stem + ending + '|' + stem + ending.slice(1);
     return stem + ending;
   }
-  if (/i$/.test(stem) && first === 'i') return stem.slice(0, -1) + ending;
+  // stems ending in i (compi-, riempi-) absorb an i/ì-initial ending: compii, compì, compivo
+  if (/i$/.test(stem) && (first === 'i' || first === 'ì')) return stem.slice(0, -1) + ending;
   return stem + ending;
 }
 function joinAlts(stem, ending, cls, stressedI) {
@@ -68,7 +76,7 @@ function classOf(inf) {
   return (e === 'are' || e === 'ere' || e === 'ire') ? e : 'are';
 }
 
-const PSEUDO = new Set(['durre', 'cludere', 'ludere', 'cidere', 'lidere', 'vadere', 'suadere', 'plodere', 'sumere', 'primere', 'nettere', 'pellere', 'solvere', 'mergere', 'tergere', 'fulgere']);
+const PSEUDO = new Set(['durre', 'cludere', 'ludere', 'cidere', 'lidere', 'vadere', 'suadere', 'plodere', 'sumere', 'primere', 'nettere', 'pellere', 'solvere', 'mergere', 'tergere', 'fulgere', 'trudere']);
 const isPseudo = (b) => PSEUDO.has(b);
 // short / ambiguous bases that may only be derived through the explicit DERIVED map
 const NO_GENERIC = new Set(['andare', 'avere', 'essere', 'stare', 'dare', 'fare', 'dire', 'udire', 'uscire', 'bere', 'solere', 'parere', 'dolere']);
@@ -102,20 +110,24 @@ function resolve(inf) {
   return { prefix: '', base: inf, entry: null };
 }
 
+function defaultIsc(inf) {
+  return ISC_OVERRIDE.has(inf) ? true : !NON_ISC.has(inf);
+}
+
 function baseParadigm(inf, opts) {
   const e = opts.entry || {};
   const cls = e.cls || classOf(inf);
   const stressedI = STRESSED_IARE.has(inf);
-  const infStem = /rre$/.test(inf) ? inf.slice(0, -2) : inf.slice(0, -3); // porre -> "por" (only used for future fallback)
   const stem = e.stem || (/rre$/.test(inf) ? inf.slice(0, -2) : inf.slice(0, -3));
   const E = END[cls];
   let isc = false;
   if (cls === 'ire') {
     if (typeof e.isc === 'boolean') isc = e.isc;
     else if (typeof opts.isc === 'boolean') isc = opts.isc;
-    else isc = ISC_OVERRIDE.has(inf) ? true : !NON_ISC.has(inf);
+    else isc = defaultIsc(inf);
   }
   const gen = (endings) => endings.map(en => joinAlts(stem, en, cls, stressedI));
+  const defective = [];
 
   // Present
   let pres = e.pres ? e.pres.slice() : (isc ? ISC_PRES.map(en => join(stem, en, cls)) : gen(E.pres));
@@ -123,7 +135,8 @@ function baseParadigm(inf, opts) {
   const imperf = e.imperf ? e.imperf.slice() : gen(E.imperf);
   // Passato remoto
   let pr;
-  if (Array.isArray(e.pr)) pr = e.pr.slice();
+  if (e.pr === null) { pr = Array(6).fill(MISSING); defective.push('passatoRemoto'); }
+  else if (Array.isArray(e.pr)) pr = e.pr.slice();
   else {
     pr = gen(E.pr);
     if (typeof e.pr === 'string') {
@@ -131,22 +144,23 @@ function baseParadigm(inf, opts) {
       pr[0] = alts(strong).map(s => s + 'i').join('|');
       pr[2] = alts(strong).map(s => s + 'e').join('|');
       pr[5] = alts(strong).map(s => s + 'ero').join('|');
-      if (cls === 'ere' && !e.pr.includes('|')) { /* regular persons keep -esti/-emmo/-este */ }
     }
-    if (cls === 'ere' && typeof e.pr !== 'string') {
-      // keep alternatives only for regular -ere verbs
-    } else if (cls === 'ere') {
+    if (cls === 'ere' && typeof e.pr === 'string') {
       // strong stem verbs: regular persons have no -etti alternatives
       pr[1] = alts(pr[1])[0]; pr[3] = alts(pr[3])[0]; pr[4] = alts(pr[4])[0];
     }
   }
   // Futuro / condizionale
-  let futStem;
-  if (e.fut) futStem = e.fut;
-  else if (/rre$/.test(inf)) futStem = inf.slice(0, -1); // porre -> porr
-  else futStem = joinAlts(inf.slice(0, -3), E.fut, cls, stressedI);
-  const fut = FUT_END.map(en => alts(futStem).map(s => s + en).join('|'));
-  const cond = COND_END.map(en => alts(futStem).map(s => s + en).join('|'));
+  let fut, cond;
+  if (e.fut === null) { fut = Array(6).fill(MISSING); cond = Array(6).fill(MISSING); defective.push('futuro', 'condizionale'); }
+  else {
+    let futStem;
+    if (e.fut) futStem = e.fut;
+    else if (/rre$/.test(inf)) futStem = inf.slice(0, -1); // porre -> porr
+    else futStem = joinAlts(inf.slice(0, -3), E.fut, cls, stressedI);
+    fut = FUT_END.map(en => alts(futStem).map(s => s + en).join('|'));
+    cond = COND_END.map(en => alts(futStem).map(s => s + en).join('|'));
+  }
   // Congiuntivo presente
   let subj;
   if (e.subj) subj = e.subj.slice();
@@ -159,7 +173,7 @@ function baseParadigm(inf, opts) {
   const subjImp = e.subjImp ? e.subjImp.slice() : gen(E.subjImp);
   // Imperativo
   let imp;
-  if (e.imp === null) imp = null;
+  if (e.imp === null) { imp = null; defective.push('imperativo'); }
   else if (e.imp) imp = e.imp.slice();
   else {
     const tu = cls === 'are' ? alts(pres[2])[0] : alts(pres[1])[0];
@@ -167,27 +181,36 @@ function baseParadigm(inf, opts) {
   }
   // Participio / gerundio
   let pp;
-  if (e.pp) pp = e.pp;
+  if (e.pp === null) { pp = MISSING; defective.push('participioPassato'); }
+  else if (e.pp) pp = e.pp;
   else if (cls === 'ere' && /c$/.test(stem)) pp = stem + 'iuto';
   else if (cls === 'ere' && /sist$/.test(stem)) pp = stem + 'ito';
   else pp = joinAlts(stem, E.pp, cls, stressedI);
   const ger = e.ger || joinAlts(stem, E.ger, cls, stressedI);
   const presPart = cls === 'are' ? stem + 'ante' : (isc ? stem + 'ente' : stem + 'ente');
 
-  return { cls, isc, pres, imperf, pr, fut, cond, subj, subjImp, imp, pp, ger, presPart, irregular: !!opts.entry };
+  return { cls, isc, pres, imperf, pr, fut, cond, subj, subjImp, imp, pp, ger, presPart, irregular: !!opts.entry, defective };
 }
 
-function applyPrefix(p, par, presForImp) {
+function applyPrefix(p, par, base) {
   if (!p) return par;
   const out = { ...par };
   for (const k of ['pres', 'imperf', 'pr', 'fut', 'cond', 'subj', 'subjImp']) out[k] = prefixArr(p, par[k]);
+  // compounds of fare / stare mark the stressed 3rd person with an accent: rifà, disfà, sottostà
+  if (base === 'fare' || base === 'stare') {
+    const bare = alts(par.pres[2])[0];
+    out.pres[2] = [p + bare.slice(0, -1) + 'à', p + bare].join('|');
+  }
   if (par.imp) {
     out.imp = prefixArr(p, par.imp);
     // derived verbs use the full tu-form (contraddici, rifai) rather than the apostrophe form
     if (/'/.test(par.imp[0])) {
       const full = alts(par.pres[1])[0];
-      const extra = alts(par.imp[0]).map(a => p + a);
-      out.imp[0] = [p + full, ...extra.filter(x => x !== p + full)].join('|');
+      // compounds of dire have no apostrophe form (contraddici, benedici); fare/stare/dare keep it (rifa', ridà, ristà)
+      const extra = base === 'dire' ? [] : alts(par.imp[0]).map(a => p + a);
+      const forms = [p + full, ...extra.filter(x => x !== p + full)];
+      if (base === 'fare' || base === 'stare') forms.push(p + alts(par.pres[2])[0].slice(0, -1) + 'à');
+      out.imp[0] = forms.join('|');
     }
   }
   out.pp = pfx(p, par.pp); out.ger = pfx(p, par.ger); out.presPart = pfx(p, par.presPart);
@@ -220,9 +243,24 @@ function cliticInfo(clitic) {
   }
 }
 
+// Proclitic + finite form, with elision: "ce la ho" -> "ce l'ho", "me la aspetto" -> "me l'aspetto" (also accepted unelided),
+// "ci è" -> "c'è", "ci entra" -> "c'entra" (also accepted unelided).
+function pronForm(pron, form) {
+  if (form === MISSING) return form;
+  if (/l[ao]$/.test(pron)) {
+    if (/^h/.test(form)) return `${pron.slice(0, -2)}l'${form}`;
+    if (/^[aeiouàèéìòù]/.test(form)) return `${pron.slice(0, -2)}l'${form}|${pron} ${form}`;
+  }
+  if (pron === 'ci' && /^[eè]/.test(form)) return `c'${form}|ci ${form}`;
+  return pron + ' ' + form;
+}
+
 function attachClitic(form, cl) {
-  // attach enclitic to an imperative / gerund form, handling apostrophe forms (va' + tene -> vattene)
-  return alts(form).map(f => {
+  // attach enclitic to an imperative / gerund form, handling apostrophe forms (va' + tene -> vattene).
+  // When an apostrophe form exists it is the only one that takes an enclitic (vattene, fallo, dimmi — never "vaitene").
+  const forms = alts(form);
+  const apo = forms.filter(f => /'$/.test(f));
+  return (apo.length ? apo : forms).map(f => {
     if (/'$/.test(f)) { const c = cl.startsWith('gli') ? cl : cl[0] + cl; return f.slice(0, -1) + c; }
     return f + cl;
   }).join('|');
@@ -267,14 +305,16 @@ export const COMPOUND_MAP = { passatoProssimo: 'pres', trapassatoProssimo: 'impe
 
 const cache = new Map();
 
-export function conjugate(infinitive, meta = {}) {
-  const key = infinitive + '|' + (meta.aux || '') + '|' + (typeof meta.isc === 'boolean' ? meta.isc : '');
+// Build the paradigm. With `regular` set, IRREGULAR/DERIVED lookups are skipped and the verb is conjugated
+// with the plain endings tables (spelling rules still apply) — the baseline used to explain irregularities.
+function build(infinitive, meta = {}, regular = false) {
+  const key = infinitive + '|' + (meta.aux || '') + '|' + (typeof meta.isc === 'boolean' ? meta.isc : '') + (regular ? '|R' : '');
   if (cache.has(key)) return cache.get(key);
   const inf = infinitive.trim().toLowerCase();
   const { base, clitic } = splitClitic(inf);
-  const { prefix, base: root, entry } = resolve(base);
+  const { prefix, base: root, entry } = regular ? { prefix: '', base, entry: null } : resolve(base);
   let par = baseParadigm(root, { entry, isc: meta.isc });
-  par = applyPrefix(prefix, par);
+  par = applyPrefix(prefix, par, root);
   const cl = clitic ? cliticInfo(clitic) : null;
 
   let aux = meta.aux || (cl && cl.aux) || 'avere';
@@ -284,7 +324,7 @@ export function conjugate(infinitive, meta = {}) {
   const A = AUX_FORMS[auxKey];
 
   const t = {};
-  const withPron = (arr) => (cl ? arr.map((f, i) => alts(f).map(a => cl.pron[i] + ' ' + a).join('|')) : arr);
+  const withPron = (arr) => (cl ? arr.map((f, i) => alts(f).map(a => pronForm(cl.pron[i], a)).join('|')) : arr);
   t.presente = withPron(par.pres);
   t.imperfetto = withPron(par.imperf);
   t.passatoRemoto = withPron(par.pr);
@@ -293,8 +333,10 @@ export function conjugate(infinitive, meta = {}) {
   t.congiuntivoPresente = withPron(par.subj);
   t.congiuntivoImperfetto = withPron(par.subjImp);
 
-  // participle used in compounds
+  // participle used in compounds (null when the verb has no participle)
+  const noPP = par.pp === MISSING;
   const ppFor = (i) => {
+    if (noPP) return null;
     if (cl && cl.ppFixed) return fixedPP(par.pp, cl.ppFixed);
     if (auxKey === 'essere') return agreePP(par.pp, i);
     return alts(par.pp)[0];
@@ -302,51 +344,77 @@ export function conjugate(infinitive, meta = {}) {
   const auxWith = (forms, i) => {
     if (!cl) return forms[i];
     if (cl.elideAvere) return cl.elideAvere + forms[i];
-    return cl.pron[i] + ' ' + forms[i];
+    return pronForm(cl.pron[i], forms[i]);
   };
   for (const [tk, ak] of Object.entries(COMPOUND_MAP)) {
-    t[tk] = PERSONS.map((_, i) => auxWith(A[ak], i) + ' ' + ppFor(i));
+    t[tk] = PERSONS.map((_, i) => { const p = ppFor(i); return p == null ? MISSING : auxWith(A[ak], i) + ' ' + p; });
   }
   // Imperative
   if (par.imp) {
     if (cl) {
       t.imperativo = [
         attachClitic(par.imp[0], cl.attach[0]),
-        cl.pron[2] + ' ' + alts(par.imp[1])[0],
+        pronForm(cl.pron[2], alts(par.imp[1])[0]),
         attachClitic(par.imp[2], cl.attach[2]),
         attachClitic(par.imp[3], cl.attach[3]),
-        cl.pron[5] + ' ' + alts(par.imp[4])[0],
+        pronForm(cl.pron[5], alts(par.imp[4])[0]),
       ];
-      if (clitic === 'la' || clitic === 'lo' || clitic === 'le' || clitic === 'li' || clitic === 'cela' || clitic === 'celo' || clitic === 'ci' || clitic === 'ne') {
-        t.imperativo[1] = cl.pron[2] + ' ' + alts(par.imp[1])[0];
-      }
     } else t.imperativo = par.imp.slice();
   } else t.imperativo = null;
 
   const nonFinite = {
     infinito: inf,
-    infinitoPassato: cl ? (cl.elideAvere ? `${cl.elideAvere.replace(/'$/, '')}${aux === 'essere' ? '' : ''}` : '') : '',
+    infinitoPassato: '',
     participioPassato: par.pp,
     participioPresente: par.presPart,
     gerundio: cl ? attachClitic(par.ger, cl.ger) : par.ger,
-    gerundioPassato: (auxKey === 'essere' ? 'essendo ' : 'avendo ') + (cl && cl.ppFixed ? fixedPP(par.pp, cl.ppFixed) : (auxKey === 'essere' ? agreePP(par.pp, 0) : alts(par.pp)[0])),
+    gerundioPassato: noPP ? MISSING : (auxKey === 'essere' ? 'essendo ' : 'avendo ') + (cl && cl.ppFixed ? fixedPP(par.pp, cl.ppFixed) : (auxKey === 'essere' ? agreePP(par.pp, 0) : alts(par.pp)[0])),
   };
   // infinito passato
-  if (cl) {
-    const infBase = /rre$/.test(base) ? base.slice(0, -2) : base.slice(0, -1);
+  if (noPP) nonFinite.infinitoPassato = MISSING;
+  else if (cl) {
     if (cl.elideAvere) nonFinite.infinitoPassato = 'aver' + cl.attach[1].replace(/^se/, '') + ' ' + fixedPP(par.pp, cl.ppFixed);
     else if (auxKey === 'essere') nonFinite.infinitoPassato = 'esser' + cl.attach[1] + ' ' + (cl.ppFixed ? fixedPP(par.pp, cl.ppFixed) : agreePP(par.pp, 0));
     else nonFinite.infinitoPassato = 'aver' + cl.attach[1] + ' ' + alts(par.pp)[0];
-    void infBase;
   } else nonFinite.infinitoPassato = (auxKey === 'essere' ? 'essere ' + agreePP(par.pp, 0) : 'avere ' + alts(par.pp)[0]);
 
   const result = {
     inf, base, root, prefix, clitic, cls: par.cls, isc: par.isc, aux, auxBoth: meta.aux === 'both',
-    irregular: par.irregular, tenses: t, nonFinite,
+    irregular: par.irregular, defective: par.defective, tenses: t, nonFinite,
     group: par.cls === 'are' ? '-are' : par.cls === 'ere' ? (/rre$/.test(base) ? '-rre' : '-ere') : (par.isc ? '-ire (-isc-)' : '-ire'),
   };
   cache.set(key, result);
   return result;
+}
+
+export function conjugate(infinitive, meta = {}) {
+  return build(infinitive, meta, false);
+}
+
+// The paradigm the verb would have if it were regular: same endings tables and spelling rules, no IRREGULAR/DERIVED lookups.
+export function regularParadigm(infinitive, meta = {}) {
+  return build(infinitive, meta, true);
+}
+
+// Cells whose primary form differs from the regular paradigm: { presente: [0, 1, 2, 5], participioPassato: [0], ... }.
+// Covers the simple tenses, the imperative and the non-finite participio passato / gerundio (compound tenses only
+// differ through the participle, so they are not listed).
+const CELL_KEYS = [...SIMPLE_KEYS, 'imperativo'];
+export function irregularCells(infinitive, meta = {}) {
+  const actual = conjugate(infinitive, meta);
+  const reg = regularParadigm(infinitive, meta);
+  const out = {};
+  for (const k of CELL_KEYS) {
+    const a = actual.tenses[k], r = reg.tenses[k];
+    if (!a && !r) continue;
+    if (!a || !r) { out[k] = (a || r).map((_, i) => i); continue; }
+    const idx = a.map((f, i) => (primary(f) !== primary(r[i]) ? i : -1)).filter(i => i >= 0);
+    if (idx.length) out[k] = idx;
+  }
+  for (const k of ['participioPassato', 'gerundio']) {
+    if (primary(actual.nonFinite[k]) !== primary(reg.nonFinite[k])) out[k] = [0];
+  }
+  return out;
 }
 
 // Utility: primary display form (first alternative) and all accepted alternatives

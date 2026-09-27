@@ -41,7 +41,7 @@
 
   /* legacy aliases used by older views */
   --bg: var(--bg-0); --bg2: var(--bg-1); --bg3: var(--bg-2); --fg: var(--ink); --fg2: var(--ink-2); --fg3: var(--ink-3); --line: var(--glass-border);
-  --primary: var(--gold); --primary-2: var(--gold-2); --primary-soft: rgba(242,193,78,.16); --accent: var(--terracotta); --accent-soft: rgba(224,103,63,.18); --danger: var(--ko);
+  --primary: var(--gold); --primary-2: #8f6a12; --primary-soft: rgba(242,193,78,.16); --accent: var(--terracotta); --accent-soft: rgba(224,103,63,.18); --danger: var(--ko);
   --shadow: var(--shadow-1); --radius: var(--r-m); --tab-h: calc(var(--dock-h) + var(--dock-gap)); --font: var(--font-text);
 }
 :root[data-theme="dark"] { color-scheme: dark; }
