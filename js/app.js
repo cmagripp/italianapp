@@ -16,8 +16,9 @@ export function navigate(hash, { replace = false } = {}) {
   if (replace) history.replaceState(null, '', hash); else location.hash = hash;
   if (replace) render();
 }
+let navDepth = 0;
 export function back(fallback = '#/home') {
-  if (history.length > 1 && document.referrer !== '' || history.state?.depth > 0) history.back();
+  if (navDepth > 0 && history.length > 1) { navDepth -= 2; history.back(); }
   else navigate(fallback);
 }
 export function setTitle(t) { $('#topTitle').textContent = t || 'Parola'; document.title = t ? `${t} · Parola` : 'Parola — Italian words & verbs'; }
@@ -126,7 +127,7 @@ async function boot() {
   store.on('profile', () => { if (syncEnabled()) startAutoSync(); });
   $('#enToggle').addEventListener('click', () => { store.setSetting('showEn', store.settings.showEn === 'always' ? 'tap' : 'always'); toast(store.settings.showEn === 'always' ? 'English shown everywhere' : 'Tap Italian text to reveal English'); });
   $('#backBtn').addEventListener('click', () => back());
-  window.addEventListener('hashchange', render);
+  window.addEventListener('hashchange', () => { navDepth++; render(); });
   render();
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     navigator.serviceWorker.register('sw.js').catch(() => { /* offline support optional */ });
