@@ -2,7 +2,7 @@
 // Every generator returns a runner question or null when nothing usable can be built (defective verbs, no example…).
 import { html, raw, esc, enPill, icon } from '../ui.js';
 import { article, withArticle, isPluralOnly, isUncountable, headword, shortEn, enChoices, distractors, shuffle, pickN, sample, fold, data } from '../data.js';
-import { conjugate, irregularCells, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING, primary, accepted } from '../conjugator.js';
+import { conjugate, irregularCells, splitClitic, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING, primary, accepted } from '../conjugator.js';
 import { checkTyped } from './engine.js';
 
 const it = (e) => e.kind === 'verb' ? e.inf : e.it;
@@ -64,7 +64,12 @@ export function qPluralMC(e, pool) {
   return { type: 'mc', itemId: e.id, tag: 'Choose the plural', center: true, prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), choices: mcChoices(e.pl, wl), answer: e.pl };
 }
 
-// Find the inflected form of the word inside the example sentence
+// Find the inflected form of the word inside the example sentence.
+// Verbs: the compound-tense forms contribute their words separately, so clitics and auxiliaries are removed again (they
+// are not this verb — except for essere/avere themselves) and, when several tokens match ("ho mangiato"), the longest one
+// wins, which is the participle. One-letter tokens (è, e, a…) are never blanked.
+const GENERIC = ['mi', 'ti', 'si', 'ci', 'vi', 'ne', 'la', 'lo', 'le', 'li', 'me', 'te', 'se', 'ce', 've', ''];
+const AUX_WORDS = ['ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno', 'sono', 'sei', 'è', 'siamo', 'siete', 'ero', 'eri', 'era', 'eravamo', 'eravate', 'erano', 'avevo', 'avevi', 'aveva', 'avevamo', 'avevate', 'avevano', 'sarò', 'sarai', 'sarà', 'saremo', 'sarete', 'saranno', 'avrò', 'avrai', 'avrà', 'avremo', 'avrete', 'avranno', 'sia', 'siano', 'abbia', 'abbiano', 'fossi', 'fosse', 'fossero', 'avessi', 'avesse', 'avessero', 'sarei', 'sarebbe', 'sarebbero', 'avrei', 'avrebbe', 'avrebbero', 'fui', 'fu', 'furono', 'ebbi', 'ebbe', 'ebbero', 'essendo', 'avendo', 'stato', 'stata', 'stati', 'state', 'avuto'];
 export function findInSentence(sentence, entry) {
   const words = sentence.split(/(\s+|[,.;:!?«»"()])/);
   const forms = new Set();
@@ -75,8 +80,10 @@ export function findInSentence(sentence, entry) {
     if (usable(c.nonFinite.participioPassato)) forms.add(fold(primary(c.nonFinite.participioPassato)));
     if (usable(c.nonFinite.gerundio)) forms.add(fold(primary(c.nonFinite.gerundio)));
     if (usable(c.nonFinite.participioPassato)) for (const a of accepted(c.nonFinite.participioPassato)) { forms.add(fold(a)); forms.add(fold(a).replace(/o$/, 'a')); forms.add(fold(a).replace(/o$/, 'i')); forms.add(fold(a).replace(/o$/, 'e')); }
-    // remove clitics/auxiliaries that are too generic
-    for (const g of ['mi', 'ti', 'si', 'ci', 'vi', 'ne', 'la', 'lo', 'le', 'li', 'ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno', 'sono', 'sei', 'è', 'siamo', 'siete', 'me', 'te', 'se', 'ce', 've', 'ero', 'era', 'avevo', 'aveva', '']) forms.delete(g);
+    for (const g of GENERIC) forms.delete(fold(g));
+    const self = fold(c.root || c.base);
+    if (self !== 'essere' && self !== 'avere') for (const g of AUX_WORDS) forms.delete(fold(g));
+    else if (self === 'essere') for (const g of ['avuto']) forms.delete(g);
   } else {
     forms.add(fold(entry.it));
     if (entry.pl && entry.pl !== '-') forms.add(fold(entry.pl));
@@ -91,14 +98,14 @@ export function findInSentence(sentence, entry) {
     if (idx >= 0) return { start: idx, end: idx + lemma.length, form: sentence.slice(idx, idx + lemma.length) };
     return null;
   }
-  let pos = 0;
+  let pos = 0, best = null;
   for (const w of words) {
     const clean = fold(w).replace(/^l'|^un'|^d'|^all'|^dell'|^nell'|^sull'|^dall'|^quest'|^quell'/, '');
     const offset = w.length - clean.length;
-    if (clean && forms.has(clean)) return { start: pos + offset, end: pos + w.length, form: w.slice(offset) };
+    if (clean.length > 1 && forms.has(clean) && (!best || clean.length > best.len)) best = { start: pos + offset, end: pos + w.length, form: w.slice(offset), len: clean.length };
     pos += w.length;
   }
-  return null;
+  return best ? { start: best.start, end: best.end, form: best.form } : null;
 }
 
 // The example sentence with the gap; the whole sentence is tap-to-reveal English.
@@ -205,12 +212,18 @@ export function qTenseDetective(e) {
   const c = conjOf(e);
   const tenses = DRILL_TENSES.filter(k => k !== 'imperativo' && usablePersons(c.tenses[k]).length);
   if (tenses.length < 2) return null;
-  const tense = sample(tenses);
-  const p = sample(usablePersons(c.tenses[tense]));
-  const form = primary(c.tenses[tense][p]);
-  const T = TENSE_BY_KEY[tense];
-  const wrongT = pickN(tenses.filter(k => k !== tense), 3).map(k => TENSE_BY_KEY[k].name);
-  return { type: 'mc', itemId: e.id, tag: 'Which tense is this?', center: true, prompt: html`<div class="big md">${PERSONS[p]} ${form}</div><div class="sub">${e.inf}</div>${raw(meaning(e))}`, say: form, choices: mcChoices(T.name, wrongT), answer: T.name, explain: esc(T.en) };
+  // a form shared by several tenses (facciamo: presente = congiuntivo presente) must not offer the twin as a distractor
+  for (let tries = 0; tries < 8; tries++) {
+    const tense = sample(tenses);
+    const p = sample(usablePersons(c.tenses[tense]));
+    const form = primary(c.tenses[tense][p]);
+    const T = TENSE_BY_KEY[tense];
+    const others = tenses.filter(k => k !== tense && (!usable(c.tenses[k][p]) || fold(primary(c.tenses[k][p])) !== fold(form)));
+    if (others.length < 2) continue;
+    const wrongT = pickN(others, 3).map(k => TENSE_BY_KEY[k].name);
+    return { type: 'mc', itemId: e.id, tag: 'Which tense is this?', center: true, prompt: html`<div class="big md">${PERSONS[p]} ${form}</div><div class="sub">${e.inf}</div>${raw(meaning(e))}`, say: form, choices: mcChoices(T.name, wrongT), answer: T.name, explain: esc(T.en) };
+  }
+  return null;
 }
 
 export function qPersonDetective(e) {
@@ -245,8 +258,13 @@ export function qParticiple(e, typed = true) {
   const pp = c.nonFinite.participioPassato;
   if (!usable(pp)) return null;
   if (typed) return { type: 'type', itemId: e.id, tag: 'Participio passato', prompt: html`<div class="big md">${e.inf}</div><div class="sub">past participle · ${c.irregular ? 'irregular?' : 'regular'}</div>`, say: primary(pp), answer: accepted(pp), placeholder: 'participio…' };
-  const stem = e.inf.replace(/(are|ere|ire|arsi|ersi|irsi|rre|rsi)$/, '');
-  const wrong = new Set([stem + 'ato', stem + 'uto', stem + 'ito', stem + 'to', stem + 'so'].filter(x => !accepted(pp).includes(x)));
+  // pronominal verbs (andarsene, alzarsi): the participle is that of the base verb, so distractors are built on its stem
+  const stem = splitClitic(e.inf).base.replace(/(are|ere|ire|rre)$/, '');
+  const okSet = new Set(accepted(pp).map(fold));
+  // the three regular endings, then the look of a strong participle (preso, visto, letto) built on the stem's vowel
+  const vowelEnd = /[aeiou]$/.test(stem);
+  const strong = vowelEnd ? [stem + 'sto', stem + 'so'] : [stem.slice(0, -1) + 'so', stem.slice(0, -1) + 'tto'];
+  const wrong = new Set([stem + 'ato', stem + 'uto', stem + 'ito', ...strong].filter(x => x.length > 3 && !okSet.has(fold(x))));
   return { type: 'mc', itemId: e.id, tag: 'Participio passato', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">past participle</div>`, say: primary(pp), choices: mcChoices(primary(pp), [...wrong].slice(0, 3)), answer: primary(pp) };
 }
 
@@ -264,7 +282,11 @@ export function qPattern(e) {
   const { p, m } = sample(pats);
   const prep = m[2].toLowerCase();
   const rest = p.slice(m[1].length + 1 + m[2].length + 1);
-  const wrong = pickN(PREPS.filter(x => x !== prep && x !== (prep === 'tra' ? 'fra' : '')), 3);
+  // "essere di un posto" and "essere in un posto" are both patterns: a preposition that completes another valid pattern
+  // of this verb with the same remainder is a right answer too, so it cannot be a distractor
+  const twin = (x) => pats.some(o => o !== undefined && fold(o.m[1]) === fold(m[1]) && fold(o.m[2]) === x && fold(o.p.slice(o.m[1].length + 1 + o.m[2].length + 1)) === fold(rest));
+  const wrong = pickN(PREPS.filter(x => x !== prep && !(prep === 'tra' && x === 'fra') && !(prep === 'fra' && x === 'tra') && !twin(x)), 3);
+  if (wrong.length < 2) return null;
   return { type: 'mc', itemId: e.id, tag: 'Which preposition?', center: true, prompt: html`<div class="big md">${m[1]} <span class="blank">?</span> ${rest}</div>${raw(meaning(e))}`, say: p, choices: mcChoices(prep, wrong), answer: prep, explain: esc((e.patterns || []).join(' · ')) };
 }
 

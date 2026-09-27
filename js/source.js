@@ -3,8 +3,21 @@ import { store } from './store.js';
 import { data, getEntry, itemsForScope, describeScope, LEVELS, CATS, LEVEL_INFO } from './data.js';
 
 // specs: scope | learned | learned-verbs | learned-words | due | bank | list:<id> | level:<L>[:<cat>] | cat:<c> | recent | all | ids:<id,id,...>
+// ids and list payloads contain ':' themselves (ids:v:mangiare, list:l:1234), so they are split on the first colon only;
+// level:A1:food keeps its second field.
+export function parseSpec(spec = 'scope') {
+  const s = String(spec ?? 'scope');
+  const i = s.indexOf(':');
+  if (i < 0) return [s];
+  const kind = s.slice(0, i), rest = s.slice(i + 1);
+  if (kind === 'ids' || kind === 'list') return [kind, rest];
+  const [a, b] = rest.split(':');
+  return [kind, a, b];
+}
+const safeDecode = (s) => { try { return decodeURIComponent(s); } catch { return s; } };
+
 export function resolveSource(spec = 'scope') {
-  const [kind, a, b] = String(spec).split(':');
+  const [kind, a, b] = parseSpec(spec);
   const custom = Object.keys(store.current.custom || {});
   switch (kind) {
     case 'learned': return store.learnedIds().map(getEntry).filter(Boolean);
@@ -17,14 +30,14 @@ export function resolveSource(spec = 'scope') {
     case 'cat': return [...data.vocab, ...data.verbs].filter(e => e.cat === a);
     case 'recent': return (store.current.recent || []).map(getEntry).filter(Boolean);
     case 'all': return [...data.vocab, ...data.verbs, ...custom.map(getEntry).filter(Boolean)];
-    case 'ids': return decodeURIComponent(a || '').split(',').map(getEntry).filter(Boolean);
+    case 'ids': return safeDecode(a || '').split(',').map(s => s.trim()).filter(Boolean).map(getEntry).filter(Boolean);
     case 'scope':
     default: return itemsForScope(store.scope, store);
   }
 }
 
 export function sourceLabel(spec = 'scope') {
-  const [kind, a, b] = String(spec).split(':');
+  const [kind, a, b] = parseSpec(spec);
   switch (kind) {
     case 'learned': return 'Everything I have learned';
     case 'learned-verbs': return 'My learned verbs';

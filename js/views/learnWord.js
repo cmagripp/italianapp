@@ -116,7 +116,9 @@ export async function render(root, params, query) {
         <div class="fan-stage"><div class="fan-inner"><div class="wt-fan forms-fan" data-fan></div>
         <div class="fan-tools"><button type="button" class="btn xs ghost" data-flip>${raw(icon('flip', { size: 16 }))}Reveal all</button><button type="button" class="btn xs ghost" data-spread>${raw(icon('spread', { size: 16 }))}Spread</button></div></div></div>
         <div class="rule-lines">${raw(rules.map(r => html`<p class="rule-line">${r}</p>`).join(''))}</div>`;
-      formsFan = fan(body.querySelector('[data-fan]'), formCards.map(c => ({ key: c.label, front: esc(c.label), back: `<span class="form" style="font-size:${Math.max(...c.form.split(' ').map(w => w.length)) > 9 ? 15 : 19}px">${esc(c.form)}</span><span class="sub">${esc(c.label)}</span>`, tint: `var(--lvl-${level})` })), {
+      const fanEl = body.querySelector('[data-fan]');
+      fanEl.style.setProperty('--fan-n', String(formCards.length));
+      formsFan = fan(fanEl, formCards.map(c => ({ key: c.label, front: esc(c.label), back: `<span class="form" style="font-size:${Math.max(...c.form.split(' ').map(w => w.length)) > 9 ? 15 : 19}px">${esc(c.form)}</span><span class="sub">${esc(c.label)}</span>`, tint: `var(--lvl-${level})` })), {
         onFlip(i, flipped) { if (flipped) { speak(formCards[i].form); haptic('light'); } },
         onAllFlipped() { setTimeout(() => api.ready(), 420); },
       });
@@ -218,14 +220,19 @@ export async function render(root, params, query) {
     isNoun ? (qGender(e) || qCloze(e, { pool })) : (qCloze(e, { pool }) || qTranslateMC(e, pool, 'en-it')),
     (isNoun && Math.random() < 0.5 ? qPluralMC(e, pool) : null) || qTranslateMC(e, pool, 'en-it'),
   ].filter(Boolean);
+  let drill = null, drillTimer = null;
   const quickScene = {
     key: 'quick', title: 'Quick check', colors: SCENES.games, lockLabel: 'Finish the check', hintLocked: 'Three questions · pass with 50 %', noSkip: true,
-    render(body) { body.innerHTML = html`<div class="drill-host" data-host><div class="drill-intro"><div class="kicker">Quick check</div><p class="display it lead">Pronti?</p></div></div>`; },
+    render(body) {
+      body.innerHTML = html`<div class="drill-host" data-host><div class="drill-intro"><div class="kicker">Quick check</div><p class="display it lead">Pronti?</p></div></div>`;
+      return () => { clearTimeout(drillTimer); if (drill) { drill.destroy(); drill = null; } };
+    },
     enter(api, first) {
       if (!first) return;
       const host = api.body.querySelector('[data-host]');
       const start = () => {
-        runDrill(host, quickQuestions(), {
+        if (drill) drill.destroy();
+        drill = runDrill(host, quickQuestions(), {
           title: 'Word check', gameId: 'word-intro', backHref: '#/learn', xpPer: 2, passScore: PASS, record: false,
           onDone: (result) => {
             st.result = result;
@@ -240,7 +247,7 @@ export async function render(root, params, query) {
         api.refresh();
       };
       st.restartDrill = start;
-      start();
+      drillTimer = setTimeout(() => { if (host.isConnected) start(); }, 900);
     },
   };
 

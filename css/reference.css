@@ -65,11 +65,15 @@
 
 /* at-a-glance strip */
 .glance { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 6px; margin-bottom: 12px; }
-.glance .g-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-height: 62px; padding: 10px 12px; border-radius: 14px; text-align: left; color: var(--ink); transition: background var(--t-fast), transform var(--t-fast); }
+.glance .g-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-height: 62px; padding: 10px 10px; border-radius: 14px; text-align: left; color: var(--ink); transition: background var(--t-fast), transform var(--t-fast); min-width: 0; }
 .glance .g-cell:active { background: var(--glass-strong); transform: scale(.97); }
 .glance .g-cell:nth-child(-n+3) { border-bottom: 1px solid var(--hairline); border-radius: 14px 14px 4px 4px; }
 .glance .g-lab { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
-.glance .g-val { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.12; letter-spacing: -.01em; overflow-wrap: anywhere; }
+/* a form never breaks mid-word (propon-endo): long ones step down in size instead (.m / .l / .xl set by the view) */
+.glance .g-val { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.12; letter-spacing: -.01em; overflow-wrap: normal; word-break: keep-all; hyphens: none; max-width: 100%; }
+.glance .g-cell.m .g-val { font-size: 17px; }
+.glance .g-cell.l .g-val { font-size: 15px; letter-spacing: -.015em; }
+.glance .g-cell.xl .g-val { font-size: 13px; letter-spacing: -.02em; }
 .glance .g-cell.irr .g-val { color: var(--terracotta); }
 
 /* why it's irregular */
@@ -80,7 +84,8 @@
 .why-item:last-child { border-bottom: 0; }
 .why-tense { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.2; }
 .why-persons { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
-.why-forms { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.3; color: var(--terracotta); overflow-wrap: anywhere; }
+.why-forms { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.3; color: var(--terracotta); overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+.why-forms .wf { white-space: nowrap; display: inline-block; }
 .why-forms i { font-style: normal; color: var(--ink-4); margin: 0 7px; font-weight: 400; }
 .why-reg { font-size: 12px; color: var(--ink-3); }
 .why-reg s { text-decoration-color: var(--ink-4); }
@@ -102,6 +107,20 @@
 /* conjugation */
 .ref-conj .conj-head { margin-bottom: 2px; }
 .ref-conj .conj-head .sec-head { margin: 0; }
+/* dial: the view passes step 24° / radius 250 so ±1 sit close and ±2 still reach the strip; fx.js fades items two steps
+   away to opacity 0 and switches their pointer events off — keep those two faint and tappable (a peek at the next tense) */
+.ref-conj .dial { height: 150px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.ref-conj .dial .dial-item.on + .dial-item + .dial-item,
+.ref-conj .dial .dial-item:has(+ .dial-item + .dial-item.on) { opacity: .25 !important; pointer-events: auto !important; }
+/* card fan: same hand spacing as the walkthrough (see learn.css), forms never break mid-word, a flipped card lifts */
+.ref-fan { --fan-step: 20px; }
+.ref-fan:not(.spread) .fan-card { margin-left: calc((var(--i, 0) - (var(--fan-n, 6) - 1) / 2) * var(--fan-step, 20px)); transition: transform var(--t-slow) var(--ease-spring), margin var(--t-slow) var(--ease-spring), z-index 0s; }
+.ref-fan .fan-card .face.front { font-size: 11px; letter-spacing: .1em; padding: 12px 8px; white-space: nowrap; }
+.ref-fan .fan-card .face.back { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+.ref-fan .fan-card .face.back .form { display: block; max-width: 100%; line-height: 1.1; }
+.ref-fan .fan-card .face.back .form.irr { color: var(--terracotta); }
+.ref-fan:not(.spread) .fan-card.flipped .flip { transform: rotateY(180deg) translateY(-10px); }
+@media (max-width: 389px) { .ref-fan { --fan-step: 16px; } }
 .ref-tense-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 2px 0 2px; }
 .ref-tense-name { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -.01em; line-height: 1.1; }
 .ref-tense-en { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); text-align: right; }

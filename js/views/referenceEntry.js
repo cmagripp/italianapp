@@ -23,8 +23,43 @@ const LO_RE = /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou]|j)/;
 const VOWEL_RE = /^[aeiouàèéìíîòóùú]/;
 const link = (e, text) => html`<a class="ref-link" href="${refHref(e.id)}">${text || (e.kind === 'verb' ? e.inf : e.it)}</a>`;
 const chipLink = (e, cls = '') => html`<a class="chip ${cls}" href="${refHref(e.id)}">${e.kind === 'verb' ? e.inf : e.it}</a>`;
-const joinIt = (arr) => arr.map(esc).join('<i>·</i>');
+const joinIt = (arr) => arr.map(f => `<span class="wf">${esc(f)}</span>`).join('<i>·</i>');
 const conjOf = (e) => conjugate(e.inf, { aux: e.aux, isc: e.isc });
+// display size for a form inside a fan card (longest word decides)
+const wordFs = (form) => { const n = Math.max(...String(form).split(/\s+/).map(w => w.length)); return n <= 5 ? 22 : n <= 7 ? 19 : n <= 9 ? 16 : n <= 11 ? 14 : 12; };
+// essere/andare/stare/dare/fare/dire change stem so completely that "regular would be esso · essi…" is noise
+const SUPPLETIVE = /^(essere|andare|stare|dare|fare|dire)$/;
+
+// Cells that differ from the regular paradigm. The engine compares -rre verbs with a contracted stem (propor-), which
+// flags every cell; their real stem is the imperfetto's (propon-), so for them a cell counts as irregular only when it
+// differs from both the contracted paradigm and the expanded -ere one (proponere): proponevo, proponiamo and the
+// gerund are regular, propongo, proposto and proposi are not.
+const NF_KEYS = ['participioPassato', 'gerundio'];
+function diffCells(actual, reg) {
+  const out = {};
+  for (const t of TENSES) {
+    if (t.compound) continue;
+    const k = t.key, a = actual.tenses[k], r = reg.tenses[k];
+    if (!a && !r) continue;
+    if (!a || !r) { out[k] = (a || r).map((_, i) => i); continue; }
+    const idx = a.map((f, i) => (primary(f) !== primary(r[i]) ? i : -1)).filter(i => i >= 0);
+    if (idx.length) out[k] = idx;
+  }
+  for (const k of NF_KEYS) if (primary(actual.nonFinite[k]) !== primary(reg.nonFinite[k])) out[k] = [0];
+  return out;
+}
+function irregularCellsFor(e, conj) {
+  const meta = { aux: e.aux, isc: e.isc };
+  const base = irregularCells(e.inf, meta);
+  if (!/rre$/.test(conj.base) || !conj.tenses.imperfetto) return base;
+  const stem = primary(conj.tenses.imperfetto[0]).split(' ').pop().replace(/evo$/, '');
+  if (!stem) return base;
+  let alt;
+  try { alt = diffCells(conj, regularParadigm(stem + 'ere' + (conj.clitic || ''), meta)); } catch { return base; }
+  const out = {};
+  for (const k of Object.keys(base)) { const both = base[k].filter(i => (alt[k] || []).includes(i)); if (both.length) out[k] = both; }
+  return out;
+}
 
 // ---------- shared: progress card, mini header, jumps ----------
 function progressCard(e, actions) {
@@ -46,7 +81,8 @@ function mountMini(root, word, jumps) {
   el.setAttribute('aria-hidden', 'true');
   el.innerHTML = html`<span class="mini-word">${word}</span><div class="chips scroll mini-jumps">${raw(jumpChips(jumps))}</div>`;
   document.body.append(el);
-  const hw = root.querySelector('[data-headword]');
+  // shown once the page's own jump-chip row has scrolled away (never on top of it); the headword is the fallback anchor
+  const hw = root.querySelector('.ref-jumps') || root.querySelector('[data-headword]');
   let io = null;
   if (hw && 'IntersectionObserver' in window) {
     io = new IntersectionObserver(([en]) => { const show = !en.isIntersecting && en.boundingClientRect.top < 0; el.classList.toggle('show', show); el.setAttribute('aria-hidden', show ? 'false' : 'true'); }, { rootMargin: '-56px 0px 0px 0px', threshold: 0 });
@@ -90,7 +126,7 @@ function tenseTable(conj, key, cells, { compact = false } = {}) {
 function fanCards(conj, key, cells) {
   const t = conj.tenses[key] || [];
   const persons = key === 'imperativo' ? IMP_PERSONS : PERSONS;
-  return t.map((f, i) => { const form = primary(f); const irr = form !== MISSING && rowIsIrr(conj, cells, key, i); return { key: persons[i], front: esc(persons[i]), back: `${esc(form)}<span class="sub">${esc(persons[i])}${irr ? ' · irr.' : ''}</span>`, tint: irr ? 'var(--terracotta)' : null }; });
+  return t.map((f, i) => { const form = primary(f); const irr = form !== MISSING && rowIsIrr(conj, cells, key, i); return { key: persons[i], front: esc(persons[i]), back: `<span class="form${irr ? ' irr' : ''}" style="font-size:${wordFs(form)}px">${esc(form)}</span><span class="sub">${esc(persons[i])}${irr ? ' · irr.' : ''}</span>`, tint: irr ? 'var(--terracotta)' : null, len: Math.max(...form.split(' ').map(w => w.length)) }; });
 }
 const MOODS = [['indicativo', 'Indicativo'], ['condizionale', 'Condizionale'], ['congiuntivo', 'Congiuntivo'], ['imperativo', 'Imperativo']];
 
@@ -120,7 +156,7 @@ function explainVerb(e, conj, cells) {
     const isNF = !!NF_NAME[k];
     const idx = cells[k];
     const forms = isNF ? [primary(conj.nonFinite[k])] : idx.map(i => primary(conj.tenses[k][i]));
-    const regForms = isRre ? null : isNF ? [primary(reg.nonFinite[k])] : idx.map(i => primary(reg.tenses[k][i]));
+    const regForms = isRre || SUPPLETIVE.test(conj.root) ? null : isNF ? [primary(reg.nonFinite[k])] : idx.map(i => primary(reg.tenses[k][i]));
     const all = !isNF && idx.length === persons.length;
     return { key: k, name: tenseName(k), persons: isNF ? (k === 'participioPassato' ? 'non-finite' : 'non-finite') : all ? 'all persons' : idx.map(i => persons[i]).join(' · '), forms, regForms };
   });
@@ -171,7 +207,7 @@ function whyHTML(why) {
 
 function renderVerb(root, e) {
   const conj = conjOf(e);
-  const cells = irregularCells(e.inf, { aux: e.aux, isc: e.isc });
+  const cells = irregularCellsFor(e, conj);
   const why = explainVerb(e, conj, cells);
   const family = familyOf(conj);
   const defective = conj.defective || [];
@@ -186,7 +222,8 @@ function renderVerb(root, e) {
   const sameStem = stem.length >= 4 ? [...data.vocab, ...data.verbs].filter(x => x.id !== e.id && fold(x.it || x.inf).startsWith(stem) && !family.includes(x)).sort(byLevel).slice(0, 8) : [];
   const sameTopic = data.verbs.filter(x => x.id !== e.id && x.cat === e.cat && x.level === e.level).slice(0, 4);
   const related = (e.related || []).map(r => { const w = r.replace(/^(il|lo|la|l'|i|gli|le|un|uno|una|un')\s*/i, '').trim(); const hit = data.vocab.find(x => fold(x.it) === fold(w)) || data.verbs.find(x => fold(x.inf) === fold(w)); return hit ? chipLink(hit) : html`<span class="chip plain">${r}</span>`; });
-  const glance = (lab, val, irr = false) => html`<button type="button" class="g-cell ${irr ? 'irr' : ''}" data-say="${val}"><span class="g-lab">${lab}</span><span class="g-val">${val}</span></button>`;
+  const fit = (val) => { const n = Math.max(...String(val).split(/[\s/]+/).map(w => w.length)); return n > 11 ? 'xl' : n > 9 ? 'l' : n > 7 ? 'm' : ''; };
+  const glance = (lab, val, irr = false) => html`<button type="button" class="g-cell ${irr ? 'irr' : ''} ${fit(val)}" data-say="${val}"><span class="g-lab">${lab}</span><span class="g-val">${val}</span></button>`;
 
   root.innerHTML = html`
     <div class="headword ref-id" data-headword>
@@ -279,19 +316,33 @@ function renderVerb(root, e) {
     const info = TENSE_BY_KEY[key];
     nameEl.textContent = info.name; enEl.textContent = `${info.en} · ${info.mood}`;
     if (view === 'fan' && conj.tenses[key]) {
-      tableEl.innerHTML = `<div data-fan></div><div class="fan-tools"><button type="button" class="btn xs ghost" data-fan-flip>${icon('flip', { size: 16 })}Flip all</button><button type="button" class="btn xs ghost" data-fan-spread>${icon('spread', { size: 16 })}Spread</button></div>`;
-      fanApi = fan(tableEl.querySelector('[data-fan]'), fanCards(conj, key, cells));
+      tableEl.innerHTML = `<div class="ref-fan" data-fan></div><div class="fan-tools"><button type="button" class="btn xs ghost" data-fan-flip>${icon('flip', { size: 16 })}Flip all</button><button type="button" class="btn xs ghost" data-fan-spread>${icon('spread', { size: 16 })}Spread</button></div>`;
+      const cards = fanCards(conj, key, cells);
+      const fanEl = tableEl.querySelector('[data-fan]');
+      fanEl.style.setProperty('--fan-n', String(cards.length));
+      // long forms (proporranno) are only legible side by side: start spread
+      const spread = cards.some(c => c.len > 9);
+      fanApi = fan(fanEl, cards, { spread });
+      tableEl.querySelector('[data-fan-spread]').classList.toggle('on', spread);
     } else tableEl.innerHTML = tenseTable(conj, key, cells);
     noteEl.textContent = TENSE_HELP[key] || '';
     card.dataset.tense = key;
   }
-  const d = dial(dialEl, { items, index: idx(key), onChange: (i, it) => { key = it.key; show(); } });
+  // step/radius keep the two neighbours on each side inside the strip (±1 dimmed, ±2 faint but tappable — see reference.css)
+  const d = dial(dialEl, { items, index: idx(key), step: 24, radius: 250, onChange: (i, it) => { key = it.key; show(); } });
   show();
+  // "Flip all" turns every back up; overlapping backs are illegible in the hand, so the fan spreads at the same time
+  const flipAllSpread = () => {
+    if (!fanApi) return;
+    fanApi.flipAll();
+    const allUp = fanApi.cards.every(c => c.classList.contains('flipped'));
+    if (allUp) { fanApi.spread(true); tableEl.querySelector('[data-fan-spread]')?.classList.add('on'); }
+  };
   const onClick = async (ev) => {
     const j = ev.target.closest('[data-jump]'); if (j) { jumpTo(root, j.dataset.jump); return; }
     const v = ev.target.closest('[data-view]');
     if (v) { if (v.dataset.view === view) return; view = v.dataset.view; card.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('on', b === v)); show(); return; }
-    if (ev.target.closest('[data-fan-flip]')) { fanApi && fanApi.flipAll(); return; }
+    if (ev.target.closest('[data-fan-flip]')) { flipAllSpread(); return; }
     const sp = ev.target.closest('[data-fan-spread]'); if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const menu = ev.target.closest('[data-dial-menu]');
     if (menu) { dropdown(menu, items.map(i => ({ value: i.key, label: TENSE_BY_KEY[i.key].name, sub: TENSE_BY_KEY[i.key].en, selected: i.key === key })), { align: 'end', width: 280, onSelect: (val) => d.select(idx(val)) }); return; }
@@ -459,8 +510,9 @@ function renderWord(root, e) {
   const rule = isNoun ? articleRule(e) : e.pos === 'adj' ? agreementItems(e) : [];
   const cues = isNoun ? genderCues(e) : [];
   const sameTopic = data.vocab.filter(x => x.id !== e.id && x.cat === e.cat && x.level === e.level).slice(0, 6);
+  // synonyms: another entry of the same part of speech that shares a whole gloss ("house" — not "a casa" for casa via "home")
   const glosses = new Set(String(e.en || '').split(/;|,/).map(s => fold(s).trim().replace(/^(to|the|a|an) /, '')).filter(s => s.length > 2));
-  const synonyms = glosses.size ? data.vocab.filter(x => x.id !== e.id && String(x.en || '').split(/;|,/).some(s => glosses.has(fold(s).trim().replace(/^(to|the|a|an) /, '')))).sort(byLevel).slice(0, 6) : [];
+  const synonyms = glosses.size ? data.vocab.filter(x => x.id !== e.id && x.pos === e.pos && String(x.en || '').split(/;|,/).some(s => glosses.has(fold(s).trim().replace(/^(to|the|a|an) /, '')))).sort(byLevel).slice(0, 6) : [];
   const stem = fold(e.it.split(' ')[0]).slice(0, 5);
   const sameStem = stem.length >= 5 ? [...data.vocab, ...data.verbs].filter(x => x.id !== e.id && fold(x.it || x.inf).startsWith(stem) && !synonyms.includes(x)).sort(byLevel).slice(0, 8) : [];
   const deckIds = [...new Set([e.id, ...sameTopic.map(x => x.id), ...synonyms.map(x => x.id)])].slice(0, 12);
@@ -513,13 +565,21 @@ function renderWord(root, e) {
 
   let fanApi = null, flipTimer = null;
   const fanEl = root.querySelector('[data-fan]');
+  const spreadBtn = root.querySelector('[data-fan-spread]');
+  const flipAllSpread = (toBack = null) => {
+    if (!fanApi) return;
+    fanApi.flipAll(toBack);
+    if (fanApi.cards.every(c => c.classList.contains('flipped'))) { fanApi.spread(true); spreadBtn?.classList.add('on'); }
+  };
   if (fanEl) {
-    fanApi = fan(fanEl, forms.map(f => ({ key: f.lab, front: esc(f.lab), back: `${esc(f.val)}<span class="sub">${esc(f.lab)}</span>`, tint: f.tint })));
-    flipTimer = setTimeout(() => fanApi && fanApi.flipAll(true), reducedMotion() ? 0 : 700);
+    fanEl.classList.add('ref-fan');
+    fanEl.style.setProperty('--fan-n', String(forms.length));
+    fanApi = fan(fanEl, forms.map(f => ({ key: f.lab, front: esc(f.lab), back: `<span class="form" style="font-size:${wordFs(f.val)}px">${esc(f.val)}</span><span class="sub">${esc(f.lab)}</span>`, tint: f.tint })));
+    flipTimer = setTimeout(() => flipAllSpread(true), reducedMotion() ? 0 : 700);
   }
   const onClick = (ev) => {
     const j = ev.target.closest('[data-jump]'); if (j) { jumpTo(root, j.dataset.jump); return; }
-    if (ev.target.closest('[data-fan-flip]')) { fanApi && fanApi.flipAll(); return; }
+    if (ev.target.closest('[data-fan-flip]')) { flipAllSpread(); return; }
     const sp = ev.target.closest('[data-fan-spread]'); if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const b = ev.target.closest('[data-act]'); if (!b) return;
     if (b.dataset.act === 'lists') openListPicker(e.id);

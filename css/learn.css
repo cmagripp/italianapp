@@ -9,27 +9,48 @@
 /* ---------- 1. SHELL ---------- */
 body.walkthrough { overflow: hidden; padding-bottom: 0; }
 body.walkthrough #view { padding-bottom: 0; }
-.wt-scenes { overflow-x: hidden; scroll-behavior: auto; --kb: 0px; }
+/* position: relative → scene offsetTop is measured against the scroller, so goto() lands exactly on the snap point */
+.wt-scenes { position: relative; overflow-x: hidden; scroll-behavior: auto; --kb: 0px; }
 .wt-scene { overflow: hidden; overflow: clip; }
 .wt-scene[hidden] { display: none; }
 .wt-scene .scene-head { min-height: 32px; }
 .wt-scene .scene-head .title { font-size: 20px; font-variation-settings: "opsz" 24; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .wt-scene .scene-head .step { flex: none; }
 .wt-scene .scene-body { position: relative; }
-.wt-scene .scene-body.scrollable { overflow-y: auto; justify-content: flex-start; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+/* the body is a flex column: a child with overflow:hidden (the q-card) would otherwise shrink to make room instead of
+   the body becoming scrollable — every block keeps its size, the body scrolls */
+.wt-scene .scene-body > * { flex-shrink: 0; }
+.wt-scene .scene-body.scrollable { overflow-y: auto; overflow-x: hidden; justify-content: flex-start; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none;
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14px, #000 calc(100% - 18px), transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 14px, #000 calc(100% - 18px), transparent 100%); }
 .wt-scene .scene-body.scrollable::-webkit-scrollbar { display: none; }
 .wt-scene.kb .scene-body { padding-bottom: calc(var(--kb, 0px) + 40px); }
-.wt-scene .scene-foot { gap: 4px; }
+/* keyboard open: the footer (locked CTA, hint) gives its room to the field, accent bar and Check */
+.wt-scene.kb .scene-foot { display: none; }
+.wt-scene .scene-foot { position: relative; gap: 4px; }
+/* "more below" chevron: shown while the body can still scroll down */
+.wt-scene .scene-foot::before { content: ""; position: absolute; left: 50%; top: -20px; width: 9px; height: 9px; margin-left: -6px; border-right: 2px solid var(--gold); border-bottom: 2px solid var(--gold); border-radius: 1px;
+  transform: rotate(45deg); opacity: 0; pointer-events: none; transition: opacity var(--t-base); }
+.wt-scene.more .scene-foot::before { opacity: .9; animation: bob 1.4s var(--ease-in-out) infinite; }
+@keyframes bob { 50% { transform: translateY(4px) rotate(45deg); } }
 .wt-scene .scene-foot .foot-row { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 40px; }
 .wt-scene .scene-foot .foot-row .hint { min-width: 0; }
 .wt-scene .scene-foot .skip { display: inline-flex; align-items: center; gap: 2px; height: 40px; padding: 0 12px; border-radius: var(--r-pill); flex: none;
   font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--gold); animation: rise var(--t-slow) var(--ease-out) both; }
+.wt-scene .scene-foot .skip[hidden] { display: none; }
 .wt-scene .scene-foot .skip .ic { width: 14px; height: 14px; }
 .wt-cta .lab { pointer-events: none; }
 .wt-cta.locked { background: var(--glass); color: var(--ink-3); border-color: var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight); }
 .wt-cta.locked::after { display: none; }
 .wt-cta[disabled] { opacity: .9; }
+/* while the step is not done the CTA folds into the hint line as a small lock pill; it grows into the block button on ready */
+.wt-scene .scene-foot.locked { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 12px; min-height: 40px; padding-top: 2px; }
+.wt-scene .scene-foot.locked .wt-cta.locked { width: auto; height: 34px; padding: 0 12px 0 10px; gap: 6px; flex: none; border-radius: var(--r-pill);
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+.wt-scene .scene-foot.locked .wt-cta.locked .ic { width: 14px; height: 14px; }
+.wt-scene .scene-foot.locked .foot-row { flex: 0 1 auto; min-height: 34px; gap: 8px; }
+.wt-scene .scene-foot.locked .foot-row .hint { text-align: left; }
+.wt-scene .scene-foot:not(.locked) .wt-cta { animation: ctaGrow var(--t-slow) var(--ease-out) both; transform-origin: 50% 100%; }
+@keyframes ctaGrow { from { opacity: .3; transform: scaleY(.55); } to { opacity: 1; transform: none; } }
 .wt-rail { position: fixed; top: calc(var(--top-h) + var(--sat) + 14px); bottom: calc(var(--sab) + 18px); right: max(5px, calc((100vw - var(--content-max)) / 2 + 5px)); width: 4px; height: auto; z-index: 5; gap: 3px; pointer-events: none; }
 .wt-rail > span { transition: background var(--t-slow), box-shadow var(--t-slow); }
 
@@ -41,6 +62,9 @@ body.walkthrough #view { padding-bottom: 0; }
 .meet-hero .hw-row { margin-top: 16px; }
 .meet-float { position: absolute; z-index: 2; display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 40px; max-width: 46%; padding: 8px 12px; border-radius: 14px;
   font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.15; letter-spacing: -.01em; color: var(--ink); cursor: pointer; }
+/* flat glass: the brief allows at most six blurred panes per screen — floats and in-scene question cards do without */
+.meet-float.glass, .wt-scene .q-card { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--bg-1) 78%, transparent); }
+.meet-float:not(.itx) { cursor: default; }
 .meet-float .it { display: block; }
 .meet-float .tr { display: none; font-family: var(--font-text); font-weight: 500; font-style: italic; font-size: 12px; color: var(--ink-2); }
 .meet-float .tr::before { content: none; }
@@ -99,7 +123,17 @@ body.walkthrough #view { padding-bottom: 0; }
 .fan-stage > .fan-inner { min-height: 0; }
 .fan-stage.collapsed { grid-template-rows: 0fr; opacity: 0; pointer-events: none; margin: 0; }
 .fan-stage.collapsed > .fan-inner { overflow: hidden; }
-.wt-fan { width: min(100%, 320px); margin: 0 auto; }
+.wt-fan { width: min(100%, 320px); margin: 0 auto; --fan-step: 20px; }
+/* The hand (fx.js) rotates the cards around a pivot below them, which leaves each card a ~40px visible strip: too narrow
+   to tap and to show "LUI/LEI". A per-card horizontal offset (--i × step, centred on the hand) widens every strip;
+   the spread grid keeps fx.js's exact positions. --fan-n is set by the view. */
+.wt-fan .fan-card[data-i="0"], .ref-fan .fan-card[data-i="0"] { --i: 0; } .wt-fan .fan-card[data-i="1"], .ref-fan .fan-card[data-i="1"] { --i: 1; }
+.wt-fan .fan-card[data-i="2"], .ref-fan .fan-card[data-i="2"] { --i: 2; } .wt-fan .fan-card[data-i="3"], .ref-fan .fan-card[data-i="3"] { --i: 3; }
+.wt-fan .fan-card[data-i="4"], .ref-fan .fan-card[data-i="4"] { --i: 4; } .wt-fan .fan-card[data-i="5"], .ref-fan .fan-card[data-i="5"] { --i: 5; }
+.wt-fan:not(.spread) .fan-card { margin-left: calc((var(--i, 0) - (var(--fan-n, 6) - 1) / 2) * var(--fan-step, 20px)); transition: transform var(--t-slow) var(--ease-spring), margin var(--t-slow) var(--ease-spring), z-index 0s; }
+.wt-fan .fan-card .face.front { font-size: 11px; letter-spacing: .1em; padding: 12px 8px; white-space: nowrap; }
+.wt-fan:not(.spread) .fan-card.flipped .flip { transform: rotateY(180deg) translateY(-10px); }
+.wt-fan .fan-card .face.back { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 .wt-fan .fan-card .face.back .form { display: block; max-width: 100%; }
 .wt-fan .fan-card .face.back .form.irr { color: var(--terracotta); }
 .wt-fan .fan-card .face.back .form.none { color: var(--ink-3); font-size: 26px; }
@@ -193,6 +227,7 @@ body.walkthrough #view { padding-bottom: 0; }
 .fin-xp .display { font-size: 40px; line-height: 1; color: var(--gold); font-variation-settings: "opsz" 72; }
 .fin-xp .mono { color: var(--ink-3); }
 .fin-actions { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.fin-actions .row.gap .btn.grow { padding: 0 12px; font-size: 15px; }
 .fin-auto { color: var(--gold); margin-top: 2px; }
 .rule-lines { margin-top: 10px; }
 .rule-line { font-size: 13px; line-height: 1.4; color: var(--ink-2); text-align: center; margin: 0 0 4px; padding: 0 6px; }
@@ -202,9 +237,9 @@ body.walkthrough #view { padding-bottom: 0; }
 :root[data-theme="light"] .wt-cta.locked { color: var(--ink-2); }
 :root[data-theme="light"] .tw-tap.hit { background: color-mix(in srgb, var(--gold) 18%, transparent); }
 @media (prefers-reduced-motion: reduce) {
-  .fan-stage, .wt-rail > span, .tw-tap, .pat-row, .nf-slot { transition: none !important; }
+  .fan-stage, .wt-rail > span, .tw-tap, .pat-row, .nf-slot, .wt-fan .fan-card { transition: none !important; }
   .ex-row.typing .it::after { animation: none; }
-  .wt-scene .scene-foot .skip, .strip, .wt-check.in { animation: none !important; }
+  .wt-scene .scene-foot .skip, .strip, .wt-check.in, .wt-scene .scene-foot::before, .wt-scene .scene-foot:not(.locked) .wt-cta { animation: none !important; }
 }
 @media (max-width: 389px) {
   .meet-stage { min-height: 336px; padding: 48px 0; }
@@ -213,6 +248,8 @@ body.walkthrough #view { padding-bottom: 0; }
   .aux-tile .aux-word { font-size: 26px; }
   .wt-q .big.md { font-size: 24px; }
   .fin-xp .display { font-size: 36px; }
+  .fin-actions .row.gap .btn.grow { font-size: 14px; padding: 0 10px; }
+  .wt-fan { --fan-step: 16px; }
 }
 @media (max-height: 700px) {
   .wt-scene .scene-body { padding: 8px 0; }

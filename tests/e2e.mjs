@@ -34,8 +34,9 @@ const errorsSince = (n) => sink.errors.slice(n).map(e => e.text);
 // ---------- generic helpers ----------
 async function has(sel) { return (await page.locator(sel).count()) > 0; }
 // Real click first (so unreachable controls surface as warnings), DOM click as a fallback so a flow can still progress.
-async function tap(target, { timeout = 1500, label = '' } = {}) {
+async function tap(target, { timeout = 1500, label = '', js = false } = {}) {
   const loc = (typeof target === 'string' ? page.locator(target) : target).first();
+  if (js) { await loc.evaluate(el => el.click()); return 'js'; } // timed rounds: no time for the actionability checks
   try { await loc.click({ timeout }); return 'click'; } catch (err) {
     try { await loc.evaluate(el => el.click()); sink.push('warn', `used a DOM click for ${label || target} (real click failed: ${String(err.message).split('\n')[0].slice(0, 120)})`); return 'js'; } catch { throw err; }
   }
@@ -63,18 +64,18 @@ async function storeEval(fn, arg) {
 }
 
 // Plays any drill / game screen until the results screen shows, answering with whatever is available.
-async function playToResults({ maxSteps = 120, idleLimit = 20 } = {}) {
+async function playToResults({ maxSteps = 120, idleLimit = 20, fast = false } = {}) {
   const LETTERS = 'eaiontrlscudpmgvhbfzqkxjwy'.split('');
   const tried = new Set(); let hints = 0; let idle = 0; const actions = [];
   const act = (a) => { actions.push(a); idle = 0; };
   for (let step = 0; step < maxSteps; step++) {
     if (await isResults()) return { ok: true, steps: step, actions };
-    if (await has('[data-next]')) { await tap('[data-next]', { label: '[data-next]' }); tried.clear(); act('next'); await wait(250); continue; }
+    if (await has('[data-next]')) { await tap('[data-next]', { label: '[data-next]', js: fast }); tried.clear(); act('next'); await wait(fast ? 120 : 250); continue; }
     if (await has('[data-results]')) { await tap('[data-results]', { label: '[data-results]' }); act('results'); await wait(300); continue; }
     // multiple choice (drills, speed round)
     const choices = page.locator('button.choice:not([disabled])');
     const nChoices = await choices.count();
-    if (nChoices) { await tap(choices.nth(Math.floor(Math.random() * nChoices)), { label: 'button.choice' }); act('choice'); await wait(300); continue; }
+    if (nChoices) { await tap(choices.nth(Math.floor(Math.random() * nChoices)), { label: 'button.choice', js: fast }); act('choice'); await wait(fast ? 120 : 300); continue; }
     // typed answer
     if (await has('input[data-answer]:not([disabled])') && await has('[data-check]')) {
       await page.locator('input[data-answer]').first().fill('prova');
@@ -163,25 +164,91 @@ const gameFlow = (id, query, extra = {}) => ({ name: `game:${id}`, run: async ()
   return `${await resultsSummary()} · ${r.actions.length} actions`;
 } });
 
+// ---------- walkthrough (verb / word introduction) helpers ----------
+// The scene deck keeps every scene in the DOM; the current one carries the rail's .cur segment (index = data-i).
+async function sceneState() {
+  return page.evaluate(() => {
+    const segs = [...document.querySelectorAll('.wt-rail span')];
+    const i = segs.findIndex(s => s.classList.contains('cur'));
+    const el = document.querySelector(`.wt-scene[data-i="${i}"]`);
+    const cta = el?.querySelector('[data-cta]');
+    return { i, n: segs.length, key: el?.dataset.key || null, ready: cta ? !cta.disabled : null, hasCta: !!cta, text: (el?.innerText || '').replace(/\s*\n+\s*/g, ' | ').trim().slice(0, 160) };
+  });
+}
+// Plays the deck scene by scene: interacts with whatever the scene offers (data-next hook, fan cards, patterns, tap-the-word,
+// choices, typed answers, the in-scene drill) until the CTA unlocks, then taps "Avanti". Stops on the last scene.
+async function playWalkthrough({ maxScenes = 16 } = {}) {
+  const seen = [];
+  for (let guard = 0; guard < maxScenes * 40; guard++) {
+    const st = await sceneState();
+    if (st.i < 0) { await wait(200); continue; }
+    if (!seen.includes(st.key)) seen.push(st.key);
+    if (st.i === st.n - 1) return { ok: true, scenes: seen };
+    if (st.ready) {
+      await tap(`.wt-scene[data-i="${st.i}"] [data-cta]`, { label: `Avanti (${st.key})` });
+      const before = st.i;
+      for (let k = 0; k < 12; k++) { await wait(150); if ((await sceneState()).i !== before) break; }
+      if ((await sceneState()).i === before) throw new Error(`"Avanti" did not leave scene ${before} (${st.key})`);
+      continue;
+    }
+    const ss = `.wt-scene[data-i="${st.i}"]`;
+    // one thing the scene marks as "next": Reveal all, Not sure — show me, an unopened pattern…
+    if (await has(`${ss} [data-next], .dropdown-layer .dropdown.open [data-value]`)) {
+      const inDropdown = await has('.dropdown-layer .dropdown.open [data-value]');
+      await tap(inDropdown ? '.dropdown-layer .dropdown.open [data-value]' : `${ss} [data-next]`, { label: `[data-next] (${st.key})` }); await wait(350); continue;
+    }
+    if (await has(`${ss} .tw-tap.target`)) { await tap(`${ss} .tw-tap.target`, { label: 'tap the word' }); await wait(300); continue; }
+    if (await has(`${ss} .fan-card:not(.flipped)`)) { await tap(`${ss} .fan-card:not(.flipped)`, { label: 'fan card' }); await wait(250); continue; }
+    const choices = page.locator(`${ss} button.choice:not([disabled])`);
+    if (await choices.count()) { await tap(choices.nth(Math.floor(Math.random() * await choices.count())), { label: 'button.choice' }); await wait(350); continue; }
+    if (await has(`${ss} input[data-answer]:not([disabled])`) && await has(`${ss} [data-check]`)) {
+      await page.locator(`${ss} input[data-answer]`).first().fill('prova');
+      await tap(`${ss} [data-check]`, { label: '[data-check]' }); await wait(300); continue;
+    }
+    // the drill's feedback bar (inline or in the fixed dock) and any other data-next hook
+    if (await has('[data-feedback-bar] [data-next]')) { await tap('[data-feedback-bar] [data-next]', { label: 'Continue' }); await wait(300); continue; }
+    if (await has(`${ss} [data-skip]:not([hidden])`)) { await tap(`${ss} [data-skip]:not([hidden])`, { label: '[data-skip]' }); await wait(300); continue; }
+    await wait(250);
+  }
+  const st = await sceneState();
+  return { ok: false, scenes: seen, stuck: `${st.key} (${st.i + 1}/${st.n}) ready=${st.ready}: ${st.text}` };
+}
+async function isLearned(id) { return storeEval(`return ctx.store.isLearned(arg);`, id); }
+async function finitoSummary() {
+  return page.evaluate(() => {
+    const fin = document.querySelector('.wt-scene[data-key="finito"] .finito');
+    const t = (fin?.innerText || '').replace(/\s+/g, ' ');
+    const m = t.match(/(\d+)%\s*·\s*(\d+) of (\d+) correct/i);
+    return { text: t.slice(0, 120), score: m ? `${m[1]}% (${m[2]} of ${m[3]} correct)` : null, stamp: fin?.querySelector('.stamp')?.textContent.trim() || '', escaped: /<a |<button /.test(t) };
+  });
+}
+
 const flows = [
   { name: 'verb-intro', run: async () => {
     await gotoRoute(page, '/learn/verb/v:mangiare');
-    await tap('[data-next]', { label: 'See the forms' }); await settle(page, { min: 200 });
-    const forms = await has('[data-conj-table]') || /io|tu|lui/.test(await viewText(page, 400));
-    await shot(page, 'e2e_verb_forms');
-    await tap('[data-next]', { label: 'Start the drill' }); await settle(page, { min: 200 });
-    const r = await playToResults();
-    await shot(page, 'e2e_verb_results');
-    if (!r.ok) throw new Error(`drill did not finish: ${r.stuck}`);
-    return `${await resultsSummary()}${forms ? '' : ' (forms step not detected)'}`;
+    const st = await sceneState();
+    if (st.key !== 'meet' || !/mangiare/i.test(st.text)) throw new Error(`walkthrough did not open on the Meet scene: ${st.key} ${st.text}`);
+    if (await has('.wt-scene[data-key="meet"] [data-skip]:not([hidden])')) sink.push('warn', 'skip link visible on the Meet scene');
+    const r = await playWalkthrough();
+    await shot(page, 'e2e_verb_finito');
+    if (!r.ok) throw new Error(`walkthrough did not reach Finito (${r.scenes.join(' → ')}): ${r.stuck}`);
+    const fin = await finitoSummary();
+    if (fin.escaped) throw new Error(`Finito renders escaped HTML: ${fin.text}`);
+    if (!fin.score) throw new Error(`Finito shows no drill score: ${fin.text}`);
+    if (/\b0 of 0\b/.test(fin.score)) throw new Error(`Finito reports an empty drill: ${fin.score}`);
+    const tenses = r.scenes.filter(k => k.startsWith('tense-')).length;
+    return `${r.scenes.length} scenes (${tenses} tenses) → ${fin.score} · stamp ${fin.stamp || '—'} · learned=${await isLearned('v:mangiare')}`;
   } },
   { name: 'word-intro', run: async () => {
     await gotoRoute(page, '/learn/word/w:casa|noun');
     if (!/casa/i.test(await viewText(page, 300))) throw new Error('meet card does not show "casa"');
-    await tap('[data-next]', { label: 'Quick check' }); await settle(page, { min: 200 });
-    const r = await playToResults();
-    if (!r.ok) throw new Error(`check did not finish: ${r.stuck}`);
-    return await resultsSummary();
+    const r = await playWalkthrough();
+    await shot(page, 'e2e_word_finito');
+    if (!r.ok) throw new Error(`walkthrough did not reach Finito (${r.scenes.join(' → ')}): ${r.stuck}`);
+    const fin = await finitoSummary();
+    if (fin.escaped) throw new Error(`Finito renders escaped HTML: ${fin.text}`);
+    if (!fin.score) throw new Error(`Finito shows no check score: ${fin.text}`);
+    return `${r.scenes.join(' → ')} → ${fin.score} · stamp ${fin.stamp || '—'} · learned=${await isLearned('w:casa|noun')}`;
   } },
   { name: 'seed-learned', run: async () => {
     const s = await seedProgress(page, { words: 20, verbs: 10 });
@@ -209,7 +276,7 @@ const flows = [
   gameFlow('hangman', 'count=3', { maxSteps: 160 }),
   gameFlow('crossword', 'count=14'),
   gameFlow('sentence', 'count=3'),
-  gameFlow('speed', 'seconds=4', { maxSteps: 80 }),
+  gameFlow('speed', 'seconds=8', { maxSteps: 80, fast: true }),
   { name: 'search', run: async () => {
     await gotoRoute(page, '/search');
     const q = (await has('#q')) ? page.locator('#q') : page.locator('input[type="search"]').first();

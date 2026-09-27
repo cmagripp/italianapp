@@ -110,10 +110,13 @@ export async function render(root, params) {
     key: 'meet', title: 'Meet', colors: level, cta: 'Avanti', noSkip: true,
     render(body, api) {
       const pres = conj.tenses.presente || [];
-      const floats = [0, 1, 2].filter(i => pres[i] && primary(pres[i]) !== MISSING).map(i => ({ it: primary(pres[i]), en: enPerson(e.en, i), cls: `f${i + 1}` }));
+      const gloss = !NO_PERSON_GLOSS.test(splitClitic(e.inf).base);
+      const floats = [0, 1, 2].filter(i => pres[i] && primary(pres[i]) !== MISSING).map(i => ({ it: primary(pres[i]), en: gloss ? enPerson(e.en, i) : '', cls: `f${i + 1}` }));
       const cat = CATS[e.cat];
       body.innerHTML = html`<div class="meet-stage">
-          ${raw(floats.map((f, i) => html`<span class="float meet-float glass ${f.cls} ${i % 2 ? 'delay' : ''} itx" role="button" tabindex="0" style="--glow:var(--lvl-${level})"><span class="it">${f.it}</span><span class="tr">${f.en}</span></span>`).join(''))}
+          ${raw(floats.map((f, i) => (f.en
+            ? html`<span class="float meet-float glass ${f.cls} ${i % 2 ? 'delay' : ''} itx" role="button" tabindex="0" style="--glow:var(--lvl-${level})"><span class="it">${f.it}</span><span class="tr">${f.en}</span></span>`
+            : html`<span class="float meet-float glass ${f.cls} ${i % 2 ? 'delay' : ''}" style="--glow:var(--lvl-${level})"><span class="it">${f.it}</span></span>`)).join(''))}
           <div class="headword center meet-hero" data-hero>
             <div class="hw-line"><span class="word" style="--hw:${hwSize(e.inf)}px" data-word>${e.inf}</span></div>
             <div class="hw-row">${raw(enPill(e.en))}${raw(speakBtn(e.inf, 'lg'))}</div>
@@ -158,9 +161,9 @@ export async function render(root, params) {
       body.addEventListener('click', (ev) => {
         const row = ev.target.closest('[data-pat]'); if (!row) return;
         const i = Number(row.dataset.pat);
-        const ex = exampleFor(patterns[i], examples, e.inf);
+        const ex = exampleFor(patterns[i], examples, e);
         const content = html`<div class="dropdown-title">${patterns[i]}</div>
-          ${ex ? raw(html`<div class="pat-ex"><div class="itx block" role="button" tabindex="0"><div class="it">${ex.it}</div><div class="tr">${ex.en}</div></div>${raw(speakBtn(ex.it, 'sm'))}</div>`) : raw('<div class="pat-ex small muted">No example sentence for this pattern.</div>')}
+          ${ex ? raw(html`<div class="pat-ex"><div class="itx block" role="button" tabindex="0"><div class="it">${ex.it}</div><div class="tr">${ex.en}</div></div>${raw(speakBtn(ex.it, 'sm'))}</div>`) : raw('<div class="pat-ex small muted">No example yet for this pattern.</div>')}
           <div class="dropdown-list"><button type="button" class="opt on" data-value="ok"><span class="opt-main"><span class="opt-label">Capito</span><span class="opt-sub">tap the sentence for English</span></span>${raw(icon('check', { size: 20 }))}</button></div>`;
         haptic('light');
         dropdown(row, content, {
@@ -200,6 +203,7 @@ export async function render(root, params) {
         haptic(ok ? 'success' : 'error');
         speak(q.say);
         api.ready();
+        requestAnimationFrame(() => revealInScroller(fb));
       };
       body.querySelectorAll('[data-aux]').forEach(b => b.addEventListener('click', () => settle(Number(b.dataset.aux), false)));
       body.querySelector('[data-reveal]').addEventListener('click', () => settle(-1, true));
@@ -243,6 +247,7 @@ export async function render(root, params) {
         let state = 'learn';
         let chk = null;
         const fanEl = body.querySelector('[data-fan]');
+        fanEl.style.setProperty('--fan-n', String(cards.length)); // css spreads the hand so every card keeps a tappable strip
         fanApi = fan(fanEl, cards, {
           onFlip(i, flipped) { if (flipped) { const f = primary(forms[i]); if (f && f !== MISSING) speak(f); haptic('light'); } },
           onAllFlipped() { setTimeout(startCheck, 560); },
@@ -250,6 +255,7 @@ export async function render(root, params) {
         function startCheck() {
           if (state !== 'learn') return;
           state = 'check';
+          api.setLockLabel('Answer the quick check');
           body.querySelector('[data-stage]').classList.add('collapsed');
           const p = sample(avail);
           const q = cleanChoices(idx % 2 === 0 ? qConjMC(e, key, pool, p) : qConjType(e, key, p));
@@ -325,11 +331,14 @@ export async function render(root, params) {
       if (!steps.length) { body.querySelector('.nf-mode').remove(); api.ready(); return; }
       let i = 0, mode = 'type', chk = null;
       const stepEl = body.querySelector('[data-nf-step]');
-      const stem = e.inf.replace(/(are|ere|ire|arsi|ersi|irsi|rre|rsi)$/, '');
+      // pronominal verbs: distractors are built on the base verb and carry the clitic like the real gerund (andandosene)
+      const { base: baseInf, clitic } = splitClitic(e.inf);
+      const stem = baseInf.replace(/(are|ere|ire|rre)$/, '');
+      const tail = clitic || '';
       const buildQ = (s) => {
         if (mode === 'type') return { type: 'type', tag: s.label, answer: s.answer, say: s.form, placeholder: `${s.lead} …`, explain: s.kind === 'pp' && conj.irregular && irr.participioPassato ? 'Irregular participle.' : '' };
         if (s.kind === 'pp') return cleanChoices(qParticiple(e, false));
-        const wrong = [...new Set([stem + 'ando', stem + 'endo', stem + 'iendo', stem + 'indo'])].filter(x => !s.answer.includes(x)).slice(0, 3);
+        const wrong = [...new Set([stem + 'ando' + tail, stem + 'endo' + tail, stem + 'iendo' + tail, stem + 'indo' + tail])].filter(x => !s.answer.includes(x)).slice(0, 3);
         return { type: 'mc', tag: s.label, center: true, say: s.form, choices: mcChoices(s.form, wrong), answer: s.form };
       };
       const show = () => {
@@ -378,16 +387,19 @@ export async function render(root, params) {
     // never ask about a missing form
     return qs.filter(q => !(Array.isArray(q.answer) ? q.answer.every(a => a === MISSING) : q.answer === MISSING)).slice(0, 9);
   };
+  let drill = null, drillTimer = null;
   const drillScene = {
     key: 'drill', title: 'Drill', colors: SCENES.games, lockLabel: 'Finish the drill', hintLocked: 'Nine quick questions · pass with 66 %', noSkip: true,
     render(body) {
       body.innerHTML = html`<div class="drill-host" data-host><div class="drill-intro"><div class="kicker">Verb drill</div><p class="display it lead">Pronti?</p></div></div>`;
+      return () => { clearTimeout(drillTimer); if (drill) { drill.destroy(); drill = null; } };
     },
     enter(api, first) {
       if (!first) return;
       const host = api.body.querySelector('[data-host]');
       const start = () => {
-        runDrill(host, drillQuestions(), {
+        if (drill) drill.destroy();
+        drill = runDrill(host, drillQuestions(), {
           title: 'Verb drill', gameId: 'verb-intro', backHref: '#/learn', xpPer: 3, passScore: PASS, record: false,
           onDone: (result) => {
             st.result = result;
@@ -403,7 +415,8 @@ export async function render(root, params) {
         api.refresh();
       };
       st.restartDrill = start;
-      start();
+      // let "Pronti?" land before the first question
+      drillTimer = setTimeout(() => { if (host.isConnected) start(); }, 900);
     },
   };
 
@@ -422,7 +435,7 @@ export async function render(root, params) {
         <p class="fin-line">${passed ? (st.learnedNow ? 'Added to your learned verbs — it will come back in reviews and games.' : 'Already in your learned verbs. Nice refresher.') : `Score ${PASS}% or more in the drill to add ${e.inf} to your learned verbs.`}</p>
         <div class="fin-xp"><span class="display">+${xp}</span><span class="mono">XP</span><span class="mono fin-score">· ${r.score}% · ${r.correct} of ${r.total} correct</span></div>
         <div class="fin-actions">
-          ${passed ? raw(html`${next ? html`<a class="btn primary block" href="#/learn/verb/${encodeURIComponent(next.id)}">Next verb: ${next.inf}${raw(icon('arrow', { size: 18 }))}</a>` : html`<a class="btn primary block" href="#/learn">All verbs in scope learned</a>`}`) : raw(html`<button type="button" class="btn primary block" data-retry>${raw(icon('refresh', { size: 18 }))}Retry the drill</button>`)}
+          ${passed ? raw(next ? html`<a class="btn primary block" href="#/learn/verb/${encodeURIComponent(next.id)}" data-next-verb>Next verb: ${next.inf}${raw(icon('arrow', { size: 18 }))}</a>` : html`<a class="btn primary block" href="#/learn">All verbs in scope learned</a>`) : raw(html`<button type="button" class="btn primary block" data-retry>${raw(icon('refresh', { size: 18 }))}Retry the drill</button>`)}
           <a class="btn secondary block" href="#/game/conj-drill?src=ids:${encodeURIComponent(e.id)}&tenses=presente,passatoProssimo">${raw(icon('dial', { size: 18 }))}Drill this verb</a>
           <div class="row gap">${passed ? '' : raw(html`<button type="button" class="btn ghost grow" data-forms>Review the forms</button>`)}<a class="btn ghost grow" href="#/learn">Back to Learn</a></div>
         </div>`;
