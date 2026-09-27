@@ -38,7 +38,10 @@ BASE=http://localhost:8000/ node tests/e2e.mjs   # another server
 ```
 
 Both scripts print a readable report, write the JSON report next to themselves and exit with status 1 when anything
-failed (2 on a fatal harness error), so they can gate a CI job or a pre-push hook.
+failed (2 on a fatal harness error), so they can gate a CI job or a pre-push hook. The layout audit prints one line
+per route with the findings aggregated over the six viewport×theme combos (`taps<40 11–46` = the count varies between
+combos, `(2/6: 375x667/dark, …)` = only some combos are affected), followed by the worst offenders per category; the
+per-combo detail is in the JSON.
 
 Environment variables: `BASE`, `AUTOSTART=0` (never start a server), `PLAYWRIGHT_DIR`, `CHROME`, `HEADLESS=0`,
 `SHOTS=1`, `SEED=0` (layout audit: do not seed learned items into the fresh profile), `SOFT=taps,inputs`
