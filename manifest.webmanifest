@@ -1,0 +1,17 @@
+{
+  "name": "Parola — Italian words & verbs",
+  "short_name": "Parola",
+  "description": "Learn Italian vocabulary and verbs from A1 to C2 with adaptive drills, conjugation tables and games.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f4ee",
+  "theme_color": "#1f8a4c",
+  "lang": "en",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

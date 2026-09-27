@@ -1,0 +1,68 @@
+{
+  "builtAt": "2026-09-27T00:08:58.903Z",
+  "vocab": {
+    "total": 4587,
+    "byLevel": {
+      "A1": 561,
+      "A2": 608,
+      "B1": 859,
+      "B2": 905,
+      "C1": 845,
+      "C2": 809
+    },
+    "byCat": {
+      "abstract": 217,
+      "animals": 175,
+      "arts": 211,
+      "basics": 63,
+      "body": 215,
+      "city": 174,
+      "clothing": 117,
+      "colors": 69,
+      "communication": 234,
+      "daily": 117,
+      "description": 212,
+      "economy": 127,
+      "emotions": 177,
+      "expressions": 102,
+      "food": 205,
+      "home": 172,
+      "nature": 271,
+      "numbers": 124,
+      "people": 230,
+      "school": 131,
+      "shopping": 133,
+      "society": 200,
+      "sports": 187,
+      "tech": 139,
+      "time": 141,
+      "travel": 176,
+      "work": 161,
+      "science": 107
+    },
+    "byPos": {
+      "noun": 3253,
+      "expr": 351,
+      "interj": 27,
+      "adv": 161,
+      "adj": 600,
+      "prep": 37,
+      "pron": 35,
+      "conj": 61,
+      "det": 24,
+      "num": 38
+    }
+  },
+  "verbs": {
+    "total": 803,
+    "byLevel": {
+      "A1": 84,
+      "A2": 133,
+      "B1": 172,
+      "B2": 158,
+      "C1": 139,
+      "C2": 117
+    },
+    "irregular": 234
+  }
+}

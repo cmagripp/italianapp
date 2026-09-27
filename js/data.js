@@ -1,0 +1,181 @@
+// Data loading, indexes, search and lexical helpers (articles, plurals, categories, levels).
+export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const LEVEL_INFO = {
+  A1: { name: 'Beginner', it: 'Principiante', desc: 'Survival words: greetings, family, food, numbers, time.', color: '#2e9e5b' },
+  A2: { name: 'Elementary', it: 'Elementare', desc: 'Everyday life: shopping, travel, health, home, feelings.', color: '#4fa3d9' },
+  B1: { name: 'Intermediate', it: 'Intermedio', desc: 'Experiences, opinions, work, services, nature.', color: '#e0a325' },
+  B2: { name: 'Upper-intermediate', it: 'Intermedio superiore', desc: 'Argument and nuance: society, science, culture.', color: '#e0662f' },
+  C1: { name: 'Advanced', it: 'Avanzato', desc: 'Precision and register: formal, technical, literary.', color: '#b04ec7' },
+  C2: { name: 'Mastery', it: 'Padronanza', desc: 'Native-level range: rare, learned and literary words.', color: '#c8102e' },
+};
+export const CATS = {
+  basics: { name: 'Basics & greetings', icon: '👋' }, people: { name: 'People & family', icon: '👨‍👩‍👧' }, body: { name: 'Body & health', icon: '🫀' },
+  emotions: { name: 'Emotions & character', icon: '💛' }, food: { name: 'Food & drink', icon: '🍝' }, home: { name: 'Home', icon: '🏠' },
+  clothing: { name: 'Clothing & fashion', icon: '👗' }, daily: { name: 'Daily life', icon: '☀️' }, shopping: { name: 'Shopping & money', icon: '🛍️' },
+  city: { name: 'City & places', icon: '🏙️' }, travel: { name: 'Travel & transport', icon: '✈️' }, nature: { name: 'Nature & weather', icon: '🌿' },
+  animals: { name: 'Animals & plants', icon: '🐈' }, time: { name: 'Time & calendar', icon: '⏰' }, numbers: { name: 'Numbers & quantity', icon: '🔢' },
+  colors: { name: 'Colours & shapes', icon: '🎨' }, work: { name: 'Work & professions', icon: '💼' }, school: { name: 'School & learning', icon: '🎓' },
+  tech: { name: 'Technology & media', icon: '📱' }, arts: { name: 'Arts & culture', icon: '🎭' }, sports: { name: 'Sports & leisure', icon: '⚽' },
+  society: { name: 'Society, politics & law', icon: '🏛️' }, economy: { name: 'Economy & business', icon: '📈' }, science: { name: 'Science', icon: '🔬' },
+  abstract: { name: 'Ideas & abstract', icon: '💭' }, communication: { name: 'Communication & function words', icon: '💬' },
+  description: { name: 'Describing things', icon: '✨' }, expressions: { name: 'Expressions & idioms', icon: '🗣️' },
+};
+export const POS_NAME = { noun: 'noun', adj: 'adjective', adv: 'adverb', prep: 'preposition', conj: 'conjunction', pron: 'pronoun', num: 'number', det: 'determiner', interj: 'interjection', expr: 'expression', verb: 'verb' };
+export const GENDER_NAME = { m: 'masculine', f: 'feminine', mf: 'masc./fem.' };
+
+export const data = { vocab: [], verbs: [], byId: new Map(), loaded: false, stats: null };
+
+export async function loadData(base = '') {
+  const [v, vb, st] = await Promise.all([
+    fetch(base + 'data/vocab.json').then(r => r.json()),
+    fetch(base + 'data/verbs.json').then(r => r.json()),
+    fetch(base + 'data/stats.json').then(r => r.json()).catch(() => null),
+  ]);
+  data.vocab = v; data.verbs = vb; data.stats = st;
+  data.byId = new Map();
+  for (const e of v) { e.kind = 'word'; data.byId.set(e.id, e); }
+  for (const e of vb) { e.kind = 'verb'; e.it = e.inf; data.byId.set(e.id, e); }
+  data.loaded = true;
+  buildSearchIndex();
+  return data;
+}
+
+// custom words are registered by the app after the profile loads
+export function registerCustom(customMap) {
+  for (const id of [...data.byId.keys()]) if (id.startsWith('c:')) data.byId.delete(id);
+  for (const e of Object.values(customMap || {})) { e.kind = e.pos === 'verb' ? 'verb' : 'word'; if (e.kind === 'verb') e.inf = e.it; data.byId.set(e.id, e); }
+  buildSearchIndex();
+}
+
+export const getEntry = (id) => data.byId.get(id) || null;
+export const isVerb = (e) => !!e && e.kind === 'verb';
+
+// ---------- text helpers ----------
+export const fold = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’]/g, "'");
+
+let searchIndex = [];
+function buildSearchIndex() {
+  searchIndex = [];
+  for (const e of data.byId.values()) {
+    const it = fold(e.it), en = fold(e.en);
+    searchIndex.push({ e, it, en, enParts: en.split(/;|,/).map(x => x.trim().replace(/^to /, '').replace(/^(the|a|an) /, '')) });
+  }
+}
+
+export function search(query, { limit = 40, kind = null } = {}) {
+  const q = fold(query).trim();
+  if (!q) return [];
+  const qNoTo = q.replace(/^to /, '');
+  const results = [];
+  for (const r of searchIndex) {
+    if (kind && r.e.kind !== kind) continue;
+    let score = 0;
+    if (r.it === q) score = 100;
+    else if (r.enParts.some(p => p === q || p === qNoTo)) score = 95;
+    else if (r.it.startsWith(q)) score = 80 - Math.min(20, r.it.length - q.length);
+    else if (r.enParts.some(p => p.startsWith(qNoTo))) score = 70;
+    else if (r.it.includes(q)) score = 50;
+    else if (r.en.includes(qNoTo)) score = 40;
+    else if (r.it.split(' ').some(w => w.startsWith(q))) score = 45;
+    if (score) results.push({ e: r.e, score: score - LEVELS.indexOf(r.e.level) * 0.5 });
+  }
+  results.sort((a, b) => b.score - a.score || a.e.it.length - b.e.it.length);
+  return results.slice(0, limit).map(r => r.e);
+}
+
+// ---------- articles ----------
+function startsLo(w) {
+  const s = fold(w);
+  return /^(s[bcdfghjklmnpqrstvwxz]|z|gn|ps|pn|x|y|i[aeiou]|j)/.test(s);
+}
+function startsVowel(w) { return /^[aeiouàèéìíîòóùú]/.test(fold(w)); }
+
+export function article(entry, plural = false) {
+  if (!entry || entry.pos !== 'noun') return '';
+  const w = plural ? entry.pl : entry.it;
+  if (!w || w === '-') return '';
+  const g = entry.g;
+  if (g === 'mf') return plural ? (startsLo(w) || startsVowel(w) ? 'gli/le' : 'i/le') : (startsVowel(w) ? "l'" : (startsLo(w) ? 'lo/la' : 'il/la'));
+  if (g === 'f') return plural ? 'le' : (startsVowel(w) ? "l'" : 'la');
+  if (plural) return (startsLo(w) || startsVowel(w)) ? 'gli' : 'i';
+  return startsVowel(w) ? "l'" : (startsLo(w) ? 'lo' : 'il');
+}
+export const withArticle = (entry, plural = false) => {
+  const a = article(entry, plural); const w = plural ? entry.pl : entry.it;
+  if (!a) return w; return a.endsWith("'") ? a + w : a + ' ' + w;
+};
+export function isPluralOnly(e) { return e.pos === 'noun' && e.pl === e.it && /(plural[- ]only|solo (al )?plurale|plurale tantum|plural noun|only in the plural|always plural|plurale)/i.test(e.note || '') && /[ie]$/.test(e.it); }
+export function isUncountable(e) { return e.pos === 'noun' && (e.pl === '-' || e.pl === '—'); }
+
+// Display headword: nouns with article, verbs as infinitive
+export function headword(e) {
+  if (!e) return '';
+  if (e.kind === 'verb') return e.inf;
+  if (e.pos === 'noun') { if (isPluralOnly(e)) return withArticle(e, true); return withArticle(e, false); }
+  return e.it;
+}
+
+export function levelIndex(l) { return LEVELS.indexOf(l); }
+
+// ---------- scope resolution ----------
+// scope: { mode: 'level'|'lists'|'learned'|'all', levels:[], cats:[], lists:[] }
+export function itemsForScope(scope, store, { kind = null } = {}) {
+  let ids = [];
+  const custom = Object.keys(store.current.custom || {});
+  if (scope.mode === 'lists') {
+    const set = new Set();
+    for (const lid of scope.lists || []) for (const id of (store.lists[lid]?.items || [])) set.add(id);
+    ids = [...set];
+  } else if (scope.mode === 'learned') {
+    ids = store.learnedIds();
+  } else if (scope.mode === 'all') {
+    ids = [...data.vocab.map(e => e.id), ...data.verbs.map(e => e.id), ...custom];
+  } else { // level
+    const lv = new Set(scope.levels && scope.levels.length ? scope.levels : ['A1']);
+    const cats = new Set(scope.cats || []);
+    const ok = (e) => lv.has(e.level) && (!cats.size || cats.has(e.cat));
+    ids = [...data.vocab.filter(ok).map(e => e.id), ...data.verbs.filter(ok).map(e => e.id), ...custom.filter(id => { const e = store.current.custom[id]; return lv.has(e.level || 'A1') && (!cats.size || cats.has(e.cat)); })];
+  }
+  let entries = ids.map(getEntry).filter(Boolean);
+  if (kind) entries = entries.filter(e => e.kind === kind);
+  return entries;
+}
+
+export function describeScope(scope, store) {
+  if (scope.mode === 'lists') { const names = (scope.lists || []).map(id => store.lists[id]?.name).filter(Boolean); return names.length ? names.join(', ') : 'No lists selected'; }
+  if (scope.mode === 'learned') return 'Everything I have learned';
+  if (scope.mode === 'all') return 'All words & verbs';
+  const lv = (scope.levels || []).join(', ') || 'A1';
+  const cats = (scope.cats || []).map(c => CATS[c]?.name).filter(Boolean);
+  return `Level ${lv}${cats.length ? ' · ' + cats.join(', ') : ''}`;
+}
+
+// ---------- misc ----------
+export function shuffle(arr) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+export function pickN(arr, n) { return shuffle(arr).slice(0, n); }
+export function sample(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+// deterministic daily pick
+export function dailyPick(arr, salt = 0) {
+  if (!arr.length) return null;
+  const d = new Date(); const seed = d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate() + salt * 7919;
+  return arr[seed % arr.length];
+}
+export function shortEn(en) { return String(en || '').split(';')[0].trim(); }
+export function enChoices(e) { return String(e.en || '').split(';').map(s => s.trim()).filter(Boolean); }
+
+// Words that form good distractors: same pos (and gender for nouns) and similar level
+export function distractors(target, pool, n, { sameKind = true } = {}) {
+  let cands = pool.filter(e => e.id !== target.id && (!sameKind || e.kind === target.kind) && fold(shortEn(e.en)) !== fold(shortEn(target.en)) && e.it !== target.it);
+  if (target.kind === 'word') {
+    const same = cands.filter(e => e.pos === target.pos);
+    if (same.length >= n) cands = same;
+  }
+  const near = cands.filter(e => Math.abs(levelIndex(e.level) - levelIndex(target.level)) <= 1);
+  if (near.length >= n) cands = near;
+  const out = pickN(cands, n);
+  if (out.length < n) {
+    const all = [...data.vocab, ...data.verbs].filter(e => e.id !== target.id && (!sameKind || e.kind === target.kind) && (target.kind !== 'word' || e.pos === target.pos));
+    for (const e of shuffle(all)) { if (out.length >= n) break; if (!out.includes(e) && fold(shortEn(e.en)) !== fold(shortEn(target.en))) out.push(e); }
+  }
+  return out;
+}

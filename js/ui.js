@@ -1,0 +1,174 @@
+// UI helpers: HTML escaping, DOM building, toasts, bottom sheets, modals, text-to-speech, haptics.
+import { store } from './store.js';
+
+export const $ = (sel, root = document) => root.querySelector(sel);
+export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+export function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+// tagged template: values escaped unless wrapped with raw()
+export function html(strings, ...vals) {
+  return strings.reduce((out, s, i) => {
+    const v = vals[i - 1];
+    let str;
+    if (v == null || v === false) str = '';
+    else if (v instanceof Raw) str = v.s;
+    else if (Array.isArray(v)) str = v.map(x => (x instanceof Raw ? x.s : esc(x))).join('');
+    else str = esc(v);
+    return out + str + s;
+  });
+}
+class Raw { constructor(s) { this.s = s; } toString() { return this.s; } }
+export const raw = (s) => new Raw(String(s ?? ''));
+
+export function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === 'class') node.className = v;
+    else if (k === 'style' && typeof v === 'object') Object.assign(node.style, v);
+    else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === 'html') node.innerHTML = v;
+    else if (k === 'dataset') Object.assign(node.dataset, v);
+    else node.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of children.flat()) {
+    if (c == null || c === false) continue;
+    node.append(c instanceof Node ? c : document.createTextNode(String(c)));
+  }
+  return node;
+}
+
+// Italian text with a tap-to-reveal English translation
+export function tr(itText, enText, cls = '') {
+  return html`<span class="itx ${cls}" role="button" tabindex="0"><span class="it">${itText}</span><span class="tr">${enText}</span></span>`;
+}
+export function trBlock(itText, enText, cls = '') {
+  return html`<div class="itx block ${cls}" role="button" tabindex="0"><div class="it">${itText}</div><div class="tr">${enText}</div></div>`;
+}
+// global delegated handler for .itx
+document.addEventListener('click', (ev) => {
+  const t = ev.target.closest('.itx');
+  if (!t) return;
+  if (ev.target.closest('a,button,.speak,input')) return;
+  t.classList.toggle('open');
+});
+
+// ---------- toast ----------
+let toastTimer = null;
+export function toast(msg, { ms = 1800, kind = '' } = {}) {
+  let t = $('#toast');
+  if (!t) { t = el('div', { id: 'toast', role: 'status' }); document.body.append(t); }
+  t.textContent = msg; t.className = 'show ' + kind;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = ''; }, ms);
+}
+
+// ---------- bottom sheet ----------
+export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, cls = '' } = {}) {
+  const wrap = el('div', { class: 'sheet-wrap' });
+  wrap.innerHTML = html`<div class="sheet-backdrop"></div>
+    <div class="sheet ${cls}" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      ${title ? raw(html`<div class="sheet-title">${title}</div>`) : ''}
+      <div class="sheet-body">${raw(contentHTML)}</div>
+    </div>`;
+  document.body.append(wrap);
+  document.body.classList.add('no-scroll');
+  requestAnimationFrame(() => wrap.classList.add('open'));
+  const close = () => {
+    wrap.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    setTimeout(() => wrap.remove(), 220);
+    onClose && onClose();
+  };
+  wrap.querySelector('.sheet-backdrop').addEventListener('click', close);
+  wrap.addEventListener('click', (e) => { if (e.target.closest('[data-close]')) close(); });
+  onOpen && onOpen(wrap.querySelector('.sheet-body'), close);
+  return { close, body: wrap.querySelector('.sheet-body'), root: wrap };
+}
+
+export function confirmDialog(message, { ok = 'OK', cancel = 'Cancel', danger = false } = {}) {
+  return new Promise((resolve) => {
+    const s = sheet(html`<p class="dialog-msg">${message}</p>
+      <div class="row gap">
+        <button class="btn ghost grow" data-act="cancel">${cancel}</button>
+        <button class="btn ${danger ? 'danger' : 'primary'} grow" data-act="ok">${ok}</button>
+      </div>`, { onClose: () => resolve(false) });
+    s.body.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-act]'); if (!b) return;
+      const val = b.dataset.act === 'ok';
+      s.root.classList.remove('open'); document.body.classList.remove('no-scroll'); setTimeout(() => s.root.remove(), 220);
+      resolve(val);
+    });
+  });
+}
+
+export function promptDialog(message, { value = '', placeholder = '', ok = 'Save' } = {}) {
+  return new Promise((resolve) => {
+    let done = false;
+    const s = sheet(html`<p class="dialog-msg">${message}</p>
+      <input class="input" type="text" value="${value}" placeholder="${placeholder}" autocomplete="off" autocapitalize="sentences">
+      <div class="row gap mt">
+        <button class="btn ghost grow" data-act="cancel">Cancel</button>
+        <button class="btn primary grow" data-act="ok">${ok}</button>
+      </div>`, { onClose: () => { if (!done) resolve(null); } });
+    const input = s.body.querySelector('input');
+    setTimeout(() => input.focus(), 250);
+    const finish = (v) => { done = true; s.close(); resolve(v); };
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') finish(input.value.trim()); });
+    s.body.addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; finish(b.dataset.act === 'ok' ? input.value.trim() : null); });
+  });
+}
+
+// ---------- speech ----------
+let voices = [];
+function loadVoices() { try { voices = window.speechSynthesis ? speechSynthesis.getVoices() : []; } catch { voices = []; } }
+if (window.speechSynthesis) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+export function italianVoice() {
+  if (!voices.length) loadVoices();
+  const it = voices.filter(v => /^it([-_]|$)/i.test(v.lang));
+  const pref = store.current?.settings?.voice;
+  if (pref) { const v = it.find(x => x.name === pref); if (v) return v; }
+  return it.find(v => /alice|federica|luca|paola/i.test(v.name)) || it.find(v => v.localService) || it[0] || null;
+}
+export function speak(text, { rate = null, force = false } = {}) {
+  if (!window.speechSynthesis || !text) return false;
+  if (!force && store.current && store.current.settings.tts === false) return false;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text).replace(/\|.*$/, '').replace(/\/[ae]\b/g, ''));
+    u.lang = 'it-IT';
+    const v = italianVoice(); if (v) u.voice = v;
+    u.rate = rate ?? (store.current?.settings?.ttsRate || 0.9);
+    speechSynthesis.speak(u);
+    return true;
+  } catch { return false; }
+}
+export const speakBtn = (text, cls = '') => html`<button class="speak ${cls}" type="button" data-say="${text}" aria-label="Listen">🔊</button>`;
+document.addEventListener('click', (ev) => {
+  const b = ev.target.closest('[data-say]');
+  if (!b) return;
+  ev.preventDefault(); ev.stopPropagation();
+  speak(b.dataset.say, { force: true });
+});
+
+export function haptic(kind = 'light') {
+  try { if (store.current?.settings?.haptics === false) return; if (navigator.vibrate) navigator.vibrate(kind === 'error' ? [30, 40, 30] : kind === 'success' ? 20 : 8); } catch { /* ignore */ }
+}
+
+// ---------- misc ----------
+export function fmtNum(n) { return new Intl.NumberFormat('en').format(n || 0); }
+export function relTime(ts) {
+  if (!ts) return '—';
+  const diff = ts - Date.now(); const abs = Math.abs(diff);
+  const m = Math.round(abs / 60000), h = Math.round(abs / 3600e3), d = Math.round(abs / 86400e3);
+  const s = m < 60 ? `${m} min` : h < 48 ? `${h} h` : `${d} d`;
+  return diff > 0 ? `in ${s}` : `${s} ago`;
+}
+export function pct(a, b) { return b ? Math.round((a / b) * 100) : 0; }
+export function levelBadge(level) { return html`<span class="badge lvl lvl-${level}">${level}</span>`; }
+export function progressBar(value, max, cls = '') { return html`<div class="bar ${cls}"><div class="bar-fill" style="width:${max ? Math.min(100, Math.round((value / max) * 100)) : 0}%"></div></div>`; }
+export function onEnter(input, fn) { input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); fn(); } }); }
+export function scrollTop() { window.scrollTo({ top: 0 }); }
