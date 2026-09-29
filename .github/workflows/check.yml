@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      PLAYWRIGHT_DIR: ${{ runner.temp }}/parola-tools
-      PGLITE_DIR: ${{ runner.temp }}/parola-tools
+      PLAYWRIGHT_DIR: /tmp/parola-tools
+      PGLITE_DIR: /tmp/parola-tools
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
