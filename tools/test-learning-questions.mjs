@@ -12,11 +12,11 @@ const byVerb = inf => verbs.find(e => e.inf === inf);
 const byWord = (it, pos = 'noun') => words.find(e => e.it === it && e.pos === pos);
 let checks = 0;
 const test = (name, fn) => { try { fn(); checks++; } catch (error) { console.error(`FAIL: ${name}`); throw error; } };
-const objective = (e, skill, tense = null, stage = 'future') => objectivesFor(e, { stage }).find(o => o.skill === skill && (!tense || o.tense === tense));
+const objective = (e, skill, tense = null, stage = 'background') => objectivesFor(e, { stage }).find(o => o.skill === skill && (!tense || o.tense === tense));
 const qFor = (inf, skill, tense, variant = 0, mode = 'production') => {
   const e = byVerb(inf), o = objective(e, skill, tense);
   assert.ok(o, `${inf}/${skill}/${tense} objective exists`);
-  return buildQuestion(e, o, { mode, variant, pool: verbs, allowedTenses: allowedTenses({ stage: 'future' }), rng: () => .37 });
+  return buildQuestion(e, o, { mode, variant, pool: verbs, allowedTenses: allowedTenses({ stage: 'background' }), rng: () => .37 });
 };
 const wrong = (q, answer, tag) => {
   const r = gradeQuestion(q, answer); assert.equal(r.ok, false); assert.ok(r.errorTags.includes(tag), JSON.stringify(r)); return r;
@@ -25,7 +25,9 @@ const wrong = (q, answer, tag) => {
 test('curriculum follows learner stage, never lexical CEFR', () => {
   assert.deepEqual(allowedTenses(), ['presente']);
   assert.deepEqual(allowedTenses({ stage: 'past' }), ['presente', 'passatoProssimo']);
-  assert.deepEqual(allowedTenses({ preferences: { stage: 'background' } }), ['presente', 'passatoProssimo', 'imperfetto']);
+  assert.deepEqual(allowedTenses({ stage: 'future' }), ['presente', 'passatoProssimo', 'futuro']);
+  assert.deepEqual(allowedTenses({ preferences: { stage: 'background' } }), ['presente', 'passatoProssimo', 'futuro', 'imperfetto']);
+  assert.ok(allowedTenses({stage:'future',legacyTenses:['imperfetto']}).includes('imperfetto'));
   assert.equal(objectivesFor({ ...byVerb('parlare'), level: 'C2' }).some(o => o.tense === 'congiuntivoPresente'), false);
   assert.equal(allowedTenses({ stage: 'present', expansions: ['opinions'] }).includes('congiuntivoPresente'), true);
 });

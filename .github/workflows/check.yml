@@ -11,7 +11,7 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 10
     env:
       PLAYWRIGHT_DIR: /tmp/parola-tools
       PGLITE_DIR: /tmp/parola-tools
@@ -32,20 +32,36 @@ jobs:
           node tools/test-learning-questions.mjs
           node tools/test-learning-store-sync.mjs
           node tools/test-learning-integration.mjs
-      - name: Install isolated test dependencies
+          node tools/test-lesson-content.mjs
+          node tools/test-journey-model.mjs
+          node tools/test-journey-integration.mjs
+      - name: Verify SQL migration
         run: |
-          npm install --prefix "$PLAYWRIGHT_DIR" --ignore-scripts --no-audit --no-fund playwright@1.62.1 @electric-sql/pglite@0.5.8
-          "$PLAYWRIGHT_DIR/node_modules/.bin/playwright" install --with-deps chromium
-      - name: Verify SQL migration and browser flows
-        run: |
+          npm install --prefix "$PGLITE_DIR" --ignore-scripts --no-audit --no-fund @electric-sql/pglite@0.5.8
           node tools/test-learning-sql.mjs
-          node tests/adaptive-e2e.mjs
-          node tests/noun-forms-e2e.mjs
-          node tests/game-learning-e2e.mjs
-          node tests/offline-e2e.mjs
-          node tests/e2e.mjs
+  browser:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [adaptive-e2e, journey-e2e, noun-forms-e2e, game-learning-e2e, offline-e2e, e2e]
+    env:
+      PLAYWRIGHT_DIR: /tmp/parola-tools
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install isolated browser dependencies
+        run: |
+          npm install --prefix "$PLAYWRIGHT_DIR" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+          "$PLAYWRIGHT_DIR/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Verify browser behavior
+        run: node tests/${{ matrix.suite }}.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: browser-reports
+          name: browser-reports-${{ matrix.suite }}
           path: tests/report-*.json

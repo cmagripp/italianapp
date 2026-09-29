@@ -35,6 +35,7 @@ function promptHTML(source) {
 }
 
 export async function render(root, params = {}, query = {}) {
+  if (query.legacy !== '1') return (await import('./learnJourney.js')).render(root, params, query);
   const ownerId = store.current.id;
   if (store.learning.version > LEARNING_VERSION) {
     setTitle('Update Parola');
@@ -53,6 +54,7 @@ export async function render(root, params = {}, query = {}) {
   const preferences = domain().preferences || {};
   const stage = query.stage || preferences.stage || domain().curriculum?.stage || 'present';
   const expansions = preferences.expansions || domain().curriculum?.expansions || [];
+  const legacyTenses = preferences.legacyTenses || [];
   const scoped = itemsForScope(store.scope, store);
   const savedLast = domain().session;
   const requestedId = params.id || query.id;
@@ -61,7 +63,7 @@ export async function render(root, params = {}, query = {}) {
     root.innerHTML = '<div class="empty"><h1>Choose something to practice</h1><p>Your current scope has no available entries.</p><a class="btn primary" href="#/scope">Choose a scope</a></div>';
     return;
   }
-  const entryObjectives = objectivesFor(entry, { stage, expansions });
+  const entryObjectives = objectivesFor(entry, { stage, expansions, legacyTenses });
   const requiredObjectives = entryObjectives.filter(o => o.required !== false && !o.optional);
   let objectives = query.objective ? entryObjectives.filter(o => o.id === query.objective) : requiredObjectives;
   if (mode === 'checkpoint') {
@@ -76,10 +78,12 @@ export async function render(root, params = {}, query = {}) {
   const scopeIds = new Set(scoped.map(e => e.id));
   const familiarIds = new Set(allSkills(domain()).filter(s => scopeIds.has(s.entryId) && s.entryId !== entry.id).map(s => s.entryId));
   const freshSpacers = scoped.filter(e => e.id !== entry.id && !familiarIds.has(e.id) && e.kind === entry.kind).slice(0, 2)
-    .flatMap(e => objectivesFor(e, { stage, expansions }).filter(o => o.skill === 'recall' || o.skill === 'meaning').slice(0, 1).map(o => ({ ...o, spacerOnly: true })));
-  const supplemental = [...entryObjectives, ...[...familiarIds].slice(0, 8).flatMap(id => objectivesFor(getEntry(id), { stage, expansions })), ...freshSpacers];
+    .flatMap(e => objectivesFor(e, { stage, expansions, legacyTenses }).filter(o => o.skill === 'recall' || o.skill === 'meaning').slice(0, 1).map(o => ({ ...o, spacerOnly: true })));
+  const supplemental = [...entryObjectives, ...[...familiarIds].slice(0, 8).flatMap(id => objectivesFor(getEntry(id), { stage, expansions, legacyTenses })), ...freshSpacers];
   const descriptors = [...new Map([...supplemental, ...objectives].map(o => [o.id, o])).values()];
   const saved = query.session ? Object.values(domain().sessions || {}).find(s => s.id === query.session) : domain().sessions?.[`${entry.id}|${mode}`] || savedLast;
+  if (query.session && saved && !saved.journey && saved.entryId === entry.id && saved.mode === mode && saved.objectiveIds?.every(id => descriptors.some(o => o.id === id)))
+    objectives = saved.objectiveIds.map(id => descriptors.find(o => o.id === id));
   const matches = saved && saved.entryId === entry.id && saved.mode === mode && saved.objectiveIds?.join('|') === objectives.map(o => o.id).join('|') && (saved.ui?.phase !== 'complete' || query.session === saved.id);
   let session = matches ? clone(saved) : createSession({ id: uid(), entryId: entry.id, objectiveIds: objectives.map(o => o.id), now: Date.now(), mode });
   // Keep this exact session across reloads/back navigation. A new link without its
@@ -116,7 +120,7 @@ export async function render(root, params = {}, query = {}) {
     const current = ui.current;
     const obj = objective();
     if (!current || !obj || typeof current.seed !== 'number') return null;
-    const eligibleTenses = allowedTenses({ stage, expansions });
+    const eligibleTenses = allowedTenses({ stage, expansions, legacyTenses });
     if (obj.tense && obj.tense !== 'meaning' && !eligibleTenses.includes(obj.tense)) return null;
     return buildQuestion(questionEntry(), obj, {
       mode: current.mode, variant: current.variant, repairTag: current.repairTag || null, repairPerson: current.repairPerson ?? null,

@@ -103,6 +103,7 @@ function diagnoseWrong(q, given) {
     return failure('plural', [component('plural', false, 'plural')]);
   }
   if (d.kind === 'participle') return failure('participle', [component('participle', false, 'participle')]);
+  if (d.kind === 'adjective') return failure('agreement', [component('agreement', false, 'agreement')], 'Match the adjective to the requested gender and number; some forms stay the same.');
   if (d.kind === 'component') return failure(d.component, [component(d.component, false, d.component)]);
   if (d.kind === 'recall' && d.noun && any(stripArticle(given), d.bareAnswers)) return failure('article', [component('recall', true), component('article', false, 'article')]);
   if (d.kind === 'meaning') return failure('meaning', [component(skill, false, 'meaning')]);

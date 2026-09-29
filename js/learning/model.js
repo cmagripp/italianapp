@@ -2,7 +2,7 @@
 // produces identical progress, including after an offline merge or backup import.
 import { schedule } from '../srs.js';
 
-export const LEARNING_VERSION = 1;
+export const LEARNING_VERSION = 2;
 const DAY = 86400e3;
 const SHORT_REVIEW = 10 * 60e3;
 const REPEAT_DELAY = 8 * 3600e3;
@@ -51,6 +51,12 @@ function normalizeSession(raw) {
   };
 }
 
+// New chapter sessions coexist with the former skill-loop sessions, including
+// their exact saved questions. Switching lesson UI must not overwrite a draft.
+export function learningSessionKey(session) {
+  return session.entryId + '|' + (session.journey ? 'journey:' : '') + (session.mode || 'lesson');
+}
+
 function normalizeEvent(raw, epochId) {
   if (!raw || typeof raw !== 'object' || !text(raw.id) || BAD_KEYS.has(raw.id) || !text(raw.objectiveId) || BAD_KEYS.has(raw.objectiveId) || BAD_KEYS.has(raw.sessionId)) return null;
   if (raw.epochId !== epochId) return null;
@@ -72,6 +78,13 @@ function normalizeEvent(raw, epochId) {
     assistance: strings(raw.assistance).filter(x => x !== 'none'), firstAttempt: raw.firstAttempt === true,
     errorTags: strings(raw.errorTags), components,
     xp: Math.max(0, Math.min(3, finite(raw.xp))),
+    ...(raw.policy === 'journey-v1' ? {
+      policy: 'journey-v1', targetId: text(raw.targetId, raw.objectiveId),
+      chapterId: text(raw.chapterId), contentVersion: Math.max(1, Math.floor(finite(raw.contentVersion, 1))),
+      role: text(raw.role) || null,
+      activityKind: ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
+      ...(Number.isInteger(raw.availableVariants) && raw.availableVariants >= 0 ? { availableVariants: raw.availableVariants } : {}),
+    } : {}),
   };
 }
 
@@ -103,18 +116,19 @@ export function normalizeLearning(raw, now = Date.now()) {
     ...(p.preferences && !Array.isArray(p.preferences) ? p.preferences : {}),
     stage: text(p.preferences?.stage, 'present'),
     expansions: strings(p.preferences?.expansions).sort(), updatedAt: finite(p.preferences?.updatedAt),
+    legacyTenses: unique([...strings(p.preferences?.legacyTenses), ...(finite(p.version) < 2 && ['future', 'background'].includes(p.preferences?.stage) ? ['imperfetto'] : [])]).sort(),
   };
   const sessions = {};
   for (const candidate of Object.values(p.sessions || {})) {
     const session = normalizeSession(candidate);
     if (session) {
-      const key = session.entryId + '|' + session.mode;
+      const key = learningSessionKey(session);
       sessions[key] = newest(sessions[key], session, 'updatedAt');
     }
   }
   const session = normalizeSession(p.session);
   if (session) {
-    const key = session.entryId + '|' + session.mode;
+    const key = learningSessionKey(session);
     sessions[key] = newest(sessions[key], session, 'updatedAt');
   }
   return {
@@ -178,7 +192,7 @@ function compareEvents(a, b) {
   return cmp(a.at, b.at) || cmp(a.deviceId, b.deviceId) || cmp(a.sequence, b.sequence) || cmp(a.id, b.id);
 }
 function orderedEvents(domain) { return Object.values(domain.events).sort(compareEvents); }
-const independent = (e) => e.mode === 'production' && e.firstAttempt && e.assistance.length === 0 && (e.outcome === 'correct' || e.outcome === 'incorrect');
+const independent = (e) => e.mode === 'production' && e.firstAttempt && e.assistance.length === 0 && (e.policy !== 'journey-v1' || e.activityKind === 'independent') && (e.outcome === 'correct' || e.outcome === 'incorrect');
 const variantKey = (e) => [e.variantId || 'unvaried', e.contextId || '', e.person ?? ''].join('|');
 
 function tracker(skill) {
@@ -201,21 +215,27 @@ function confirm(t, event, eligible) {
 
 function analyze(domain, objectiveId, now, all, positions, events) {
   const last = events[events.length - 1];
+  const journey = last?.policy === 'journey-v1';
+  // A new content policy never upgrades legacy evidence, even if an imported
+  // custom target accidentally reuses an older objective identifier.
+  if (journey) events = events.filter(e => e.policy === 'journey-v1' && e.contentVersion === last.contentVersion);
+  const required = journey ? 2 : 4;
   const result = {
     objectiveId, entryId: last?.entryId || null, kind: last?.kind || null, skill: last?.skill || null, tense: last?.tense || null,
-    attempts: 0, recognitionCorrect: 0, productionAttempts: 0, productionQuestions: 0, independentCorrect: 0, requiredCorrect: 4,
+    attempts: 0, recognitionCorrect: 0, productionAttempts: 0, productionQuestions: 0, independentCorrect: 0, requiredCorrect: required,
     variantCount: 0, independentPersons: [], spacedSuccess: false,
     ready: false, remembered: false, status: 'new', readyAt: null, rememberedAt: null,
     unresolvedErrors: [], components: {}, personEvidence: {}, sessionEvidence: {},
     srs: { s: 0, ef: 2.5, iv: 0, due: 0, reps: 0, lapses: 0 }, due: 0, isDue: false,
     firstAt: events[0]?.at ?? null, lastAt: last?.at ?? null,
+    ...(journey ? { policy: 'journey-v1', role: last.role, chapterId: last.chapterId, contentVersion: last.contentVersion } : {}),
   };
   if (!events.length) return result;
   const main = tracker(last.skill || 'practice');
   const variations = new Set(), persons = new Set(), previousVariants = new Map();
   const previousProduction = new Map(), advanced = new Set(), failed = new Set();
   const checks = [], delayed = [];
-  let readySession = null;
+  let readySession = null, previousIndependent = null;
 
   for (const e of events) {
     if (e.outcome === 'skipped') continue; // a choice to skip is not a memory lapse
@@ -228,29 +248,32 @@ function analyze(domain, objectiveId, now, all, positions, events) {
       ? pos - positions.get(previous.id) >= 3
       : e.at - previous.at >= REPEAT_DELAY);
     const qualifying = independent(e);
-    const eligible = qualifying && e.ok && repeatIsSpaced;
     const priorProduction = previousProduction.get(e.sessionId);
-    const spaced = !!priorProduction && pos - positions.get(priorProduction.id) >= 3;
-    if (qualifying) { checks.push(e.ok); result.productionAttempts++; previousProduction.set(e.sessionId, e); }
+    const spaced = (!!priorProduction && pos - positions.get(priorProduction.id) >= 3)
+      || (journey && previousIndependent && previousIndependent.sessionId !== e.sessionId && e.at - previousIndependent.at >= REPEAT_DELAY);
+    const eligible = qualifying && e.ok && repeatIsSpaced && (!journey || !previousIndependent || spaced);
+    if (qualifying) { checks.push(e.ok); result.productionAttempts++; previousProduction.set(e.sessionId, e); previousIndependent = e; }
     // A correction/reveal cannot immediately become a fresh first-attempt win.
     // Ordinary recognition questions are spacers, not production successes.
     if (e.mode === 'production' || e.outcome === 'revealed' || e.assistance.length) previousVariants.set(key, e);
     if (e.mode === 'recognition' && e.ok) result.recognitionCorrect++;
-    const needsRepair = !e.ok || e.outcome === 'revealed' || e.assistance.length > 0 || !e.firstAttempt;
+    // Successful support is a teaching activity in a chapter, not a new failure.
+    // It contributes no independent credit and cannot erase previous retrieval.
+    const needsRepair = !e.ok || e.outcome === 'revealed' || (!journey && (e.assistance.length > 0 || !e.firstAttempt));
     if (needsRepair) fail(main, e.errorTags[0] || (e.outcome === 'revealed' ? 'revealed' : e.assistance.length ? 'assisted' : 'needs-practice'), e.at);
     else if (e.ok) confirm(main, e, eligible);
     for (const c of e.components) {
       const t = result.components[c.skill] ||= tracker(c.skill);
       t.seen++;
       if (!c.ok) fail(t, c.errorTag || c.skill, e.at);
-      else confirm(t, e, qualifying && repeatIsSpaced);
+      else confirm(t, e, qualifying && repeatIsSpaced && (!journey || eligible));
       // Only an explicit person diagnosis justifies person-specific remediation.
       // A wrong participle/auxiliary family must not invent a person error.
       if (c.skill === 'person' && e.person !== null && !BAD_KEYS.has(String(e.person))) {
         const p = result.personEvidence[String(e.person)] ||= { ...tracker('person'), person: e.person };
         p.seen++;
         if (!c.ok) fail(p, c.errorTag || 'person', e.at);
-        else confirm(p, e, qualifying && repeatIsSpaced);
+        else confirm(p, e, qualifying && repeatIsSpaced && (!journey || eligible));
       }
     }
     if (eligible) {
@@ -279,7 +302,8 @@ function analyze(domain, objectiveId, now, all, positions, events) {
     } else if (!result.srs.due) result.srs.due = e.at + SHORT_REVIEW;
 
     const unresolved = main.unresolved || Object.values(result.components).some(t => t.unresolved) || Object.values(result.personEvidence).some(t => t.unresolved);
-    const ready = result.independentCorrect >= 4 && variations.size >= 2 && checks.length >= 3 && checks.slice(-3).every(Boolean) && result.spacedSuccess && !unresolved;
+    const recentRequired = journey ? 2 : 3;
+    const ready = result.independentCorrect >= required && variations.size >= 2 && checks.length >= recentRequired && checks.slice(-recentRequired).every(Boolean) && result.spacedSuccess && !unresolved;
     if (!ready) {
       result.readyAt = null; readySession = null; delayed.length = 0; result.rememberedAt = null;
     } else if (result.readyAt === null) {

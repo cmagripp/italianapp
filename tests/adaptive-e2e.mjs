@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Fresh-profile browser checks for the adaptive loop. No production profile or network account is used.
+// Compatibility checks for the retained legacy adaptive loop; journey-e2e covers the default experience. No production profile or network account is used.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { loadPlaywright, launchBrowser, contextOptions, ensureServer, boot, gotoRoute, reloadApp } from './lib.mjs';
@@ -14,8 +14,8 @@ page.on('pageerror', error => errors.push(error.message));
 page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
 const results = [];
 const lessonRoute = (kind, id, objective) => process.env.ADAPTIVE_DIRECT === '1'
-  ? '/learn/practice?id=' + encodeURIComponent(id) + '&objective=' + encodeURIComponent(objective)
-  : '/learn/' + kind + '/' + encodeURIComponent(id) + '?objective=' + encodeURIComponent(objective);
+  ? '/learn/practice?id=' + encodeURIComponent(id) + '&legacy=1&objective=' + encodeURIComponent(objective)
+  : '/learn/' + kind + '/' + encodeURIComponent(id) + '?legacy=1&objective=' + encodeURIComponent(objective);
 
 async function state() {
   return page.evaluate(async () => {
@@ -207,7 +207,7 @@ try {
     const objective = 'v:mangiare::presente::conjugation';
     const link = page.locator(`a[href*="objective=${encodeURIComponent(objective)}"]`).first();
     assert(await link.count(), 'review menu links to the individual skill');
-    await link.click();
+    await gotoRoute(page, (await link.getAttribute('href')).slice(1) + '&legacy=1');
     await page.locator('[data-adaptive]').waitFor();
     assert.notEqual((await state()).phase, 'complete');
     const result = await finishCurrent();
@@ -217,7 +217,7 @@ try {
     await reloadApp(page);
     assert.equal((await state()).phase, 'complete', 'reload preserves the completed session summary');
     await gotoRoute(page, '/review?mode=extra');
-    await page.locator(`a[href*="objective=${encodeURIComponent(objective)}"]`).first().click();
+    await gotoRoute(page, (await page.locator(`a[href*="objective=${encodeURIComponent(objective)}"]`).first().getAttribute('href')).slice(1) + '&legacy=1');
     await page.locator('[data-adaptive]').waitFor();
     assert.notEqual((await state()).session.id, result.session.id, 'a new review request gets a new session');
     assert.notEqual((await state()).phase, 'complete');
