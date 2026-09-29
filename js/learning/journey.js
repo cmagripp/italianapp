@@ -264,6 +264,10 @@ function schedule(plan, session, learning, now) {
 }
 
 function wordSlots(plan) { return plan.wordLesson?.slots || []; }
+function validWordCompletion(plan,session,learning,slot,eventId) {
+  const event=learning?.events?.[eventId];
+  return !!event&&event.epochId===learning.epoch?.id&&event.contentVersion===plan.version&&event.wordPolicy==='word-short-v1'&&event.wordSlotId===slot.id&&event.sessionId===session.id&&event.objectiveId===slot.targetId&&event.ok;
+}
 function wordLocation(plan, targetId) {
   for (const chapter of plan.chapters || []) {
     const groupIndex = groups(chapter).findIndex(group => group.targets?.some(target => target.id === targetId));
@@ -271,8 +275,12 @@ function wordLocation(plan, targetId) {
   }
   return null;
 }
-function startWordSlot(plan, session) {
+function startWordSlot(plan, session, learning = null) {
   const j=session.journey, word=j.wordShort;
+  // A backup can retain a cursor after its referenced event was removed or
+  // replaced. Recheck completion against the same evidence used by progress,
+  // so retry/continue can recover without changing any immutable event.
+  if(learning)for(const slot of wordSlots(plan))if(word.completed[slot.id]&&!validWordCompletion(plan,session,learning,slot,word.completed[slot.id]))delete word.completed[slot.id];
   const slot=wordSlots(plan).find(slot=>!word.completed[slot.id]&&!Object.hasOwn(word.skipped,slot.id));
   j.awaitingContinue=false;j.current=null;j.repairReturn=null;j.blocked=false;
   if(!slot){j.phase='recap';word.slotId=null;return session;}
@@ -283,12 +291,12 @@ function startWordSlot(plan, session) {
   j.current.variant=slot.variant;
   return session;
 }
-function startWordTeaching(plan, session) {
+function startWordTeaching(plan, session, learning = null) {
   const j=session.journey, ref=plan.wordLesson?.teaching?.[j.wordShort.teachingIndex];
-  if(!ref)return startWordSlot(plan,session);
+  if(!ref)return startWordSlot(plan,session,learning);
   const chapter=plan.chapters.find(c=>c.id===ref.chapterId),groupIndex=groups(chapter).findIndex(g=>g.id===ref.groupId);
   const cardIndex=groups(chapter)[groupIndex]?.cards?.findIndex(c=>c.id===ref.cardId);
-  if(!chapter||groupIndex<0||cardIndex<0)return startWordSlot(plan,session);
+  if(!chapter||groupIndex<0||cardIndex<0)return startWordSlot(plan,session,learning);
   j.chapterId=chapter.id;j.groupIndex=groupIndex;j.cardIndex=cardIndex;j.current=null;j.phase='teach';j.awaitingContinue=false;j.blocked=false;
   return session;
 }
@@ -305,7 +313,7 @@ export function upgradeShortWordSession(plan, oldSession, {now=Date.now()}={}) {
 }
 function advanceShortWord(plan, oldSession, learning, now) {
   const session=copy(oldSession),j=session.journey,word=j.wordShort;
-  if(j.phase==='teach'){word.teachingIndex++;startWordTeaching(plan,session);}
+  if(j.phase==='teach'){word.teachingIndex++;startWordTeaching(plan,session,learning);}
   else if(j.phase==='recap'){j.phase='complete';j.current=null;}
   else if(j.phase==='repair-teach'){
     const slot=wordSlots(plan).find(slot=>slot.id===word.slotId);
@@ -313,7 +321,7 @@ function advanceShortWord(plan, oldSession, learning, now) {
   }else if(j.awaitingContinue){
     j.awaitingContinue=false;
     if(!j.lastAttempt?.ok){j.phase='repair-teach';}
-    else startWordSlot(plan,session);
+    else startWordSlot(plan,session,learning);
   }
   return changed(session,now);
 }
@@ -495,8 +503,8 @@ export function skipJourneyTarget(plan, oldSession, targetId = null, { now = Dat
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION) return oldSession;
   const session = copy(oldSession), j = session.journey;
   if(j.wordShort){
-    if(j.phase==='teach'){j.wordShort.teachingIndex++;startWordTeaching(plan,session);}
-    else {const slot=wordSlots(plan).find(slot=>slot.id===j.wordShort.slotId);if(slot){j.wordShort.skipped[slot.id]=now;session.deferred[slot.targetId]=now;j.skipped[slot.targetId]=now;}startWordSlot(plan,session);}
+    if(j.phase==='teach'){j.wordShort.teachingIndex++;startWordTeaching(plan,session,learning);}
+    else {const slot=wordSlots(plan).find(slot=>slot.id===j.wordShort.slotId);if(slot){j.wordShort.skipped[slot.id]=now;session.deferred[slot.targetId]=now;j.skipped[slot.targetId]=now;}startWordSlot(plan,session,learning);}
     return changed(session,now);
   }
   if (j.phase === 'teach' && !targetId) {
@@ -518,7 +526,7 @@ export function skipJourneyTarget(plan, oldSession, targetId = null, { now = Dat
 const cursorKeys = ['chapterId', 'groupIndex', 'cardIndex', 'phase', 'queue', 'current', 'awaitingContinue', 'lastAttempt', 'repairReturn', 'focusTargetId', 'blocked', 'redoStartIndex'];
 export function chooseJourneyChapter(plan, oldSession, chapterId, { now = Date.now(), learning = null, redo = false, restart = false } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION || !plan.chapters.some(c => c.id === chapterId)) return oldSession;
-  if(oldSession.journey.wordShort){const session=copy(oldSession),index=plan.wordLesson.teaching.findIndex(ref=>ref.chapterId===chapterId);session.journey.wordShort.teachingIndex=index<0?plan.wordLesson.teaching.length:index;startWordTeaching(plan,session);return changed(session,now);}
+  if(oldSession.journey.wordShort){const session=copy(oldSession),index=plan.wordLesson.teaching.findIndex(ref=>ref.chapterId===chapterId);session.journey.wordShort.teachingIndex=index<0?plan.wordLesson.teaching.length:index;startWordTeaching(plan,session,learning);return changed(session,now);}
   const session = copy(oldSession), j = session.journey;
   for (const target of targets(plan.chapters.find(c => c.id === chapterId))) { delete j.skipped[target.id]; delete session.deferred[target.id]; }
   if (j.chapterId === chapterId && !redo && !restart && !['recap', 'complete'].includes(j.phase)) return changed(session, now);
@@ -542,7 +550,7 @@ export function chooseJourneyChapter(plan, oldSession, chapterId, { now = Date.n
 export function retryJourneyPending(plan, oldSession, learning, { now = Date.now() } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION) return oldSession;
   const session = copy(oldSession), j = session.journey;
-  if(j.wordShort){j.wordShort.skipped={};for(const slot of wordSlots(plan)){delete session.deferred[slot.targetId];delete j.skipped[slot.targetId];}startWordSlot(plan,session);return changed(session,now);}
+  if(j.wordShort){j.wordShort.skipped={};for(const slot of wordSlots(plan)){delete session.deferred[slot.targetId];delete j.skipped[slot.targetId];}startWordSlot(plan,session,learning);return changed(session,now);}
   const pending = targets(chapterFor(plan, session)).filter(target => (j.focusTargetId ? available(target) && !target.supplementalOnly && !target.guidedOnly : required(target))
     && (!j.focusTargetId || target.id === j.focusTargetId)
     && (session.mode === 'review' ? !reviewed(learning, target, session, now) : !readyForRun(learning, target, session, now)));
@@ -586,7 +594,7 @@ function shortWordProgress(plan,session,learning,now) {
   const valid=record(session.journey.wordShort) && compatible(plan,session) && !(learning?.version>LEARNING_VERSION);
   const word=valid?session.journey.wordShort:{completed:{},skipped:{}};
   const slots=wordSlots(plan).map(slot=>{
-    const event=learning?.events?.[word.completed[slot.id]],done=!!event&&event.epochId===learning.epoch?.id&&event.contentVersion===plan.version&&event.wordPolicy==='word-short-v1'&&event.wordSlotId===slot.id&&event.sessionId===session.id&&event.objectiveId===slot.targetId&&event.ok;
+    const done=validWordCompletion(plan,session,learning,slot,word.completed[slot.id]);
     return {...slot,target:targetFor(plan,slot.targetId),ready:done,completed:done,supportedCompletion:true,skipped:Object.hasOwn(word.skipped,slot.id)};
   });
   const chapters=plan.chapters.map(chapter=>{

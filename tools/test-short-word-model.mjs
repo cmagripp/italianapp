@@ -97,4 +97,25 @@ test('malformed imported short-word cursors preserve their payload and render in
  }
 });
 
+test('retry and continued teaching recover missing or borrowed completion references without losing evidence',()=>{
+ const h=harness(word('casa'));h.until(s=>s.type==='complete');
+ const events=copy(h.learning.events),slots=h.plan.wordLesson.slots,saved=copy(h.session);
+ saved.journey.wordShort.completed[slots[0].id]='missing-event';
+ saved.journey.wordShort.completed[slots[1].id]=saved.journey.wordShort.completed[slots[2].id];
+ const before=JSON.stringify(saved);
+ assert.equal(journeyProgress(h.plan,saved,h.learning).pending.length,2);
+ const selected=chooseJourneyChapter(h.plan,saved,'forms',{learning:h.learning});
+ const continued=advanceJourney(h.plan,selected,h.learning);
+ assert.equal(currentJourneyStep(h.plan,continued,h.learning).type,'question');
+ assert.equal(continued.journey.wordShort.slotId,slots[0].id);
+ const retry=retryJourneyPending(h.plan,saved,h.learning);
+ assert.equal(currentJourneyStep(h.plan,retry,h.learning).type,'question');
+ assert.equal(retry.journey.wordShort.completed[slots[0].id],undefined);assert.equal(retry.journey.wordShort.completed[slots[1].id],undefined);
+ for(const slot of slots.slice(2))assert.equal(retry.journey.wordShort.completed[slot.id],saved.journey.wordShort.completed[slot.id]);
+ assert.equal(JSON.stringify(saved),before);assert.deepEqual(h.learning.events,events);
+ h.session=retry;const count=h.questions.length;h.until(s=>s.type==='complete');
+ assert.equal(h.questions.length-count,2);assert.equal(journeyProgress(h.plan,h.session,h.learning).complete,true);
+ for(const [id,event] of Object.entries(events))assert.deepEqual(h.learning.events[id],event);
+});
+
 console.log(`\n${passed} short word controller checks passed.`);
