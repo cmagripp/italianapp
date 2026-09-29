@@ -1,0 +1,5143 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-29",
+  "scope": {
+    "source": "data/verbs.json",
+    "startInclusive": 400,
+    "endExclusive": 800,
+    "count": 400
+  },
+  "method": "Individually read every English gloss, full usage paragraph, and auxiliary in this range in eight 50-entry batches. Read patterns and all supplied examples only for the flagged/checked entries marked below. Consulted primary dictionary/grammar sources for specific disputed claims. Generation risks are recommendations, not assertions that every current generated question is wrong.",
+  "limitations": [
+    "This is not an independent audit of every conjugated cell, translation or example in the range.",
+    "An entry without a finding means no issue identified in this review, not externally certified correctness.",
+    "Combined data/verbs.json was intentionally not rebuilt by this reviewer; ten usage corrections are in data/verbs/*.json sources."
+  ],
+  "records": [
+    {
+      "index": 400,
+      "id": "v:dimostrare",
+      "inf": "dimostrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 401,
+      "id": "v:dipendere",
+      "inf": "dipendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 402,
+      "id": "v:dirigere",
+      "inf": "dirigere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 403,
+      "id": "v:dirigersi",
+      "inf": "dirigersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 404,
+      "id": "v:distinguere",
+      "inf": "distinguere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 405,
+      "id": "v:distrarre",
+      "inf": "distrarre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 406,
+      "id": "v:distruggere",
+      "inf": "distruggere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 407,
+      "id": "v:disturbare",
+      "inf": "disturbare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 408,
+      "id": "v:dubitare",
+      "inf": "dubitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 409,
+      "id": "v:emigrare",
+      "inf": "emigrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 410,
+      "id": "v:emozionarsi",
+      "inf": "emozionarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 411,
+      "id": "v:entrarci",
+      "inf": "entrarci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 412,
+      "id": "v:esagerare",
+      "inf": "esagerare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 413,
+      "id": "v:escludere",
+      "inf": "escludere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 414,
+      "id": "v:esistere",
+      "inf": "esistere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 415,
+      "id": "v:esprimere",
+      "inf": "esprimere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 416,
+      "id": "v:evitare",
+      "inf": "evitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 417,
+      "id": "v:farcela",
+      "inf": "farcela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 418,
+      "id": "v:ferire",
+      "inf": "ferire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 419,
+      "id": "v:fidanzarsi",
+      "inf": "fidanzarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 420,
+      "id": "v:fidarsi",
+      "inf": "fidarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "fidarsi-complements"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 421,
+      "id": "v:fingere",
+      "inf": "fingere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 422,
+      "id": "v:fissare",
+      "inf": "fissare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 423,
+      "id": "v:fondare",
+      "inf": "fondare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 424,
+      "id": "v:fuggire",
+      "inf": "fuggire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 425,
+      "id": "v:garantire",
+      "inf": "garantire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 426,
+      "id": "v:gestire",
+      "inf": "gestire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 427,
+      "id": "v:giudicare",
+      "inf": "giudicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 428,
+      "id": "v:giustificare",
+      "inf": "giustificare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 429,
+      "id": "v:godere",
+      "inf": "godere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 430,
+      "id": "v:impastare",
+      "inf": "impastare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 431,
+      "id": "v:impazzire",
+      "inf": "impazzire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 432,
+      "id": "v:impedire",
+      "inf": "impedire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 433,
+      "id": "v:impegnarsi",
+      "inf": "impegnarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 434,
+      "id": "v:imporre",
+      "inf": "imporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 435,
+      "id": "v:indagare",
+      "inf": "indagare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 436,
+      "id": "v:indicare",
+      "inf": "indicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 437,
+      "id": "v:informarsi",
+      "inf": "informarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 438,
+      "id": "v:inquinare",
+      "inf": "inquinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 439,
+      "id": "v:inseguire",
+      "inf": "inseguire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 440,
+      "id": "v:inserire",
+      "inf": "inserire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 441,
+      "id": "v:insistere",
+      "inf": "insistere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 442,
+      "id": "v:interrompere",
+      "inf": "interrompere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 443,
+      "id": "v:intervenire",
+      "inf": "intervenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "surgical-agent"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 444,
+      "id": "v:intervistare",
+      "inf": "intervistare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 445,
+      "id": "v:investire",
+      "inf": "investire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 446,
+      "id": "v:iscriversi",
+      "inf": "iscriversi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 447,
+      "id": "v:lamentarsi",
+      "inf": "lamentarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 448,
+      "id": "v:lasciarsi",
+      "inf": "lasciarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 449,
+      "id": "v:licenziare",
+      "inf": "licenziare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 450,
+      "id": "v:litigare",
+      "inf": "litigare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 451,
+      "id": "v:lottare",
+      "inf": "lottare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "physical-struggle"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 452,
+      "id": "v:mantenere",
+      "inf": "mantenere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 453,
+      "id": "v:mentire",
+      "inf": "mentire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 454,
+      "id": "v:meritare",
+      "inf": "meritare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 455,
+      "id": "v:metterci",
+      "inf": "metterci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 456,
+      "id": "v:migliorare",
+      "inf": "migliorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 457,
+      "id": "v:minacciare",
+      "inf": "minacciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 458,
+      "id": "v:nascondere",
+      "inf": "nascondere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 459,
+      "id": "v:negare",
+      "inf": "negare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 460,
+      "id": "v:nominare",
+      "inf": "nominare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 461,
+      "id": "v:notare",
+      "inf": "notare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 462,
+      "id": "v:obbedire",
+      "inf": "obbedire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 463,
+      "id": "v:obbligare",
+      "inf": "obbligare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 464,
+      "id": "v:occuparsi",
+      "inf": "occuparsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 465,
+      "id": "v:offendere",
+      "inf": "offendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 466,
+      "id": "v:operare",
+      "inf": "operare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 467,
+      "id": "v:opporsi",
+      "inf": "opporsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 468,
+      "id": "v:organizzare",
+      "inf": "organizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 469,
+      "id": "v:osservare",
+      "inf": "osservare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 470,
+      "id": "v:ottenere",
+      "inf": "ottenere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 471,
+      "id": "v:partecipare",
+      "inf": "partecipare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 472,
+      "id": "v:peggiorare",
+      "inf": "peggiorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 473,
+      "id": "v:pensarci",
+      "inf": "pensarci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 474,
+      "id": "v:pentirsi",
+      "inf": "pentirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 475,
+      "id": "v:percorrere",
+      "inf": "percorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 476,
+      "id": "v:postare",
+      "inf": "postare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 477,
+      "id": "v:poterne",
+      "inf": "poterne",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 478,
+      "id": "v:prelevare",
+      "inf": "prelevare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 479,
+      "id": "v:pretendere",
+      "inf": "pretendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 480,
+      "id": "v:prevedere",
+      "inf": "prevedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 481,
+      "id": "v:procedere",
+      "inf": "procedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 482,
+      "id": "v:produrre",
+      "inf": "produrre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 483,
+      "id": "v:progettare",
+      "inf": "progettare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 484,
+      "id": "v:proibire",
+      "inf": "proibire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 485,
+      "id": "v:proporre",
+      "inf": "proporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 486,
+      "id": "v:proteggere",
+      "inf": "proteggere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 487,
+      "id": "v:provarci",
+      "inf": "provarci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 488,
+      "id": "v:provocare",
+      "inf": "provocare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 489,
+      "id": "v:pubblicare",
+      "inf": "pubblicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 490,
+      "id": "v:punire",
+      "inf": "punire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 491,
+      "id": "v:raggiungere",
+      "inf": "raggiungere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 492,
+      "id": "v:rappresentare",
+      "inf": "rappresentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 493,
+      "id": "v:reagire",
+      "inf": "reagire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 494,
+      "id": "v:realizzare",
+      "inf": "realizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 495,
+      "id": "v:reclamare",
+      "inf": "reclamare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 496,
+      "id": "v:rendere",
+      "inf": "rendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 497,
+      "id": "v:rendersi",
+      "inf": "rendersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 498,
+      "id": "v:richiedere",
+      "inf": "richiedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 499,
+      "id": "v:ridurre",
+      "inf": "ridurre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 500,
+      "id": "v:rifiutare",
+      "inf": "rifiutare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 501,
+      "id": "v:rifiutarsi",
+      "inf": "rifiutarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "rifiutarsi-omission"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 502,
+      "id": "v:riflettere",
+      "inf": "riflettere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "riflettere-senses"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 503,
+      "id": "v:riguardare",
+      "inf": "riguardare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 504,
+      "id": "v:rimandare",
+      "inf": "rimandare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 505,
+      "id": "v:rimborsare",
+      "inf": "rimborsare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 506,
+      "id": "v:rinunciare",
+      "inf": "rinunciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 507,
+      "id": "v:ripetere",
+      "inf": "ripetere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 508,
+      "id": "v:rischiare",
+      "inf": "rischiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 509,
+      "id": "v:risolvere",
+      "inf": "risolvere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 510,
+      "id": "v:risparmiare",
+      "inf": "risparmiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 511,
+      "id": "v:rispettare",
+      "inf": "rispettare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 512,
+      "id": "v:ritenere",
+      "inf": "ritenere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 513,
+      "id": "v:riunirsi",
+      "inf": "riunirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 514,
+      "id": "v:rivolgersi",
+      "inf": "rivolgersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 515,
+      "id": "v:rovinare",
+      "inf": "rovinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 516,
+      "id": "v:saltare",
+      "inf": "saltare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 517,
+      "id": "v:sbucciare",
+      "inf": "sbucciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 518,
+      "id": "v:scambiare",
+      "inf": "scambiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 519,
+      "id": "v:sciogliere",
+      "inf": "sciogliere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 520,
+      "id": "v:scommettere",
+      "inf": "scommettere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 521,
+      "id": "v:sconfiggere",
+      "inf": "sconfiggere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 522,
+      "id": "v:sfruttare",
+      "inf": "sfruttare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 523,
+      "id": "v:sistemare",
+      "inf": "sistemare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 524,
+      "id": "v:smetterla",
+      "inf": "smetterla",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 525,
+      "id": "v:soddisfare",
+      "inf": "soddisfare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 526,
+      "id": "v:sopportare",
+      "inf": "sopportare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sopportare-support"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 527,
+      "id": "v:sorprendere",
+      "inf": "sorprendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 528,
+      "id": "v:sostenere",
+      "inf": "sostenere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 529,
+      "id": "v:sostituire",
+      "inf": "sostituire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 530,
+      "id": "v:sottolineare",
+      "inf": "sottolineare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 531,
+      "id": "v:sparire",
+      "inf": "sparire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 532,
+      "id": "v:spaventare",
+      "inf": "spaventare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 533,
+      "id": "v:stabilire",
+      "inf": "stabilire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 534,
+      "id": "v:stancarsi",
+      "inf": "stancarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 535,
+      "id": "v:stupirsi",
+      "inf": "stupirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 536,
+      "id": "v:suggerire",
+      "inf": "suggerire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 537,
+      "id": "v:superare",
+      "inf": "superare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 538,
+      "id": "v:svenire",
+      "inf": "svenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 539,
+      "id": "v:sviluppare",
+      "inf": "sviluppare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 540,
+      "id": "v:svolgere",
+      "inf": "svolgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 541,
+      "id": "v:tacere",
+      "inf": "tacere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 542,
+      "id": "v:tenerci",
+      "inf": "tenerci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 543,
+      "id": "v:tentare",
+      "inf": "tentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 544,
+      "id": "v:tradire",
+      "inf": "tradire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 545,
+      "id": "v:tradurre",
+      "inf": "tradurre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 546,
+      "id": "v:trascorrere",
+      "inf": "trascorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 547,
+      "id": "v:trasferirsi",
+      "inf": "trasferirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 548,
+      "id": "v:trasformare",
+      "inf": "trasformare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 549,
+      "id": "v:trasmettere",
+      "inf": "trasmettere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 550,
+      "id": "v:trattare",
+      "inf": "trattare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 551,
+      "id": "v:trattarsi",
+      "inf": "trattarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "trattarsi-person"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 552,
+      "id": "v:trattenere",
+      "inf": "trattenere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 553,
+      "id": "v:urlare",
+      "inf": "urlare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 554,
+      "id": "v:vaccinare",
+      "inf": "vaccinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 555,
+      "id": "v:valere",
+      "inf": "valere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 556,
+      "id": "v:vederci",
+      "inf": "vederci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 557,
+      "id": "v:vergognarsi",
+      "inf": "vergognarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 558,
+      "id": "v:vietare",
+      "inf": "vietare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 559,
+      "id": "v:voltarsi",
+      "inf": "voltarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 560,
+      "id": "v:votare",
+      "inf": "votare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 561,
+      "id": "v:abolire",
+      "inf": "abolire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 562,
+      "id": "v:accennare",
+      "inf": "accennare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 563,
+      "id": "v:accertarsi",
+      "inf": "accertarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 564,
+      "id": "v:accudire",
+      "inf": "accudire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 565,
+      "id": "v:acquisire",
+      "inf": "acquisire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 566,
+      "id": "v:adeguarsi",
+      "inf": "adeguarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 567,
+      "id": "v:adempiere",
+      "inf": "adempiere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 568,
+      "id": "v:affascinare",
+      "inf": "affascinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "affascinare-object"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 569,
+      "id": "v:affermare",
+      "inf": "affermare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 570,
+      "id": "v:affidare",
+      "inf": "affidare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 571,
+      "id": "v:affrettarsi",
+      "inf": "affrettarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 572,
+      "id": "v:agevolare",
+      "inf": "agevolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 573,
+      "id": "v:aggredire",
+      "inf": "aggredire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 574,
+      "id": "v:alludere",
+      "inf": "alludere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 575,
+      "id": "v:ambire",
+      "inf": "ambire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 576,
+      "id": "v:ammonire",
+      "inf": "ammonire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 577,
+      "id": "v:analizzare",
+      "inf": "analizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 578,
+      "id": "v:annullare",
+      "inf": "annullare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 579,
+      "id": "v:apparire",
+      "inf": "apparire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 580,
+      "id": "v:appassionarsi",
+      "inf": "appassionarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 581,
+      "id": "v:approvare",
+      "inf": "approvare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 582,
+      "id": "v:archiviare",
+      "inf": "archiviare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 583,
+      "id": "v:argomentare",
+      "inf": "argomentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 584,
+      "id": "v:arricchire",
+      "inf": "arricchire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 585,
+      "id": "v:arrossire",
+      "inf": "arrossire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 586,
+      "id": "v:aspettarsela",
+      "inf": "aspettarsela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 587,
+      "id": "v:aspirare",
+      "inf": "aspirare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 588,
+      "id": "v:assaporare",
+      "inf": "assaporare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 589,
+      "id": "v:assumersi",
+      "inf": "assumersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 590,
+      "id": "v:attenersi",
+      "inf": "attenersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 591,
+      "id": "v:attribuire",
+      "inf": "attribuire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 592,
+      "id": "v:autorizzare",
+      "inf": "autorizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 593,
+      "id": "v:avvalersi",
+      "inf": "avvalersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 594,
+      "id": "v:avviare",
+      "inf": "avviare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 595,
+      "id": "v:azzardare",
+      "inf": "azzardare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 596,
+      "id": "v:bandire",
+      "inf": "bandire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 597,
+      "id": "v:candidarsi",
+      "inf": "candidarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 598,
+      "id": "v:cascarci",
+      "inf": "cascarci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 599,
+      "id": "v:cogliere",
+      "inf": "cogliere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 600,
+      "id": "v:collocare",
+      "inf": "collocare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 601,
+      "id": "v:compiere",
+      "inf": "compiere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 602,
+      "id": "v:comportare",
+      "inf": "comportare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "event-subjects"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 603,
+      "id": "v:concedere",
+      "inf": "concedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 604,
+      "id": "v:concepire",
+      "inf": "concepire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 605,
+      "id": "v:concernere",
+      "inf": "concernere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "concernere-defective"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 606,
+      "id": "v:concordare",
+      "inf": "concordare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 607,
+      "id": "v:condannare",
+      "inf": "condannare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 608,
+      "id": "v:conferire",
+      "inf": "conferire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 609,
+      "id": "v:configurare",
+      "inf": "configurare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 610,
+      "id": "v:confrontare",
+      "inf": "confrontare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 611,
+      "id": "v:consentire",
+      "inf": "consentire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 612,
+      "id": "v:consistere",
+      "inf": "consistere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "event-subjects",
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 613,
+      "id": "v:constatare",
+      "inf": "constatare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 614,
+      "id": "v:contagiare",
+      "inf": "contagiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 615,
+      "id": "v:contaminare",
+      "inf": "contaminare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 616,
+      "id": "v:contestare",
+      "inf": "contestare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 617,
+      "id": "v:contraddire",
+      "inf": "contraddire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 618,
+      "id": "v:contrapporre",
+      "inf": "contrapporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 619,
+      "id": "v:contrattare",
+      "inf": "contrattare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 620,
+      "id": "v:contribuire",
+      "inf": "contribuire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 621,
+      "id": "v:convocare",
+      "inf": "convocare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 622,
+      "id": "v:corrispondere",
+      "inf": "corrispondere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 623,
+      "id": "v:corteggiare",
+      "inf": "corteggiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 624,
+      "id": "v:costituire",
+      "inf": "costituire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 625,
+      "id": "v:dedurre",
+      "inf": "dedurre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 626,
+      "id": "v:delegare",
+      "inf": "delegare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 627,
+      "id": "v:deliberare",
+      "inf": "deliberare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 628,
+      "id": "v:denunciare",
+      "inf": "denunciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "denunciare-spelling"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 629,
+      "id": "v:deprimere",
+      "inf": "deprimere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 630,
+      "id": "v:derivare",
+      "inf": "derivare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 631,
+      "id": "v:destinare",
+      "inf": "destinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 632,
+      "id": "v:detenere",
+      "inf": "detenere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 633,
+      "id": "v:differire",
+      "inf": "differire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 634,
+      "id": "v:diffidare",
+      "inf": "diffidare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 635,
+      "id": "v:dilagare",
+      "inf": "dilagare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 636,
+      "id": "v:discriminare",
+      "inf": "discriminare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 637,
+      "id": "v:disdire",
+      "inf": "disdire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 638,
+      "id": "v:disporre",
+      "inf": "disporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 639,
+      "id": "v:dissuadere",
+      "inf": "dissuadere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 640,
+      "id": "v:divulgare",
+      "inf": "divulgare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 641,
+      "id": "v:elaborare",
+      "inf": "elaborare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 642,
+      "id": "v:eleggere",
+      "inf": "eleggere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 643,
+      "id": "v:emanare",
+      "inf": "emanare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 644,
+      "id": "v:emergere",
+      "inf": "emergere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 645,
+      "id": "v:emettere",
+      "inf": "emettere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 646,
+      "id": "v:entusiasmarsi",
+      "inf": "entusiasmarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 647,
+      "id": "v:equivalere",
+      "inf": "equivalere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "event-subjects",
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 648,
+      "id": "v:ereditare",
+      "inf": "ereditare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 649,
+      "id": "v:esaurire",
+      "inf": "esaurire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 650,
+      "id": "v:esercitare",
+      "inf": "esercitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 651,
+      "id": "v:esitare",
+      "inf": "esitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 652,
+      "id": "v:esporre",
+      "inf": "esporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 653,
+      "id": "v:estendere",
+      "inf": "estendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 654,
+      "id": "v:estinguersi",
+      "inf": "estinguersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 655,
+      "id": "v:evadere",
+      "inf": "evadere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 656,
+      "id": "v:evolversi",
+      "inf": "evolversi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 657,
+      "id": "v:fallire",
+      "inf": "fallire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 658,
+      "id": "v:farla",
+      "inf": "farla",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 659,
+      "id": "v:favorire",
+      "inf": "favorire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 660,
+      "id": "v:finanziare",
+      "inf": "finanziare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 661,
+      "id": "v:fondere",
+      "inf": "fondere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 662,
+      "id": "v:fornire",
+      "inf": "fornire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 663,
+      "id": "v:fratturarsi",
+      "inf": "fratturarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 664,
+      "id": "v:fungere",
+      "inf": "fungere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 665,
+      "id": "v:generare",
+      "inf": "generare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 666,
+      "id": "v:giovare",
+      "inf": "giovare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "event-subjects"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 667,
+      "id": "v:godersela",
+      "inf": "godersela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 668,
+      "id": "v:illudersi",
+      "inf": "illudersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 669,
+      "id": "v:implicare",
+      "inf": "implicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 670,
+      "id": "v:incaricare",
+      "inf": "incaricare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 671,
+      "id": "v:incidere",
+      "inf": "incidere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 672,
+      "id": "v:incoraggiare",
+      "inf": "incoraggiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 673,
+      "id": "v:indebitarsi",
+      "inf": "indebitarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 674,
+      "id": "v:indurre",
+      "inf": "indurre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 675,
+      "id": "v:infastidire",
+      "inf": "infastidire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 676,
+      "id": "v:influire",
+      "inf": "influire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 677,
+      "id": "v:ingannare",
+      "inf": "ingannare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 678,
+      "id": "v:innervosirsi",
+      "inf": "innervosirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 679,
+      "id": "v:instaurare",
+      "inf": "instaurare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 680,
+      "id": "v:integrare",
+      "inf": "integrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 681,
+      "id": "v:intendere",
+      "inf": "intendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 682,
+      "id": "v:intraprendere",
+      "inf": "intraprendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 683,
+      "id": "v:intuire",
+      "inf": "intuire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 684,
+      "id": "v:invadere",
+      "inf": "invadere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 685,
+      "id": "v:ipotizzare",
+      "inf": "ipotizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 686,
+      "id": "v:ispirare",
+      "inf": "ispirare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 687,
+      "id": "v:istituire",
+      "inf": "istituire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 688,
+      "id": "v:limitarsi",
+      "inf": "limitarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 689,
+      "id": "v:manifestare",
+      "inf": "manifestare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 690,
+      "id": "v:mettercela",
+      "inf": "mettercela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 691,
+      "id": "v:mirare",
+      "inf": "mirare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 692,
+      "id": "v:moltiplicare",
+      "inf": "moltiplicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 693,
+      "id": "v:mutare",
+      "inf": "mutare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 694,
+      "id": "v:negoziare",
+      "inf": "negoziare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 695,
+      "id": "v:nuocere",
+      "inf": "nuocere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 696,
+      "id": "v:obiettare",
+      "inf": "obiettare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 697,
+      "id": "v:omettere",
+      "inf": "omettere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 698,
+      "id": "v:ostacolare",
+      "inf": "ostacolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 699,
+      "id": "v:ostinarsi",
+      "inf": "ostinarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 700,
+      "id": "v:percepire",
+      "inf": "percepire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 701,
+      "id": "v:perseguire",
+      "inf": "perseguire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 702,
+      "id": "v:persuadere",
+      "inf": "persuadere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 703,
+      "id": "v:plasmare",
+      "inf": "plasmare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 704,
+      "id": "v:porgere",
+      "inf": "porgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 705,
+      "id": "v:porre",
+      "inf": "porre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 706,
+      "id": "v:precipitare",
+      "inf": "precipitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 707,
+      "id": "v:precisare",
+      "inf": "precisare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 708,
+      "id": "v:predisporre",
+      "inf": "predisporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 709,
+      "id": "v:prescindere",
+      "inf": "prescindere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 710,
+      "id": "v:preservare",
+      "inf": "preservare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 711,
+      "id": "v:presiedere",
+      "inf": "presiedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 712,
+      "id": "v:presumere",
+      "inf": "presumere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 713,
+      "id": "v:prevalere",
+      "inf": "prevalere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 714,
+      "id": "v:prevenire",
+      "inf": "prevenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 715,
+      "id": "v:privare",
+      "inf": "privare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 716,
+      "id": "v:promuovere",
+      "inf": "promuovere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 717,
+      "id": "v:provvedere",
+      "inf": "provvedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 718,
+      "id": "v:radicarsi",
+      "inf": "radicarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 719,
+      "id": "v:rassegnarsi",
+      "inf": "rassegnarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 720,
+      "id": "v:recarsi",
+      "inf": "recarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 721,
+      "id": "v:recensire",
+      "inf": "recensire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 722,
+      "id": "v:redigere",
+      "inf": "redigere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 723,
+      "id": "v:regolare",
+      "inf": "regolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 724,
+      "id": "v:reperire",
+      "inf": "reperire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 725,
+      "id": "v:reprimere",
+      "inf": "reprimere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 726,
+      "id": "v:respingere",
+      "inf": "respingere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 727,
+      "id": "v:restarci",
+      "inf": "restarci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "restarci-example",
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 728,
+      "id": "v:restringere",
+      "inf": "restringere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 729,
+      "id": "v:ribadire",
+      "inf": "ribadire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 730,
+      "id": "v:ribattere",
+      "inf": "ribattere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 731,
+      "id": "v:ricavare",
+      "inf": "ricavare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 732,
+      "id": "v:riconciliarsi",
+      "inf": "riconciliarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 733,
+      "id": "v:ricorrere",
+      "inf": "ricorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 734,
+      "id": "v:ricoverare",
+      "inf": "ricoverare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 735,
+      "id": "v:riferire",
+      "inf": "riferire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 736,
+      "id": "v:riferirsi",
+      "inf": "riferirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 737,
+      "id": "v:rilasciare",
+      "inf": "rilasciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 738,
+      "id": "v:rimetterci",
+      "inf": "rimetterci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 739,
+      "id": "v:rimpiangere",
+      "inf": "rimpiangere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 740,
+      "id": "v:rimproverare",
+      "inf": "rimproverare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 741,
+      "id": "v:rinviare",
+      "inf": "rinviare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 742,
+      "id": "v:risarcire",
+      "inf": "risarcire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 743,
+      "id": "v:riscontrare",
+      "inf": "riscontrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 744,
+      "id": "v:riscuotere",
+      "inf": "riscuotere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 745,
+      "id": "v:risiedere",
+      "inf": "risiedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 746,
+      "id": "v:risultare",
+      "inf": "risultare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 747,
+      "id": "v:rivelare",
+      "inf": "rivelare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 748,
+      "id": "v:rivelarsi",
+      "inf": "rivelarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 749,
+      "id": "v:rosolare",
+      "inf": "rosolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 750,
+      "id": "v:saldare",
+      "inf": "saldare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 751,
+      "id": "v:sancire",
+      "inf": "sancire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 752,
+      "id": "v:saperne",
+      "inf": "saperne",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 753,
+      "id": "v:sbarazzarsi",
+      "inf": "sbarazzarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 754,
+      "id": "v:sbarcare",
+      "inf": "sbarcare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "sense-specific-aux"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 755,
+      "id": "v:scaturire",
+      "inf": "scaturire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "event-subjects"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 756,
+      "id": "v:scioperare",
+      "inf": "scioperare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 757,
+      "id": "v:scomparire",
+      "inf": "scomparire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 758,
+      "id": "v:sconvolgere",
+      "inf": "sconvolgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 759,
+      "id": "v:scoraggiare",
+      "inf": "scoraggiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 760,
+      "id": "v:scuotere",
+      "inf": "scuotere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 761,
+      "id": "v:sfiorare",
+      "inf": "sfiorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 762,
+      "id": "v:sforzarsi",
+      "inf": "sforzarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 763,
+      "id": "v:sfuggire",
+      "inf": "sfuggire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 764,
+      "id": "v:sgombrare",
+      "inf": "sgombrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 765,
+      "id": "v:smaltire",
+      "inf": "smaltire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 766,
+      "id": "v:smentire",
+      "inf": "smentire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 767,
+      "id": "v:soccorrere",
+      "inf": "soccorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 768,
+      "id": "v:soffriggere",
+      "inf": "soffriggere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 769,
+      "id": "v:sollecitare",
+      "inf": "sollecitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 770,
+      "id": "v:sommare",
+      "inf": "sommare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 771,
+      "id": "v:sopravvivere",
+      "inf": "sopravvivere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 772,
+      "id": "v:sorgere",
+      "inf": "sorgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "event-subjects"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 773,
+      "id": "v:sospendere",
+      "inf": "sospendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 774,
+      "id": "v:sottoporre",
+      "inf": "sottoporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 775,
+      "id": "v:sottrarre",
+      "inf": "sottrarre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 776,
+      "id": "v:sovrastare",
+      "inf": "sovrastare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 777,
+      "id": "v:sperimentare",
+      "inf": "sperimentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 778,
+      "id": "v:spettare",
+      "inf": "spettare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "spettare-agreement",
+        "stative-progressive"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 779,
+      "id": "v:sporgersi",
+      "inf": "sporgersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 780,
+      "id": "v:stimare",
+      "inf": "stimare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 781,
+      "id": "v:subire",
+      "inf": "subire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 782,
+      "id": "v:suddividere",
+      "inf": "suddividere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 783,
+      "id": "v:supporre",
+      "inf": "supporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 784,
+      "id": "v:suscitare",
+      "inf": "suscitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 785,
+      "id": "v:sussurrare",
+      "inf": "sussurrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 786,
+      "id": "v:svanire",
+      "inf": "svanire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 787,
+      "id": "v:svelare",
+      "inf": "svelare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 788,
+      "id": "v:tendere",
+      "inf": "tendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 789,
+      "id": "v:trarre",
+      "inf": "trarre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 790,
+      "id": "v:trascurare",
+      "inf": "trascurare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 791,
+      "id": "v:truffare",
+      "inf": "truffare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 792,
+      "id": "v:tutelare",
+      "inf": "tutelare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 793,
+      "id": "v:uscirne",
+      "inf": "uscirne",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "idiom-complements"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 794,
+      "id": "v:usufruire",
+      "inf": "usufruire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 795,
+      "id": "v:valutare",
+      "inf": "valutare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 796,
+      "id": "v:vantarsi",
+      "inf": "vantarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 797,
+      "id": "v:verificarsi",
+      "inf": "verificarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [
+        "event-subjects"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 798,
+      "id": "v:vigilare",
+      "inf": "vigilare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 799,
+      "id": "v:abbindolare",
+      "inf": "abbindolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "aux"
+      ],
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    }
+  ],
+  "findings": [
+    {
+      "key": "surgical-agent",
+      "ids": [
+        "v:intervenire"
+      ],
+      "type": "incorrect-meaning",
+      "finding": "The usage note calls intervenire chirurgicamente 'undergoing surgery', reversing clinician and patient roles.",
+      "recommendation": "Say performing surgery; identify subire un intervento / essere operato for the patient.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/intervenire/"
+      ],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "physical-struggle",
+      "ids": [
+        "v:lottare"
+      ],
+      "type": "overbroad-rule",
+      "finding": "The note excludes physical fighting, although lottare includes physical combat and wrestling.",
+      "recommendation": "Explain physical and figurative uses together.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/lottare/"
+      ],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "fidarsi-complements",
+      "ids": [
+        "v:fidarsi"
+      ],
+      "type": "internal-contradiction",
+      "finding": "Always with di conflicts with its own fidarsi a fare construction and omitted complement examples.",
+      "recommendation": "Scope di to the trust complement and mark dare construction less common.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/fidare/"
+      ],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "rifiutarsi-omission",
+      "ids": [
+        "v:rifiutarsi"
+      ],
+      "type": "overbroad-rule",
+      "finding": "Only before an infinitive incorrectly rules out an understood refused action.",
+      "recommendation": "Describe di + infinitive when the action is expressed; include si è rifiutato.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/ricerca/rifiutarsi/Sinonimi_e_Contrari/"
+      ],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "riflettere-senses",
+      "ids": [
+        "v:riflettere"
+      ],
+      "type": "sense-dependent-morphology",
+      "finding": "Usage lists riflettei/riflessi as alternatives without the semantic distinction. Thinking requires riflettuto; reflected light/images use riflesso. A generic accepted-answer union risks certifying the wrong meaning.",
+      "recommendation": "Clarify usage and keep thinking vs physical-reflection answer sets separate in contextual lessons. Audit the existing Alongside riflettuto teaching card.",
+      "sources": [
+        "https://www.treccani.it/enciclopedia/riflettei-o-riflessi_%28La-grammatica-italiana%29/",
+        "https://accademiadellacrusca.it/it/consulenza/verbi-difficili/221"
+      ],
+      "status": "usage-corrected-engine-review-requested"
+    },
+    {
+      "key": "sopportare-support",
+      "ids": [
+        "v:sopportare"
+      ],
+      "type": "overbroad-rule",
+      "finding": "The false-friend prohibition overlooks physical supporting/bearing a load.",
+      "recommendation": "Distinguish emotional/financial support from tolerate and physically bear.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/sopportare/"
+      ],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "affascinare-object",
+      "ids": [
+        "v:affascinare"
+      ],
+      "type": "misleading-grammar-analogy",
+      "finding": "The comparison with piacere does not explain that affascinare takes a direct object; this risks teaching indirect-object pronouns.",
+      "recommendation": "Keep the subject explanation and explicitly contrast lo affascina with the indirect construction of piacere.",
+      "sources": [],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "denunciare-spelling",
+      "ids": [
+        "v:denunciare"
+      ],
+      "type": "internal-contradiction",
+      "finding": "Usage says i is kept in denuncerò, whose displayed spelling has no i.",
+      "recommendation": "State tu denunci and that i drops before future e: denuncerò.",
+      "sources": [],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "restarci-example",
+      "ids": [
+        "v:restarci"
+      ],
+      "type": "wrong-lemma-demonstration",
+      "finding": "The first worked form ci sono rimasto male is rimanere, not the entry restare.",
+      "recommendation": "Lead with ci sono restato male and label rimasto as the separate synonym rimanerci.",
+      "sources": [],
+      "status": "corrected-in-source"
+    },
+    {
+      "key": "spettare-agreement",
+      "ids": [
+        "v:spettare"
+      ],
+      "type": "subject-agreement-risk",
+      "finding": "The note calls the verb impersonal, but le spettano tre settimane has a plural subject. The recipient is not the grammatical subject.",
+      "recommendation": "Explain singular/plural thing-due agreement and prevent io spetto from being prompted as I am entitled in this sense.",
+      "sources": [],
+      "status": "usage-corrected-engine-review-requested"
+    },
+    {
+      "key": "trattarsi-person",
+      "ids": [
+        "v:trattarsi"
+      ],
+      "type": "generation-risk",
+      "finding": "The listed sense si tratta di is explicitly impersonal third-person singular. Mechanical six-person/formal-person chapters would change the meaning.",
+      "recommendation": "Limit required persons for this sense; keep plain trattare as a different construction.",
+      "sources": [],
+      "status": "reported"
+    },
+    {
+      "key": "concernere-defective",
+      "ids": [
+        "v:concernere"
+      ],
+      "type": "generation-risk",
+      "finding": "The source explicitly describes a defective verb practically absent from compound tenses. Calling concernente simply the participle also risks confusing present and past participles.",
+      "recommendation": "Do not force an ordinary passato prossimo milestone or fabricate concernuto; explicitly teach the limitation and use validated third-person simple forms.",
+      "sources": [],
+      "status": "reported"
+    },
+    {
+      "key": "event-subjects",
+      "ids": [
+        "v:comportare",
+        "v:consistere",
+        "v:equivalere",
+        "v:giovare",
+        "v:scaturire",
+        "v:sorgere",
+        "v:verificarsi"
+      ],
+      "type": "generation-risk",
+      "finding": "The selected common senses usually take a thing, event, consequence or situation as subject. Full personal drills risk semantically odd human subjects; these entries are not all grammatically defective.",
+      "recommendation": "Use individually validated subjects and constructions. Do not infer a universal only-third-person restriction from frequency alone.",
+      "sources": [],
+      "status": "reported"
+    },
+    {
+      "key": "idiom-complements",
+      "ids": [
+        "v:poterne",
+        "v:mettercela",
+        "v:farla",
+        "v:restarci",
+        "v:godersela",
+        "v:aspettarsela",
+        "v:entrarci",
+        "v:vederci",
+        "v:uscirne"
+      ],
+      "type": "generation-risk",
+      "finding": "Lexicalized clitics and complements carry the selected meaning. Examples include non ... più, ce la ... tutta, farla franca/finita, and ci ... male; bare forms can lose that meaning.",
+      "recommendation": "Retain the full chosen idiom in all tense/progressive prompts; teach clitic placement and fixed la agreement where applicable. Do not grade unrelated literal readings as the same sense.",
+      "sources": [],
+      "status": "reported"
+    },
+    {
+      "key": "sense-specific-aux",
+      "ids": [
+        "v:migliorare",
+        "v:peggiorare",
+        "v:procedere",
+        "v:saltare",
+        "v:trascorrere",
+        "v:derivare",
+        "v:emanare",
+        "v:evadere",
+        "v:fallire",
+        "v:mutare",
+        "v:precipitare",
+        "v:sbarcare"
+      ],
+      "type": "generation-risk",
+      "finding": "Several glosses cover transitive and intransitive senses with different auxiliaries, and existing usage often correctly distinguishes them. Entry-level both is not permission to accept both in every sentence.",
+      "recommendation": "Pin auxiliary to each selected context and retain the source's semantic distinction; no blanket source correction needed.",
+      "sources": [],
+      "status": "reported"
+    },
+    {
+      "key": "stative-progressive",
+      "ids": [
+        "v:dipendere",
+        "v:valere",
+        "v:consistere",
+        "v:equivalere",
+        "v:intendere",
+        "v:presumere",
+        "v:risiedere",
+        "v:risultare",
+        "v:spettare"
+      ],
+      "type": "generation-risk",
+      "finding": "Stative or relational readings require sense-sensitive progressive treatment. Some verbs also have dynamic readings, so an infinitive-only universal ban would overcorrect.",
+      "recommendation": "Prefer the taught selected sense and reviewed examples; teach a usage limitation instead of inventing mandatory progressive constructions where unsupported.",
+      "sources": [],
+      "status": "reported"
+    }
+  ],
+  "checkedWithoutCorrection": [
+    {
+      "id": "v:nuocere",
+      "reason": "Treccani confirms nocciono as an alternative and auxiliary avere; no correction made.",
+      "source": "https://www.treccani.it/vocabolario/nuocere/"
+    }
+  ]
+}

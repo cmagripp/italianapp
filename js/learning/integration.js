@@ -3,7 +3,8 @@ import { data, getEntry, itemsForScope } from '../data.js';
 import { objectivesFor, allowedTenses, CORE_STAGES, EXPANSIONS, ANCHOR_VERBS, stageObjectives } from './curriculum.js';
 import { allSkills, skillState } from './model.js';
 import { buildLesson } from './lesson-content.js';
-import { currentJourneyStep, journeyProgress } from './journey.js';
+import { currentJourneyStep, journeyProgress, journeyCaseProgress } from './journey.js';
+export { journeyCaseProgress, coreJourneyChapters } from './journey.js';
 
 const lessonCache = new WeakMap();
 export function lessonPlan(entry) {
@@ -44,7 +45,7 @@ export function eligibleSkills(store, now = Date.now()) {
       if (deferredAt && deferredAt >= (s.lastAt || 0)) return false;
       // A visited background chapter stays reviewable; other extras follow the
       // learner's enrollment without deleting their evidence when switched off.
-      if (journeyObjective.optional && journeyObjective.chapterId !== 'background') {
+      if (journeyObjective.optional && !['background', 'mixed'].includes(journeyObjective.chapterId)) {
         const selected = new Set(store.learning.preferences?.expansions || []);
         return EXPANSIONS.some(e => selected.has(e.id) && e.tenses.includes(journeyObjective.tense));
       }
@@ -95,8 +96,15 @@ export function recommendLesson(store, { kind = null, review = false, now = Date
   const candidates=scope.slice().sort((a,b)=>(anchors.get(a.inf)??100)-(anchors.get(b.inf)??100));
   for (const entry of candidates) {
     const session=sessions.find(s=>s.entryId===entry.id);
-    if (!session) return {entry,mode:'lesson',reason:entry.kind==='verb'?'Meet a verb, then learn its present, past and future.':'Learn a word through its meaning, forms and real examples.'};
+    if (!session) return {entry,mode:'lesson',reason:entry.kind==='verb'?'Choose a tense: present, passato prossimo, imperfetto, future or conditional.':'Learn a word through its meaning, forms and real examples.'};
     if (!journeyProgress(lessonPlan(entry),session,store.learning,now).complete) {
+      if (entry.kind==='verb') {
+        const cases=journeyCaseProgress(lessonPlan(entry),store.learning,session,now);
+        const unfinished=new Set(cases.cases.filter(c=>!c.exempt&&!c.ready).map(c=>c.id));
+        const chapter=journeyProgress(lessonPlan(entry),session,store.learning,now).chapters.find(c=>unfinished.has(c.id)&&c.pending.some(t=>!t.skipped));
+        if(chapter)return {entry,mode:'lesson',chapterId:chapter.id,reason:'Continue one of this verb’s five core cases.'};
+        continue;
+      }
       const pending=journeyProgress(lessonPlan(entry),session,store.learning,now).chapters.filter(c=>!c.optional).flatMap(c=>c.pending).find(t=>!t.skipped);
       if(pending)return {entry,objectiveId:pending.target.id,mode:'review',reason:'Return to a part you wanted to practise.'};
     }

@@ -12,11 +12,11 @@ const byVerb = inf => verbs.find(e => e.inf === inf);
 const byWord = (it, pos = 'noun') => words.find(e => e.it === it && e.pos === pos);
 let checks = 0;
 const test = (name, fn) => { try { fn(); checks++; } catch (error) { console.error(`FAIL: ${name}`); throw error; } };
-const objective = (e, skill, tense = null, stage = 'background') => objectivesFor(e, { stage }).find(o => o.skill === skill && (!tense || o.tense === tense));
+const objective = (e, skill, tense = null, stage = 'future') => objectivesFor(e, { stage }).find(o => o.skill === skill && (!tense || o.tense === tense));
 const qFor = (inf, skill, tense, variant = 0, mode = 'production') => {
   const e = byVerb(inf), o = objective(e, skill, tense);
   assert.ok(o, `${inf}/${skill}/${tense} objective exists`);
-  return buildQuestion(e, o, { mode, variant, pool: verbs, allowedTenses: allowedTenses({ stage: 'background' }), rng: () => .37 });
+  return buildQuestion(e, o, { mode, variant, pool: verbs, allowedTenses: allowedTenses({ stage: 'future' }), rng: () => .37 });
 };
 const wrong = (q, answer, tag) => {
   const r = gradeQuestion(q, answer); assert.equal(r.ok, false); assert.ok(r.errorTags.includes(tag), JSON.stringify(r)); return r;
@@ -25,14 +25,14 @@ const wrong = (q, answer, tag) => {
 test('curriculum follows learner stage, never lexical CEFR', () => {
   assert.deepEqual(allowedTenses(), ['presente']);
   assert.deepEqual(allowedTenses({ stage: 'past' }), ['presente', 'passatoProssimo']);
-  assert.deepEqual(allowedTenses({ stage: 'future' }), ['presente', 'passatoProssimo', 'futuro']);
-  assert.deepEqual(allowedTenses({ preferences: { stage: 'background' } }), ['presente', 'passatoProssimo', 'futuro', 'imperfetto']);
+  assert.deepEqual(allowedTenses({ stage: 'future' }), ['presente', 'passatoProssimo', 'imperfetto', 'futuro']);
+  assert.deepEqual(allowedTenses({ preferences: { stage: 'background' } }), ['presente', 'passatoProssimo', 'imperfetto']);
   assert.ok(allowedTenses({stage:'future',legacyTenses:['imperfetto']}).includes('imperfetto'));
   assert.equal(objectivesFor({ ...byVerb('parlare'), level: 'C2' }).some(o => o.tense === 'congiuntivoPresente'), false);
   assert.equal(allowedTenses({ stage: 'present', expansions: ['opinions'] }).includes('congiuntivoPresente'), true);
 });
 
-test('four finite checkpoint blueprints have practical size and true person requirements', () => {
+test('five finite checkpoint blueprints have practical size and true person requirements', () => {
   assert.equal(ANCHOR_VERBS.length, 24);
   for (const s of CORE_STAGES) {
     const os = stageObjectives(verbs, s.id); assert.ok(os.length >= 3 && os.length <= 7);
@@ -53,7 +53,8 @@ for (const inf of ANCHOR_VERBS) for (const stage of CORE_STAGES) {
         assert.ok(q); assert.equal(q.meta.tense, stage.tense);
         assert.equal(q.type, mode === 'production' ? 'type' : 'mc');
         assert.ok(!q.prompt.includes('undefined'));
-        assert.ok(q.meta.contextId.includes('predicate'));
+        if(stage.id!=='condizionale')assert.ok(q.meta.contextId.includes('predicate'));
+        else assert.equal(q.meta.contextId.includes('predicate'),false,'legacy conditional remains honest form practice');
         assert.ok(q.answer.every(a => gradeQuestion(q, a).ok), JSON.stringify(q));
         const plain = JSON.parse(JSON.stringify(q)); assert.deepEqual(plain, q);
         for (const choice of q.choices) assert.equal(gradeQuestion(q, choice.label).ok, choice.correct, choice.label);
@@ -61,7 +62,7 @@ for (const inf of ANCHOR_VERBS) for (const stage of CORE_STAGES) {
         variants.add(q.meta.variantId); persons.add(q.meta.person);
       }
     }
-    assert.equal(variants.size, 12); assert.equal(persons.size, 6);
+    assert.equal(variants.size, stage.id==='condizionale'?6:12); assert.equal(persons.size, 6);
   });
 }
 

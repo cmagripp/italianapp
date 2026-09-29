@@ -37,6 +37,10 @@ function positiveComponents(q) {
     }
   }
   if (d.kind === 'auxiliary' && d.inflected) skills.add('person');
+  if (d.kind === 'progressive') {
+    skills.add('person'); skills.add('tense'); skills.add('auxiliary'); skills.add('gerund');
+    if (d.clitic) skills.add('clitic');
+  }
   if (d.kind === 'plural' && d.requiresArticle) skills.add('article');
   return [...skills].map(skill => component(skill, true));
 }
@@ -55,6 +59,22 @@ function diagnoseWrong(q, given) {
       if (family.length) return failure('auxiliary', [component(skill, false, 'auxiliary'), component('auxiliary', false, 'auxiliary')]);
     } else if (['avere', 'essere'].includes(normalize(given))) return failure('auxiliary', [component('auxiliary', false, 'auxiliary')]);
     return failure('uncertain');
+  }
+
+  if (d.kind === 'progressive') {
+    if ((d.personForms || []).some(form => equal(form.answer, given))) return failure('person', [component(skill, false, 'person'), component('person', false, 'person')], 'Keep the gerundio and choose the form of stare for the person shown.');
+    const words = normalize(given).split(' '), stare = words.find(word => d.stareForms.includes(word));
+    if (words.some(word => d.otherTenseForms?.includes(word))) return failure('tense', [component(skill, false, 'tense'), component('tense', false, 'tense')], 'The action is progressive, but the form of stare must match the requested time.');
+    const expectedStare = d.stareForms[d.person];
+    const gerundOK = words.includes(d.gerund) || q.answer.some(answer => lastWord(answer) === lastWord(given) && lastWord(answer).startsWith(d.gerund));
+    if (!stare && !gerundOK) return failure('uncertain');
+    const components = [component(skill, false)], tags = [];
+    if (!stare) { components.push(component('auxiliary', false, 'auxiliary')); tags.push('auxiliary'); }
+    else { components.push(component('auxiliary', true), component('person', stare === expectedStare, 'person')); if (stare !== expectedStare) tags.push('person'); }
+    components.push(component('gerund', gerundOK, 'gerund'));
+    if (!gerundOK) tags.push('gerund');
+    if (d.clitic && stare === expectedStare && gerundOK) { components.push(component('clitic', false, 'clitic')); tags.push('clitic'); }
+    return failure(tags[0] || 'uncertain', components, tags.includes('gerund') ? `Use ${d.gerund} as the gerundio; it does not change with the person.` : tags.includes('clitic') ? 'Keep the required pronoun before stare or attached to the gerundio, without repeating it.' : 'Use the requested form of stare for this person and time, followed by the gerundio.');
   }
 
   if (d.kind === 'verb') {

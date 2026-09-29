@@ -2,12 +2,13 @@
 // Taught-lesson acceptance checks. Isolated profile; app modules are read for state
 // and a traversal oracle, while fixed Italian fixtures independently check correctness.
 import assert from 'node:assert/strict';
+import { journeyQuestion, solveJourneyQuestion, reachJourneyActivity, advanceJourneyPage } from './journey-driver.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadPlaywright, launchBrowser, contextOptions, ensureServer, boot, gotoRoute, reloadApp, TESTS_DIR, SHOTS_DIR } from './lib.mjs';
 
 const VERB_FORMS = {
-  credere: { presente: ['credo', 'credi', 'crede', 'crediamo', 'credete', 'credono'], passatoProssimo: ['ho creduto', 'hai creduto', 'ha creduto', 'abbiamo creduto', 'avete creduto', 'hanno creduto'], futuro: ['crederò', 'crederai', 'crederà', 'crederemo', 'crederete', 'crederanno'] },
+  credere: { presente: ['credo', 'credi', 'crede', 'crediamo', 'credete', 'credono'], passatoProssimo: ['ho creduto', 'hai creduto', 'ha creduto', 'abbiamo creduto', 'avete creduto', 'hanno creduto'], imperfetto: ['credevo', 'credevi', 'credeva', 'credevamo', 'credevate', 'credevano'], futuro: ['crederò', 'crederai', 'crederà', 'crederemo', 'crederete', 'crederanno'], condizionale: ['crederei', 'crederesti', 'crederebbe', 'crederemmo', 'credereste', 'crederebbero'] },
   dire: { presente: ['dico', 'dici', 'dice', 'diciamo', 'dite', 'dicono'], passatoProssimo: ['ho detto', 'hai detto', 'ha detto', 'abbiamo detto', 'avete detto', 'hanno detto'], futuro: ['dirò', 'dirai', 'dirà', 'diremo', 'direte', 'diranno'] },
   parlare: { presente: ['parlo', 'parli', 'parla', 'parliamo', 'parlate', 'parlano'], futuro: ['parlerò', 'parlerai', 'parlerà', 'parleremo', 'parlerete', 'parleranno'] },
   capire: { presente: ['capisco', 'capisci', 'capisce', 'capiamo', 'capite', 'capiscono'] },
@@ -47,34 +48,25 @@ async function state() {
     const { store } = await import('./js/store.js');
     const { getEntry } = await import('./js/data.js');
     const { buildLesson } = await import('./js/learning/lesson-content.js');
-    const { currentJourneyStep } = await import('./js/learning/journey.js');
+    const { currentJourneyStep, journeyCaseProgress } = await import('./js/learning/journey.js');
     const session = store.learning.session;
     if (!session?.journey) throw new Error('The default lesson did not create a taught journey session');
     const plan = buildLesson(getEntry(session.entryId));
-    return { session, plan, step: currentJourneyStep(plan, session, store.learning, Date.now()), events: Object.values(store.learning.events), xp: store.current.stats.xp, learned: store.isLearned(session.entryId), domPhase: document.querySelector('[data-journey]')?.dataset.phase };
+    return { session, plan, cases: plan.kind === 'verb' ? journeyCaseProgress(plan, store.learning, session) : null, step: currentJourneyStep(plan, session, store.learning, Date.now()), events: Object.values(store.learning.events), xp: store.current.stats.xp, learned: store.isLearned(session.entryId), domPhase: document.querySelector('[data-journey]')?.dataset.phase };
   });
 }
-async function question() {
-  return page.evaluate(async () => {
-    const { store } = await import('./js/store.js');
-    const { getEntry } = await import('./js/data.js');
-    const { buildLesson } = await import('./js/learning/lesson-content.js');
-    const { currentJourneyStep } = await import('./js/learning/journey.js');
-    const { buildJourneyQuestion } = await import('./js/learning/lesson-questions.js');
-    const session = store.learning.session, entry = getEntry(session.entryId);
-    const step = currentJourneyStep(buildLesson(entry), session, store.learning, Date.now());
-    return buildJourneyQuestion(entry, step.chapter, step.target, { variant: step.variant, format: step.format, phase: step.phase, repairTag: step.repairTag });
-  });
-}
+async function question() { return journeyQuestion(page); }
+
 async function flush() { await page.evaluate(async () => { const { store } = await import('./js/store.js'); await store.saveNow(); }); }
 async function assertSimpleUI() {
   assert.equal(await page.locator('[data-journey]').count(), 1);
   assert(!NO_INTERNAL_LABELS.test(await page.locator('[data-journey]').innerText()), 'internal evidence accounting is hidden');
 }
-async function continueLesson() { await page.locator('[data-journey] [data-continue]').click(); }
+async function continueLesson() { await advanceJourneyPage(page); }
 async function reachQuestion(limit = 25) {
   for (let i = 0; i < limit; i++) {
     const s = await state();
+    if (s.domPhase === 'overview') { await advanceJourneyPage(page); continue; }
     if (s.step.type === 'question' && !s.step.awaitingContinue) return s;
     assert(!['complete', 'unavailable'].includes(s.step.type), 'an answerable taught question must be reachable');
     await assertSimpleUI();
@@ -92,16 +84,7 @@ function independentlyExpected(q, inf) {
 async function answerCorrect({ double = false } = {}) {
   const s = await reachQuestion(), q = await question();
   assert(q, 'the selected taught activity can be rendered');
-  const answer = independentlyExpected(q, s.session.entryId.slice(2));
-  if (q.type === 'mc') {
-    const index = q.choices.findIndex(c => (c.value || c.label) === answer);
-    assert(index >= 0, 'correct choice visible');
-    const button = page.locator(`[data-journey] [data-choice="${index}"]`);
-    if (double) await button.evaluate(b => { b.click(); b.click(); }); else await button.click();
-  } else {
-    await page.locator('[data-answer]').fill(answer);
-    if (double) await page.locator('[data-check]').evaluate(b => { b.click(); b.click(); }); else await page.locator('[data-check]').click();
-  }
+  await solveJourneyQuestion(page, q, { expected: activity => independentlyExpected(activity, s.session.entryId.slice(2)), double });
   return { before: s, after: await state(), q };
 }
 async function screenshot(name) {
@@ -144,11 +127,12 @@ async function traverse({ until, limit = 700, observe = () => {} }) {
   const seen = [];
   for (let i = 0; i < limit; i++) {
     const s = await state();
-    const stamp = { chapter: s.step.chapter?.id, group: s.step.group?.id, type: s.step.type, phase: s.step.phase, target: s.step.target?.id, answered: s.step.awaitingContinue };
+    const stamp = { chapter: s.step.chapter?.id, group: s.step.group?.id, type: s.step.type, phase: s.step.phase, format: s.step.format, supplemental: s.step.supplemental, target: s.step.target?.id, answered: s.step.awaitingContinue };
     seen.push(stamp); await observe(s);
     if (i > 0 && i % 50 === 0) console.log('  journey progress', JSON.stringify({ transitions: i, ...stamp, answers: s.events.filter(e => e.entryId === s.session.entryId).length }));
     if (until(s)) return { state: s, seen };
     await assertSimpleUI();
+    if (s.domPhase === 'overview') { await continueLesson(); continue; }
     if (s.step.type === 'question' && !s.step.awaitingContinue) await answerCorrect();
     else if (s.step.type === 'complete' || s.step.type === 'unavailable') throw new Error('Lesson cannot reach its intended completion: ' + JSON.stringify(await trace(seen)));
     else await continueLesson();
@@ -172,11 +156,12 @@ try {
     await gotoRoute(page, entryRoute('verb', 'v:credere'));
     await page.locator('[data-journey]').waitFor();
     const first = await state();
-    assert.equal(first.step.type, 'teach');
-    assert.equal(first.step.chapter.id, 'meet');
+    assert.equal(first.domPhase, 'overview');
+    assert.equal(await page.locator('[data-open-lesson]').count(), 5);
     assert.match(await page.locator('[data-journey]').innerText(), /credere/i);
     assert.equal(first.events.length, 0, 'looking at teaching is not an answer');
     await assertSimpleUI();
+    await page.locator('[data-open-lesson=present]').click();
     const q = await reachQuestion();
     assert.equal(q.step.chapter.id, 'present');
     assert.equal(q.step.group.id, 'singular');
@@ -184,6 +169,7 @@ try {
     await screenshot('first-guided-phone');
   });
   await check('One choice tap grades exactly once and feedback waits for Continue', async () => {
+    await reachJourneyActivity(page, 'mc', { expected: q => independentlyExpected(q, 'credere') });
     const { before, after, q } = await answerCorrect({ double: true });
     assert.equal(q.type, 'mc', 'first guided activity uses a tappable answer');
     assert.equal(after.events.length, before.events.length + 1);
@@ -220,7 +206,7 @@ try {
     await reachQuestion();
     const q = await question();
     await page.locator('[data-help]').click();
-    if (q.type !== 'mc') await page.locator('[data-answer]').fill('unfinished');
+    if (q.type === 'type') await page.locator('[data-answer]').fill('unfinished');
     await page.locator('[data-pause]').click();
     await flush(); const before = await state();
     await reloadApp(page); const paused = await state();
@@ -230,7 +216,7 @@ try {
     await page.locator('[data-resume]').click();
     assert((await state()).session.ui.assistance.includes('hint'));
     assert(!deferred.includes((await state()).step.target.id));
-    if (q.type !== 'mc') assert.equal(await page.locator('[data-answer]').inputValue(), 'unfinished');
+    if (q.type === 'type') assert.equal(await page.locator('[data-answer]').inputValue(), 'unfinished');
     const result = await answerCorrect();
     assert(result.after.events.at(-1).assistance.includes('hint'));
     await assertSimpleUI();
@@ -238,15 +224,16 @@ try {
   });
   await check('Meet dire flags its real irregular participle before any past checks', async () => {
     await gotoRoute(page, entryRoute('verb', 'v:dire'));
-    assert.equal((await state()).step.chapter.id, 'meet');
+    assert.equal((await state()).domPhase, 'overview');
+    await page.locator('.journey-overview-meaning summary').click();
     assert.match(await page.locator('[data-journey]').innerText(), /detto/);
     assert.equal((await state()).events.filter(e => e.entryId === 'v:dire').length, 0);
   });
   await check('A complete credere lesson genuinely demonstrates every person and formal role', async () => {
     await gotoRoute(page, entryRoute('verb', 'v:credere'));
-    const traversal = await traverse({ until: s => s.step.type === 'complete' });
+    const traversal = await traverse({ until: s => s.cases?.complete && ['recap', 'complete'].includes(s.step.type) });
     const p = await progress();
-    for (const chapter of ['present', 'past', 'future']) {
+    for (const chapter of ['present', 'past', 'background', 'future', 'condizionale']) {
       const c = p.chapters.find(c => c.id === chapter);
       assert(c, chapter + ' is present');
       assert.equal(c.complete, true, chapter + ' cannot finish with unresolved required targets');
@@ -259,21 +246,29 @@ try {
       }
       assert(c.targets.some(t => t.target.role === 'formal' && t.ready), chapter + ' includes actual formal address evidence');
     }
-    assert.equal(p.complete, true, 'the empty Meet chapter does not prevent full completion');
+    assert.equal(traversal.state.cases.complete, true, 'all five core cases are ready without an intro or mixed-practice gate');
+    assert.equal(traversal.state.learned, true, 'the verb is learned only after all five core cases are ready');
     const lessonEvents = traversal.state.events.filter(e => e.sessionId === traversal.state.session.id);
     assert(lessonEvents.every(e => e.entryId === 'v:credere'), 'practice and spacing never introduce unrelated entries');
-    assert(!lessonEvents.some(e => e.tense === 'imperfetto'), 'optional background is not required before completion');
+    assert(lessonEvents.some(e => e.tense === 'imperfetto' && e.mode === 'production' && e.ok && !e.assistance.length), 'imperfetto is a required core case');
+    assert(!lessonEvents.some(e => e.chapterId === 'mixed'), 'mixed practice stays optional');
     assert(!p.chapters.some(c => c.remembered), 'same-session practice is not later retention');
+    const interludes = traversal.seen.filter(s => s.type === 'question' && s.supplemental && s.phase === 'guided' && !s.answered);
+    for (const format of ['mc', 'letters', 'pairs']) assert(interludes.some(s => s.format === format), format + ' provides variety during later practice, beyond the introductory activities');
     await screenshot('verb-complete-phone');
-    return { answers: lessonEvents.length, transitions: traversal.seen.length };
+    return { answers: lessonEvents.length, transitions: traversal.seen.length, interludes: Object.fromEntries(['mc', 'letters', 'pairs'].map(format => [format, interludes.filter(s => s.format === format).length])) };
   });
-  await check('A built-in noun can finish all required taught parts without a spacing dead end', async () => {
+  await check('A built-in noun finishes a short recognition introduction without inventing independent mastery', async () => {
     await gotoRoute(page, entryRoute('word', 'w:casa|noun'));
     const traversal = await traverse({ until: s => s.step.type === 'complete', limit: 500 });
     const p = await progress();
     assert.equal(p.complete, true);
     const events = traversal.state.events.filter(e => e.entryId === 'w:casa|noun');
-    for (const skill of ['meaning', 'recall', 'article', 'plural']) assert(events.some(e => e.skill === skill && e.mode === 'production' && e.ok && !e.assistance.length), skill + ' demonstrated independently');
+    for (const skill of ['meaning', 'recall', 'article', 'plural']) assert(events.some(e => e.skill === skill && e.mode === 'recognition' && e.ok), skill + ' practised in the short introduction');
+    assert(events.every(e => e.mode === 'recognition'), 'recognition is not silently upgraded to production');
+    assert(traversal.state.plan.wordLesson.slots.length >= 6 && traversal.state.plan.wordLesson.slots.length <= 8);
+    assert.equal(traversal.state.learned, true, 'the introduction can finish without claiming independent recall');
+    assert(p.chapters.every(c => !c.remembered), 'same-session word choices do not establish delayed retention');
     assert(events.every(e => e.entryId === 'w:casa|noun'));
     await screenshot('noun-complete-phone');
     return { answers: events.length, transitions: traversal.seen.length };
@@ -421,6 +416,7 @@ try {
       await gotoRoute(page, entryRoute('verb', 'v:capire', 'present'));
       await auditLayout(`${width}-${theme}-teach`);
       await reachQuestion();
+      await reachJourneyActivity(page, 'mc', { expected: q => independentlyExpected(q, 'capire') });
       assert.equal((await question()).type, 'mc');
       await auditLayout(`${width}-${theme}-choice`);
       await page.locator('[data-help]').click();

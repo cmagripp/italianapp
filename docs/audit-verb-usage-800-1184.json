@@ -1,0 +1,5315 @@
+{
+  "date": "2026-09-29",
+  "reviewer": "curriculum_review",
+  "range": {
+    "start": 800,
+    "endInclusive": 1184
+  },
+  "count": 385,
+  "scope": "Every English gloss, full usage paragraph and listed pattern in this range was individually read. Seven flagged entries also had all stored examples inspected. This is not a claim that every example sentence or every morphology in the catalog was individually verified against a dictionary.",
+  "source": "data/verbs.json",
+  "findings": [
+    {
+      "ids": [
+        "v:ripartire"
+      ],
+      "type": "selected-sense-auxiliary",
+      "severity": "correctness",
+      "status": "verified",
+      "finding": "The selected meaning is divide/apportion, and isc:true correctly yields ripartisco. aux:both also accepts sono ripartito, which belongs to leave again, not this transitive selected sense.",
+      "recommendation": "Use avere in the selected lesson sense; keep restart/depart-again as a distinct reference sense.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/ricerca/RIPARTIRE/"
+      ],
+      "resolution": "Source aux corrected to avere for the selected apportion sense; compiled file awaits coordinated rebuild."
+    },
+    {
+      "ids": [
+        "v:inferire"
+      ],
+      "type": "selected-sense-participle",
+      "severity": "correctness",
+      "status": "verified",
+      "finding": "Generic past targets accept both inferito and inferto for the selected infer/deduce meaning. The stored usage correctly distinguishes inferito (deduce) from inferto (inflict).",
+      "recommendation": "For the taught deduce sense accept inferito; reserve inferto and infersi for an explicitly selected inflict sense and compatible context.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/inferire/"
+      ]
+    },
+    {
+      "ids": [
+        "v:addirsi"
+      ],
+      "type": "subject-restriction-and-source-overstatement",
+      "severity": "correctness",
+      "status": "verified",
+      "finding": "The lesson currently builds personal forms such as mi addico and ti addici for be fitting, although this use has third-person singular/plural subjects. Its source note also overstates absence of compounds: Treccani labels addetto compounds rare.",
+      "recommendation": "Teach third-person forms in actual thing/behavior subjects. Suppress personal six-person and formal-address drills in this sense. Describe compounds as rare rather than impossible.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/addirsi/"
+      ],
+      "resolution": "Source rarity wording corrected. Lesson person-scope restriction delegated to lesson-content owner."
+    },
+    {
+      "ids": [
+        "v:prudere"
+      ],
+      "type": "subject-restriction",
+      "severity": "correctness",
+      "status": "verified",
+      "finding": "The lesson makes io prudo / tu prudi targets although body parts are the subjects in the taught itch sense.",
+      "recommendation": "Use third-person singular/plural with explicit body-part subjects; the person feeling the itch is an indirect object.",
+      "sources": [
+        "https://accademiadellacrusca.it/it/consulenza/verbi-difficili/221"
+      ]
+    },
+    {
+      "ids": [
+        "v:vigere"
+      ],
+      "type": "subject-restriction",
+      "severity": "correctness",
+      "status": "verified",
+      "finding": "Six personal forms and a polite-addressee target are generated for rules/laws being in force. The selected usage is almost exclusively third-person.",
+      "recommendation": "Teach third-person law/rule subjects; do not require formal-you morphology for this sense.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/vigere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:ostare"
+      ],
+      "type": "defective-forms-and-source-overstatement",
+      "severity": "correctness",
+      "status": "verified",
+      "finding": "Engine/lesson accept ho ostato, while Treccani excludes past participle, compound tenses and passato remoto. Source says only third person, but Treccani lists io osto, so this must be a selected-usage teaching restriction rather than a universal ban.",
+      "recommendation": "Suppress unavailable compound/remoto teaching and retain a note on the usual nulla osta construction without declaring all personal forms impossible.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/ostare_%28Sinonimi-e-Contrari%29/"
+      ],
+      "resolution": "Source personal-form wording corrected. Missing compound/remoto masking delegated to root/lesson-content owner."
+    },
+    {
+      "ids": [
+        "v:delinquere"
+      ],
+      "type": "source-overstatement",
+      "severity": "content",
+      "status": "verified",
+      "finding": "Source says no other forms are in use beyond the infinitive. Treccani explicitly allows some present forms, including delinquo, while infinitive and substantive participle are much more common.",
+      "recommendation": "Explain limited modern use and teach the useful expressions; do not claim present forms are impossible or require a complete normal paradigm.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/delinquere/"
+      ],
+      "resolution": "Source prose corrected using cited dictionary; compiled file awaits coordinated rebuild."
+    },
+    {
+      "ids": [
+        "v:propendere"
+      ],
+      "type": "source-internal-contradiction",
+      "severity": "content",
+      "status": "verified",
+      "finding": "Source prose says always with per, but stored patterns include propendere a fare. Treccani supports both per + option and a + infinitive.",
+      "recommendation": "Replace always with per by a sense-sensitive explanation covering both constructions.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/propendere/"
+      ],
+      "resolution": "Source prose corrected using cited dictionary; compiled file awaits coordinated rebuild."
+    },
+    {
+      "ids": [
+        "v:rincrescere",
+        "v:urgere",
+        "v:inerire",
+        "v:concernere",
+        "v:vertere",
+        "v:incombere",
+        "v:garrire",
+        "v:sovvenire"
+      ],
+      "type": "selected-subject-review",
+      "severity": "review",
+      "status": "source-supported-follow-up",
+      "finding": "Stored usage emphasizes impersonal or third-person subject types. Generated six-person form tables and formal-address questions can misrepresent the selected sense even if a rare personal morphology is possible.",
+      "recommendation": "Review subject-role eligibility separately from morphological existence; use exact existing contexts and explicit thing/event subjects, avoiding unsupported personal scenes.",
+      "sources": []
+    },
+    {
+      "ids": [
+        "v:competere",
+        "v:convergere",
+        "v:dirimere",
+        "v:eccellere",
+        "v:esimersi",
+        "v:irrompere",
+        "v:incedere",
+        "v:discernere",
+        "v:divergere",
+        "v:erompere",
+        "v:rifulgere",
+        "v:prorompere",
+        "v:soccombere",
+        "v:solere"
+      ],
+      "type": "rare-or-defective-forms",
+      "severity": "review",
+      "status": "source-supported-follow-up",
+      "finding": "Source usage explicitly warns that forms are absent, rare, replaced by another expression, or restricted to particular tenses. Most unavailable participles are already marked missing by the engine; rarity is not uniformly represented as teaching metadata.",
+      "recommendation": "Keep unavailable forms out of assessment; preserve usage guidance and avoid making rare literary forms a mandatory daily-use lesson.",
+      "sources": []
+    },
+    {
+      "ids": [
+        "v:darsela",
+        "v:filarsela",
+        "v:fregarsene",
+        "v:intendersene",
+        "v:passarsela",
+        "v:piantarla",
+        "v:prendersela",
+        "v:sbrigarsela",
+        "v:sentirsela",
+        "v:spuntarla",
+        "v:starci",
+        "v:vedersela",
+        "v:farsene",
+        "v:intendersela",
+        "v:svignarsela"
+      ],
+      "type": "lexical-clitic-construction",
+      "severity": "review",
+      "status": "source-supported-follow-up",
+      "finding": "These are lexical idioms with fixed clitics and often required complements, not automatically compositional reflexives. Bare forms alone do not teach their intended use.",
+      "recommendation": "Keep progressive construction drills guarded until complete sense-specific scenes are authored; retain fixed pronoun and agreement notes in ordinary reference.",
+      "sources": []
+    },
+    {
+      "ids": [
+        "v:rinvenire",
+        "v:sporgere",
+        "v:sortire",
+        "v:conseguire"
+      ],
+      "type": "multiple-senses-morphology",
+      "severity": "review",
+      "status": "source-supported-follow-up",
+      "finding": "Stored usage distinguishes auxiliary, transitivity, or conjugation across senses. The app data holds one lemma record, so broad form alternatives can cross the selected meaning boundary.",
+      "recommendation": "Use an explicit lesson sense profile with morphology overrides and selected compatible examples; preserve other meanings in reference.",
+      "sources": []
+    }
+  ],
+  "records": [
+    {
+      "index": 800,
+      "id": "v:abdicare",
+      "inf": "abdicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 801,
+      "id": "v:abrogare",
+      "inf": "abrogare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 802,
+      "id": "v:accalcarsi",
+      "inf": "accalcarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 803,
+      "id": "v:accampare",
+      "inf": "accampare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 804,
+      "id": "v:accanirsi",
+      "inf": "accanirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 805,
+      "id": "v:addurre",
+      "inf": "addurre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 806,
+      "id": "v:aggirare",
+      "inf": "aggirare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 807,
+      "id": "v:agognare",
+      "inf": "agognare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 808,
+      "id": "v:allestire",
+      "inf": "allestire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 809,
+      "id": "v:ammiccare",
+      "inf": "ammiccare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 810,
+      "id": "v:ammortizzare",
+      "inf": "ammortizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 811,
+      "id": "v:annientare",
+      "inf": "annientare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 812,
+      "id": "v:appianare",
+      "inf": "appianare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 813,
+      "id": "v:arginare",
+      "inf": "arginare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 814,
+      "id": "v:arrogarsi",
+      "inf": "arrogarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 815,
+      "id": "v:assecondare",
+      "inf": "assecondare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 816,
+      "id": "v:assolvere",
+      "inf": "assolvere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 817,
+      "id": "v:astenersi",
+      "inf": "astenersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 818,
+      "id": "v:attecchire",
+      "inf": "attecchire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 819,
+      "id": "v:attestare",
+      "inf": "attestare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 820,
+      "id": "v:attuare",
+      "inf": "attuare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 821,
+      "id": "v:avallare",
+      "inf": "avallare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 822,
+      "id": "v:avvalorare",
+      "inf": "avvalorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 823,
+      "id": "v:biasimare",
+      "inf": "biasimare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 824,
+      "id": "v:brancolare",
+      "inf": "brancolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 825,
+      "id": "v:circoscrivere",
+      "inf": "circoscrivere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 826,
+      "id": "v:coadiuvare",
+      "inf": "coadiuvare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 827,
+      "id": "v:colmare",
+      "inf": "colmare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 828,
+      "id": "v:comparire",
+      "inf": "comparire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 829,
+      "id": "v:competere",
+      "inf": "competere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 830,
+      "id": "v:comprovare",
+      "inf": "comprovare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 831,
+      "id": "v:concorrere",
+      "inf": "concorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 832,
+      "id": "v:condonare",
+      "inf": "condonare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 833,
+      "id": "v:confutare",
+      "inf": "confutare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 834,
+      "id": "v:conseguire",
+      "inf": "conseguire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "multiple-senses-morphology"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 835,
+      "id": "v:contrarre",
+      "inf": "contrarre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 836,
+      "id": "v:contravvenire",
+      "inf": "contravvenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 837,
+      "id": "v:convalidare",
+      "inf": "convalidare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 838,
+      "id": "v:convergere",
+      "inf": "convergere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 839,
+      "id": "v:corredare",
+      "inf": "corredare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 840,
+      "id": "v:corroborare",
+      "inf": "corroborare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 841,
+      "id": "v:darsela",
+      "inf": "darsela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 842,
+      "id": "v:debellare",
+      "inf": "debellare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 843,
+      "id": "v:decadere",
+      "inf": "decadere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 844,
+      "id": "v:decorrere",
+      "inf": "decorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 845,
+      "id": "v:decretare",
+      "inf": "decretare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 846,
+      "id": "v:demandare",
+      "inf": "demandare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 847,
+      "id": "v:denigrare",
+      "inf": "denigrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 848,
+      "id": "v:deporre",
+      "inf": "deporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 849,
+      "id": "v:destare",
+      "inf": "destare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 850,
+      "id": "v:destreggiarsi",
+      "inf": "destreggiarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 851,
+      "id": "v:desumere",
+      "inf": "desumere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 852,
+      "id": "v:dilazionare",
+      "inf": "dilazionare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 853,
+      "id": "v:diramare",
+      "inf": "diramare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 854,
+      "id": "v:dirimere",
+      "inf": "dirimere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 855,
+      "id": "v:disattendere",
+      "inf": "disattendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 856,
+      "id": "v:discostarsi",
+      "inf": "discostarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 857,
+      "id": "v:disdegnare",
+      "inf": "disdegnare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 858,
+      "id": "v:dissipare",
+      "inf": "dissipare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 859,
+      "id": "v:dissolversi",
+      "inf": "dissolversi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 860,
+      "id": "v:distogliere",
+      "inf": "distogliere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 861,
+      "id": "v:eccellere",
+      "inf": "eccellere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 862,
+      "id": "v:eccepire",
+      "inf": "eccepire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 863,
+      "id": "v:eludere",
+      "inf": "eludere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 864,
+      "id": "v:erogare",
+      "inf": "erogare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 865,
+      "id": "v:esentare",
+      "inf": "esentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 866,
+      "id": "v:esimersi",
+      "inf": "esimersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 867,
+      "id": "v:esordire",
+      "inf": "esordire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 868,
+      "id": "v:espletare",
+      "inf": "espletare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 869,
+      "id": "v:estinguere",
+      "inf": "estinguere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 870,
+      "id": "v:esulare",
+      "inf": "esulare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 871,
+      "id": "v:evincere",
+      "inf": "evincere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 872,
+      "id": "v:fatturare",
+      "inf": "fatturare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 873,
+      "id": "v:filarsela",
+      "inf": "filarsela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 874,
+      "id": "v:fomentare",
+      "inf": "fomentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 875,
+      "id": "v:fraintendere",
+      "inf": "fraintendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 876,
+      "id": "v:fregarsene",
+      "inf": "fregarsene",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 877,
+      "id": "v:fruire",
+      "inf": "fruire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 878,
+      "id": "v:fugare",
+      "inf": "fugare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 879,
+      "id": "v:gioire",
+      "inf": "gioire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 880,
+      "id": "v:googlare",
+      "inf": "googlare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 881,
+      "id": "v:gravare",
+      "inf": "gravare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 882,
+      "id": "v:imbattersi",
+      "inf": "imbattersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 883,
+      "id": "v:immedesimarsi",
+      "inf": "immedesimarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 884,
+      "id": "v:impartire",
+      "inf": "impartire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 885,
+      "id": "v:imperversare",
+      "inf": "imperversare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 886,
+      "id": "v:impugnare",
+      "inf": "impugnare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 887,
+      "id": "v:inasprire",
+      "inf": "inasprire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 888,
+      "id": "v:incalzare",
+      "inf": "incalzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 889,
+      "id": "v:incentivare",
+      "inf": "incentivare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 890,
+      "id": "v:incombere",
+      "inf": "incombere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 891,
+      "id": "v:incorrere",
+      "inf": "incorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 892,
+      "id": "v:incriminare",
+      "inf": "incriminare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 893,
+      "id": "v:indennizzare",
+      "inf": "indennizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 894,
+      "id": "v:inficiare",
+      "inf": "inficiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 895,
+      "id": "v:infondere",
+      "inf": "infondere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 896,
+      "id": "v:infrangere",
+      "inf": "infrangere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 897,
+      "id": "v:inibire",
+      "inf": "inibire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 898,
+      "id": "v:insorgere",
+      "inf": "insorgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 899,
+      "id": "v:intavolare",
+      "inf": "intavolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 900,
+      "id": "v:intendersene",
+      "inf": "intendersene",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 901,
+      "id": "v:intentare",
+      "inf": "intentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 902,
+      "id": "v:intercorrere",
+      "inf": "intercorrere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 903,
+      "id": "v:irrompere",
+      "inf": "irrompere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 904,
+      "id": "v:lambire",
+      "inf": "lambire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 905,
+      "id": "v:legiferare",
+      "inf": "legiferare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 906,
+      "id": "v:lesinare",
+      "inf": "lesinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 907,
+      "id": "v:lievitare",
+      "inf": "lievitare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 908,
+      "id": "v:lusingare",
+      "inf": "lusingare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 909,
+      "id": "v:millantare",
+      "inf": "millantare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 910,
+      "id": "v:mitigare",
+      "inf": "mitigare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 911,
+      "id": "v:notificare",
+      "inf": "notificare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 912,
+      "id": "v:orchestrare",
+      "inf": "orchestrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 913,
+      "id": "v:ostentare",
+      "inf": "ostentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 914,
+      "id": "v:ovviare",
+      "inf": "ovviare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 915,
+      "id": "v:palesare",
+      "inf": "palesare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 916,
+      "id": "v:passarsela",
+      "inf": "passarsela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 917,
+      "id": "v:patire",
+      "inf": "patire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 918,
+      "id": "v:patteggiare",
+      "inf": "patteggiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 919,
+      "id": "v:paventare",
+      "inf": "paventare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 920,
+      "id": "v:perquisire",
+      "inf": "perquisire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 921,
+      "id": "v:pervenire",
+      "inf": "pervenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 922,
+      "id": "v:piantarla",
+      "inf": "piantarla",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 923,
+      "id": "v:ponderare",
+      "inf": "ponderare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 924,
+      "id": "v:precludere",
+      "inf": "precludere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 925,
+      "id": "v:prefiggersi",
+      "inf": "prefiggersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 926,
+      "id": "v:prendersela",
+      "inf": "prendersela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 927,
+      "id": "v:prescrivere",
+      "inf": "prescrivere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 928,
+      "id": "v:procrastinare",
+      "inf": "procrastinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 929,
+      "id": "v:prodigarsi",
+      "inf": "prodigarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 930,
+      "id": "v:profilarsi",
+      "inf": "profilarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 931,
+      "id": "v:promulgare",
+      "inf": "promulgare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 932,
+      "id": "v:propagarsi",
+      "inf": "propagarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 933,
+      "id": "v:propendere",
+      "inf": "propendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "source-internal-contradiction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 934,
+      "id": "v:prorogare",
+      "inf": "prorogare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 935,
+      "id": "v:protrarre",
+      "inf": "protrarre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 936,
+      "id": "v:quotare",
+      "inf": "quotare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 937,
+      "id": "v:raffigurare",
+      "inf": "raffigurare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 938,
+      "id": "v:rateizzare",
+      "inf": "rateizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 939,
+      "id": "v:ratificare",
+      "inf": "ratificare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 940,
+      "id": "v:ravvedersi",
+      "inf": "ravvedersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 941,
+      "id": "v:recepire",
+      "inf": "recepire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 942,
+      "id": "v:recriminare",
+      "inf": "recriminare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 943,
+      "id": "v:revocare",
+      "inf": "revocare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 944,
+      "id": "v:rimarcare",
+      "inf": "rimarcare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 945,
+      "id": "v:rimuginare",
+      "inf": "rimuginare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 946,
+      "id": "v:ripartire",
+      "inf": "ripartire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-sense-auxiliary"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 947,
+      "id": "v:ripristinare",
+      "inf": "ripristinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 948,
+      "id": "v:rivendicare",
+      "inf": "rivendicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 949,
+      "id": "v:sanzionare",
+      "inf": "sanzionare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 950,
+      "id": "v:sbrigarsela",
+      "inf": "sbrigarsela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 951,
+      "id": "v:scagionare",
+      "inf": "scagionare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 952,
+      "id": "v:scalfire",
+      "inf": "scalfire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 953,
+      "id": "v:schierarsi",
+      "inf": "schierarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 954,
+      "id": "v:scindere",
+      "inf": "scindere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 955,
+      "id": "v:sconfessare",
+      "inf": "sconfessare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 956,
+      "id": "v:scongiurare",
+      "inf": "scongiurare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 957,
+      "id": "v:screditare",
+      "inf": "screditare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 958,
+      "id": "v:sedare",
+      "inf": "sedare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 959,
+      "id": "v:sentirsela",
+      "inf": "sentirsela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 960,
+      "id": "v:seppellire",
+      "inf": "seppellire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 961,
+      "id": "v:sequestrare",
+      "inf": "sequestrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 962,
+      "id": "v:sfociare",
+      "inf": "sfociare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 963,
+      "id": "v:sgretolarsi",
+      "inf": "sgretolarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 964,
+      "id": "v:smarrire",
+      "inf": "smarrire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 965,
+      "id": "v:sminuire",
+      "inf": "sminuire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 966,
+      "id": "v:snaturare",
+      "inf": "snaturare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 967,
+      "id": "v:sobbarcarsi",
+      "inf": "sobbarcarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 968,
+      "id": "v:sopperire",
+      "inf": "sopperire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 969,
+      "id": "v:soppesare",
+      "inf": "soppesare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 970,
+      "id": "v:sopprimere",
+      "inf": "sopprimere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 971,
+      "id": "v:sopraggiungere",
+      "inf": "sopraggiungere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 972,
+      "id": "v:sovvertire",
+      "inf": "sovvertire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 973,
+      "id": "v:spiccare",
+      "inf": "spiccare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 974,
+      "id": "v:sporgere",
+      "inf": "sporgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "multiple-senses-morphology"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 975,
+      "id": "v:spuntarla",
+      "inf": "spuntarla",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 976,
+      "id": "v:stanziare",
+      "inf": "stanziare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 977,
+      "id": "v:starci",
+      "inf": "starci",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 978,
+      "id": "v:stipulare",
+      "inf": "stipulare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 979,
+      "id": "v:stravolgere",
+      "inf": "stravolgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 980,
+      "id": "v:subentrare",
+      "inf": "subentrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 981,
+      "id": "v:suffragare",
+      "inf": "suffragare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 982,
+      "id": "v:svalutare",
+      "inf": "svalutare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 983,
+      "id": "v:temprare",
+      "inf": "temprare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 984,
+      "id": "v:tergiversare",
+      "inf": "tergiversare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 985,
+      "id": "v:tramare",
+      "inf": "tramare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 986,
+      "id": "v:trapelare",
+      "inf": "trapelare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 987,
+      "id": "v:trascendere",
+      "inf": "trascendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 988,
+      "id": "v:travisare",
+      "inf": "travisare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 989,
+      "id": "v:travolgere",
+      "inf": "travolgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 990,
+      "id": "v:ultimare",
+      "inf": "ultimare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 991,
+      "id": "v:vagliare",
+      "inf": "vagliare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 992,
+      "id": "v:vanificare",
+      "inf": "vanificare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 993,
+      "id": "v:varare",
+      "inf": "varare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 994,
+      "id": "v:vedersela",
+      "inf": "vedersela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 995,
+      "id": "v:ventilare",
+      "inf": "ventilare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 996,
+      "id": "v:vertere",
+      "inf": "vertere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 997,
+      "id": "v:vincolare",
+      "inf": "vincolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 998,
+      "id": "v:abbacinare",
+      "inf": "abbacinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 999,
+      "id": "v:abborracciare",
+      "inf": "abborracciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1000,
+      "id": "v:accattare",
+      "inf": "accattare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1001,
+      "id": "v:accorare",
+      "inf": "accorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1002,
+      "id": "v:addirsi",
+      "inf": "addirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "subject-restriction-and-source-overstatement"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 1003,
+      "id": "v:addivenire",
+      "inf": "addivenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1004,
+      "id": "v:adire",
+      "inf": "adire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1005,
+      "id": "v:adombrarsi",
+      "inf": "adombrarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1006,
+      "id": "v:affrancare",
+      "inf": "affrancare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1007,
+      "id": "v:aizzare",
+      "inf": "aizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1008,
+      "id": "v:alienare",
+      "inf": "alienare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1009,
+      "id": "v:ammansire",
+      "inf": "ammansire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1010,
+      "id": "v:ammonticchiare",
+      "inf": "ammonticchiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1011,
+      "id": "v:anelare",
+      "inf": "anelare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1012,
+      "id": "v:angariare",
+      "inf": "angariare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1013,
+      "id": "v:annaspare",
+      "inf": "annaspare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1014,
+      "id": "v:annichilire",
+      "inf": "annichilire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1015,
+      "id": "v:appalesare",
+      "inf": "appalesare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1016,
+      "id": "v:appurare",
+      "inf": "appurare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1017,
+      "id": "v:ardere",
+      "inf": "ardere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1018,
+      "id": "v:arrovellarsi",
+      "inf": "arrovellarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1019,
+      "id": "v:arzigogolare",
+      "inf": "arzigogolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1020,
+      "id": "v:ascrivere",
+      "inf": "ascrivere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1021,
+      "id": "v:assalire",
+      "inf": "assalire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1022,
+      "id": "v:assuefarsi",
+      "inf": "assuefarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1023,
+      "id": "v:assurgere",
+      "inf": "assurgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1024,
+      "id": "v:astrarre",
+      "inf": "astrarre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1025,
+      "id": "v:attingere",
+      "inf": "attingere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1026,
+      "id": "v:avvedersi",
+      "inf": "avvedersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1027,
+      "id": "v:avvezzare",
+      "inf": "avvezzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1028,
+      "id": "v:avvincere",
+      "inf": "avvincere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1029,
+      "id": "v:avvinghiare",
+      "inf": "avvinghiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1030,
+      "id": "v:bearsi",
+      "inf": "bearsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1031,
+      "id": "v:beffare",
+      "inf": "beffare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1032,
+      "id": "v:biascicare",
+      "inf": "biascicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1033,
+      "id": "v:blandire",
+      "inf": "blandire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1034,
+      "id": "v:blaterare",
+      "inf": "blaterare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1035,
+      "id": "v:brandire",
+      "inf": "brandire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1036,
+      "id": "v:brulicare",
+      "inf": "brulicare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1037,
+      "id": "v:cagionare",
+      "inf": "cagionare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1038,
+      "id": "v:calmierare",
+      "inf": "calmierare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1039,
+      "id": "v:calunniare",
+      "inf": "calunniare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1040,
+      "id": "v:carpire",
+      "inf": "carpire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1041,
+      "id": "v:catalizzare",
+      "inf": "catalizzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1042,
+      "id": "v:celare",
+      "inf": "celare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1043,
+      "id": "v:censire",
+      "inf": "censire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1044,
+      "id": "v:cianciare",
+      "inf": "cianciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1045,
+      "id": "v:cincischiare",
+      "inf": "cincischiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1046,
+      "id": "v:circuire",
+      "inf": "circuire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1047,
+      "id": "v:coartare",
+      "inf": "coartare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1048,
+      "id": "v:coibentare",
+      "inf": "coibentare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1049,
+      "id": "v:commisurare",
+      "inf": "commisurare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1050,
+      "id": "v:compendiare",
+      "inf": "compendiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1051,
+      "id": "v:compiacersi",
+      "inf": "compiacersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1052,
+      "id": "v:contemperare",
+      "inf": "contemperare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1053,
+      "id": "v:contraffare",
+      "inf": "contraffare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1054,
+      "id": "v:corrucciarsi",
+      "inf": "corrucciarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1055,
+      "id": "v:crucciarsi",
+      "inf": "crucciarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1056,
+      "id": "v:decantare",
+      "inf": "decantare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1057,
+      "id": "v:defenestrare",
+      "inf": "defenestrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1058,
+      "id": "v:deferire",
+      "inf": "deferire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1059,
+      "id": "v:deflagrare",
+      "inf": "deflagrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1060,
+      "id": "v:delinquere",
+      "inf": "delinquere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "source-overstatement"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 1061,
+      "id": "v:deliziare",
+      "inf": "deliziare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1062,
+      "id": "v:depennare",
+      "inf": "depennare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1063,
+      "id": "v:deragliare",
+      "inf": "deragliare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1064,
+      "id": "v:derogare",
+      "inf": "derogare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1065,
+      "id": "v:desistere",
+      "inf": "desistere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1066,
+      "id": "v:detrarre",
+      "inf": "detrarre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1067,
+      "id": "v:dilaniare",
+      "inf": "dilaniare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1068,
+      "id": "v:dileguarsi",
+      "inf": "dileguarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1069,
+      "id": "v:dimenare",
+      "inf": "dimenare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1070,
+      "id": "v:dipanare",
+      "inf": "dipanare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1071,
+      "id": "v:discernere",
+      "inf": "discernere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1072,
+      "id": "v:disconoscere",
+      "inf": "disconoscere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1073,
+      "id": "v:disquisire",
+      "inf": "disquisire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1074,
+      "id": "v:dissodare",
+      "inf": "dissodare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1075,
+      "id": "v:divergere",
+      "inf": "divergere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1076,
+      "id": "v:dolersi",
+      "inf": "dolersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1077,
+      "id": "v:edulcorare",
+      "inf": "edulcorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1078,
+      "id": "v:effondere",
+      "inf": "effondere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1079,
+      "id": "v:elargire",
+      "inf": "elargire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1080,
+      "id": "v:elucubrare",
+      "inf": "elucubrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1081,
+      "id": "v:emendare",
+      "inf": "emendare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1082,
+      "id": "v:ergersi",
+      "inf": "ergersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1083,
+      "id": "v:erompere",
+      "inf": "erompere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1084,
+      "id": "v:esacerbare",
+      "inf": "esacerbare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1085,
+      "id": "v:esecrare",
+      "inf": "esecrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1086,
+      "id": "v:espungere",
+      "inf": "espungere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1087,
+      "id": "v:estorcere",
+      "inf": "estorcere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1088,
+      "id": "v:estrinsecare",
+      "inf": "estrinsecare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1089,
+      "id": "v:farneticare",
+      "inf": "farneticare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1090,
+      "id": "v:farsene",
+      "inf": "farsene",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1091,
+      "id": "v:fendere",
+      "inf": "fendere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1092,
+      "id": "v:foraggiare",
+      "inf": "foraggiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1093,
+      "id": "v:frangere",
+      "inf": "frangere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1094,
+      "id": "v:frapporre",
+      "inf": "frapporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1095,
+      "id": "v:garrire",
+      "inf": "garrire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1096,
+      "id": "v:ghermire",
+      "inf": "ghermire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1097,
+      "id": "v:giustapporre",
+      "inf": "giustapporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1098,
+      "id": "v:gongolare",
+      "inf": "gongolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1099,
+      "id": "v:gremire",
+      "inf": "gremire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1100,
+      "id": "v:imbonire",
+      "inf": "imbonire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1101,
+      "id": "v:impinguare",
+      "inf": "impinguare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1102,
+      "id": "v:incedere",
+      "inf": "incedere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1103,
+      "id": "v:incutere",
+      "inf": "incutere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1104,
+      "id": "v:indire",
+      "inf": "indire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1105,
+      "id": "v:indulgere",
+      "inf": "indulgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1106,
+      "id": "v:inerire",
+      "inf": "inerire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1107,
+      "id": "v:inferire",
+      "inf": "inferire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-sense-participle"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 1108,
+      "id": "v:infierire",
+      "inf": "infierire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1109,
+      "id": "v:ingerirsi",
+      "inf": "ingerirsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1110,
+      "id": "v:ingiungere",
+      "inf": "ingiungere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1111,
+      "id": "v:intendersela",
+      "inf": "intendersela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1112,
+      "id": "v:interdire",
+      "inf": "interdire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1113,
+      "id": "v:inveire",
+      "inf": "inveire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1114,
+      "id": "v:irretire",
+      "inf": "irretire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1115,
+      "id": "v:irrogare",
+      "inf": "irrogare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1116,
+      "id": "v:languire",
+      "inf": "languire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1117,
+      "id": "v:ledere",
+      "inf": "ledere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1118,
+      "id": "v:lenire",
+      "inf": "lenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1119,
+      "id": "v:librarsi",
+      "inf": "librarsi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1120,
+      "id": "v:lucrare",
+      "inf": "lucrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1121,
+      "id": "v:obliare",
+      "inf": "obliare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1122,
+      "id": "v:occludere",
+      "inf": "occludere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1123,
+      "id": "v:ostare",
+      "inf": "ostare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "defective-forms-and-source-overstatement"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 1124,
+      "id": "v:ottemperare",
+      "inf": "ottemperare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1125,
+      "id": "v:ottundere",
+      "inf": "ottundere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1126,
+      "id": "v:patrocinare",
+      "inf": "patrocinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1127,
+      "id": "v:percuotere",
+      "inf": "percuotere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1128,
+      "id": "v:perire",
+      "inf": "perire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1129,
+      "id": "v:permanere",
+      "inf": "permanere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1130,
+      "id": "v:permeare",
+      "inf": "permeare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1131,
+      "id": "v:perorare",
+      "inf": "perorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1132,
+      "id": "v:pervadere",
+      "inf": "pervadere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1133,
+      "id": "v:pignorare",
+      "inf": "pignorare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1134,
+      "id": "v:postulare",
+      "inf": "postulare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1135,
+      "id": "v:preludere",
+      "inf": "preludere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1136,
+      "id": "v:prevaricare",
+      "inf": "prevaricare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1137,
+      "id": "v:procacciare",
+      "inf": "procacciare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1138,
+      "id": "v:profondere",
+      "inf": "profondere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1139,
+      "id": "v:propalare",
+      "inf": "propalare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1140,
+      "id": "v:prorompere",
+      "inf": "prorompere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1141,
+      "id": "v:prosciogliere",
+      "inf": "prosciogliere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1142,
+      "id": "v:prudere",
+      "inf": "prudere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "subject-restriction"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 1143,
+      "id": "v:pullulare",
+      "inf": "pullulare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1144,
+      "id": "v:ragguagliare",
+      "inf": "ragguagliare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1145,
+      "id": "v:rapprendersi",
+      "inf": "rapprendersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1146,
+      "id": "v:ravvisare",
+      "inf": "ravvisare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1147,
+      "id": "v:recalcitrare",
+      "inf": "recalcitrare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1148,
+      "id": "v:recidere",
+      "inf": "recidere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1149,
+      "id": "v:redarguire",
+      "inf": "redarguire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1150,
+      "id": "v:redimere",
+      "inf": "redimere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1151,
+      "id": "v:rifulgere",
+      "inf": "rifulgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1152,
+      "id": "v:rimbrottare",
+      "inf": "rimbrottare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1153,
+      "id": "v:rincrescere",
+      "inf": "rincrescere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": true
+    },
+    {
+      "index": 1154,
+      "id": "v:rinvenire",
+      "inf": "rinvenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "multiple-senses-morphology"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1155,
+      "id": "v:rivalersi",
+      "inf": "rivalersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1156,
+      "id": "v:sbeffeggiare",
+      "inf": "sbeffeggiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1157,
+      "id": "v:sbigottire",
+      "inf": "sbigottire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1158,
+      "id": "v:scandagliare",
+      "inf": "scandagliare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1159,
+      "id": "v:schernire",
+      "inf": "schernire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1160,
+      "id": "v:sciorinare",
+      "inf": "sciorinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1161,
+      "id": "v:sferzare",
+      "inf": "sferzare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1162,
+      "id": "v:sobillare",
+      "inf": "sobillare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1163,
+      "id": "v:soccombere",
+      "inf": "soccombere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1164,
+      "id": "v:soggiacere",
+      "inf": "soggiacere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1165,
+      "id": "v:soggiogare",
+      "inf": "soggiogare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1166,
+      "id": "v:solere",
+      "inf": "solere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "rare-or-defective-forms"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1167,
+      "id": "v:sopire",
+      "inf": "sopire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1168,
+      "id": "v:sopraffare",
+      "inf": "sopraffare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1169,
+      "id": "v:sortire",
+      "inf": "sortire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "multiple-senses-morphology"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1170,
+      "id": "v:sottacere",
+      "inf": "sottacere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1171,
+      "id": "v:soverchiare",
+      "inf": "soverchiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1172,
+      "id": "v:sovvenire",
+      "inf": "sovvenire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1173,
+      "id": "v:struggersi",
+      "inf": "struggersi",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1174,
+      "id": "v:surrogare",
+      "inf": "surrogare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1175,
+      "id": "v:svignarsela",
+      "inf": "svignarsela",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "lexical-clitic-construction"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1176,
+      "id": "v:transigere",
+      "inf": "transigere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1177,
+      "id": "v:trasecolare",
+      "inf": "trasecolare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1178,
+      "id": "v:trasparire",
+      "inf": "trasparire",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1179,
+      "id": "v:trasporre",
+      "inf": "trasporre",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1180,
+      "id": "v:urgere",
+      "inf": "urgere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1181,
+      "id": "v:vagheggiare",
+      "inf": "vagheggiare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1182,
+      "id": "v:vaticinare",
+      "inf": "vaticinare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1183,
+      "id": "v:vessare",
+      "inf": "vessare",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1184,
+      "id": "v:vigere",
+      "inf": "vigere",
+      "reviewedFields": [
+        "en",
+        "usage",
+        "patterns"
+      ],
+      "reviewMethod": "Individual semantic reading; no automatic approval from regular morphology.",
+      "findings": [
+        "subject-restriction"
+      ],
+      "examplesIndividuallyReviewed": false
+    }
+  ],
+  "sourceCorrections": [
+    "ripartire: selected aux avere",
+    "propendere: per + option / a + infinitive",
+    "delinquere: uncommon present forms acknowledged",
+    "addirsi: rare compounds acknowledged",
+    "ostare: personal forms acknowledged; absent compound/remoto retained",
+    "urgere: needed-thing subject vs literary personal use",
+    "vigere: almost exclusively third-person simple forms"
+  ]
+}

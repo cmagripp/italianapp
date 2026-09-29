@@ -72,7 +72,7 @@ function normalizeEvent(raw, epochId) {
     objectiveId: raw.objectiveId, entryId: text(raw.entryId), kind: raw.kind === 'verb' ? 'verb' : 'word',
     skill: text(raw.skill, 'recall'), tense: text(raw.tense) || null,
     person: typeof raw.person === 'number' && Number.isInteger(raw.person) ? raw.person : text(raw.person) || null,
-    mode: raw.mode === 'production' ? 'production' : 'recognition',
+    mode: raw.mode === 'production' && raw.wordPolicy !== 'word-short-v1' ? 'production' : 'recognition',
     variantId: text(raw.variantId), contextId: text(raw.contextId),
     ok: outcome === 'correct' && raw.ok === true, outcome,
     assistance: strings(raw.assistance).filter(x => x !== 'none'), firstAttempt: raw.firstAttempt === true,
@@ -82,8 +82,9 @@ function normalizeEvent(raw, epochId) {
       policy: 'journey-v1', targetId: text(raw.targetId, raw.objectiveId),
       chapterId: text(raw.chapterId), contentVersion: Math.max(1, Math.floor(finite(raw.contentVersion, 1))),
       role: text(raw.role) || null,
-      activityKind: ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
+      activityKind: raw.wordPolicy==='word-short-v1' ? raw.activityKind==='repair'?'repair':'guided' : ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
       ...(Number.isInteger(raw.availableVariants) && raw.availableVariants >= 0 ? { availableVariants: raw.availableVariants } : {}),
+      ...(raw.wordPolicy === 'word-short-v1' ? { wordPolicy: 'word-short-v1', wordSlotId: text(raw.wordSlotId) } : {}),
     } : {}),
   };
 }
@@ -93,7 +94,7 @@ export function createLearning(now = Date.now()) {
     version: LEARNING_VERSION, createdAt: finite(now),
     // A common initial epoch lets independently migrated devices merge their work.
     epoch: { id: 'initial', at: 0 }, events: {},
-    preferences: { stage: 'present', expansions: [], updatedAt: 0 },
+    preferences: { stage: 'present', expansions: [], updatedAt: 0, coreOrderVersion: 2 },
     session: null, sessions: {},
   };
 }
@@ -116,7 +117,9 @@ export function normalizeLearning(raw, now = Date.now()) {
     ...(p.preferences && !Array.isArray(p.preferences) ? p.preferences : {}),
     stage: text(p.preferences?.stage, 'present'),
     expansions: strings(p.preferences?.expansions).sort(), updatedAt: finite(p.preferences?.updatedAt),
-    legacyTenses: unique([...strings(p.preferences?.legacyTenses), ...(finite(p.version) < 2 && ['future', 'background'].includes(p.preferences?.stage) ? ['imperfetto'] : [])]).sort(),
+    legacyTenses: unique([...strings(p.preferences?.legacyTenses), ...(finite(p.version) < 2 && ['future', 'background'].includes(p.preferences?.stage) ? ['imperfetto'] : []),
+      ...(finite(p.preferences?.coreOrderVersion) < 2 && p.preferences?.stage === 'background' ? ['futuro'] : [])]).sort(),
+    coreOrderVersion: 2,
   };
   const sessions = {};
   for (const candidate of Object.values(p.sessions || {})) {
@@ -213,7 +216,7 @@ function confirm(t, event, eligible) {
   }
 }
 
-function analyze(domain, objectiveId, now, all, positions, events) {
+function analyze(domain, objectiveId, now, all, positions, events, chronology = new Map()) {
   const last = events[events.length - 1];
   const journey = last?.policy === 'journey-v1';
   // A new content policy never upgrades legacy evidence, even if an imported
@@ -224,10 +227,10 @@ function analyze(domain, objectiveId, now, all, positions, events) {
     objectiveId, entryId: last?.entryId || null, kind: last?.kind || null, skill: last?.skill || null, tense: last?.tense || null,
     attempts: 0, recognitionCorrect: 0, productionAttempts: 0, productionQuestions: 0, independentCorrect: 0, requiredCorrect: required,
     variantCount: 0, independentPersons: [], spacedSuccess: false,
-    ready: false, remembered: false, status: 'new', readyAt: null, rememberedAt: null,
+    ready: false, remembered: false, status: 'new', readyAt: null, rememberedAt: null, readyPeriods: [],
     unresolvedErrors: [], components: {}, personEvidence: {}, sessionEvidence: {},
     srs: { s: 0, ef: 2.5, iv: 0, due: 0, reps: 0, lapses: 0 }, due: 0, isDue: false,
-    firstAt: events[0]?.at ?? null, lastAt: last?.at ?? null,
+    firstAt: events[0]?.at ?? null, lastAt: last?.at ?? null, firstCorrectAt: null, firstCorrectPosition: null,
     ...(journey ? { policy: 'journey-v1', role: last.role, chapterId: last.chapterId, contentVersion: last.contentVersion } : {}),
   };
   if (!events.length) return result;
@@ -240,6 +243,7 @@ function analyze(domain, objectiveId, now, all, positions, events) {
   for (const e of events) {
     if (e.outcome === 'skipped') continue; // a choice to skip is not a memory lapse
     result.attempts++; main.seen++;
+    if (e.ok && e.outcome === 'correct' && result.firstCorrectAt === null) { result.firstCorrectAt = e.at; result.firstCorrectPosition = chronology.get(e.id) ?? 0; }
     if (e.mode === 'production') result.productionQuestions++;
     const key = variantKey(e);
     const pos = positions.get(e.id);
@@ -296,14 +300,18 @@ function analyze(domain, objectiveId, now, all, positions, events) {
       else result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
     } else if (needsRepair) {
       result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
-    } else if (eligible && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
+    } else if ((eligible || e.wordPolicy === 'word-short-v1') && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
       && (!result.srs.due || e.at >= result.srs.due || (!result.srs.reps && !result.srs.lapses))) {
-      result.srs = schedule(result.srs, 4, e.at); advanced.add(e.sessionId);
+      result.srs = schedule(result.srs, eligible ? 4 : 3, e.at); advanced.add(e.sessionId);
     } else if (!result.srs.due) result.srs.due = e.at + SHORT_REVIEW;
 
     const unresolved = main.unresolved || Object.values(result.components).some(t => t.unresolved) || Object.values(result.personEvidence).some(t => t.unresolved);
     const recentRequired = journey ? 2 : 3;
     const ready = result.independentCorrect >= required && variations.size >= 2 && checks.length >= recentRequired && checks.slice(-recentRequired).every(Boolean) && result.spacedSuccess && !unresolved;
+    // Completion milestones use intersecting readiness intervals. A later lapse
+    // can reopen practice without rewriting an honestly completed chapter.
+    if (ready && !result.ready) result.readyPeriods.push({ start: chronology.get(e.id) ?? 0, end: null, at: e.at });
+    if (!ready && result.ready) result.readyPeriods[result.readyPeriods.length - 1].end = chronology.get(e.id) ?? 0;
     if (!ready) {
       result.readyAt = null; readySession = null; delayed.length = 0; result.rememberedAt = null;
     } else if (result.readyAt === null) {
@@ -329,7 +337,7 @@ function evidenceFor(domain, now) {
   const cached = cacheable && evidenceCache.get(domain);
   if (cached && cached.eventsRef === domain.events && cached.epochId === domain.epoch?.id && cached.epochAt === domain.epoch?.at) return cached;
   const learning = normalizeLearning(domain, now), events = orderedEvents(learning);
-  const positions = new Map(), bySession = new Map(), byObjective = new Map();
+  const positions = new Map(), bySession = new Map(), byObjective = new Map(), chronology = new Map(events.map((e, i) => [e.id, i]));
   for (const e of events) {
     if (!bySession.has(e.sessionId)) bySession.set(e.sessionId, []);
     if (!byObjective.has(e.objectiveId)) byObjective.set(e.objectiveId, []);
@@ -339,12 +347,12 @@ function evidenceFor(domain, now) {
     group.sort((a, b) => cmp(a.index, b.index) || compareEvents(a, b));
     group.forEach((e, i) => positions.set(e.id, i));
   }
-  const context = { learning, events, positions, byObjective, summaries: new Map(), eventsRef: domain?.events, epochId: domain?.epoch?.id, epochAt: domain?.epoch?.at };
+  const context = { learning, events, positions, chronology, byObjective, summaries: new Map(), eventsRef: domain?.events, epochId: domain?.epoch?.id, epochAt: domain?.epoch?.at };
   if (cacheable) evidenceCache.set(domain, context);
   return context;
 }
 function summaryFrom(context, id, now) {
-  if (!context.summaries.has(id)) context.summaries.set(id, analyze(context.learning, id, 0, context.events, context.positions, context.byObjective.get(id) || []));
+  if (!context.summaries.has(id)) context.summaries.set(id, analyze(context.learning, id, 0, context.events, context.positions, context.byObjective.get(id) || [], context.chronology));
   // Callers can decorate their returned summary without corrupting the cache.
   const summary = plain(context.summaries.get(id));
   summary.isDue = !!summary.due && summary.due <= now;

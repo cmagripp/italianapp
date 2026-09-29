@@ -2,10 +2,11 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createLearning, recordAttempt, normalizeLearning, mergeLearning, resetLearning, skillState, learningSessionKey, LEARNING_VERSION } from '../js/learning/model.js';
-import { createJourneySession, currentJourneyStep, advanceJourney, journeyAttempt, recordJourneyAttempt, skipJourneyTarget, retryJourneyPending, chooseJourneyChapter, deferJourneyTarget, journeyProgress, journeyTargetState } from '../js/learning/journey.js';
+import { createJourneySession, currentJourneyStep, advanceJourney, journeyAttempt, recordJourneyAttempt, journeyPairAttempt, recordJourneyPairAttempt, skipJourneyTarget, retryJourneyPending, chooseJourneyChapter, deferJourneyTarget, journeyProgress, journeyTargetState, journeyCaseProgress } from '../js/learning/journey.js';
 import { buildLesson } from '../js/learning/lesson-content.js';
 import { buildJourneyQuestion } from '../js/learning/lesson-questions.js';
 import { gradeQuestion } from '../js/learning/diagnose.js';
+import { gradePairActivity } from '../js/learning/lesson-activities.js';
 const START = 1700000000000, DAY = 86400e3;
 const clone = v => JSON.parse(JSON.stringify(v));
 let count = 0;
@@ -31,6 +32,13 @@ function harness(p = plan, options = {}) {
     question() {
       const s = this.step(); assert.equal(s.type, 'question');
       return { type: s.phase === 'independent' ? 'type' : 'mc', answer: s.target.answerForms || ['ok'], meta: { targetId: s.target.id, skill: s.target.skill, mode: s.phase === 'independent' ? 'production' : 'recognition', variantId: `${s.target.id}:${s.variant % 2}`, contextId: `${s.target.id}:context-${s.variant % 2}` } };
+    },
+    pairAnswer(q, targetId, given, attempt = 0) {
+      const grade = gradePairActivity(q, { targetId, given });
+      const event = journeyPairAttempt(p, session, q, grade, { targetId, attempt, now: ++time }); assert.ok(event);
+      Object.assign(event, { deviceId: 'test', sequence: ++serial, epochId: learning.epoch.id });
+      const result = recordAttempt(learning, event); learning = result.learning;
+      session = recordJourneyPairAttempt(p, session, event, result); return grade;
     },
     answer(patch = {}, q = this.question()) {
       const s = this.step(), grade = { ok: true, outcome: 'correct', errorTags: [], components: [{ skill: s.target.skill, ok: true }], ...patch };
@@ -63,14 +71,42 @@ function addEvidence(learning, patches) {
 }
 const gap = () => [{ objectiveId: mainTargets[1].id, mode: 'recognition', activityKind: 'guided' }, { objectiveId: mainTargets[2].id, mode: 'recognition', activityKind: 'guided' }];
 
-test('teaching precedes supported and independent practice; zero-target Meet can complete', () => {
+test('Meet continues straight to Present teaching without an empty practice or recap', () => {
   const h = harness(); assert.equal(h.step().type, 'teach');
-  assert.equal(h.next().type, 'recap');
-  assert.equal(journeyProgress(plan, h.session, h.learning).chapters[0].complete, true);
-  assert.equal(h.next().card.id, 'first'); assert.equal(h.next().card.id, 'second');
+  const present = h.next(); assert.equal(present.type, 'teach'); assert.equal(present.chapter.id, 'present');
+  assert.equal(present.card.id, 'first');
+  const intro = journeyProgress(plan, h.session, h.learning).chapters[0];
+  assert.equal(intro.covered, true); assert.equal(intro.total, 0); assert.equal(intro.ready, 0); assert.equal(intro.remembered, 0);
+  assert.equal(h.session.index, 0); assert.deepEqual(h.learning.events, {});
+  assert.equal(h.next().card.id, 'second');
   const q = h.next(); assert.equal(q.phase, 'guided'); assert.equal(q.target.id, mainTargets[0].id);
   h.answer(); assert.equal(journeyTargetState(h.learning, q.target).independentCorrect, 0);
   assert.equal(h.step().type, 'question'); assert.equal(h.step().awaitingContinue, true);
+});
+
+test('a saved old Meet recap continues without resetting its session, history, or UI', () => {
+  const h = harness();
+  const old = clone(h.session);
+  old.journey.phase = 'recap'; old.journey.groupIndex = 1; old.journey.covered.meet = START;
+  old.ui = { version: 2, exposures: { fixture: 0 }, paused: true, draft: '' };
+  const restored = normalizeLearning({ ...h.learning, session: old }).session;
+  assert.equal(currentJourneyStep(plan, restored, h.learning).type, 'recap');
+  const resumed = advanceJourney(plan, restored, h.learning, { now: START + 1 });
+  const step = currentJourneyStep(plan, resumed, h.learning);
+  assert.equal(step.type, 'teach'); assert.equal(step.chapter.id, 'present'); assert.equal(step.card.id, 'first');
+  assert.equal(resumed.id, old.id); assert.equal(resumed.journey.covered.meet, START);
+  assert.deepEqual(resumed.ui, old.ui); assert.deepEqual(resumed.answeredEventIds, old.answeredEventIds);
+  assert.equal(resumed.index, 0); assert.deepEqual(h.learning.events, {});
+  assert.equal(restored.journey.phase, 'recap');
+});
+
+test('Meet with an actual assessment retains its legitimate practice and recap', () => {
+  const assessed = clone(plan);
+  assessed.chapters[0].groups[0].targets = [target('meaning', null, { skill: 'meaning' })];
+  const h = harness(assessed);
+  const step = h.next(); assert.equal(step.type, 'question'); assert.equal(step.chapter.id, 'meet');
+  assert.equal(step.phase, 'guided');
+  h.skip(); assert.equal(h.step().type, 'recap'); assert.equal(h.step().chapter.id, 'meet');
 });
 
 test('each person and formal-address target needs two separated, varied independent answers', () => {
@@ -152,7 +188,7 @@ test('repeated mistakes offer help without an automatic retry cap', () => {
     assert.equal(h.next().phase, 'repair'); formats.add(h.step().format);
   }
   assert.equal(journeyTargetState(h.learning, id).ready, false);
-  assert.deepEqual([...formats].sort(), ['mc', 'type']);
+  assert.deepEqual([...formats].sort(), ['letters', 'mc', 'type']);
 });
 
 test('skip is a deferred choice, never evidence, XP, or target completion', () => {
@@ -375,22 +411,105 @@ test('correct supported successes preserve established readiness without adding 
 test('v1 stage enrollment migrates without silently removing imperfetto access', () => {
   for (const stage of ['future', 'background']) {
     const d = normalizeLearning({ ...createLearning(START), version: 1, preferences: { stage, expansions: [] } });
-    assert.deepEqual(d.preferences.legacyTenses, ['imperfetto']);
-    assert.deepEqual(normalizeLearning(d).preferences.legacyTenses, ['imperfetto']);
+    assert.deepEqual(d.preferences.legacyTenses, stage === 'background' ? ['futuro','imperfetto'] : ['imperfetto']);
+    assert.deepEqual(normalizeLearning(d).preferences.legacyTenses, d.preferences.legacyTenses);
   }
   assert.deepEqual(normalizeLearning(createLearning(START)).preferences.legacyTenses, []);
+});
+
+
+const fiveCasePlan = { ...plan, chapters: ['present','past','background','future','condizionale'].map(ch => ({
+  ...plan.chapters[1], id: ch, title: ch, groups: plan.chapters[1].groups.map(g => ({ ...g,
+    targets: g.targets.map(t => ({ ...t, id: t.id.replace('::present::', `::${ch}::`) })) }))
+})) };
+test('five cases are independently selectable and only all five complete the verb; Meet and mixed are not requirements', () => {
+  const h=harness(fiveCasePlan,{caseMode:true,chapterId:'future'});
+  for(const [i,ch] of ['future','present','background','past','condizionale'].entries()) {
+    if(i)h.session=chooseJourneyChapter(fiveCasePlan,h.session,ch,{learning:h.learning,now:h.now});
+    h.until(s=>s.type==='recap');
+    const progress=journeyCaseProgress(fiveCasePlan,h.learning,h.session,h.now);
+    assert.equal(progress.completed,i+1);assert.equal(progress.complete,i===4);
+    assert.equal(progress.cases.find(c=>c.id===ch).ready,true);
+    h.next();assert.equal(h.step().type,'complete');assert.equal(h.session.journey.chapterId,ch);
+  }
+  assert.equal(journeyProgress(fiveCasePlan,h.session,h.learning,h.now).complete,true);
+  assert.equal(journeyCaseProgress(fiveCasePlan,h.learning,null,h.now).complete,true,'event history alone retains completion');
+  assert.equal(journeyCaseProgress(fiveCasePlan,normalizeLearning(clone(h.learning)),null,h.now).mixedAvailable,true);
+});
+test('switching unfinished cases restores exact cursor while question serial and evidence counters never rewind', () => {
+  const h=harness(fiveCasePlan,{caseMode:true,chapterId:'present'});h.until(s=>s.type==='question');
+  const original=clone(h.session.journey.current);h.answer();
+  const awaiting=clone(h.session.journey);
+  h.session=chooseJourneyChapter(fiveCasePlan,h.session,'past',{learning:h.learning,now:h.now});
+  h.until(s=>s.type==='question');h.answer();const serial=h.session.journey.serial,index=h.session.index;
+  h.session=normalizeLearning({...h.learning,session:h.session}).session;
+  h.session=chooseJourneyChapter(fiveCasePlan,h.session,'present',{learning:h.learning,now:h.now});
+  assert.deepEqual(h.session.journey.current,original);assert.equal(h.session.journey.awaitingContinue,true);
+  assert.deepEqual(h.session.journey.queue,awaiting.queue);assert.equal(h.session.index,index);assert.equal(h.session.journey.serial,serial);
+  h.next();assert.ok(h.session.journey.serial>serial);
+});
+test('redo preserves earned green completion while requiring fresh spaced independent checks', () => {
+  const h=harness(fiveCasePlan,{caseMode:true,chapterId:'present'});h.until(s=>s.type==='recap');
+  const before=Object.keys(h.learning.events).length,at=journeyCaseProgress(fiveCasePlan,h.learning).cases[0].completedAt;
+  h.session=chooseJourneyChapter(fiveCasePlan,h.session,'present',{redo:true,learning:h.learning,now:h.now});
+  assert.equal(h.step().type,'teach');assert.equal(journeyProgress(fiveCasePlan,h.session,h.learning).chapters[0].complete,false);
+  h.until(s=>s.type==='question'&&s.phase==='independent');h.answer({ok:false,outcome:'incorrect',errorTags:['person'],components:[{skill:'conjugation',ok:false,errorTag:'person'}]});
+  assert.equal(journeyCaseProgress(fiveCasePlan,h.learning).cases[0].ready,true);
+  assert.equal(journeyCaseProgress(fiveCasePlan,h.learning).cases[0].reviewNeeded,true);
+  h.next();h.until(s=>s.type==='recap',400);
+  assert.equal(journeyProgress(fiveCasePlan,h.session,h.learning).chapters[0].complete,true);
+  assert.equal(journeyCaseProgress(fiveCasePlan,h.learning).cases[0].completedAt,at);
+  const fresh=Object.values(h.learning.events).slice(before).filter(e=>e.mode==='production'&&e.ok&&!e.assistance.length);
+  for(const t of fiveCasePlan.chapters[0].groups.flatMap(g=>g.targets))assert.ok(fresh.filter(e=>e.objectiveId===t.id).length>=2,t.id);
+});
+test('case milestone never combines target successes that were not ready at the same time', () => {
+  const a=mainTargets[0],b=mainTargets[1],p={...fiveCasePlan,chapters:fiveCasePlan.chapters.map((ch,i)=>i?ch:{...ch,groups:[{id:'only',cards:[],targets:[a,b]}]})};
+  let learning=addEvidence(createLearning(START),[{},...gap(),{}, {ok:false,outcome:'incorrect',errorTags:['person']}]);
+  learning=addEvidence(learning,[{objectiveId:b.id},...gap(),{objectiveId:b.id}]);
+  assert.equal(journeyTargetState(learning,a).ready,false);assert.equal(journeyTargetState(learning,b).ready,true);
+  assert.equal(journeyCaseProgress(p,learning).cases[0].ready,false);
+  learning=addEvidence(learning,[{},...gap(),{}]);assert.equal(journeyCaseProgress(p,learning).cases[0].ready,true);
+});
+test('a legacy background enrollment retains its previously available future without changing new chapter order', () => {
+  const raw={...createLearning(START),preferences:{stage:'background',expansions:[]}};
+  const upgraded=normalizeLearning(raw);assert.ok(upgraded.preferences.legacyTenses.includes('futuro'));
+  assert.equal(upgraded.preferences.coreOrderVersion,2);
+  const fresh=createLearning(START);fresh.preferences.stage='background';assert.ok(!normalizeLearning(fresh).preferences.legacyTenses.includes('futuro'));
+});
+
+
+test('unsupported cases stay visible and exempt, without pretending their forms were learned',()=>{
+ const p=clone(fiveCasePlan);p.chapters[3].groups=[];
+ const h=harness(p,{caseMode:true,chapterId:'present'});
+ for(const id of ['present','past','background','condizionale']){
+  h.session=chooseJourneyChapter(p,h.session,id,{learning:h.learning,now:h.now});h.until(s=>s.type==='recap');
+ }
+ const progress=journeyCaseProgress(p,h.learning,h.session);
+ assert.equal(progress.total,4);assert.equal(progress.caseCount,5);assert.equal(progress.complete,true);
+ const absent=progress.cases.find(c=>c.id==='future');assert.equal(absent.ready,false);assert.equal(absent.available,false);assert.equal(absent.exempt,true);assert.ok(absent.limitation);
+ const empty={...p,chapters:p.chapters.map(c=>({...c,groups:[]}))};
+ assert.equal(journeyCaseProgress(empty,createLearning()).complete,false,'no available curriculum cannot automatically mark the entry learned');
+});
+test('a required supported usage explanation gates completion without granting independent mastery',()=>{
+ const p=clone(fiveCasePlan),rule=target('usage',null,{skill:'progressiveUsage',required:false,guidedOnly:true,completionRequired:true,answerForms:['An ongoing action']});
+ p.chapters[0].groups.push({id:'usage',cards:[{id:'rule'}],targets:[rule]});
+ const h=harness(p,{caseMode:true,chapterId:'present'});h.until(s=>s.type==='teach'&&s.group.id==='usage');
+ assert.equal(journeyCaseProgress(p,h.learning).cases[0].ready,false);
+ h.next();h.answer();h.next();h.until(s=>s.type==='recap');
+ const state=journeyTargetState(h.learning,rule);assert.equal(state.ready,true);assert.equal(state.supportedCompletion,true);assert.equal(state.independentCorrect,0);
+ assert.equal(skillState(h.learning,rule.id).ready,false);assert.equal(journeyCaseProgress(p,h.learning).cases[0].ready,true);
 });
 
 // This mirrors browser exposure bookkeeping while using real teaching, prompts,
 // answer diagnostics and event normalization. It catches queues whose supported
 // choices reveal the next answer and whose scheduling can otherwise cycle.
-for (const [file, property, value, chapterId] of [['verbs', 'inf', 'credere'], ['verbs', 'inf', 'piovere'], ['vocab', 'it', 'casa'], ['verbs', 'inf', 'credere', 'imperativo'], ['verbs', 'inf', 'piovere', 'background']]) test(`real ${value}${chapterId ? ' ' + chapterId : ''} chapters finish with exposure-aware independent evidence`, () => {
+for (const [file, property, value, chapterId] of [['verbs', 'inf', 'credere'], ['verbs', 'inf', 'parlare'], ['verbs', 'inf', 'piovere'], ['vocab', 'it', 'casa'], ['verbs', 'inf', 'credere', 'imperativo'], ['verbs', 'inf', 'piovere', 'background'], ['verbs', 'inf', 'bisognare'], ['verbs', 'inf', 'trattarsi']]) test(`real ${value}${chapterId ? ' ' + chapterId : ''} chapters finish with exposure-aware independent evidence`, () => {
   const entry = JSON.parse(readFileSync(new URL(`../data/${file}.json`, import.meta.url))).find(e => e[property] === value);
   const p = buildLesson(entry), h = harness(p, { chapterId });
   const norm = a => String(a).normalize('NFC').trim().toLocaleLowerCase('it').replace(/\s+/g, ' ');
-  let activityCount = 0, passes = 0; const trace=[];
+  let activityCount = 0, passes = 0, progressiveError = false, progressiveRepair = false; const trace=[];
   const expose = forms => { h.session.ui ||= { exposures: {} }; for (const form of forms) if (form) h.session.ui.exposures[norm(form)] = h.session.index; };
-  while (h.step().type !== 'complete' && passes++ < 750) {
+  while (h.step().type !== 'complete' && passes++ < 1500) {
     const s = h.step();
     if (s.type === 'teach') {
       for (const row of s.card?.forms || []) expose(String(row.form).split(/\s*\/\s*/));
@@ -404,7 +523,19 @@ for (const [file, property, value, chapterId] of [['verbs', 'inf', 'credere'], [
       const q = buildJourneyQuestion(entry, s.chapter, s.target, s); assert.ok(q, `${value}/${s.target.id} missing question`);
       const assistance = (q.meta.exposureForms || q.answer).some(a => typeof h.session.ui?.exposures?.[norm(a)] === 'number' && h.session.index - h.session.ui.exposures[norm(a)] < 2) ? ['visible-form'] : [];
       expose(q.meta.promptExposureForms || []); expose((q.choices || []).map(c => c.value ?? c.label));
-      const grade = gradeQuestion(q, q.answer[0]); assert.equal(grade.ok, true, `${value}: expected answer not accepted`);
+      if (q.type === 'pairs') {
+        expose(q.pairs.flatMap(pair => pair.answers));
+        const matched = new Set();
+        for (const pair of q.pairs) {
+          assert.equal(h.pairAnswer(q, pair.targetId, pair.canonical).ok, true); matched.add(pair.id);
+          expose([pair.canonical, ...q.rightTiles.filter(tile => !matched.has(tile.pairId)).map(tile => tile.text)]);
+        }
+      }
+      const injectError = value === 'parlare' && !progressiveError && s.target.skill === 'progressive' && s.target.person === 0;
+      const grade = gradeQuestion(q, injectError ? 'sono parlando' : q.answer[0]);
+      if(injectError){progressiveError=true;assert.ok(grade.errorTags.includes('auxiliary'));}
+      else assert.equal(grade.ok, true, `${value}: expected answer not accepted`);
+      if(value==='parlare'&&q.meta.scaffold&&q.meta.skill==='auxiliary'&&s.target.progressive){progressiveRepair=true;assert.equal(q.meta.mode,'recognition');}
       h.answer({ ...grade, assistance }, q); activityCount++; trace.push([s.target.id,s.phase,s.variant,q.type,assistance,h.session.index,q.meta.variantId]);
       expose(q.answer); expose(q.meta.feedbackExposureForms || []); expose((q.choices || []).map(c => c.value ?? c.label));
     } else if (s.awaitingContinue || ['recap', 'repair'].includes(s.type)) h.next();
@@ -413,7 +544,8 @@ for (const [file, property, value, chapterId] of [['verbs', 'inf', 'credere'], [
   if(h.step().type !== 'complete') console.log(JSON.stringify({phase:h.session.journey.phase,queue:h.session.journey.queue,trace:trace.slice(0,20).concat(trace.slice(-8)),states:journeyProgress(p,h.session,h.learning).chapters.find(c=>c.id===h.step().chapter.id)?.targets.map(s=>({id:s.target.id,ready:s.ready,n:s.independentCorrect,v:s.variantCount,errs:s.unresolvedErrors,spaced:s.spacedSuccess}))},null,2));
   assert.equal(h.step().type, 'complete', `${value}: ${activityCount} answers did not finish (${h.step().chapter?.id})`);
   assert.equal(chapterId ? journeyProgress(p,h.session,h.learning).chapters.find(c=>c.id===chapterId).complete : journeyProgress(p, h.session, h.learning).complete, true);
-  assert.ok(activityCount < 220, `${value}: excessive all-correct lesson length ${activityCount}`);
+  if(value==='parlare'){assert.equal(progressiveError,true);assert.equal(progressiveRepair,true);}
+  assert.ok(activityCount < 450, `${value}: excessive all-correct lesson length ${activityCount}`);
 });
 
 console.log(`\n${count} journey model checks passed.`);

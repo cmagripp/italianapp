@@ -62,7 +62,7 @@ test('helper facts and supplied construction parts never become independent due 
   assert.equal(eligibleSkills(s,NOW+DAY).length,0);
 });
 test('optional expansion review follows enrollment without losing its events',()=>{
-  const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.tense==='condizionale');assert(t);
+  const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.tense==='imperativo');assert(t);
   s.answer(e,t);assert.equal(dueSkills(s,NOW+DAY).length,0);
   s.learning.preferences.expansions=['requests'];assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
   s.learning.preferences.expansions=[];assert.equal(dueSkills(s,NOW+DAY).length,0);
@@ -98,4 +98,16 @@ test('unvisited optional targets do not force review after explicit core deferra
   for(const t of lessonObjectives(e).filter(t=>!t.optional)) {session.deferred[t.id]=NOW;session.journey.skipped[t.id]=NOW;}
   s.save(session);assert.equal(recommendLesson(s,{now:NOW+DAY}).entry.id,w.id);
 });
+
+test('a completed run recommends another supported core case, never an empty Meet or mixed recap',()=>{
+ const e=verb('credere'),s=fixture([e]),session=createJourneySession({id:'case-done',plan:lessonPlan(e),now:NOW,chapterId:'future',caseMode:true});
+ session.journey.phase='complete';s.save(session);
+ const recommendation=recommendLesson(s,{now:NOW});assert.equal(recommendation.mode,'lesson');assert.equal(recommendation.chapterId,'present');assert.equal(recommendation.objectiveId,undefined);
+});
+test('promoted conditional evidence remains reviewable without optional expansion enrollment',()=>{
+ const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.chapterId==='condizionale'&&t.skill==='conjugation');
+ assert.equal(t.optional,false);s.answer(e,t);assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
+ s.learning.preferences.expansions=[];assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
+});
+
 console.log(`\n${passed} taught-lesson integration checks passed.`);

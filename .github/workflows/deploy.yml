@@ -36,7 +36,12 @@ jobs:
           node tools/test-learning-store-sync.mjs
           node tools/test-learning-integration.mjs
           node tools/test-lesson-content.mjs
+          node tools/test-sentence-lookup.mjs
+          node tools/test-word-questions.mjs
+          node tools/test-short-word-model.mjs
           node tools/test-journey-model.mjs
+          node tools/test-lesson-activities.mjs
+          node tools/test-progressive-content.mjs
           node tools/test-journey-integration.mjs
           node tools/check-shell.mjs
       - uses: actions/configure-pages@v5
