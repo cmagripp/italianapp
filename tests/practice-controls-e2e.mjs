@@ -10,6 +10,9 @@ const results=[],errors=[],screenshots=[];let context,page;
 fs.mkdirSync(SHOTS_DIR,{recursive:true});
 const game=(id,ids=null,extra={})=>'/game/'+id+'?'+new URLSearchParams({src:ids?'ids:'+ids.join(','):'level:A1',count:'6',...extra});
 const fixtureIds=['w:casa|noun','w:libro|noun','w:caffè|noun'];
+// A layout test needs a playable crossword; a random six-item level sample
+// can legitimately contain too few single words to build one.
+const crosswordIds=[...fixtureIds,'w:cane|noun','w:gatto|noun','w:pane|noun'];
 async function fresh(width=390,theme='light'){
  await context?.close();context=await browser.newContext(contextOptions(devices['iPhone 13'],{viewport:{width,height:width===375?667:844},reducedMotion:'reduce'}));
  await context.addInitScript(()=>Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[],cancel:()=>{},speak:u=>{const a=JSON.parse(sessionStorage.getItem('practice-speech')||'[]');a.push({text:u.text,lang:u.lang});sessionStorage.setItem('practice-speech',JSON.stringify(a));}}}));
@@ -122,7 +125,7 @@ try{
   const ratings=await page.locator('[data-grade] button').evaluateAll(nodes=>nodes.map(e=>e.getBoundingClientRect().toJSON()));assert.equal(ratings.length,4);const card=await flash().boundingBox();
   for(let i=0;i<ratings.length;i++){assert(Math.abs(ratings[i].x-card.x)<=2,'ratings align to card');assert(Math.abs(ratings[i].width-card.width)<=2,'each rating spans card width');if(i)assert(ratings[i].y-ratings[i-1].bottom>=6,'stacked ratings have separation');await reachable(`[data-q="${[1,3,4,5][i]}"]`);}await page.evaluate(()=>scrollTo(0,0));await shot(`${width}-${theme}-flashcards`);
   const visits=[];for(const id of['quiz','typing','matching','sentence','speed','hangman','crossword','tense-detective']){
-   await gotoRoute(page,game(id,null,id==='speed'?{seconds:'30'}:{}));await page.waitForTimeout(150);assert.doesNotMatch(await page.locator('#view').innerText(),/too few|no questions|unknown game/i);const g=await phoneLayout(id);visits.push({id,controls:g.controls.length});assert(g.controls.length>1,id+' renders controls');
+   await gotoRoute(page,game(id,id==='crossword'?crosswordIds:null,id==='speed'?{seconds:'30'}:{}));await page.waitForTimeout(150);assert.doesNotMatch(await page.locator('#view').innerText(),/too few|no questions|unknown game/i);const g=await phoneLayout(id);visits.push({id,controls:g.controls.length});assert(g.controls.length>1,id+' renders controls');
    const primary={quiz:'[data-choice], [data-check]',typing:'[data-check]',matching:'.m',sentence:'[data-add]',speed:'[data-c]',hangman:'[data-dock] .k',crossword:'[data-dock] .k','tense-detective':'[data-choice]'}[id];await reachable(primary);const lastControl=page.locator('#view button:not([disabled]), #view a.btn').last();if(id==='crossword')await page.locator('.practice-host').evaluate(e=>e.scrollTop=e.scrollHeight);if(await lastControl.isVisible())await reachable(lastControl);await page.evaluate(()=>{scrollTo(0,0);document.querySelector('.practice-host')?.scrollTo(0,0);document.querySelector('.drill-main')?.scrollTo(0,0);});await shot(`${width}-${theme}-${id}`);
   }return{ratings:ratings.map(r=>({width:r.width,height:r.height})),visits};
  });
