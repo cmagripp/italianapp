@@ -1,7 +1,7 @@
 // Shared UI components: entry rows, word cards, verb cards, conjugation tables (dial + fan), list picker, action bar.
 import { html, raw, esc, tr, trBlock, enPill, speakBtn, sheet, toast, promptDialog, levelBadge, icon } from './ui.js';
 import { store } from './store.js';
-import { CATS, POS_NAME, GENDER_NAME, article, withArticle, isPluralOnly, isUncountable, headword, shortEn, getEntry } from './data.js';
+import { CATS, POS_NAME, GENDER_NAME, article, withArticle, isPluralOnly, hasPluralForm, nounNumberNote, headword, shortEn, getEntry } from './data.js';
 import { conjugate, splitClitic, PERSONS, IMP_PERSONS, TENSES, primary, accepted } from './conjugator.js';
 import { stage, STAGE_LABEL } from './srs.js';
 import { dial, fan, dropdown } from './fx.js';
@@ -48,18 +48,17 @@ export function wordHero(e) {
   </div>`;
 }
 
-export function wordForms(e) {
+export function wordForms(e, { showNumberNote = true } = {}) {
   if (e.pos === 'noun') {
     const sg = isPluralOnly(e) ? null : withArticle(e, false);
-    const pl = isUncountable(e) ? null : withArticle(e, true);
+    const pl = hasPluralForm(e) ? withArticle(e, true) : null;
     const cells = [];
     if (sg) cells.push(['Singolare', sg]);
     if (pl) cells.push(['Plurale', pl]);
     if (e.fem) cells.push(['Femminile', e.fem]);
     if (e.femPl) cells.push(['Femminile plurale', e.femPl]);
-    if (isUncountable(e)) cells.push(['Plurale', 'uncountable (no plural)']);
-    if (isPluralOnly(e)) cells.push(['Nota', 'plural-only noun']);
-    return html`<div class="forms-grid">${raw(cells.map(([l, v]) => html`<div class="f"><div class="lab">${l}</div><div class="val"><span>${v}</span>${v.includes('(') ? '' : raw(speakBtn(v, 'sm'))}</div></div>`).join(''))}</div>`;
+    const note = showNumberNote && nounNumberNote(e);
+    return html`<div class="forms-grid">${raw(cells.map(([l, v]) => html`<div class="f"><div class="lab">${l}</div><div class="val"><span>${v}</span>${raw(speakBtn(v, 'sm'))}</div></div>`).join(''))}</div>${note ? raw(html`<p class="note small" data-number-note>${note}</p>`) : ''}`;
   }
   if (e.pos === 'adj' && e.forms && e.forms.length === 4) {
     const labs = ['Masch. sing.', 'Femm. sing.', 'Masch. plur.', 'Femm. plur.'];

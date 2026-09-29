@@ -70,7 +70,7 @@ function match(parts) {
 function applyScene(tab, parts) {
   const level = store.current?.settings?.level || 'A1';
   const head = parts[0];
-  if (head === 'learn' || head === 'review' || head === 'scope') setScene(level);
+  if (head === 'learn' || head === 'course' || head === 'review' || head === 'scope') setScene(level);
   else if (tab === 'home') setScene(SCENES.home, { level });
   else if (tab === 'games') setScene(SCENES.games, { level });
   else if (tab === 'words') setScene(SCENES.reference, { level });
@@ -116,7 +116,7 @@ async function render() {
   const restoreY = rememberScroll();
   const seq = ++renderSeq;
   if (!m) { navigate('#/home', { replace: true }); return; }
-  const tab = TABS.includes(parts[0]) ? parts[0] : (parts[0] === 'learn' || parts[0] === 'review' || parts[0] === 'verb' || parts[0] === 'word' ? 'learn' : parts[0] === 'game' ? 'games' : ['browse', 'list', 'lists', 'entry', 'search', 'add', 'reference', 'grammar'].includes(parts[0]) ? 'words' : parts[0] === 'settings' ? 'profile' : lastTab);
+  const tab = TABS.includes(parts[0]) ? parts[0] : (parts[0] === 'learn' || parts[0] === 'course' || parts[0] === 'review' || parts[0] === 'verb' || parts[0] === 'word' ? 'learn' : parts[0] === 'game' ? 'games' : ['browse', 'list', 'lists', 'entry', 'search', 'add', 'reference', 'grammar'].includes(parts[0]) ? 'words' : parts[0] === 'settings' ? 'profile' : lastTab);
   lastTab = tab;
   $$('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.tab === tab));
   setChrome({ tabs: true, back: !isTabRoute() });
@@ -166,6 +166,8 @@ function applyEnToggle() {
 // routes
 route('home', () => import('./views/home.js'));
 route('learn', () => import('./views/learn.js'));
+route('course', () => import('./views/course.js'));
+route('learn/practice', () => import('./views/learnAdaptive.js'));
 route('learn/verb/:id', () => import('./views/learnVerb.js'));
 route('learn/word/:id', () => import('./views/learnWord.js'));
 route('review', () => import('./views/review.js'));

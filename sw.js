@@ -1,21 +1,25 @@
 // Service worker: offline cache for the app shell (HTML, CSS, every JS module) and the dictionary data.
 // Bump VERSION when a file is added to SHELL or the data schema changes (old caches are dropped on activate).
 // Ordinary data updates need no bump: /data/ is served from the cache and refreshed in the background.
-const VERSION = 'parola-v4';
+const VERSION = 'parola-v5-adaptive';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
+  './css/adaptive.css', './css/course.css',
   './icons/icon.svg',
   './js/app.js', './js/components.js', './js/conjugator.js', './js/data.js', './js/fx.js', './js/icons.js', './js/irregular.js', './js/source.js', './js/srs.js', './js/store.js', './js/sync.js', './js/ui.js',
   './js/views/addWord.js', './js/views/browse.js', './js/views/entry.js', './js/views/games.js', './js/views/grammar.js', './js/views/home.js', './js/views/learn.js', './js/views/learnVerb.js', './js/views/learnWord.js', './js/views/list.js', './js/views/lists.js', './js/views/play.js', './js/views/profile.js', './js/views/reference.js', './js/views/referenceEntry.js', './js/views/review.js', './js/views/scope.js', './js/views/search.js', './js/views/walkthrough.js', './js/views/words.js',
   './js/games/crossword.js', './js/games/engine.js', './js/games/flashcards.js', './js/games/hangman.js', './js/games/index.js', './js/games/matching.js', './js/games/questions.js', './js/games/sentence.js', './js/games/speed.js',
+  './js/learning/model.js', './js/learning/curriculum.js', './js/learning/content.js', './js/learning/questions.js', './js/learning/diagnose.js', './js/learning/integration.js',
+  './js/views/course.js', './js/views/learnAdaptive.js',
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',
 ];
-// files are added one by one so a single missing file cannot void the whole precache (addAll is all-or-nothing);
+// Activate only when the complete shell is cached. A missing module must leave the
+// prior working offline shell active instead of replacing it with an incomplete one.
 // cache: 'no-cache' revalidates every file with the origin (GitHub Pages sends max-age=600, so a plain lookup could pin
 // the previous build's copies under the new VERSION for ten minutes after a deploy) while an unchanged file still comes
 // back as a 304 instead of a full re-download ('reload' would fetch the 3.4 MB dictionary a second time on first install)
-self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => Promise.all(SHELL.map(u => c.add(new Request(u, { cache: 'no-cache' })).catch(() => null)))).then(() => self.skipWaiting())); });
+self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'no-cache' })))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 // store only successful responses (a 404 or 5xx must never be served offline later)
 function put(req, res) {

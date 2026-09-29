@@ -6,12 +6,14 @@ import { data, itemsForScope, describeScope, LEVELS, LEVEL_INFO, CATS, article, 
 import { IT_POS } from '../components.js';
 import { conjugate } from '../conjugator.js';
 import { setScene, dropdown, mount, reducedMotion } from '../fx.js';
+import { coursePreview } from './course.js';
+import { reviewItems } from '../learning/integration.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 
 // deterministic-ish ordering of new items within the scope: by level, then rotate by category so the user sees variety
 export function nextNew(kind, n = 5) {
-  const items = itemsForScope(store.scope, store, { kind }).filter(e => !store.isLearned(e.id) && !(store.getItem(e.id)?.seen > 2));
+  const items = itemsForScope(store.scope, store, { kind }).filter(e => !store.isLearned(e.id));
   // order: level asc, then interleave categories
   const byCat = {};
   for (const e of items) (byCat[e.level + '|' + e.cat] ||= []).push(e);
@@ -114,7 +116,7 @@ export async function render(root) {
     const s = store.settings;
     const lvl = LEVELS.includes(s.level) ? s.level : 'A1';
     setScene(lvl);
-    const due = store.dueIds().length;
+    const due = store.settings.adaptiveLearning !== false ? reviewItems(store).length : store.dueIds().length;
     const newWordsDone = (day.new || 0) - (day.newVerbs || 0);
     const newVerbsDone = day.newVerbs || 0;
     const verbs = nextNew('verb', 3);
@@ -126,11 +128,12 @@ export async function render(root) {
     const ringPct = Math.min(100, Math.round((due / Math.max(1, s.dailyReviews || 40)) * 100));
     // the ?auto=1 chain runs until the daily goal is met, so the label counts what is left of the goal (capped by the
     // unlearned words in scope), not the three cards of the deck
-    const wordsLeft = itemsForScope(store.scope, store, { kind: 'word' }).filter(e => !store.isLearned(e.id) && !(store.getItem(e.id)?.seen > 2)).length;
+    const wordsLeft = itemsForScope(store.scope, store, { kind: 'word' }).filter(e => !store.isLearned(e.id)).length;
     const sessionN = Math.max(1, Math.min(wordsLeft, s.dailyNew - newWordsDone));
 
     root.innerHTML = html`
       <div class="learn">
+        ${store.settings.adaptiveLearning !== false ? raw(coursePreview()) : ''}
         <div class="scope-line glass-flat">
           <div class="scope-main"><span class="kicker">Scope</span><div class="scope-desc mono">${describeScope(store.scope, store)}</div><div class="tiny muted">${learnedInScope} / ${scopeAll.length} learned</div></div>
           <button type="button" class="btn sm secondary" data-scope-menu aria-haspopup="menu" aria-expanded="false">Change${ic('chevronDown', { size: 16 })}</button>

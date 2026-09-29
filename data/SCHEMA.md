@@ -67,6 +67,14 @@ Fields:
 - `note` (optional).
 - Verbs are NOT vocabulary entries — they live in `data/verbs/*.json`.
 
+Noun number is specific to the meaning taught by the entry. `"pl": "-"` means
+that this meaning is normally used in the singular, not that every meaning of
+the lemma lacks a plural. For example, `calcio` meaning football uses `"-"`;
+`calci` means kicks and must not be taught as the plural of football. Explain
+useful sense contrasts in `note`. Do not use `"-"` for a countable invariable
+noun: repeat its lemma in `pl` and mark it invariable in `note`. Do not guess
+plurals for mass nouns or merge number forms across different meanings.
+
 ## Verb entry (`data/verbs/*.json`)
 
 ```json

@@ -48,6 +48,10 @@ const AUDIT = ({ mode, phase, isCrossword, minTap, maxList }) => {
   const visible = (el) => {
     if (!el || el === document.documentElement) return true;
     if (visMemo.has(el)) return visMemo.get(el);
+    // Chromium can return layout boxes for the unpainted contents of a closed
+    // <details>. Only its direct summary is interactive until it is opened.
+    const closed = el.closest('details:not([open])');
+    if (closed && el !== closed && !closed.querySelector(':scope > summary')?.contains(el)) { visMemo.set(el, false); return false; }
     const cs = style(el);
     const v = cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) !== 0 && visible(el.parentElement);
     visMemo.set(el, v); return v;
@@ -170,6 +174,15 @@ async function runViewport(browser, routesFor, vp) {
           const themeNow = await page.evaluate(() => document.documentElement.dataset.theme);
           if (themeNow !== theme) { await page.evaluate((t) => { document.documentElement.dataset.theme = t; }, theme); await wait(150); }
           rec.findings = await auditRoute(page, route);
+          if (route === '/course') {
+            await page.locator('details').evaluateAll(details => details.forEach(element => { element.open = true; }));
+            const expanded = await auditRoute(page, route);
+            rec.expandedMilestones = expanded;
+            for (const [category, count] of Object.entries(expanded.counts || {})) {
+              rec.findings.counts[category] = (rec.findings.counts[category] || 0) + count;
+              if (Array.isArray(expanded[category])) rec.findings[category] = [...(rec.findings[category] || []), ...expanded[category]].slice(0, MAX_LIST);
+            }
+          }
           rec.text = await viewText(page, 90);
           rec.shot = await shot(page, `layout_${vp.name}_${theme}_${routeSlug(route)}`);
         } catch (err) { rec.error = err.message.split('\n')[0]; }

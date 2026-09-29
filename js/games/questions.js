@@ -1,9 +1,13 @@
 // Question generators for vocabulary and verb drills.
 // Every generator returns a runner question or null when nothing usable can be built (defective verbs, no example…).
 import { html, raw, esc, enPill, icon } from '../ui.js';
-import { article, withArticle, isPluralOnly, isUncountable, headword, shortEn, enChoices, distractors, shuffle, pickN, sample, fold, data } from '../data.js';
+import { article, withArticle, isPluralOnly, hasPluralForm, headword, shortEn, enChoices, distractors, shuffle, pickN, sample, fold, data } from '../data.js';
 import { conjugate, irregularCells, splitClitic, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING, primary, accepted } from '../conjugator.js';
 import { checkTyped } from './engine.js';
+import { store } from '../store.js';
+import { allowedTenses } from '../learning/curriculum.js';
+import { annotateGameQuestion } from '../learning/questions.js';
+const courseTenses = () => allowedTenses(store.current?.learning || {});
 
 const it = (e) => e.kind === 'verb' ? e.inf : e.it;
 // "d'accordo" has 8 letters, "a domani" 7: apostrophes and spaces do not count
@@ -16,6 +20,20 @@ export const usable = (f) => f != null && f !== MISSING && primary(f) !== '' && 
 const usablePersons = (t) => (Array.isArray(t) ? t.map((f, i) => (usable(f) ? i : -1)).filter(i => i >= 0) : []);
 const meaning = (e) => html`<div class="q-en">${raw(enPill(e.en))}</div>`;
 
+// Stable evidence wrappers preserve the legacy question contract and its graders.
+export function qTranslateMC(e, pool, dir = 'it-en') {
+  return annotateGameQuestion(makeTranslateMC(e, pool, dir), e, { skill: dir === 'it-en' && e.kind !== 'verb' ? 'meaning' : 'recall' });
+}
+export function qTypeIt(e) { return annotateGameQuestion(makeTypeIt(e), e, { skill: 'recall' }); }
+export function qTypeEn(e) { return annotateGameQuestion(makeTypeEn(e), e, { skill: 'meaning' }); }
+export function qGender(e) { return annotateGameQuestion(makeGender(e), e, { skill: 'article' }); }
+export function qPlural(e) { return annotateGameQuestion(makePlural(e), e, { skill: 'plural' }); }
+export function qPluralMC(e, pool) { return annotateGameQuestion(makePluralMC(e, pool), e, { skill: 'plural' }); }
+export function qConjType(e, tense, person = null) { return makeConjType(e, tense, person); }
+export function qConjMC(e, tense, pool = [], person = null) { return makeConjMC(e, tense, pool, person); }
+export function qAux(e) { return annotateGameQuestion(makeAux(e), e, { skill: 'auxiliary', tense: 'passatoProssimo' }); }
+export function qParticiple(e, typed = true) { return annotateGameQuestion(makeParticiple(e, typed), e, { skill: 'participle', tense: 'passatoProssimo' }); }
+
 export function mcChoices(correctLabel, wrongLabels, extra = {}) {
   const seen = new Set([fold(correctLabel)]);
   const wrongs = wrongLabels.filter(l => l != null && l !== '' && l !== MISSING && !seen.has(fold(l)) && seen.add(fold(l)));
@@ -23,7 +41,7 @@ export function mcChoices(correctLabel, wrongLabels, extra = {}) {
 }
 
 // ---------- vocabulary ----------
-export function qTranslateMC(e, pool, dir = 'it-en') {
+function makeTranslateMC(e, pool, dir = 'it-en') {
   const wrong = distractors(e, pool, 3);
   if (dir === 'it-en') {
     return { type: 'mc', itemId: e.id, tag: 'What does it mean?', prompt: html`<div class="big">${hw(e)}</div>`, say: it(e), choices: mcChoices(enOf(e), wrong.map(enOf)), answer: enOf(e), explain: e.ex ? html`<i>${e.ex}</i> — ${e.exEn}` : '' };
@@ -31,7 +49,7 @@ export function qTranslateMC(e, pool, dir = 'it-en') {
   return { type: 'mc', itemId: e.id, tag: 'Choose the Italian', prompt: html`<div class="big md">${enOf(e)}</div>`, say: it(e), choices: mcChoices(hw(e), wrong.map(hw)), answer: hw(e) };
 }
 
-export function qTypeIt(e) {
+function makeTypeIt(e) {
   const answers = [it(e)];
   if (e.pos === 'noun') answers.push(withArticle(e, isPluralOnly(e)));
   // another entry with the very same meaning (per favore / per piacere, prego / di niente) is a right answer too
@@ -45,13 +63,13 @@ export function qTypeIt(e) {
 // "to", a leading article and trailing punctuation never count ("careful!" = "careful"); a sense with a qualifier
 // ("stop (bus, tram, metro)") is also right without it, and a comma-separated sense ("sapling, young shoot") by either part.
 const enKey = (s) => fold(s).trim().replace(/^to /, '').replace(/^(the|a|an) /, '').replace(/[.!?]+$/, '').trim();
-export function qTypeEn(e) {
+function makeTypeEn(e) {
   const senses = enChoices(e);
   const keys = new Set(senses.flatMap(a => { const core = a.replace(/\s*\([^)]*\)/g, '').trim(); return [a, core, ...(/\band\b/.test(core) ? [] : core.split(/,\s*/))]; }).map(enKey).filter(Boolean));
   return { type: 'type', itemId: e.id, tag: 'Type the English', prompt: html`<div class="big">${hw(e)}</div>`, say: it(e), answer: senses, placeholder: 'In English…', accept: (v) => ({ ok: keys.has(enKey(v)) }) };
 }
 
-export function qGender(e) {
+function makeGender(e) {
   if (e.pos !== 'noun' || isPluralOnly(e)) return null;
   const correct = article(e, false);
   const opts = e.g === 'mf' ? ['il/la', "l'", 'lo/la'] : ['il', 'la', 'lo', "l'"];
@@ -59,19 +77,19 @@ export function qGender(e) {
   return { type: 'mc', itemId: e.id, tag: 'Which article?', center: true, prompt: html`<div class="big"><span class="blank">?</span> ${e.it}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, false), choices: shuffle(choices), answer: correct, explain: e.g === 'mf' ? 'This noun has one form for both genders.' : `${esc(e.it)} is ${e.g === 'f' ? 'feminine' : 'masculine'}${/^(lo|gli)/.test(correct) ? ' (lo before s+consonant, z, gn, ps, x, y)' : correct === "l'" ? ' (l\' before a vowel)' : ''}.` };
 }
 
-export function qPlural(e) {
-  if (e.pos !== 'noun' || isUncountable(e) || isPluralOnly(e)) return null;
+function makePlural(e) {
+  if (!hasPluralForm(e) || isPluralOnly(e)) return null;
   return { type: 'type', itemId: e.id, tag: 'Type the plural', prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), answer: [e.pl, withArticle(e, true)], placeholder: 'Plural…', explain: e.note && /plural|invariab|irregular/i.test(e.note) ? esc(e.note) : '' };
 }
 
-export function qPluralMC(e, pool) {
-  if (e.pos !== 'noun' || isUncountable(e) || isPluralOnly(e)) return null;
+function makePluralMC(e, pool) {
+  if (!hasPluralForm(e) || isPluralOnly(e)) return null;
   const wrongs = new Set();
   const base = e.it;
   const cands = [base.replace(/o$/, 'i'), base.replace(/a$/, 'e'), base.replace(/e$/, 'i'), base + 's', base.replace(/o$/, 'a'), base.replace(/a$/, 'i'), base.replace(/co$/, 'ci'), base.replace(/co$/, 'chi'), base.replace(/go$/, 'gi'), base.replace(/go$/, 'ghi'), base.replace(/ca$/, 'che'), base.replace(/io$/, 'ii'), base];
   for (const c of cands) { if (c !== e.pl) wrongs.add(c); if (wrongs.size >= 3) break; }
   // an -e noun or an invariable one (cane, città, bar) has too few look-alikes of its own: other nouns' plurals fill the choices
-  for (const d of distractors(e, pool, 6)) { if (wrongs.size >= 3) break; if (d.pl && d.pl !== '-' && d.pl !== '—' && fold(d.pl) !== fold(e.pl)) wrongs.add(d.pl); }
+  for (const d of distractors(e, pool.filter(hasPluralForm), 6)) { if (wrongs.size >= 3) break; if (fold(d.pl) !== fold(e.pl)) wrongs.add(d.pl); }
   const wl = [...wrongs].filter(x => x !== e.pl).slice(0, 3);
   return { type: 'mc', itemId: e.id, tag: 'Choose the plural', center: true, prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), choices: mcChoices(e.pl, wl), answer: e.pl };
 }
@@ -82,23 +100,23 @@ export function qPluralMC(e, pool) {
 // wins, which is the participle. One-letter tokens (è, e, a…) are never blanked.
 const GENERIC = ['mi', 'ti', 'si', 'ci', 'vi', 'ne', 'la', 'lo', 'le', 'li', 'me', 'te', 'se', 'ce', 've', ''];
 const AUX_WORDS = ['ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno', 'sono', 'sei', 'è', 'siamo', 'siete', 'ero', 'eri', 'era', 'eravamo', 'eravate', 'erano', 'avevo', 'avevi', 'aveva', 'avevamo', 'avevate', 'avevano', 'sarò', 'sarai', 'sarà', 'saremo', 'sarete', 'saranno', 'avrò', 'avrai', 'avrà', 'avremo', 'avrete', 'avranno', 'sia', 'siano', 'abbia', 'abbiano', 'fossi', 'fosse', 'fossero', 'avessi', 'avesse', 'avessero', 'sarei', 'sarebbe', 'sarebbero', 'avrei', 'avrebbe', 'avrebbero', 'fui', 'fu', 'furono', 'ebbi', 'ebbe', 'ebbero', 'essendo', 'avendo', 'stato', 'stata', 'stati', 'state', 'avuto'];
-export function findInSentence(sentence, entry) {
+export function findInSentence(sentence, entry, allowed = null) {
   const words = sentence.split(/(\s+|[,.;:!?«»"()])/);
   const forms = new Set();
   if (entry.kind === 'verb') {
     const c = conjOf(entry);
-    for (const t of Object.values(c.tenses)) if (t) for (const f of t) { if (!usable(f)) continue; for (const a of accepted(f)) for (const w of a.split(' ')) forms.add(fold(w)); }
+    for (const [key, t] of Object.entries(c.tenses)) if ((!allowed || allowed.includes(key)) && t) for (const f of t) { if (!usable(f)) continue; for (const a of accepted(f)) for (const w of a.split(' ')) forms.add(fold(w)); }
     forms.add(fold(entry.inf));
-    if (usable(c.nonFinite.participioPassato)) forms.add(fold(primary(c.nonFinite.participioPassato)));
-    if (usable(c.nonFinite.gerundio)) forms.add(fold(primary(c.nonFinite.gerundio)));
-    if (usable(c.nonFinite.participioPassato)) for (const a of accepted(c.nonFinite.participioPassato)) { forms.add(fold(a)); forms.add(fold(a).replace(/o$/, 'a')); forms.add(fold(a).replace(/o$/, 'i')); forms.add(fold(a).replace(/o$/, 'e')); }
+    if ((!allowed || allowed.includes('passatoProssimo')) && usable(c.nonFinite.participioPassato)) forms.add(fold(primary(c.nonFinite.participioPassato)));
+    if (!allowed && usable(c.nonFinite.gerundio)) forms.add(fold(primary(c.nonFinite.gerundio)));
+    if ((!allowed || allowed.includes('passatoProssimo')) && usable(c.nonFinite.participioPassato)) for (const a of accepted(c.nonFinite.participioPassato)) { forms.add(fold(a)); forms.add(fold(a).replace(/o$/, 'a')); forms.add(fold(a).replace(/o$/, 'i')); forms.add(fold(a).replace(/o$/, 'e')); }
     for (const g of GENERIC) forms.delete(fold(g));
     const self = fold(c.root || c.base);
     if (self !== 'essere' && self !== 'avere') for (const g of AUX_WORDS) forms.delete(fold(g));
     else if (self === 'essere') for (const g of ['avuto']) forms.delete(g);
   } else {
     forms.add(fold(entry.it));
-    if (entry.pl && entry.pl !== '-') forms.add(fold(entry.pl));
+    if (hasPluralForm(entry)) forms.add(fold(entry.pl));
     if (entry.fem) forms.add(fold(entry.fem));
     if (entry.forms) for (const f of entry.forms) forms.add(fold(f));
     if (entry.pos === 'adj' && !entry.forms) { const b = entry.it; forms.add(fold(b.replace(/o$/, 'a'))); forms.add(fold(b.replace(/o$/, 'i'))); forms.add(fold(b.replace(/o$/, 'e'))); forms.add(fold(b.replace(/e$/, 'i'))); }
@@ -139,7 +157,7 @@ function sentencePrompt(before, after, mark, en) {
 export function qCloze(e, { typed = false, pool = [] } = {}) {
   const sentences = e.kind === 'verb' ? (e.examples || []) : (e.ex ? [{ it: e.ex, en: e.exEn }] : []);
   for (const s of shuffle(sentences)) {
-    const hit = findInSentence(s.it, e);
+    const hit = findInSentence(s.it, e, e.kind === 'verb' ? courseTenses() : null);
     if (!hit) continue;
     const before = s.it.slice(0, hit.start), after = s.it.slice(hit.end);
     const prompt = sentencePrompt(before, after, typed ? '…' : '?', s.en);
@@ -149,7 +167,7 @@ export function qCloze(e, { typed = false, pool = [] } = {}) {
       const c = conjOf(e);
       // the gap holds one word, so a distractor is the bare verb form: no clitic ("si alza" → alza), no auxiliary ("ha mangiato" → mangiato)
       const pick = (t, i) => (t && usable(t[i]) ? primary(t[i]).split(' ').pop().replace(/\/[ae]$/, '') : null);
-      const own = [pick(c.tenses.presente, 1), pick(c.tenses.presente, 2), pick(c.tenses.presente, 5), pick(c.tenses.imperfetto, 0), pick(c.tenses.futuro, 2), pick(c.tenses.passatoProssimo, 2), pick(c.tenses.condizionale, 0), pick(c.tenses.congiuntivoPresente, 0), usable(c.nonFinite.participioPassato) ? primary(c.nonFinite.participioPassato) : null, usable(c.nonFinite.gerundio) ? primary(c.nonFinite.gerundio) : null, e.inf].filter(Boolean);
+      const own = [...courseTenses().flatMap(key => [0, 1, 2, 5].map(p => pick(c.tenses[key], p))), e.inf].filter(Boolean);
       const other = distractors(e, pool, 1)[0];
       const oc = other ? conjOf(other) : null;
       const cands = shuffle([...new Set(own.filter(f => fold(f) !== fold(hit.form)))]).slice(0, 2);
@@ -199,7 +217,7 @@ function pickCell(e, c, tense, person = null) {
   };
   const first = choose(tense);
   if (first) return first;
-  for (const t of shuffle(DRILL_TENSES.filter(k => k !== tense))) { const alt = choose(t); if (alt) return alt; }
+  for (const t of shuffle(courseTenses().filter(k => k !== tense))) { const alt = choose(t); if (alt) return alt; }
   return null;
 }
 
@@ -210,16 +228,16 @@ export function verbForm(e, tense, person) {
   return { conj: c, form: t[person], persons: personsOf(tense) };
 }
 
-export function qConjType(e, tense, person = null) {
+function makeConjType(e, tense, person = null) {
   const c = conjOf(e);
   const cell = pickCell(e, c, tense, person); if (!cell) return null;
   const persons = personsOf(cell.tense);
   const form = c.tenses[cell.tense][cell.p];
   const T = TENSE_BY_KEY[cell.tense];
-  return { type: 'type', itemId: e.id, tag: tagFor(cell.tense, cell.p), prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[cell.p]}</b> · ${T.en}${e.aux === 'both' && T.compound ? ' (use avere)' : ''}</div>${raw(meaning(e))}`, say: primary(form), answer: accepted(form), accept: (v) => checkTyped(v, accepted(form)), placeholder: `${persons[cell.p]} …`, explain: c.irregular ? 'Irregular verb.' : '' };
+  return annotateGameQuestion({ type: 'type', itemId: e.id, tag: tagFor(cell.tense, cell.p), prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[cell.p]}</b> · ${T.en}${e.aux === 'both' && T.compound ? ' (use avere)' : ''}</div>${raw(meaning(e))}`, say: primary(form), answer: accepted(form), accept: (v) => checkTyped(v, accepted(form)), placeholder: `${persons[cell.p]} …`, explain: c.irregular ? 'Irregular verb.' : '' }, e, { skill: 'conjugation', tense: cell.tense, person: cell.p, allowedTenses: courseTenses() });
 }
 
-export function qConjMC(e, tense, pool = [], person = null) {
+function makeConjMC(e, tense, pool = [], person = null) {
   const c = conjOf(e);
   const cell = pickCell(e, c, tense, person); if (!cell) return null;
   const t = c.tenses[cell.tense]; const p = cell.p;
@@ -229,17 +247,17 @@ export function qConjMC(e, tense, pool = [], person = null) {
   // other persons of the same tense
   for (const i of shuffle(usablePersons(t).filter(i => i !== p))) { const f = primary(t[i]); if (f !== correct) wrong.add(f); if (wrong.size >= 2) break; }
   // same person, other tense
-  for (const tk of shuffle(DRILL_TENSES.filter(k => k !== cell.tense && c.tenses[k] && k !== 'imperativo'))) { const f = c.tenses[tk][Math.min(p, 5)]; if (!usable(f)) continue; const pf = primary(f); if (pf !== correct && !wrong.has(pf)) { wrong.add(pf); break; } }
+  for (const tk of shuffle(courseTenses().filter(k => k !== cell.tense && c.tenses[k] && k !== 'imperativo'))) { const f = c.tenses[tk][Math.min(p, 5)]; if (!usable(f)) continue; const pf = primary(f); if (pf !== correct && !wrong.has(pf)) { wrong.add(pf); break; } }
   // a form of another verb in the same cell
   if (wrong.size < 3) { const others = pool.filter(x => x.kind === 'verb' && x.id !== e.id); if (others.length) { const o = sample(others); const oc = conjOf(o); const f = oc.tenses[cell.tense] ? oc.tenses[cell.tense][p] : null; if (usable(f) && primary(f) !== correct) wrong.add(primary(f)); } }
   if (!wrong.size) return null;
   const T = TENSE_BY_KEY[cell.tense];
-  return { type: 'mc', itemId: e.id, tag: tagFor(cell.tense, p), center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[p]}</b> · ${T.en}</div>${raw(meaning(e))}`, say: correct, choices: mcChoices(correct, [...wrong].slice(0, 3)), answer: correct };
+  return annotateGameQuestion({ type: 'mc', itemId: e.id, tag: tagFor(cell.tense, p), center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub"><b>${persons[p]}</b> · ${T.en}</div>${raw(meaning(e))}`, say: correct, choices: mcChoices(correct, [...wrong].slice(0, 3)), answer: correct }, e, { skill: 'conjugation', tense: cell.tense, person: p, allowedTenses: courseTenses() });
 }
 
 export function qTenseDetective(e) {
   const c = conjOf(e);
-  const tenses = DRILL_TENSES.filter(k => k !== 'imperativo' && usablePersons(c.tenses[k]).length);
+  const tenses = courseTenses().filter(k => k !== 'imperativo' && usablePersons(c.tenses[k]).length);
   if (tenses.length < 2) return null;
   // a form shared by several tenses (facciamo: presente = congiuntivo presente) must not offer the twin as a distractor
   for (let tries = 0; tries < 8; tries++) {
@@ -248,7 +266,7 @@ export function qTenseDetective(e) {
     const form = primary(c.tenses[tense][p]);
     const T = TENSE_BY_KEY[tense];
     const others = tenses.filter(k => k !== tense && (!usable(c.tenses[k][p]) || fold(primary(c.tenses[k][p])) !== fold(form)));
-    if (others.length < 2) continue;
+    if (others.length < 1) continue;
     const wrongT = pickN(others, 3).map(k => TENSE_BY_KEY[k].name);
     return { type: 'mc', itemId: e.id, tag: 'Which tense is this?', center: true, prompt: html`<div class="big md">${PERSONS[p]} ${form}</div><div class="sub">${e.inf}</div>${raw(meaning(e))}`, say: form, choices: mcChoices(T.name, wrongT), answer: T.name, explain: esc(T.en) };
   }
@@ -257,7 +275,7 @@ export function qTenseDetective(e) {
 
 export function qPersonDetective(e) {
   const c = conjOf(e);
-  const tenses = ['presente', 'imperfetto', 'futuro', 'condizionale', 'passatoRemoto', 'congiuntivoPresente'].filter(k => c.tenses[k] && usablePersons(c.tenses[k]).length === 6);
+  const tenses = courseTenses().filter(k => c.tenses[k] && usablePersons(c.tenses[k]).length === 6);
   if (!tenses.length) return null;
   const tense = sample(tenses);
   const t = c.tenses[tense];
@@ -271,7 +289,7 @@ export function qPersonDetective(e) {
   return { type: 'mc', itemId: e.id, tag: 'Who is the subject?', center: true, prompt: html`<div class="big md">${form}</div><div class="sub">${e.inf} · ${T.name}</div>`, say: form, choices: shuffle([{ label: validPersons.join(' / '), correct: true }, ...wrongs.map(l => ({ label: l }))]), answer: validPersons.join(' / ') };
 }
 
-export function qAux(e) {
+function makeAux(e) {
   const c = conjOf(e);
   if (!usable(c.nonFinite.participioPassato)) return null;
   const pp = primary(c.nonFinite.participioPassato);
@@ -279,10 +297,10 @@ export function qAux(e) {
   const aux = (choices.find(x => x.correct) || {}).label;
   if (!choices.some(x => x.correct)) return null;
   const sayForm = c.tenses.passatoProssimo && usable(c.tenses.passatoProssimo[2]) ? primary(c.tenses.passatoProssimo[2]) : e.inf;
-  return { type: 'mc', itemId: e.id, tag: 'Which auxiliary?', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">passato prossimo: <span class="blank">?</span> ${pp}</div>`, say: sayForm, choices, answer: aux, explain: e.aux === 'essere' ? (e.trans === 'vr' ? 'Reflexive and pronominal verbs always take essere.' : 'Intransitive verbs of motion, change or state take essere; the participle agrees with the subject.') : e.aux === 'both' ? 'Essere when used intransitively, avere when there is a direct object.' : 'Transitive verbs (and many intransitive ones) take avere.' };
+  return { type: 'mc', itemId: e.id, tag: 'Which auxiliary?', center: true, prompt: html`<div class="big md">${e.inf}</div><div class="sub">passato prossimo: <span class="blank">?</span> ${pp}</div>`, say: sayForm, choices, answer: aux, explain: e.aux === 'essere' ? ('This use of ' + esc(e.inf) + ' takes essere; the participle agrees with the subject.') : e.aux === 'both' ? 'The auxiliary depends on the sense or construction. ' + esc(e.usage || 'Check the reference examples for this verb.') : 'Transitive verbs (and many intransitive ones) take avere.' };
 }
 
-export function qParticiple(e, typed = true) {
+function makeParticiple(e, typed = true) {
   const c = conjOf(e);
   const pp = c.nonFinite.participioPassato;
   if (!usable(pp)) return null;
@@ -326,7 +344,7 @@ export function qPattern(e) {
 export function qVerbTranslateMC(e, pool) { return qTranslateMC(e, pool.filter(x => x.kind === 'verb'), 'it-en'); }
 
 // Build a mixed question set for an entry list
-export function mixedQuestions(entries, pool, { perItem = 1, verbTenses = ['presente', 'passatoProssimo'], typedRatio = 0.35 } = {}) {
+export function mixedQuestions(entries, pool, { perItem = 1, verbTenses = courseTenses(), typedRatio = 0.35 } = {}) {
   const qs = [];
   for (const e of entries) {
     for (let k = 0; k < perItem; k++) {
@@ -336,9 +354,9 @@ export function mixedQuestions(entries, pool, { perItem = 1, verbTenses = ['pres
         if (r < 0.25) q = qTranslateMC(e, pool, Math.random() < 0.5 ? 'it-en' : 'en-it');
         else if (r < 0.5) q = qConjMC(e, sample(verbTenses), pool);
         else if (r < 0.7) q = qConjType(e, sample(verbTenses));
-        else if (r < 0.8) q = qAux(e);
+        else if (r < 0.8 && verbTenses.includes('passatoProssimo')) q = qAux(e);
         else if (r < 0.9) q = qCloze(e, { pool });
-        else q = qParticiple(e, Math.random() < typedRatio);
+        else q = verbTenses.includes('passatoProssimo') ? qParticiple(e, Math.random() < typedRatio) : qConjType(e, sample(verbTenses));
       } else {
         if (r < 0.3) q = qTranslateMC(e, pool, 'it-en');
         else if (r < 0.5) q = qTranslateMC(e, pool, 'en-it');

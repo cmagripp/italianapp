@@ -2,7 +2,7 @@
 // optional swipe (left = Again, right = Good) once the card is flipped.
 import { html, raw, esc, speak, speakBtn, haptic } from '../ui.js';
 import { store } from '../store.js';
-import { headword, shortEn, withArticle, isPluralOnly } from '../data.js';
+import { headword, shortEn, withArticle, isPluralOnly, hasPluralForm, nounNumberNote } from '../data.js';
 import { conjugate, primary, MISSING } from '../conjugator.js';
 import { showResults, gameTop } from './engine.js';
 import fx from '../fx.js';
@@ -22,7 +22,8 @@ export function startFlashcards(root, ctx) {
     return html`${raw(ghost)}<div class="fc-kicker kicker">${kicker(e)}</div><div class="word ${w.length > 14 ? 'long' : w.length > 9 ? 'mid' : ''}">${w}</div><div class="hint">tap to flip</div>`;
   }
   function back(e) {
-    const plural = e.kind === 'word' && e.pos === 'noun' && e.pl && e.pl !== '-' && !isPluralOnly(e) ? html`<div class="ex">pl. ${withArticle(e, true)}</div>` : '';
+    const numberNote = nounNumberNote(e);
+    const plural = numberNote ? html`<div class="ex">${numberNote.split('.')[0]}.</div>` : hasPluralForm(e) ? html`<div class="ex">pl. ${withArticle(e, true)}</div>` : '';
     if (dir === 'en-it') {
       const w = e.kind === 'verb' ? e.inf : headword(e);
       return html`<div class="word ${w.length > 14 ? 'long' : ''}">${w}</div>${raw(plural)}<div class="ex">${e.kind === 'verb' ? (e.examples?.[0]?.it || '') : (e.ex || '')}</div>`;

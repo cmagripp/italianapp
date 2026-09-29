@@ -113,7 +113,7 @@ function startsVowel(w) { return /^h?[aeiouàèéìíîòóùú]/.test(fold(w));
 export function article(entry, plural = false) {
   if (!entry || entry.pos !== 'noun') return '';
   const w = plural ? entry.pl : entry.it;
-  if (!w || w === '-') return '';
+  if (typeof w !== 'string' || !w.trim() || ['-', '—'].includes(w.trim())) return '';
   const g = entry.g;
   if (g === 'mf') {
     // -ista / -a nouns (turista → turisti / turiste) and -o nouns (capo → i capi / le capo): the listed -i plural is the
@@ -142,7 +142,20 @@ export function isPluralOnly(e) {
   // the head noun must look plural (lenti a contatto, generalità); a loanword (jeans, social) only when the note opens by saying so
   return /[iea]$/.test(fold(e.it).split(' ')[0]) || /^(plural[- ]only|always plural|usually plural)/i.test(note);
 }
-export function isUncountable(e) { return e.pos === 'noun' && (e.pl === '-' || e.pl === '—'); }
+export function isUncountable(e) { return e?.pos === 'noun' && typeof e.pl === 'string' && ['-', '—'].includes(e.pl.trim()); }
+
+// A missing form and a sense normally used in the singular are different cases.
+// Do not guess a plural or substitute the singular when the data has none.
+export function hasPluralForm(e) {
+  return e?.pos === 'noun' && typeof e.pl === 'string' && !!e.pl.trim() && !isUncountable(e);
+}
+export function nounNumberNote(e) {
+  if (e?.pos !== 'noun') return '';
+  if (isUncountable(e)) return 'Normally singular in this meaning. Other meanings or specialized uses may have a plural.';
+  if (isPluralOnly(e)) return 'This entry is normally used in the plural.';
+  if (!hasPluralForm(e)) return 'Plural not yet recorded for this entry.';
+  return '';
+}
 
 // Display headword: nouns with article, verbs as infinitive
 export function headword(e) {

@@ -5,7 +5,7 @@
 import { html, raw, esc, trBlock, enPill, speakBtn, levelBadge, icon, relTime, toast, secHead } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
-import { data, getEntry, article, withArticle, headword, isPluralOnly, isUncountable, CATS, shortEn, fold, LEVELS } from '../data.js';
+import { data, getEntry, article, withArticle, headword, isPluralOnly, isUncountable, hasPluralForm, nounNumberNote, CATS, shortEn, fold, LEVELS } from '../data.js';
 import { hwSize, IT_POS, TENSE_HELP, openListPicker } from '../components.js';
 import { conjugate, regularParadigm, irregularCells, irregularAlternatives, splitClitic, primary, accepted, PERSONS, IMP_PERSONS, TENSES, TENSE_BY_KEY, MISSING } from '../conjugator.js';
 import { stage, STAGE_LABEL } from '../srs.js';
@@ -381,7 +381,7 @@ function pluralRule(e) {
   const compound = a.length > 1 ? (changed > 1 ? ' In this compound both parts change.' : changed === 1 ? ' In this compound only one part changes.' : '') : '';
   const w = fold(a[0]), p = fold(b[0]);
   let text, kind = 'regular';
-  if (pl === '-' || pl === '—') { text = 'Uncountable: used only in the singular (a mass or abstract noun).'; kind = 'none'; }
+  if (!hasPluralForm(e)) { text = nounNumberNote(e); kind = 'none'; }
   else if (pl === it) {
     kind = 'invariable';
     if (/[àèéìòù]$/.test(w)) text = 'Invariable: nouns ending in a stressed vowel never change in the plural — only the article shows the number.';
@@ -421,7 +421,7 @@ function pluralRule(e) {
 }
 
 function articleRule(e) {
-  const plOnly = isPluralOnly(e), uncount = isUncountable(e);
+  const plOnly = isPluralOnly(e);
   const w = plOnly ? e.pl : e.it; const first = w.split(' ')[0]; const g = e.g;
   const vowel = VOWEL_RE.test(fold(first)), lo = LO_RE.test(fold(first));
   const items = [];
@@ -442,7 +442,7 @@ function articleRule(e) {
     else { ind = (vowel ? "un / un' " : lo ? 'uno / una ' : 'un / una ') + w; indText = 'The indefinite article carries the gender: masculine on the left, feminine on the right.'; }
     items.push({ k: 'indeterminativo', v: ind, text: indText });
   }
-  if (uncount) items.push({ k: 'plurale', v: '—', text: pluralRule(e).text });
+  if (!hasPluralForm(e)) items.push({ k: 'plurale', v: '—', text: pluralRule(e).text });
   else {
     const plFirst = (e.pl || '').split(' ')[0]; const pv = VOWEL_RE.test(fold(plFirst)), plo = LO_RE.test(fold(plFirst));
     let why;
@@ -458,7 +458,7 @@ function articleRule(e) {
     else if (plo) why = `gli — masculine plural before ${soundOf(plFirst)}, the plural of lo.`;
     else if (article(e, true) === 'gli') why = 'gli — the one plural that takes gli before an ordinary consonant: gli dei (never i dei).';
     else why = 'i — masculine plural before an ordinary consonant, the plural of il.';
-    items.push({ k: plOnly ? 'solo plurale' : 'plurale', v: withArticle(e, true), text: plOnly ? `Plural-only noun: it is always ${withArticle(e, true)}. ${why}` : why });
+    items.push({ k: 'plurale', v: withArticle(e, true), text: plOnly ? `${nounNumberNote(e)} ${why}` : why });
     if (!plOnly) { const r = pluralRule(e); items.push({ k: 'formazione', v: `${e.it} → ${e.pl}`, text: r.text, kind: r.kind }); }
   }
   return items;
@@ -491,7 +491,7 @@ function wordForms(e) {
   if (e.pos === 'noun') {
     const cells = [];
     if (!isPluralOnly(e)) cells.push({ lab: 'Singolare', val: withArticle(e, false), tint: e.g === 'f' ? 'var(--terracotta)' : 'var(--amalfi)' });
-    if (!isUncountable(e)) cells.push({ lab: isPluralOnly(e) ? 'Solo plurale' : 'Plurale', val: withArticle(e, true), tint: e.g === 'f' ? 'var(--terracotta)' : 'var(--amalfi)' });
+    if (hasPluralForm(e)) cells.push({ lab: 'Plurale', val: withArticle(e, true), tint: e.g === 'f' ? 'var(--terracotta)' : 'var(--amalfi)' });
     if (e.fem) cells.push({ lab: 'Femminile', val: e.fem, tint: 'var(--terracotta)' });
     if (e.femPl) cells.push({ lab: 'Femm. plurale', val: e.femPl, tint: 'var(--terracotta)' });
     return cells;
@@ -544,19 +544,20 @@ function renderWord(root, e) {
     <div class="headword ref-id" data-headword>
       <div class="hw-line">${art ? raw(`<span class="article">${esc(art)}</span>`) : ''}<span class="word" style="--hw:${hwSize(word)}px" data-rise>${word}</span></div>
       <div class="hw-row">${raw(enPill(e.en))}${raw(speakBtn(say, 'lg'))}</div>
-      <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${GENDER_IT[e.g] || e.g}</span>`) : ''}${isUncountable(e) ? raw('<span>non numerabile</span>') : ''}${isPluralOnly(e) ? raw('<span>solo plurale</span>') : ''}${cat ? raw(html`<span>${cat.name}</span>`) : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
+      <div class="tags">${raw(levelBadge(e.level || 'A1'))}<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${GENDER_IT[e.g] || e.g}</span>`) : ''}${isUncountable(e) ? raw('<span>normally singular</span>') : ''}${isPluralOnly(e) ? raw('<span>normally plural</span>') : ''}${cat ? raw(html`<span>${cat.name}</span>`) : ''}${e.custom ? raw('<span>custom</span>') : ''}</div>
     </div>
     ${jumps.length > 2 ? raw(html`<div class="chips scroll ref-jumps">${raw(jumpChips(jumps))}</div>`) : ''}
 
     ${forms.length ? raw(html`<div class="card ref-target" id="forms">
       ${raw(secHead('Forme', isNoun || forms.length !== 4 ? 'Singular & plural' : 'The four forms', { cls: 'in-pane' }))}
+      ${nounNumberNote(e) ? raw(html`<p class="note small" data-number-note><strong>Plural usage:</strong> ${nounNumberNote(e)}</p>`) : ''}
       <div data-fan></div>
       <div class="fan-tools"><button type="button" class="btn xs ghost" data-fan-flip>${ic('flip', { size: 16 })}Flip all</button><button type="button" class="btn xs ghost" data-fan-spread>${ic('spread', { size: 16 })}Spread</button></div>
       <div class="forms-say">${raw(forms.map(f => html`<button type="button" class="chip sm" data-say="${f.val}">${ic('speaker', { size: 14 })}${f.val}</button>`).join(''))}</div>
     </div>`) : e.pos === 'adj' ? raw(html`<div class="card"><div class="note">Invariable adjective: the same form is used for all genders and numbers.</div></div>`) : ''}
 
     ${rule.length ? raw(html`<div class="card ref-target" id="article">
-      ${raw(secHead(isNoun ? 'Articolo' : 'Accordo', isNoun ? `${isPluralOnly(e) ? '' : withArticle(e, false)}${isUncountable(e) || isPluralOnly(e) ? (isPluralOnly(e) ? withArticle(e, true) : '') : ' · ' + withArticle(e, true)}` : 'Agreement', { cls: 'in-pane' }))}
+      ${raw(secHead(isNoun ? 'Articolo' : 'Accordo', isNoun ? [!isPluralOnly(e) && withArticle(e, false), hasPluralForm(e) && withArticle(e, true)].filter(Boolean).join(' · ') : 'Agreement', { cls: 'in-pane' }))}
       <div class="rule-list">${raw(rule.map(r => html`<div class="rule-item ${r.kind || ''}"><span class="rk">${r.k}</span><span class="rv">${r.v}</span><span class="rt">${r.text}</span></div>`).join(''))}</div>
     </div>`) : ''}
 

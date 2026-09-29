@@ -7,6 +7,8 @@ import { buildQueue } from '../srs.js';
 import { runDrill, showResults } from '../games/engine.js';
 import { qTranslateMC, qTypeIt, qGender, qCloze, qConjMC, qConjType, qAux, qParticiple, qPluralMC } from '../games/questions.js';
 import { setScene } from '../fx.js';
+import { reviewItems, eligibleSkills, practiceHref } from '../learning/integration.js';
+import { allowedTenses } from '../learning/curriculum.js';
 
 // Pick a question type according to how well the item is known: weak items get recognition tasks, strong ones get production tasks.
 function questionFor(e, pool) {
@@ -14,8 +16,9 @@ function questionFor(e, pool) {
   const strong = it.s >= 3;
   if (e.kind === 'verb') {
     const r = Math.random();
-    if (!strong) return r < 0.4 ? qTranslateMC(e, pool, 'it-en') : r < 0.7 ? qConjMC(e, sample(['presente', 'passatoProssimo']), pool) : r < 0.85 ? qAux(e) : qParticiple(e, false);
-    return r < 0.3 ? qConjType(e, sample(['presente', 'passatoProssimo', 'imperfetto', 'futuro', 'condizionale', 'congiuntivoPresente'])) : r < 0.5 ? qCloze(e, { typed: true, pool }) || qConjType(e, 'presente') : r < 0.7 ? qConjMC(e, sample(['imperfetto', 'futuro', 'condizionale', 'congiuntivoPresente', 'passatoRemoto']), pool) : r < 0.85 ? qParticiple(e, true) : qTranslateMC(e, pool, 'en-it');
+    const tenses = allowedTenses(store.learning);
+    if (!strong) return r < 0.4 ? qTranslateMC(e, pool, 'it-en') : r < 0.7 || !tenses.includes('passatoProssimo') ? qConjMC(e, sample(tenses), pool) : r < 0.85 ? qAux(e) : qParticiple(e, false);
+    return r < 0.3 ? qConjType(e, sample(tenses)) : r < 0.5 ? qCloze(e, { typed: true, pool }) || qConjType(e, 'presente') : r < 0.7 ? qConjMC(e, sample(tenses), pool) : r < 0.85 && tenses.includes('passatoProssimo') ? qParticiple(e, true) : qTranslateMC(e, pool, 'en-it');
   }
   const r = Math.random();
   if (!strong) return r < 0.45 ? qTranslateMC(e, pool, 'it-en') : r < 0.75 ? qTranslateMC(e, pool, 'en-it') : (qGender(e) || qCloze(e, { pool }) || qTranslateMC(e, pool, 'it-en'));
@@ -23,6 +26,7 @@ function questionFor(e, pool) {
 }
 
 export async function render(root, params, query) {
+  if (store.settings.adaptiveLearning !== false) return renderAdaptiveReview(root, query);
   setTitle('Review');
   const level = store.settings.level || 'A1';
   setScene(level);
@@ -49,4 +53,14 @@ export async function render(root, params, query) {
   const runner = root.querySelector('[data-runner]');
   const opts = { title: 'Review', gameId: 'review', backHref: '#/learn', xpPer: 2, autoAdvance: true, onReplay: null, onPractice: (missed) => { location.hash = '#/game/flashcards?src=ids:' + encodeURIComponent(missed.map(e => e.id).join(',')); } };
   runDrill(runner, qs, { ...opts, onDone: (result) => { root.querySelector('[data-review-strip]')?.remove(); showResults(runner, result, opts); } });
+}
+
+function renderAdaptiveReview(root, query = {}) {
+  setTitle('Review'); setScene(store.settings.level || 'A1');
+  const due = reviewItems(store);
+  const ahead = !due.length || query.mode === 'extra';
+  const items = ahead ? [...due, ...eligibleSkills(store).filter(s => !due.some(d => d.objectiveId === s.objectiveId)).sort((a, b) => (a.due || Infinity) - (b.due || Infinity)).map(skill => ({ entry: getEntry(skill.entryId), objectiveId: skill.objectiveId, skill }))] : due;
+  root.innerHTML = html`<div class="course-page"><header><div class="kicker">Ripasso · keep it with you</div><h1 class="display">${due.length ? `${due.length} skills to revisit` : 'A little practice for later.'}</h1><p>Review the part that needs attention. A hint or a lucky choice will lead to another independent check.</p></header>
+    ${items.length ? raw(html`<a class="btn primary" href="${practiceHref(items[0].entry, items[0].objectiveId, 'review')}">${due.length ? 'Start focused review' : 'Practice ahead'}</a><ul class="course-skills">${raw(items.slice(0, store.settings.dailyReviews || 40).map(x => html`<li><div><strong>${x.entry.inf || x.entry.it}</strong><span>${x.skill ? x.skill.skill.replace(/[-_]/g, ' ') : 'Check your earlier learning'}</span><small>${x.skill?.unresolvedErrors?.length ? 'Focused practice on a recent difficulty' : x.skill?.remembered ? 'Strengthen a remembered skill' : 'Practice, then demonstrate it independently'}</small></div><a class="btn sm secondary" href="${practiceHref(x.entry, x.objectiveId, 'review')}">Practice</a></li>`).join(''))}</ul>`) : raw('<p>There is nothing to review yet. Start a lesson and your skills will return here when it is time to practice them again.</p>')}
+    <a class="btn secondary" href="#/course">Your learning path</a><a href="#/learn">Back to Learn</a></div>`;
 }

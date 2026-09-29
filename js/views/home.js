@@ -3,12 +3,13 @@
 import { html, raw, tr, enPill, speakBtn, levelBadge, secHead, fmtNum, toast, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store, todayKey } from '../store.js';
-import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, CATS, itemsForScope } from '../data.js';
+import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, nounNumberNote, CATS, itemsForScope } from '../data.js';
 import { IT_POS } from '../components.js';
 import { conjugate, primary } from '../conjugator.js';
 import { GAMES } from '../games/index.js';
 import { posterHTML } from './games.js';
 import { setScene, orbit, ticker, reel, mount, countUp, parallax } from '../fx.js';
+import { reviewItems } from '../learning/integration.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const REEL_GAMES = ['flashcards', 'quiz', 'conj-drill', 'crossword', 'speed'];
@@ -45,6 +46,10 @@ function nightCard(e, kind) {
   } else {
     tags = html`<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${e.g === 'mf' ? 'm · f' : e.g}</span>`) : ''}`;
     extra = e.cat && CATS[e.cat] ? html`<div class="night-extra mono">${CATS[e.cat].name}</div>` : '';
+    if (isNoun) {
+      const number = nounNumberNote(e);
+      extra += html`<div class="night-extra" data-night-number>${number ? number.split('.')[0] + '.' : 'Plural: ' + withArticle(e, true)}</div>`;
+    }
   }
   return html`<article class="night-card glass float ${kind === 'verb' ? 'delay' : ''}" style="--glow:${kind === 'verb' ? 'var(--gold)' : 'var(--amalfi)'}" data-href="${href}">
     <div class="night-top"><span class="kicker">${kind === 'verb' ? 'Verb of the night' : 'Word of the night'}</span><a class="icon-btn night-open" href="${href}" aria-label="Open ${word}">${ic('chevronRight', { size: 20 })}</a></div>
@@ -60,7 +65,7 @@ export async function render(root) {
   const p = store.current;
   const day = store.today();
   const s = p.settings;
-  const due = store.dueIds().length;
+  const due = store.settings.adaptiveLearning !== false ? reviewItems(store).length : store.dueIds().length;
   // the plan never promises more new items than the study scope still holds (a 2-word list is not "8 new words")
   const unlearnedInScope = (kind) => itemsForScope(store.scope, store, { kind }).filter(e => !store.isLearned(e.id)).length;
   const newWordsLeft = Math.min(Math.max(0, s.dailyNew - ((day.new || 0) - (day.newVerbs || 0))), unlearnedInScope('word'));
@@ -75,7 +80,7 @@ export async function render(root) {
   const goalDone = newWordsLeft === 0 && newVerbsLeft === 0 && due === 0;
   const week = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - (6 - i)); const k = todayKey(d); const st = p.stats.days[k]; return { k, today: i === 6, active: !!(st && ((st.correct || 0) + (st.new || 0) + (st.games || 0)) > 0), label: 'SMTWTFS'[d.getDay()] }; });
   const activeDays = week.filter(d => d.active).length;
-  const continueHref = due ? '#/review' : '#/learn';
+  const continueHref = due ? '#/review' : store.settings.adaptiveLearning !== false ? '#/course' : '#/learn';
   const continueHint = due ? `review · ${due} due` : goalDone ? 'keep going · learn ahead' : newVerbsLeft ? `learn · ${newVerbsLeft} new verb${newVerbsLeft === 1 ? '' : 's'}` : `learn · ${newWordsLeft} new word${newWordsLeft === 1 ? '' : 's'}`;
   const picks = (L) => ({ wotd: dailyPick(data.vocab.filter(e => e.level === L), 1), votd: dailyPick(data.verbs.filter(e => e.level === L), 2) });
   let { wotd, votd } = picks(lvl);

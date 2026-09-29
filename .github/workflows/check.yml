@@ -1,0 +1,51 @@
+name: Check application
+
+on:
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PLAYWRIGHT_DIR: /tmp/parola-tools
+      PGLITE_DIR: /tmp/parola-tools
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate data and learning behavior
+        run: |
+          node tools/validate.mjs data/vocab/*.json data/verbs/*.json
+          node tools/build-data.mjs
+          node tools/test-noun-forms.mjs
+          node tools/check-modules.mjs
+          node tools/check-shell.mjs
+          node tools/test-conjugator.mjs
+          node tools/test-learning-model.mjs
+          node tools/test-learning-questions.mjs
+          node tools/test-learning-store-sync.mjs
+          node tools/test-learning-integration.mjs
+      - name: Install isolated test dependencies
+        run: |
+          npm install --prefix "$PLAYWRIGHT_DIR" --ignore-scripts --no-audit --no-fund playwright@1.62.1 @electric-sql/pglite@0.5.8
+          "$PLAYWRIGHT_DIR/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Verify SQL migration and browser flows
+        run: |
+          node tools/test-learning-sql.mjs
+          node tests/adaptive-e2e.mjs
+          node tests/noun-forms-e2e.mjs
+          node tests/game-learning-e2e.mjs
+          node tests/offline-e2e.mjs
+          node tests/e2e.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-reports
+          path: tests/report-*.json

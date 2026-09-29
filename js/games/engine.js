@@ -6,6 +6,8 @@ import { getEntry, headword, shortEn } from '../data.js';
 import { normalizeAnswer, stripAccents } from '../conjugator.js';
 import { entryRow } from '../components.js';
 import fx from '../fx.js';
+import { gradeQuestion } from '../learning/diagnose.js';
+import { expandedForms } from '../learning/questions.js';
 
 export const ACCENTS = ['à', 'è', 'é', 'ì', 'ò', 'ù'];
 // Three tidy rows: 9 · 9 · 8 (+ backspace) keys — fits 375px with 44px-tall keys.
@@ -170,12 +172,28 @@ export function runDrill(root, questions, opts = {}) {
   const state = { i: 0, correct: 0, wrong: 0, missed: [], perItem: {}, start: Date.now(), answers: [] };
   let locked = false;
   let dead = false;
+  const evidenceSessionId = `game:${gameId}:${globalThis.crypto?.randomUUID?.() || Date.now() + ':' + Math.random().toString(36).slice(2)}`;
+  const exposure = new Map();
+  const answerKey = value => stripAccents(normalizeAnswer(value));
+  let assistance = new Set();
+  const exposeAnswers = q => { for (const a of expandedForms(q.answer || [])) exposure.set(answerKey(a), state.i); };
+  const onAnswerAudio = ev => {
+    const q = questions[state.i];
+    if (dead || locked || !q?.meta || q.meta.audioIsPrompt || q.meta.answerLanguage === 'en') return;
+    if (ev.target.closest?.('[data-say]')) { assistance.add('answer-audio'); exposeAnswers(q); }
+  };
+  root.addEventListener('click', onAnswerAudio, true);
+  const stopEvidenceListeners = () => root.removeEventListener('click', onAnswerAudio, true);
 
   function renderQ() {
     locked = false;
     if (dead) return;
     const q = questions[state.i];
     if (!q) return finish();
+    assistance = new Set();
+    if (expandedForms(q.answer || []).some(a => exposure.has(answerKey(a)) && state.i - exposure.get(answerKey(a)) < 3)) assistance.add('recent-answer-exposure');
+    if (q.type === 'mc') for (const c of q.choices || []) exposure.set(answerKey(c.label), state.i);
+    if (q.autoSay && !q.meta?.audioIsPrompt && q.meta?.answerLanguage !== 'en') assistance.add('answer-audio');
     let body = '';
     if (q.type === 'mc') {
       body = html`<div class="choices ${q.choices.length === 2 ? 'two' : ''}">${raw(q.choices.map((c, idx) => html`<button type="button" class="choice ${q.center ? 'center' : ''}" data-choice="${idx}"><span class="choice-label">${raw(c.html || esc(c.label))}${c.sub ? raw(`<span class="tiny muted">${esc(c.sub)}</span>`) : ''}</span></button>`).join(''))}</div>`;
@@ -190,7 +208,7 @@ export function runDrill(root, questions, opts = {}) {
       setTimeout(() => { if (root.contains(input)) input.focus({ preventScroll: true }); }, 60);
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitTyped(); } });
       root.querySelector('[data-check]').addEventListener('click', submitTyped);
-      root.querySelector('[data-skip]').addEventListener('click', () => grade(false, '', q, ''));
+      root.querySelector('[data-skip]').addEventListener('click', () => grade(false, '', q, '', { revealed: true }));
     } else {
       root.querySelectorAll('[data-choice]').forEach(b => b.addEventListener('click', () => { if (locked) return; const idx = Number(b.dataset.choice); const c = q.choices[idx]; grade(!!c.correct, c.label, q, idx); }));
     }
@@ -204,6 +222,7 @@ export function runDrill(root, questions, opts = {}) {
     grade(!!res.ok, input.value, q, null, res);
   }
   function grade(ok, given, q, choiceIdx, res = {}) {
+    if (locked || dead) return;
     locked = true;
     haptic(ok ? 'success' : 'error');
     if (ok) state.correct++; else { state.wrong++; if (q.itemId) state.missed.push(q.itemId); }
@@ -212,7 +231,24 @@ export function runDrill(root, questions, opts = {}) {
       const pi = (state.perItem[q.itemId] ||= { ok: 0, ko: 0 });
       if (ok) pi.ok++; else pi.ko++;
       store.recordAnswer(q.itemId, ok, { quality: ok ? (res.accentIssue ? 3 : 4) : 1, xp: ok ? xpPer : 0 });
+      if (q.meta?.source === 'game' && q.meta.objectiveId) {
+        const aid = [...assistance, ...(res.revealed ? ['revealed'] : [])];
+        const diagnosed = gradeQuestion(q, given, { revealed: !!res.revealed, assistance: aid, accentStrict: !!store.settings.accentStrict });
+        // The game's existing custom accept callback remains authoritative.
+        // If it permits an additional synonym/variant, record only the directly
+        // tested skill; do not invent component evidence from a disagreement.
+        const consistent = diagnosed.ok === ok;
+        store.recordLearningAttempt({
+          ...q.meta, sessionId: evidenceSessionId, index: state.i, at: Date.now(),
+          ok, outcome: res.revealed ? 'revealed' : ok ? 'correct' : 'incorrect',
+          assistance: aid, firstAttempt: true,
+          errorTags: consistent ? diagnosed.errorTags : ok ? [] : ['uncertain'],
+          components: res.revealed ? [] : consistent ? diagnosed.components : [{ skill: q.meta.skill, ok }],
+          xp: 0, countStats: false,
+        });
+      }
     }
+    exposeAnswers(q);
     if (q.type === 'mc') {
       root.querySelectorAll('[data-choice]').forEach((b, idx) => {
         const c = q.choices[idx];
@@ -247,6 +283,7 @@ export function runDrill(root, questions, opts = {}) {
   }
   function next() { if (dead) return; state.i++; renderQ(); }
   function finish() {
+    stopEvidenceListeners();
     const secs = Math.round((Date.now() - state.start) / 1000);
     const result = { gameId, title, total, correct: state.correct, wrong: state.wrong, score: total ? Math.round((state.correct / total) * 100) : 0, missed: [...new Set(state.missed)], secs, perItem: state.perItem, answers: state.answers };
     result.xp = state.correct * xpPer + (result.score === 100 && total >= 5 ? 10 : 0);
@@ -257,7 +294,7 @@ export function runDrill(root, questions, opts = {}) {
     showResults(root, result, opts);
   }
   renderQ();
-  return { state, destroy() { dead = true; } };
+  return { state, destroy() { dead = true; stopEvidenceListeners(); } };
 }
 
 // ---------- results ----------

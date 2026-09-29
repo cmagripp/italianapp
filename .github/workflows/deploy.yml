@@ -28,7 +28,13 @@ jobs:
         run: |
           node tools/validate.mjs data/vocab/*.json data/verbs/*.json
           node tools/build-data.mjs
+          node tools/test-noun-forms.mjs
+          node tools/check-modules.mjs
           node tools/test-conjugator.mjs
+          node tools/test-learning-model.mjs
+          node tools/test-learning-questions.mjs
+          node tools/test-learning-store-sync.mjs
+          node tools/test-learning-integration.mjs
           node tools/check-shell.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

@@ -2,6 +2,7 @@
 // Primary storage is IndexedDB (large quota, survives Safari homescreen installs); localStorage is the fallback.
 import { schedule as srsSchedule } from './srs.js';
 import { data, LEVELS } from './data.js'; // data.js imports nothing, so no cycle
+import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills } from './learning/model.js';
 
 const DB_NAME = 'italiano-db';
 const KV = 'kv';
@@ -74,17 +75,20 @@ export const DEFAULT_SETTINGS = {
   level: 'A1',
   theme: 'auto',
   accentStrict: false,  // require accents in typed answers
+  adaptiveLearning: true,
   haptics: true,
 };
 
 function newProfile(name, avatar) {
   const now = Date.now();
   return {
-    id: uid(), name, avatar: avatar || '🇮🇹', created: now, version: 1,
+    id: uid(), name, avatar: avatar || '🇮🇹', created: now, version: 2,
+    learning: createLearning(now),
     settings: { ...DEFAULT_SETTINGS },
     items: {},
     lists: { bank: { id: 'bank', name: 'My word bank', items: [], created: now, builtin: true } },
     custom: {},
+    customDeleted: {},
     stats: { xp: 0, streak: 0, bestStreak: 0, lastActive: null, days: {}, games: {}, verbsLearned: 0, wordsLearned: 0 },
     scope: { mode: 'level', levels: ['A1'], cats: [], lists: [] },
     recent: [],
@@ -101,8 +105,26 @@ function normalize(p) {
   for (const l of Object.values(p.lists)) if (l && !Array.isArray(l.items)) l.items = [];
   p.stats = { ...fresh.stats, ...(p.stats || {}) }; p.stats.days ||= {}; p.stats.games ||= {};
   p.scope = { ...fresh.scope, ...(p.scope || {}) }; p.recent ||= [];
+  p.learning = normalizeLearning(p.learning);
+  p.customDeleted ||= {};
+  p.version = Math.max(2, Number(p.version) || 1);
   return p;
 }
+
+// An installation identity is deliberately outside profile backups. The random suffix on
+// each event also prevents collisions if two tabs read the same sequence concurrently.
+let fallbackDevice = null;
+function nextLearningIdentity() {
+  let device, sequence = 1;
+  try {
+    device = localStorage.getItem('it.learningDevice');
+    if (!device) { device = 'd:' + uid(); localStorage.setItem('it.learningDevice', device); }
+    sequence = (Number(localStorage.getItem('it.learningSequence')) || 0) + 1;
+    localStorage.setItem('it.learningSequence', String(sequence));
+  } catch { device = fallbackDevice ||= 'd:' + uid(); }
+  return { deviceId: device, sequence, id: device + ':' + sequence + ':' + uid() };
+}
+const learningXP = (domain) => Object.values(domain?.events || {}).reduce((n, e) => n + (Number(e.xp) || 0), 0);
 
 class Store extends EventTarget {
   constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; }
@@ -226,6 +248,48 @@ class Store extends EventTarget {
   get settings() { return this.current.settings; }
   setSetting(k, v) { this.current.settings[k] = v; this.save(); this.emit('settings', { k, v }); }
 
+  // ---------- adaptive evidence (separate from the legacy whole-item SRS) ----------
+  get learning() { return this.current.learning ||= createLearning(); }
+  recordLearningAttempt(input) {
+    const identity = nextLearningIdentity();
+    const event = { ...identity, ...input, epochId: this.learning.epoch.id, at: input.at ?? Date.now() };
+    event.xp = input.xp ?? (event.ok ? (event.assistance?.length ? 1 : 2) : 0);
+    const before = skillState(this.learning, event.objectiveId, event.at);
+    const result = recordAttempt(this.learning, event);
+    this.current.learning = result.learning;
+    if (result.added) {
+      const stored = result.learning.events[event.id];
+      const points = stored?.xp || 0;
+      this.current.stats.learningXP = learningXP(result.learning);
+      const day = this._day();
+      if (input.countStats !== false) {
+        if (stored.outcome !== 'skipped') {
+          if (stored.ok) day.correct = (day.correct || 0) + 1;
+          else day.wrong = (day.wrong || 0) + 1;
+        }
+        if (before.due && before.due <= event.at && !before.sessionEvidence[event.sessionId]) day.reviews = (day.reviews || 0) + 1;
+      }
+      this.addXP(points, false);
+      this.save();
+    }
+    return { ...result, event: result.learning.events[event.id] || event };
+  }
+  saveLearningSession(session) {
+    const domain = this.learning;
+    domain.session = session ? { ...session, updatedAt: Date.now() } : null;
+    domain.sessions ||= {};
+    if (session) domain.sessions[session.entryId + '|' + (session.mode || 'lesson')] = domain.session;
+    this.save();
+  }
+  setLearningPreference(key, value) {
+    if (this.learning.version > LEARNING_VERSION) return;
+    if (!['stage', 'expansions'].includes(key)) return;
+    this.learning.preferences = { ...this.learning.preferences, [key]: value, updatedAt: Date.now() };
+    this.current.learning = normalizeLearning(this.learning);
+    this.save();
+  }
+  learningSkills(now = Date.now()) { return allSkills(this.learning, now); }
+
   // ---------- items / SRS ----------
   getItem(id) { return this.current.items[id] || null; }
   ensureItem(id) { return (this.current.items[id] ||= { s: 0, ef: 2.5, iv: 0, due: 0, reps: 0, lapses: 0, seen: 0, ok: 0, ko: 0, learned: false, first: Date.now() }); }
@@ -292,7 +356,18 @@ class Store extends EventTarget {
     return id;
   }
   updateCustomWord(id, patch) { if (this.current.custom[id]) { Object.assign(this.current.custom[id], patch, { modified: Date.now() }); this.save(); } }
-  removeCustomWord(id) { delete this.current.custom[id]; for (const l of Object.values(this.current.lists)) l.items = l.items.filter(x => x !== id); delete this.current.items[id]; this.current.recent = (this.current.recent || []).filter(x => x !== id); this.save(); }
+  removeCustomWord(id) {
+    delete this.current.custom[id];
+    (this.current.customDeleted ||= {})[id] = Date.now();
+    for (const l of Object.values(this.current.lists)) l.items = l.items.filter(x => x !== id);
+    delete this.current.items[id];
+    this.current.recent = (this.current.recent || []).filter(x => x !== id);
+    for (const [key, session] of Object.entries(this.learning.sessions || {})) if (session.entryId === id) delete this.learning.sessions[key];
+    if (this.learning.session?.entryId === id) this.learning.session = null;
+    // Keep lightweight historical attempt IDs/XP for merge deduplication. This
+    // tombstoned entry is excluded from every active/review/resume lookup.
+    this.save();
+  }
 
   // ---------- stats ----------
   _day() { const k = todayKey(); return (this.current.stats.days[k] ||= { new: 0, reviews: 0, correct: 0, wrong: 0, xp: 0, games: 0, time: 0 }); }
@@ -328,18 +403,36 @@ class Store extends EventTarget {
 
   // ---------- export / import ----------
   exportJSON() { return JSON.stringify({ app: 'italiano', exported: new Date().toISOString(), profile: this.current }, null, 0); }
-  async importJSON(text, { merge = false } = {}) {
+  async importJSON(text, { merge = false, silent = false } = {}) {
     const obj = JSON.parse(text);
     const p = obj.profile || obj;
     if (!p || !p.items || !p.lists) throw new Error('Not a valid backup file');
+    if (p.learning?.version > LEARNING_VERSION) throw new Error('This progress uses a newer version of Parola. Update the app before importing or syncing it. Your current progress has been kept.');
     if (merge) {
       const cur = normalize(this.current);
-      for (const [id, it] of Object.entries(p.items)) { const c = cur.items[id]; if (!c || (it.last || 0) > (c.last || 0)) cur.items[id] = it; }
+      const remoteLearning = normalizeLearning(p.learning);
+      const epochOrder = (remoteLearning.epoch.at - cur.learning.epoch.at) || (remoteLearning.epoch.id < cur.learning.epoch.id ? -1 : remoteLearning.epoch.id > cur.learning.epoch.id ? 1 : 0);
+      // Reset generations also protect legacy progress from a stale cloud copy.
+      if (epochOrder > 0) { cur.items = {}; cur.stats = newProfile(cur.name).stats; cur.recent = []; }
+      const localLegacyXP = Math.max(0, cur.stats.xp - (cur.stats.learningXP || 0));
+      const remoteLegacyXP = epochOrder < 0 ? 0 : Math.max(0, (p.stats?.xp || 0) - (p.stats?.learningXP || 0));
+      cur.learning = mergeLearning(cur.learning, p.learning);
+      if (epochOrder >= 0) for (const [id, it] of Object.entries(p.items)) { const c = cur.items[id]; if (!c || (it.last || 0) > (c.last || 0)) cur.items[id] = it; }
       for (const [id, l] of Object.entries(p.lists)) { if (!cur.lists[id]) cur.lists[id] = { ...l, items: Array.isArray(l.items) ? l.items : [] }; else cur.lists[id].items = [...new Set([...(cur.lists[id].items || []), ...(l.items || [])])]; }
       for (const [id, w] of Object.entries(p.custom || {})) { const c = cur.custom[id]; if (!c || (w.modified || w.created || 0) > (c.modified || c.created || 0)) cur.custom[id] = w; }
-      cur.stats.xp = Math.max(cur.stats.xp, p.stats?.xp || 0);
-      cur.stats.bestStreak = Math.max(cur.stats.bestStreak || 0, p.stats?.bestStreak || 0);
-      for (const [d, v] of Object.entries(p.stats?.days || {})) if (!cur.stats.days[d]) cur.stats.days[d] = v;
+      for (const [id, at] of Object.entries(p.customDeleted || {})) if (id.startsWith('c:')) cur.customDeleted[id] = Math.max(cur.customDeleted[id] || 0, Number(at) || 0);
+      for (const id of Object.keys(cur.customDeleted)) {
+        delete cur.custom[id]; delete cur.items[id];
+        for (const list of Object.values(cur.lists)) list.items = list.items.filter(x => x !== id);
+        for (const [key, session] of Object.entries(cur.learning.sessions || {})) if (session.entryId === id) delete cur.learning.sessions[key];
+        if (cur.learning.session?.entryId === id) cur.learning.session = null;
+      }
+      cur.stats.learningXP = learningXP(cur.learning);
+      cur.stats.xp = Math.max(localLegacyXP, remoteLegacyXP) + cur.stats.learningXP;
+      if (epochOrder >= 0) {
+        cur.stats.bestStreak = Math.max(cur.stats.bestStreak || 0, p.stats?.bestStreak || 0);
+        for (const [d, v] of Object.entries(p.stats?.days || {})) if (!cur.stats.days[d]) cur.stats.days[d] = v;
+      }
     } else {
       p.id = this.current.id; // keep current slot
       normalize(p); // a partial or foreign backup gets custom, lists.bank, name, a valid level… like a stored profile does
@@ -348,10 +441,11 @@ class Store extends EventTarget {
     }
     this._dirty = true;
     await this.saveNow();
-    this.emit('profile', this.current); this.emit('change');
+    if (!silent) { this.emit('profile', this.current); this.emit('change'); }
   }
   async resetProgress() {
     const p = this.current;
+    p.learning = resetLearning(p.learning, Date.now(), 'reset:' + uid());
     p.items = {}; p.stats = newProfile(p.name).stats; p.recent = [];
     this._dirty = true; await this.saveNow(); this.emit('change');
   }

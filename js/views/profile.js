@@ -114,6 +114,7 @@ export async function render(root) {
         ${voices.length > 1 ? raw(html`<div class="set-row"><div class="set-main"><div class="lab">Voice</div><div class="sub">${voices.length} Italian voices available</div></div>${raw(pickerHTML('voice', esc(s.voice && voices.some(v => v.name === s.voice) ? s.voice : 'Automatic'), 'Voice'))}</div>`) : ''}
         <div class="set-row stack"><div class="set-head"><div class="set-main"><div class="lab">Speech rate</div><div class="sub">How fast Italian is read aloud</div></div>${raw(speakBtn('Buongiorno, benvenuto!'))}</div>${raw(segHTML('ttsRate', s.ttsRate ?? 0.9))}</div>
         <div class="set-row"><div class="set-main"><div class="lab">Strict accents</div><div class="sub">Typed answers must carry the right accents (è, à…)</div></div>${raw(switchHTML('accentStrict', !!s.accentStrict, 'Strict accents'))}</div>
+        <div class="set-row"><div class="set-main"><div class="lab">Adaptive lessons</div><div class="sub">Targeted teaching and repeated checks for words and verbs. Turn off to use the original walkthrough.</div></div>${raw(switchHTML('adaptiveLearning', s.adaptiveLearning !== false, 'Adaptive lessons'))}</div>
         <div class="set-row"><div class="set-main"><div class="lab">Haptic feedback</div><div class="sub">A light tap on answers</div></div>${raw(switchHTML('haptics', s.haptics !== false, 'Haptic feedback'))}</div>
       </div>
 
@@ -291,6 +292,7 @@ function syncCard() {
       <div class="field"><label>Password</label><input class="input" data-sync="pass" type="password" autocomplete="current-password"></div>
       <div class="row gap"><button type="button" class="btn primary grow" data-sync-in>${ic('lock', { size: 18 })}Sign in</button><button type="button" class="btn grow" data-sync-up>Create account</button></div>
       <div class="row mt"><button type="button" class="btn sm ghost" data-sync-sql>${ic('list', { size: 16 })}Show setup SQL</button></div>`)}
+    ${on ? raw('<div class="row mt"><button type="button" class="btn sm ghost" data-sync-sql>Show setup SQL / update sync</button></div>') : ''}
     <div class="sync-status" data-sync-status role="status"></div>`;
 }
 function bindSync(root, draw) {

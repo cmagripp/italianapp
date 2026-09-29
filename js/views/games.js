@@ -2,6 +2,7 @@
 import { html, raw, esc, sheet, secHead, icon, tr } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
+import { allowedTenses } from '../learning/curriculum.js';
 import { GAMES, TENSE_OPTIONS } from '../games/index.js';
 import { TENSE_BY_KEY } from '../conjugator.js';
 import { sourceChoices, resolveSource, sourceLabel } from '../source.js';
@@ -62,7 +63,7 @@ export function openSourcePicker(game, presetSrc) {
     if (n) choices.unshift({ spec: presetSrc, label: sourceLabel(presetSrc), sub: `${n} ${n === 1 ? 'item' : 'items'} chosen for this game`, count: n });
   }
   const opts = game.options || [];
-  const chosen = { src: presetSrc || lastSrc, tenses: ['presente', 'passatoProssimo'] };
+  const chosen = { src: presetSrc || lastSrc, tenses: allowedTenses(store.learning) };
   if (!choices.some(c => c.spec === chosen.src)) chosen.src = 'scope';
   for (const o of opts) chosen[o.key] = o.choices[0][0];
   const tenseItems = TENSE_OPTIONS.map(([k, n]) => ({ key: k, label: n, sub: TENSE_BY_KEY[k]?.mood || '' }));

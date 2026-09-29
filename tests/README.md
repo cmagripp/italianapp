@@ -1,6 +1,16 @@
 # Browser tests
 
-Two Playwright scripts drive the real app in headless Chromium at phone sizes. There is no test runner, no `package.json`
+`node tests/adaptive-e2e.mjs` exercises the default adaptive learner in a fresh phone-sized browser profile: repeated
+independent success after mistakes, hints/reveals, exact question and draft resumption, explicit defer/resume, voluntary
+check-ins, solvable word/verb practice, focused review, six-person checkpoints, narrow-scope handling, and preservation
+of learning saved by a newer application version. It writes `tests/report-adaptive-e2e.json` and a phone screenshot.
+
+The route visits in the older `e2e.mjs` suite use adaptive learning by default, including `/course` and `/review`.
+Its four classic walkthrough fixtures and classic review-runner fixture temporarily opt out through the existing
+`adaptiveLearning` preference; each restores the preference afterwards. Games, lists, profiles, backups, and other
+regression flows continue with the default setting. Run both suites to cover the two retained experiences.
+
+Playwright scripts drive the real app in headless Chromium at phone sizes. There is no test runner, no `package.json`
 and no build step: they are plain Node ES modules.
 
 | Script | What it does | Report |
@@ -31,6 +41,9 @@ cd /path/to/italianapp && (python3 -m http.server 8123 --bind 127.0.0.1 >/dev/nu
 ## Running
 
 ```bash
+node tests/adaptive-e2e.mjs              # new lesson loops, repeated evidence, hints, skip and resume
+node tests/game-learning-e2e.mjs         # shared game runner feeds accurate evidence without duplicate rewards
+node tests/offline-e2e.mjs               # actual worker upgrade, failed precache and offline reload/resume
 node tests/e2e.mjs                       # all routes + all flows (≈7 min)
 node tests/layout-audit.mjs              # all routes × 3 viewports × 2 themes (≈2 min, viewports run in parallel)
 
@@ -129,6 +142,8 @@ oracle recognises questions by their `.prompt` tag ("What does it mean?", "Prese
 plural", "Ascolta", "Scrivi / Type the Italian"…); a renamed tag makes the pass flows guess again and fail.
 
 ## Reading the JSON reports
+
+`node tests/noun-forms-e2e.mjs` checks noun plurals and number-usage explanations across the entry, reference and daily-word views in an isolated browser profile. It also checks the shared forms component against the full noun inventory, missing custom forms and focused mobile layouts. Run the fast data checks with `node tools/test-noun-forms.mjs`.
 
 `report-e2e.json`: `routes[]` (`route, ok, ms, errors[], warnings[], text, shot`), `flows[]` (`name, ok, ms, detail,
 errors[], warnings[]`), `consoleErrors[]` (`at, text`) and `summary`.
