@@ -233,7 +233,7 @@ export async function render(root, params = {}, query = {}) {
     if (paused) content = html`<h1 data-focus tabindex="-1">Your place is saved</h1><p>Come back to this question whenever you’re ready.</p>${raw(primary('Resume lesson', 'data-resume'))}<a class="btn ghost" href="#/learn">Back to Learn</a>`;
     else if (step.type === 'teach') {
       revealTeaching(step.card);
-      content = html`${raw(cardHTML(step.card))}${raw(primary('Continue'))}<button type="button" class="btn ghost" data-skip>Skip · save for later</button>`;
+      content = html`${raw(cardHTML(step.card))}${raw(primary('Continue'))}${plan.references?.length ? raw(html`<a class="btn ghost" href="#/reference/${encodeURIComponent(entry.id)}">More meanings and examples</a>`) : ''}<button type="button" class="btn ghost" data-skip>Skip · save for later</button>`;
     } else if (step.type === 'question') content = exerciseHTML();
     else if (step.type === 'repair') content = html`${raw(repairHTML())}${raw(primary('Try it together'))}<button type="button" class="btn ghost" data-skip>Skip · save for later</button>`;
     else if (step.type === 'recap' || step.type === 'complete') content = summaryHTML(step.type === 'complete');

@@ -153,22 +153,31 @@ function presentTeaching(e,c){
  if(clitic)notes.push(`The infinitive ${e.inf} includes a pronoun. Keep the pronoun before the finite verb: ${lessonForms(e,'presente',0).join(' / ')}. In the ordinary reflexive pattern: mi, ti, si, ci, vi, si.`);
  return notes;
 }
+function participleTeaching(e,c){
+ const forms=clean(c?.nonFinite?.participioPassato),{base}=splitClitic(e.inf);
+ const ending=base.match(/(are|ere|ire)$/)?.[1];
+ const regular=ending?base.slice(0,-3)+{are:'ato',ere:'uto',ire:'ito'}[ending]:null;
+ const exceptions=forms.filter(form=>form!==regular);
+ const selected=forms.length?`For ${e.inf}, learn ${forms.join(' / ')}.`:'A past participle is not available for this entry.';
+ const exception=exceptions.length?(regular&&forms.includes(regular)?` Alongside ${regular}, this verb has the irregular participle ${exceptions.join(' / ')}. Learn which meaning or construction each form belongs to.`:` ${e.inf} has an irregular past participle: ${exceptions.join(' / ')}. Learn it directly; the regular ending rule alone does not produce it.`):'';
+ return `${selected} For regular participles, replace the infinitive ending: -are → -ato, -ere → -uto, -ire → -ito. These are patterns with exceptions, not rules for every verb. Examples: parlare → parlato, credere → creduto, dormire → dormito.${exception}`;
+}
 function futureTeaching(e){
  const forms=Array.from({length:6},(_,p)=>lessonForms(e,'futuro',p));
  const endings=['ò','ai','à','emo','ete','anno'];const p=forms.findIndex(f=>f.length);
  if(p<0)return 'A future form is not available for this verb.';
  const finite=forms[p][0].split(' ').at(-1),stem=finite.endsWith(endings[p])?finite.slice(0,-endings[p].length):null;
  const {base}=splitClitic(e.inf),normal=base.endsWith('are')?`${base.slice(0,-3)}er`:base.slice(0,-1);
- return `${TENSE_LESSONS.futuro} ${stem?`For ${e.inf}, the stem is ${stem}-. ${stem!==normal?'This differs from simply dropping the final e; learn this spelling. ':''}${stem}- + ${endings[p]} → ${finite}.`:`Learn its forms individually.`} Regular -are changes to -er-; regular -ere keeps -er-; regular -ire keeps -ir-.`;
+ return `${TENSE_LESSONS.futuro} ${stem?`For ${e.inf}, the stem is ${stem}-. ${stem!==normal?'This differs from simply dropping the final e; learn this spelling. ':''}${stem}- + ${endings[p]} → ${finite}.`:`Learn its forms individually.`} Regular -are changes to -er-; regular -ere keeps -er-; regular -ire keeps -ir-. Add the endings in person order: io -ò, tu -ai, lui/lei/Lei -à, noi -emo, voi -ete, loro -anno.`;
 }
 function verbLesson(e) {
  const chapters=[];let c;try{c=conjugate(e.inf,{aux:e.aux,isc:e.isc});}catch{c=null;}
  const refs=(e.examples||[]).filter(x=>x.it&&x.en).map(x=>({it:x.it,en:x.en}));
- chapters.push({id:'meet',title:`Meet ${e.inf}`,tense:null,groups:[{id:'meaning',title:'Meaning and use',cards:[card('meaning',e.inf,e.en,lessonContexts(e,'present').slice(0,1).map(x=>({it:x.it,en:x.en})),[],[e.inf==='credere'?'Credere a qualcuno means believing what that person says. Credere in qualcuno means having confidence in that person.':e.inf==='dire'?'Dire has forms to learn individually: dico in the present, detto as its past participle, and dir- as its future stem. You will meet each pattern before using it.':'Learn the meaning together with the construction.']),{...card('reference','Usage reference',e.inf==='credere'?(e.usage||e.en).replace("'credo che' takes the subjunctive","'credo che' often introduces a subjunctive clause; the mood depends on the construction and meaning"):e.usage||e.en,refs,[],['Explore these other uses whenever you want; some include grammar from later chapters.']),reference:true}],targets:[]}]});
+ chapters.push({id:'meet',title:`Meet ${e.inf}`,tense:null,groups:[{id:'meaning',title:'Meaning and use',cards:[card('meaning',e.inf,e.en,(lessonContexts(e,'present').length?lessonContexts(e,'present'):refs).slice(0,1).map(x=>({it:x.it,en:x.en})),[],[e.inf==='credere'?'Credere a qualcuno means believing what that person says. Credere in qualcuno means having confidence in that person.':e.inf==='dire'?'Dire has forms to learn individually: dico in the present, detto as its past participle, and dir- as its future stem. You will meet each pattern before using it.':'Learn the meaning together with the construction.']),{...card('reference','Usage reference',e.inf==='credere'?(e.usage||e.en).replace("'credo che' takes the subjunctive","'credo che' often introduces a subjunctive clause; the mood depends on the construction and meaning"):e.usage||e.en,refs,[],['Explore these other uses whenever you want; some include grammar from later chapters.']),reference:true}],targets:[]}]});
  for(const [ch,title,tense]of stages){
   const contexts=lessonContexts(e,ch),weather=WEATHER_VERBS.has(e.inf),experiencer=e.inf==='piacere';
   const groups=[];
-  if(ch==='past')groups.push({id:'building',title:'Build the past',cards:[card('auxiliary','Start with the auxiliary',`${e.inf} uses ${e.aux==='both'?'an auxiliary that depends on its construction':e.aux||'its dictionary auxiliary'}. The auxiliary carries the person.`,[],[{label:'avere',form:'ho · hai · ha · abbiamo · avete · hanno',gloss:'present forms used to build the past'},{label:'essere',form:'sono · sei · è · siamo · siete · sono',gloss:'present forms used to build the past'}]),card('participle','Add the past participle',`For ${e.inf}, learn ${clean(c?.nonFinite?.participioPassato).join(' / ')||'the dictionary participle when available'}. Regular models are parlare → parlato, credere → creduto, dormire → dormito. Many verbs have exceptions: dire → detto.`,[],[],[e.aux==='essere'?'With essere, agreement follows the subject: Marco è arrivato; Sara è arrivata. Formal Lei still uses è; the ending follows the addressee.':'In the simple avere constructions here, the participle does not change with the person. Object-pronoun agreement is a later topic.'])],targets:[target(e,ch,'auxiliary-part','auxiliary',{tense,person:weather?2:0,required:false,guidedOnly:true,guidedFormat:'type',available:lessonForms(e,tense,weather?2:0).length>0}),target(e,ch,'participle-part','participle',{tense,required:false,guidedOnly:true,guidedFormat:'type',available:clean(c?.nonFinite?.participioPassato).length>0})]});
+  if(ch==='past')groups.push({id:'building',title:'Build the past',cards:[card('auxiliary','Start with the auxiliary',`${e.inf} uses ${e.aux==='both'?'an auxiliary that depends on its construction':e.aux||'its dictionary auxiliary'}. The auxiliary carries the person.`,[],[{label:'avere',form:'ho · hai · ha · abbiamo · avete · hanno',gloss:'present forms used to build the past'},{label:'essere',form:'sono · sei · è · siamo · siete · sono',gloss:'present forms used to build the past'}]),card('participle','Add the past participle',participleTeaching(e,c),[],[],[e.aux==='essere'?'With essere, agreement follows the subject: Marco è arrivato; Sara è arrivata. Formal Lei still uses è; the ending follows the addressee.':'In the simple avere constructions here, the participle does not change with the person. Object-pronoun agreement is a later topic.'])],targets:[target(e,ch,'auxiliary-part','auxiliary',{tense,person:weather?2:0,required:false,guidedOnly:true,guidedFormat:'type',available:lessonForms(e,tense,weather?2:0).length>0}),target(e,ch,'participle-part','participle',{tense,required:false,guidedOnly:true,guidedFormat:'type',available:clean(c?.nonFinite?.participioPassato).length>0})]});
   if(ch==='future')groups.push({id:'stem',title:'Build the future',cards:[card('stem','Stem, then ending',futureTeaching(e))],targets:[]});
   for(const [g,ps]of [['singular',[0,1,2]],['plural',[3,4,5]]]){
    const persons=ps.filter(p=>lessonForms(e,tense,p).length&&(!weather||p===2)&&(!experiencer||[2,5].includes(p)));
@@ -242,6 +251,7 @@ export function lessonExposureForms(e,answers,skill){
  return [...new Set(out.filter(Boolean))];
 }
 function finalize(entry,plan){
+ plan.references=[];
  for(const chapter of plan.chapters){
   if(plan.kind==='word'){
    const facts=functionFacts[entry.pos]||functionFacts.expr;
@@ -250,6 +260,10 @@ function finalize(entry,plan){
     first.cards.push(card('word-facts','Notice its role',facts.join(' ')));
     first.targets.push(target(entry,chapter.id,'word-function','wordFunction',{required:false,supplementalOnly:true,fact:facts[0]}),target(entry,chapter.id,'word-pattern','wordPattern',{required:false,supplementalOnly:true,fact:facts[1]}));
    }
+  }
+  for(const group of chapter.groups){
+   plan.references.push(...group.cards.filter(c=>c.reference).map(c=>({...c,chapterId:chapter.id,groupId:group.id})));
+   group.cards=group.cards.filter(c=>!c.reference);
   }
   for(const group of chapter.groups)for(const t of group.targets){
    let answers=[];t.independentVariantCount=2;

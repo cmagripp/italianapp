@@ -37,6 +37,31 @@ test('irregular dire is introduced at Meet and taught in each applicable chapter
  assert.deepEqual(q(vb('dire'),'past','conjugation',0).answer,['ho detto']);
  wrong(q(vb('dire'),'past','conjugation',0),'ho dito','participle');
 });
+test('participle rules are explicit and the selected irregular participle is flagged',()=>{
+ for(const inf of ['parlare','credere','dormire']){
+  const card=chapter(vb(inf),'past').groups[0].cards.find(c=>c.id==='participle');
+  for(const pattern of ['-are → -ato','-ere → -uto','-ire → -ito'])assert.ok(card.body.includes(pattern));
+  assert.ok(card.body.includes('patterns with exceptions'));
+  assert.ok(!card.body.includes(`${inf} has an irregular past participle`));
+ }
+ for(const [inf,participle]of[['dire','detto'],['prendere','preso'],['essere','stato'],['fare','fatto']]){
+  const card=chapter(vb(inf),'past').groups[0].cards.find(c=>c.id==='participle');assert.ok(card.body.includes(`${inf} has an irregular past participle: ${participle}`));
+ }
+ const alternate=chapter(vb('riflettere'),'past').groups[0].cards.find(c=>c.id==='participle');assert.ok(alternate.body.includes('Alongside riflettuto'));assert.ok(alternate.body.includes('riflesso'));
+});
+test('future teaching gives the stem and all six endings in person order',()=>{
+ for(const inf of ['parlare','dire','andare','piovere']){
+  const body=chapter(vb(inf),'future').groups[0].cards[0].body;assert.ok(body.includes('the stem is'));
+  assert.ok(body.includes('io -ò, tu -ai, lui/lei/Lei -à, noi -emo, voi -ete, loro -anno'));
+ }
+});
+test('extended reference material remains accessible without entering mandatory teaching',()=>{
+ for(const e of [vb('credere'),wd('caffè')]){
+  const plan=buildLesson(e);assert.ok(plan.references.length);assert.ok(plan.chapters.every(ch=>ch.groups.every(g=>g.cards.every(c=>!c.reference))));
+  assert.ok(plan.chapters[0].groups[0].cards[0].examples.length<=1);
+ }
+ assert.ok(JSON.stringify(buildLesson(wd('caffè')).references).includes('café'));
+});
 test('reviewed regular answers are independently hand checked across six persons',()=>{
  for(const [inf,expected]of[['credere',['credo','credi','crede','crediamo','credete','credono']],['parlare',['parlo','parli','parla','parliamo','parlate','parlano']],['dormire',['dormo','dormi','dorme','dormiamo','dormite','dormono']],['capire',['capisco','capisci','capisce','capiamo','capite','capiscono']]]){
   for(let p=0;p<6;p++){const first=q(vb(inf),'present','conjugation',p),second=q(vb(inf),'present','conjugation',p,{variant:1});assert.deepEqual(first.answer,[expected[p]]);assert.ok(first.context);assert.equal(first.meta.person,p);assert.notEqual(first.meta.variantId,second.meta.variantId);assert.notEqual(first.prompt,second.prompt);assert.equal(copyable(first),false);}
