@@ -1,5 +1,5 @@
 // Game registry. Each game: { id, name, icon, desc, kind: 'any'|'word'|'verb'|'noun', min, options?, start(root, ctx) }
-// ctx: { items, pool, options, backHref, replay(), practice(missedEntries) }
+// ctx: { items, pool, options, backHref, replay(), practice(missedEntries), isActive?() }
 import { runDrill } from './engine.js';
 import { qTranslateMC, qTypeIt, qTypeEn, qGender, qPlural, qPluralMC, qCloze, qScramble, qDictation, qConjType, qConjMC, qTenseDetective, qPersonDetective, qAux, qParticiple, qGerund, qPattern, mixedQuestions, DRILL_TENSES } from './questions.js';
 import { shuffle, sample, pickN } from '../data.js';
@@ -13,23 +13,30 @@ const drill = (id, title, build, extra = {}) => (root, ctx) => {
   return runDrill(root, qs, { title, gameId: id, backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, ...extra });
 };
 const lim = (ctx, n = 15) => shuffle(ctx.items).slice(0, ctx.options?.count || n);
+// A route or profile can change while the module downloads. Check before the
+// starter mounts body-level docks, starts audio or installs timers/listeners.
+const lazy = (load, start, count) => async (root, ctx) => {
+  const module = await load();
+  if (ctx.isActive?.() === false) return;
+  return module[start](root, count == null ? ctx : { ...ctx, items: lim(ctx, count) });
+};
 const tensesOf = (ctx, def) => (ctx.options?.tenses?.length ? ctx.options.tenses.filter(k => DRILL_TENSES.includes(k)) : allowedTenses(store.learning));
 
 export const GAMES = [
-  { id: 'flashcards', name: 'Flashcards', icon: '🃏', desc: 'Flip and rate — drives your spaced repetition.', kind: 'any', min: 1, options: [{ key: 'dir', label: 'Direction', choices: [['it-en', 'Italian → English'], ['en-it', 'English → Italian']] }], start: async (root, ctx) => (await import('./flashcards.js')).startFlashcards(root, { ...ctx, items: lim(ctx, 20) }) },
+  { id: 'flashcards', name: 'Flashcards', icon: '🃏', desc: 'Flip and rate — drives your spaced repetition.', kind: 'any', min: 1, options: [{ key: 'dir', label: 'Direction', choices: [['it-en', 'Italian → English'], ['en-it', 'English → Italian']] }], start: lazy(() => import('./flashcards.js'), 'startFlashcards', 20) },
   { id: 'quiz', name: 'Quick quiz', icon: '❓', desc: 'Mixed multiple choice: meanings, forms, articles.', kind: 'any', min: 4, start: drill('quiz', 'Quick quiz', ctx => mixedQuestions(lim(ctx, 15), ctx.pool)) },
   { id: 'typing', name: 'Type it', icon: '⌨️', desc: 'See the English, type the Italian.', kind: 'any', min: 3, start: drill('typing', 'Type it', ctx => lim(ctx, 12).map(e => qTypeIt(e)), { xpPer: 3 }) },
-  { id: 'matching', name: 'Matching', icon: '🔗', desc: 'Pair Italian words with their meanings.', kind: 'any', min: 4, options: [{ key: 'mode', label: 'Pairs', choices: [['translate', 'Word ↔ meaning'], ['participle', 'Verb ↔ participle'], ['conj', 'Verb ↔ present form']] }], start: async (root, ctx) => (await import('./matching.js')).startMatching(root, { ...ctx, items: lim(ctx, 18) }) },
-  { id: 'hangman', name: 'Hangman', icon: '🪢', desc: 'Guess the word letter by letter.', kind: 'any', min: 3, start: async (root, ctx) => (await import('./hangman.js')).startHangman(root, { ...ctx, items: lim(ctx, 10) }) },
-  { id: 'crossword', name: 'Crossword', icon: '🧩', desc: 'A mini crossword clued in English.', kind: 'any', min: 5, start: async (root, ctx) => (await import('./crossword.js')).startCrossword(root, { ...ctx, items: lim(ctx, 30) }) },
+  { id: 'matching', name: 'Matching', icon: '🔗', desc: 'Pair Italian words with their meanings.', kind: 'any', min: 4, options: [{ key: 'mode', label: 'Pairs', choices: [['translate', 'Word ↔ meaning'], ['participle', 'Verb ↔ participle'], ['conj', 'Verb ↔ present form']] }], start: lazy(() => import('./matching.js'), 'startMatching', 18) },
+  { id: 'hangman', name: 'Hangman', icon: '🪢', desc: 'Guess the word letter by letter.', kind: 'any', min: 3, start: lazy(() => import('./hangman.js'), 'startHangman', 10) },
+  { id: 'crossword', name: 'Crossword', icon: '🧩', desc: 'A mini crossword clued in English.', kind: 'any', min: 5, start: lazy(() => import('./crossword.js'), 'startCrossword', 30) },
   { id: 'cloze', name: 'Fill in the blank', icon: '✍️', desc: 'Complete real example sentences.', kind: 'any', min: 3, options: [{ key: 'typed', label: 'Answer', choices: [['mc', 'Multiple choice'], ['typed', 'Type it']] }], start: drill('cloze', 'Fill in the blank', ctx => lim(ctx, 12).map(e => qCloze(e, { typed: ctx.options?.typed === 'typed', pool: ctx.pool })), { xpPer: 3 }) },
   { id: 'scramble', name: 'Word scramble', icon: '🔀', desc: 'Unscramble the letters.', kind: 'any', min: 3, start: drill('scramble', 'Word scramble', ctx => lim(ctx, 12).map(e => qScramble(e))) },
-  { id: 'sentence', name: 'Sentence builder', icon: '🧱', desc: 'Put the words of a sentence in order.', kind: 'any', min: 3, start: async (root, ctx) => (await import('./sentence.js')).startSentence(root, { ...ctx, items: lim(ctx, 10) }) },
+  { id: 'sentence', name: 'Sentence builder', icon: '🧱', desc: 'Put the words of a sentence in order.', kind: 'any', min: 3, start: lazy(() => import('./sentence.js'), 'startSentence', 10) },
   { id: 'gender', name: 'Il, la, lo…', icon: '⚥', desc: 'Pick the right article for each noun.', kind: 'noun', min: 4, start: drill('gender', 'Articles', ctx => lim(ctx, 15).map(e => qGender(e))) },
   { id: 'plurals', name: 'Plurals', icon: '👥', desc: 'Singular → plural, including the irregular ones.', kind: 'noun', min: 4, options: [{ key: 'typed', label: 'Answer', choices: [['mc', 'Multiple choice'], ['typed', 'Type it']] }], start: drill('plurals', 'Plurals', ctx => lim(ctx, 12).map(e => (ctx.options?.typed === 'typed' ? qPlural(e) : qPluralMC(e, ctx.pool)))) },
   { id: 'dictation', name: 'Dictation', icon: '🎧', desc: 'Listen and type what you hear.', kind: 'any', min: 3, start: drill('dictation', 'Dictation', ctx => lim(ctx, 10).map(e => qDictation(e)), { xpPer: 3 }) },
   { id: 'reverse', name: 'Italian → English', icon: '🇬🇧', desc: 'Type the English meaning.', kind: 'any', min: 3, start: drill('reverse', 'Italian → English', ctx => lim(ctx, 12).map(e => qTypeEn(e))) },
-  { id: 'speed', name: 'Speed round', icon: '⚡', desc: '60 seconds. How many can you get?', kind: 'any', min: 6, options: [{ key: 'mode', label: 'Questions', choices: [['translate', 'Meanings'], ['conj', 'Conjugations (verbs)']] }], start: async (root, ctx) => (await import('./speed.js')).startSpeed(root, ctx) },
+  { id: 'speed', name: 'Speed round', icon: '⚡', desc: '60 seconds. How many can you get?', kind: 'any', min: 6, options: [{ key: 'mode', label: 'Questions', choices: [['translate', 'Meanings'], ['conj', 'Conjugations (verbs)']] }], start: lazy(() => import('./speed.js'), 'startSpeed') },
   // verb games
   { id: 'conj-drill', name: 'Conjugation drill', icon: '📝', desc: 'Type the right form. Choose your tenses.', kind: 'verb', min: 1, tenses: true, start: drill('conj-drill', 'Conjugation drill', ctx => { const t = tensesOf(ctx, ['presente']); const items = lim(ctx, 8); const qs = []; for (const e of items) for (let k = 0; k < (items.length <= 3 ? 3 : 2); k++) qs.push(qConjType(e, sample(t))); return shuffle(qs); }, { xpPer: 3 }) },
   { id: 'conj-choice', name: 'Pick the form', icon: '🎯', desc: 'Multiple-choice conjugation.', kind: 'verb', min: 1, tenses: true, start: drill('conj-choice', 'Pick the form', ctx => { const t = tensesOf(ctx, ['presente', 'passatoProssimo']); const items = lim(ctx, 10); const qs = []; for (const e of items) for (let k = 0; k < (items.length <= 3 ? 3 : 2); k++) qs.push(qConjMC(e, sample(t), ctx.pool)); return shuffle(qs); }) },

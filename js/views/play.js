@@ -70,8 +70,9 @@ export async function render(root, params, query) {
     if(disposed||store.current.id!==owner)return;
     const current=++generation;
     release(cleanup);cleanup=null;root.scrollTop=0;
-    const ctx = { items: shuffle(its), pool, options, backHref, replay: () => run(items), practice: (missed) => run(missed) };
     const host=document.createElement('div');host.className='practice-host';root.replaceChildren(host);
+    const ctx = { items: shuffle(its), pool, options, backHref, replay: () => run(items), practice: (missed) => run(missed),
+      isActive: () => !disposed && current === generation && store.current.id === owner && host.isConnected && root.contains(host) };
     try {
       const result=await game.start(host,ctx);
       if(disposed||current!==generation||store.current.id!==owner)release(result);else cleanup=result;

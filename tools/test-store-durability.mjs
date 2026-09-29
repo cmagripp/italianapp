@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 
 class MemoryStorage {
   values = new Map();
+  limit = Infinity;
+  size(values=this.values) { return [...values].reduce((n,[key,value])=>n+key.length+value.length,0); }
   getItem(key) { return this.values.get(String(key)) ?? null; }
-  setItem(key,value) { this.values.set(String(key),String(value)); }
+  setItem(key,value) { const next=new Map(this.values);next.set(String(key),String(value));if(this.size(next)>this.limit)throw new Error('QuotaExceededError');this.values=next; }
   removeItem(key) { this.values.delete(String(key)); }
 }
 const clone = value => value === undefined ? undefined : JSON.parse(JSON.stringify(value));
@@ -32,7 +34,7 @@ Object.defineProperty(globalThis,'navigator',{configurable:true,value:{storage:{
 const {store}=await import('../js/store.js');
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const mirror=()=>JSON.parse(localStorage.getItem('it.pendingProfile'));
-let passed=0;
+let passed=0,fallbackStore;
 async function test(name,fn){try{await fn();passed++;console.log(`✓ ${name}`);}catch(error){console.error(`✗ ${name}`);throw error;}}
 
 try {
@@ -77,5 +79,41 @@ try {
     const retry=store.saveNow();await tick();commit(writes[0]);await retry;
     assert.deepEqual(records.get(key).lists[listId].items,['w:libro|noun']);assert.equal(mirror(),null);
   });
+  clearTimeout(store._saveTimer);
+  globalThis.localStorage=new MemoryStorage();globalThis.window=new EventTarget();globalThis.document=new EventTarget();
+  delete globalThis.indexedDB;
+  ({store:fallbackStore}=await import('../js/store.js?local-storage-durability'));
+  await fallbackStore.init();
+  const fallbackKey='kv:profile:'+fallbackStore.current.id;
+  await test('localStorage fallback writes synchronously under quota without needing two new profile copies',async()=>{
+    const oldSize=localStorage.size();
+    fallbackStore.current.recent=Array(50).fill('synthetic-history-entry');fallbackStore.save();
+    const newSize=JSON.stringify(fallbackStore.current).length;
+    localStorage.limit=oldSize+newSize+150;
+    let errors=0;fallbackStore.addEventListener('saveError',()=>errors++);
+    const saving=fallbackStore.saveNow();
+    assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.length,50,'durable before the promise is awaited');
+    await saving;assert.equal(fallbackStore._dirty,false);assert.equal(errors,0);assert.equal(mirror(),null);
+    fallbackStore.current.recent.push('latest');fallbackStore.save();window.dispatchEvent(new Event('pagehide'));
+    assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.at(-1),'latest');assert.equal(mirror(),null);
+  });
+  await test('a recovered same-profile mirror cannot block the synchronous primary replacement',async()=>{
+    localStorage.limit=Infinity;
+    const oldSize=localStorage.size();
+    fallbackStore.current.recent=Array(100).fill('recovered-history-entry');fallbackStore.save();
+    const pending=JSON.stringify({id:fallbackStore.current.id,profile:fallbackStore.current});
+    localStorage.setItem('it.pendingProfile',pending);
+    localStorage.limit=oldSize+pending.length+100;
+    await fallbackStore.saveNow();
+    assert.equal(fallbackStore._dirty,false);assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.length,100);assert.equal(mirror(),null);
+  });
+  await test('a truly full fallback restores its prior recovery mirror when replacement cannot fit',async()=>{
+    localStorage.limit=Infinity;
+    const pending=JSON.stringify({id:fallbackStore.current.id,profile:fallbackStore.current});localStorage.setItem('it.pendingProfile',pending);
+    localStorage.limit=localStorage.size();
+    fallbackStore.current.recent=Array(2000).fill('large-new-history-entry');fallbackStore.save();
+    await fallbackStore.saveNow();
+    assert.equal(fallbackStore._dirty,true);assert.equal(localStorage.getItem('it.pendingProfile'),pending);assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.length,100);
+  });
   console.log(`\n${passed} store durability checks passed.`);
-} finally {clearTimeout(store._saveTimer);}
+} finally {clearTimeout(store._saveTimer);clearTimeout(fallbackStore?._saveTimer);}

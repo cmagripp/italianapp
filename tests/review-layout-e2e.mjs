@@ -17,6 +17,32 @@ async function visibleContinue(page,scope=''){
  assert(geometry.top>=0&&geometry.bottom<=geometry.viewport+1,JSON.stringify(geometry));assert(geometry.hit,JSON.stringify(geometry));assert(geometry.height>=44);assert.equal(geometry.scrollY,0);assert(geometry.scrollWidth<=geometry.width+1);
 }
 try{
+ for (const changed of ['route','profile']) {
+  const context=await browser.newContext(contextOptions(devices['iPhone 13'],{reducedMotion:'reduce'}));
+  const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));await boot(page);
+  let release;
+  const requested=new Promise(resolve=>{release=resolve;});
+  let held;
+  await page.route('**/js/games/hangman.js',route=>{held=route;release();});
+  await page.evaluate(()=>location.hash='#/game/hangman?src=level:A1');
+  await Promise.race([requested,new Promise((_,reject)=>setTimeout(()=>reject(Error('Hangman import was not requested')),10000))]);
+  let before;
+  if(changed==='route') {
+   await gotoRoute(page,'/game/crossword?src=level:A1');await page.locator('[data-dock]').waitFor();
+   before=await page.evaluate(()=>({className:document.body.className,height:document.documentElement.style.getPropertyValue('--game-dock'),dock:document.querySelector('[data-dock]').outerHTML}));
+  } else {
+   await page.evaluate(async()=>{const{store}=await import('./js/store.js');await store.createProfile('Another learner');});
+  }
+  await held.continue();await page.evaluate(()=>import('./js/games/hangman.js'));await page.waitForTimeout(50);
+  if(changed==='route') {
+   assert.deepEqual(await page.evaluate(()=>({className:document.body.className,height:document.documentElement.style.getPropertyValue('--game-dock'),dock:document.querySelector('[data-dock]').outerHTML})),before,'stale Hangman cannot clear the current Crossword dock');
+   assert.equal(await page.locator('[data-dock]').count(),1);
+  } else {
+   assert.equal(await page.locator('[data-dock]').count(),0,'a delayed game cannot mount for a different profile');
+   assert.equal(await page.locator('.practice-host').innerHTML(),'');
+  }
+  checks++;await context.close();
+ }
  for(const [width,height,theme] of [[375,667,'light'],[390,844,'dark']]){
   const context=await browser.newContext(contextOptions(devices['iPhone 13'],{viewport:{width,height},reducedMotion:'reduce'}));
   const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));await boot(page);
