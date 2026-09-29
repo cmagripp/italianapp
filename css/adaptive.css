@@ -1,0 +1,93 @@
+/* Adaptive learning: one usable exercise, with calm feedback and visible learner control. */
+.adaptive-learn { max-width: 640px; margin: 0 auto; padding: 8px 0 20px; }
+.adaptive-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin: 4px 2px 22px; }
+.adaptive-heading > div { min-width: 0; }
+.adaptive-heading .kicker { color: var(--gold-text); font-size: 10px; line-height: 1.6; }
+.adaptive-entry { margin-top: 4px; font: 600 30px/1.1 var(--font-display); overflow-wrap: anywhere; }
+.adaptive-reference { display: flex; align-items: center; gap: 7px; min-height: 44px; padding: 9px 0 9px 9px; color: var(--ink-2); font-size: 12px; }
+.adaptive-step { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 5px 14px; margin: 0 4px 10px; font-size: 12px; color: var(--ink-2); }
+.adaptive-step > :first-child { color: var(--ink); font-weight: 700; }
+.adaptive-step > :last-child { font-family: var(--font-mono); font-size: 9px; letter-spacing: .07em; text-transform: uppercase; }
+.adaptive-card { padding: clamp(21px, 5vw, 34px); border-radius: 25px; position: relative; overflow: hidden; }
+.adaptive-card::before { content: ''; position: absolute; top: 0; left: 32px; width: 64px; height: 3px; border-radius: 0 0 3px 3px; background: var(--gold); }
+.adaptive-eyebrow { color: var(--gold-text); font: 500 10px/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; margin: 0 0 15px; }
+.adaptive-spacer-note { color: var(--ink-2); font-size: 12px; line-height: 1.6; margin: -4px 0 18px; }
+.adaptive-card h1 { font-size: clamp(28px, 7vw, 37px); line-height: 1.13; margin: 0 0 16px; overflow-wrap: anywhere; }
+.adaptive-lead { color: var(--ink-2); font-size: 15px; line-height: 1.7; margin: 0 0 22px; }
+.adaptive-teaching { border-left: 2px solid var(--gold); padding: 13px 16px; margin: 20px 0; background: color-mix(in srgb, var(--gold) 5%, transparent); border-radius: 0 12px 12px 0; }
+.adaptive-teaching .kicker { color: var(--gold-text); font-size: 9px; }
+.adaptive-teaching p { margin: 7px 0 0; line-height: 1.65; font-size: 14px; }
+.adaptive-teaching p.adaptive-example { font-family: var(--font-display); font-size: 21px; color: var(--ink); line-height: 1.4; margin-top: 12px; }
+.adaptive-reassurance { color: var(--ink-2); font-size: 12px; line-height: 1.65; margin: 20px 0; }
+.adaptive-card .btn { min-height: 46px; }
+.adaptive-card .btn.primary { justify-content: center; gap: 12px; font-size: 15px; }
+.adaptive-control-row { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--hairline); padding-top: 10px; margin-top: 20px; }
+.adaptive-control-row .btn { padding: 9px 2px; font-size: 12px; min-height: 44px; color: var(--ink-2); }
+.adaptive-control-row .btn:hover { color: var(--ink); }
+.adaptive-prompt { margin: 20px 0 25px; outline-offset: 8px; }
+.adaptive-prompt .prompt { color: var(--ink-2); text-transform: none; font-family: var(--font-text); font-size: 14px; letter-spacing: 0; line-height: 1.6; margin-bottom: 15px; }
+.adaptive-prompt .big, .adaptive-prompt .sentence { font: 500 clamp(25px, 6.4vw, 34px)/1.35 var(--font-display); overflow-wrap: anywhere; }
+.adaptive-prompt .sentence .blank { color: var(--gold-text); border-bottom: 1px dashed var(--gold); }
+.adaptive-prompt .small { color: var(--ink-2); font-size: 14px; line-height: 1.6; }
+.adaptive-input-label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.adaptive-card input[data-answer] { display: block; width: 100%; min-height: 55px; padding: 13px 15px; border-radius: 13px; border: 1px solid var(--glass-border); background: color-mix(in srgb, var(--bg-0) 44%, transparent); color: var(--ink); font-size: 19px; box-shadow: inset 0 2px 4px rgba(0,0,0,.05); }
+.adaptive-card input[data-answer]:focus { border-color: var(--gold); outline: 2px solid color-mix(in srgb, var(--gold) 25%, transparent); outline-offset: 2px; }
+.adaptive-input-help { font-size: 11px; line-height: 1.5; color: var(--ink-3); margin: 8px 0 20px; }
+.adaptive-accents { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 6px; }
+.adaptive-accents button { min-height: 40px; font-size: 17px; border-radius: 8px; color: var(--ink-2); }
+.adaptive-accents button:hover { background: var(--glass); color: var(--ink); }
+.adaptive-scope-note { border-left: 2px solid var(--glass-border); padding: 0 12px; margin: 0 0 22px; font-size: 12px; color: var(--ink-2); }
+.adaptive-scope-note p { line-height: 1.6; }
+.adaptive-scope-note a { display: inline-flex; align-items: center; min-height: 44px; }
+.adaptive-choices { display: grid; gap: 10px; margin: 8px 0 22px; }
+.adaptive-choices .choice { min-height: 56px; width: 100%; display: flex; gap: 13px; align-items: center; padding: 13px 15px; text-align: left; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; font-size: 16px; line-height: 1.35; }
+.adaptive-choices .choice::before { display: none; }
+.adaptive-choices .choice:hover { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 8%, var(--glass)); }
+.adaptive-choice-number { display: grid; place-items: center; flex: 0 0 25px; width: 25px; height: 25px; border: 1px solid var(--glass-border); color: var(--ink-3); border-radius: 7px; font: 500 10px var(--font-mono); }
+.adaptive-choices .choice-label { min-width: 0; overflow-wrap: anywhere; }
+.adaptive-help-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.adaptive-help-row .btn { padding: 9px; font-size: 12px; justify-content: center; }
+.adaptive-hint { background: color-mix(in srgb, var(--amalfi) 8%, transparent); border: 1px solid color-mix(in srgb, var(--amalfi) 20%, transparent); border-radius: 12px; padding: 14px; margin-top: 18px; }
+.adaptive-hint .kicker { color: var(--amalfi); font-size: 9px; }
+.adaptive-hint p { font-size: 13px; margin: 6px 0 0; line-height: 1.6; }
+.adaptive-audio { margin: 0 0 18px; width: 100%; justify-content: center; gap: 9px; }
+.adaptive-audio-help { display: block; color: var(--ink-2); font-size: 11px; min-height: 44px; padding: 9px 5px; margin: 5px auto -8px; text-decoration: underline; text-underline-offset: 3px; }
+.adaptive-progress { padding: 20px 7px 5px; }
+.adaptive-progress-line { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 11px; color: var(--ink-2); }
+.adaptive-progress-line > :first-child { color: var(--ink); font-weight: 700; }
+.adaptive-evidence { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 5px; margin: 10px 0; }
+.adaptive-evidence span { height: 4px; border-radius: 3px; background: var(--glass-strong); }
+.adaptive-evidence .earned { background: var(--turquoise); }
+.adaptive-progress > p { font-size: 11px; color: var(--ink-3); line-height: 1.6; }
+.adaptive-feedback::before { background: var(--terracotta); }
+.adaptive-feedback.is-correct::before { background: var(--turquoise); }
+.adaptive-feedback-symbol { color: var(--terracotta-text); font-size: 28px; margin: 0 0 9px; line-height: 1; }
+.adaptive-feedback.is-correct .adaptive-feedback-symbol { color: var(--ok); }
+.adaptive-your-answer { color: var(--ink-2); font-size: 15px; overflow-wrap: anywhere; }
+.adaptive-your-answer > span { display: block; font-size: 10px; color: var(--ink-3); margin-bottom: 4px; }
+.adaptive-answer { padding: 15px 0; margin: 10px 0 4px; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.adaptive-answer .kicker { font-size: 9px; }
+.adaptive-answer > p { font: 600 30px/1.3 var(--font-display); margin: 5px 0 0; overflow-wrap: anywhere; }
+.adaptive-feedback-text { font-size: 14px; line-height: 1.65; margin: 18px 0 12px; }
+.adaptive-components { display: flex; flex-wrap: wrap; gap: 6px; }
+.adaptive-components > span { border-radius: 7px; font-size: 10px; padding: 5px 8px; background: var(--glass); color: var(--ink-2); }
+.adaptive-components .is-correct { color: var(--ok); }
+.adaptive-components .needs-work { color: var(--terracotta-text); }
+.adaptive-summary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 25px 0; padding: 18px 0; border-block: 1px solid var(--hairline); text-align: center; }
+.adaptive-summary-stats strong { display: block; font: 500 28px var(--font-display); color: var(--gold-text); }
+.adaptive-summary-stats span { display: block; font-size: 10px; color: var(--ink-2); margin-top: 3px; }
+.adaptive-summary > .btn { margin-top: 10px; }
+.adaptive-deferred { margin-top: 24px; border-top: 1px solid var(--hairline); padding-top: 20px; }
+.adaptive-deferred h2 { font-size: 22px; }
+.adaptive-deferred > p { font-size: 12px; line-height: 1.6; color: var(--ink-2); }
+.adaptive-deferred-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--hairline); font-size: 12px; }
+.adaptive-deferred-row > span { min-width: 0; }
+.adaptive-deferred-row > .btn { flex: none; min-height: 44px; }
+.adaptive-extra-link { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 48px; padding: 10px 0; font-size: 13px; border-bottom: 1px solid var(--hairline); }
+.adaptive-later { padding: 4px 7px; font-size: 12px; color: var(--ink-2); }
+.adaptive-later > summary { min-height: 44px; padding: 12px 0; cursor: pointer; }
+.adaptive-later .adaptive-deferred { margin: 0; padding-top: 12px; }
+.adaptive-bottom-note { text-align: center; color: var(--ink-3); font-size: 10px; line-height: 1.6; padding: 20px 12px 0; }
+@media (min-width: 640px) { .adaptive-learn { padding-top: 22px; } .adaptive-card { padding: 35px 42px; } .adaptive-heading { margin-bottom: 28px; } .adaptive-entry { font-size: 36px; } }
+@media (max-width: 360px) { .adaptive-reference span { display: none; } .adaptive-card { padding: 20px 17px; border-radius: 20px; } .adaptive-progress-line { font-size: 10px; } }
+@media (prefers-reduced-motion: reduce) { .adaptive-learn *, .adaptive-learn *::before, .adaptive-learn *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

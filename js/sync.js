@@ -2,20 +2,20 @@
 // Nothing here runs unless the user configures it in Me → Cloud sync. Tokens are kept in localStorage on the device.
 import { store } from './store.js';
 
-const LS_KEY = () => 'it.sync.' + store.current.id;
+const LS_KEY = (profileId = store.current.id) => 'it.sync.' + profileId;
 let pushTimer = null;
 let listening = false;
 
-export function getConfig() {
-  try { return JSON.parse(localStorage.getItem(LS_KEY()) || 'null') || { url: '', anonKey: '', email: '', access: '', refresh: '', userId: '', lastSync: 0, enabled: false }; }
+export function getConfig(profileId) {
+  try { return JSON.parse(localStorage.getItem(LS_KEY(profileId)) || 'null') || { url: '', anonKey: '', email: '', access: '', refresh: '', userId: '', lastSync: 0, enabled: false }; }
   catch { return { url: '', anonKey: '', email: '', access: '', refresh: '', userId: '', lastSync: 0, enabled: false }; }
 }
-function saveConfig(c) { try { localStorage.setItem(LS_KEY(), JSON.stringify(c)); } catch { /* ignore */ } }
+function saveConfig(c, profileId) { try { localStorage.setItem(LS_KEY(profileId), JSON.stringify(c)); } catch { /* ignore */ } }
 export const isEnabled = () => { const c = getConfig(); return !!(c.enabled && c.url && c.anonKey && c.access); };
 
 // `retried` is an internal flag (one refresh-and-retry per call), never a wire header
-async function api(path, { method = 'GET', body = null, auth = true, headers = {}, retried = false } = {}) {
-  const c = getConfig();
+async function api(path, { method = 'GET', body = null, auth = true, headers = {}, retried = false, profileId = store.current.id } = {}) {
+  const c = getConfig(profileId);
   const url = c.url.replace(/\/+$/, '') + path;
   const h = { apikey: c.anonKey, 'Content-Type': 'application/json', ...headers };
   if (auth && c.access) h.Authorization = 'Bearer ' + c.access;
@@ -27,21 +27,21 @@ async function api(path, { method = 'GET', body = null, auth = true, headers = {
   finally { clearTimeout(timer); }
   let json = null; try { json = text ? JSON.parse(text) : null; } catch { json = null; }
   if (!res.ok) {
-    if (res.status === 401 && auth && c.refresh && !retried) { await refreshToken(); return api(path, { method, body, auth, headers, retried: true }); }
+    if (res.status === 401 && auth && c.refresh && !retried) { await refreshToken(profileId); return api(path, { method, body, auth, headers, retried: true, profileId }); }
     throw new Error((json && (json.msg || json.message || json.error_description || json.error)) || `HTTP ${res.status}`);
   }
   return json;
 }
 // remember why the last sync failed so the profile card can show it (auto pushes have no other UI)
-function noteError(err) { const c = getConfig(); c.lastError = String((err && err.message) || err || 'Sync failed'); saveConfig(c); return err; }
+function noteError(err, profileId) { const c = getConfig(profileId); c.lastError = String((err && err.message) || err || 'Sync failed'); saveConfig(c, profileId); return err; }
 
-function storeSession(data) {
+function storeSession(data, profileId) {
   if (!data || !data.access_token) throw new Error('The server returned no session');
-  const c = getConfig();
+  const c = getConfig(profileId);
   const uid = data.user?.id || c.userId;
   if (uid !== c.userId) { c.lastSync = 0; c.lastRemote = ''; } // a different account: its cloud copy must be merged in full, whatever the old lastSync was
   c.access = data.access_token; c.refresh = data.refresh_token; c.userId = uid; c.email = data.user?.email || c.email; c.enabled = true; c.lastError = '';
-  saveConfig(c);
+  saveConfig(c, profileId);
 }
 export async function configure(url, anonKey) {
   const c = getConfig();
@@ -50,69 +50,72 @@ export async function configure(url, anonKey) {
   c.url = u; c.anonKey = anonKey.trim(); saveConfig(c);
 }
 export async function signUp(email, password) {
-  const data = await api('/auth/v1/signup', { method: 'POST', body: { email, password }, auth: false });
-  if (data && data.access_token) { storeSession(data); return { ok: true, confirmed: true }; }
-  const c = getConfig(); c.email = email; saveConfig(c);
+  const pid = store.current.id;
+  const data = await api('/auth/v1/signup', { method: 'POST', body: { email, password }, auth: false, profileId: pid });
+  if (data && data.access_token) { storeSession(data, pid); return { ok: true, confirmed: true }; }
+  const c = getConfig(pid); c.email = email; saveConfig(c, pid);
   return { ok: true, confirmed: false };
 }
 export async function signIn(email, password) {
-  const data = await api('/auth/v1/token?grant_type=password', { method: 'POST', body: { email, password }, auth: false });
-  storeSession(data);
+  const pid = store.current.id;
+  const data = await api('/auth/v1/token?grant_type=password', { method: 'POST', body: { email, password }, auth: false, profileId: pid });
+  storeSession(data, pid);
   return data;
 }
-async function refreshToken() {
-  const c = getConfig();
-  const data = await api('/auth/v1/token?grant_type=refresh_token', { method: 'POST', body: { refresh_token: c.refresh }, auth: false });
-  storeSession(data);
+async function refreshToken(profileId) {
+  const c = getConfig(profileId);
+  const data = await api('/auth/v1/token?grant_type=refresh_token', { method: 'POST', body: { refresh_token: c.refresh }, auth: false, profileId });
+  storeSession(data, profileId);
 }
 export function signOut() { clearTimeout(pushTimer); const c = getConfig(); c.access = ''; c.refresh = ''; c.userId = ''; c.enabled = false; c.lastSync = 0; c.lastRemote = ''; c.lastError = ''; saveConfig(c); }
 
-export async function pull() {
-  const c = getConfig();
-  const rows = await api(`/rest/v1/parola_profiles?select=data,updated_at&user_id=eq.${c.userId}`);
+export async function pull(profileId = store.current.id) {
+  const c = getConfig(profileId);
+  const rows = await api(`/rest/v1/parola_profiles?select=data,updated_at,revision&user_id=eq.${c.userId}`, { profileId });
   return rows && rows[0] ? rows[0] : null;
 }
-export async function push() {
-  if (!isEnabled()) return; // signed out while a push was pending
-  clearTimeout(pushTimer); // this push supersedes any scheduled one
-  const c = getConfig();
-  await store.saveNow();
-  const body = { user_id: c.userId, data: store.current, updated_at: new Date().toISOString() };
-  try { await api('/rest/v1/parola_profiles', { method: 'POST', body, headers: { Prefer: 'resolution=merge-duplicates,return=minimal' } }); }
-  catch (err) { throw noteError(err); }
-  // re-read: the request may have refreshed the session (401 → new access/refresh tokens); saving the copy read above would discard them
-  const c2 = getConfig(); c2.lastSync = Date.now(); c2.lastRemote = body.updated_at; c2.lastError = ''; saveConfig(c2);
-}
-// Full sync: merge remote into local (newer answers win, lists are unioned), then push the merged profile.
-// Concurrent callers (boot, 'online', profile switch, the merge's own change event) share one in-flight sync.
-let inflight = null;
+export async function push() { if (isEnabled()) return syncNow(); }
+// All writes merge evidence, then use an atomic revision check. The SQL trigger
+// rejects old clients' blind UPSERTs. There is deliberately no unsafe fallback.
+const inflight = new Map();
 export function syncNow() {
   if (!isEnabled()) return Promise.reject(new Error('Cloud sync is not set up'));
-  if (inflight) return inflight;
-  inflight = (async () => {
-    const pid = store.current.id;
-    let remote;
-    try { remote = await pull(); } catch (err) { throw noteError(err); }
-    if (store.current.id !== pid) throw new Error('User switched during sync'); // never merge another user's cloud copy into this profile
-    if (remote && remote.data) {
-      // "changed since this device last wrote or merged it" is decided by the row's own stamp (the last updated_at this
-      // device pushed or merged), never by comparing another device's clock with ours: a device a few minutes slow
-      // wrote an updated_at below our lastSync, was skipped, and then had its cloud copy overwritten by our push
-      const remoteTime = Date.parse(remote.updated_at || 0) || 0;
-      const c = getConfig();
-      const seen = Date.parse(c.lastRemote || 0) || 0; // 0 (never pushed/merged here) always merges
-      if (remoteTime !== seen) await store.importJSON(JSON.stringify({ profile: remote.data }), { merge: true });
+  const pid = store.current.id;
+  if (inflight.has(pid)) return inflight.get(pid);
+  clearTimeout(pushTimer);
+  const task = (async () => {
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const remote = await pull(pid);
+      if (store.current.id !== pid || !getConfig(pid).enabled) throw new Error('Profile changed during sync; retry for the current profile.');
+      if (remote?.data) await store.importJSON(JSON.stringify({ profile: remote.data }), { merge: true, silent: true });
+      if (store.current.id !== pid) throw new Error('Profile changed during sync.');
+      await store.saveNow();
+      if (store.current.id !== pid || !getConfig(pid).enabled) throw new Error('Profile changed during sync; retry for the current profile.');
+      const snapshot = JSON.parse(JSON.stringify(store.current));
+      // Resume positions are device-local. Evidence and course preferences are shared.
+      if (snapshot.learning) { snapshot.learning.session = null; snapshot.learning.sessions = {}; }
+      const saved = await api('/rest/v1/rpc/parola_save_profile', { method: 'POST', profileId: pid, body: { p_expected_revision: remote?.revision ?? -1, p_data: snapshot } });
+      if (saved?.conflict) continue;
+      if (!saved || typeof saved.revision !== 'number') throw new Error('The sync server returned an invalid revision.');
+      const config = getConfig(pid);
+      config.lastSync = Date.now(); config.lastRemote = saved.updated_at; config.lastError = '';
+      saveConfig(config, pid);
+      if (store.current.id === pid) { store.emit('profile', store.current); store.emit('synced'); }
+      return true;
     }
-    await push();
-    store.emit('synced');
-    return true;
-  })().finally(() => { inflight = null; });
-  return inflight;
+    throw new Error('Another device is still syncing. Your local progress is kept; try again shortly.');
+  })().catch(err => {
+    if (/revision.*does not exist|parola_save_profile|schema cache/i.test(err.message)) err = new Error('Update cloud sync using Show setup SQL below, then retry. Your progress remains on this device.');
+    throw noteError(err, pid);
+  }).finally(() => { inflight.delete(pid); });
+  inflight.set(pid, task);
+  return task;
 }
 export function schedulePush() {
   if (!isEnabled() || !navigator.onLine) return;
   clearTimeout(pushTimer);
-  pushTimer = setTimeout(() => { push().catch(() => { /* recorded by push(); retried on the next change */ }); }, 15000);
+  const pid = store.current.id;
+  pushTimer = setTimeout(() => { if (store.current.id === pid) syncNow().catch(() => { /* visible in Cloud sync */ }); }, 15000);
 }
 // Called at boot and whenever the current user changes; listeners are installed once, the sync runs per call.
 export function startAutoSync() {
@@ -124,11 +127,51 @@ export function startAutoSync() {
   if (isEnabled() && Date.now() - (getConfig().lastSync || 0) > 5000) syncNow().catch(() => null);
 }
 
-export const SETUP_SQL = `create table if not exists parola_profiles (
+export const SETUP_SQL = `create table if not exists public.parola_profiles (
   user_id uuid primary key references auth.users(id) on delete cascade,
   data jsonb not null,
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  revision bigint not null default 0
 );
-alter table parola_profiles enable row level security;
-create policy "own profile" on parola_profiles
-  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);`;
+alter table public.parola_profiles add column if not exists revision bigint not null default 0;
+alter table public.parola_profiles enable row level security;
+grant select, insert, update on public.parola_profiles to authenticated;
+drop policy if exists "own profile" on public.parola_profiles;
+create policy "own profile" on public.parola_profiles
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+create or replace function public.parola_guard_revision() returns trigger
+language plpgsql set search_path = public as $$
+begin
+  if new.revision <> old.revision + 1 then
+    raise exception 'Update Parola on this device before syncing (revision required).';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists parola_revision_guard on public.parola_profiles;
+create trigger parola_revision_guard before update on public.parola_profiles
+for each row execute function public.parola_guard_revision();
+
+create or replace function public.parola_save_profile(p_expected_revision bigint, p_data jsonb)
+returns jsonb language plpgsql security invoker set search_path = public as $$
+declare saved public.parola_profiles%rowtype;
+begin
+  if auth.uid() is null then raise exception 'Sign in first'; end if;
+  if jsonb_typeof(p_data) <> 'object' or p_data is null then raise exception 'Invalid profile'; end if;
+  if p_expected_revision = -1 then
+    insert into public.parola_profiles(user_id, data, revision, updated_at)
+    values(auth.uid(), p_data, 0, now()) on conflict (user_id) do nothing
+    returning * into saved;
+  else
+    update public.parola_profiles set data = p_data,
+      revision = revision + 1, updated_at = now()
+    where user_id = auth.uid() and revision = p_expected_revision
+    returning * into saved;
+  end if;
+  if saved.user_id is null then return jsonb_build_object('conflict', true); end if;
+  return jsonb_build_object('conflict', false, 'revision', saved.revision, 'updated_at', saved.updated_at);
+end;
+$$;
+revoke all on function public.parola_save_profile(bigint, jsonb) from public;
+grant execute on function public.parola_save_profile(bigint, jsonb) to authenticated;`;

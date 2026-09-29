@@ -87,7 +87,12 @@ function exampleFor(pattern, examples, e) {
 const availablePersons = (forms) => forms.map((f, i) => (primary(f) && primary(f) !== MISSING ? i : -1)).filter(i => i >= 0);
 const cleanChoices = (q) => { if (q && q.choices) q.choices = q.choices.filter(c => c.label !== MISSING); return q; };
 
-export async function render(root, params) {
+export async function render(root, params, query = {}) {
+  if (store.settings.adaptiveLearning !== false) return (await import('./learnAdaptive.js')).render(root, params, query);
+  return renderLegacy(root, params);
+}
+
+async function renderLegacy(root, params) {
   const e = getEntry(params.id);
   if (!e || e.kind !== 'verb') { root.innerHTML = '<div class="empty"><p>Verb not found.</p><a class="btn primary" href="#/learn">Back to Learn</a></div>'; return; }
   setTitle(e.inf);
@@ -332,7 +337,7 @@ export async function render(root, params) {
       // form as it appears in the passato prossimo besides the citation form
       const ppInUse = accepted(conj.tenses.passatoProssimo && conj.tenses.passatoProssimo[0]).map(f => f.split(' ').pop()).filter(f => f && f !== MISSING);
       if (hasPP) steps.push({ kind: 'pp', label: 'participio passato', lead: auxKey === 'essere' ? 'sono' : 'ho', answer: [...new Set([...accepted(conj.nonFinite.participioPassato), ...ppInUse])], form: pp });
-      if (hasGer) steps.push({ kind: 'ger', label: 'gerundio', lead: 'sto', answer: accepted(conj.nonFinite.gerundio), form: ger });
+      if (hasGer) steps.push({ kind: 'ger', label: 'gerundio', lead: '', answer: accepted(conj.nonFinite.gerundio), form: ger });
       body.innerHTML = html`<div class="nf-slots">${raw(steps.map(s => html`<div class="nf-slot glass-flat" data-slot="${s.kind}"><span class="lab">${s.label}</span><span class="val"><span class="lead-word">${s.lead}</span> <span class="ans">?</span></span></div>`).join(''))}</div>
         <div class="row between nf-mode"><span class="kicker" data-nf-step></span><button type="button" class="btn xs ghost" data-mode>${raw(icon('list', { size: 16 }))}Pick instead</button></div>
         <div class="wt-check" data-check></div>`;

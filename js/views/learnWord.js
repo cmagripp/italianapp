@@ -57,6 +57,11 @@ function pluralNote(e) {
 const sayText = (e) => (e.pos === 'noun' && !isPluralOnly(e) ? withArticle(e, false) : (e.pos === 'noun' ? withArticle(e, true) : e.it));
 
 export async function render(root, params, query) {
+  if (store.settings.adaptiveLearning !== false) return (await import('./learnAdaptive.js')).render(root, params, query);
+  return renderLegacy(root, params, query);
+}
+
+async function renderLegacy(root, params, query) {
   const e = getEntry(params.id);
   if (!e) { root.innerHTML = '<div class="empty"><p>Word not found.</p><a class="btn primary" href="#/learn">Back to Learn</a></div>'; return; }
   setTitle(headword(e));

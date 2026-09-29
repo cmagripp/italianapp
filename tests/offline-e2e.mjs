@@ -1,0 +1,92 @@
+#!/usr/bin/env node
+// Real service-worker installation, failed update and offline-resume checks.
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { ROOT, loadPlaywright, launchBrowser, contextOptions, boot, gotoRoute, reloadApp } from './lib.mjs';
+
+const actualWorker = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+let workerSource = `self.addEventListener('install',e=>e.waitUntil(caches.open('parola-v4').then(c=>c.put('./old-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
+let broken = false;
+const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
+const server = http.createServer((req, res) => {
+  const url = new URL(req.url, 'http://localhost');
+  const name = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
+  res.setHeader('Cache-Control', 'no-store');
+  if (name === 'sw.js') { res.setHeader('Content-Type', mime['.js']); res.end(workerSource); return; }
+  if (broken && name === 'css/adaptive.css') { res.statusCode = 503; res.end('Simulated interrupted deployment'); return; }
+  const file = path.resolve(ROOT, name);
+  if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.statusCode = 404; res.end(); return; }
+  res.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream');
+  res.end(fs.readFileSync(file));
+});
+await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+const base = `http://127.0.0.1:${server.address().port}/`;
+const { chromium, devices } = await loadPlaywright();
+const browser = await launchBrowser(chromium);
+const context = await browser.newContext(contextOptions(devices['iPhone 13'], { serviceWorkers: 'allow', reducedMotion: 'reduce' }));
+const page = await context.newPage();
+const errors = []; page.on('pageerror', e => errors.push(e.message));
+const results = [];
+const check = async (name, action) => { await action(); results.push({ name, ok: true }); console.log('PASS', name); };
+async function updateWorker() {
+  return page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.getRegistration();
+    const terminal = new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject(new Error('Worker update timed out')), 30000);
+      registration.addEventListener('updatefound', () => {
+        const worker = registration.installing;
+        worker.addEventListener('statechange', () => {
+          if (['activated', 'redundant'].includes(worker.state)) { clearTimeout(timeout); resolve(worker.state); }
+        });
+      }, { once: true });
+    });
+    await registration.update(); return terminal;
+  });
+}
+try {
+  await boot(page, base);
+  await page.evaluate(() => navigator.serviceWorker.ready);
+  await check('an existing installation upgrades its complete offline shell', async () => {
+    assert((await page.evaluate(() => caches.keys())).includes('parola-v4'));
+    await page.evaluate(async () => {
+      const { store } = await import('./js/store.js');
+      store.markLearned('v:essere', 'verb'); store.addToList('bank', 'v:essere');
+      await store.saveNow();
+    });
+    workerSource = actualWorker;
+    assert.equal(await updateWorker(), 'activated');
+    const keys = await page.evaluate(() => caches.keys());
+    assert(!keys.includes('parola-v4')); assert(keys.includes('parola-v5-adaptive'));
+    assert(await page.evaluate(async () => !!(await caches.match('./js/learning/model.js'))));
+    assert(await page.evaluate(async () => !!(await caches.match('./css/adaptive.css'))));
+  });
+  await check('an incomplete update cannot replace the working offline worker', async () => {
+    broken = true; workerSource = actualWorker.replace('parola-v5-adaptive', 'parola-v5-incomplete-test');
+    assert.equal(await updateWorker(), 'redundant');
+    assert((await page.evaluate(() => caches.keys())).includes('parola-v5-adaptive'));
+  });
+  await check('course and lesson load offline while old learned items remain intact', async () => {
+    await context.setOffline(true);
+    await reloadApp(page);
+    await gotoRoute(page, '/course');
+    assert(await page.locator('#core-title').isVisible());
+    assert(await page.evaluate(async () => { const { store } = await import('./js/store.js'); return store.isLearned('v:essere') && store.inList('bank', 'v:essere'); }));
+    await gotoRoute(page, '/learn/verb/v:mangiare?objective=' + encodeURIComponent('v:mangiare::presente::conjugation'));
+    await page.locator('[data-start]').click();
+    if (await page.locator('[data-choice]').count()) await page.locator('[data-choice]').first().click();
+    else { await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click(); }
+    await page.locator('[data-adaptive][data-phase="feedback"]').waitFor();
+  });
+  await check('an offline answer and exact feedback resume after reload without duplicate XP', async () => {
+    const before = await page.evaluate(async () => { const { store } = await import('./js/store.js'); await store.saveNow(); return { count: Object.keys(store.learning.events).length, xp: store.current.stats.xp, id: store.learning.session.ui.current.id }; });
+    await reloadApp(page);
+    const after = await page.evaluate(async () => { const { store } = await import('./js/store.js'); return { count: Object.keys(store.learning.events).length, xp: store.current.stats.xp, id: store.learning.session.ui.current.id }; });
+    assert.deepEqual(after, before); assert(before.count > 0);
+    assert.equal(await page.locator('[data-adaptive]').getAttribute('data-phase'), 'feedback');
+    assert.deepEqual(errors, []);
+  });
+  fs.writeFileSync(path.join(ROOT, 'tests/report-offline.json'), JSON.stringify({ results, errors }, null, 2));
+  console.log(`${results.length} offline/update checks passed.`);
+} finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }

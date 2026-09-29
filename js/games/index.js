@@ -4,6 +4,8 @@ import { runDrill } from './engine.js';
 import { qTranslateMC, qTypeIt, qTypeEn, qGender, qPlural, qPluralMC, qCloze, qScramble, qDictation, qConjType, qConjMC, qTenseDetective, qPersonDetective, qAux, qParticiple, qGerund, qPattern, mixedQuestions, DRILL_TENSES } from './questions.js';
 import { shuffle, sample, pickN } from '../data.js';
 import { TENSE_BY_KEY } from '../conjugator.js';
+import { store } from '../store.js';
+import { allowedTenses } from '../learning/curriculum.js';
 
 const drill = (id, title, build, extra = {}) => (root, ctx) => {
   const qs = build(ctx).filter(Boolean);
@@ -11,7 +13,7 @@ const drill = (id, title, build, extra = {}) => (root, ctx) => {
   runDrill(root, qs, { title, gameId: id, backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, ...extra });
 };
 const lim = (ctx, n = 15) => shuffle(ctx.items).slice(0, ctx.options?.count || n);
-const tensesOf = (ctx, def) => (ctx.options?.tenses && ctx.options.tenses.length ? ctx.options.tenses : def);
+const tensesOf = (ctx, def) => (ctx.options?.tenses?.length ? ctx.options.tenses.filter(k => DRILL_TENSES.includes(k)) : allowedTenses(store.learning));
 
 export const GAMES = [
   { id: 'flashcards', name: 'Flashcards', icon: '🃏', desc: 'Flip and rate — drives your spaced repetition.', kind: 'any', min: 1, options: [{ key: 'dir', label: 'Direction', choices: [['it-en', 'Italian → English'], ['en-it', 'English → Italian']] }], start: async (root, ctx) => (await import('./flashcards.js')).startFlashcards(root, { ...ctx, items: lim(ctx, 20) }) },

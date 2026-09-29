@@ -693,7 +693,12 @@ async function runFlow(f) {
   sink.current = 'flow:' + f.name;
   const n = sink.errors.length; const w = sink.warnings.length; const t0 = Date.now();
   const rec = { name: f.name, ok: true, ms: 0, detail: '', errors: [], warnings: [] };
+  // These five fixtures explicitly exercise the retained classic tours/review runner.
+  // The adaptive default is covered by adaptive-e2e.mjs; route visits above keep it enabled.
+  const classic = ['verb-intro', 'word-intro', 'verb-intro-pass', 'word-intro-pass', 'review'].includes(f.name);
+  const previousAdaptive = classic ? await storeEval(`const previous = ctx.store.settings.adaptiveLearning; ctx.store.setSetting('adaptiveLearning', false); return previous;`) : null;
   try { rec.detail = await f.run(); } catch (err) { rec.errors.push(err.message.split('\n')[0]); rec.shot = await shot(page, 'e2e_fail_' + f.name); }
+  finally { if (classic) await storeEval(`ctx.store.setSetting('adaptiveLearning', arg !== false);`, previousAdaptive); }
   rec.errors.push(...errorsSince(n)); rec.warnings.push(...sink.warnings.slice(w).map(x => x.text));
   rec.ok = rec.errors.length === 0; rec.ms = Date.now() - t0;
   report.flows.push(rec);
