@@ -36,10 +36,11 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   const e=context.aux?{...entry,aux:context.aux}:entry;
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:'production',repairPerson:context.person,allowedTenses:permitted,variant:v,rng});if(!q)return null;
   q.answer=context.answers||[context.answer];
-  const instruction=`Use ${entry.inf} in ${TENSE_BY_KEY[target.tense]?.name||target.tense}. ${context.role==='ordinary'&&context.person===1?'Use tu: one person, informal. ':context.role==='ordinary'&&context.person===4?'Use voi: more than one person. ':''}${context.role==='formal'?'You are speaking directly and politely to the named person. ':''}Write the whole verb form${englishCue?' for the subject in the English situation':' missing from the sentence'}.`;
+  const personCue=context.role==='formal'?'Lei · formal':context.person===1?'tu · informal':context.person===4?'voi · plural':PERSONS[context.person];
+  const instruction=`${personCue} · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`;
   q.prompt=englishCue?text(context.en,instruction):`<div class="sub">${esc(context.en)}</div><div class="sentence">${esc(context.it.slice(0,at))}<span class="blank">…</span>${esc(context.it.slice(at+context.answer.length))}</div><div class="sub">${esc(instruction)}</div>`;
   q.example=context.it;q.exampleTranslation=context.en;q.context={it:context.it,en:context.en};q.say=context.it;
-  q.lesson=`${context.it} — ${context.en}`;q.tip=`Keep the meaning of the whole sentence. ${context.aux?`This construction uses ${context.aux}.`:'Match the stated person and requested tense.'}`;
+  q.lesson=`${context.it} — ${context.en}`;q.tip=`${context.role==='formal'?'Lei means one person addressed politely. ':context.person===1?'Tu means one person addressed informally. ':context.person===4?'Voi addresses more than one person. ':''}Write the complete missing verb form, including its auxiliary or pronoun when needed. ${context.aux?`This construction uses ${context.aux}.`:'Match the person and tense shown.'}`;
   q.meta={...q.meta,skill:target.skill,person:context.person,role:context.role||'ordinary',variantId:`${context.id}:${englishCue?'english-retrieval':'italian-gap'}`,contextId:context.id,evidenceScope:'construction',contextSource:context.source};
   if(q.meta.diagnostic.compound){q.meta.diagnostic.compound.participles=q.answer.map(x=>x.split(' ').at(-1));q.meta.diagnostic.compound.checkAgreement=context.aux==='essere';}
   choices(q,[...(q.meta.diagnostic.personForms||[]).map(x=>x.answer),...(q.meta.diagnostic.tenseForms||[]).map(x=>x.answer)],showChoices,rng);
@@ -48,9 +49,9 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   let answers=formalLessonForms(entry,target.tense,female);if(!answers.length)return null;
   q=buildQuestion(entry,{...o,skill:'conjugation'},{mode:'production',repairPerson:2,allowedTenses:permitted,variant:v,rng});if(!q)return null;
   q.answer=answers;
-  q.prompt=text(`You are addressing ${female?'Ms':'Mr'} Rossi politely.`,`Give the ${TENSE_BY_KEY[target.tense]?.name||target.tense} form of ${entry.inf} for formal “you”. Write the complete verb form, without the subject pronoun.`);
+  q.prompt=text(`${female?'Signora':'Signor'} Rossi · Lei`, `formal · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`);
   q.example=`Lei → ${answers.join(' / ')}`;q.say=`Lei ${answers[0]}`;
-  q.tip='Formal Lei addresses one listener and uses third-person singular grammar. With essere, agreement follows the person addressed.';
+  q.tip='Formal Lei addresses one listener and uses third-person singular grammar. Write the complete verb form without the subject pronoun. With essere, agreement follows the person addressed.';
   q.lesson=q.tip;
   q.meta={...q.meta,skill:'address',person:2,role:'formal',evidenceScope:'form',variantId:`${target.id}:addressee-${female?'female':'male'}`,contextId:`${target.id}:formal-form`};
   if(q.meta.diagnostic.compound){q.meta.diagnostic.compound.participles=answers.map(x=>x.split(' ').at(-1));}
@@ -66,7 +67,8 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
    q.answer=answers;
    const who=WEATHER_VERBS.has(entry.inf)?'impersonal weather use (no personal subject)':target.tense==='imperativo'&&person===2?'Lei (polite singular you)':target.tense==='imperativo'&&person===5?'Loro (very formal plural you)':PERSONS[person];
    const cue=v%2?(target.tense==='imperativo'?['','one listener addressed informally','one listener addressed politely','a group including yourself','several listeners addressed together','several listeners addressed very formally'][person]:['I','you — one person','he / she','we','you — more than one person','they'][person]):who;
-   q.prompt=text(format==='match'?`Match ${who} to its form`:WEATHER_VERBS.has(entry.inf)&&v%2?entry.en:entry.inf,`${v%2&&!WEATHER_VERBS.has(entry.inf)?`Subject: ${cue}`:who} · ${TENSE_BY_KEY[target.tense]?.name||target.tense}. ${format==='match'?'Choose the matching verb form.':'Form practice: write the whole verb form.'}`);
+   const personCue=person===1?'tu · informal':person===4?'voi · plural':v%2&&!WEATHER_VERBS.has(entry.inf)?cue:who;
+   q.prompt=text(format==='match'?`Match · ${who}`:WEATHER_VERBS.has(entry.inf)&&v%2?entry.en:entry.inf,`${personCue} · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`);
    q.example=WEATHER_VERBS.has(entry.inf)?answers.join(' / '):`${who} → ${answers.join(' / ')}`;
    q.meta.variantId=`${target.id}:cue-${v%2}`;q.meta.contextId=`${target.id}:form-cue-${v%2}`;
    choices(q,[...(q.meta.diagnostic.personForms||[]).map(x=>x.answer),...(q.meta.diagnostic.tenseForms||[]).map(x=>x.answer)],showChoices,rng);
@@ -75,25 +77,26 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  }else if(target.skill==='agreement'){
   const i=target.formIndex??0,answer=target.answerForm||entry.forms?.[i];if(!answer)return null;
   const labels=['masculine singular','feminine singular','masculine plural','feminine plural'];
-  q={prompt:text(v%2&&entry.exEn?entry.exEn:entry.en,`Give the ${target.formLabel||labels[i]} form of the adjective in this lesson. Match the stated gender and number.`),answer:[answer],choices:[],say:answer,tip:'Match the stated gender and number. Some adjective forms are identical.',lesson:`${entry.it}: ${entry.forms?.join(' · ')||entry.note||answer}`,example:`${target.formLabel||labels[i]} → ${answer}`,meta:{diagnostic:{kind:'adjective'},variantId:`${target.id}:cue-${v%2}`,contextId:`${target.id}:agreement-${i}`}};
+  q={prompt:text(v%2&&entry.exEn?entry.exEn:entry.en,`${target.formLabel||labels[i]} · adjective`),answer:[answer],choices:[],say:answer,tip:'Match the stated gender and number. Some adjective forms are identical.',lesson:`${entry.it}: ${entry.forms?.join(' · ')||entry.note||answer}`,example:`${target.formLabel||labels[i]} → ${answer}`,meta:{diagnostic:{kind:'adjective'},variantId:`${target.id}:cue-${v%2}`,contextId:`${target.id}:agreement-${i}`}};
   choices(q,entry.forms||[],showChoices,rng);
  }else{
   q=buildQuestion(entry,o,{mode:showChoices?'recognition':'production',variant:v,pool:[],rng});if(!q)return null;
   if(target.skill==='recall'&&chapter.id==='meaning'){
    q=buildQuestion(entry,o,{mode:showChoices?'recognition':'production',variant:0,pool:[],rng});
-   if(v%2&&entry.exEn){q.prompt=text(entry.exEn,`Recall the Italian dictionary form for “${entry.en}” in this lesson.`);q.meta.variantId=`${target.id}:dictionary-form-from-situation`;q.meta.contextId=`${target.id}:dictionary-example`;}
+   if(v%2&&entry.exEn){q.prompt=text(entry.exEn,`Italian for “${entry.en}”`);q.meta.variantId=`${target.id}:dictionary-form-from-situation`;q.meta.contextId=`${target.id}:dictionary-example`;}
   }
   // The source example is the only authored context. Whole-sentence dictation
   // would measure unrelated grammar, so listening always targets the learned item.
   if(target.skill==='listening'&&!wordContext(entry)){q=buildQuestion(entry,o,{mode:showChoices?'recognition':'production',variant:0,pool:[],rng});q.meta.variantCount=1;}
-  if(target.skill==='plural'&&entry.g&&entry.pl===entry.it){q=buildQuestion(entry,o,{mode:showChoices?'recognition':'production',variant:1,pool:[],rng});q.prompt=text(v%2?entry.it:withArticle(entry),'Write the plural with its definite article. The noun keeps the same spelling.');q.meta.variantId=`${target.id}:invariant-${v%2?'bare-cue':'singular-phrase'}`;}
+  if(target.skill==='plural'&&entry.g&&entry.pl===entry.it){q=buildQuestion(entry,o,{mode:showChoices?'recognition':'production',variant:1,pool:[],rng});q.prompt=text(v%2?entry.it:withArticle(entry),'Plural · include the article');q.meta.variantId=`${target.id}:invariant-${v%2?'bare-cue':'singular-phrase'}`;}
   if(entry.pos==='noun'&&!entry.g){
-   if(target.skill==='plural'){q.answer=[entry.pl];q.prompt=text(v%2?entry.en:entry.it,'Write only the plural noun.');q.meta.variantId=`${target.id}:bare-plural-${v%2?'meaning':'singular'}`;q.meta.diagnostic={kind:'plural',plural:entry.pl,requiresArticle:false};choices(q,[entry.it],showChoices,rng);}
+   if(target.skill==='plural'){q.answer=[entry.pl];q.prompt=text(v%2?entry.en:entry.it,'Plural · noun only');q.meta.variantId=`${target.id}:bare-plural-${v%2?'meaning':'singular'}`;q.meta.diagnostic={kind:'plural',plural:entry.pl,requiresArticle:false};choices(q,[entry.it],showChoices,rng);}
    if(['recall','listening','context'].includes(target.skill)){q.answer=q.answer.filter(f=>[entry.it,wordContext(entry)?.form].includes(f));if(q.meta.diagnostic)q.meta.diagnostic.noun=false;}
   }
   if(target.skill==='context'){q.meta.evidenceScope='context';q.context={it:entry.ex,en:entry.exEn||''};q.exampleTranslation=entry.exEn||'';}
   q.choices=(q.choices||[]).map(c=>({...c,value:c.label}));
  }
+ if(kind==='word'&&target.skill==='meaning'&&v%2&&entry.ex) q.prompt=q.prompt.replace('class="big md"','class="sentence"');
  if(format==='type'&&!q.meta?.supportOnly){q.type='type';q.choices=[];}
  if(q.type==='mc')q.prompt=q.prompt.replace(/Write the whole/gi,'Choose the whole').replace(/write the whole/gi,'choose the whole').replace(/Write only/gi,'Choose only').replace(/Write this/gi,'Choose this').replace(/Supply only/gi,'Choose').replace(/Give the/gi,'Choose the').replace(/Answer in English/gi,'Choose the English meaning');
  const recognition=supported||!!q.meta?.scaffold||!!q.meta?.supportOnly;

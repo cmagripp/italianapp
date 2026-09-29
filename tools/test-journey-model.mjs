@@ -63,14 +63,42 @@ function addEvidence(learning, patches) {
 }
 const gap = () => [{ objectiveId: mainTargets[1].id, mode: 'recognition', activityKind: 'guided' }, { objectiveId: mainTargets[2].id, mode: 'recognition', activityKind: 'guided' }];
 
-test('teaching precedes supported and independent practice; zero-target Meet can complete', () => {
+test('Meet continues straight to Present teaching without an empty practice or recap', () => {
   const h = harness(); assert.equal(h.step().type, 'teach');
-  assert.equal(h.next().type, 'recap');
-  assert.equal(journeyProgress(plan, h.session, h.learning).chapters[0].complete, true);
-  assert.equal(h.next().card.id, 'first'); assert.equal(h.next().card.id, 'second');
+  const present = h.next(); assert.equal(present.type, 'teach'); assert.equal(present.chapter.id, 'present');
+  assert.equal(present.card.id, 'first');
+  const intro = journeyProgress(plan, h.session, h.learning).chapters[0];
+  assert.equal(intro.covered, true); assert.equal(intro.total, 0); assert.equal(intro.ready, 0); assert.equal(intro.remembered, 0);
+  assert.equal(h.session.index, 0); assert.deepEqual(h.learning.events, {});
+  assert.equal(h.next().card.id, 'second');
   const q = h.next(); assert.equal(q.phase, 'guided'); assert.equal(q.target.id, mainTargets[0].id);
   h.answer(); assert.equal(journeyTargetState(h.learning, q.target).independentCorrect, 0);
   assert.equal(h.step().type, 'question'); assert.equal(h.step().awaitingContinue, true);
+});
+
+test('a saved old Meet recap continues without resetting its session, history, or UI', () => {
+  const h = harness();
+  const old = clone(h.session);
+  old.journey.phase = 'recap'; old.journey.groupIndex = 1; old.journey.covered.meet = START;
+  old.ui = { version: 2, exposures: { fixture: 0 }, paused: true, draft: '' };
+  const restored = normalizeLearning({ ...h.learning, session: old }).session;
+  assert.equal(currentJourneyStep(plan, restored, h.learning).type, 'recap');
+  const resumed = advanceJourney(plan, restored, h.learning, { now: START + 1 });
+  const step = currentJourneyStep(plan, resumed, h.learning);
+  assert.equal(step.type, 'teach'); assert.equal(step.chapter.id, 'present'); assert.equal(step.card.id, 'first');
+  assert.equal(resumed.id, old.id); assert.equal(resumed.journey.covered.meet, START);
+  assert.deepEqual(resumed.ui, old.ui); assert.deepEqual(resumed.answeredEventIds, old.answeredEventIds);
+  assert.equal(resumed.index, 0); assert.deepEqual(h.learning.events, {});
+  assert.equal(restored.journey.phase, 'recap');
+});
+
+test('Meet with an actual assessment retains its legitimate practice and recap', () => {
+  const assessed = clone(plan);
+  assessed.chapters[0].groups[0].targets = [target('meaning', null, { skill: 'meaning' })];
+  const h = harness(assessed);
+  const step = h.next(); assert.equal(step.type, 'question'); assert.equal(step.chapter.id, 'meet');
+  assert.equal(step.phase, 'guided');
+  h.skip(); assert.equal(h.step().type, 'recap'); assert.equal(h.step().chapter.id, 'meet');
 });
 
 test('each person and formal-address target needs two separated, varied independent answers', () => {

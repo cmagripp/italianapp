@@ -76,7 +76,7 @@ test('every original anchor and credere has two situations per person in all thr
 });
 test('formal Lei is a full construction with separate polite meaning, not a seventh ordinary person',()=>{
  for(const [ch,answer]of[['present','crede'],['past','ha creduto'],['future','crederà']]){
-  const e=vb('credere'),question=q(e,ch,'address',2,{},'formal');assert.deepEqual(question.answer,[answer]);assert.equal(question.meta.role,'formal');assert.equal(question.meta.person,2);assert.ok(question.prompt.includes('politely'));assert.ok(question.context.it.includes('Lei'));
+  const e=vb('credere'),question=q(e,ch,'address',2,{},'formal');assert.deepEqual(question.answer,[answer]);assert.equal(question.meta.role,'formal');assert.equal(question.meta.person,2);assert.ok(question.prompt.includes('Lei · formal'));assert.ok(question.context.it.includes('Lei'));
   const ts=targets(chapter(e,ch));assert.equal(ts.filter(x=>x.skill==='conjugation').length,6);assert.equal(ts.filter(x=>x.role==='formal').length,1);
  }
 });
@@ -176,7 +176,7 @@ test('variant-specific answers and persons match the actual next contextual ques
 });
 test('English you cues disambiguate informal singular and plural',()=>{
  const e=vb('capire');for(const p of [1,4]){const ch=chapter(e,'present'),t=target(e,'present','conjugation',p),count=lessonContexts(e,'present').filter(c=>c.person===p&&c.role==='ordinary').length;
- const question=buildJourneyQuestion(e,ch,t,{variant:count});assert.ok(question.prompt.includes(p===1?'Use tu: one person, informal.':'Use voi: more than one person.'));}
+ const question=buildJourneyQuestion(e,ch,t,{variant:count});assert.ok(question.prompt.includes(p===1?'tu · informal':'voi · plural'));}
 });
 test('lexical exposure metadata links bare and article phrases but keeps clean fact spacers',()=>{
  const e=wd('casa');const recall=target(e,'meaning','recall');assert.ok(recall.exposureFormsByVariant[0].includes('casa'));assert.ok(recall.exposureFormsByVariant[0].includes('la casa'));

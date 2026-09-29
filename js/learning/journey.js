@@ -135,6 +135,14 @@ function finishPass(plan, session, learning, now) {
   }
   j.phase = 'recap'; j.current = null; j.awaitingContinue = false;
   j.covered[j.chapterId] = now;
+  // Meet is an introduction, not an assessment. Its final Continue starts the
+  // first teaching chapter directly; no empty practice/recap screen is needed.
+  if (chapter?.id === 'meet' && !targets(chapter).some(target => available(target) && !target.supplementalOnly)
+    && session.mode !== 'review') {
+    const index = plan.chapters.findIndex(c => c.id === chapter.id);
+    const next = plan.chapters.slice(index + 1).find(c => !c.optional);
+    if (next) { j.chapterId = next.id; j.groupIndex = 0; return startGroup(plan, session, learning, now); }
+  }
   return session;
 }
 
