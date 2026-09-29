@@ -212,7 +212,7 @@ try {
     await fresh();await gotoRoute(page,'/learn/verb/v:mangiare?chapter=background');
     for(let i=0;i<12&&(await state()).step.group?.id!=='progressive';i++){assert.equal((await state()).phase,'teach');await page.locator('[data-skip]').click();}
     assert.equal((await state()).step.group.id,'progressive');let text='';
-    while((await state()).phase==='teach'){text+=' '+await page.locator('.journey-main').innerText();if((await state()).step.card?.id==='progressive-contrast')await shot('past-progressive-contrast');await page.locator('[data-continue]').click();}
+    while((await state()).phase==='teach'){text+=' '+await page.locator('.journey-main').innerText();if((await state()).step.card?.id==='progressive-contrast'){await shot('past-progressive-contrast');await page.setViewportSize({width:375,height:667});await shot('past-progressive-contrast-375');await page.setViewportSize({width:390,height:844});}await page.locator('[data-continue]').click();}
     for(const form of ['sto mangiando','stavo mangiando','mangiavo','ho mangiato'])assert(text.includes(form),form+' viewpoint taught');
     assert.match(text,/does not.*every bit/s);for(const form of ['stavo','stavi','stava','stavamo','stavate','stavano'])assert(text.includes(form));
     await page.locator('[data-conjugation-toggle]').click();await page.locator('[data-conjugation-tense="imperfettoProgressivo"]').click();
