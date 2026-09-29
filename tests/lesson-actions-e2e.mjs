@@ -16,7 +16,12 @@ const route = id => '/learn/verb/' + encodeURIComponent(id);
 async function check(name, run) {
   const start = Date.now();
   try { const detail = await run(); results.push({ name, ok: true, ms: Date.now() - start, detail }); console.log('PASS', name); }
-  catch (error) { results.push({ name, ok: false, error: error.stack, visible: await page?.locator('body').innerText().catch(() => '') }); console.error('FAIL', name, error.message); throw error; }
+  catch (error) {
+    const geometry = await railGeometry().catch(() => null);
+    await shot('failure').catch(() => {});
+    results.push({ name, ok: false, error: error.stack, geometry, visible: await page?.locator('body').innerText().catch(() => '') });
+    console.error('FAIL', name, error.message, geometry && JSON.stringify(geometry)); throw error;
+  }
 }
 async function fresh(width = 390, theme = 'light') {
   await context?.close();
@@ -83,6 +88,29 @@ async function waitForAction(index) {
     const dot = document.querySelectorAll('[data-action-dot]')[index];
     return a.left >= t.left - 2 && a.right <= t.right + 2 && dot?.classList.contains('is-current');
   }, index);
+}
+async function waitForSwipedAction() {
+  // Native fling distance depends on compositor timing. Unlike the arrow controls,
+  // a touch swipe may pass more than one card; require a settled, usable destination.
+  let previous = null, stableSince = 0;
+  const deadline = Date.now() + 5000;
+  while (Date.now() < deadline) {
+    const state = await page.evaluate(() => {
+      const track = document.querySelector('[data-action-track]');
+      const t = track.getBoundingClientRect(), dots = document.querySelectorAll('[data-action-dot]');
+      const index = [...track.querySelectorAll('button, a')].findIndex((action, i) => {
+        const a = action.getBoundingClientRect();
+        return a.left >= t.left - 2 && a.right <= t.right + 2 && dots[i]?.classList.contains('is-current');
+      });
+      return { index, scroll: track.scrollLeft };
+    });
+    if (state.index > 0 && state.index === previous?.index && Math.abs(state.scroll - previous.scroll) < .5) {
+      if (Date.now() - stableSince >= 150) return state.index;
+    } else stableSince = Date.now();
+    previous = state;
+    await page.waitForTimeout(50);
+  }
+  assert.fail('Touch swipe did not settle on a fully visible later action with its matching dot: ' + JSON.stringify(await railGeometry()));
 }
 async function swipeLeft() {
   const track = await page.locator('[data-action-track]').boundingBox();
@@ -161,11 +189,13 @@ try {
       await page.locator('[data-action-prev]').click(); await waitForAction(1);
       await page.locator('[data-action-prev]').click(); await waitForAction(0);
       await swipeLeft();
-      await waitForAction(1);
+      const swipeIndex = await waitForSwipedAction();
       const swiped = await railGeometry(); assert(swiped.scroll > 30);
       assert.equal((await saved()).session.journey.chapterId, before.session.journey.chapterId, 'swiping is not a Continue click');
       assert.equal((await saved()).session.journey.cardIndex, before.session.journey.cardIndex);
-      await page.locator('[data-action-prev]').click(); await waitForAction(0);
+      for (let i = swipeIndex; i > 0; i--) {
+        await page.locator('[data-action-prev]').click(); await waitForAction(i - 1);
+      }
       const headerBefore = await page.locator('.journey-header').boundingBox();
       await page.locator('.journey-main').evaluate(panel => { panel.scrollTop = panel.scrollHeight; });
       const clearance = await page.evaluate(() => {
@@ -194,7 +224,7 @@ try {
       const focus = await page.locator('[data-reveal]').evaluate(b => ({ width: parseFloat(getComputedStyle(b).outlineWidth), style: getComputedStyle(b).outlineStyle }));
       assert(focus.width >= 2 && focus.style !== 'none', 'text controls retain a keyboard focus indicator');
       await shot(`${width}-${theme}-plain-question-controls`);
-      return { cardWidth: g.card.width, actionWidth: g.actions[0].width, gap: g.actions[1].x - g.actions[0].right };
+      return { cardWidth: g.card.width, actionWidth: g.actions[0].width, gap: g.actions[1].x - g.actions[0].right, swipeIndex };
     });
   }
   await check('Reference and Skip rail actions execute their intended action once', async () => {
