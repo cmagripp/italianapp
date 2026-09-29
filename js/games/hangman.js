@@ -22,16 +22,19 @@ export function startHangman(root, ctx) {
   const items = ctx.items.filter(e => /^[a-zàèéìòùú' ]+$/i.test(wordOf(e))).slice(0, 12);
   const total = items.length;
   let i = 0, correct = 0; const missed = []; const start = Date.now();
+  let dead = false, finished = false;
   let dock = null; let onKey = null;
   const destroyDock = () => { if (dock) { dock.destroy(); dock = null; } if (onKey) { document.removeEventListener('keydown', onKey); onKey = null; } };
 
   function renderWord() {
+    if (dead || finished) return;
     destroyDock();
     const e = items[i];
     if (!e) return finish();
     const word = wordOf(e);
     const letters = word.split('');
-    const guessed = new Set(); let miss = 0; let done = false;
+    const guessed = new Set(); let miss = 0; let done = false; let continued = false;
+    const wordIndex = i;
     const hint = e.kind === 'verb' ? 'verb' : e.pos === 'noun' ? (e.g === 'mf' ? 'noun (m/f)' : e.g === 'f' ? 'feminine noun' : 'masculine noun') : e.pos;
     const nLetters = letters.filter(ch => /[a-zà-ú]/.test(ch)).length;
     const lw = Math.max(18, Math.min(30, Math.floor((Math.min(window.innerWidth || 390, 720) - 32 - 40 - (letters.length - 1) * 5) / letters.length)));
@@ -52,7 +55,7 @@ export function startHangman(root, ctx) {
     const revealed = (ch) => guessed.has(fold(ch)) || ch === ' ' || ch === "'";
 
     function press(l) {
-      if (done || guessed.has(l) || !/^[a-z]$/.test(l)) return;
+      if (dead || finished || i !== wordIndex || done || guessed.has(l) || !/^[a-z]$/.test(l)) return;
       guessed.add(l);
       const hit = letters.some(ch => fold(ch) === l);
       const key = dock.el.querySelector(`.k[data-l="${l}"]`);
@@ -70,7 +73,10 @@ export function startHangman(root, ctx) {
       if (allRevealed || miss >= MAX) end(allRevealed);
     }
     function end(won) {
+      if (dead || finished || done || i !== wordIndex) return;
       done = true;
+      const top = root.querySelector('.game-top');
+      if (top) top.outerHTML = gameTop(ctx.backHref, { i, total, completed: i + 1 });
       if (won) correct++; else missed.push(e.id);
       store.recordAnswer(e.id, won, { quality: won ? (miss <= 2 ? 5 : 4) : 1, xp: won ? 3 : 0 });
       slots.forEach(s => { const ch = letters[Number(s.dataset.k)]; if (!s.textContent) { s.textContent = ch; s.classList.add('miss'); } });
@@ -80,22 +86,29 @@ export function startHangman(root, ctx) {
         ok: won,
         title: won ? `<span class="fb-word">${esc(word)}</span>` : `The word was <span class="fb-word">${esc(word)}</span>`,
         detail: exIt ? trBlock(exIt, exEn) : esc(shortEn(e.en)),
-        nextLabel: i + 1 >= total ? 'See results' : 'Next word',
+        nextLabel: i + 1 >= total ? 'See results' : 'Continue',
         say: word,
       }));
       speak(word);
-      dock.el.querySelector('[data-next]').addEventListener('click', () => { i++; renderWord(); });
+      const next = dock.el.querySelector('[data-next]');
+      next.addEventListener('click', () => {
+        if (dead || finished || continued || i !== wordIndex) return;
+        continued = true; next.disabled = true; i++; renderWord();
+      });
+      next.focus({ preventScroll: true });
     }
     dock.el.addEventListener('click', (ev) => { const b = ev.target.closest('[data-l]'); if (b) press(b.dataset.l); });
     onKey = (ev) => {
-      if (!root.contains(slots[0] || root)) { destroyDock(); return; }
+      if (dead || !root.contains(slots[0] || root)) { destroyDock(); return; }
       if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
       if (/^[a-zA-Z]$/.test(ev.key)) { press(ev.key.toLowerCase()); ev.preventDefault(); }
-      else if (ev.key === 'Enter' && done) { dock.el.querySelector('[data-next]')?.click(); }
+      else if (ev.key === 'Enter' && done) { ev.preventDefault(); dock.el?.querySelector('[data-next]')?.click(); }
     };
     document.addEventListener('keydown', onKey);
   }
   function finish() {
+    if (dead || finished) return;
+    finished = true;
     destroyDock();
     const result = { gameId: 'hangman', total, correct, wrong: total - correct, score: total ? Math.round((correct / total) * 100) : 0, missed, secs: Math.round((Date.now() - start) / 1000) };
     result.xp = correct * 3;
@@ -105,5 +118,5 @@ export function startHangman(root, ctx) {
   }
   if (!total) { root.innerHTML = html`<div class="empty"><p>No suitable words for hangman in this selection.</p><a class="btn primary" href="${ctx.backHref}">Choose another source</a></div>`; return; }
   renderWord();
-  return destroyDock;
+  return () => { dead = true; destroyDock(); };
 }

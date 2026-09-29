@@ -99,7 +99,7 @@ async function playToResults({ maxSteps = 120, idleLimit = 20, fast = false } = 
     }
     // flashcards: flip, then grade
     if (await has('[data-grade] [data-q]')) {
-      if (await has('[data-flash]')) await tap('[data-flash]', { label: '[data-flash]' });
+      if (await has('[data-flip]')) await tap('[data-flip]', { label: '[data-flip]' });
       await wait(300);
       const good = page.locator('[data-grade] [data-q="4"]');
       await tap((await good.count()) ? good : page.locator('[data-grade] [data-q]').nth(2), { label: '[data-q]' });

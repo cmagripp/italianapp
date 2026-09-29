@@ -24,8 +24,30 @@ function openDB() {
     } catch { resolve(null); }
   });
 }
-let dbPromise = null;
-const db = () => (dbPromise ||= openDB());
+let dbPromise = null, storageBackend = null;
+const db = () => (dbPromise ||= openDB().then(value => { storageBackend = value ? 'indexedDB' : 'localStorage'; return value; }));
+
+function localSet(key, value) {
+  let pending = null, serialized;
+  try {
+    serialized = JSON.stringify(value);
+    const raw = localStorage.getItem(LS_PENDING);
+    if (raw && key === 'profile:' + value?.id) {
+      try { if (JSON.parse(raw)?.id === value.id) pending = raw; } catch { /* malformed mirror is unrelated */ }
+    }
+    try { localStorage.setItem('kv:' + key, serialized); }
+    catch (error) {
+      // A recovered mirror can consume the space needed to replace its primary.
+      // Both operations are synchronous; restore that mirror if replacement fails.
+      if (!pending) throw error;
+      localStorage.removeItem(LS_PENDING);
+      try { localStorage.setItem('kv:' + key, serialized); }
+      catch (retryError) { localStorage.setItem(LS_PENDING, pending); throw retryError; }
+    }
+    if (pending && localStorage.getItem(LS_PENDING) === pending) localStorage.removeItem(LS_PENDING);
+    return true;
+  } catch { return false; }
+}
 
 async function kvGet(key) {
   const d = await db();
@@ -41,7 +63,7 @@ async function kvGet(key) {
 }
 async function kvSet(key, value) {
   const d = await db();
-  if (!d) { try { localStorage.setItem('kv:' + key, JSON.stringify(value)); return true; } catch { return false; /* quota */ } }
+  if (!d) return localSet(key, value);
   return new Promise((resolve) => {
     try {
       const tx = d.transaction(KV, 'readwrite');
@@ -127,9 +149,11 @@ function nextLearningIdentity() {
 const learningXP = (domain) => Object.values(domain?.events || {}).reduce((n, e) => n + (Number(e.xp) || 0), 0);
 
 class Store extends EventTarget {
-  constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; }
+  constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; this._saveQueue = Promise.resolve(); this._mirrorSerial = 0; }
 
   async init() {
+    // Know whether saves need an unload mirror before creating the first profile.
+    await db();
     try { this.profiles = JSON.parse(localStorage.getItem(LS_PROFILES) || '[]'); } catch { this.profiles = []; }
     let curId = null;
     try { curId = localStorage.getItem(LS_CURRENT); } catch { /* ignore */ }
@@ -154,11 +178,12 @@ class Store extends EventTarget {
     return this;
   }
   _mirrorPending() {
-    if (!this.current || !this._dirty) return;
-    try { localStorage.setItem(LS_PENDING, JSON.stringify({ id: this.current.id, at: Date.now(), profile: this.current })); } catch { /* quota */ }
+    if (!this.current || !this._dirty || storageBackend === 'localStorage') return;
+    const snapshot = JSON.stringify({ id: this.current.id, at: Date.now(), write: ++this._mirrorSerial, profile: this.current });
+    try { localStorage.setItem(LS_PENDING, snapshot); return snapshot; } catch { /* quota */ }
   }
-  // The mirror of a profile is always newer than its IndexedDB copy: every successful saveNow() removes it. It stays until
-  // that write happens (switchProfile schedules one), so a second interrupted unload cannot lose it either.
+  // A mirror stays until its corresponding write commits. An older queued write
+  // must never remove a newer snapshot made while it was still in flight.
   _takePending(id) {
     let raw = null;
     try { raw = localStorage.getItem(LS_PENDING); } catch { return null; }
@@ -228,20 +253,33 @@ class Store extends EventTarget {
     this.emit('change');
   }
   async saveNow() {
-    if (!this.current || !this._dirty) return;
-    this._dirty = false;
+    if (!this.current || !this._dirty) return this._saveQueue;
     clearTimeout(this._saveTimer);
     const meta = this.profiles.find(p => p.id === this.current.id);
     if (meta) { meta.lastActive = Date.now(); this._persistIndex(); }
     const cur = this.current;
-    const ok = await kvSet('profile:' + cur.id, cur);
-    if (ok) { try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === cur.id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
-    else if (this.current === cur) {
-      // a failed write (quota, transient IndexedDB error after backgrounding) must not be lost while the screen still
-      // shows the change: keep the profile dirty so the next save retries, mirror it to localStorage for the next start,
-      // and let the app tell the learner
-      this._dirty = true; this._mirrorPending(); this.emit('saveError');
+    const snapshot = JSON.parse(JSON.stringify(cur));
+    if (storageBackend === 'localStorage') {
+      // The fallback is already synchronous and durable before this call returns.
+      // A second full profile mirror would unnecessarily consume its small quota.
+      this._dirty = !localSet('profile:' + cur.id, snapshot);
+      if (this._dirty) this.emit('saveError');
+      return this._saveQueue;
     }
+    // Mirror before clearing dirty: a reload can interrupt the IndexedDB commit
+    // even after saveNow was called. Clean callers also await the queued commit.
+    const mirrored = this._mirrorPending();
+    this._dirty = false;
+    this._saveQueue = this._saveQueue.then(async () => {
+      const ok = await kvSet('profile:' + cur.id, snapshot);
+      if (ok) { try { if (mirrored && localStorage.getItem(LS_PENDING) === mirrored) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
+      else if (this.current === cur) {
+        // Keep the latest profile, including edits made while this snapshot was
+        // queued, available for recovery and for the next save attempt.
+        this._dirty = true; this._mirrorPending(); this.emit('saveError');
+      }
+    });
+    return this._saveQueue;
   }
 
   // ---------- settings ----------

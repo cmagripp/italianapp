@@ -14,7 +14,7 @@ fs.mkdirSync(SHOTS_DIR, { recursive: true });
 let context, page;
 async function fresh(theme = 'light', width = 390) {
   await context?.close();
-  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height: 844 }, reducedMotion: 'reduce' }));
+  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height: width === 375 ? 667 : 844 }, reducedMotion: 'reduce' }));
   await context.addInitScript(() => Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
     getVoices: () => [], cancel: () => {}, speak: utterance => {
       const calls = JSON.parse(sessionStorage.getItem('experience-speech') || '[]');
@@ -29,7 +29,6 @@ async function fresh(theme = 'light', width = 390) {
   await page.waitForFunction(theme => document.documentElement.dataset.theme === theme, theme);
 }
 async function check(name, run) {
-  if(process.env.EXPERIENCE_FILTER&&!name.toLowerCase().includes(process.env.EXPERIENCE_FILTER.toLowerCase())&&name!=='No application errors')return;
   if (process.env.EXPERIENCE_FILTER && !name.toLowerCase().includes(process.env.EXPERIENCE_FILTER.toLowerCase()) && name !== 'No application errors') return;
   try { const detail = await run(); results.push({ name, ok: true, detail }); console.log('PASS', name); }
   catch (error) { results.push({ name, ok: false, error: error.stack, visible: await page?.locator('body').innerText().catch(() => '') }); console.error('FAIL', name, error.message); throw error; }
@@ -69,19 +68,31 @@ async function waitForForm(index) {
     return r.left >= t.left - 3 && r.right <= t.right + 3;
   }, index);
 }
-async function swipeFormLeft() {
-  await page.locator('[data-form-track]').scrollIntoViewIfNeeded();
-  const box = await page.locator('[data-form-track]').boundingBox();
-  const panel = await page.locator('.journey-main').boundingBox();
+async function waitForExample(index) {
+  await page.waitForFunction(index => {
+    const deck = document.querySelector('.journey-teaching .journey-example-deck'), card = deck?.children[index];
+    if (!card) return false;
+    const a = card.getBoundingClientRect(), b = deck.getBoundingClientRect();
+    return Math.abs((a.left+a.right-b.left-b.right)/2) <= 2;
+  }, index, { timeout: 4000 });
+}
+async function swipeExampleLeft() {
+  const deck = page.locator('.journey-teaching .journey-example-deck');
+  await deck.scrollIntoViewIfNeeded();
+  const box = await deck.boundingBox(), panel = await page.locator('.journey-main').boundingBox();
   const y = Math.max(panel.y + 20, Math.min(box.y + box.height / 2, panel.y + panel.height - 20));
   const x = box.x + box.width - 20, cdp = await context.newCDPSession(page);
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
-  for (let i = 1; i <= 8; i++) {
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - (box.width - 40) * i / 8, y }] });
+  for (let i=1;i<=8;i++) {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x:x-(box.width-40)*i/8, y }] });
     await page.waitForTimeout(16);
   }
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await cdp.detach();
-  await waitForForm(1);
+  await waitForExample(1);
+}
+async function visibleContinue() {
+  const button = await page.locator('[data-feedback-bar] [data-continue]').elementHandle(); assert(button);
+  await page.waitForFunction(e=>{const r=e.getBoundingClientRect();if(r.y<0||r.bottom>innerHeight+1)return false;const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return hit===e||e.contains(hit);},button,{timeout:2000});
 }
 async function withinViewport() {
   const s = await page.evaluate(() => ({ width: innerWidth, pageWidth: document.documentElement.scrollWidth, x: scrollX, y: scrollY, height: innerHeight, panel: document.querySelector('.journey-main')?.getBoundingClientRect().toJSON(), english: document.querySelector('#enToggle')?.getBoundingClientRect().toJSON() }));
@@ -105,41 +116,26 @@ try {
       await page.locator('.journey-main').evaluate(p => { p.scrollTop = 0; });
       assert.deepEqual(await evidence(), before); await withinViewport(); await shot(`${theme}-meet`);
     });
-    await check(`${theme}: form cards support swipe, navigation, pronunciation and comparison without grading`, async () => {
-      await page.locator('[data-open-lesson=present]').click();
+    await check(`${theme}: stacked forms and centered examples support exploration without grading`, async () => {
+      await fresh(theme); await gotoRoute(page, '/learn/verb/v:dire?chapter=present');
       assert.equal(await page.locator('[data-journey]').getAttribute('data-chapter'), 'present');
-      const before = await evidence(), speechBefore = await spoken();
-      const cards = page.locator('[data-form-card]'); assert.equal(await cards.count(), 3);
-      assert.deepEqual(await cards.locator('.journey-form-value').allTextContents(), ['dico', 'dici', 'dice']);
-      await waitForForm(0);
-      await page.locator('[data-form-next]').click(); await waitForForm(1);
-      assert.deepEqual(await spoken(), speechBefore, 'navigation does not speak or submit');
-      await cards.nth(1).click(); assert.deepEqual((await spoken()).at(-1), { text: 'dici', lang: 'it-IT' });
-      const afterTap = await spoken();
-      await page.locator('[data-form-track]').focus(); await page.keyboard.press('End'); await waitForForm(2);
-      await page.keyboard.press('Home'); await waitForForm(0);
-      await page.keyboard.press('ArrowRight'); await waitForForm(1);
-      await page.keyboard.press('ArrowLeft'); await waitForForm(0);
-      assert.deepEqual(await spoken(), afterTap, 'keyboard exploration stays quiet');
-      await swipeFormLeft(); assert.equal(await page.locator('[data-form-count]').innerText(), '2 / 3');
-      assert.deepEqual(await spoken(), afterTap, 'a swipe does not pronounce an accidental tapped card');
-      await shot(`${theme}-present-form-deck`);
-      await page.locator('.journey-form-comparison summary').click();
-      assert.equal(await page.locator('.journey-form-comparison').getAttribute('open'), '');
-      assert.deepEqual(await page.locator('.journey-form-comparison td:last-child').allTextContents(), ['dico', 'dici', 'dice']);
-      await page.locator('.journey-form-comparison table').scrollIntoViewIfNeeded(); await shot(`${theme}-present-comparison`);
-      assert.deepEqual(await evidence(), before); await withinViewport();
-      await reloadApp(page); await waitForForm(1);
-      assert.deepEqual(await spoken(), afterTap); assert.deepEqual(await evidence(), before);
+      const before=await evidence(),speechBefore=await spoken(),cards=page.locator('[data-form-card]');
+      assert.equal(await cards.count(),3); assert.deepEqual(await cards.locator('.journey-form-value').allTextContents(),['dico','dici','dice']);
+      const boxes=await cards.evaluateAll(nodes=>nodes.map(e=>e.getBoundingClientRect().toJSON()));
+      for(let i=0;i<boxes.length;i++){assert(boxes[i].height>=44&&boxes[i].height<=100,'forms are compact touch rows');if(i){assert(boxes[i].y>=boxes[i-1].bottom-1);assert(Math.abs(boxes[i].x-boxes[0].x)<1);}}
+      assert.equal(await page.locator('[data-form-next], [data-form-prev], .journey-form-comparison').count(),0,'all forms are already shown together');
+      await cards.nth(1).click();assert.deepEqual((await spoken()).at(-1),{text:'dici',lang:'it-IT'});assert.equal((await spoken()).length,speechBefore.length+1);
+      const afterTap=await spoken();await cards.nth(1).focus();await page.keyboard.press('End');await waitForForm(2);await page.keyboard.press('Home');await waitForForm(0);await page.keyboard.press('ArrowDown');await waitForForm(1);await page.keyboard.press('ArrowUp');await waitForForm(0);await page.keyboard.press('ArrowDown');await waitForForm(1);
+      assert.deepEqual(await spoken(),afterTap,'keyboard selection does not pronounce or grade');await shot(`${theme}-present-stacked-forms`);
+      const deck=page.locator('.journey-teaching .journey-example-deck');assert.equal(await deck.locator('.journey-example').count(),2);await deck.scrollIntoViewIfNeeded();await waitForExample(0);
+      await deck.focus();await page.keyboard.press('End');await waitForExample(1);await page.keyboard.press('Home');await waitForExample(0);await swipeExampleLeft();assert.deepEqual(await spoken(),afterTap,'swiping never triggers accidental audio');await shot(`${theme}-centered-example`);
+      const activeExample=deck.locator('.journey-example').nth(1),say=await activeExample.locator('[data-say]').getAttribute('data-say');await activeExample.locator('[data-say]').click();assert.deepEqual((await spoken()).at(-1),{text:say,lang:'it-IT'});assert.equal((await spoken()).length,afterTap.length+1);
+      const afterExplore=await spoken();assert.deepEqual(await evidence(),before);await withinViewport();await reloadApp(page);await waitForForm(1);assert.deepEqual(await spoken(),afterExplore);assert.deepEqual(await evidence(),before);
     });
-    await check(`${theme}: noun number comparison keeps the taught article and invariant plural`, async () => {
-      await gotoRoute(page, '/learn/word/' + encodeURIComponent('w:caffè|noun') + '?chapter=forms');
-      const before = await evidence();
-      assert.deepEqual(await page.locator('[data-form-card] .journey-form-value').allTextContents(), ['il caffè', 'i caffè']);
-      await page.locator('.journey-form-comparison summary').click();
-      assert.deepEqual(await page.locator('.journey-form-comparison td:last-child').allTextContents(), ['il caffè', 'i caffè']);
-      await page.locator('.journey-form-comparison table').scrollIntoViewIfNeeded(); await shot(`${theme}-noun-number-comparison`);
-      assert.deepEqual(await evidence(), before); await withinViewport();
+    await check(`${theme}: noun number rows keep the taught article and invariant plural`, async () => {
+      await fresh(theme);await gotoRoute(page, '/learn/word/'+encodeURIComponent('w:caffè|noun')+'?chapter=forms');
+      const before=await evidence();assert.deepEqual(await page.locator('[data-form-card] .journey-form-value').allTextContents(),['il caffè','i caffè']);
+      assert.equal(await page.locator('.journey-form-comparison').count(),0);await page.locator('[data-form-card]').last().scrollIntoViewIfNeeded();await shot(`${theme}-noun-number-rows`);assert.deepEqual(await evidence(),before);await withinViewport();
     });
     await check(`${theme}: past and future retain explicit construction and ending teaching`, async () => {
       await gotoRoute(page, '/learn/verb/v:dire?chapter=past');
@@ -180,7 +176,7 @@ try {
       await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachJourneyActivity(page, 'mc');
       const before = await evidence(); await answerCorrect();
       const right = await evidence(); assert.equal(right.events.length, before.events.length + 1);
-      assert.equal((await session()).ui.result.ok, true); await shot(`${theme}-correct-feedback`);
+      assert.equal((await session()).ui.result.ok, true); await visibleContinue(); await shot(`${theme}-correct-feedback`);
       await page.waitForTimeout(500); assert.deepEqual(await evidence(), right);
       assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
       await page.locator('[data-continue]').click(); await reachJourneyActivity(page, 'type');
@@ -188,11 +184,19 @@ try {
       const beforeWrong = await evidence();
       await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click();
       const wrong = await evidence(); assert.equal(wrong.events.length, beforeWrong.events.length + 1);
-      assert.equal((await session()).ui.result.ok, false); await shot(`${theme}-wrong-feedback`);
+      assert.equal((await session()).ui.result.ok, false); await visibleContinue(); await shot(`${theme}-wrong-feedback`);
       await reloadApp(page); assert.deepEqual(await evidence(), wrong);
       assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
     });
   }
+  for(const width of[375,390])for(const theme of['light','dark'])await check(`${width}px ${theme}: compact lessons center examples and reserve space for the reference tab`,async()=>{
+    await fresh(theme,width);await gotoRoute(page,'/learn/verb/v:capire?chapter=present');await withinViewport();
+    const g=await page.evaluate(()=>{const page=document.querySelector('[data-journey]'),main=document.querySelector('.journey-main'),header=document.querySelector('.journey-header'),tab=document.querySelector('[data-conjugation-toggle]'),line=document.querySelector('.journey-progress-line'),cs=getComputedStyle(page);return{page:page.getBoundingClientRect().toJSON(),main:main.getBoundingClientRect().toJSON(),header:header.getBoundingClientRect().toJSON(),tab:tab.getBoundingClientRect().toJSON(),line:line.getBoundingClientRect().toJSON(),border:cs.borderTopWidth,shadow:cs.boxShadow,background:cs.backgroundColor};});
+    assert.equal(g.border,'0px');assert.equal(g.shadow,'none');assert.equal(g.background,'rgba(0, 0, 0, 0)');assert(g.header.height<=110,'header leaves room for teaching');assert(g.tab.x>=g.main.right+4,'reference tab has its own edge space');assert(g.tab.right<=width+1);assert.equal(await page.locator('#backBtn').isVisible(),false);assert.equal(await page.locator('[data-map-toggle]').count(),0);
+    const stack=await page.locator('[data-form-track]').evaluate(e=>({width:e.clientWidth,scroll:e.scrollWidth}));assert(stack.scroll<=stack.width+1,'stacked forms have no horizontal scroller');await shot(`${width}-${theme}-compact-teaching`);
+    const deck=page.locator('.journey-teaching .journey-example-deck');await deck.scrollIntoViewIfNeeded();await waitForExample(0);await deck.focus();await page.keyboard.press('End');await waitForExample(1);await withinViewport();await shot(`${width}-${theme}-example-centered`);
+    await page.locator('[data-continue]').click();await reachJourneyActivity(page,'mc');await answerCorrect();await visibleContinue();await withinViewport();await shot(`${width}-${theme}-visible-continue`);
+  });
   await check('The conjugation panel preserves the draft and makes a looked-up answer assisted', async () => {
     await fresh();
     await gotoRoute(page, '/learn/verb/v:credere?mode=review&objective=' + encodeURIComponent('v:credere::lesson::present::form-0'));
@@ -233,7 +237,7 @@ try {
     assert(lookedUp.ui.assistance.includes('hint')); assert.deepEqual(await evidence(), before);
     for(const form of fixture.exposed) assert.equal(lookedUp.ui.exposures[form],lookedUp.index||0, `${form} remains recently exposed for following questions`);
     await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click();
-    assert.equal((await session()).ui.result.ok, false); await shot('wrong-answer-feedback');
+    assert.equal((await session()).ui.result.ok, false); await visibleContinue(); await shot('wrong-answer-feedback');
   });
   await check('Lesson Back is read-only and returns to the exact unanswered draft without extra evidence', async () => {
     await fresh(); await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachJourneyActivity(page, 'mc');

@@ -4,7 +4,7 @@ import { html, raw, esc, haptic, speak } from '../ui.js';
 import { store } from '../store.js';
 import { headword, shortEn, shuffle, fold } from '../data.js';
 import { conjugate, primary, PERSONS, MISSING } from '../conjugator.js';
-import { showResults, gameTop, pad2 } from './engine.js';
+import { showResults, gameTop, pad2, feedbackHTML } from './engine.js';
 import fx from '../fx.js';
 
 export function startMatching(root, ctx) {
@@ -12,6 +12,7 @@ export function startMatching(root, ctx) {
   const all = ctx.items.slice();
   const roundSize = 6;
   let r = 0, mistakes = 0, matched = 0; const missed = new Set(); const start = Date.now();
+  let dead = false, finished = false, resetTimer = null;
   const total = all.length;
 
   function pairFor(e) {
@@ -36,19 +37,22 @@ export function startMatching(root, ctx) {
     rounds.push(round);
   }
   function renderRound() {
+    if (dead || finished) return;
+    clearTimeout(resetTimer);
     const pairs = rounds[r];
     if (!pairs) return finish();
     const items = pairs.map(p => p.e);
     const left = shuffle(pairs.map(p => ({ id: p.e.id, text: p.a })));
     const right = shuffle(pairs.map(p => ({ id: p.e.id, text: p.b })));
-    root.innerHTML = gameTop(ctx.backHref, { i: matched, total, count: `${pad2(matched)} / ${pad2(total)}` }) + html`
+    root.innerHTML = '<section class="match-session" data-match-session data-state="question">' + gameTop(ctx.backHref, { i: matched, completed: matched, total, count: `${pad2(matched)} / ${pad2(total)}` }) + html`
       <div class="match-head"><span class="kicker">Round ${r + 1} / ${rounds.length}</span><span class="small muted">Tap a word, then its match.</span></div>
-      <div class="match-grid" role="group" aria-label="Pairs">${raw(left.map((c, i) => html`<button type="button" class="m" data-side="a" data-id="${c.id}">${c.text}</button><button type="button" class="m" data-side="b" data-id="${right[i].id}">${right[i].text}</button>`).join(''))}</div>`;
+      <div class="match-grid" role="group" aria-label="Pairs">${raw(left.map((c, i) => html`<button type="button" class="m" data-side="a" data-id="${c.id}">${c.text}</button><button type="button" class="m" data-side="b" data-id="${right[i].id}">${right[i].text}</button>`).join(''))}</div><div class="match-feedback" data-feedback></div></section>`;
     fx.mount(root);
     fx.mount(root.querySelector('.match-grid'), { stagger: 30 });
-    let sel = null; let busy = false;
+    let sel = null; let busy = false; let awaitingContinue = false;
+    const roundIndex = r;
     root.querySelector('.match-grid').addEventListener('click', (ev) => {
-      const b = ev.target.closest('.m'); if (!b || busy || b.classList.contains('done')) return;
+      const b = ev.target.closest('.m'); if (!b || dead || finished || r !== roundIndex || busy || b.classList.contains('done')) return;
       if (!sel) { sel = b; b.classList.add('sel'); return; }
       if (sel === b) { b.classList.remove('sel'); sel = null; return; }
       if (sel.dataset.side === b.dataset.side) { sel.classList.remove('sel'); sel = b; b.classList.add('sel'); return; }
@@ -64,18 +68,31 @@ export function startMatching(root, ctx) {
         if (e && mode === 'translate') speak(e.kind === 'verb' ? e.inf : e.it);
         sel = null;
         const top = root.querySelector('.game-top');
-        if (top) top.outerHTML = gameTop(ctx.backHref, { i: matched, total, count: `${pad2(matched)} / ${pad2(total)}` });
-        if (root.querySelectorAll('.m:not(.done)').length === 0) { busy = true; setTimeout(() => { r++; renderRound(); }, 520); }
+        if (top) top.outerHTML = gameTop(ctx.backHref, { i: matched, completed: matched, total, count: `${pad2(matched)} / ${pad2(total)}` });
+        if (root.querySelectorAll('.m:not(.done)').length === 0) {
+          busy = true; awaitingContinue = true;
+          root.querySelector('[data-match-session]').dataset.state = 'feedback';
+          const fb = root.querySelector('[data-feedback]');
+          fb.innerHTML = feedbackHTML({ ok: true, title: 'Round complete', detail: `${pairs.length} pair${pairs.length === 1 ? '' : 's'} matched.`, nextLabel: r + 1 >= rounds.length ? 'See results' : 'Continue' });
+          const next = fb.querySelector('[data-next]');
+          next.addEventListener('click', () => {
+            if (dead || finished || !awaitingContinue || r !== roundIndex) return;
+            awaitingContinue = false; next.disabled = true; r++; renderRound();
+          });
+          next.focus({ preventScroll: true });
+        }
       } else {
         haptic('error'); mistakes++; missed.add(sel.dataset.id); missed.add(id);
         const a = sel; a.classList.add('bad'); b.classList.add('bad');
         busy = true;
-        setTimeout(() => { a.classList.remove('bad', 'sel'); b.classList.remove('bad'); busy = false; }, 420);
+        resetTimer = setTimeout(() => { if (dead || finished || r !== roundIndex) return; a.classList.remove('bad', 'sel'); b.classList.remove('bad'); busy = false; }, 420);
         sel = null;
       }
     });
   }
   function finish() {
+    if (dead || finished) return;
+    finished = true; clearTimeout(resetTimer);
     const correct = Math.max(0, total - missed.size);
     const result = { gameId: 'matching', total, correct, wrong: missed.size, score: total ? Math.round((correct / total) * 100) : 0, missed: [...missed], secs: Math.round((Date.now() - start) / 1000) };
     result.xp = correct * 2 + (mistakes === 0 && total >= 6 ? 10 : 0);
@@ -84,4 +101,5 @@ export function startMatching(root, ctx) {
     showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, extraHTML: html`<p class="center results-line">${mistakes} wrong tap${mistakes === 1 ? '' : 's'}</p>` });
   }
   renderRound();
+  return { destroy() { dead = true; clearTimeout(resetTimer); } };
 }

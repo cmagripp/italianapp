@@ -17,6 +17,7 @@ import { activityHTML, activityState, activityAction, activityActionFromButton, 
 import { lessonOverviewHTML } from '../learning/lesson-overview.js';
 import { progressiveForms, progressiveInfo } from '../learning/progressive-content.js';
 import { gradeQuestion } from '../learning/diagnose.js';
+import { feedbackHTML as gameFeedbackHTML } from '../games/engine.js';
 import { createJourneySession, currentJourneyStep, advanceJourney, recordJourneyAttempt,
   skipJourneyTarget, chooseJourneyChapter, upgradeShortWordSession, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
 import { recommendLesson as recommend, practiceHref } from '../learning/integration.js';
@@ -146,7 +147,7 @@ export async function render(root, params = {}, query = {}) {
   ui.historyReturnScroll=Number.isFinite(ui.historyReturnScroll)&&ui.historyReturnScroll>=0?Math.min(ui.historyReturnScroll,100000):0;
   ui.caseDrafts=ui.caseDrafts&&typeof ui.caseDrafts==='object'&&!Array.isArray(ui.caseDrafts)
     ?Object.fromEntries(Object.entries(ui.caseDrafts).filter(([id,draft])=>plan.chapters.some(c=>c.id===id)&&draft&&typeof draft==='object').slice(0,24)):{};
-  const translationVisibility = new Map(), formIntent = new Map();
+  const translationVisibility = new Map();
   let renderedStep = '', renderedScene = '', fragmentIndex = 0;
   let disposed = false, submitting = false, question = null, recoveredQuestionId = null;
   let tableTense = null, tableReturnFocus = null;
@@ -163,8 +164,9 @@ export async function render(root, params = {}, query = {}) {
     history.replaceState(history.state, '', `#/learn/${entry.kind === 'verb' ? 'verb' : 'word'}/${encodeURIComponent(entry.id)}?${route}`);
   }
   updateRoute();
-  setTitle(`${nameOf(entry)} · lesson`); setChrome({ tabs: false, back: true }); store.pushRecent(entry.id);
+  setTitle(`${nameOf(entry)} · lesson`); setChrome({ tabs: false, back: false }); store.pushRecent(entry.id);
   document.body.classList.add('journey-viewport');
+  document.body.classList.toggle('journey-has-reference',entry.kind==='verb');
   window.scrollTo(0,0);
   const fitViewport = () => {
     const height = window.visualViewport?.height || window.innerHeight;
@@ -293,17 +295,13 @@ export async function render(root, params = {}, query = {}) {
   function formDeckHTML(forms = [], key = '') {
     if (!forms.length) return '';
     const active = Math.min(forms.length-1, ui.formDecks[key] || 0);
-    return html`<section class="journey-form-deck" aria-label="Explore the forms">
-      <div class="journey-form-track" data-form-track data-form-key="${key}" tabindex="0" aria-label="Verb or word forms. Swipe, or use the previous and next buttons.">
-        ${raw(forms.map((row,i)=>html`<button type="button" class="journey-form-card poster ${i===active?'is-active active':''}" data-form-card="${i}" data-form-say="${row.form}" aria-pressed="${i===active}" aria-label="Listen to ${row.label}: ${row.form}">
-          <span class="poster-ghost" aria-hidden="true">${String(row.label||'').slice(0,1)}</span><span class="journey-form-person poster-kicker">${row.label}</span>
-          <span class="journey-form-value" lang="it">${row.form}</span><span class="journey-form-footer">${row.gloss?raw(html`<span class="journey-form-gloss">${row.gloss}</span>`):''}<span class="journey-form-sound" aria-hidden="true">${raw(icon('speaker',{size:19}))}<span>Listen</span></span></span>
+    return html`<section class="journey-form-stack" aria-label="Forms to listen to">
+      <div class="journey-form-list" data-form-track data-form-key="${key}" role="group" aria-label="Forms. Select a row to listen.">
+        ${raw(forms.map((row,i)=>html`<button type="button" class="journey-form-row ${i===active?'is-active':''}" data-form-card="${i}" data-form-say="${row.form}" aria-pressed="${i===active}" aria-label="Listen to ${row.label}: ${row.form}${row.gloss?` · ${row.gloss}`:''}">
+          <span class="journey-form-subject"><span class="journey-form-person">${row.label}</span>${row.gloss?raw(html`<span class="journey-form-gloss">${row.gloss}</span>`):''}</span>
+          <span class="journey-form-value" lang="it">${row.form}</span><span class="journey-form-sound" aria-hidden="true">${raw(icon('speaker',{size:19}))}</span>
         </button>`).join(''))}
       </div>
-      <div class="journey-deck-navigation"><button type="button" data-form-prev aria-label="Previous form" ${active===0?raw('disabled'):''}>${raw(icon('chevron',{size:19}))}</button>
-        <span class="journey-deck-counter" data-form-count aria-live="polite" aria-atomic="true">${active+1} / ${forms.length}</span>
-        <button type="button" data-form-next aria-label="Next form" ${active===forms.length-1?raw('disabled'):''}>${raw(icon('chevronRight',{size:19}))}</button></div>
-      <details class="journey-form-comparison journey-form-overview"><summary>${raw(icon('list',{size:16}))} See forms together</summary>${raw(formsHTML(forms))}</details>
     </section>`;
   }
   function examplesHTML(examples = []) {
@@ -337,43 +335,29 @@ export async function render(root, params = {}, query = {}) {
     </section>`;
   }
   function formIndex(track) {
-    const cards = [...track.querySelectorAll('[data-form-card]')];
-    if (!cards.length) return 0;
-    if(formIntent.has(track.dataset.formKey))return Math.min(cards.length-1,formIntent.get(track.dataset.formKey));
-    const origin = cards[0].offsetLeft;
-    return cards.reduce((best,card,i)=>Math.abs(card.offsetLeft-origin-track.scrollLeft)<Math.abs(cards[best].offsetLeft-origin-track.scrollLeft)?i:best,0);
+    return Math.max(0,Math.min(track.children.length-1,ui.formDecks[track.dataset.formKey]||0));
   }
-  function updateFormDeck(track, { persist = true } = {}) {
-    const cards = [...track.querySelectorAll('[data-form-card]')], deck = track.closest('.journey-form-deck');
-    if (!deck || !cards.length) return;
-    const active = formIndex(track), key = track.dataset.formKey;
-    cards.forEach((card,i)=>{card.classList.toggle('is-active',i===active);card.classList.toggle('active',i===active);card.setAttribute('aria-pressed',String(i===active));});
-    deck.querySelector('[data-form-count]').textContent = `${active+1} / ${cards.length}`;
-    deck.querySelector('[data-form-prev]').disabled = active===0;
-    deck.querySelector('[data-form-next]').disabled = active===cards.length-1;
-    if (persist && ui.formDecks[key] !== active) { ui.formDecks[key]=active; save(); }
+  function updateFormDeck(track) {
+    const active = formIndex(track);
+    track.querySelectorAll('[data-form-card]').forEach((card,i)=>{
+      card.classList.toggle('is-active',i===active);card.setAttribute('aria-pressed',String(i===active));
+    });
   }
   function moveForm(track, index, { focus = false } = {}) {
     const cards = [...track.querySelectorAll('[data-form-card]')];
     const next = Math.max(0,Math.min(cards.length-1,index)), card = cards[next]; if (!card) return;
-    ui.formDecks[track.dataset.formKey] = next;formIntent.set(track.dataset.formKey,next);
-    track.scrollTo({left:card.offsetLeft-cards[0].offsetLeft,behavior:reducedMotion()?'instant':'smooth'});
-    if (focus) card.focus({preventScroll:true});
-    cards.forEach((button,i)=>{button.classList.toggle('is-active',i===next);button.setAttribute('aria-pressed',String(i===next));});
-    const deck = track.closest('.journey-form-deck');
-    deck.querySelector('[data-form-count]').textContent = `${next+1} / ${cards.length}`;
-    deck.querySelector('[data-form-prev]').disabled = next===0;deck.querySelector('[data-form-next]').disabled = next===cards.length-1;
+    ui.formDecks[track.dataset.formKey] = next;
+    updateFormDeck(track);
+    if (focus) card.focus();
     save();
   }
-  function chapterRailHTML(progress, displayStep = step) {
-    if(progress.wordShort)return html`<div class="journey-word-progress" role="progressbar" aria-label="Word practice" aria-valuemin="0" aria-valuemax="${progress.total}" aria-valuenow="${progress.answered}"><span style="width:${progress.total?100*progress.answered/progress.total:0}%"></span></div>`;
-    const chapters = progress.chapters.filter(c=>!c.optional&&(entry.kind!=='verb'||c.id!=='meet'));
-    return html`<ol class="journey-chapter-rail" aria-label="Lesson chapters">${raw(chapters.map((chapter,i)=>{
-      const current=chapter.id===displayStep.chapter?.id;
-      const label={meet:'Meet',meaning:'Meaning',present:'Present',past:'Past',future:'Future',mixed:'Use it',forms:'Forms',use:'Use it'}[chapter.id]||chapter.title;
-      const status=chapter.complete?(chapter.id==='meet'?'introduced':'practised'):chapter.covered?'visited; more practice remains':current?'current chapter':'not yet visited';
-      return html`<li class="journey-chapter-segment ${current?'is-current':''} ${chapter.covered?'is-covered':''} ${chapter.complete?'is-complete':''}" aria-label="${chapter.title}: ${status}" ${current?raw('aria-current="step"'):''}><span class="journey-chapter-mark" aria-hidden="true">${chapter.complete?raw(icon('check',{size:12})):i+1}</span><span class="journey-chapter-label">${label}</span></li>`;
-    }).join(''))}</ol>`;
+  function progressHTML(progress, stage, displayStep = step) {
+    const current = progress.chapters.find(c=>c.id===displayStep.chapter?.id);
+    const done = progress.wordShort?progress.answered:current?.ready||0;
+    const total = progress.wordShort?progress.total:current?.total||0;
+    const label = progress.wordShort?'Word checks completed':'Chapter skills ready';
+    return html`<div class="journey-progress-line"><ol class="journey-stages" aria-label="Chapter stages">${raw((entry.kind==='word'?['Learn','Practise']:['Learn','Practise','Recall']).map(name=>html`<li ${name===stage?raw('aria-current="step"'):''}>${name}</li>`).join(''))}</ol>
+      ${total?raw(html`<div class="journey-progress-summary" role="progressbar" aria-label="${label}" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${done}" aria-valuetext="${done} of ${total} ${label.toLowerCase()}"><span>${done}/${total}</span><span class="journey-progress-meter" aria-hidden="true"><span style="width:${100*done/total}%"></span></span></div>`):''}</div>`;
   }
   function revealTeaching(card, chapter = step.chapter) {
     expose(card?.exposureForms);
@@ -506,28 +490,43 @@ export async function render(root, params = {}, query = {}) {
   }
   function primary(label, attrs = 'data-continue') { return html`<button type="button" class="btn primary journey-primary" ${raw(attrs)}>${label}</button>`; }
   function actionsHTML(learning = true) {
-    const actions = [primary(learning ? 'Continue' : 'Try it together'),
-      ...(learning && plan.references?.length ? [html`<a class="btn ghost" href="#/reference/${encodeURIComponent(entry.id)}">More meanings and examples</a>`] : []),
-      html`<button type="button" class="btn ghost" data-skip>Skip · save for later</button>`];
+    const dots = html`<span class="journey-action-dots" aria-hidden="true">${raw([0,1,2].map(i=>html`<span data-action-dot="${i}" class="${i===0?'is-current':''}"></span>`).join(''))}</span>`;
+    const actions = [html`<button type="button" class="btn journey-action" data-continue aria-describedby="journey-action-status"><span>${learning?'Continue':'Try it together'}</span>${raw(dots)}</button>`,
+      html`<a class="btn journey-action" href="#/reference/${encodeURIComponent(entry.id)}" aria-describedby="journey-action-status"><span>Examples and forms</span>${raw(dots)}</a>`,
+      html`<button type="button" class="btn journey-action" data-skip aria-describedby="journey-action-status"><span>Skip · save for later</span>${raw(dots)}</button>`];
     return html`<footer class="journey-action-dock" aria-label="Lesson actions">
-      <div class="journey-action-track" data-action-track tabindex="0" aria-label="Lesson actions. Swipe left or right for more options.">${raw(actions.join(''))}</div>
-      <div class="journey-action-navigation"><button type="button" data-action-prev aria-label="Previous lesson action" disabled>←</button>
-        <div class="journey-action-dots" aria-hidden="true">${raw(actions.map((_,i)=>html`<span data-action-dot class="${i===0?'is-current':''}"></span>`).join(''))}</div>
-        <button type="button" data-action-next aria-label="Next lesson action">→</button></div>
+      <div class="journey-action-track" data-action-track tabindex="0" role="group" aria-label="Lesson actions. Swipe, or use Left and Right arrows. Home and End reach the first and last action.">${raw(actions.join(''))}</div>
+      <span class="journey-sr-only" id="journey-action-status" data-action-status aria-live="polite" aria-atomic="true">Action 1 of 3</span>
     </footer>`;
+  }
+  function actionIndex(track) {
+    const cards=[...track.children],origin=cards[0]?.offsetLeft||0;
+    return cards.reduce((best,card,i)=>Math.abs(card.offsetLeft-origin-track.scrollLeft)<Math.abs(cards[best].offsetLeft-origin-track.scrollLeft)?i:best,0);
   }
   function updateActions() {
     const track = root.querySelector('[data-action-track]'); if (!track) return;
-    const index = Math.round(track.scrollLeft / (track.clientWidth + 14));
-    root.querySelectorAll('[data-action-dot]').forEach((dot,i)=>dot.classList.toggle('is-current',i===index));
-    root.querySelector('[data-action-prev]').disabled = index === 0;
-    root.querySelector('[data-action-next]').disabled = index >= track.children.length-1;
+    const index = actionIndex(track);
+    root.querySelectorAll('[data-action-dot]').forEach(dot=>dot.classList.toggle('is-current',Number(dot.dataset.actionDot)===index));
+    const status=root.querySelector('[data-action-status]');
+    const text=`Action ${index+1} of ${track.children.length}`;
+    if(status?.textContent!==text)status.textContent=text;
   }
-  function moveAction(direction) {
+  function moveAction(direction, {focus=false,edge=null}={}) {
     const track = root.querySelector('[data-action-track]'); if (!track) return;
-    const index = Math.round(track.scrollLeft / (track.clientWidth + 14));
-    const next = Math.max(0,Math.min(track.children.length-1,index+direction));
-    track.scrollTo({left:next*(track.clientWidth+14),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+    const focused=[...track.children].indexOf(document.activeElement);
+    const current=focus&&focused>=0?focused:actionIndex(track);
+    const next = edge==='first'?0:edge==='last'?track.children.length-1:Math.max(0,Math.min(track.children.length-1,current+direction));
+    const card=track.children[next];
+    track.scrollTo({left:card.offsetLeft-track.children[0].offsetLeft,behavior:reducedMotion()?'instant':'smooth'});
+    if(focus)card.focus({preventScroll:true});
+  }
+  function moveExample(track, key) {
+    const cards=[...track.children],center=track.getBoundingClientRect().left+track.clientWidth/2;
+    const index=cards.reduce((best,card,i)=>Math.abs(card.getBoundingClientRect().left+card.clientWidth/2-center)<Math.abs(cards[best].getBoundingClientRect().left+cards[best].clientWidth/2-center)?i:best,0);
+    const next=key==='Home'?0:key==='End'?cards.length-1:Math.max(0,Math.min(cards.length-1,index+(key==='ArrowRight'?1:-1)));
+    const card=cards[next],delta=card.getBoundingClientRect().left+card.getBoundingClientRect().width/2-center;
+    track.scrollTo({left:track.scrollLeft+delta,behavior:reducedMotion()?'instant':'smooth'});
+    track.focus({preventScroll:true});
   }
   function repairCardId(shown) {
     if(shown.target?.progressive) return ['auxiliary','auxiliaryPerson','person'].includes(shown.repairTag)?'progressive-stare':'progressive-forms';
@@ -559,36 +558,34 @@ export async function render(root, params = {}, query = {}) {
       <p>${model.tip || 'Use the model to connect the meaning with its form. We’ll practise a smaller step next.'}</p>
       <p class="journey-note">You can take your time, pause, or save this part for later.</p>`;
   }
-  function feedbackHTML(result = ui.result, displayQuestion = question, given = ui.given) {
+  function feedbackHTML(result = ui.result, displayQuestion = question, given = ui.given, {showNext=false} = {}) {
     if (!result || !displayQuestion) return '';
-    if (displayQuestion.type==='pairs') return html`<aside class="journey-feedback ${result.ok?'is-correct':''}" role="status" aria-live="polite"><div class="journey-feedback-heading"><span class="journey-feedback-icon" aria-hidden="true">${raw(icon(result.ok?'check':'sparkle',{size:20}))}</span><h2>${result.ok?'All pairs matched.':'Here are the forms.'}</h2></div></aside>`;
-    const correct = displayQuestion.answer?.[0] || '';
-    const explanation = result.ok ? (displayQuestion.context ? (result.accentIssue ? result.feedback : displayQuestion.meta?.role==='formal' ? 'Lei is formal you; it uses the third-person singular.' : '') : displayQuestion.explanation || (result.accentIssue ? result.feedback : '')) : result.feedback;
-    return html`<aside class="journey-feedback ${result.ok ? 'is-correct' : ''}" role="status" aria-live="polite" aria-atomic="true">
-      <div class="journey-feedback-heading"><span class="journey-feedback-icon" aria-hidden="true">${raw(icon(result.ok?'check':'sparkle',{size:20}))}</span><h2>${result.ok ? 'That’s right.' : result.outcome === 'revealed' ? 'Here’s the answer.' : `Use ${correct}.`}</h2></div>
-      ${!displayQuestion.choices?.length ? raw(html`<p class="journey-given"><span>Your answer</span><span lang="it">${given || '—'}</span></p>`) : ''}
-      ${!result.ok ? raw(html`<p class="journey-answer" lang="it">${correct}</p>`) : ''}
-      ${explanation ? raw(html`<p>${explanation}</p>`) : ''}
-      ${displayQuestion.context ? raw(html`<div class="journey-feedback-context"><p lang="it" data-italian-sentence>${displayQuestion.context.it}</p><p class="journey-translation">${displayQuestion.context.en}</p></div>`) : ''}
-      ${!result.ok ? raw('<p class="journey-note">We’ll work on this part together, then try another example.</p>') : ''}
-    </aside>`;
+    const pairs=displayQuestion.type==='pairs';
+    const correct=displayQuestion.answer?.[0]||'';
+    const title=pairs?(result.ok?'All pairs matched.':'Here are the forms.'):result.ok?'That’s right.':result.outcome==='revealed'?'Here’s the answer.':`Use ${correct}.`;
+    const explanation=result.ok?(displayQuestion.context?(result.accentIssue?result.feedback:displayQuestion.meta?.role==='formal'?'Lei is formal you; it uses the third-person singular.':''):displayQuestion.explanation||(result.accentIssue?result.feedback:'')):result.feedback;
+    const detail=pairs?'':html`${!displayQuestion.choices?.length?raw(html`<p class="journey-given"><span>Your answer</span><span lang="it">${given||'—'}</span></p>`):''}
+      ${!result.ok?raw(html`<p class="journey-answer" lang="it">${correct}</p>`):''}
+      ${explanation?raw(html`<p>${explanation}</p>`):''}
+      ${displayQuestion.context?raw(html`<div class="journey-feedback-context"><p lang="it" data-italian-sentence>${displayQuestion.context.it}</p><p class="journey-translation">${displayQuestion.context.en}</p></div>`):''}
+      ${!result.ok?raw('<p class="journey-note">We’ll work on this part together, then try another example.</p>'):''}`;
+    return html`<aside class="journey-feedback ${result.ok?'is-correct':''}">${raw(gameFeedbackHTML({ok:result.ok,title:html`${title}`,detail,nextAttribute:'data-continue',showNext}))}</aside>`;
   }
   function exerciseHTML() {
     if (!question) return html`<h1 data-focus tabindex="-1">Let’s use the reference</h1><p>There isn’t a reliable exercise for this part yet. You can read its examples and continue.</p>${raw(primary('Continue with this part saved', 'data-skip'))}<a class="btn secondary" href="#/reference/${encodeURIComponent(entry.id)}">Examples and forms</a>`;
     const answered = !!step.awaitingContinue;
     const choices = question.choices || [];
     const interactive = ['letters','pairs'].includes(question.type);
-    return html`<section class="journey-exercise-card q-card glass-flat" data-activity="${question.type}"><div class="journey-kicker">${phaseName(step)||'Practise'} · ${step.chapter?.title||'Your lesson'}</div><div class="journey-prompt" data-focus tabindex="-1">${raw(promptHTML(question.prompt))}</div>
-      ${interactive ? raw(activityHTML({...question,id:step.questionId},ui.activity,{readOnly:answered})) : choices.length ? raw(html`<p class="journey-note">${answered ? '' : step.format === 'match' ? 'Tap the matching form.' : 'Tap an answer.'}</p><div class="journey-choices">${raw(choices.map((c,i) => {
+    return html`<section class="journey-exercise-card q-card" data-activity="${question.type}"><div class="journey-prompt" data-focus tabindex="-1">${raw(promptHTML(question.prompt))}</div>
+      ${interactive ? raw(activityHTML({...question,id:step.questionId},ui.activity,{readOnly:answered})) : choices.length ? raw(html`${!answered&&step.format==='match'?raw('<p class="journey-match-cue">Match the form.</p>'):''}<div class="journey-choices">${raw(choices.map((c,i) => {
         const value = c.value ?? c.label;
         const chosen = normalize(ui.given) === normalize(value);
         const right = (question.answer || []).some(a => normalize(a) === normalize(value)) || c.correct === true;
         return html`<button type="button" data-choice="${i}" class="journey-choice choice ${answered && right ? 'is-correct' : answered && chosen ? 'is-wrong' : ''}" ${answered ? raw('disabled') : ''} aria-pressed="${chosen}"><span class="journey-choice-marker" aria-hidden="true">${String.fromCharCode(65+i)}</span><span class="journey-choice-label" lang="${question.meta?.answerLanguage==='en'?'en':'it'}">${c.label}</span>${answered && (right || chosen) ? raw(html`<small>${right ? 'Correct' : 'Your answer'}</small>`) : ''}</button>`;
       }).join(''))}</div>`) : raw(html`<form data-answer-form autocomplete="off"><label for="journey-answer">${question.meta?.answerLanguage === 'en' ? 'Your answer in English' : 'Your answer in Italian'}</label><input id="journey-answer" data-answer type="text" value="${ui.draft || ''}" autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="done" ${answered ? raw('readonly') : ''}>
       ${answered ? '' : raw(html`<div class="journey-accents" aria-label="Accented letters">${raw(['à','è','é','ì','ò','ù',"'"].map(c=>html`<button type="button" data-letter="${c}" aria-label="Insert ${c}">${c}</button>`).join(''))}</div><button type="submit" class="btn primary journey-primary" data-check ${ui.draft?.trim() ? '' : raw('disabled')}>Check answer</button>`)}</form>`)}
-      </section>${answered ? raw(feedbackHTML()) : ''}
+      </section>
       ${ui.hint && !answered ? raw(html`<aside class="journey-help"><h2>A hint</h2><p>${question.tip || step.target?.explanation || 'Look at the person and the form you are practising.'}</p>${ui.forms ? raw((step.group?.cards || []).map(c=>cardHTML(c, { title: false })).join('')) : raw('<button type="button" class="btn ghost" data-show-forms>Show the lesson</button>')}</aside>`) : ''}
-      ${answered ? raw(primary('Continue')) : ''}
       ${!answered ? raw(html`<div class="journey-tools"><button type="button" class="btn ghost" data-help aria-expanded="${!!ui.hint}">${ui.hint ? 'Close help' : 'Help me'}</button><button type="button" class="btn ghost" data-reveal>Show answer</button><button type="button" class="btn ghost" data-skip>Skip · save for later</button></div>${question.say ? raw(html`<button type="button" class="journey-listen" data-answer-audio>${raw(icon('speaker', { size: 17 }))} ${question.meta?.audioIsPrompt ? 'Listen to the question' : 'Hear the form'}</button>`) : ''}`) : ''}`;
   }
   function summaryHTML(complete) {
@@ -626,7 +623,9 @@ export async function render(root, params = {}, query = {}) {
       ${!complete && pending.length ? raw(primary('Practise these forms', 'data-retry')) : ''}
       ${!complete ? raw(primary(pending.length ? 'Continue with these forms saved for later' : mode === 'review' ? 'Finish this review' : 'Continue to the next part')) : next && next.entry.id !== entry.id ? raw(html`<a class="btn primary journey-primary" href="${practiceHref(next.entry)}">Learn ${nameOf(next.entry)}</a>`) : raw('<a class="btn primary journey-primary" href="#/learn">Keep learning</a>')}
       ${complete && optional.length ? raw(html`<section class="journey-extras"><h2>Explore more</h2><p>When you’re ready, add these forms to this verb.</p>${raw(optional.map(c=>html`<button type="button" class="btn secondary" data-chapter="${c.id}">${c.title}</button>`).join(''))}</section>`) : ''}
-      <button type="button" class="btn ghost" data-map>Choose a chapter</button><a class="btn ghost" href="#/review">Review another day</a></section>`;
+      <button type="button" class="btn ghost" data-map aria-expanded="${!!ui.mapOpen}" aria-controls="journey-recap-map">Choose a chapter</button>
+      ${ui.mapOpen?raw(html`<nav id="journey-recap-map" class="journey-map" aria-label="Lesson chapters">${raw(plan.chapters.map(c=>html`<button type="button" data-chapter="${c.id}" aria-current="${step.chapter?.id===c.id?'step':'false'}">${c.title}${c.optional?raw('<small>Explore more</small>'):''}</button>`).join(''))}</nav>`):''}
+      <a class="btn ghost" href="#/review">Review another day</a></section>`;
   }
   function draw(focus = false) {
     if (disposed || store.current.id !== owner) return;
@@ -649,8 +648,6 @@ export async function render(root, params = {}, query = {}) {
     const answerIsName = displayQuestion?.answer?.some(a => normalize(a) === normalize(nameOf(entry)));
     const hideName = !overview && displayStep.type === 'question' && (entry.kind === 'word' || !feedback && answerIsName);
     setTitle(hideName ? entry.kind === 'verb' ? 'Verb lesson' : 'Word lesson' : `${nameOf(entry)} · lesson`);
-    const core = plan.chapters.filter(c => !c.optional&&(entry.kind!=='verb'||c.id!=='meet'));
-    const idx = core.findIndex(c => c.id === displayStep.chapter?.id);
     const stage = phaseName(displayStep);
     const floatingActions = !overview && !paused && !past && ['teach','repair'].includes(step.type);
     const cases=entry.kind==='verb'?journeyCaseProgress(plan,store.learning,session):null;
@@ -672,17 +669,16 @@ export async function render(root, params = {}, query = {}) {
     else if (step.type === 'unavailable') content = html`<h1 data-focus tabindex="-1">This saved lesson cannot open yet</h1><p>Its saved progress is preserved. Reload the app to check for an update, or return to your other lessons.</p><a class="btn primary" href="#/learn">Back to Learn</a>`;
     else content = html`<h1 data-focus tabindex="-1">Save this part for later</h1><p>We need another useful example before checking this part again. Your practice so far is saved.</p>${raw(primary('Continue with this part saved', 'data-skip'))}<a class="btn ghost" href="#/reference/${encodeURIComponent(entry.id)}">Read the available examples</a>`;
     const lessonHeader=overview?html`<header class="journey-header is-overview"><div class="journey-overview-top"><span class="journey-kicker">Choose your next step</span><a href="#/learn">All lessons ${raw(icon('chevronRight',{size:16}))}</a></div></header>`:html`<header class="journey-header"><div class="journey-top"><div class="journey-history-controls"><button type="button" data-lesson-back aria-label="Previous lesson page" ${paused||!ui.history.length||past&&ui.historyCursor===0?raw('disabled'):''}>${raw(icon('chevron',{size:16}))}<span>Back</span></button></div>
-      ${progress.wordShort?raw(html`<div class="journey-map-toggle"><span>Word lesson <small>${progress.answered}/${progress.total}</small></span></div>`):raw(html`<button type="button" class="journey-map-toggle" ${raw(entry.kind==='verb'&&mode==='lesson'?'data-overview aria-label="Your verb and tenses"':'data-map')} aria-expanded="${!!ui.mapOpen}" ${past?raw('disabled'):''}><span>${displayStep.chapter?.title || 'Lesson recap'}${idx>=0?raw(html`<small>${idx+1}/${core.length}</small>`):''}</span><span aria-hidden="true">${raw(icon('chevronDown',{size:17}))}</span></button>`)}
+      <span class="journey-location">${progress.wordShort?'Word lesson':displayStep.chapter?.title||'Lesson recap'}</span>
       <button type="button" class="btn ghost" data-pause ${paused ? raw('hidden') : ''}>Pause</button></div>
       ${past?raw(html`<div class="journey-history-controls"><button type="button" data-lesson-forward aria-label="Next lesson page">Forward ${raw(icon('chevronRight',{size:16}))}</button><button type="button" data-lesson-current>Current lesson</button></div>`):''}
-      ${ui.mapOpen&&!past ? raw(html`<nav class="journey-map" aria-label="Lesson chapters">${raw(plan.chapters.map(c=>html`<button type="button" data-chapter="${c.id}" aria-current="${step.chapter?.id === c.id ? 'step' : 'false'}">${c.title}${c.optional ? raw('<small>Explore more</small>') : ''}</button>`).join(''))}</nav>`) : ''}
-      ${raw(chapterRailHTML(progress,displayStep))}
-      <ol class="journey-stages" aria-label="Chapter stages">${raw((entry.kind==='word'?['Learn','Practise']:['Learn','Practise','Recall']).map(label=>html`<li ${label === stage ? raw('aria-current="step"') : ''}>${label}</li>`).join(''))}</ol></header>`;
-    root.innerHTML = html`<div class="journey-page glass ${floatingActions?'has-action-dock':''}" data-journey data-history="${!!past}" data-phase="${phase}" data-chapter="${overview?'overview':displayStep.chapter?.id || ''}" data-group="${displayStep.group?.id || ''}" data-target="${displayStep.target?.id || ''}">
+      ${raw(progressHTML(progress,stage,displayStep))}</header>`;
+    root.innerHTML = html`<div class="journey-page ${floatingActions?'has-action-dock':''}" data-journey data-history="${!!past}" data-phase="${phase}" data-chapter="${overview?'overview':displayStep.chapter?.id || ''}" data-group="${displayStep.group?.id || ''}" data-target="${displayStep.target?.id || ''}">
       ${raw(lessonHeader)}
       <main class="journey-main ${enter&&!reducedMotion()?'journey-enter':''}" tabindex="0" aria-label="Lesson content">${legacy && !prior && !ui.legacyDismissed ? raw(html`<aside class="journey-legacy"><p>Your previous practice is saved.</p><a href="${practiceHref(entry, null, mode)}${mode === 'lesson' ? '?' : '&'}legacy=1&session=${encodeURIComponent(legacy.id)}">Resume your previous question</a><button type="button" data-dismiss-legacy aria-label="Dismiss saved question notice">×</button></aside>`) : ''}${raw(content)}</main>
-      ${entry.kind==='verb'&&!paused?raw(html`<button type="button" class="journey-table-tab" data-conjugation-toggle aria-label="Open verb forms" aria-expanded="false" aria-controls="journey-conjugation-panel">${raw(icon('chevron',{size:18}))}</button><dialog id="journey-conjugation-panel" class="journey-conjugation-panel" aria-labelledby="journey-conjugation-title"></dialog>`):''}
-    </div>${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
+      ${feedback&&!past&&!paused?raw(html`<div class="journey-feedback-dock">${raw(feedbackHTML(ui.result,question,ui.given,{showNext:true}))}</div>`):''}
+    </div>${entry.kind==='verb'&&!paused?raw(html`<button type="button" class="journey-table-tab" data-conjugation-toggle aria-label="Open verb forms" aria-expanded="false" aria-controls="journey-conjugation-panel">${raw(icon('chevron',{size:18}))}</button><dialog id="journey-conjugation-panel" class="journey-conjugation-panel" aria-labelledby="journey-conjugation-title"></dialog>`):''}
+    ${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
     if (displayQuestion?.type==='letters') {
       const activity=past?past.activity:ui.activity;
       const typed=letterAnswer({...displayQuestion,id:displayStep.questionId},activity).trim();
@@ -707,12 +703,7 @@ export async function render(root, params = {}, query = {}) {
       dialog.addEventListener('cancel',event=>{event.preventDefault();closeTable();});
       dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeTable();});
     }
-    for (const track of root.querySelectorAll('[data-form-track]')) {
-      const cards=[...track.querySelectorAll('[data-form-card]')], active=Math.min(cards.length-1,ui.formDecks[track.dataset.formKey]||0);
-      formIntent.set(track.dataset.formKey,active);
-      if (cards[active]) track.scrollLeft=cards[active].offsetLeft-cards[0].offsetLeft;
-      updateFormDeck(track,{persist:false});
-    }
+    for (const track of root.querySelectorAll('[data-form-track]')) updateFormDeck(track);
     if (focus) requestAnimationFrame(() => root.querySelector('[data-focus]')?.focus({ preventScroll: true }));
     save();
     // A saved final tile may precede the aggregate event if the app closes.
@@ -747,11 +738,6 @@ export async function render(root, params = {}, query = {}) {
         const answer = question.meta?.answerLanguage === 'en' ? nameOf(entry)
           : question.answer.find(a=>unaccented(a)===unaccented(given)) || question.answer[0];
         speak(answer);
-      }
-      const panel = root.querySelector('.journey-main'), feedback = root.querySelector('.journey-feedback');
-      if (panel && feedback) {
-        const bottom = feedback.getBoundingClientRect().bottom - panel.getBoundingClientRect().bottom;
-        if (bottom > 0) panel.scrollTop += bottom + 16;
       }
     } finally { submitting = false; }
   }
@@ -809,7 +795,6 @@ export async function render(root, params = {}, query = {}) {
     if (b.hasAttribute('data-conjugation-close')) {closeTable();return;}
     if (b.hasAttribute('data-conjugation-tense')) {tableTense=b.dataset.conjugationTense;renderTable();root.querySelector(`[data-conjugation-tense="${tableTense}"]`)?.focus();return;}
     if (b.hasAttribute('data-form-card')) {const track=b.closest('[data-form-track]');moveForm(track,Number(b.dataset.formCard));speak(b.dataset.formSay,{force:true});return;}
-    if (b.hasAttribute('data-form-prev')||b.hasAttribute('data-form-next')) {const track=b.closest('.journey-form-deck').querySelector('[data-form-track]');moveForm(track,formIndex(track)+(b.hasAttribute('data-form-next')?1:-1));return;}
     if (b.hasAttribute('data-translation-toggle')) {const example=b.closest('.journey-example'),translation=example.querySelector('[data-translation]'),shown=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',String(shown));b.textContent=shown?'Hide translation':'Show translation';translation.hidden=!shown;translationVisibility.set(example.dataset.exampleKey,shown);updateScrollCue();return;}
     if (b.hasAttribute('data-say')) {ev.stopPropagation();speak(b.dataset.say,{force:true});return;}
     if (b.hasAttribute('data-pause')) {closeTable({restoreFocus:false});ui.historyCursor=null;ui.paused=true;stopSpeech();save();draw(true);return;}
@@ -841,8 +826,6 @@ export async function render(root, params = {}, query = {}) {
       return;
     }
     if (b.hasAttribute('data-choice')) { const c=question?.choices?.[Number(b.dataset.choice)]; if(c) submit(c.value ?? c.label); return; }
-    if (b.hasAttribute('data-action-prev')) { moveAction(-1); return; }
-    if (b.hasAttribute('data-action-next')) { moveAction(1); return; }
     if (b.hasAttribute('data-continue')) { capturePage();session=advanceJourney(plan,session,store.learning,{now:Date.now()}); ui.paused=false; save(); draw(true); }
     else if (b.hasAttribute('data-resume')) { ui.paused=false;save();draw(true); }
     else if (b.hasAttribute('data-map')) { ui.mapOpen=!ui.mapOpen;draw(); }
@@ -858,13 +841,15 @@ export async function render(root, params = {}, query = {}) {
   };
   const input = ev => { if(!reviewingHistory()&&ev.target.matches('[data-answer]')) {ui.draft=ev.target.value.slice(0,500);const b=root.querySelector('[data-check]');if(b)b.disabled=!ui.draft.trim();save();} };
   const form = ev => { if(ev.target.matches('[data-answer-form]')) {ev.preventDefault();submit(ui.draft);} };
-  const deckGesture = ev => {const track=ev.target.closest?.('[data-form-track]');if(track)formIntent.delete(track.dataset.formKey);};
-  const scroll = ev => { if(ev.target.matches?.('.journey-main'))updateScrollCue(); if (ev.target.matches?.('[data-action-track]')) updateActions();else if(ev.target.matches?.('[data-form-track]'))updateFormDeck(ev.target); };
+  const scroll = ev => { if(ev.target.matches?.('.journey-main'))updateScrollCue(); if (ev.target.matches?.('[data-action-track]')) updateActions(); };
   const keydown = ev => {
     const track=ev.target.closest?.('[data-form-track]');
-    if(track&&['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)){ev.preventDefault();const next=ev.key==='Home'?0:ev.key==='End'?track.children.length-1:formIndex(track)+(ev.key==='ArrowRight'?1:-1);moveForm(track,next,{focus:true});return;}
-    if (ev.target.matches('[data-action-track]') && ['ArrowLeft','ArrowRight'].includes(ev.key)) {ev.preventDefault();moveAction(ev.key==='ArrowRight'?1:-1);} };
-  root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('scroll',scroll,true);root.addEventListener('keydown',keydown);root.addEventListener('pointerdown',deckGesture,{passive:true});root.addEventListener('wheel',deckGesture,{passive:true});
+    if(track&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(ev.key)){ev.preventDefault();const current=Number(ev.target.closest('[data-form-card]')?.dataset.formCard??formIndex(track));const next=ev.key==='Home'?0:ev.key==='End'?track.children.length-1:current+(['ArrowRight','ArrowDown'].includes(ev.key)?1:-1);moveForm(track,next,{focus:true});return;}
+    if(ev.target.closest?.('[data-action-track]')&&['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)){ev.preventDefault();moveAction(ev.key==='ArrowRight'?1:-1,{focus:true,edge:ev.key==='Home'?'first':ev.key==='End'?'last':null});return;}
+    const examples=ev.target.closest?.('.journey-example-deck');
+    if(examples&&['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)){ev.preventDefault();moveExample(examples,ev.key);}
+  };
+  root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('scroll',scroll,true);root.addEventListener('keydown',keydown);
   draw();
-  return () => { words.destroy();closeTable({restoreFocus:false});save();disposed=true;stopSpeech();document.body.classList.remove('journey-viewport','journey-compact');document.body.style.removeProperty('--journey-viewport-height');window.visualViewport?.removeEventListener('resize',fitViewport);window.removeEventListener('resize',fitViewport);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown);root.removeEventListener('pointerdown',deckGesture);root.removeEventListener('wheel',deckGesture); };
+  return () => { words.destroy();closeTable({restoreFocus:false});save();disposed=true;stopSpeech();document.body.classList.remove('journey-viewport','journey-compact','journey-has-reference');document.body.style.removeProperty('--journey-viewport-height');window.visualViewport?.removeEventListener('resize',fitViewport);window.removeEventListener('resize',fitViewport);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
 }

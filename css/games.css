@@ -241,3 +241,102 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 @media (min-width: 560px) {
   .results .score-ring { width: 184px; height: 184px; }
 }
+
+/* Practice uses the available screen: answer areas grow, content scrolls within it. */
+html:has(body.practice-viewport) { overflow:hidden; scroll-padding:0; }
+body.practice-viewport { height:var(--practice-height,100dvh); min-height:0; overflow:hidden; padding-bottom:0; }
+body.practice-viewport #view { height:calc(var(--practice-height,100dvh) - var(--top-h) - var(--sat)); padding-top:8px; padding-bottom:calc(12px + var(--sab)); display:flex; flex-direction:column; overflow:hidden; }
+body.practice-viewport #view.scene-in { animation-name:fadeOnly; }
+.practice-host { flex:1; min-height:0; display:flex; flex-direction:column; gap:12px; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:thin; }
+.practice-host > .dock-space { flex-shrink:0; }
+body.practice-viewport [data-review-strip] { flex:none; margin-bottom:10px; }
+.practice-host > .game-top,.drill-shell > .game-top,.flash-session > .game-top,.match-session > .game-top,.sentence-session > .game-top { flex:none; margin:0; }
+.game-top .rail > .done { background:var(--gold); box-shadow:0 0 5px color-mix(in srgb,var(--gold) 20%,transparent); }
+.game-top .rail > .cur:not(.done) { background:color-mix(in srgb,var(--gold) 40%,var(--hairline)); box-shadow:inset 0 0 0 1px var(--gold); }
+.game-top .bar-fill { background:var(--gold); }
+.drill-shell,.flash-session,.match-session,.sentence-session { display:flex; flex-direction:column; gap:12px; min-height:0; }
+.practice-host > .drill-shell,.practice-host > .flash-session,.practice-host > .match-session,.practice-host > .sentence-session { flex:1; overflow:hidden; }
+.drill-main,.sentence-main { display:flex; flex-direction:column; gap:12px; min-height:0; overflow:auto; overscroll-behavior:contain; }
+:is(.practice-host,.drill-host) .drill-main { flex:1; }
+.sentence-main { flex:1; }
+.drill-main > .q-card { flex:none; margin:0; padding:18px 16px; }
+.drill-answer-area { display:flex; flex-direction:column; gap:10px; }
+:is(.practice-host,.drill-host) .drill-answer-area { flex:1; }
+:is(.practice-host,.drill-host) .choices { flex:1; display:grid; grid-template-columns:1fr; grid-auto-rows:minmax(52px,1fr); margin:0; gap:10px; }
+:is(.practice-host,.drill-host) .choices .choice { width:100%; height:100%; min-height:52px; padding:12px 16px; }
+:is(.practice-host,.drill-host) .typed { flex:1; gap:10px; }
+:is(.practice-host,.drill-host) .typed > .mt { margin-top:0; }
+:is(.practice-host,.drill-host) .typed [data-check] { flex:none; height:64px; min-height:56px; max-height:72px; margin-top:auto; }
+:is(.practice-host,.drill-host) .typed [data-skip] { min-height:44px; flex:none; }
+.drill-feedback[data-feedback]:empty { display:none; }
+.drill-feedback[data-feedback] { display:flex; flex-direction:column; min-height:0; flex:none; max-height:48%; }
+.practice-host .feedback-bar { position:static; bottom:auto; margin:0; min-height:0; display:flex; flex-direction:column; }
+.practice-host .feedback-bar .feedback { min-height:0; overflow-y:auto; overscroll-behavior:contain; }
+.practice-host .feedback-bar > .btn { flex:none; min-height:52px; }
+.practice-host [data-feedback]:not(:empty) { display:flex; flex-direction:column; min-height:0; max-height:48%; flex:none; }
+.practice-host .results { flex:none; }
+.practice-host .results-actions { flex:none; }
+
+/* Older Learn walkthroughs already own a viewport and scene footer. Give only
+   their active drill the same bounded main/feedback regions; results and other
+   teaching scenes keep their existing scrolling and navigation. */
+.wt-scene .scene-body:has(> .drill-host > .drill-shell) { overflow:hidden; justify-content:stretch; -webkit-mask-image:none; mask-image:none; }
+.wt-scene .drill-host:has(> .drill-shell) { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; }
+.wt-scene .drill-host > .drill-shell { flex:1; overflow:hidden; }
+.wt-scene .drill-host .game-top { flex:none; margin:0; }
+.wt-scene .drill-host .drill-feedback[data-feedback] { display:flex; flex-direction:column; min-height:0; flex:none; max-height:48%; }
+.wt-scene .drill-host .drill-feedback[data-feedback]:empty { display:none; }
+.wt-scene .drill-host .feedback-bar { position:static; bottom:auto; margin:0; min-height:0; display:flex; flex-direction:column; }
+.wt-scene .drill-host .feedback-bar .feedback { min-height:0; overflow-y:auto; overscroll-behavior:contain; }
+.wt-scene .drill-host .feedback-bar > .btn { flex:none; min-height:52px; }
+.wt-scene .drill-host .typed [data-check] { height:64px; margin-top:auto; }
+
+/* A compact card leaves four generous, equally sized full-width ratings. */
+.practice-host > .flash-session { gap:8px; overflow-y:auto; }
+.flash-history { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:32px; flex:none; }
+.flash-history button { min-height:32px; padding:4px 8px; font-size:12px; color:var(--ink-2); }
+.flash-history button:disabled { opacity:.3; }
+.flash-session .flash { height:clamp(172px,calc(var(--practice-height,100dvh) * .29),290px); min-height:172px; flex:0 1 auto; margin:0 0 10px; cursor:default; }
+.flash-session .flash-flip { display:block; position:relative; width:100%; height:100%; padding:0; border:0; border-radius:var(--r-l); background:none; text-align:inherit; touch-action:pan-y; z-index:1; }
+.flash-session .flash-flip:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+.flash-session .inner { display:block; }
+.flash-session .face { padding:52px 18px 16px; }
+.flash-session .face .fc-kicker { margin-bottom:8px; }
+.flash-session .face.front .hint { margin-top:10px; }
+.flash-session .face.front .word { font-size:clamp(34px,11vw,52px); }
+.flash-session .face.front .word.long { font-size:clamp(24px,8vw,34px); }
+.flash-session .face .en { font-size:clamp(22px,6.5vw,30px); line-height:1.2; }
+.flash-session .face .ex { font-size:13px; line-height:1.45; }
+.flash-card-tools { position:absolute; z-index:4; top:6px; left:12px; right:12px; display:flex; align-items:center; gap:4px; }
+.flash-card-tools > button,.flash-card-tools > a { min-height:40px; padding:6px 10px; display:inline-flex; align-items:center; justify-content:center; gap:5px; color:var(--ink-2); font-size:12px; border:0; border-radius:12px; background:none; box-shadow:none; }
+.flash-card-tools .ic { width:17px; height:17px; }
+.flash-card-tools .flash-star { margin-left:auto; min-width:40px; color:var(--gold-text); }
+.flash-card-tools .flash-star[aria-pressed=true] .ic { fill:var(--gold); }
+.flash-card-tools > :focus-visible { outline:2px solid var(--gold); outline-offset:1px; }
+.flash-session .grade { flex:1; display:grid; grid-template-columns:1fr; grid-template-rows:repeat(4,minmax(44px,1fr)); gap:8px; min-height:200px; }
+.flash-session .grade .btn { width:100%; height:auto; min-height:44px; display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:10px 18px; gap:10px; font-size:17px; border-radius:16px; }
+.flash-session .grade .btn::before { top:10px; bottom:10px; left:0; right:auto; width:2px; height:auto; }
+.flash-session .grade .btn small { font-size:10px; }
+.flash-session .grade .btn[aria-pressed=true] { opacity:1; border-color:var(--gold); }
+.flash-session .flash-hint { flex:none; margin:0; font-size:9px; line-height:1.4; min-height:14px; }
+.flash-session .swipe-tag { top:50px; }
+
+/* Matching, sentence tiles and timed choices use the same flexible answer space. */
+.practice-host .match-head { flex:none; margin:0; }
+.practice-host .match-grid { flex:1; min-height:0; grid-auto-rows:minmax(56px,1fr); overflow-y:auto; }
+.practice-host .match-grid .m { min-height:56px; height:100%; }
+.practice-host .speed-stats { flex:none; margin:0; }
+.practice-host .speed-q { display:flex; flex-direction:column; gap:12px; flex:1; min-height:0; overflow-y:auto; }
+.practice-host .speed-q .q-card { flex:none; margin:0; padding:16px; }
+.practice-host .speed-q .choices { min-height:238px; }
+#view[data-practice-game=sentence] .sentence-main > .q-card { flex:none; margin:0; padding:18px 16px; }
+#view[data-practice-game=sentence] .answer-area { flex:none; margin:0; }
+#view[data-practice-game=sentence] .bank-area { flex:1; align-content:stretch; margin:0; }
+#view[data-practice-game=sentence] .bank-area .chip-word { flex:1 0 auto; min-width:64px; max-width:100%; }
+#view[data-practice-game=sentence] .sb-actions { flex:none; margin:0; }
+#view[data-practice-game=sentence] .sb-actions .btn { min-height:52px; }
+#view[data-practice-game=hangman] .practice-host > :not(.dock-space),#view[data-practice-game=crossword] .practice-host > :not(.dock-space) { flex-shrink:0; }
+@media(max-height:560px) { .flash-session .flash { min-height:160px; }.flash-session .face { padding-top:46px; }.flash-session .face.front .word{font-size:30px}.flash-session .flash-hint{font-size:8px} }
+.flash-history .btn.ghost { border:0; background:none; box-shadow:none; border-radius:8px; }
+.flash-rating-saved { font-size:11px; color:var(--ink-2); }
+@media(prefers-reduced-motion:reduce) { .flash-session .inner { transition:none; } }

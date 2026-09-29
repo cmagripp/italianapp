@@ -66,6 +66,13 @@ async function shot(name) {
   assert(bounds.scroll<=bounds.width+1,name+' no horizontal overflow');assert.equal(bounds.x,0,name+' no horizontal focus pan');assert(bounds.english.right<=bounds.width+1,name+' English toggle stays in viewport');
   const file=path.join(SHOTS_DIR,`lesson-overview-${name}.png`);await page.screenshot({path:file,fullPage:false,animations:'disabled'});screenshots.push(file);
 }
+async function returnToOverview() {
+  // The compact lesson header keeps navigation behind explicit Pause.
+  await page.locator('[data-pause]').click();
+  assert.equal((await state()).phase,'paused');
+  await page.getByRole('button',{name:'Back to your verb',exact:true}).click();
+  assert.equal((await state()).phase,'overview');
+}
 async function assertCompleteCard(id) {
   const card=page.locator(`[data-tense-case="${id}"]`);
   assert(await card.evaluate(c=>c.classList.contains('is-complete')));assert.match(await card.locator('.journey-tense-status').innerText(),/Complete/i);
@@ -109,7 +116,7 @@ try {
   await check('Next starts only the chosen case and overview Resume returns to its exact saved position',async()=>{
     const before=await state();await page.locator('[data-next-lesson="past"]').click();const past=await state();
     assert.equal(past.step.chapter.id,'past');assert.equal(past.phase,'teach');unchanged(before,past);
-    await page.locator('[data-overview]').first().click();assert.equal((await state()).phase,'overview');await assertCompleteCard('present');
+    await returnToOverview();assert.equal((await state()).phase,'overview');await assertCompleteCard('present');
     assert.equal(await page.locator('[data-resume-lesson]').count(),1);await reloadApp(page);await page.locator('[data-resume-lesson]').click();
     const resumed=await state();assert.equal(resumed.session.id,past.session.id);assert.equal(resumed.step.chapter.id,'past');assert.equal(resumed.session.journey.cardIndex,past.session.journey.cardIndex);assert.equal(resumed.session.journey.groupIndex,past.session.journey.groupIndex);unchanged(past,resumed);
   });
@@ -117,9 +124,9 @@ try {
     await fresh();await gotoRoute(page,'/learn/verb/v:credere?chapter=present');
     await reachJourneyActivity(page,q=>q.type==='type'&&q.meta.mode==='production',{expected,limit:150});
     await page.locator('[data-answer]').fill('my unfinished answer');await page.locator('[data-help]').click();const before=await state();
-    await page.locator('[data-overview]').first().click();await page.locator('[data-open-lesson="past"]').click();
+    await returnToOverview();await page.locator('[data-open-lesson="past"]').click();
     assert.equal((await state()).step.chapter.id,'past');assert.equal((await state()).phase,'teach');unchanged(before,await state());
-    await page.locator('[data-overview]').first().click();await page.locator('[data-open-lesson="present"]').click();
+    await returnToOverview();await page.locator('[data-open-lesson="present"]').click();
     const restored=await state();assert.equal(restored.step.questionId,before.step.questionId);assert.equal(await page.locator('[data-answer]').inputValue(),'my unfinished answer');assert(restored.session.ui.assistance.includes('hint'));unchanged(before,restored);
     await reloadApp(page);assert.equal((await state()).step.questionId,before.step.questionId);assert.equal(await page.locator('[data-answer]').inputValue(),'my unfinished answer');unchanged(before,await state());
   });
