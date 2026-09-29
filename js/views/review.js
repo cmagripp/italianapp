@@ -1,6 +1,6 @@
 // Adaptive spaced-repetition review session on a level-tinted scene, with a short glass intro strip above the runner.
 import { html, raw, tr, levelBadge } from '../ui.js';
-import { setTitle } from '../app.js';
+import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, shuffle, itemsForScope, sample, data } from '../data.js';
 import { buildQueue } from '../srs.js';
@@ -49,10 +49,28 @@ export async function render(root, params, query) {
   const pool = [...data.vocab, ...data.verbs];
   const qs = shuffle(entries).map(e => questionFor(e, pool) || qTranslateMC(e, pool, 'it-en'));
   const n = entries.length;
-  root.innerHTML = html`<div class="review-strip glass-flat" data-review-strip>${raw(tr('Ripasso', 'Review', 'kicker'))}<span class="due"><b>${n}</b> ${dueNow >= n ? 'due now' : dueNow ? `in this run · ${dueNow} due` : 'ahead of schedule'}</span>${raw(levelBadge(level))}</div><div data-runner></div>`;
+  const owner=store.current.id;let disposed=false;
+  setChrome({tabs:false,back:true});
+  document.body.classList.add('practice-viewport');root.dataset.practiceGame='review';window.scrollTo(0,0);
+  const fit=()=>{
+    if(disposed)return;
+    document.body.style.setProperty('--practice-height',`${window.visualViewport?.height||window.innerHeight}px`);
+    const input=document.activeElement;
+    if(root.contains(input)&&input?.matches('input')){
+      const panel=input.closest('.drill-main');
+      if(panel){const delta=input.getBoundingClientRect().bottom-panel.getBoundingClientRect().bottom;if(delta>0)panel.scrollTop+=delta+12;}
+    }
+  };
+  fit();window.visualViewport?.addEventListener('resize',fit);window.addEventListener('resize',fit);root.addEventListener('focusin',fit);
+  root.innerHTML = html`<div class="review-strip glass-flat" data-review-strip>${raw(tr('Ripasso', 'Review', 'kicker'))}<span class="due"><b>${n}</b> ${dueNow >= n ? 'due now' : dueNow ? `in this run · ${dueNow} due` : 'ahead of schedule'}</span>${raw(levelBadge(level))}</div><div class="practice-host" data-runner></div>`;
   const runner = root.querySelector('[data-runner]');
-  const opts = { title: 'Review', gameId: 'review', backHref: '#/learn', xpPer: 2, autoAdvance: true, onReplay: null, onPractice: (missed) => { location.hash = '#/game/flashcards?src=ids:' + encodeURIComponent(missed.map(e => e.id).join(',')); } };
-  runDrill(runner, qs, { ...opts, onDone: (result) => { root.querySelector('[data-review-strip]')?.remove(); showResults(runner, result, opts); } });
+  const opts = { title: 'Review', gameId: 'review', backHref: '#/learn', xpPer: 2, autoAdvance: false, onReplay: null, onPractice: (missed) => { location.hash = '#/game/flashcards?src=ids:' + encodeURIComponent(missed.map(e => e.id).join(',')); } };
+  const drill = runDrill(runner, qs, { ...opts, onDone: (result) => { if(disposed||store.current.id!==owner)return;root.querySelector('[data-review-strip]')?.remove();showResults(runner,result,opts); } });
+  return () => {
+    disposed=true;drill.destroy();
+    window.visualViewport?.removeEventListener('resize',fit);window.removeEventListener('resize',fit);root.removeEventListener('focusin',fit);
+    document.body.classList.remove('practice-viewport');document.body.style.removeProperty('--practice-height');delete root.dataset.practiceGame;setChrome({tabs:true});
+  };
 }
 
 function renderAdaptiveReview(root, query = {}) {

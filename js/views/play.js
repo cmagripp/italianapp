@@ -50,11 +50,40 @@ export async function render(root, params, query) {
     return () => setChrome({ tabs: true });
   }
   const pool = [...data.vocab, ...data.verbs];
-  let cleanup = null;
-  const run = (its) => {
+  let cleanup = null, generation = 0, disposed = false;
+  const owner=store.current.id;
+  document.body.classList.add('practice-viewport');
+  root.dataset.practiceGame=game.id;
+  window.scrollTo(0,0);
+  const fit=()=>{
+    document.body.style.setProperty('--practice-height',`${window.visualViewport?.height||window.innerHeight}px`);
+    const input=document.activeElement;
+    if(root.contains(input)&&input?.matches('input')) {
+      const panel=input.closest('.drill-main')||root;
+      const delta=input.getBoundingClientRect().bottom-panel.getBoundingClientRect().bottom;
+      if(delta>0)panel.scrollTop+=delta+12;
+    }
+  };
+  fit();window.visualViewport?.addEventListener('resize',fit);window.addEventListener('resize',fit);
+  const release=c=>{if(typeof c==='function')c();else c?.destroy?.();};
+  const run = async (its) => {
+    if(disposed||store.current.id!==owner)return;
+    const current=++generation;
+    release(cleanup);cleanup=null;root.scrollTop=0;
     const ctx = { items: shuffle(its), pool, options, backHref, replay: () => run(items), practice: (missed) => run(missed) };
-    Promise.resolve(game.start(root, ctx)).then(c => { cleanup = typeof c === 'function' ? c : null; });
+    const host=document.createElement('div');host.className='practice-host';root.replaceChildren(host);
+    try {
+      const result=await game.start(host,ctx);
+      if(disposed||current!==generation||store.current.id!==owner)release(result);else cleanup=result;
+    } catch(error) {
+      if(!disposed&&current===generation)host.innerHTML='<div class="empty"><p>This activity could not start.</p><a class="btn primary" href="#/games">Back to Play</a></div>';
+    }
   };
   run(items);
-  return () => { setChrome({ tabs: true }); if (cleanup) cleanup(); };
+  return () => {
+    disposed=true;generation++;release(cleanup);cleanup=null;
+    window.visualViewport?.removeEventListener('resize',fit);window.removeEventListener('resize',fit);
+    document.body.classList.remove('practice-viewport');document.body.style.removeProperty('--practice-height');
+    delete root.dataset.practiceGame;setChrome({tabs:true});
+  };
 }

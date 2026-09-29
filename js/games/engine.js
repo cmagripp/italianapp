@@ -92,13 +92,17 @@ export function typedInputHTML({ placeholder = 'Type in Italian…', big = true,
 }
 
 // ---------- header: quit button + progress rail + mono counter ----------
-// gameTop('#/games', { i: 2, total: 12 }) → segments (done / current / todo) and "03 / 12"; `count` overrides the text.
-export function gameTop(backHref, { i = 0, total = 0, count = null } = {}) {
+// `i` is the viewed position; `completed` is the answered/rated count. Going
+// back to an earlier card must not erase the completed portion of the rail.
+export function gameTop(backHref, { i = 0, total = 0, completed = i, count = null } = {}) {
+  total = Math.max(0, Math.floor(Number(total) || 0));
+  i = Math.max(0, Math.min(total, Math.floor(Number(i) || 0)));
+  completed = Math.max(0, Math.min(total, Math.floor(Number(completed) || 0)));
   const useSegments = total > 0 && total <= 20;
-  const segs = useSegments ? Array.from({ length: total }, (_, k) => `<span class="${k < i ? 'done' : k === i ? 'cur' : ''}"></span>`).join('') : '';
-  const bar = `<div class="bar thin"><div class="bar-fill" style="width:${total ? Math.round((Math.min(i, total) / total) * 100) : 0}%"></div></div>`;
+  const segs = useSegments ? Array.from({ length: total }, (_, k) => `<span class="${[k < completed ? 'done' : '', k === i ? 'cur' : ''].filter(Boolean).join(' ')}"></span>`).join('') : '';
+  const bar = `<div class="bar thin"><div class="bar-fill" style="width:${total ? Math.round((completed / total) * 100) : 0}%"></div></div>`;
   const text = count != null ? count : (total ? `${pad2(Math.min(i + 1, total))} / ${pad2(total)}` : '');
-  return html`<div class="game-top"><a class="icon-btn" href="${backHref}" aria-label="Quit">${ic('x', { size: 20 })}</a><div class="rail-wrap">${raw(useSegments ? `<div class="rail" aria-hidden="true">${segs}</div>` : bar)}<span class="rail-count">${text}</span></div></div>`;
+  return html`<div class="game-top"><a class="icon-btn" href="${backHref}" aria-label="Quit">${ic('x', { size: 20 })}</a><div class="rail-wrap" role="progressbar" aria-label="Completed" aria-valuemin="0" aria-valuemax="${total || 1}" aria-valuenow="${completed}">${raw(useSegments ? `<div class="rail" aria-hidden="true">${segs}</div>` : bar)}<span class="rail-count">${text}</span></div></div>`;
 }
 // Legacy signature kept for callers that pass a percentage.
 export function gameHeader(backHref, progress, scoreText) {
@@ -107,10 +111,11 @@ export function gameHeader(backHref, progress, scoreText) {
 
 // ---------- feedback bar (slides up, sticky at the bottom) ----------
 // title / detail are HTML strings (escape what you interpolate).
-export function feedbackHTML({ ok, title, detail = '', nextLabel = 'Continue', say = null, accent = null } = {}) {
-  return `<div class="feedback-bar" data-feedback-bar>
+export function feedbackHTML({ ok, title, detail = '', nextLabel = 'Continue', say = null, accent = null, nextAttribute = 'data-next', showNext = true, continue: showContinue = showNext } = {}) {
+  const nextHook = /^data-[a-z][a-z0-9-]*$/.test(nextAttribute) ? nextAttribute : 'data-next';
+  return `<div class="feedback-bar ${ok ? 'is-correct' : 'is-incorrect'}" data-feedback-bar data-feedback-state="${ok ? 'correct' : 'incorrect'}">
     <div class="feedback ${ok ? 'ok' : 'ko'}" role="status"><span class="fb-ic">${icon(ok ? 'check' : 'x', { size: 20 })}</span><div class="fb-main"><div class="fb-title">${title}</div>${detail ? `<div class="detail">${detail}</div>` : ''}</div>${say ? speakBtn(say, 'sm') : ''}</div>
-    <button type="button" class="btn ${accent || (ok ? 'primary' : 'accent')} block" data-next>${esc(nextLabel)}</button></div>`;
+    ${showContinue ? `<button type="button" class="btn ${accent || (ok ? 'primary' : 'accent')} block" ${nextHook}>${esc(nextLabel)}</button>` : ''}</div>`;
 }
 
 // ---------- letter keyboard ----------
@@ -164,14 +169,16 @@ export function mountDock(root, innerHTML, { cls = '' } = {}) {
 // A question: { type: 'mc'|'type', itemId, tag (mono kicker), prompt (html), say?, autoSay?, center?,
 //               choices: [{label, correct, sub?, html?}], answer: string|string[], accept?(value), placeholder?, explain (html), kind? }
 // Returns { state, destroy() }; destroy() stops a runner whose host is being unmounted mid-question (no further renders).
-// The feedback bar is rendered inline after the choices and scrolled into view; inside a walkthrough scene it is also
-// sticky to the bottom of the scrolling scene body (css/learn.css), so a wrong answer never strands the learner.
+// Questions scroll inside the main region; feedback has its own bounded footer
+// so Continue stays visible in games, Review and the older Learn walkthroughs.
 export function runDrill(root, questions, opts = {}) {
-  const { title = 'Drill', gameId = 'drill', onDone = null, xpPer = 2, autoAdvance = true, passScore = null, record = true, backHref = '#/games' } = opts;
+  const { title = 'Drill', gameId = 'drill', onDone = null, xpPer = 2, autoAdvance = false, passScore = null, record = true, backHref = '#/games' } = opts;
   const total = questions.length;
   const state = { i: 0, correct: 0, wrong: 0, missed: [], perItem: {}, start: Date.now(), answers: [] };
   let locked = false;
   let dead = false;
+  let finished = false;
+  let advanceTimer = null, focusTimer = null;
   const evidenceSessionId = `game:${gameId}:${globalThis.crypto?.randomUUID?.() || Date.now() + ':' + Math.random().toString(36).slice(2)}`;
   const exposure = new Map();
   const answerKey = value => stripAccents(normalizeAnswer(value));
@@ -186,6 +193,7 @@ export function runDrill(root, questions, opts = {}) {
   const stopEvidenceListeners = () => root.removeEventListener('click', onAnswerAudio, true);
 
   function renderQ() {
+    clearTimeout(advanceTimer); clearTimeout(focusTimer);
     locked = false;
     if (dead) return;
     const q = questions[state.i];
@@ -200,12 +208,12 @@ export function runDrill(root, questions, opts = {}) {
     } else {
       body = html`<div class="typed">${raw(typedInputHTML({ placeholder: q.placeholder || 'Type your answer…' }))}<button type="button" class="btn ghost block mt" data-skip>I don't know</button></div>`;
     }
-    root.innerHTML = gameTop(backHref, { i: state.i, total }) + html`<div class="q-card">${q.tag ? raw(html`<div class="prompt">${q.tag}</div>`) : ''}${raw(q.prompt)}${q.say ? raw(`<div class="q-say">${speakBtn(q.say)}</div>`) : ''}</div>` + body + '<div data-feedback></div>';
+    root.innerHTML = html`<section class="drill-shell" data-drill data-state="question" data-question-type="${q.type}">` + gameTop(backHref, { i: state.i, total, completed: state.answers.length }) + '<div class="drill-main" data-drill-main>' + html`<div class="q-card">${q.tag ? raw(html`<div class="prompt">${q.tag}</div>`) : ''}${raw(q.prompt)}${q.say ? raw(`<div class="q-say">${speakBtn(q.say)}</div>`) : ''}</div>` + '<div class="drill-answer-area" data-drill-answers>' + body + '</div></div><div class="drill-feedback" data-feedback></div></section>';
     fx.mount(root);
     if (q.type !== 'mc') {
       const input = root.querySelector('[data-answer]');
-      bindAccentBar(root, input);
-      setTimeout(() => { if (root.contains(input)) input.focus({ preventScroll: true }); }, 60);
+      bindAccentBar(root.querySelector('.typed'), input);
+      focusTimer = setTimeout(() => { if (!dead && root.contains(input)) input.focus({ preventScroll: true }); }, 60);
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitTyped(); } });
       root.querySelector('[data-check]').addEventListener('click', submitTyped);
       root.querySelector('[data-skip]').addEventListener('click', () => grade(false, '', q, '', { revealed: true }));
@@ -227,6 +235,10 @@ export function runDrill(root, questions, opts = {}) {
     haptic(ok ? 'success' : 'error');
     if (ok) state.correct++; else { state.wrong++; if (q.itemId) state.missed.push(q.itemId); }
     state.answers.push({ q, ok, given });
+    const answeredIndex = state.i;
+    root.querySelector('[data-drill]').dataset.state = 'feedback';
+    const top = root.querySelector('.game-top');
+    if (top) top.outerHTML = gameTop(backHref, { i: state.i, total, completed: state.answers.length });
     if (q.itemId && record) {
       const pi = (state.perItem[q.itemId] ||= { ok: 0, ko: 0 });
       if (ok) pi.ok++; else pi.ko++;
@@ -275,14 +287,21 @@ export function runDrill(root, questions, opts = {}) {
     requestAnimationFrame(() => { if (root.contains(fb)) revealInScroller(fb.firstElementChild || fb); });
     if (q.say && !ok) speak(q.say);
     const nextBtn = fb.querySelector('[data-next]');
-    nextBtn.addEventListener('click', next);
+    nextBtn.addEventListener('click', () => next(answeredIndex));
     // Enter checked the answer (the field is disabled now): Enter again continues, without a hunt for the button
     nextBtn.focus({ preventScroll: true });
-    if (ok && autoAdvance && q.type === 'mc') setTimeout(() => { if (locked && !dead && root.contains(fb)) next(); }, 700);
+    if (ok && autoAdvance && q.type === 'mc') advanceTimer = setTimeout(() => { if (root.contains(fb)) next(answeredIndex); }, 700);
     if (ok && res.accentIssue) toast('Remember the accent: ' + answerText);
   }
-  function next() { if (dead) return; state.i++; renderQ(); }
+  function next(answeredIndex) {
+    if (dead || finished || !locked || state.i !== answeredIndex) return;
+    root.querySelector('[data-next]')?.setAttribute('disabled', '');
+    locked = false; state.i++; renderQ();
+  }
   function finish() {
+    if (finished || dead) return;
+    finished = true;
+    clearTimeout(advanceTimer); clearTimeout(focusTimer);
     stopEvidenceListeners();
     const secs = Math.round((Date.now() - state.start) / 1000);
     const result = { gameId, title, total, correct: state.correct, wrong: state.wrong, score: total ? Math.round((state.correct / total) * 100) : 0, missed: [...new Set(state.missed)], secs, perItem: state.perItem, answers: state.answers };
@@ -294,7 +313,7 @@ export function runDrill(root, questions, opts = {}) {
     showResults(root, result, opts);
   }
   renderQ();
-  return { state, destroy() { dead = true; stopEvidenceListeners(); } };
+  return { state, destroy() { dead = true; clearTimeout(advanceTimer); clearTimeout(focusTimer); stopEvidenceListeners(); } };
 }
 
 // ---------- results ----------

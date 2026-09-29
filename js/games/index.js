@@ -10,7 +10,7 @@ import { allowedTenses } from '../learning/curriculum.js';
 const drill = (id, title, build, extra = {}) => (root, ctx) => {
   const qs = build(ctx).filter(Boolean);
   if (!qs.length) { root.innerHTML = `<div class="empty"><p>No questions could be made from this selection.</p><a class="btn primary" href="${ctx.backHref || '#/games'}">Choose another source</a></div>`; return; }
-  runDrill(root, qs, { title, gameId: id, backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, ...extra });
+  return runDrill(root, qs, { title, gameId: id, backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, ...extra });
 };
 const lim = (ctx, n = 15) => shuffle(ctx.items).slice(0, ctx.options?.count || n);
 const tensesOf = (ctx, def) => (ctx.options?.tenses?.length ? ctx.options.tenses.filter(k => DRILL_TENSES.includes(k)) : allowedTenses(store.learning));

@@ -412,3 +412,81 @@ body.journey-viewport #view.scene-in { animation-name:journeyViewIn; }
 
 .journey-word-progress { height:3px; margin:4px 0 14px; overflow:hidden; border-radius:3px; background:var(--hairline); }
 .journey-word-progress > span { display:block; height:100%; background:var(--gold); transition:width .25s ease; }
+
+/* The same answer pop-in used by Play, with Continue always within reach. */
+.journey-feedback { padding:0; margin:0; border:0; background:none; box-shadow:none; }
+.journey-feedback.is-correct { background:none; border:0; }
+.journey-feedback .feedback-bar { position:static; bottom:auto; margin-top:14px; }
+.journey-feedback-dock { flex:none; min-height:0; max-height:48%; padding:0 12px 12px; display:flex; flex-direction:column; }
+.journey-feedback-dock .journey-feedback { display:flex; flex-direction:column; min-height:0; }
+.journey-feedback-dock .feedback-bar { display:flex; flex-direction:column; min-height:0; margin:0; }
+.journey-feedback-dock .feedback { min-height:0; overflow-y:auto; overscroll-behavior:contain; }
+.journey-feedback-dock .feedback-bar > .btn { flex:none; min-height:52px; }
+.journey-feedback .detail p { font-size:13px; line-height:1.5; margin:8px 0 0; }
+.journey-feedback .journey-answer { font:600 24px/1.3 var(--font-display); }
+.journey-feedback .journey-feedback-context { margin-top:12px; }
+.journey-feedback .journey-feedback-context > p[lang=it] { font:500 20px/1.35 var(--font-display); }
+.journey-page[data-phase=question] .journey-main { display:flex; flex-direction:column; }
+.journey-page[data-phase=question] .journey-exercise-card { flex:1; display:flex; flex-direction:column; }
+.journey-page[data-phase=question] .journey-choices { flex:1; grid-auto-rows:minmax(52px,1fr); }
+.journey-page[data-phase=question] .journey-choice { min-height:52px; height:100%; }
+.journey-page[data-phase=question] .journey-activity.is-pairs { flex:1; display:flex; flex-direction:column; }
+.journey-page[data-phase=question] .journey-pair-board { flex:1; }
+.journey-page[data-phase=question] .journey-pair-column { grid-auto-rows:minmax(56px,1fr); }
+.journey-page[data-phase=question] .journey-pair-tile { height:100%; }
+
+/* Lessons sit directly on the page. Keep one inner scroller and a clear edge
+   for the verb-reference handle; equal gutters keep the lesson centered. */
+body.journey-viewport { --journey-reference-gutter:0px; }
+body.journey-viewport.journey-has-reference { --journey-reference-gutter:20px; }
+body.journey-viewport #view { padding-left:calc(max(var(--gutter),var(--sal),var(--sar)) + var(--journey-reference-gutter)); padding-right:calc(max(var(--gutter),var(--sal),var(--sar)) + var(--journey-reference-gutter)); }
+body.journey-viewport #view:has(.journey-action-dock) { padding-bottom:calc(100px + var(--sab)); }
+.journey-page { max-width:none; border:0; border-radius:0; background:none; box-shadow:none; overflow:hidden; }
+.journey-header { padding:0 0 8px; border:0; background:none; }
+.journey-top { gap:8px; min-height:40px; }
+.journey-location { flex:1; min-width:0; text-align:center; font-size:12px; line-height:1.3; color:var(--ink-2); overflow-wrap:anywhere; }
+.journey-progress-line { display:flex; align-items:center; gap:12px; }
+.journey-progress-line .journey-stages { flex:1; min-width:0; gap:5px; }
+.journey-progress-line .journey-stages li { padding:5px 7px; font-size:11px; line-height:1.4; }
+.journey-progress-summary { flex:none; width:36px; text-align:center; color:var(--ink-3); font:500 10px/1.4 var(--font-mono); }
+.journey-progress-meter { display:block; height:3px; margin-top:4px; overflow:hidden; border-radius:3px; background:var(--hairline); }
+.journey-progress-meter > span { display:block; height:100%; background:var(--gold); transition:width var(--t-base); }
+.journey-main { padding:12px 0 20px; }
+.journey-page.has-more-content::after { display:none; }
+.journey-form-stack { margin:14px 0 20px; }
+.journey-form-list { overflow:hidden; border:1px solid var(--glass-border); border-radius:var(--r-m); background:var(--glass); box-shadow:inset 0 1px 0 var(--glass-highlight); }
+.journey-form-row { display:grid; grid-template-columns:minmax(74px,.85fr) minmax(0,1.5fr) 20px; align-items:center; gap:10px; width:100%; min-height:63px; padding:11px 13px; text-align:left; color:var(--ink); transition:background var(--t-fast); }
+.journey-form-row + .journey-form-row { border-top:1px solid var(--hairline); }
+.journey-form-row[aria-pressed=true] { background:color-mix(in srgb,var(--gold) 10%,transparent); }
+.journey-form-row:hover { background:color-mix(in srgb,var(--gold) 8%,var(--glass)); }
+.journey-form-row:focus-visible { outline:2px solid var(--gold); outline-offset:-3px; border-radius:10px; }
+.journey-form-subject { display:grid; gap:3px; }
+.journey-form-row .journey-form-person { font:500 12px/1.35 var(--font-text); }
+.journey-form-row .journey-form-gloss { font-size:10px; line-height:1.35; color:var(--ink-3); }
+.journey-form-row .journey-form-value { font:600 clamp(21px,5.7vw,29px)/1.22 var(--font-display); overflow-wrap:anywhere; }
+.journey-form-row .journey-form-sound { display:flex; align-items:center; justify-content:center; color:var(--gold-text); }
+.journey-example-deck { position:relative; gap:12px; padding:3px 16px 12px; scroll-padding-inline:16px; }
+.journey-example-deck > .journey-example { flex:0 0 100%; min-width:0; scroll-snap-align:center; }
+.journey-example-deck:focus-visible { outline:2px solid var(--gold); outline-offset:-2px; border-radius:var(--r-m); }
+.journey-table-tab { position:fixed; z-index:28; right:0; top:calc(var(--top-h) + var(--sat) + (var(--journey-viewport-height,100dvh) - var(--top-h) - var(--sat)) / 2); transform:translateY(-50%); width:28px; color:var(--gold-text); }
+.journey-feedback-dock { padding:0 0 12px; }
+.journey-action-dock { left:50%; width:calc(100% - 2 * (max(var(--gutter),var(--sal),var(--sar)) + var(--journey-reference-gutter))); max-width:calc(var(--content-max) - 2 * (max(var(--gutter),var(--sal),var(--sar)) + var(--journey-reference-gutter))); }
+.journey-action-track { padding:6px 0; border-radius:var(--r-m); }
+.journey-action-track > .btn.journey-action { position:relative; display:flex; align-items:center; justify-content:center; min-height:76px; padding:14px 16px 29px; border:1px solid color-mix(in srgb,var(--gold) 60%,var(--glass-border)); border-radius:var(--r-m); background:var(--glass); color:var(--ink); box-shadow:inset 0 1px 0 var(--glass-highlight); font-size:15px; }
+.journey-action-track > .journey-action:focus-visible { outline:2px solid var(--gold); outline-offset:-4px; }
+.journey-action .journey-action-dots { position:absolute; bottom:11px; left:50%; transform:translateX(-50%); display:flex; gap:7px; pointer-events:none; }
+.journey-action-dots span { flex:none; }
+.journey-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+@media(max-width:359px) { .journey-progress-line { gap:8px; }.journey-progress-line .journey-stages li { padding:5px;font-size:10px; }.journey-form-row { grid-template-columns:minmax(68px,.85fr) minmax(0,1.5fr) 18px;gap:8px;padding:10px; } }
+@media(prefers-reduced-motion:reduce) { .journey-action-track,.journey-example-deck { scroll-behavior:auto; }.journey-progress-meter > span,.journey-form-row { transition:none; } }
+
+/* The question and its answer tiles share the page, without a second box. */
+.journey-exercise-card.q-card { padding:0; margin:0; border:0; border-radius:0; background:none; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; overflow:visible; }
+.journey-exercise-card.q-card::before { display:none; }
+.journey-exercise-card .journey-prompt .prompt { margin:0 0 7px; }
+.journey-exercise-card .journey-prompt .big,.journey-exercise-card .journey-prompt .sentence { margin:8px 0; }
+.journey-exercise-card .journey-prompt .small { margin:6px 0; }
+.journey-exercise-card .journey-choices { margin:12px 0 0; gap:8px; }
+.journey-exercise-card .journey-match-cue { margin:5px 0 0; font-size:12px; line-height:1.4; color:var(--ink-2); }
+.journey-page[data-phase=question] .journey-tools { flex:none; gap:4px 15px; margin-top:8px; }
+.journey-page[data-phase=question] .journey-listen { flex:none; margin:0; }

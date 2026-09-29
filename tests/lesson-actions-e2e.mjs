@@ -85,22 +85,33 @@ async function waitForAction(index) {
     const action = track?.querySelectorAll('button, a')[index];
     if (!action) return false;
     const a = action.getBoundingClientRect(), t = track.getBoundingClientRect();
-    const dot = document.querySelectorAll('[data-action-dot]')[index];
+    const dot = action.querySelectorAll('[data-action-dot]')[index];
     return a.left >= t.left - 2 && a.right <= t.right + 2 && dot?.classList.contains('is-current');
   }, index);
 }
+async function moveAction(index) {
+  await page.locator('[data-action-track]').focus(); await page.keyboard.press('Home');
+  for(let i=0;i<index;i++)await page.keyboard.press('ArrowRight');
+  await waitForAction(index);
+}
+async function assertVisibleWithoutScroll(selector) {
+  assert(await page.locator(selector).first().evaluate(e=>{
+    const r=e.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
+    return r.top>=0&&r.bottom<=innerHeight+1&&(e===hit||e.contains(hit));
+  }),selector+' is visible and unobscured without scrolling');
+}
 async function waitForSwipedAction() {
-  // Native fling distance depends on compositor timing. Unlike the arrow controls,
+  // Native fling distance depends on compositor timing. Unlike keyboard steps,
   // a touch swipe may pass more than one card; require a settled, usable destination.
   let previous = null, stableSince = 0;
   const deadline = Date.now() + 5000;
   while (Date.now() < deadline) {
     const state = await page.evaluate(() => {
       const track = document.querySelector('[data-action-track]');
-      const t = track.getBoundingClientRect(), dots = document.querySelectorAll('[data-action-dot]');
+      const t = track.getBoundingClientRect();
       const index = [...track.querySelectorAll('button, a')].findIndex((action, i) => {
         const a = action.getBoundingClientRect();
-        return a.left >= t.left - 2 && a.right <= t.right + 2 && dots[i]?.classList.contains('is-current');
+        return a.left >= t.left - 2 && a.right <= t.right + 2 && action.querySelectorAll('[data-action-dot]')[i]?.classList.contains('is-current');
       });
       return { index, scroll: track.scrollLeft };
     });
@@ -158,7 +169,7 @@ try {
     assert.deepEqual(reloaded.ids, seeded.events); assert.equal(reloaded.xp, seeded.xp);
   });
   for (const width of [375, 390]) for (const theme of ['light', 'dark']) {
-    await check(`${width}px ${theme}: separated bottom actions support arrows, Tab and touch swipe`, async () => {
+    await check(`${width}px ${theme}: outlined bottom actions show nested dots and support keyboard, Tab and touch swipe`, async () => {
       await fresh(width, theme); await gotoRoute(page, route('v:capire') + '?chapter=present');
       await assertPresentTeaching();
       const before = await saved(), g = await railGeometry();
@@ -172,13 +183,21 @@ try {
       assert(Math.abs(g.track.x - g.card.x) <= 24, 'rail aligns with the lesson card');
       assert(g.track.right <= g.card.right + 2);
       await waitForAction(0); await shot(`${width}-${theme}-continue`);
-      assert(await page.locator('[data-action-next]').getAttribute('aria-label'));
-      assert(await page.locator('[data-action-prev]').getAttribute('aria-label'));
-      await page.locator('[data-action-next]').click(); await waitForAction(1); await shot(`${width}-${theme}-reference`);
-      await page.locator('[data-action-next]').click(); await waitForAction(2); await shot(`${width}-${theme}-skip`);
-      await page.locator('[data-action-prev]').click(); await waitForAction(1);
-      await page.locator('[data-action-prev]').click(); await waitForAction(0);
-      assert.equal(await page.locator('[data-action-dot].is-current').count(), 1);
+      assert.equal(await page.locator('[data-action-next], [data-action-prev]').count(),0,'redundant navigation arrows are removed');
+      assert.equal(await page.locator('[data-action-track] [data-action-dot]').count(),9,'each action contains three noninteractive page dots');
+      const details=await page.locator('[data-action-track]').locator('button, a').evaluateAll(actions=>actions.map(action=>{
+        const a=action.getBoundingClientRect(),s=getComputedStyle(action),dots=[...action.querySelectorAll('[data-action-dot]')].map(d=>d.getBoundingClientRect());
+        return {outlined:parseFloat(s.borderTopWidth)>0&&parseFloat(s.borderBottomWidth)>0,centerError:Math.abs((dots[0].left+dots[2].right)/2-(a.left+a.right)/2),inside:dots.every(d=>d.top>a.top+a.height/2&&d.bottom<=a.bottom),active:action.querySelectorAll('[data-action-dot].is-current').length};
+      }));
+      for(const detail of details){assert(detail.outlined,'every carousel action is outlined');assert(detail.centerError<2,'dots are centered inside each action');assert(detail.inside,'dots sit inside the lower part of each action');assert.equal(detail.active,1);}
+      assert.equal(await page.locator('#backBtn').isVisible(),false,'global back chevron is hidden during lessons');
+      assert.equal(await page.locator('.journey-header [data-overview]').count(),0,'chapter title does not navigate away');
+      assert.equal(await page.locator('[data-journey]').evaluate(e=>getComputedStyle(e).boxShadow),'none','lesson content is directly on the page');
+      await moveAction(1); await shot(`${width}-${theme}-reference`);
+      await moveAction(2); await shot(`${width}-${theme}-skip`);
+      await moveAction(1);
+      await moveAction(0);
+      assert.equal(await page.locator('[data-action-dot].is-current').count(), 3);
       assert.equal(await page.locator('[data-action-dot]').first().evaluate(e => e.classList.contains('is-current')), true);
       await page.locator('[data-action-track]').focus(); await page.keyboard.press('ArrowRight'); await waitForAction(1);
       await page.keyboard.press('ArrowLeft'); await waitForAction(0);
@@ -186,16 +205,14 @@ try {
       await actions.nth(0).focus(); await page.keyboard.press('Tab');
       assert.equal(await actions.nth(1).evaluate(a => a === document.activeElement), true); await waitForAction(1);
       await page.keyboard.press('Tab'); assert.equal(await actions.nth(2).evaluate(a => a === document.activeElement), true); await waitForAction(2);
-      await page.locator('[data-action-prev]').click(); await waitForAction(1);
-      await page.locator('[data-action-prev]').click(); await waitForAction(0);
+      await moveAction(1);
+      await moveAction(0);
       await swipeLeft();
       const swipeIndex = await waitForSwipedAction();
       const swiped = await railGeometry(); assert(swiped.scroll > 30);
       assert.equal((await saved()).session.journey.chapterId, before.session.journey.chapterId, 'swiping is not a Continue click');
       assert.equal((await saved()).session.journey.cardIndex, before.session.journey.cardIndex);
-      for (let i = swipeIndex; i > 0; i--) {
-        await page.locator('[data-action-prev]').click(); await waitForAction(i - 1);
-      }
+      await moveAction(0);
       const headerBefore = await page.locator('.journey-header').boundingBox();
       await page.locator('.journey-main').evaluate(panel => { panel.scrollTop = panel.scrollHeight; });
       const clearance = await page.evaluate(() => {
@@ -230,14 +247,14 @@ try {
   await check('Reference and Skip rail actions execute their intended action once', async () => {
     await fresh(); await gotoRoute(page, route('v:credere') + '?chapter=present');
     const before = await saved();
-    await page.locator('[data-action-next]').click(); await waitForAction(1);
+    await moveAction(1);
     await page.locator('[data-action-track] a').click();
     await page.waitForFunction(() => location.hash.startsWith('#/reference/'));
     assert.match(await page.locator('body').innerText(), /credere/);
     await gotoRoute(page, route('v:credere') + '?session=' + before.session.id);
     await assertPresentTeaching();
-    await page.locator('[data-action-next]').click(); await waitForAction(1);
-    await page.locator('[data-action-next]').click(); await waitForAction(2);
+    await moveAction(1);
+    await moveAction(2);
     await page.locator('[data-action-track] [data-skip]').evaluate(b => { b.click(); b.click(); });
     const after = await saved();
     assert.equal(after.session.journey.chapterId, 'present'); assert.equal(after.session.journey.groupIndex, 1, 'one skip leaves only the singular group');
@@ -250,6 +267,7 @@ try {
     const q = await question(); assert(q.answer.includes('capisco'));
     const index = q.choices.findIndex(c => (c.value || c.label) === 'capisco'); assert(index >= 0);
     await page.locator(`[data-choice="${index}"]`).evaluate(b => { b.click(); b.click(); });
+    await assertVisibleWithoutScroll('[data-feedback-bar] [data-continue]');
     assert.deepEqual(await spoken(), [{ text: 'capisco', lang: 'it-IT' }]);
     const feedback = await saved(); await reloadApp(page);
     assert.deepEqual(await spoken(), [{ text: 'capisco', lang: 'it-IT' }]);
@@ -258,6 +276,7 @@ try {
     assert.equal((await question()).type, 'type'); assert((await question()).answer.includes('sono'));
     await page.locator('[data-answer]').fill('sono');
     await page.locator('[data-check]').evaluate(b => { b.click(); b.click(); });
+    await assertVisibleWithoutScroll('[data-feedback-bar] [data-continue]');
     assert.deepEqual(await spoken(), [{ text: 'capisco', lang: 'it-IT' }, { text: 'sono', lang: 'it-IT' }]);
     await page.locator('[data-continue]').click(); await reachJourneyActivity(page, 'type');
     const correctCalls = await spoken();

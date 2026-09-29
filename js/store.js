@@ -127,7 +127,7 @@ function nextLearningIdentity() {
 const learningXP = (domain) => Object.values(domain?.events || {}).reduce((n, e) => n + (Number(e.xp) || 0), 0);
 
 class Store extends EventTarget {
-  constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; }
+  constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; this._saveQueue = Promise.resolve(); this._mirrorSerial = 0; }
 
   async init() {
     try { this.profiles = JSON.parse(localStorage.getItem(LS_PROFILES) || '[]'); } catch { this.profiles = []; }
@@ -155,10 +155,11 @@ class Store extends EventTarget {
   }
   _mirrorPending() {
     if (!this.current || !this._dirty) return;
-    try { localStorage.setItem(LS_PENDING, JSON.stringify({ id: this.current.id, at: Date.now(), profile: this.current })); } catch { /* quota */ }
+    const snapshot = JSON.stringify({ id: this.current.id, at: Date.now(), write: ++this._mirrorSerial, profile: this.current });
+    try { localStorage.setItem(LS_PENDING, snapshot); return snapshot; } catch { /* quota */ }
   }
-  // The mirror of a profile is always newer than its IndexedDB copy: every successful saveNow() removes it. It stays until
-  // that write happens (switchProfile schedules one), so a second interrupted unload cannot lose it either.
+  // A mirror stays until its corresponding write commits. An older queued write
+  // must never remove a newer snapshot made while it was still in flight.
   _takePending(id) {
     let raw = null;
     try { raw = localStorage.getItem(LS_PENDING); } catch { return null; }
@@ -228,20 +229,26 @@ class Store extends EventTarget {
     this.emit('change');
   }
   async saveNow() {
-    if (!this.current || !this._dirty) return;
-    this._dirty = false;
+    if (!this.current || !this._dirty) return this._saveQueue;
     clearTimeout(this._saveTimer);
     const meta = this.profiles.find(p => p.id === this.current.id);
     if (meta) { meta.lastActive = Date.now(); this._persistIndex(); }
     const cur = this.current;
-    const ok = await kvSet('profile:' + cur.id, cur);
-    if (ok) { try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === cur.id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
-    else if (this.current === cur) {
-      // a failed write (quota, transient IndexedDB error after backgrounding) must not be lost while the screen still
-      // shows the change: keep the profile dirty so the next save retries, mirror it to localStorage for the next start,
-      // and let the app tell the learner
-      this._dirty = true; this._mirrorPending(); this.emit('saveError');
-    }
+    const snapshot = JSON.parse(JSON.stringify(cur));
+    // Mirror before clearing dirty: a reload can interrupt the IndexedDB commit
+    // even after saveNow was called. Clean callers also await the queued commit.
+    const mirrored = this._mirrorPending();
+    this._dirty = false;
+    this._saveQueue = this._saveQueue.then(async () => {
+      const ok = await kvSet('profile:' + cur.id, snapshot);
+      if (ok) { try { if (mirrored && localStorage.getItem(LS_PENDING) === mirrored) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
+      else if (this.current === cur) {
+        // Keep the latest profile, including edits made while this snapshot was
+        // queued, available for recovery and for the next save attempt.
+        this._dirty = true; this._mirrorPending(); this.emit('saveError');
+      }
+    });
+    return this._saveQueue;
   }
 
   // ---------- settings ----------

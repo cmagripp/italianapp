@@ -34,6 +34,7 @@ jobs:
           node tools/test-learning-model.mjs
           node tools/test-learning-questions.mjs
           node tools/test-learning-store-sync.mjs
+          node tools/test-store-durability.mjs
           node tools/test-learning-integration.mjs
           node tools/test-lesson-content.mjs
           node tools/test-sentence-lookup.mjs

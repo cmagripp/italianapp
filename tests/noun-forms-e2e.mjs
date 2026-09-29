@@ -194,7 +194,7 @@ try {
       for (const dir of ['it-en', 'en-it']) {
         await gotoRoute(page, '/game/flashcards?src=ids:' + encodeURIComponent(id(word)) + '&dir=' + dir);
         const flash = page.locator('[data-flash]');
-        await flash.click();
+        await flash.locator('[data-flip]').click();
         assert.equal(await flash.evaluate(el => el.classList.contains('flipped')), true);
         assert((await flash.locator('.face.back').innerText()).includes(word === 'calcio' ? 'Normally singular in this meaning.' : 'pl. le case'));
         await noBogusForms();
@@ -232,7 +232,7 @@ try {
       }
       for (const word of ['calcio', 'casa']) {
         await gotoRoute(page, '/game/flashcards?src=ids:' + encodeURIComponent(id(word)));
-        await page.locator('[data-flash]').click();
+        await page.locator('[data-flip]').click();
         await audit(word + '-flashcard');
       }
       return { pages: 9 };
