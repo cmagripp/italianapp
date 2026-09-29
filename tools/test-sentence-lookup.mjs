@@ -6,12 +6,15 @@ import { createSentenceLookup, tokenizeItalianSentence } from '../js/learning/se
 import { hasPluralForm, isPluralOnly, withArticle } from '../js/data.js';
 import { conjugate, primary } from '../js/conjugator.js';
 import { lessonContexts } from '../js/learning/lesson-content.js';
+import { progressiveContexts } from '../js/learning/progressive-content.js';
 
 const vocab = JSON.parse(readFileSync(new URL('../data/vocab.json', import.meta.url)));
 const verbs = JSON.parse(readFileSync(new URL('../data/verbs.json', import.meta.url)));
 const lookup = createSentenceLookup({ vocab, verbs });
 const candidate = (token, id, options) => lookup(token, options).candidates.find(c => c.id === id);
 const noun = it => vocab.find(e => e.it === it && e.pos === 'noun');
+const coreChapters=['present','past','background','future','conditional'];
+const reviewedScenes=entry=>[...coreChapters.flatMap(chapter=>lessonContexts(entry,chapter).filter(s=>s.reviewed)),...progressiveContexts(entry),...progressiveContexts(entry,{chapter:'background'})];
 let passed = 0;
 function test(name, run) { try { run(); passed++; console.log(`✓ ${name}`); } catch (e) { console.error(`✗ ${name}`); throw e; } }
 
@@ -172,11 +175,29 @@ test('reflexive and pronominal finite components require the actual clitic conte
   assert.ok(leave.matches.some(m => m.form === 'me ne vado'));
 });
 
+test('progressive lexical help preserves whole constructions and never assigns helper meanings to every verb', () => {
+  for(const [token,id,sentence,form,tense] of [
+    ['svegliando','v:svegliarsi','Mi sto svegliando.','mi sto svegliando','presenteProgressivo'],
+    ['vestendo','v:vestirsi','Mi stavo vestendo.','mi stavo vestendo','imperfettoProgressivo'],
+    ['lavandomi','v:lavarsi','Stavo lavandomi.','stavo lavandomi','imperfettoProgressivo'],
+  ]) {
+    const found=candidate(token,id,{sentence});
+    assert(found,token);assert(found.matches.some(m=>m.form===form&&m.tense===tense&&m.contextMatched));
+    assert(found.exposureForms.includes(form));
+  }
+  assert(!candidate('svegliando','v:svegliarsi'));
+  assert(!candidate('svegliando','v:svegliarsi',{sentence:'Ti sto svegliando.'}));
+  assert(!lookup('stavo',{sentence:'Mi stavo vestendo.'}).candidates.some(c=>c.infinitive==='vestirsi'));
+  assert(candidate('stavo','v:stare',{sentence:'Mi stavo vestendo.'}));
+});
+
 test('imperative persons, explicit formal role and core form tables preserve correct metadata', () => {
   const imperative = candidate('vada', 'v:andare', { tense: 'imperativo', role: 'formal' });
   assert.ok(imperative.matches.some(m => m.tense === 'imperativo' && m.person === 2 && m.personLabel === 'Lei (formal you)'));
-  assert.deepEqual(imperative.forms.map(f => f.tense), ['presente', 'passatoProssimo', 'futuro']);
+  assert.deepEqual(imperative.forms.map(f => f.tense), ['presente', 'passatoProssimo', 'imperfetto', 'futuro', 'condizionale']);
   assert.equal(imperative.forms[0].forms[0].form, 'vado');
+  assert.equal(imperative.forms[2].forms[0].form, 'andavo');
+  assert.equal(imperative.forms[4].forms[0].form, 'andrei');
   assert.match(imperative.meaning, /to go/);
 });
 
@@ -237,7 +258,7 @@ test('exposure metadata contains noun aliases and fully expanded displayed const
   const home = candidate('casa', 'w:casa|noun');
   for (const form of ['casa', 'la casa', 'case', 'le case']) assert.ok(home.exposureForms.includes(form));
   const go = candidate('vado', 'v:andare');
-  for (const form of ['andare', 'vado', 'sono andato', 'sono andata', 'andata']) assert.ok(go.exposureForms.includes(form), form);
+  for (const form of ['andare', 'vado', 'sono andato', 'sono andata', 'andata','andavo','andrei']) assert.ok(go.exposureForms.includes(form), form);
 });
 
 test('lookup is deterministic, serializable, mutation-free and never interprets HTML', () => {
@@ -252,7 +273,7 @@ test('lookup is deterministic, serializable, mutation-free and never interprets 
 });
 
 test('authored lookup supplements supply complete noun details without replacing custom senses', () => {
-  for (const [it, singular, plural] of [['riforma', 'la riforma', 'le riforme'], ['danni', 'il danno', 'i danni'], ['gas', 'il gas', 'i gas'], ['auto', "l'auto", 'le auto'], ['lavoratori', 'il lavoratore', 'i lavoratori']]) {
+  for (const [it, singular, plural] of [['riforma', 'la riforma', 'le riforme'], ['danni', 'il danno', 'i danni'], ['gas', 'il gas', 'i gas'], ['auto', "l'auto", 'le auto'], ['lavoratori', 'il lavoratore', 'i lavoratori'],['momento','il momento','i momenti'],['spiegazione','la spiegazione','le spiegazioni'],['testo','il testo','i testi']]) {
     const c = lookup(it).candidates.find(c => c.source === 'curated');
     assert.equal(c.singular, singular); assert.equal(c.plural, plural);
   }
@@ -260,18 +281,19 @@ test('authored lookup supplements supply complete noun details without replacing
   assert.equal(local('gas').candidates.length, 1);
   assert.equal(local('gas').candidates[0].id, 'c:gas'); assert.equal(local('gas').candidates[0].plural, null);
   assert.equal(lookup('riposare').candidates.find(c => c.pos === 'verb').meaning, 'to rest');
+  assert.equal(candidate('menu','w:menù|noun').plural,'i menù');
 });
 
-test('every token in reviewed present, past and future lesson contexts has local lexical help', () => {
+test('every token in five core tenses and both progressive context sets has local lexical help', () => {
   let checked = 0;
-  for (const e of verbs) for (const chapter of ['present', 'past', 'future']) for (const sentence of lessonContexts(e, chapter).filter(s => s.reviewed)) {
+  for (const e of verbs) for (const sentence of reviewedScenes(e)) {
     for (const token of tokenizeItalianSentence(sentence.it)) {
       if (token.type !== 'word') continue;
       assert.notEqual(lookup(token.text, { sentence }).status, 'unavailable', `${token.text}: ${sentence.it}`);
       checked++;
     }
   }
-  assert.ok(checked > 5700);
+  assert.ok(checked > 6700);
   console.log(`  Reviewed core lesson contexts: ${checked}/${checked} tokens identified.`);
 });
 
@@ -279,7 +301,8 @@ test('catalog sentence and lesson-context audit reports honest coverage gaps', (
   const sentences = vocab.filter(e => e.ex).map(e => ({ it: e.ex, en: e.exEn }));
   for (const e of verbs) {
     sentences.push(...e.examples || []);
-    for (const chapter of ['present', 'past', 'future']) sentences.push(...lessonContexts(e, chapter));
+    for (const chapter of coreChapters) sentences.push(...lessonContexts(e, chapter));
+    sentences.push(...progressiveContexts(e),...progressiveContexts(e,{chapter:'background'}));
   }
   const counts = new Map();
   for (const sentence of sentences) for (const token of tokenizeItalianSentence(sentence.it)) {

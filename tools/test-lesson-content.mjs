@@ -18,9 +18,9 @@ function test(name,fn){try{fn();tests++;}catch(error){console.error(`FAIL ${name
 function wrong(question,answer,tag){const result=gradeQuestion(question,answer);assert.equal(result.ok,false);assert.ok(result.errorTags.includes(tag),JSON.stringify(result));return result;}
 function copyable(question){const visible=question.prompt.replace(/<[^>]+>/g,' ').toLowerCase();return question.answer.some(a=>new RegExp(`(?:^|[^\\p{L}])${a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(?:$|[^\\p{L}])`,'iu').test(visible));}
 
-test('chapter sequence teaches present, completed past, future; later forms are optional',()=>{
- const p=buildLesson(vb('credere'));assert.deepEqual(p.chapters.filter(c=>!c.optional).map(c=>c.id),['meet','present','past','future','mixed']);
- assert.equal(p.chapters.find(c=>c.id==='background').optional,true);
+test('chapter sequence teaches five core cases; mixed practice and later forms are optional',()=>{
+ const p=buildLesson(vb('credere'));assert.deepEqual(p.chapters.filter(c=>!c.optional).map(c=>c.id),['meet','present','past','background','future','condizionale']);
+ assert.equal(!!p.chapters.find(c=>c.id==='background').optional,false);
  assert.equal(p.chapters.find(c=>c.id==='congiuntivoPresente').optional,true);
  assert.equal(p.chapters[0].groups[0].cards[0].examples.length,1);
 });
@@ -47,7 +47,7 @@ test('participle rules are explicit and the selected irregular participle is fla
  for(const [inf,participle]of[['dire','detto'],['prendere','preso'],['essere','stato'],['fare','fatto']]){
   const card=chapter(vb(inf),'past').groups[0].cards.find(c=>c.id==='participle');assert.ok(card.body.includes(`${inf} has an irregular past participle: ${participle}`));
  }
- const alternate=chapter(vb('riflettere'),'past').groups[0].cards.find(c=>c.id==='participle');assert.ok(alternate.body.includes('Alongside riflettuto'));assert.ok(alternate.body.includes('riflesso'));
+ const alternate=chapter(vb('riflettere'),'past').groups[0].cards.find(c=>c.id==='participle');assert.ok(alternate.body.includes('riflettuto'));assert.ok(!alternate.body.includes('riflesso'));
 });
 test('future teaching gives the stem and all six endings in person order',()=>{
  for(const inf of ['parlare','dire','andare','piovere']){
@@ -188,6 +188,70 @@ test('lexical exposure metadata links bare and article phrases but keeps clean f
 test('questions and plans are plain serializable data and deterministic',()=>{
  const e=vb('credere'),ch=chapter(e,'past'),t=target(e,'past','conjugation',1);const question=buildJourneyQuestion(e,ch,t,{variant:2,phase:'guided',format:'choice'});assert.deepEqual(buildJourneyQuestion(e,ch,t,{variant:2,phase:'guided',format:'choice'}),question);assert.deepEqual(JSON.parse(JSON.stringify(buildLesson(e))),buildLesson(e));assert.deepEqual(JSON.parse(JSON.stringify(question)),question);
 });
+
+test('imperfetto uses real past meanings and retains stable person target ids',()=>{
+ for(const inf of ['parlare','essere','avere','potere','sapere']){
+  const e=vb(inf),ch=chapter(e,'background');assert.equal(!!ch.optional,false);
+  const contexts=lessonContexts(e,'background');assert.ok(contexts.length>=14);
+  assert.ok(contexts.every(c=>/back then|used to|could/i.test(c.en)),inf);
+  assert.ok(contexts.every(c=>!/(?:I am|We are|will |do you )/.test(c.en)),inf);
+  assert.ok(targets(ch).some(t=>t.id===`${e.id}::lesson::background::form-0`));
+  assert.ok(JSON.stringify(ch).includes('-avo'));assert.ok(JSON.stringify(ch).includes('facevo'));
+ }
+ assert.ok(q(vb('potere'),'background','conjugation',0).context.en.includes('could'));
+});
+test('conditional is core for every verb and teaches its own endings, polite wishes and hypothetical meaning',()=>{
+ for(const e of verbs){const ch=chapter(e,'condizionale');assert.ok(ch,e.inf);assert.equal(!!ch.optional,false);assert.equal(buildLesson(e).chapters.filter(c=>c.id==='condizionale').length,1);}
+ for(const inf of ['parlare','essere','avere','andare','fare','volere','potere']){
+  const e=vb(inf),ch=chapter(e,'condizionale'),body=JSON.stringify(ch.groups[0].cards);
+  for(const ending of ['-ei','-esti','-ebbe','-emmo','-este','-ebbero'])assert.ok(body.includes(ending));
+  assert.ok(body.includes('including its final r'));assert.ok(body.includes('hypothetical'));assert.ok(body.includes('polite request'));assert.ok(body.includes('se avessi tempo'));
+  const question=q(e,'condizionale','conjugation',0);assert.ok(question.context.en.includes('would'));
+  assert.equal(gradeQuestion(question,lessonForms(e,'condizionale',0)[0]).ok,true);
+  wrong(question,lessonForms(e,'futuro',0)[0],'tense');
+  assert.equal(target(e,'condizionale','address',2, 'formal').id,`${e.id}::lesson::condizionale::formal`);
+ }
+ assert.ok(!lessonContexts(vb('potere'),'condizionale').some(c=>/would (?:can|be able to able)/.test(c.en)));
+ assert.equal(targets(chapter(vb('piovere'),'condizionale')).filter(t=>t.skill==='conjugation').length,1);
+ assert.equal(chapter(vb('parlare'),'condizionalePassato').optional,true);
+});
+test('present and past progressive questions diagnose helper, time, gerund and clitic without granting scaffold mastery',()=>{
+ const e=vb('parlare');
+ for(const [chId,expected,otherTime]of [['present','sto parlando','stavo parlando'],['background','stavo parlando','sto parlando']]){
+  const ch=chapter(e,chId),t=targets(ch).find(t=>t.skill==='progressive'&&t.person===0);
+  const question=buildJourneyQuestion(e,ch,t);assert.ok(question.answer.includes(expected));
+  wrong(question,'sono parlando','auxiliary');wrong(question,otherTime,'tense');wrong(question,`${chId==='present'?'sto':'stavo'} parlare`,'gerund');
+  wrong(question,`${chId==='present'?'stai':'stavi'} parlando`,'person');
+  for(const repairTag of ['auxiliary','gerund']){
+   const repair=buildJourneyQuestion(e,ch,t,{phase:'repair',format:'type',repairTag});assert.equal(repair.meta.mode,'recognition');assert.equal(repair.meta.scaffold,true);
+   assert.equal(repair.meta.skill,repairTag);assert.equal(repair.answer[0],repairTag==='gerund'?'parlando':chId==='present'?'sto':'stavo');
+   assert.ok(!gradeQuestion(repair,repair.answer[0]).components.some(c=>c.skill==='progressive'));
+  }
+ }
+ const reflexive=vb('lavarsi'),ch=chapter(reflexive,'background'),t=targets(ch).find(t=>t.skill==='progressive'&&t.person===0),question=buildJourneyQuestion(reflexive,ch,t);
+ assert.ok(gradeQuestion(question,'mi stavo lavando').ok);assert.ok(gradeQuestion(question,'stavo lavandomi').ok);wrong(question,'stavo lavando','clitic');
+ const usage=targets(chapter(vb('credere'),'present')).find(t=>t.skill==='progressiveUsage');assert.equal(usage.completionRequired,true);assert.equal(usage.required,false);
+});
+
+
+test('selected impersonal and thing-subject senses do not quiz personal or polite address forms',()=>{
+ for(const [inf,persons]of [['bisognare',[2]],['trattarsi',[2]],['volerci',[2,5]],['addirsi',[2,5]],['prudere',[2,5]],['urgere',[2,5]],['vigere',[2,5]],['rincrescere',[2,5]],['spettare',[2,5]],['verificarsi',[2,5]]]){
+  const e=vb(inf),ch=chapter(e,'present');
+  assert.deepEqual(targets(ch).filter(t=>t.skill==='conjugation').map(t=>t.person),persons,inf);
+  assert.ok(!targets(ch).some(t=>t.skill==='address'),inf);
+  for(const t of targets(ch).filter(t=>t.skill==='conjugation')){
+   const question=buildJourneyQuestion(e,ch,t);assert.ok(question.prompt.includes(t.subjectLabel)||question.context,inf);
+  }
+ }
+});
+test('sense-specific past forms stay separate and unsupported compounds are explained rather than generated',()=>{
+ for(const [inf,good,bad]of [['riflettere','ho riflettuto','ho riflesso'],['inferire','ho inferito','ho inferto'],['ripartire','ho ripartito','sono ripartito']]){
+  const e=vb(inf),question=q(e,'past','conjugation',0);assert.ok(question.answer.includes(good));assert.equal(gradeQuestion(question,bad).ok,false);
+  const pp=q(e,'past','participle');assert.ok(!pp.answer.some(x=>bad.endsWith(x)&&!good.endsWith(x)));
+ }
+ for(const inf of ['concernere','ostare']){const e=vb(inf);assert.deepEqual(lessonForms(e,'passatoProssimo',2),[]);assert.ok(!targets(chapter(e,'past')).some(t=>t.available!==false&&t.skill==='participle'));}
+});
+
 test('all 8,128 catalog entries produce answerable available targets without missing forms',()=>{
  let count=0;for(const e of [...verbs,...words]){const p=buildLesson(e);const ids=new Set();for(const ch of p.chapters)for(const t of targets(ch)){assert.ok(!ids.has(t.id));ids.add(t.id);if(t.available===false)continue;const question=buildJourneyQuestion(e,ch,t,{phase:t.guidedOnly?'guided':'independent'});assert.ok(question,`${e.id}/${ch.id}/${t.skill}`);assert.ok(question.answer.length);assert.ok(!question.prompt.includes('undefined'));assert.ok(question.answer.every(a=>gradeQuestion(question,a).ok),`${e.id}/${t.id}`);assert.equal(question.meta.targetId,t.id);count++;}}
  assert.ok(count>200000);console.log(`Catalog: ${verbs.length} verbs, ${words.length} words, ${count} available targets checked.`);

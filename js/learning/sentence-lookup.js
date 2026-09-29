@@ -1,11 +1,12 @@
 // Offline lexical help. Returned strings are data, never HTML; callers must escape them.
 import { article, withArticle, hasPluralForm, isPluralOnly, nounNumberNote, GENDER_NAME } from '../data.js';
 import { conjugate, accepted, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING } from '../conjugator.js';
+import { progressiveForms } from './progressive-content.js';
 
 const norm = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
 const usable = value => typeof value === 'string' && !!value.trim() && !['-', MISSING].includes(value.trim());
 const unique = values => [...new Set(values.filter(usable))];
-const CORE = [['presente', 'Present'], ['passatoProssimo', 'Past · passato prossimo'], ['futuro', 'Future']];
+const CORE = [['presente', 'Present'], ['passatoProssimo', 'Past · passato prossimo'], ['imperfetto', 'Imperfetto'], ['futuro', 'Future'], ['condizionale', 'Conditional · condizionale presente']];
 const WEATHER = new Set(['piovere', 'nevicare', 'grandinare', 'tuonare', 'lampeggiare', 'diluviare', 'piovigginare', 'nevischiare', 'albeggiare', 'imbrunire', 'annottare']);
 const NONFINITE = { infinito: 'Infinitive', infinitoPassato: 'Past infinitive', participioPassato: 'Past participle', participioPresente: 'Present participle', gerundio: 'Gerund', gerundioPassato: 'Past gerund' };
 // Explicitly authored lookup-only gaps found in the lesson/example corpus. These
@@ -17,6 +18,10 @@ const SUPPLEMENT = [
   ['condizione', 'condition', 'f', 'condizioni'], ['auto', 'car', 'f', 'auto'],
   ['termine', 'term; end', 'm', 'termini'], ['difesa', 'defence; defense', 'f', 'difese'],
   ['dichiarazione', 'statement; declaration', 'f', 'dichiarazioni'], ['lavoratore', 'worker', 'm', 'lavoratori'],
+  // Treccani vocabolario entries momento / spiegazione / testo3; explicit
+  // regular plurals, not an inference applied to unknown catalogue nouns.
+  ['momento', 'moment', 'm', 'momenti'], ['spiegazione', 'explanation', 'f', 'spiegazioni'],
+  ['testo', 'text; written passage', 'm', 'testi'],
 ].map(([it, en, g, pl]) => ({ id: `lookup:${it}|noun`, it, en, g, pl, pos: 'noun', lookupSource: 'curated', ...(it === pl ? { note: 'Invariable noun.' } : {}) }));
 SUPPLEMENT.push({ id: 'lookup:riposare|verb', inf: 'riposare', en: 'to rest', pos: 'verb', aux: 'avere', lookupSource: 'curated' });
 
@@ -78,6 +83,7 @@ const LEXICAL_ALIASES = {
   questo: ['questa', 'questi', 'queste'], quello: ['quel', 'quella', 'quelli', 'quelle', 'quei', 'quegli'],
   tutto: ['tutta', 'tutti', 'tutte'], altro: ['altra', 'altri', 'altre'],
   signore: ['signor'], buono: ['buon'], bello: ['bel', 'bei'], 'e-mail': ['email', 'mail'],
+  'menù': ['menu'],
   avere: ['aver'], essere: ['esser'], fare: ['far'], dire: ['dir'],
 };
 const PREPOSITIONS = new Map();
@@ -255,6 +261,14 @@ export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
           index(form, { tense: null, person: null, kind: key.startsWith('participio') ? 'participle' : key.startsWith('gerundio') ? 'gerund' : 'infinitive', nonFinite: key });
         }
       }
+      // A separated reflexive gerund belongs to its lexical verb only when the
+      // whole reviewed construction, including the correct clitic, is present.
+      // Never index the helper as if it were every progressive lexical verb.
+      for (const chapter of ['present','background']) for (let person=0;person<6;person++) {
+        for (const fullForm of progressiveForms(e,person,{chapter})) {
+          index(fullForm.split(/\s+/).at(-1),{fullForm,person,kind:'finite',tense:chapter==='background'?'imperfettoProgressivo':'presenteProgressivo'});
+        }
+      }
     }
   }
 
@@ -278,7 +292,8 @@ export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
   function verbDetails(e, records, context, options) {
     const inf = e.inf || e.it, c = paradigm(e), matches = [];
     const addMatch = record => {
-      const label = record.tense ? TENSE_BY_KEY[record.tense]?.name || record.tense : NONFINITE[record.nonFinite] || (record.kind === 'participle' ? 'Past participle' : record.kind === 'gerund' ? 'Gerund' : 'Infinitive');
+      const progressiveLabel=record.tense==='presenteProgressivo'?'Present progressive':record.tense==='imperfettoProgressivo'?'Past progressive':null;
+      const label = record.tense ? progressiveLabel || TENSE_BY_KEY[record.tense]?.name || record.tense : NONFINITE[record.nonFinite] || (record.kind === 'participle' ? 'Past participle' : record.kind === 'gerund' ? 'Gerund' : 'Infinitive');
       const personLabel = record.person === 2 && options.role === 'formal' ? 'Lei (formal you)' : record.tense === 'imperativo' ? IMP_PERSONS[[1, 2, 3, 4, 5].indexOf(record.person)] : record.person == null ? '' : PERSONS[record.person];
       const row = { form: record.fullForm || record.form, kind: record.kind, tense: record.tense || null, tenseLabel: label, person: record.person ?? null, personLabel, contextMatched: !!record.contextMatched };
       if (!matches.some(m => m.form === row.form && m.tenseLabel === row.tenseLabel && m.person === row.person)) matches.push(row);

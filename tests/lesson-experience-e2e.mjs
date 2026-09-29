@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Interaction checks for the taught lesson's exploration and study tools.
 import assert from 'node:assert/strict';
+import { journeyQuestion, solveJourneyQuestion, reachJourneyActivity } from './journey-driver.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadPlaywright, launchBrowser, contextOptions, ensureServer, boot, gotoRoute, reloadApp, TESTS_DIR, SHOTS_DIR } from './lib.mjs';
@@ -41,15 +42,8 @@ async function evidence() {
 }
 async function spoken() { return page.evaluate(() => JSON.parse(sessionStorage.getItem('experience-speech') || '[]')); }
 async function session() { return page.evaluate(async () => (await import('./js/store.js')).store.learning.session); }
-async function question() {
-  return page.evaluate(async () => {
-    const { store } = await import('./js/store.js'); const { getEntry } = await import('./js/data.js');
-    const { buildLesson } = await import('./js/learning/lesson-content.js'); const { currentJourneyStep } = await import('./js/learning/journey.js');
-    const { buildJourneyQuestion } = await import('./js/learning/lesson-questions.js');
-    const s = store.learning.session, e = getEntry(s.entryId), step = currentJourneyStep(buildLesson(e), s, store.learning);
-    return buildJourneyQuestion(e, step.chapter, step.target, { variant: step.variant, format: step.format, phase: step.phase, repairTag: step.repairTag });
-  });
-}
+async function question() { return journeyQuestion(page); }
+
 async function reachQuestion() {
   for (let n = 0; n < 15; n++) {
     if (await page.locator('[data-journey]').getAttribute('data-phase') === 'question') return;
@@ -57,11 +51,12 @@ async function reachQuestion() {
   }
   throw new Error('No question after teaching');
 }
-async function answerCorrect() {
-  const q = await question(); assert(q);
-  if (q.type === 'mc') { const index = q.choices.findIndex(c => (c.value || c.label) === q.answer[0]); assert(index >= 0); await page.locator(`[data-choice="${index}"]`).click(); }
-  else { await page.locator('[data-answer]').fill(q.answer[0]); await page.locator('[data-check]').click(); }
+async function answerCorrect() { await solveJourneyQuestion(page, await question()); }
+async function openOverviewExamples() {
+  const details=page.locator('.journey-overview-meaning');
+  if(await details.count()&&!await details.evaluate(e=>e.open))await details.locator('summary').click();
 }
+
 async function shot(name) {
   const file = path.join(SHOTS_DIR, `lesson-experience-${name}.png`);
   await page.screenshot({ path: file, fullPage: false, animations: 'disabled' }); screenshots.push(file);
@@ -99,17 +94,19 @@ try {
     await check(`${theme}: Meet pronunciation and translations are exploration, not answers`, async () => {
       await fresh(theme); await gotoRoute(page, '/learn/verb/v:dire');
       const before = await evidence();
-      assert.equal(await page.locator('[data-journey]').getAttribute('data-chapter'), 'meet');
+      assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'overview');
       await page.locator('.journey-hero-audio').click(); assert.deepEqual(await spoken(), [{ text: 'dire', lang: 'it-IT' }]);
+      await openOverviewExamples();
       const example = page.locator('.journey-example').first(), translation = example.locator('[data-translation]'), toggle = example.locator('[data-translation-toggle]');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'true'); assert(await translation.isVisible());
       await toggle.click(); assert.equal(await toggle.getAttribute('aria-expanded'), 'false'); assert.equal(await translation.isVisible(), false);
       await toggle.click(); assert.equal(await translation.isVisible(), true);
+      await page.locator('.journey-overview-meaning summary').click();
       await page.locator('.journey-main').evaluate(p => { p.scrollTop = 0; });
       assert.deepEqual(await evidence(), before); await withinViewport(); await shot(`${theme}-meet`);
     });
     await check(`${theme}: form cards support swipe, navigation, pronunciation and comparison without grading`, async () => {
-      await page.locator('[data-continue]').click();
+      await page.locator('[data-open-lesson=present]').click();
       assert.equal(await page.locator('[data-journey]').getAttribute('data-chapter'), 'present');
       const before = await evidence(), speechBefore = await spoken();
       const cards = page.locator('[data-form-card]'); assert.equal(await cards.count(), 3);
@@ -162,6 +159,7 @@ try {
     await check(`${theme}: sentence lookup shows real noun and verb details without grading`, async () => {
       await gotoRoute(page, '/learn/verb/v:capire');
       const before = await evidence();
+      await openOverviewExamples();
       const noun = page.locator('[data-italian-sentence] [data-lookup-word="domanda"]').first();
       await noun.click(); const dialog = page.locator('dialog.journey-word-dialog');
       assert.equal(await dialog.getAttribute('open'), '');
@@ -179,16 +177,17 @@ try {
       assert.deepEqual(await evidence(), before);
     });
     await check(`${theme}: correct and wrong feedback stays until Continue and records once`, async () => {
-      await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachQuestion();
+      await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachJourneyActivity(page, 'mc');
       const before = await evidence(); await answerCorrect();
       const right = await evidence(); assert.equal(right.events.length, before.events.length + 1);
       assert.equal((await session()).ui.result.ok, true); await shot(`${theme}-correct-feedback`);
       await page.waitForTimeout(500); assert.deepEqual(await evidence(), right);
       assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
-      await page.locator('[data-continue]').click(); await reachQuestion();
+      await page.locator('[data-continue]').click(); await reachJourneyActivity(page, 'type');
       assert.equal((await question()).type, 'type');
+      const beforeWrong = await evidence();
       await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click();
-      const wrong = await evidence(); assert.equal(wrong.events.length, right.events.length + 1);
+      const wrong = await evidence(); assert.equal(wrong.events.length, beforeWrong.events.length + 1);
       assert.equal((await session()).ui.result.ok, false); await shot(`${theme}-wrong-feedback`);
       await reloadApp(page); assert.deepEqual(await evidence(), wrong);
       assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
@@ -216,24 +215,29 @@ try {
     await shot('correct-answer-feedback');
   });
   await check('An active-question word lookup is recorded as help and keeps the answer draft', async () => {
-    await fresh(); await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachQuestion();
-    await answerCorrect(); await page.locator('[data-continue]').click(); await reachQuestion();
+    await fresh(); await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachJourneyActivity(page, 'mc');
+    await answerCorrect(); await page.locator('[data-continue]').click(); await reachJourneyActivity(page, 'type');
     assert.equal((await question()).type, 'type');
     await page.locator('[data-answer]').fill('cap');
     const before = await evidence(); assert(!(await session()).ui.assistance.includes('hint'));
-    await page.locator('.journey-prompt [data-lookup-word="domanda"]').click();
-    assert.match(await page.locator('dialog.journey-word-dialog').innerText(), /la domanda/);
+    const prompt = (await question()).prompt;
+    const fixture = prompt.includes('domanda')
+      ? { word:'domanda', singular:'la domanda', exposed:['question','la','le','domanda','domande'] }
+      : { word:'problema', singular:'il problema', exposed:['problem','il','i','problema','problemi'] };
+    assert(prompt.includes(fixture.word), 'a separately checked authored noun is available in the rotated prompt');
+    await page.locator(`.journey-prompt [data-lookup-word="${fixture.word}"]`).click();
+    assert((await page.locator('dialog.journey-word-dialog').innerText()).includes(fixture.singular));
     await page.locator('dialog.journey-word-dialog [data-word-close]').first().click();
     assert.equal(await page.locator('[data-answer]').inputValue(), 'cap');
     const lookedUp=await session();
     assert(lookedUp.ui.assistance.includes('hint')); assert.deepEqual(await evidence(), before);
-    for(const form of ['question','la','le','domanda','domande']) assert.equal(lookedUp.ui.exposures[form],lookedUp.index||0, `${form} remains recently exposed for following questions`);
+    for(const form of fixture.exposed) assert.equal(lookedUp.ui.exposures[form],lookedUp.index||0, `${form} remains recently exposed for following questions`);
     await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click();
     assert.equal((await session()).ui.result.ok, false); await shot('wrong-answer-feedback');
   });
   await check('Lesson Back is read-only and returns to the exact unanswered draft without extra evidence', async () => {
-    await fresh(); await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachQuestion();
-    await answerCorrect(); await page.locator('[data-continue]').click(); await reachQuestion();
+    await fresh(); await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachJourneyActivity(page, 'mc');
+    await answerCorrect(); await page.locator('[data-continue]').click(); await reachJourneyActivity(page, 'type');
     await page.locator('[data-answer]').fill('capi');
     const before = await evidence(), active = await session();
     await page.locator('[data-lesson-back]').click();

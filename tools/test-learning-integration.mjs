@@ -167,8 +167,8 @@ test('foundation recommendations never silently expand a restricted scope', () =
 test('course checkpoints are finite and readiness alone never means course completion', () => {
   const store = fixture();
   const progress = courseProgress(store, START);
-  assert.deepEqual(progress.map(stage => stage.total), [7, 5, 4, 3]);
-  assert.equal(progress.reduce((n, stage) => n + stage.total, 0), 19);
+  assert.deepEqual(progress.map(stage => stage.total), [7, 5, 3, 4, 3]);
+  assert.equal(progress.reduce((n, stage) => n + stage.total, 0), 22);
   assert.ok(progress.every(stage => !stage.complete));
   const o = stageObjectives(data.verbs, 'present')[0];
   store.master(o, { persons: [0, 1, 2, 3] });
@@ -184,7 +184,7 @@ test('all finite checkpoints can complete through actual evidence and delayed re
   }
   const progress = courseProgress(store, START + 3 * DAY);
   assert.ok(progress.every(stage => stage.complete));
-  assert.equal(progress.reduce((n, stage) => n + stage.remembered, 0), 19);
+  assert.equal(progress.reduce((n, stage) => n + stage.remembered, 0), 22);
   assert.ok(Object.keys(store.learning.events).length < 500);
 });
 

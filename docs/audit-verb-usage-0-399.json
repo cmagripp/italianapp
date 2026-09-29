@@ -1,0 +1,5114 @@
+{
+  "date": "2026-09-29",
+  "reviewer": "root",
+  "range": {
+    "start": 0,
+    "endInclusive": 399
+  },
+  "count": 400,
+  "scope": "Individually read every English gloss and full usage paragraph in this range. Selected grammatical claims were checked against primary dictionary and grammar sources. This is not a manual verification of all stored example sentences.",
+  "source": "data/verbs.json",
+  "findings": [
+    {
+      "ids": [
+        "v:amare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/amare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:assumere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/assumere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:bussare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/bussare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:compilare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/compilare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:conoscere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/conoscere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:credere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/credere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:dividere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/dividere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:dovere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/dovere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:essere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/essere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:funzionare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/funzionare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:immaginare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/immaginare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:lasciare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/lasciare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:pensare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/pensare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:perdonare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/perdonare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:potere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/potere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:ripassare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/ripassare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:sembrare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/sembrare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:spendere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/spendere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:visitare"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/visitare/"
+      ]
+    },
+    {
+      "ids": [
+        "v:volere"
+      ],
+      "type": "usage-clarity",
+      "status": "corrected",
+      "finding": "Corrected overly broad usage wording or clarified the grammatical construction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/volere/"
+      ]
+    },
+    {
+      "ids": [
+        "v:dovere",
+        "v:potere",
+        "v:volere"
+      ],
+      "type": "auxiliary-alternation",
+      "status": "corrected",
+      "finding": "Explains contextual auxiliary choice and accepted avere alternative with intransitives.",
+      "sources": [
+        "https://accademiadellacrusca.it/it/consulenza/la-scelta-degli-ausiliari/130"
+      ]
+    },
+    {
+      "ids": [
+        "v:bisognare",
+        "v:volerci"
+      ],
+      "type": "selected-subject-review",
+      "status": "engine-guard-requested",
+      "finding": "Lessons must respect impersonal selected sense; do not generate personal-subject sentences."
+    },
+    {
+      "ids": [
+        "v:splendere"
+      ],
+      "type": "rare-compound",
+      "status": "usage-note-present",
+      "finding": "Usage explicitly warns that splenduto is rare; do not present the compound as an everyday preferred construction."
+    }
+  ],
+  "entries": [
+    {
+      "index": 0,
+      "id": "v:abbracciare",
+      "inf": "abbracciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 1,
+      "id": "v:abitare",
+      "inf": "abitare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 2,
+      "id": "v:accettare",
+      "inf": "accettare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 3,
+      "id": "v:addormentarsi",
+      "inf": "addormentarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 4,
+      "id": "v:adorare",
+      "inf": "adorare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 5,
+      "id": "v:aiutare",
+      "inf": "aiutare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 6,
+      "id": "v:alzare",
+      "inf": "alzare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 7,
+      "id": "v:alzarsi",
+      "inf": "alzarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 8,
+      "id": "v:amare",
+      "inf": "amare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 9,
+      "id": "v:andare",
+      "inf": "andare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 10,
+      "id": "v:aprire",
+      "inf": "aprire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 11,
+      "id": "v:arrivare",
+      "inf": "arrivare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 12,
+      "id": "v:ascoltare",
+      "inf": "ascoltare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 13,
+      "id": "v:aspettare",
+      "inf": "aspettare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 14,
+      "id": "v:avere",
+      "inf": "avere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 15,
+      "id": "v:baciare",
+      "inf": "baciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 16,
+      "id": "v:ballare",
+      "inf": "ballare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 17,
+      "id": "v:bere",
+      "inf": "bere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 18,
+      "id": "v:bussare",
+      "inf": "bussare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 19,
+      "id": "v:buttare",
+      "inf": "buttare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 20,
+      "id": "v:camminare",
+      "inf": "camminare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 21,
+      "id": "v:cancellare",
+      "inf": "cancellare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 22,
+      "id": "v:cantare",
+      "inf": "cantare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 23,
+      "id": "v:capire",
+      "inf": "capire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 24,
+      "id": "v:cenare",
+      "inf": "cenare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 25,
+      "id": "v:cercare",
+      "inf": "cercare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 26,
+      "id": "v:chiamare",
+      "inf": "chiamare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 27,
+      "id": "v:chiamarsi",
+      "inf": "chiamarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 28,
+      "id": "v:chiedere",
+      "inf": "chiedere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 29,
+      "id": "v:chiudere",
+      "inf": "chiudere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 30,
+      "id": "v:colorare",
+      "inf": "colorare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 31,
+      "id": "v:cominciare",
+      "inf": "cominciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 32,
+      "id": "v:comprare",
+      "inf": "comprare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 33,
+      "id": "v:conoscere",
+      "inf": "conoscere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 34,
+      "id": "v:copiare",
+      "inf": "copiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 35,
+      "id": "v:correre",
+      "inf": "correre",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 36,
+      "id": "v:costare",
+      "inf": "costare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 37,
+      "id": "v:credere",
+      "inf": "credere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 38,
+      "id": "v:cucinare",
+      "inf": "cucinare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 39,
+      "id": "v:dare",
+      "inf": "dare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 40,
+      "id": "v:dimenticare",
+      "inf": "dimenticare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 41,
+      "id": "v:dire",
+      "inf": "dire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 42,
+      "id": "v:disegnare",
+      "inf": "disegnare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 43,
+      "id": "v:domandare",
+      "inf": "domandare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 44,
+      "id": "v:dormire",
+      "inf": "dormire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 45,
+      "id": "v:dovere",
+      "inf": "dovere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity",
+        "auxiliary-alternation"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 46,
+      "id": "v:durare",
+      "inf": "durare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 47,
+      "id": "v:entrare",
+      "inf": "entrare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 48,
+      "id": "v:essere",
+      "inf": "essere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 49,
+      "id": "v:fare",
+      "inf": "fare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 50,
+      "id": "v:finire",
+      "inf": "finire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 51,
+      "id": "v:fotografare",
+      "inf": "fotografare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 52,
+      "id": "v:frequentare",
+      "inf": "frequentare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 53,
+      "id": "v:fumare",
+      "inf": "fumare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 54,
+      "id": "v:giocare",
+      "inf": "giocare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 55,
+      "id": "v:guardare",
+      "inf": "guardare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 56,
+      "id": "v:imparare",
+      "inf": "imparare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 57,
+      "id": "v:incontrare",
+      "inf": "incontrare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 58,
+      "id": "v:insegnare",
+      "inf": "insegnare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 59,
+      "id": "v:lavarsi",
+      "inf": "lavarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 60,
+      "id": "v:lavorare",
+      "inf": "lavorare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 61,
+      "id": "v:leggere",
+      "inf": "leggere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 62,
+      "id": "v:mangiare",
+      "inf": "mangiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 63,
+      "id": "v:mettere",
+      "inf": "mettere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 64,
+      "id": "v:nuotare",
+      "inf": "nuotare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 65,
+      "id": "v:odiare",
+      "inf": "odiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 66,
+      "id": "v:pagare",
+      "inf": "pagare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 67,
+      "id": "v:parlare",
+      "inf": "parlare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 68,
+      "id": "v:partire",
+      "inf": "partire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 69,
+      "id": "v:passeggiare",
+      "inf": "passeggiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 70,
+      "id": "v:pattinare",
+      "inf": "pattinare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 71,
+      "id": "v:pensare",
+      "inf": "pensare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 72,
+      "id": "v:pescare",
+      "inf": "pescare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 73,
+      "id": "v:pettinarsi",
+      "inf": "pettinarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 74,
+      "id": "v:piacere",
+      "inf": "piacere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 75,
+      "id": "v:portare",
+      "inf": "portare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 76,
+      "id": "v:potere",
+      "inf": "potere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity",
+        "auxiliary-alternation"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 77,
+      "id": "v:pranzare",
+      "inf": "pranzare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 78,
+      "id": "v:preferire",
+      "inf": "preferire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 79,
+      "id": "v:prendere",
+      "inf": "prendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 80,
+      "id": "v:preparare",
+      "inf": "preparare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 81,
+      "id": "v:presentare",
+      "inf": "presentare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 82,
+      "id": "v:presentarsi",
+      "inf": "presentarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 83,
+      "id": "v:prestare",
+      "inf": "prestare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 84,
+      "id": "v:pronunciare",
+      "inf": "pronunciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 85,
+      "id": "v:provare",
+      "inf": "provare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 86,
+      "id": "v:pulire",
+      "inf": "pulire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 87,
+      "id": "v:respirare",
+      "inf": "respirare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 88,
+      "id": "v:restare",
+      "inf": "restare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 89,
+      "id": "v:restituire",
+      "inf": "restituire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 90,
+      "id": "v:ricordare",
+      "inf": "ricordare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 91,
+      "id": "v:rientrare",
+      "inf": "rientrare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 92,
+      "id": "v:rilassarsi",
+      "inf": "rilassarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 93,
+      "id": "v:ringraziare",
+      "inf": "ringraziare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 94,
+      "id": "v:ripassare",
+      "inf": "ripassare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 95,
+      "id": "v:rispondere",
+      "inf": "rispondere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 96,
+      "id": "v:salutare",
+      "inf": "salutare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 97,
+      "id": "v:salvare",
+      "inf": "salvare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 98,
+      "id": "v:sapere",
+      "inf": "sapere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 99,
+      "id": "v:scherzare",
+      "inf": "scherzare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 100,
+      "id": "v:sciare",
+      "inf": "sciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 101,
+      "id": "v:scrivere",
+      "inf": "scrivere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 102,
+      "id": "v:scusare",
+      "inf": "scusare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 103,
+      "id": "v:sentire",
+      "inf": "sentire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 104,
+      "id": "v:spendere",
+      "inf": "spendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 105,
+      "id": "v:stare",
+      "inf": "stare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 106,
+      "id": "v:studiare",
+      "inf": "studiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 107,
+      "id": "v:suonare",
+      "inf": "suonare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 108,
+      "id": "v:svegliarsi",
+      "inf": "svegliarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 109,
+      "id": "v:telefonare",
+      "inf": "telefonare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 110,
+      "id": "v:tornare",
+      "inf": "tornare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 111,
+      "id": "v:trovare",
+      "inf": "trovare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 112,
+      "id": "v:truccarsi",
+      "inf": "truccarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 113,
+      "id": "v:usare",
+      "inf": "usare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 114,
+      "id": "v:uscire",
+      "inf": "uscire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 115,
+      "id": "v:vedere",
+      "inf": "vedere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 116,
+      "id": "v:vendere",
+      "inf": "vendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 117,
+      "id": "v:venire",
+      "inf": "venire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 118,
+      "id": "v:versare",
+      "inf": "versare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 119,
+      "id": "v:vestirsi",
+      "inf": "vestirsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 120,
+      "id": "v:viaggiare",
+      "inf": "viaggiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 121,
+      "id": "v:visitare",
+      "inf": "visitare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 122,
+      "id": "v:vivere",
+      "inf": "vivere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 123,
+      "id": "v:volere",
+      "inf": "volere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity",
+        "auxiliary-alternation"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 124,
+      "id": "v:abbaiare",
+      "inf": "abbaiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 125,
+      "id": "v:abbassare",
+      "inf": "abbassare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 126,
+      "id": "v:abbronzarsi",
+      "inf": "abbronzarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 127,
+      "id": "v:accarezzare",
+      "inf": "accarezzare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 128,
+      "id": "v:accendere",
+      "inf": "accendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 129,
+      "id": "v:accompagnare",
+      "inf": "accompagnare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 130,
+      "id": "v:affittare",
+      "inf": "affittare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 131,
+      "id": "v:aggiustare",
+      "inf": "aggiustare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 132,
+      "id": "v:allegare",
+      "inf": "allegare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 133,
+      "id": "v:allenarsi",
+      "inf": "allenarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 134,
+      "id": "v:ammalarsi",
+      "inf": "ammalarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 135,
+      "id": "v:andarsene",
+      "inf": "andarsene",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 136,
+      "id": "v:annoiarsi",
+      "inf": "annoiarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 137,
+      "id": "v:apparecchiare",
+      "inf": "apparecchiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 138,
+      "id": "v:appendere",
+      "inf": "appendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 139,
+      "id": "v:arrabbiarsi",
+      "inf": "arrabbiarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 140,
+      "id": "v:arredare",
+      "inf": "arredare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 141,
+      "id": "v:asciugare",
+      "inf": "asciugare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 142,
+      "id": "v:assaggiare",
+      "inf": "assaggiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 143,
+      "id": "v:assomigliare",
+      "inf": "assomigliare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 144,
+      "id": "v:atterrare",
+      "inf": "atterrare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 145,
+      "id": "v:attraversare",
+      "inf": "attraversare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 146,
+      "id": "v:augurare",
+      "inf": "augurare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 147,
+      "id": "v:avvisare",
+      "inf": "avvisare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 148,
+      "id": "v:bastare",
+      "inf": "bastare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 149,
+      "id": "v:bloccare",
+      "inf": "bloccare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 150,
+      "id": "v:bollire",
+      "inf": "bollire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 151,
+      "id": "v:brindare",
+      "inf": "brindare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 152,
+      "id": "v:cadere",
+      "inf": "cadere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 153,
+      "id": "v:calmarsi",
+      "inf": "calmarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 154,
+      "id": "v:cambiare",
+      "inf": "cambiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 155,
+      "id": "v:caricare",
+      "inf": "caricare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 156,
+      "id": "v:chattare",
+      "inf": "chattare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 157,
+      "id": "v:cliccare",
+      "inf": "cliccare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 158,
+      "id": "v:coltivare",
+      "inf": "coltivare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 159,
+      "id": "v:commentare",
+      "inf": "commentare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 160,
+      "id": "v:compilare",
+      "inf": "compilare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 161,
+      "id": "v:comunicare",
+      "inf": "comunicare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 162,
+      "id": "v:condire",
+      "inf": "condire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 163,
+      "id": "v:consigliare",
+      "inf": "consigliare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 164,
+      "id": "v:contenere",
+      "inf": "contenere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 165,
+      "id": "v:continuare",
+      "inf": "continuare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 166,
+      "id": "v:controllare",
+      "inf": "controllare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 167,
+      "id": "v:coprire",
+      "inf": "coprire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 168,
+      "id": "v:costruire",
+      "inf": "costruire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 169,
+      "id": "v:crescere",
+      "inf": "crescere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 170,
+      "id": "v:cuocere",
+      "inf": "cuocere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 171,
+      "id": "v:curare",
+      "inf": "curare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 172,
+      "id": "v:decidere",
+      "inf": "decidere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 173,
+      "id": "v:decollare",
+      "inf": "decollare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 174,
+      "id": "v:decorare",
+      "inf": "decorare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 175,
+      "id": "v:descrivere",
+      "inf": "descrivere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 176,
+      "id": "v:desiderare",
+      "inf": "desiderare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 177,
+      "id": "v:difendere",
+      "inf": "difendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 178,
+      "id": "v:dimagrire",
+      "inf": "dimagrire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 179,
+      "id": "v:dimenticarsi",
+      "inf": "dimenticarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 180,
+      "id": "v:dipingere",
+      "inf": "dipingere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 181,
+      "id": "v:discutere",
+      "inf": "discutere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 182,
+      "id": "v:dispiacere",
+      "inf": "dispiacere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 183,
+      "id": "v:diventare",
+      "inf": "diventare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 184,
+      "id": "v:divertirsi",
+      "inf": "divertirsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 185,
+      "id": "v:dividere",
+      "inf": "dividere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 186,
+      "id": "v:divorziare",
+      "inf": "divorziare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 187,
+      "id": "v:esercitarsi",
+      "inf": "esercitarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 188,
+      "id": "v:fermarsi",
+      "inf": "fermarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 189,
+      "id": "v:festeggiare",
+      "inf": "festeggiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 190,
+      "id": "v:fiorire",
+      "inf": "fiorire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 191,
+      "id": "v:firmare",
+      "inf": "firmare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 192,
+      "id": "v:fotocopiare",
+      "inf": "fotocopiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 193,
+      "id": "v:friggere",
+      "inf": "friggere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 194,
+      "id": "v:funzionare",
+      "inf": "funzionare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 195,
+      "id": "v:girare",
+      "inf": "girare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 196,
+      "id": "v:gridare",
+      "inf": "gridare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 197,
+      "id": "v:guadagnare",
+      "inf": "guadagnare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 198,
+      "id": "v:guarire",
+      "inf": "guarire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 199,
+      "id": "v:guidare",
+      "inf": "guidare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 200,
+      "id": "v:immaginare",
+      "inf": "immaginare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 201,
+      "id": "v:importare",
+      "inf": "importare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 202,
+      "id": "v:incollare",
+      "inf": "incollare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 203,
+      "id": "v:indossare",
+      "inf": "indossare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 204,
+      "id": "v:indovinare",
+      "inf": "indovinare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 205,
+      "id": "v:ingrassare",
+      "inf": "ingrassare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 206,
+      "id": "v:innamorarsi",
+      "inf": "innamorarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 207,
+      "id": "v:installare",
+      "inf": "installare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 208,
+      "id": "v:interessare",
+      "inf": "interessare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 209,
+      "id": "v:invecchiare",
+      "inf": "invecchiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 210,
+      "id": "v:inviare",
+      "inf": "inviare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 211,
+      "id": "v:invitare",
+      "inf": "invitare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 212,
+      "id": "v:lanciare",
+      "inf": "lanciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 213,
+      "id": "v:lasciare",
+      "inf": "lasciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 214,
+      "id": "v:laurearsi",
+      "inf": "laurearsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 215,
+      "id": "v:lavare",
+      "inf": "lavare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 216,
+      "id": "v:mancare",
+      "inf": "mancare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 217,
+      "id": "v:mandare",
+      "inf": "mandare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 218,
+      "id": "v:mescolare",
+      "inf": "mescolare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 219,
+      "id": "v:mettersi",
+      "inf": "mettersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 220,
+      "id": "v:misurare",
+      "inf": "misurare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 221,
+      "id": "v:mordere",
+      "inf": "mordere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 222,
+      "id": "v:morire",
+      "inf": "morire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 223,
+      "id": "v:mostrare",
+      "inf": "mostrare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 224,
+      "id": "v:muovere",
+      "inf": "muovere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 225,
+      "id": "v:muoversi",
+      "inf": "muoversi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 226,
+      "id": "v:nascere",
+      "inf": "nascere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 227,
+      "id": "v:navigare",
+      "inf": "navigare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 228,
+      "id": "v:nevicare",
+      "inf": "nevicare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 229,
+      "id": "v:noleggiare",
+      "inf": "noleggiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 230,
+      "id": "v:offrire",
+      "inf": "offrire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 231,
+      "id": "v:ordinare",
+      "inf": "ordinare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 232,
+      "id": "v:ospitare",
+      "inf": "ospitare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 233,
+      "id": "v:parcheggiare",
+      "inf": "parcheggiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 234,
+      "id": "v:pareggiare",
+      "inf": "pareggiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 235,
+      "id": "v:passare",
+      "inf": "passare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 236,
+      "id": "v:perdere",
+      "inf": "perdere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 237,
+      "id": "v:perdersi",
+      "inf": "perdersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 238,
+      "id": "v:perdonare",
+      "inf": "perdonare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 239,
+      "id": "v:permettere",
+      "inf": "permettere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 240,
+      "id": "v:pesare",
+      "inf": "pesare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 241,
+      "id": "v:piangere",
+      "inf": "piangere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 242,
+      "id": "v:piantare",
+      "inf": "piantare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 243,
+      "id": "v:piovere",
+      "inf": "piovere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 244,
+      "id": "v:pregare",
+      "inf": "pregare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 245,
+      "id": "v:prenotare",
+      "inf": "prenotare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 246,
+      "id": "v:preoccuparsi",
+      "inf": "preoccuparsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 247,
+      "id": "v:prepararsi",
+      "inf": "prepararsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 248,
+      "id": "v:promettere",
+      "inf": "promettere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 249,
+      "id": "v:protestare",
+      "inf": "protestare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 250,
+      "id": "v:raccogliere",
+      "inf": "raccogliere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 251,
+      "id": "v:raccontare",
+      "inf": "raccontare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 252,
+      "id": "v:radersi",
+      "inf": "radersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 253,
+      "id": "v:raffreddarsi",
+      "inf": "raffreddarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 254,
+      "id": "v:recitare",
+      "inf": "recitare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 255,
+      "id": "v:regalare",
+      "inf": "regalare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 256,
+      "id": "v:registrare",
+      "inf": "registrare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 257,
+      "id": "v:ricaricare",
+      "inf": "ricaricare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 258,
+      "id": "v:ricevere",
+      "inf": "ricevere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 259,
+      "id": "v:richiamare",
+      "inf": "richiamare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 260,
+      "id": "v:riciclare",
+      "inf": "riciclare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 261,
+      "id": "v:ricominciare",
+      "inf": "ricominciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 262,
+      "id": "v:riconoscere",
+      "inf": "riconoscere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 263,
+      "id": "v:ricordarsi",
+      "inf": "ricordarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 264,
+      "id": "v:ridere",
+      "inf": "ridere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 265,
+      "id": "v:riempire",
+      "inf": "riempire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 266,
+      "id": "v:rimanere",
+      "inf": "rimanere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 267,
+      "id": "v:rinnovare",
+      "inf": "rinnovare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 268,
+      "id": "v:riordinare",
+      "inf": "riordinare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 269,
+      "id": "v:riparare",
+      "inf": "riparare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 270,
+      "id": "v:riposarsi",
+      "inf": "riposarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 271,
+      "id": "v:ritirare",
+      "inf": "ritirare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 272,
+      "id": "v:riuscire",
+      "inf": "riuscire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 273,
+      "id": "v:rompere",
+      "inf": "rompere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 274,
+      "id": "v:rubare",
+      "inf": "rubare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 275,
+      "id": "v:salire",
+      "inf": "salire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 276,
+      "id": "v:sanguinare",
+      "inf": "sanguinare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 277,
+      "id": "v:sbagliare",
+      "inf": "sbagliare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 278,
+      "id": "v:sbrigarsi",
+      "inf": "sbrigarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 279,
+      "id": "v:scadere",
+      "inf": "scadere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 280,
+      "id": "v:scaldare",
+      "inf": "scaldare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 281,
+      "id": "v:scappare",
+      "inf": "scappare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 282,
+      "id": "v:scaricare",
+      "inf": "scaricare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 283,
+      "id": "v:scattare",
+      "inf": "scattare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 284,
+      "id": "v:scegliere",
+      "inf": "scegliere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 285,
+      "id": "v:scendere",
+      "inf": "scendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 286,
+      "id": "v:scivolare",
+      "inf": "scivolare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 287,
+      "id": "v:scoprire",
+      "inf": "scoprire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 288,
+      "id": "v:scusarsi",
+      "inf": "scusarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 289,
+      "id": "v:sdraiarsi",
+      "inf": "sdraiarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 290,
+      "id": "v:sedersi",
+      "inf": "sedersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 291,
+      "id": "v:segnare",
+      "inf": "segnare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 292,
+      "id": "v:seguire",
+      "inf": "seguire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 293,
+      "id": "v:sembrare",
+      "inf": "sembrare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 294,
+      "id": "v:sentirsi",
+      "inf": "sentirsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 295,
+      "id": "v:separarsi",
+      "inf": "separarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 296,
+      "id": "v:servire",
+      "inf": "servire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 297,
+      "id": "v:significare",
+      "inf": "significare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 298,
+      "id": "v:smettere",
+      "inf": "smettere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 299,
+      "id": "v:soffiare",
+      "inf": "soffiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 300,
+      "id": "v:soffrire",
+      "inf": "soffrire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 301,
+      "id": "v:sognare",
+      "inf": "sognare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 302,
+      "id": "v:sorridere",
+      "inf": "sorridere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 303,
+      "id": "v:sparecchiare",
+      "inf": "sparecchiare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 304,
+      "id": "v:spedire",
+      "inf": "spedire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 305,
+      "id": "v:spegnere",
+      "inf": "spegnere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 306,
+      "id": "v:sperare",
+      "inf": "sperare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 307,
+      "id": "v:spiegare",
+      "inf": "spiegare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 308,
+      "id": "v:spingere",
+      "inf": "spingere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 309,
+      "id": "v:splendere",
+      "inf": "splendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "rare-compound"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 310,
+      "id": "v:spogliarsi",
+      "inf": "spogliarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 311,
+      "id": "v:sporcare",
+      "inf": "sporcare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 312,
+      "id": "v:sposarsi",
+      "inf": "sposarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 313,
+      "id": "v:spostare",
+      "inf": "spostare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 314,
+      "id": "v:sprecare",
+      "inf": "sprecare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 315,
+      "id": "v:stampare",
+      "inf": "stampare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 316,
+      "id": "v:starnutire",
+      "inf": "starnutire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 317,
+      "id": "v:stirare",
+      "inf": "stirare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 318,
+      "id": "v:succedere",
+      "inf": "succedere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 319,
+      "id": "v:sudare",
+      "inf": "sudare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 320,
+      "id": "v:svuotare",
+      "inf": "svuotare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 321,
+      "id": "v:tagliare",
+      "inf": "tagliare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 322,
+      "id": "v:temere",
+      "inf": "temere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 323,
+      "id": "v:tenere",
+      "inf": "tenere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 324,
+      "id": "v:tifare",
+      "inf": "tifare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 325,
+      "id": "v:tirare",
+      "inf": "tirare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 326,
+      "id": "v:toccare",
+      "inf": "toccare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 327,
+      "id": "v:togliere",
+      "inf": "togliere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 328,
+      "id": "v:tossire",
+      "inf": "tossire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 329,
+      "id": "v:tramontare",
+      "inf": "tramontare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 330,
+      "id": "v:traslocare",
+      "inf": "traslocare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 331,
+      "id": "v:tremare",
+      "inf": "tremare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 332,
+      "id": "v:tuffarsi",
+      "inf": "tuffarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 333,
+      "id": "v:ubbidire",
+      "inf": "ubbidire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 334,
+      "id": "v:vincere",
+      "inf": "vincere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 335,
+      "id": "v:volare",
+      "inf": "volare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 336,
+      "id": "v:volerci",
+      "inf": "volerci",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 337,
+      "id": "v:abbandonare",
+      "inf": "abbandonare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 338,
+      "id": "v:abituarsi",
+      "inf": "abituarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 339,
+      "id": "v:accedere",
+      "inf": "accedere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 340,
+      "id": "v:accontentarsi",
+      "inf": "accontentarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 341,
+      "id": "v:accorgersi",
+      "inf": "accorgersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 342,
+      "id": "v:affrontare",
+      "inf": "affrontare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 343,
+      "id": "v:aggiornare",
+      "inf": "aggiornare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 344,
+      "id": "v:aggiungere",
+      "inf": "aggiungere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 345,
+      "id": "v:agitarsi",
+      "inf": "agitarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 346,
+      "id": "v:allontanarsi",
+      "inf": "allontanarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 347,
+      "id": "v:ammettere",
+      "inf": "ammettere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 348,
+      "id": "v:annunciare",
+      "inf": "annunciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 349,
+      "id": "v:appartenere",
+      "inf": "appartenere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 350,
+      "id": "v:apprezzare",
+      "inf": "apprezzare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 351,
+      "id": "v:approfittare",
+      "inf": "approfittare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 352,
+      "id": "v:arrampicarsi",
+      "inf": "arrampicarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 353,
+      "id": "v:arrendersi",
+      "inf": "arrendersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 354,
+      "id": "v:aspettarsi",
+      "inf": "aspettarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 355,
+      "id": "v:assumere",
+      "inf": "assumere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "usage-clarity"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 356,
+      "id": "v:attirare",
+      "inf": "attirare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 357,
+      "id": "v:attrarre",
+      "inf": "attrarre",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 358,
+      "id": "v:aumentare",
+      "inf": "aumentare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 359,
+      "id": "v:avercela",
+      "inf": "avercela",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 360,
+      "id": "v:avvertire",
+      "inf": "avvertire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 361,
+      "id": "v:avvicinarsi",
+      "inf": "avvicinarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 362,
+      "id": "v:bisognare",
+      "inf": "bisognare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [
+        "selected-subject-review"
+      ],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 363,
+      "id": "v:bruciare",
+      "inf": "bruciare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 364,
+      "id": "v:calcolare",
+      "inf": "calcolare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 365,
+      "id": "v:capitare",
+      "inf": "capitare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 366,
+      "id": "v:cavarsela",
+      "inf": "cavarsela",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 367,
+      "id": "v:chiacchierare",
+      "inf": "chiacchierare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 368,
+      "id": "v:chiarire",
+      "inf": "chiarire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 369,
+      "id": "v:coinvolgere",
+      "inf": "coinvolgere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 370,
+      "id": "v:collaborare",
+      "inf": "collaborare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 371,
+      "id": "v:colpire",
+      "inf": "colpire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 372,
+      "id": "v:commuovere",
+      "inf": "commuovere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 373,
+      "id": "v:comportarsi",
+      "inf": "comportarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 374,
+      "id": "v:comprendere",
+      "inf": "comprendere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 375,
+      "id": "v:concludere",
+      "inf": "concludere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 376,
+      "id": "v:condividere",
+      "inf": "condividere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 377,
+      "id": "v:condurre",
+      "inf": "condurre",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 378,
+      "id": "v:confermare",
+      "inf": "confermare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 379,
+      "id": "v:confidarsi",
+      "inf": "confidarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 380,
+      "id": "v:confondere",
+      "inf": "confondere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 381,
+      "id": "v:consegnare",
+      "inf": "consegnare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 382,
+      "id": "v:conservare",
+      "inf": "conservare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 383,
+      "id": "v:considerare",
+      "inf": "considerare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 384,
+      "id": "v:consumare",
+      "inf": "consumare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 385,
+      "id": "v:contare",
+      "inf": "contare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 386,
+      "id": "v:convincere",
+      "inf": "convincere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 387,
+      "id": "v:correggere",
+      "inf": "correggere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 388,
+      "id": "v:costringere",
+      "inf": "costringere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 389,
+      "id": "v:criticare",
+      "inf": "criticare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 390,
+      "id": "v:crollare",
+      "inf": "crollare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 391,
+      "id": "v:curarsi",
+      "inf": "curarsi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 392,
+      "id": "v:decidersi",
+      "inf": "decidersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 393,
+      "id": "v:dedicare",
+      "inf": "dedicare",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 394,
+      "id": "v:definire",
+      "inf": "definire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 395,
+      "id": "v:deludere",
+      "inf": "deludere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 396,
+      "id": "v:diffondere",
+      "inf": "diffondere",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 397,
+      "id": "v:digerire",
+      "inf": "digerire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 398,
+      "id": "v:dimettersi",
+      "inf": "dimettersi",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    },
+    {
+      "index": 399,
+      "id": "v:diminuire",
+      "inf": "diminuire",
+      "reviewedFields": [
+        "en",
+        "usage"
+      ],
+      "reviewMethod": "Individual semantic reading of the complete gloss and usage paragraph.",
+      "findings": [],
+      "examplesIndividuallyReviewed": false
+    }
+  ]
+}

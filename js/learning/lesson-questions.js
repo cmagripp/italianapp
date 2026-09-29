@@ -1,9 +1,11 @@
 // Journey questions reuse conservative morphology diagnostics, never synthetic sentences.
 import { buildQuestion, escapeHTML, expandedForms, wordContext } from './questions.js';
-import { lessonContexts, lessonForms, formalLessonForms, lessonExposureForms, lessonEntry, LESSON_CONTENT_VERSION } from './lesson-content.js';
+import { lessonContexts, lessonForms, formalLessonForms, lessonExposureForms, lessonEntry, lessonParticiples, LESSON_CONTENT_VERSION } from './lesson-content.js';
 import { conjugate, PERSONS, TENSE_BY_KEY } from '../conjugator.js';
 import { withArticle } from '../data.js';
 import { WEATHER_VERBS } from './content.js';
+import { createLetterActivity, createPairActivity } from './lesson-activities.js';
+import { progressiveForms, progressiveInfo } from './progressive-content.js';
 const esc=escapeHTML;
 const unique=xs=>[...new Set(xs.filter(Boolean))];
 const text=(a,b='')=>`<div class="big md">${esc(a)}</div><div class="sub">${esc(b)}</div>`;
@@ -14,20 +16,46 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  entry=lessonEntry(entry);
  const v=Math.abs(Math.floor(Number(variant)||0)),rng=seeded(v),kind=entry.inf?'verb':'word';
  const supported=phase!=='independent'||format!=='type';
- const showChoices=supported&&format!=='type';
- const core=['presente','passatoProssimo','futuro'];
- const stageIndex=chapter.id==='present'?0:chapter.id==='past'?1:2;
+ const showChoices=supported&&!['type','letters','pairs'].includes(format);
+ const core=['presente','passatoProssimo','imperfetto','futuro','condizionale'];
+ const stageIndex=chapter.id==='present'?0:chapter.id==='past'?1:chapter.id==='background'?2:chapter.id==='future'?3:4;
  const permitted=[...core.slice(0,stageIndex+1),...(chapter.optional&&target.tense?[target.tense]:[])];
  const o={id:target.id,entryId:entry.id,kind,skill:target.skill,tense:target.tense||null,stage:'future',label:target.skill,explanation:''};
  let q;
  const source=target.sourceChapter||chapter.id;
  const contexts=kind==='verb'&&['conjugation','context','address'].includes(target.skill)?lessonContexts(entry,source).filter(c=>target.skill==='context'||c.person===target.person&&c.role===(target.role||'ordinary')):[];
  const smallRepair=phase==='repair'&&['auxiliary','auxiliaryPerson','participle','agreement','clitic'].includes(repairTag);
- if(target.supplementalOnly){
-  const time=chapter.id==='past'?'A completed event':chapter.id==='future'?'A future event':'Now or a routine';
+ if(target.progressive){
+  const info=progressiveInfo(entry,{chapter:chapter.id}),person=target.person??0;
+  if(target.skill==='progressiveUsage'){
+   q={prompt:text(target.usageQuestion),answer:target.usageAnswers,tip:target.explanation,lesson:target.explanation,say:'',meta:{supportOnly:true,answerLanguage:'en',diagnostic:{kind:'component',component:'progressiveUsage'},variantId:`${target.id}:usage`,contextId:`${target.id}:usage`}};
+   choices(q,target.usageDistractors||[],true,rng);
+  }else{
+   const situations=target.contexts||[],context=situations[v%situations.length],englishCue=situations.length&&Math.floor(v/situations.length)%2===1;
+   const answers=progressiveForms(entry,person,{chapter:chapter.id});if(!answers.length)return null;
+   const tenseCue=chapter.id==='background'?'stare (imperfetto) + gerundio':'stare (present) + gerundio';
+   const who=target.role==='formal'?'Lei · formal':person===1?'tu · informal':person===4?'voi · plural':info.weather?'impersonal weather use':PERSONS[person];
+   const diagnostic={kind:'progressive',gerund:info.gerund,clitic:info.clitic,person,stareForms:info.helperForms,otherTenseForms:progressiveInfo(entry,{chapter:chapter.id==='background'?'present':'background'}).helperForms,personForms:Array.from({length:6},(_,p)=>progressiveForms(entry,p,{chapter:chapter.id}).map(answer=>({person:p,answer}))).flat()};
+   q={prompt:text(v%2?entry.en:entry.inf,`${who} · ${tenseCue} · action in progress`),answer:answers,choices:[],say:answers[0],tip:`Use the matching form of stare, then ${info.gerund}. Keep any pronouns with the construction.`,lesson:`${who} → ${answers.join(' / ')}`,example:`${who} → ${answers.join(' / ')}`,meta:{diagnostic,variantId:`${target.id}:cue-${v%2}`,contextId:`${target.id}:form-cue-${v%2}`,evidenceScope:'form'}};
+   if(context&&format!=='match'){
+    const at=context.it.toLocaleLowerCase('it').indexOf(context.answer.toLocaleLowerCase('it'));if(at<0)return null;
+    q.prompt=englishCue?text(context.en,`${who} · ${tenseCue}`):`<div class="sub">${esc(context.en)}</div><div class="sentence">${esc(context.it.slice(0,at))}<span class="blank">…</span>${esc(context.it.slice(at+context.answer.length))}</div><div class="sub">${esc(who)} · ${esc(tenseCue)}</div>`;
+    q.answer=context.answers;q.context={it:context.it,en:context.en};q.example=context.it;q.exampleTranslation=context.en;q.say=context.it;
+    q.meta.variantId=`${context.id}:${englishCue?'english-retrieval':'italian-gap'}`;q.meta.contextId=context.id;q.meta.evidenceScope='construction';
+   }
+   if(phase==='repair'&&['auxiliary','auxiliaryPerson','person','gerund'].includes(repairTag)){
+    const gerund=repairTag==='gerund',answer=gerund?info.gerund:diagnostic.stareForms[person];
+    q.answer=[answer];q.prompt=text(gerund?`stare + … · ${entry.inf}`:`${who} · … + ${info.gerund}`,gerund?'Recall the gerundio.':'Recall only the form of stare.');
+    q.meta={...q.meta,skill:gerund?'gerund':'auxiliary',scaffold:true,scaffoldSkill:gerund?'gerund':'auxiliary',diagnostic:gerund?{kind:'component',component:'gerund'}:{kind:'auxiliary',inflected:true,auxKeys:['stare'],allAuxForms:{stare:diagnostic.stareForms},auxForms:[answer]},variantId:`${target.id}:repair-${gerund?'gerund':'stare'}-${v%2}`};
+    delete q.context;q.example=`${who} → ${answers.join(' / ')}`;q.tip=gerund?'The gerundio does not change with the person.':`Stare carries the person: ${info.helperForms.join(', ')}.`;
+    choices(q,gerund?[entry.inf]:diagnostic.stareForms,showChoices,rng);
+   }else choices(q,diagnostic.personForms.map(x=>x.answer),showChoices,rng);
+  }
+ }else if(target.supplementalOnly){
+  const time=chapter.id==='past'?'A completed event':chapter.id==='future'?'A future event':chapter.id==='background'?'Past habits or background':chapter.id==='condizionale'?'A wish, polite request or hypothetical result':'Now or a routine';
   const answer=target.fact||(target.skill==='timeMeaning'?time:'An impersonal weather construction');
-  const prompt=target.skill==='timeMeaning'?'Which meaning are we practising in this chapter?':target.skill==='subjectUse'?'In its everyday weather use, what kind of subject does the verb have?':target.skill==='wordFunction'?'Recall the role of the word type taught in this lesson.':'Which pattern matters for the word type taught in this lesson?';
-  const wrong=target.skill==='timeMeaning'?['A completed event','A future event','Now or a routine']:target.skill==='subjectUse'?['A person called Lei','A group addressed as voi']:target.skill==='wordFunction'?['An action conjugated for six people.','A number used only for counting.','A noun’s definite article.']:['Always conjugate it in the past.','Always attach a masculine plural ending.'];
+  const prompt=target.skill==='timeMeaning'?'Which meaning are we practising in this chapter?':target.skill==='subjectUse'?(target.fact?'In the meaning taught here, what is the grammatical subject?':'In its everyday weather use, what kind of subject does the verb have?'):target.skill==='wordFunction'?'Recall the role of the word type taught in this lesson.':'Which pattern matters for the word type taught in this lesson?';
+  const wrong=target.skill==='timeMeaning'?['A completed event','A future event','Past habits or background','A wish, polite request or hypothetical result','Now or a routine']:target.skill==='subjectUse'?['A person called Lei','A group addressed as voi']:target.skill==='wordFunction'?['An action conjugated for six people.','A number used only for counting.','A noun’s definite article.']:['Always conjugate it in the past.','Always attach a masculine plural ending.'];
   q={prompt:text(prompt),answer:[answer],choices:[],say:'',tip:answer,lesson:answer,example:'',meta:{diagnostic:{kind:'component',component:target.skill},variantId:`${target.id}:fact`,contextId:`${target.id}:fact`,supportOnly:true}};
   choices(q,wrong,true,rng);
  }else if(kind==='verb'&&contexts.length&&format!=='match'&&!smallRepair){
@@ -58,6 +86,7 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   choices(q,[...(q.meta.diagnostic.personForms||[]).map(x=>x.answer)],showChoices,rng);
  }else if(kind==='verb'&&target.guidedOnly){
   q=buildQuestion(entry,o,{mode:'production',variant:target.skill==='auxiliary'?1:0,repairPerson:target.person,allowedTenses:permitted,rng});if(!q)return null;
+  if(target.skill==='participle'){q.answer=lessonParticiples(entry);q.say=q.answer[0]||'';}
   q.meta.supportOnly=true;
  }else if(kind==='verb'){
   const repairContext=smallRepair?contexts[v%contexts.length]:null,e=repairContext?.aux?{...entry,aux:repairContext.aux}:entry;
@@ -65,9 +94,9 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:smallRepair||showChoices?'recognition':'production',variant:v,repairPerson:person,repairTag:phase==='repair'?repairTag:null,allowedTenses:permitted,rng});if(!q)return null;
   if(!q.meta.scaffold){
    q.answer=answers;
-   const who=WEATHER_VERBS.has(entry.inf)?'impersonal weather use (no personal subject)':target.tense==='imperativo'&&person===2?'Lei (polite singular you)':target.tense==='imperativo'&&person===5?'Loro (very formal plural you)':PERSONS[person];
+   const who=target.subjectLabel|| (WEATHER_VERBS.has(entry.inf)?'impersonal weather use (no personal subject)':target.tense==='imperativo'&&person===2?'Lei (polite singular you)':target.tense==='imperativo'&&person===5?'Loro (very formal plural you)':PERSONS[person]);
    const cue=v%2?(target.tense==='imperativo'?['','one listener addressed informally','one listener addressed politely','a group including yourself','several listeners addressed together','several listeners addressed very formally'][person]:['I','you — one person','he / she','we','you — more than one person','they'][person]):who;
-   const personCue=person===1?'tu · informal':person===4?'voi · plural':v%2&&!WEATHER_VERBS.has(entry.inf)?cue:who;
+   const personCue=target.subjectLabel|| (person===1?'tu · informal':person===4?'voi · plural':v%2&&!WEATHER_VERBS.has(entry.inf)?cue:who);
    q.prompt=text(format==='match'?`Match · ${who}`:WEATHER_VERBS.has(entry.inf)&&v%2?entry.en:entry.inf,`${personCue} · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`);
    q.example=WEATHER_VERBS.has(entry.inf)?answers.join(' / '):`${who} → ${answers.join(' / ')}`;
    q.meta.variantId=`${target.id}:cue-${v%2}`;q.meta.contextId=`${target.id}:form-cue-${v%2}`;
@@ -115,6 +144,8 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  const observed=q.meta.scaffoldSkill||q.meta.skill;
  q.explanation=target.supplementalOnly?q.answer[0]
   :q.context?`${q.context.it} — ${q.context.en}${q.meta.role==='formal'?' Lei addresses the listener politely and takes third-person singular.':''}`
+  :target.progressive&&observed==='auxiliary'?`${q.answer.join(' / ')} is the form of stare for this person. Add the unchanged gerundio to express the ongoing action.`
+  :target.progressive&&observed==='gerund'?`${q.answer.join(' / ')} is the gerundio. It does not change for person, gender or number.`
   :kind==='verb'&&observed==='auxiliary'?`${q.answer.join(' / ')} is the auxiliary here. Add the participle to build the complete past form.`
   :kind==='verb'&&observed==='participle'?`${q.answer.join(' / ')} is the past participle of ${entry.inf}. Combine it with the auxiliary for the intended person.`
   :kind==='verb'&&observed==='agreement'?`The ending ${q.answer.join(' / ')} gives the participle the requested gender and number.`
@@ -123,5 +154,15 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   :kind==='verb'?`${entry.inf}: ${q.answer.join(' / ')} is the requested ${TENSE_BY_KEY[target.tense]?.name||'verb'} form.`
   :target.skill==='agreement'?`${q.answer.join(' / ')} is the ${target.formLabel||['masculine singular','feminine singular','masculine plural','feminine plural'][target.formIndex]} form. Match the adjective to the noun.`
   :`${entry.it} — ${entry.en}. ${target.skill==='article'?'Learn this article with the noun.':target.skill==='plural'?entry.it===entry.pl?'The noun keeps its spelling; the article shows the plural.':'Notice the plural ending or spelling change.':''}`;
+ if(format==='letters')return createLetterActivity(q,{seed:v});
+ if(format==='pairs'){
+  const group=chapter.groups?.find(g=>g.targets?.some(t=>t.id===target.id));
+  const eligible=(group?.targets||[]).filter(t=>t.available!==false&&!t.supplementalOnly&&!t.guidedOnly&&['conjugation','address'].includes(t.skill)&&Number.isInteger(t.person));
+  if(kind==='verb'&&eligible.length>=3&&eligible.some(t=>t.id===target.id)){
+   const start=eligible.findIndex(t=>t.id===target.id),selected=[...eligible.slice(start),...eligible.slice(0,start)].slice(0,3);
+   const pairs=selected.map(t=>({targetId:t.id,label:t.role==='formal'?`Lei · formal${TENSE_BY_KEY[t.tense]?.compound?` (${v%2?'man':'woman'})`:''}`:t.role==='formalPlural'?'Loro · formal plural':t.person===1?'tu · informal':t.person===4?'voi · plural':PERSONS[t.person],question:buildJourneyQuestion(entry,chapter,t,{variant:v,format:'match',phase:'guided'})}));
+   return createPairActivity(q,pairs,{seed:v});
+  }
+ }
  return q;
 }

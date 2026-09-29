@@ -5,8 +5,9 @@ import { ANCHOR_CONTEXTS, TENSE_LESSONS } from './content.js';
 export const CORE_STAGES = [
   { id: 'present', label: 'Present', tense: 'presente', description: 'Now and everyday routines' },
   { id: 'past', label: 'Past: what happened', tense: 'passatoProssimo', description: 'Completed events, auxiliaries and participles' },
+  { id: 'background', label: 'Imperfetto', tense: 'imperfetto', description: 'Past habits, descriptions and background' },
   { id: 'future', label: 'Future', tense: 'futuro', description: 'Plans and predictions' },
-  { id: 'background', label: 'Past: how things were', tense: 'imperfetto', description: 'Past habits, descriptions and background', followOn: true },
+  { id: 'condizionale', label: 'Conditional', tense: 'condizionale', description: 'Wishes, polite requests and hypothetical results' },
 ];
 export const EXPANSIONS = [
   { id: 'requests', label: 'Requests and commands', tenses: ['condizionale', 'imperativo'] },
@@ -25,7 +26,7 @@ export function allowedTenses(learningOrPreferences = {}) {
   const idx = Math.max(0, CORE_STAGES.findIndex(s => s.id === stage));
   const selected = p.expansions || p.enrolledExpansions || [];
   const ids = new Set(Array.isArray(selected) ? selected.map(x => typeof x === 'string' ? x : x?.id) : Object.keys(selected).filter(k => selected[k]));
-  return [...new Set([...CORE_STAGES.slice(0, idx + 1).map(s => s.tense), ...(p.legacyTenses || []).filter(t => t === 'imperfetto'), ...EXPANSIONS.filter(e => ids.has(e.id)).flatMap(e => e.tenses)])];
+  return [...new Set([...CORE_STAGES.slice(0, idx + 1).map(s => s.tense), ...(p.legacyTenses || []).filter(t => ['imperfetto', 'futuro'].includes(t)), ...EXPANSIONS.filter(e => ids.has(e.id)).flatMap(e => e.tenses)])];
 }
 
 function objective(e, stage, tense, skill, label, explanation, extra = {}) {
@@ -72,6 +73,7 @@ export function stageObjectives(entries, stage = 'present') {
     past: [['mangiare', 'conjugation'], ['andare', 'auxiliary'], ['andare', 'agreement'], ['prendere', 'participle'], ['alzarsi', 'conjugation']],
     background: [['parlare', 'conjugation'], ['essere', 'conjugation'], ['mangiare', 'context']],
     future: [['parlare', 'conjugation'], ['dormire', 'conjugation'], ['andare', 'conjugation'], ['essere', 'conjugation']],
+    condizionale: [['volere', 'conjugation'], ['potere', 'conjugation'], ['andare', 'conjugation']],
   };
   const tense = CORE_STAGES.find(s => s.id === stage)?.tense;
   return (blueprint[stage] || []).flatMap(([inf, skill]) => {

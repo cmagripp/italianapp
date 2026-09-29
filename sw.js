@@ -12,7 +12,7 @@ const SHELL = [
   './js/games/crossword.js', './js/games/engine.js', './js/games/flashcards.js', './js/games/hangman.js', './js/games/index.js', './js/games/matching.js', './js/games/questions.js', './js/games/sentence.js', './js/games/speed.js',
   './js/learning/model.js', './js/learning/curriculum.js', './js/learning/content.js', './js/learning/questions.js', './js/learning/diagnose.js', './js/learning/integration.js',
   './js/views/course.js', './js/views/learnAdaptive.js', './js/views/learnJourney.js',
-  './js/learning/journey.js', './js/learning/lesson-content.js', './js/learning/lesson-questions.js', './js/learning/sentence-lookup.js', './js/learning/sentence-panel.js',
+  './js/learning/journey.js', './js/learning/lesson-content.js', './js/learning/lesson-questions.js', './js/learning/sentence-lookup.js', './js/learning/sentence-panel.js', './js/learning/lesson-activities.js', './js/learning/activity-panel.js', './js/learning/lesson-overview.js', './js/learning/progressive-content.js',
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',
 ];
 // Activate only when the complete shell is cached. A missing module must leave the

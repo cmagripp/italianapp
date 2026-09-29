@@ -38,6 +38,8 @@ jobs:
           node tools/test-lesson-content.mjs
           node tools/test-sentence-lookup.mjs
           node tools/test-journey-model.mjs
+          node tools/test-lesson-activities.mjs
+          node tools/test-progressive-content.mjs
           node tools/test-journey-integration.mjs
           node tools/check-shell.mjs
       - uses: actions/configure-pages@v5

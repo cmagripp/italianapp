@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Focused regression: intro sequencing and the phone lesson action rail.
 import assert from 'node:assert/strict';
+import { journeyQuestion, solveJourneyQuestion, reachJourneyActivity } from './journey-driver.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadPlaywright, launchBrowser, contextOptions, ensureServer, boot, gotoRoute, reloadApp, TESTS_DIR, SHOTS_DIR } from './lib.mjs';
@@ -42,15 +43,8 @@ async function saved() {
   });
 }
 async function spoken() { return page.evaluate(() => JSON.parse(sessionStorage.getItem('lesson-action-speech') || '[]')); }
-async function question() {
-  return page.evaluate(async () => {
-    const { store } = await import('./js/store.js'); const { getEntry } = await import('./js/data.js');
-    const { buildLesson } = await import('./js/learning/lesson-content.js'); const { currentJourneyStep } = await import('./js/learning/journey.js');
-    const { buildJourneyQuestion } = await import('./js/learning/lesson-questions.js');
-    const s = store.learning.session, e = getEntry(s.entryId), step = currentJourneyStep(buildLesson(e), s, store.learning);
-    return buildJourneyQuestion(e, step.chapter, step.target, { variant: step.variant, format: step.format, phase: step.phase, repairTag: step.repairTag });
-  });
-}
+async function question() { return journeyQuestion(page); }
+
 async function reachQuestion() {
   for (let n = 0; n < 12; n++) {
     if (await page.locator('[data-journey]').getAttribute('data-phase') === 'question') return;
@@ -105,11 +99,11 @@ async function swipeLeft() {
 }
 
 try {
-  await check('A new verb moves directly from Meet to Present teaching, with Learn active', async () => {
+  await check('A new verb opens its overview and starts Present teaching with Learn active', async () => {
     await fresh(); await gotoRoute(page, route('v:credere'));
-    assert.equal(await page.locator('[data-journey]').getAttribute('data-chapter'), 'meet');
+    assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'overview');
     const before = await saved();
-    await page.locator('[data-continue]').evaluate(b => { b.click(); b.click(); });
+    await page.locator('[data-open-lesson=present]').evaluate(b => { b.click(); b.click(); });
     await assertPresentTeaching();
     const after = await saved();
     assert.equal(after.session.id, before.session.id);
@@ -222,7 +216,7 @@ try {
     assert.deepEqual(after.ids, before.ids); assert.equal(after.xp, before.xp); assert.equal(after.learned, false);
   });
   await check('Correct choices and typed answers speak Italian once, while wrong, reload and muted answers stay quiet', async () => {
-    await fresh(); await gotoRoute(page, route('v:capire') + '?chapter=present'); await reachQuestion();
+    await fresh(); await gotoRoute(page, route('v:capire') + '?chapter=present'); await reachJourneyActivity(page, 'mc');
     const q = await question(); assert(q.answer.includes('capisco'));
     const index = q.choices.findIndex(c => (c.value || c.label) === 'capisco'); assert(index >= 0);
     await page.locator(`[data-choice="${index}"]`).evaluate(b => { b.click(); b.click(); });
@@ -235,16 +229,15 @@ try {
     await page.locator('[data-answer]').fill('sono');
     await page.locator('[data-check]').evaluate(b => { b.click(); b.click(); });
     assert.deepEqual(await spoken(), [{ text: 'capisco', lang: 'it-IT' }, { text: 'sono', lang: 'it-IT' }]);
-    const correctCalls = await spoken(); await page.locator('[data-continue]').click(); await reachQuestion();
+    await page.locator('[data-continue]').click(); await reachJourneyActivity(page, 'type');
+    const correctCalls = await spoken();
     assert.equal((await question()).type, 'type');
     await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click();
     assert.equal((await saved()).session.ui.result.ok, false); assert.deepEqual(await spoken(), correctCalls);
     await reloadApp(page); assert.deepEqual(await spoken(), correctCalls);
     await page.evaluate(async () => { const { store } = await import('./js/store.js'); store.setSetting('tts', false); });
     await page.locator('[data-continue]').click(); await reachQuestion();
-    const repair = await question();
-    if (repair.type === 'mc') { const i = repair.choices.findIndex(c => (c.value || c.label) === repair.answer[0]); await page.locator(`[data-choice="${i}"]`).click(); }
-    else { await page.locator('[data-answer]').fill(repair.answer[0]); await page.locator('[data-check]').click(); }
+    await solveJourneyQuestion(page, await question());
     assert.equal((await saved()).session.ui.result.ok, true); assert.deepEqual(await spoken(), correctCalls);
   });
   await check('A short keyboard-sized viewport keeps typing reachable and releases layout on exit', async () => {

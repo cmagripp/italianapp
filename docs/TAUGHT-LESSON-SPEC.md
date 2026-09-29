@@ -6,13 +6,13 @@ The result must feel like a lesson that teaches a word or verb, then responds to
 
 ## 1. Scope and lesson structure
 
-1. A new verb starts with **Meet the verb**: its everyday meaning, a useful sentence with its meaning, pronunciation, and any exception that changes how the learner should approach it. For example, *dire* must flag that its past participle is *detto* before a past exercise assumes knowledge of it.
-2. Teach **Present**, then **Passato prossimo**, then **Future** as the everyday path. **Imperfetto** is a follow-on chapter; advanced forms remain optional. Moving it out of the initial path must preserve existing imperfetto work and keep it accessible. Opening a reference page does not enroll advanced forms.
+1. A new verb opens an overview that **meets the verb**: its everyday meaning, a useful sentence with its meaning, pronunciation, and any exception that changes how the learner should approach it. For example, *dire* must flag that its past participle is *detto* before a past exercise assumes knowledge of it.
+2. The overview offers five core cases: **Present**, **Passato prossimo**, **Imperfetto**, **Future**, and **Condizionale presente**. Each is a complete taught lesson and remains selectable. A finished case receives a persistent, accessible completion mark on return and reload. Existing imperfetto work remains valid. Mixed and advanced practice are optional; opening reference content does not enroll advanced forms.
 3. Each chapter has a meaningful explanation, worked examples, guided practice, and increasingly independent checks. The order is content driven rather than an arbitrary fixed number of questions. Teaching is available again when an answer exposes a difficulty.
 4. The present chapter teaches singular persons first—*io*, *tu*, *lui/lei* and formal *Lei*—then *noi*, *voi*, and *loro*, followed by recurring checks across the relevant persons. The all-person checks use the evidence already earned during the chapter.
-5. Guided work uses appropriate matching, choices, cloze, and short typed answers as the content calls for them. A complete lesson must not reduce every guided step to an identically structured multiple-choice question. An activity has one clear learning purpose, and the learner must have been taught what it asks them to do; a sparse entry need not artificially include every format.
+5. Guided work rotates real disappearing-pair matching, letter banks, choices, cloze, and typed answers as the content calls for them. Variety continues during later practice, while independent checks still require writing. Equivalent visible forms match regardless of hidden tile identity. A wrong match diagnoses the selected person. Letter banks retain accents, repeated letters, and fixed spaces; neither visible letters nor matched forms certify independent recall. An activity has one clear learning purpose, and the learner must have been taught what it asks them to do; a sparse entry need not artificially include every format.
 6. The current verb remains the lesson's subject through teaching, repair, and intervening activities. Do not inject unrelated random words or a different verb to fill spacing requirements. Same-verb meaning, person, sentence interpretation, and construction activities may provide useful spacing.
-7. A returning learner first resumes the saved lesson. A short review or a new lesson is a clear optional choice; neither silently replaces the unfinished lesson.
+7. The verb overview offers an explicit resume control for unfinished work. At a case's end, the learner chooses the next case or returns to the overview; completing an answer does not automatically start another tense. Explicitly redoing a completed case creates fresh practice and checks while preserving past evidence, XP, history, and completion. A short review or another lesson is an optional choice that does not silently replace unfinished work.
 8. Sparse or unusual dictionary entries need an honest supported path. If available content cannot support a required activity or enough distinct checks, explain that limitation and allow pause or explicit skip. Do not fabricate an example, manufacture variant IDs, loop forever implying success is one more identical answer away, or claim completion for unavailable content.
 
 ## 2. Teach the grammar before testing it
@@ -35,12 +35,12 @@ The result must feel like a lesson that teaches a word or verb, then responds to
 - A component exercise may supply the participle and ask only for the auxiliary, or vice versa. It is useful teaching but is not independent evidence for the whole construction.
 - Diagnose component errors without discarding what was correct. For *ho andato*, identify the auxiliary issue; do not claim the participle was wrong. Re-teach the helper and return to a full construction for the same verb.
 
-### Future and follow-on forms
+### Future, imperfetto, and further forms
 
 - Teach the future's use, person endings, applicable stem changes, and the selected verb's irregular stem before independent checks.
 - The requested tense must be explicit or supported by a carefully authored semantic context. *Domani* alone does not make a present-tense sentence grammatically wrong: Italian also uses the present for planned future events.
 - If an exercise specifically asks for the future form, feedback on a present answer explains that task requirement rather than asserting the present is impossible in the sentence.
-- Imperfetto follow-on teaching explains background, description, and habit with meaningful contexts. Past-form contrasts need authored cues that support the intended distinction; one isolated time word is not enough.
+- Core imperfetto teaching explains background, description, and habit with meaningful contexts, actual endings, and irregular forms such as *essere*. Past-form contrasts need authored cues that support the intended distinction; one isolated time word is not enough.
 - Optional forms cannot silently enter beginner teaching, distractors, repair, or review when not selected. Full reference access remains available.
 
 ## 3. Sentences, meaning, and correctness
@@ -109,6 +109,8 @@ The approved interaction is deliberately simple:
 | Pause | Saves the exact teaching/question/feedback position, draft, support, and target. |
 | Resume | Returns to that exact saved position with no repeated grading or XP. |
 | Skip | Explicitly defers the target and keeps its unfinished status. |
+| Case overview | Shows five core cases and persistent completion marks, with explicit start/resume/redo actions. |
+| Case completion | Offers the next case or a return to the verb overview; waits for a choice. |
 
 Display understandable chapter/stage labels and qualitative progress. Do **not** display internal evidence counters such as “3 independent answers,” “0/4 independent checks,” percentages implying mastery, or “supported” evidence labels. Internal tracking remains rigorous; the learner sees the subject they are learning and what comes next. Necessary grammar explanations are learner-facing; implementation terminology is not.
 
@@ -123,6 +125,7 @@ Planned stable hooks: `[data-journey]` with `data-phase`, `[data-choice]`, `[dat
 - Migrate versioned state without losing data. Unknown newer schemas must be preserved with a clear update requirement; an older client must not silently overwrite or misinterpret them.
 - Save a stable serializable lesson cursor and regenerate validated authored content. Imported state is untrusted: do not execute or raw-render stored HTML, callbacks, or prototype keys.
 - Every submitted answer is recorded once. Reload, repeat taps, resume, merge, or replay of the same event cannot duplicate evidence or XP.
+- Partial letter banks and matching boards survive reload, pause, and read-only lesson history. Recovery handles both a completed activity saved before its event and an event saved before its cursor, without collisions or duplicate awards. A wrong match reserves its attempt identity before a later retry.
 - A skip remains a skip across reload and review recommendation. Reset boundaries must prevent an old offline device or backup from resurrecting deliberately cleared progress.
 - After a complete first online load, taught content, lesson generation, help, questions, feedback, saved draft, and resume must work offline. No paid model, cloud credential, or remote inference is required.
 - An update must cache a complete app shell before activation. A missing new module must not replace the previous working offline app. Include new journey content and styles in the actual service-worker shell.
@@ -149,11 +152,19 @@ Planned stable hooks: `[data-journey]` with `data-phase`, `[data-choice]`, `[dat
 | J14 | Online/offline resume: exact chapter/question/feedback, answer draft, help status, and single-event accounting survive reload; returning entry defaults to the saved lesson. |
 | J15 | Upgrade: old progress and custom data survive; legacy aggregate mastery does not fabricate per-person evidence; a failed shell update preserves a working offline version. |
 | J16 | Responsive/accessibility: 375/390 light/dark teaching, choice, typing, help, feedback, pause, and summary remain usable; no internal evidence counts or support labels leak into the lesson. |
+| J17 | Five-case overview: imperfetto and condizionale presente are core, all five supported cases are needed for the new complete-verb milestone, and a legacy three-case profile is not granted invented imperfetto evidence. Existing learned flags and history remain preserved. |
+| J18 | End-of-case choice and redo: completion waits for explicit next/overview navigation, remains marked after reload, and redo adds fresh practice without deleting prior learning. |
+| J19 | Matching/letters: correct pairs disappear, equivalent forms interchange, errors target the selected person, partial work persists, and visible assistance never replaces required independent writing. |
 
 Long browser traversals may use deterministic fixtures or exposed read-only content descriptors to choose the right answer. They must still click/type through the actual UI, assert the resulting stored evidence and visible state, and keep independent hand-checked grammar assertions. Unit tests should cover selection, diagnosis, migration, merging, and elapsed-time retention; browser tests cover the complete interaction and persistence boundaries. Passing automated tests establishes these implementation behaviors, not a scientific claim that a threshold guarantees fluency.
 
 ## 10. Items to settle in the implementation contract
 
-The approved requirements above do not specify exact route names, chapter IDs, storage field names, or how optional imperfetto appears in the course. Those are implementation choices shared by the UI, engine, and content owners. The browser suite needs the final API and selectors, but must not weaken the acceptance conditions to match whichever implementation happens to arrive first.
+The approved requirements above do not specify exact storage field names. The five core case IDs are `present`, `past`, `background`, `future`, and `condizionale`; `background` retains existing imperfetto evidence. The browser suite needs the final API and selectors, but must not weaken the acceptance conditions to match whichever implementation happens to arrive first.
 
 The existing later-retention delay is 24 hours; retain that explicit policy unless the team changes it deliberately. Formal-address success needs an authored semantic role and must not be inferred from capitalization alone. Very sparse custom entries require an explicit limited-content path rather than fabricated variation. These are the main cross-module boundaries to review before release.
+
+
+Present includes meaning-appropriate stare + gerundio; Imperfetto includes stavo + gerundio. Teach -ando/-endo and specific exceptions, with explicit simple-present, habitual-past, ongoing-past and completed-event contrasts. Unreviewed progressive senses get usage guidance, not mechanically generated sentence drills.
+
+The conditional lesson teaches the future/conditional stem ending in -r with -ei, -esti, -ebbe, -emmo, -este, -ebbero, including irregular stems and formal Lei. It covers wishes, polite requests and hypothetical outcomes without teaching conditional after hypothetical se. Truly unavailable forms are explained on the overview and excluded from completion requirements.
