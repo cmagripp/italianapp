@@ -24,6 +24,7 @@ jobs:
         run: |
           node tools/validate.mjs data/vocab/*.json data/verbs/*.json
           node tools/build-data.mjs
+          node tools/test-noun-forms.mjs
           node tools/check-modules.mjs
           node tools/check-shell.mjs
           node tools/test-conjugator.mjs
@@ -39,6 +40,7 @@ jobs:
         run: |
           node tools/test-learning-sql.mjs
           node tests/adaptive-e2e.mjs
+          node tests/noun-forms-e2e.mjs
           node tests/game-learning-e2e.mjs
           node tests/offline-e2e.mjs
           node tests/e2e.mjs

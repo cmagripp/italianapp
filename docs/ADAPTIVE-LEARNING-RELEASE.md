@@ -53,6 +53,7 @@ Run the deterministic checks with Node 22:
 node tools/check-modules.mjs
 node tools/check-shell.mjs
 node tools/test-conjugator.mjs
+node tools/test-noun-forms.mjs
 node tools/test-learning-model.mjs
 node tools/test-learning-questions.mjs
 node tools/test-learning-store-sync.mjs
@@ -64,3 +65,9 @@ node tools/test-learning-integration.mjs
 Local verification at delivery passed 2,802 conjugator checks plus dedicated learning-model, curriculum/question/diagnosis, store/sync, recommendation/course and PostgreSQL migration checks. Browser verification covers adaptive lessons, game evidence and four actual service-worker update/offline scenarios. All 45 application routes and 45 existing flows passed across the full regression run and the focused rerun after a repaired review import; mobile layout checks covered 270 route/size/theme combinations, including expanded course milestones. These are Chromium checks using phone emulation, not physical iPhone Safari tests.
 
 These tests establish software behavior and regression coverage. They do not measure long-term language acquisition. The adaptation is explainable, deterministic and local. It does not diagnose spoken pronunciation, score free conversation or claim a percentage of fluency. Authored semantic contexts cover the foundation set; other verbs use labeled form practice when reliable contexts are unavailable.
+
+## Noun forms and meaning
+
+Daily word cards display the recorded plural or a number-usage explanation. Entry cards, grids, reference pages and lessons distinguish a normally singular meaning from an unknown plural; placeholders are never turned into article-plus-dash answers. For example, the football entry remains **il calcio**, with an explanation that **i calci** means kicks. Invariable nouns still show both articles and undergo plural practice.
+
+The full noun inventory and conflicting source meanings are reviewed in [the noun audit](NOUN-FORMS-AUDIT-2026-09-29.md). The current dictionary identifies entries by lemma and part of speech, so separate meanings can collapse during generation. This patch clarifies the selected meaning; a future meaning-aware dictionary migration must preserve saved entry references before adding separate senses.

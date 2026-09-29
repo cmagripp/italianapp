@@ -93,7 +93,7 @@
 {"it":"erba","en":"grass","pos":"noun","g":"f","pl":"erbe","level":"A1","cat":"animals","ex":"L'erba è verde.","exEn":"The grass is green.","note":"Plural 'erbe' = herbs."},
 {"it":"fattoria","en":"farm","pos":"noun","g":"f","pl":"fattorie","level":"A1","cat":"animals","ex":"Mio zio ha una fattoria.","exEn":"My uncle has a farm.","note":"False friend: not 'factory' (that is 'fabbrica')."},
 {"it":"sport","en":"sport","pos":"noun","g":"m","pl":"sport","level":"A1","cat":"sports","ex":"Che sport fai?","exEn":"What sport do you do?","note":"Invariable. 'fare sport' = to do sport."},
-{"it":"calcio","en":"football; soccer","pos":"noun","g":"m","pl":"-","level":"A1","cat":"sports","ex":"Gioco a calcio con gli amici.","exEn":"I play football with my friends.","note":"'giocare a calcio' = to play football."},
+{"it":"calcio","en":"football; soccer","pos":"noun","g":"m","pl":"-","level":"A1","cat":"sports","ex":"Gioco a calcio con gli amici.","exEn":"I play football with my friends.","note":"'Giocare a calcio' = to play football. The sport is normally singular. In a different meaning, 'un calcio' is a kick and 'i calci' are kicks."},
 {"it":"palla","en":"ball","pos":"noun","g":"f","pl":"palle","level":"A1","cat":"sports","ex":"I bambini giocano con la palla.","exEn":"The children are playing with the ball.","note":"'pallone' = football (the ball)."},
 {"it":"partita","en":"match; game","pos":"noun","g":"f","pl":"partite","level":"A1","cat":"sports","ex":"Stasera guardo la partita in TV.","exEn":"Tonight I am watching the match on TV."},
 {"it":"squadra","en":"team","pos":"noun","g":"f","pl":"squadre","level":"A1","cat":"sports","ex":"La mia squadra preferita è la Roma.","exEn":"My favourite team is Roma."},

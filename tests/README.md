@@ -143,6 +143,8 @@ plural", "Ascolta", "Scrivi / Type the Italian"…); a renamed tag makes the pas
 
 ## Reading the JSON reports
 
+`node tests/noun-forms-e2e.mjs` checks noun plurals and number-usage explanations across the entry, reference and daily-word views in an isolated browser profile. It also checks the shared forms component against the full noun inventory, missing custom forms and focused mobile layouts. Run the fast data checks with `node tools/test-noun-forms.mjs`.
+
 `report-e2e.json`: `routes[]` (`route, ok, ms, errors[], warnings[], text, shot`), `flows[]` (`name, ok, ms, detail,
 errors[], warnings[]`), `consoleErrors[]` (`at, text`) and `summary`.
 

@@ -1,5 +1,5 @@
 import { conjugate, MISSING, TENSE_BY_KEY } from '../conjugator.js';
-import { isPluralOnly, isUncountable } from '../data.js';
+import { isPluralOnly, hasPluralForm } from '../data.js';
 import { ANCHOR_CONTEXTS, TENSE_LESSONS } from './content.js';
 
 export const CORE_STAGES = [
@@ -40,7 +40,7 @@ export function objectivesFor(entry, { stage = 'present', expansions = [] } = {}
       objective(entry, 'words', null, 'recall', 'Recall the Italian', 'Retrieve the Italian word from its meaning, without an answer list.'),
     ];
     if (entry.pos === 'noun' && entry.g) out.push(objective(entry, 'words', null, 'article', 'Choose the article', 'Learn the article together with the noun; gender, number and first sound matter.'));
-    if (entry.pos === 'noun' && validForm(entry.pl) && !isPluralOnly(entry) && !isUncountable(entry)) out.push(objective(entry, 'words', null, 'plural', 'Build the plural', 'Remember this noun’s plural, including spelling changes and invariable forms.'));
+    if (hasPluralForm(entry) && !isPluralOnly(entry)) out.push(objective(entry, 'words', null, 'plural', 'Build the plural', 'Remember this noun’s plural, including spelling changes and invariable forms.'));
     // The source sentence is reused only when its exact target can be safely located.
     if (entry.ex && entry.it && entry.ex.toLocaleLowerCase('it').includes(entry.it.toLocaleLowerCase('it'))) out.push(objective(entry, 'words', null, 'context', 'Use the word in context', 'Use the learned word in its dictionary example.', { optional: true, required: false }));
     out.push(objective(entry, 'words', null, 'listening', 'Listen and recall', 'Listen to the Italian and write what you hear.', { optional: true, required: false }));

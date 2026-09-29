@@ -3,7 +3,7 @@
 import { html, raw, tr, enPill, speakBtn, levelBadge, secHead, fmtNum, toast, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store, todayKey } from '../store.js';
-import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, CATS, itemsForScope } from '../data.js';
+import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, nounNumberNote, CATS, itemsForScope } from '../data.js';
 import { IT_POS } from '../components.js';
 import { conjugate, primary } from '../conjugator.js';
 import { GAMES } from '../games/index.js';
@@ -46,6 +46,10 @@ function nightCard(e, kind) {
   } else {
     tags = html`<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${e.g === 'mf' ? 'm · f' : e.g}</span>`) : ''}`;
     extra = e.cat && CATS[e.cat] ? html`<div class="night-extra mono">${CATS[e.cat].name}</div>` : '';
+    if (isNoun) {
+      const number = nounNumberNote(e);
+      extra += html`<div class="night-extra" data-night-number>${number ? number.split('.')[0] + '.' : 'Plural: ' + withArticle(e, true)}</div>`;
+    }
   }
   return html`<article class="night-card glass float ${kind === 'verb' ? 'delay' : ''}" style="--glow:${kind === 'verb' ? 'var(--gold)' : 'var(--amalfi)'}" data-href="${href}">
     <div class="night-top"><span class="kicker">${kind === 'verb' ? 'Verb of the night' : 'Word of the night'}</span><a class="icon-btn night-open" href="${href}" aria-label="Open ${word}">${ic('chevronRight', { size: 20 })}</a></div>

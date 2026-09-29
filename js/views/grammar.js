@@ -3,7 +3,7 @@
 import { html, raw, esc, trBlock, speakBtn, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
-import { data, getEntry, article, withArticle, headword, isPluralOnly, isUncountable, fold } from '../data.js';
+import { data, getEntry, article, withArticle, headword, isPluralOnly, hasPluralForm, fold } from '../data.js';
 import { conjugate, primary, splitClitic } from '../conjugator.js';
 import { setScene, mount, reducedMotion } from '../fx.js';
 
@@ -58,13 +58,13 @@ function liveExamples(topicId, section, idx) {
   let kicker = 'Dal dizionario';
   const pushN = (list, fn, n = 6) => { for (const e of first(list, n)) rows.push(fn(e)); };
   if (topicId === 'articles') {
-    if (/lo|gli/.test(h) && idx < 3) pushN(nouns().filter(e => e.g === 'm' && LO_RE.test(fold(e.it)) && e.pl && e.pl !== '-' && !isPluralOnly(e)), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, e.en.split(';')[0]));
+    if (/lo|gli/.test(h) && idx < 3) pushN(nouns().filter(e => e.g === 'm' && LO_RE.test(fold(e.it)) && hasPluralForm(e) && !isPluralOnly(e)), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, e.en.split(';')[0]));
     else if (/-o, -a, -e/.test(h)) {
       pushN(nouns().filter(e => e.g === 'f' && /o$/.test(e.it) && !e.it.includes(' ')), e => liveRow(e, withArticle(e), 'feminine in -o'), 3);
       pushN(nouns().filter(e => e.g === 'm' && /ma$/.test(e.it) && !e.it.includes(' ')), e => liveRow(e, withArticle(e), 'masculine in -ma'), 3);
     } else if (/feminine endings|-ione|-tà/.test(h)) pushN(nouns().filter(e => e.g === 'f' && /(tà|tù|ione|trice|ie)$/.test(e.it)), e => liveRow(e, withArticle(e), e.en.split(';')[0]));
   } else if (topicId === 'plurals') {
-    if (/irregular/.test(h)) { kicker = 'Irregular plurals in the dictionary'; pushN(nouns().filter(e => /irregular/i.test(e.note || '') && e.pl && e.pl !== '-'), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, e.en.split(';')[0]), 8); }
+    if (/irregular/.test(h)) { kicker = 'Irregular plurals in the dictionary'; pushN(nouns().filter(e => /irregular/i.test(e.note || '') && hasPluralForm(e)), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, e.en.split(';')[0]), 8); }
     else if (/-co|-go|-ca|-ga/.test(h)) {
       const masc = /-co|-go/.test(h); // the -ca/-ga section shows only feminine nouns
       if (masc) pushN(nouns().filter(e => /[cg]o$/.test(e.it) && /(chi|ghi)$/.test(e.pl || '')), e => liveRow(e, `${withArticle(e)} → ${withArticle(e, true)}`, 'keeps the hard sound'), 3);

@@ -3,7 +3,7 @@
 import { html, raw, esc, speak, speakBtn, enPill, levelBadge, haptic, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
-import { getEntry, data, shuffle, CATS, LEVELS, POS_NAME, article, withArticle, isPluralOnly, isUncountable, headword, shortEn, distractors } from '../data.js';
+import { getEntry, data, shuffle, CATS, LEVELS, POS_NAME, article, withArticle, isPluralOnly, hasPluralForm, nounNumberNote, headword, shortEn, distractors } from '../data.js';
 import { hwSize, IT_POS } from '../components.js';
 import { fan, typewriter, riseLetters, SCENES } from '../fx.js';
 import { runDrill } from '../games/engine.js';
@@ -45,8 +45,7 @@ function articleNote(e) {
 }
 function pluralNote(e) {
   if (e.pos !== 'noun') return '';
-  if (isUncountable(e)) return 'Uncountable: no plural form.';
-  if (isPluralOnly(e)) return 'Used only in the plural.';
+  if (nounNumberNote(e)) return nounNumberNote(e);
   const s = e.it, p = e.pl;
   if (!p || p === '-') return '';
   if (s === p) return `Invariable: the plural is the same word — ${withArticle(e, false)} → ${withArticle(e, true)}.`;
@@ -75,7 +74,7 @@ async function renderLegacy(root, params, query) {
 
   // ---------- MEET ----------
   const floats = [];
-  if (isNoun && !isUncountable(e) && !isPluralOnly(e) && e.pl && e.pl !== '-') floats.push({ it: withArticle(e, true), en: enPlural(e.en) });
+  if (isNoun && hasPluralForm(e) && !isPluralOnly(e)) floats.push({ it: withArticle(e, true), en: enPlural(e.en) });
   if (isNoun && e.fem) floats.push({ it: e.fem, en: `${shortEn(e.en)} (feminine)` });
   if (e.pos === 'adj' && e.forms && e.forms.length === 4) { floats.push({ it: e.forms[1], en: `${shortEn(e.en)} (feminine)` }); floats.push({ it: e.forms[2], en: `${shortEn(e.en)} (plural)` }); }
   const meet = {
@@ -106,7 +105,7 @@ async function renderLegacy(root, params, query) {
   const formCards = [];
   if (isNoun) {
     if (!isPluralOnly(e)) formCards.push({ label: 'singolare', form: withArticle(e, false) });
-    if (!isUncountable(e) && e.pl && e.pl !== '-') formCards.push({ label: 'plurale', form: withArticle(e, true) });
+    if (hasPluralForm(e)) formCards.push({ label: 'plurale', form: withArticle(e, true) });
     if (e.fem) formCards.push({ label: 'femminile', form: e.fem });
     if (e.femPl) formCards.push({ label: 'femm. plurale', form: e.femPl });
   } else if (e.pos === 'adj' && e.forms && e.forms.length === 4) {

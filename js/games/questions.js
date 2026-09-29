@@ -1,7 +1,7 @@
 // Question generators for vocabulary and verb drills.
 // Every generator returns a runner question or null when nothing usable can be built (defective verbs, no example…).
 import { html, raw, esc, enPill, icon } from '../ui.js';
-import { article, withArticle, isPluralOnly, isUncountable, headword, shortEn, enChoices, distractors, shuffle, pickN, sample, fold, data } from '../data.js';
+import { article, withArticle, isPluralOnly, hasPluralForm, headword, shortEn, enChoices, distractors, shuffle, pickN, sample, fold, data } from '../data.js';
 import { conjugate, irregularCells, splitClitic, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING, primary, accepted } from '../conjugator.js';
 import { checkTyped } from './engine.js';
 import { store } from '../store.js';
@@ -78,18 +78,18 @@ function makeGender(e) {
 }
 
 function makePlural(e) {
-  if (e.pos !== 'noun' || isUncountable(e) || isPluralOnly(e)) return null;
+  if (!hasPluralForm(e) || isPluralOnly(e)) return null;
   return { type: 'type', itemId: e.id, tag: 'Type the plural', prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), answer: [e.pl, withArticle(e, true)], placeholder: 'Plural…', explain: e.note && /plural|invariab|irregular/i.test(e.note) ? esc(e.note) : '' };
 }
 
 function makePluralMC(e, pool) {
-  if (e.pos !== 'noun' || isUncountable(e) || isPluralOnly(e)) return null;
+  if (!hasPluralForm(e) || isPluralOnly(e)) return null;
   const wrongs = new Set();
   const base = e.it;
   const cands = [base.replace(/o$/, 'i'), base.replace(/a$/, 'e'), base.replace(/e$/, 'i'), base + 's', base.replace(/o$/, 'a'), base.replace(/a$/, 'i'), base.replace(/co$/, 'ci'), base.replace(/co$/, 'chi'), base.replace(/go$/, 'gi'), base.replace(/go$/, 'ghi'), base.replace(/ca$/, 'che'), base.replace(/io$/, 'ii'), base];
   for (const c of cands) { if (c !== e.pl) wrongs.add(c); if (wrongs.size >= 3) break; }
   // an -e noun or an invariable one (cane, città, bar) has too few look-alikes of its own: other nouns' plurals fill the choices
-  for (const d of distractors(e, pool, 6)) { if (wrongs.size >= 3) break; if (d.pl && d.pl !== '-' && d.pl !== '—' && fold(d.pl) !== fold(e.pl)) wrongs.add(d.pl); }
+  for (const d of distractors(e, pool.filter(hasPluralForm), 6)) { if (wrongs.size >= 3) break; if (fold(d.pl) !== fold(e.pl)) wrongs.add(d.pl); }
   const wl = [...wrongs].filter(x => x !== e.pl).slice(0, 3);
   return { type: 'mc', itemId: e.id, tag: 'Choose the plural', center: true, prompt: html`<div class="big">${withArticle(e, false)}</div><div class="sub">${enOf(e)}</div>`, say: withArticle(e, true), choices: mcChoices(e.pl, wl), answer: e.pl };
 }
@@ -116,7 +116,7 @@ export function findInSentence(sentence, entry, allowed = null) {
     else if (self === 'essere') for (const g of ['avuto']) forms.delete(g);
   } else {
     forms.add(fold(entry.it));
-    if (entry.pl && entry.pl !== '-') forms.add(fold(entry.pl));
+    if (hasPluralForm(entry)) forms.add(fold(entry.pl));
     if (entry.fem) forms.add(fold(entry.fem));
     if (entry.forms) for (const f of entry.forms) forms.add(fold(f));
     if (entry.pos === 'adj' && !entry.forms) { const b = entry.it; forms.add(fold(b.replace(/o$/, 'a'))); forms.add(fold(b.replace(/o$/, 'i'))); forms.add(fold(b.replace(/o$/, 'e'))); forms.add(fold(b.replace(/e$/, 'i'))); }

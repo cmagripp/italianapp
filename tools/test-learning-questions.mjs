@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { CORE_STAGES, EXPANSIONS, ANCHOR_VERBS, allowedTenses, objectivesFor, stageObjectives } from '../js/learning/curriculum.js';
 import { buildQuestion, wordContext, expandedForms, annotateGameQuestion } from '../js/learning/questions.js';
 import { gradeQuestion } from '../js/learning/diagnose.js';
+import { isUncountable, isPluralOnly, withArticle, nounNumberNote } from '../js/data.js';
 
 const verbs = JSON.parse(fs.readFileSync(new URL('../data/verbs.json', import.meta.url)));
 const words = JSON.parse(fs.readFileSync(new URL('../data/vocab.json', import.meta.url)));
@@ -159,6 +160,56 @@ test('words have meaning, recall, authored context and true listening variation'
   }
   const pluralOnly = byWord('occhiali'); assert.equal(objectivesFor(pluralOnly).some(o => o.skill === 'plural'), false);
   const uncountable = { id: 'w:test-uncountable', it: 'acqua', pos: 'noun', g: 'f', pl: '-', en: 'water' }; assert.equal(objectivesFor(uncountable).some(o => o.skill === 'plural'), false);
+});
+
+test('noun number follows the taught sense and preserves countable invariable forms', () => {
+  const nouns = words.filter(e => e.pos === 'noun');
+  assert.ok(nouns.every(e => typeof e.pl === 'string' && e.pl.trim()), 'every noun explicitly declares its number form');
+  const football = byWord('calcio');
+  assert.equal(football.pl, '-'); assert.equal(isUncountable(football), true);
+  assert.ok(football.note.includes('kick'));
+  assert.equal(objectivesFor(football).some(o => o.skill === 'plural'), false);
+  const automation = byWord('domotica');
+  assert.equal(automation.pl, '-');
+  assert.equal(objectivesFor(automation).some(o => o.skill === 'plural'), false);
+  for (const it of ['maturità', 'extrema ratio', 'vexata quaestio']) {
+    const e = byWord(it); assert.equal(e.pl, e.it); assert.equal(isUncountable(e), false); assert.equal(isPluralOnly(e), false);
+    assert.equal(withArticle(e, true), `le ${it}`);
+    const o = objective(e, 'plural'); assert.ok(o);
+    const q = buildQuestion(e, o, { mode: 'production', variant: 1 }); assert.equal(gradeQuestion(q, `le ${it}`).ok, true);
+  }
+});
+
+test('custom missing and placeholder plurals cannot become adaptive questions or context answers', () => {
+  for (const pl of [undefined, null, '', '   ', '-', '—', ' - ', ' — ', 123]) {
+    const e = { id: 'c:unknown-plural', kind: 'word', pos: 'noun', g: 'f', it: 'parola', en: 'word', pl, ex: 'Oggi — qui.', exEn: 'Today — here.' };
+    assert.equal(objectivesFor(e).some(o => o.skill === 'plural'), false, String(pl));
+    const forced = { id: e.id + '::word::plural', entryId: e.id, kind: 'word', skill: 'plural' };
+    assert.equal(buildQuestion(e, forced, { mode: 'production' }), null, String(pl));
+    const articleQ = buildQuestion(e, objective(e, 'article'), { mode: 'production', variant: 1 });
+    assert.equal(articleQ.meta.number, 'singular');
+    assert.deepEqual(articleQ.answer, ['la parola']);
+    assert.ok(articleQ.lesson.includes(nounNumberNote(e)));
+    assert.equal(wordContext(e), null, 'placeholder punctuation must not count as an authored noun occurrence');
+  }
+});
+
+test('adaptive plural choices never include missing forms and teaching avoids repeated number notes', () => {
+  const e = byWord('bar'), o = objective(e, 'plural');
+  const pool = [undefined, null, '', ' ', '-', '—', ' - ', ' — ', 123].map((pl, index) => ({ id: `c:bad-${index}`, kind: 'word', pos: 'noun', g: 'm', it: `word${index}`, en: `meaning${index}`, pl }));
+  for (let variant = 0; variant < 2; variant++) {
+    const q = buildQuestion(e, o, { mode: 'recognition', variant, pool, rng: () => .7 });
+    assert.equal(q.type, 'mc');
+    for (const choice of q.choices) assert.ok(/^(?:i )?bars?$/.test(choice.label), choice.label);
+  }
+  const milk = byWord('latte'), q = buildQuestion(milk, objective(milk, 'meaning'));
+  assert.ok(q.lesson.includes(milk.note)); assert.ok(q.lesson.includes(nounNumberNote(milk)));
+  for (const it of ['calcio', 'piselli']) {
+    const entry = byWord(it), taught = buildQuestion(entry, objective(entry, 'meaning'));
+    assert.equal(taught.lesson, entry.note, 'an explicit source number explanation is sufficient');
+  }
+  const noted = { ...milk, note: nounNumberNote(milk) };
+  assert.equal(buildQuestion(noted, objective(noted, 'meaning')).lesson, noted.note);
 });
 
 test('custom content uses safe form-only fallback and escapes all prompts', () => {

@@ -1,6 +1,6 @@
 // Pure, serializable question generation. No UI, store, DOM or network dependency.
 import { conjugate, regularParadigm, accepted, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING, splitClitic } from '../conjugator.js';
-import { article, isPluralOnly, isUncountable } from '../data.js';
+import { article, isPluralOnly, isUncountable, hasPluralForm, nounNumberNote } from '../data.js';
 import { allowedTenses as curriculumTenses, entryKind, objectiveId } from './curriculum.js';
 import { ANCHOR_CONTEXTS, TENSE_LESSONS, ERROR_TIPS, WEATHER_VERBS } from './content.js';
 
@@ -52,6 +52,7 @@ function makeQuestion(e, o, opts, spec) {
 
 function articleAnswers(e, plural) { return unique(String(article(e, plural) || '').split('/')); }
 function nounForms(e, plural) {
+  if (plural && !hasPluralForm(e)) return [];
   const w = plural ? e.pl : e.it;
   return unique([w, ...articleAnswers(e, plural).map(a => a.endsWith("'") ? a + w : `${a} ${w}`)]);
 }
@@ -78,7 +79,7 @@ export function wordContext(e) {
   const preps = { a: ['al', 'allo', 'alla', 'ai', 'agli', 'alle', "all'"], di: ['del', 'dello', 'della', 'dei', 'degli', 'delle', "dell'"], da: ['dal', 'dallo', 'dalla', 'dai', 'dagli', 'dalle', "dall'"], in: ['nel', 'nello', 'nella', 'nei', 'negli', 'nelle', "nell'"], su: ['sul', 'sullo', 'sulla', 'sui', 'sugli', 'sulle', "sull'"] };
   const tail = lemma.match(/^(.*\s)?(a|di|da|in|su)$/);
   if (tail && ['prep', 'expr', 'adv'].includes(e.pos)) alternatives.push(...preps[tail[2]].map(a => (tail[1] || '') + a));
-  const candidates = unique([e.it, lemma, ...alternatives, ...(e.forms || []), ...(e.pl && e.pl !== '-' ? [e.pl] : []), ...(e.fem ? [e.fem] : [])]).sort((a, b) => b.length - a.length);
+  const candidates = unique([e.it, lemma, ...alternatives, ...(e.forms || []), ...(hasPluralForm(e) ? [e.pl] : []), ...(e.fem ? [e.fem] : [])]).sort((a, b) => b.length - a.length);
   for (const candidate of candidates) {
     const hay = e.ex.toLocaleLowerCase('it'), needle = candidate.toLocaleLowerCase('it');
     let at = hay.indexOf(needle);
@@ -97,7 +98,11 @@ function wordQuestion(e, o, opts) {
   const samePool = opts.pool.filter(x => entryKind(x) === entryKind(e) && x.id !== e.id && lexKey(x) !== lexKey(e));
   const useContext = !!ctx && v % 2 === 1;
   const baseAnswers = e.pos === 'noun' ? nounForms(e, isPluralOnly(e)) : [word(e)];
-  const defaults = { lesson: e.note || o.explanation, example: e.ex ? `${e.ex}${e.exEn ? ` — ${e.exEn}` : ''}` : `${word(e)} — ${e.en || ''}` };
+  const lesson = e.note || o.explanation || '', numberNote = nounNumberNote(e);
+  const alreadyExplained = numberNote && (lesson.includes(numberNote)
+    || (isPluralOnly(e) && /\bplural\b|\bplurale\b/i.test(lesson))
+    || (isUncountable(e) && /\b(?:normally|usually|only|always)\s+(?:used\s+)?(?:in\s+(?:the\s+)?)?singular\b|\buncountable\b|\bmass noun\b/i.test(lesson)));
+  const defaults = { lesson: [lesson, numberNote && !alreadyExplained ? numberNote : ''].filter(Boolean).join(' '), example: e.ex ? `${e.ex}${e.exEn ? ` — ${e.exEn}` : ''}` : `${word(e)} — ${e.en || ''}` };
   if (o.skill === 'meaning') {
     const inSentence = !!e.ex && v % 2 === 1;
     return makeQuestion(e, o, opts, { ...defaults,
@@ -118,9 +123,9 @@ function wordQuestion(e, o, opts) {
   }
   if (o.skill === 'article') {
     if (e.pos !== 'noun') return null;
-    const plural = isPluralOnly(e) || (v % 2 === 1 && usable(e.pl) && !isUncountable(e));
+    const plural = isPluralOnly(e) || (v % 2 === 1 && hasPluralForm(e));
     const target = plural ? e.pl : e.it;
-    const wholePhrase = v % 2 === 1 && (isPluralOnly(e) || !usable(e.pl) || isUncountable(e));
+    const wholePhrase = v % 2 === 1 && (isPluralOnly(e) || !hasPluralForm(e));
     const answers = wholePhrase ? nounForms(e, plural).slice(1) : articleAnswers(e, plural);
     return makeQuestion(e, o, opts, { ...defaults,
       prompt: wholePhrase ? textPrompt(target, `Write this ${plural ? 'plural' : 'singular'} noun with its definite article.`) : gapPrompt('', ` ${target}`, `Supply only the definite article. ${plural ? 'Plural' : 'Singular'}${e.g === 'mf' ? '; either applicable gender is accepted' : `; ${e.g === 'f' ? 'feminine' : 'masculine'}`}.`),
@@ -131,11 +136,11 @@ function wordQuestion(e, o, opts) {
     });
   }
   if (o.skill === 'plural') {
-    if (e.pos !== 'noun' || !usable(e.pl) || isUncountable(e) || isPluralOnly(e)) return null;
+    if (!hasPluralForm(e) || isPluralOnly(e)) return null;
     const withArt = v % 2 === 1;
     const full = nounForms(e, true);
     const answer = withArt ? full.slice(1) : [e.pl];
-    const stems = unique([e.it, e.it.replace(/o$/, 'i'), e.it.replace(/a$/, 'e'), e.it.replace(/e$/, 'i'), e.it + 's', ...samePool.filter(x => x.pl).map(x => x.pl)]);
+    const stems = unique([e.it, e.it.replace(/o$/, 'i'), e.it.replace(/a$/, 'e'), e.it.replace(/e$/, 'i'), e.it + 's', ...samePool.filter(hasPluralForm).map(x => x.pl)]);
     return makeQuestion(e, o, opts, { ...defaults,
       prompt: textPrompt(withArt ? nounForms(e, false)[1] || e.it : e.it, withArt ? 'Write the plural with its definite article.' : 'Write only the plural noun, without its article.'),
       answer, wrongs: withArt ? stems.map(s => `i ${s}`) : stems,

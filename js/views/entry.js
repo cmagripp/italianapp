@@ -3,7 +3,7 @@
 import { html, raw, esc, relTime, tr, trBlock, speakBtn, icon } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
-import { getEntry, headword, article, withArticle, isPluralOnly, isUncountable, search } from '../data.js';
+import { getEntry, headword, article, withArticle, isPluralOnly, hasPluralForm, nounNumberNote, search } from '../data.js';
 import { wordHero, wordForms, verbHero, conjSection, bindConjSection, actionBar, bindActionBar } from '../components.js';
 import { conjugate, primary, accepted } from '../conjugator.js';
 import { stage, STAGE_LABEL } from '../srs.js';
@@ -68,7 +68,7 @@ function formCells(e) {
   const cells = [];
   if (e.pos === 'noun') {
     if (!isPluralOnly(e)) cells.push(['Singolare', withArticle(e, false)]);
-    if (!isUncountable(e)) cells.push(['Plurale', withArticle(e, true)]);
+    if (hasPluralForm(e)) cells.push(['Plurale', withArticle(e, true)]);
     if (e.fem) cells.push(['Femminile', e.fem]);
     if (e.femPl) cells.push(['Femminile plurale', e.femPl]);
   } else if (e.pos === 'adj' && e.forms && e.forms.length === 4) {
@@ -83,7 +83,8 @@ function wordPage(e) {
     <div class="conj-head"><div class="sec-head in-pane" style="margin:0"><div><span class="kicker">Forme</span><span class="title">${e.pos === 'noun' ? 'Singolare e plurale' : 'Genere e numero'}</span></div></div>
       ${cells.length ? raw(html`<div class="view-toggle" role="group" aria-label="Cards or grid"><button type="button" class="on" data-fview="fan" aria-label="Flip cards">${ic('flip', { size: 18 })}</button><button type="button" data-fview="grid" aria-label="Grid">${ic('list', { size: 18 })}</button></div>`) : ''}
     </div>
-    <div data-forms-body>${cells.length ? '' : raw(wordForms(e))}</div>
+    ${nounNumberNote(e) ? raw(html`<p class="note small" data-number-note><strong>Plural usage:</strong> ${nounNumberNote(e)}</p>`) : ''}
+    <div data-forms-body>${cells.length ? '' : raw(wordForms(e, { showNumberNote: false }))}</div>
   </div>` : '';
   const sections = [];
   if (hasForms) sections.push(['forme', 'Forme']);
@@ -114,7 +115,7 @@ function bindForms(codex, e, cells) {
       const longWord = (v) => String(v).split(/\s+/).some(w => w.length > 9);
       api = fan(bodyEl.querySelector('[data-fan]'), cells.map(([l, v]) => ({ key: l, front: esc(l), back: `<span class="form ${longWord(v) ? 'long' : ''}">${esc(v)}</span><span class="sub">${esc(l)}</span>`, tint })));
       timer = setTimeout(() => flipAllSpread(true), reducedMotion() ? 0 : 480);
-    } else bodyEl.innerHTML = wordForms(e);
+    } else bodyEl.innerHTML = wordForms(e, { showNumberNote: false });
   }
   card.addEventListener('click', (ev) => {
     const v = ev.target.closest('[data-fview]');
