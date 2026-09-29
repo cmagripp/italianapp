@@ -31,7 +31,7 @@ export function createLetterActivity(question, { seed = 0 } = {}) {
 
 export function createPairActivity(question, pairs, { seed = 0 } = {}) {
   const valid = (pairs || []).filter(pair => pair?.targetId && pair.question?.answer?.length);
-  if (valid.length !== 3 || new Set(valid.map(pair => pair.targetId)).size !== 3) return question;
+  if (valid.length < 2 || valid.length > 3 || new Set(valid.map(pair => pair.targetId)).size !== valid.length) return question;
   const rows = valid.map(pair => ({ id: pair.targetId, targetId: pair.targetId, label: pair.label,
     answers: pair.question.answer.slice(), canonical: pair.question.answer[0], question: pair.question,
     meta: { ...pair.question.meta, mode: 'recognition', evidenceMode: 'recognition', activityKind: 'pairs' } }));

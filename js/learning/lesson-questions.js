@@ -2,10 +2,11 @@
 import { buildQuestion, escapeHTML, expandedForms, wordContext } from './questions.js';
 import { lessonContexts, lessonForms, formalLessonForms, lessonExposureForms, lessonEntry, lessonParticiples, LESSON_CONTENT_VERSION } from './lesson-content.js';
 import { conjugate, PERSONS, TENSE_BY_KEY } from '../conjugator.js';
-import { withArticle } from '../data.js';
+import { withArticle, data } from '../data.js';
 import { WEATHER_VERBS } from './content.js';
 import { createLetterActivity, createPairActivity } from './lesson-activities.js';
 import { progressiveForms, progressiveInfo } from './progressive-content.js';
+import { buildShortWordQuestion } from './word-questions.js';
 const esc=escapeHTML;
 const unique=xs=>[...new Set(xs.filter(Boolean))];
 const text=(a,b='')=>`<div class="big md">${esc(a)}</div><div class="sub">${esc(b)}</div>`;
@@ -13,6 +14,7 @@ function seeded(n){let x=(Number(n)||0)+17;return()=>{x=(Math.imul(x,1664525)+10
 function choices(q,wrong,recognition,rng){const keys=new Set(q.answer.map(x=>x.toLocaleLowerCase('it')));const pool=unique(wrong).filter(x=>!keys.has(x.toLocaleLowerCase('it'))).slice(0,3);q.type=recognition&&pool.length?'mc':'type';q.choices=q.type==='mc'?[{label:q.answer[0],value:q.answer[0],correct:true},...pool.map(label=>({label,value:label,correct:false}))]:[];for(let i=q.choices.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[q.choices[i],q.choices[j]]=[q.choices[j],q.choices[i]];}return q;}
 export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='type',phase='independent',repairTag=null}={}){
  if(!entry?.id||!chapter?.id||!target?.id||target.available===false)return null;
+ if(target.shortWord)return buildShortWordQuestion(entry,target,{variant,format,phase,pool:data.vocab||[],pairTargets:target.wordPairTargets||[],chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION});
  entry=lessonEntry(entry);
  const v=Math.abs(Math.floor(Number(variant)||0)),rng=seeded(v),kind=entry.inf?'verb':'word';
  const supported=phase!=='independent'||format!=='type';

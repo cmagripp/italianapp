@@ -96,16 +96,17 @@ export function activityHTML(model, source = {}, {readOnly=false,review=false} =
     }
     const labelTile=pair=>{
       const matched=usedLeft.has(pair.id),wrong=state.feedback&&!state.feedback.correct&&state.feedback.leftId===pair.id;
-      return `<button type="button" class="journey-pair-tile journey-pair-label ${state.leftId===pair.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-left="${esc(pair.id)}" aria-pressed="${state.leftId===pair.id}" ${readOnly||matched?'disabled':''} ${matched&&!review?'hidden':''}><span>${esc(pair.label)}</span></button>`;
+      return `<button type="button" class="journey-pair-tile m journey-pair-label ${state.leftId===pair.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-left="${esc(pair.id)}" aria-pressed="${state.leftId===pair.id}" ${readOnly||matched?'disabled':''} ${matched&&!review?'hidden':''}><span>${esc(pair.label)}</span></button>`;
     };
     const formTile=tile=>{
       const matched=usedRight.has(tile.id),wrong=state.feedback&&!state.feedback.correct&&state.feedback.rightId===tile.id;
-      return `<button type="button" class="journey-pair-tile journey-pair-form ${state.rightId===tile.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-right="${esc(tile.id)}" lang="it" aria-pressed="${state.rightId===tile.id}" ${readOnly||matched?'disabled':''} ${matched&&!review?'hidden':''}><span>${esc(tile.text)}</span></button>`;
+      return `<button type="button" class="journey-pair-tile m journey-pair-form ${state.rightId===tile.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-right="${esc(tile.id)}" lang="it" aria-pressed="${state.rightId===tile.id}" ${readOnly||matched?'disabled':''} ${matched&&!review?'hidden':''}><span>${esc(tile.text)}</span></button>`;
     };
-    const message=state.complete?'All pairs matched.':state.feedback?`${state.feedback.correct?'Matched':'Use'}: ${state.feedback.label} → ${state.feedback.expected}${state.feedback.correct?'.':'. Try again.'}`:state.leftId?'Now choose its form.':state.rightId?'Now choose the matching person.':'Choose a person and its matching form.';
-    return `<section class="journey-activity is-pairs ${readOnly?'is-readonly':''} ${review?'is-review':''}" data-activity="pairs" aria-label="Match people and forms">
+    const isWord=model.meta?.shortWord===true;
+    const message=state.complete?'All pairs matched.':state.feedback?`${state.feedback.correct?'Matched':'Use'}: ${state.feedback.label} → ${state.feedback.expected}${state.feedback.correct?'.':'. Try again.'}`:state.leftId?'Now choose its form.':state.rightId?isWord?'Now choose the matching label.':'Now choose the matching person.':isWord?'Choose a label and its matching form.':'Choose a person and its matching form.';
+    return `<section class="journey-activity is-pairs ${readOnly?'is-readonly':''} ${review?'is-review':''}" data-activity="pairs" aria-label="${isWord?'Match word forms':'Match people and forms'}">
       <p class="journey-activity-progress">${state.matches.length} of ${pairs.length} pairs matched</p>
-      <div class="journey-pair-board"><div class="journey-pair-column" role="group" aria-label="People">${pairs.map(labelTile).join('')}</div><div class="journey-pair-column" role="group" aria-label="Verb forms">${right.map(formTile).join('')}</div></div>
+      <div class="journey-pair-board match-grid"><div class="journey-pair-column" role="group" aria-label="${isWord?'Labels':'People'}">${pairs.map(labelTile).join('')}</div><div class="journey-pair-column" role="group" aria-label="${isWord?'Word forms':'Verb forms'}">${right.map(formTile).join('')}</div></div>
       <p class="journey-activity-status ${state.feedback?.correct?'is-correct':state.feedback?'is-wrong':''}" data-activity-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1">${esc(message)}</p>
     </section>`;
   }

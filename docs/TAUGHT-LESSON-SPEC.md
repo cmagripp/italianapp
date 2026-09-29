@@ -51,7 +51,7 @@ Teaching uses Italian and an understandable meaning. Exercises make the task cle
 
 The browser suite must include hand-checked examples whose expected answer is known independently of the generator. Generator output may drive a long traversal, but at least the regular, irregular, auxiliary, reflexive, formal-address, and noun-sense regressions must compare against separate expected Italian.
 
-## 4. Repeated independent demonstration
+## 4. Repeated independent demonstration for verbs
 
 | Rule | Acceptance requirement |
 | --- | --- |
@@ -84,6 +84,10 @@ The browser checks must prove an incomplete chapter stays incomplete when one re
 Required concrete regressions include a person-ending mistake, *ho andato*, an incorrect irregular participle, a missing reflexive pronoun, and an accent-only difference. The feedback must not infer more than the question actually tested.
 
 ## 6. Word lessons teach one sense and its usable form
+
+The subsequent approved word-lesson revision makes these lessons deliberately short and primarily matching and multiple choice. It supersedes the earlier use of the full verb-style repeated-production controller for default word introductions. Sentence examples teach meaning and use; default word lessons must not require the learner to write a particular example sentence. The five-case verb requirements above are unchanged.
+
+A short completed word introduction records what was actually demonstrated. Matching and choice answers remain recognition, visible letters remain supported spelling, and none may be reclassified as independent production or delayed retention to satisfy a completion flag. Wrong answers still receive specific feedback; skip or reveal cannot silently count as a correct answer. Existing word histories and in-progress sessions must remain recoverable, without deleting earlier independent evidence or awarding duplicate XP.
 
 - Start by meeting one dictionary sense, with its meaning and a plausible example. Polysemy must not cause plural or usage rules for one sense to be asserted for another.
 - For nouns, keep the article attached to the word in teaching. Explain the applicable gender/article and recorded plural or number usage before testing either.

@@ -18,7 +18,7 @@ import { lessonOverviewHTML } from '../learning/lesson-overview.js';
 import { progressiveForms, progressiveInfo } from '../learning/progressive-content.js';
 import { gradeQuestion } from '../learning/diagnose.js';
 import { createJourneySession, currentJourneyStep, advanceJourney, recordJourneyAttempt,
-  skipJourneyTarget, chooseJourneyChapter, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
+  skipJourneyTarget, chooseJourneyChapter, upgradeShortWordSession, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
 import { recommendLesson as recommend, practiceHref } from '../learning/integration.js';
 
 const uid = () => globalThis.crypto?.randomUUID?.() || `journey-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -83,6 +83,11 @@ export async function render(root, params = {}, query = {}) {
   if (session.journey?.phase === 'recap' && session.journey.chapterId === 'meet'
     && !plan.chapters.find(c=>c.id==='meet')?.groups.some(g=>g.targets?.some(t=>t.available!==false)))
     session = advanceJourney(plan, session, store.learning, { now: Date.now() });
+  const upgraded = upgradeShortWordSession(plan,session,{now:Date.now()});
+  if(upgraded!==session) {
+    session=upgraded;
+    session.ui={...session.ui,historyCursor:null,questionId:null,draft:'',given:'',result:null,activity:null,assistance:[],hint:false,forms:false};
+  }
   let ui = session.ui?.version === 2 ? session.ui : { version: 2, draft: '', assistance: [], exposures: {}, mapOpen: false };
   ui.exposures = ui.exposures && typeof ui.exposures === 'object' && !Array.isArray(ui.exposures)
     ? Object.fromEntries(Object.entries(ui.exposures).filter(([key,value])=>!['__proto__','prototype','constructor'].includes(key) && Number.isFinite(value) && value >= 0)) : {};
@@ -104,7 +109,9 @@ export async function render(root, params = {}, query = {}) {
     const chapter = plan.chapters.find(c=>c.id===snapshot?.chapterId);
     const group = chapter?.groups.find(g=>g.id===snapshot.groupId);
     const card = group?.cards?.find(c=>c.id===snapshot.cardId);
-    const target = chapter?.groups.flatMap(g=>g.targets||[]).find(t=>t.id===snapshot.targetId);
+    let target = chapter?.groups.flatMap(g=>g.targets||[]).find(t=>t.id===snapshot.targetId);
+    const slot=plan.wordLesson?.slots.find(s=>s.id===snapshot.wordSlotId&&s.targetId===target?.id);
+    if(slot)target={...target,shortWord:true,wordSlotId:slot.id,wordPairTargets:(slot.pairTargetIds||[]).map(id=>allTargets.find(t=>t.id===id)).filter(Boolean)};
     return { ...snapshot, chapter, group, card, target };
   };
   const safeResult = result => result && typeof result==='object' && typeof result.ok==='boolean' ? {
@@ -117,7 +124,7 @@ export async function render(root, params = {}, query = {}) {
     if (!source || typeof source!=='object' || source.version!==1 || source.entryId!==entry.id || source.contentVersion!==plan.version
       || !['teach','question','repair','recap','complete','blocked'].includes(source.type)) return null;
     const snapshot = { version:1, entryId:entry.id, contentVersion:plan.version, type:source.type };
-    for (const key of ['chapterId','groupId','cardId','targetId','questionId','repairTag']) snapshot[key]=typeof source[key]==='string'?source[key].slice(0,300):'';
+    for (const key of ['chapterId','groupId','cardId','targetId','questionId','repairTag','wordSlotId']) snapshot[key]=typeof source[key]==='string'?source[key].slice(0,300):'';
     snapshot.variant=Number.isInteger(source.variant)&&source.variant>=0&&source.variant<1000000?source.variant:0;
     snapshot.phase=['guided','independent','repair'].includes(source.phase)?source.phase:'guided';
     snapshot.format=['choice','mc','type','match','letters','pairs'].includes(source.format)?source.format:'type';
@@ -129,6 +136,7 @@ export async function render(root, params = {}, query = {}) {
     snapshot.pendingCount=Number.isInteger(source.pendingCount)&&source.pendingCount>=0?Math.min(source.pendingCount,10000):0;
     snapshot.scrollTop=Number.isFinite(source.scrollTop)&&source.scrollTop>=0?Math.min(source.scrollTop,100000):0;
     snapshot.index=Number.isInteger(source.index)&&source.index>=0?source.index:0;
+    if(snapshot.wordSlotId&&!plan.wordLesson?.slots.some(s=>s.id===snapshot.wordSlotId&&s.targetId===snapshot.targetId))return null;
     const restored=historyStep(snapshot);
     if(!restored.chapter || source.type==='teach'&&!restored.card || ['question','repair'].includes(source.type)&&!restored.target)return null;
     return snapshot;
@@ -244,6 +252,10 @@ export async function render(root, params = {}, query = {}) {
   }
   function prepare() {
     step = stepNow();
+    if(session.journey.wordShort && step.type==='recap') {
+      session=advanceJourney(plan,session,store.learning,{now:Date.now()});
+      step=stepNow();
+    }
     if (step.chapter && mode === 'lesson') {
       const currentStage = CORE_STAGES.findIndex(s=>s.id===store.learning.preferences.stage);
       const nextStage = CORE_STAGES.findIndex(s=>s.id===step.chapter.id);
@@ -283,8 +295,8 @@ export async function render(root, params = {}, query = {}) {
     const active = Math.min(forms.length-1, ui.formDecks[key] || 0);
     return html`<section class="journey-form-deck" aria-label="Explore the forms">
       <div class="journey-form-track" data-form-track data-form-key="${key}" tabindex="0" aria-label="Verb or word forms. Swipe, or use the previous and next buttons.">
-        ${raw(forms.map((row,i)=>html`<button type="button" class="journey-form-card ${i===active?'is-active':''}" data-form-card="${i}" data-form-say="${row.form}" aria-pressed="${i===active}" aria-label="Listen to ${row.label}: ${row.form}">
-          <span class="journey-form-person">${row.label}</span>
+        ${raw(forms.map((row,i)=>html`<button type="button" class="journey-form-card poster ${i===active?'is-active active':''}" data-form-card="${i}" data-form-say="${row.form}" aria-pressed="${i===active}" aria-label="Listen to ${row.label}: ${row.form}">
+          <span class="poster-ghost" aria-hidden="true">${String(row.label||'').slice(0,1)}</span><span class="journey-form-person poster-kicker">${row.label}</span>
           <span class="journey-form-value" lang="it">${row.form}</span><span class="journey-form-footer">${row.gloss?raw(html`<span class="journey-form-gloss">${row.gloss}</span>`):''}<span class="journey-form-sound" aria-hidden="true">${raw(icon('speaker',{size:19}))}<span>Listen</span></span></span>
         </button>`).join(''))}
       </div>
@@ -335,7 +347,7 @@ export async function render(root, params = {}, query = {}) {
     const cards = [...track.querySelectorAll('[data-form-card]')], deck = track.closest('.journey-form-deck');
     if (!deck || !cards.length) return;
     const active = formIndex(track), key = track.dataset.formKey;
-    cards.forEach((card,i)=>{card.classList.toggle('is-active',i===active);card.setAttribute('aria-pressed',String(i===active));});
+    cards.forEach((card,i)=>{card.classList.toggle('is-active',i===active);card.classList.toggle('active',i===active);card.setAttribute('aria-pressed',String(i===active));});
     deck.querySelector('[data-form-count]').textContent = `${active+1} / ${cards.length}`;
     deck.querySelector('[data-form-prev]').disabled = active===0;
     deck.querySelector('[data-form-next]').disabled = active===cards.length-1;
@@ -354,6 +366,7 @@ export async function render(root, params = {}, query = {}) {
     save();
   }
   function chapterRailHTML(progress, displayStep = step) {
+    if(progress.wordShort)return html`<div class="journey-word-progress" role="progressbar" aria-label="Word practice" aria-valuemin="0" aria-valuemax="${progress.total}" aria-valuenow="${progress.answered}"><span style="width:${progress.total?100*progress.answered/progress.total:0}%"></span></div>`;
     const chapters = progress.chapters.filter(c=>!c.optional&&(entry.kind!=='verb'||c.id!=='meet'));
     return html`<ol class="journey-chapter-rail" aria-label="Lesson chapters">${raw(chapters.map((chapter,i)=>{
       const current=chapter.id===displayStep.chapter?.id;
@@ -376,10 +389,10 @@ export async function render(root, params = {}, query = {}) {
   function capturePage() {
     if (reviewingHistory() || ui.paused) return;
     const progress = journeyProgress(plan,session,store.learning);
-    const pending = step.type==='complete' ? progress.chapters.filter(c=>!c.optional).flatMap(c=>c.pending)
+    const pending = progress.wordShort ? progress.pending : step.type==='complete' ? progress.chapters.filter(c=>!c.optional).flatMap(c=>c.pending)
       : progress.chapters.find(c=>c.id===step.chapter?.id)?.pending || [];
     const snapshot = safeSnapshot({version:1,entryId:entry.id,contentVersion:plan.version,
-      type:step.type,chapterId:step.chapter?.id,groupId:step.group?.id,cardId:step.card?.id,targetId:step.target?.id,
+      type:step.type,chapterId:step.chapter?.id,groupId:step.group?.id,cardId:step.card?.id,targetId:step.target?.id,wordSlotId:step.target?.wordSlotId,
       phase:step.phase,questionId:step.questionId,variant:step.type==='repair'?session.journey.lastAttempt?.variant:step.variant,
       format:step.format,repairTag:step.repairTag,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
       given:ui.given||ui.draft,result:ui.result,activity:ui.activity,pendingCount:pending.length,index:session.index||0,
@@ -432,10 +445,10 @@ export async function render(root, params = {}, query = {}) {
     else if(past.type==='repair')content=repairHTML(past,snapshot);
     else if(past.type==='question'){
       const q=snapshotQuestion(past);
-      content=q?html`<section class="journey-exercise-card"><div class="journey-kicker">${phaseName(past)||'Practise'} · ${past.chapter.title}</div><div class="journey-prompt" data-focus tabindex="-1">${raw(promptHTML(q.prompt))}</div>
+      content=q?html`<section class="journey-exercise-card q-card glass-flat"><div class="journey-kicker">${phaseName(past)||'Practise'} · ${past.chapter.title}</div><div class="journey-prompt" data-focus tabindex="-1">${raw(promptHTML(q.prompt))}</div>
         ${['letters','pairs'].includes(q.type)?raw(activityHTML({...q,id:past.questionId},past.activity,{readOnly:true,review:past.result?.outcome!=='revealed'})):q.choices?.length?raw(html`<div class="journey-choices">${raw(q.choices.map((c,i)=>{
           const value=c.value??c.label,chosen=normalize(past.given)===normalize(value),right=(q.answer||[]).some(a=>normalize(a)===normalize(value));
-          return html`<button type="button" class="journey-choice ${past.awaitingContinue&&right?'is-correct':past.awaitingContinue&&chosen?'is-wrong':''}" disabled aria-pressed="${chosen}"><span class="journey-choice-marker" aria-hidden="true">${String.fromCharCode(65+i)}</span><span class="journey-choice-label" lang="${q.meta?.answerLanguage==='en'?'en':'it'}">${c.label}</span>${past.awaitingContinue&&(right||chosen)?raw(html`<small>${right?'Correct':'Your answer'}</small>`):''}</button>`;
+          return html`<button type="button" class="journey-choice choice ${past.awaitingContinue&&right?'is-correct':past.awaitingContinue&&chosen?'is-wrong':''}" disabled aria-pressed="${chosen}"><span class="journey-choice-marker" aria-hidden="true">${String.fromCharCode(65+i)}</span><span class="journey-choice-label" lang="${q.meta?.answerLanguage==='en'?'en':'it'}">${c.label}</span>${past.awaitingContinue&&(right||chosen)?raw(html`<small>${right?'Correct':'Your answer'}</small>`):''}</button>`;
         }).join(''))}</div>`):raw(html`<p class="journey-given"><span>${past.awaitingContinue?'Your answer':'Your draft'}</span><span lang="${q.meta?.answerLanguage==='en'?'en':'it'}">${past.given||'—'}</span></p>`)}</section>
         ${past.awaitingContinue?raw(feedbackHTML(past.result,q,past.given)):raw('<p class="journey-note">You left this question without submitting an answer.</p>')}`:'<p>This earlier exercise is no longer available.</p>';
     } else if(['recap','complete'].includes(past.type))content=html`<section class="journey-recap"><div class="journey-kicker">Previous recap</div><h1 data-focus tabindex="-1">${past.type==='complete'?'A little more Italian.':`Your progress · ${past.chapter.title}`}</h1><p>${past.pendingCount?'A few parts were saved for more practice.':'You worked through this part of the lesson.'}</p></section>`;
@@ -565,12 +578,12 @@ export async function render(root, params = {}, query = {}) {
     const answered = !!step.awaitingContinue;
     const choices = question.choices || [];
     const interactive = ['letters','pairs'].includes(question.type);
-    return html`<section class="journey-exercise-card" data-activity="${question.type}"><div class="journey-kicker">${phaseName(step)||'Practise'} · ${step.chapter?.title||'Your lesson'}</div><div class="journey-prompt" data-focus tabindex="-1">${raw(promptHTML(question.prompt))}</div>
+    return html`<section class="journey-exercise-card q-card glass-flat" data-activity="${question.type}"><div class="journey-kicker">${phaseName(step)||'Practise'} · ${step.chapter?.title||'Your lesson'}</div><div class="journey-prompt" data-focus tabindex="-1">${raw(promptHTML(question.prompt))}</div>
       ${interactive ? raw(activityHTML({...question,id:step.questionId},ui.activity,{readOnly:answered})) : choices.length ? raw(html`<p class="journey-note">${answered ? '' : step.format === 'match' ? 'Tap the matching form.' : 'Tap an answer.'}</p><div class="journey-choices">${raw(choices.map((c,i) => {
         const value = c.value ?? c.label;
         const chosen = normalize(ui.given) === normalize(value);
         const right = (question.answer || []).some(a => normalize(a) === normalize(value)) || c.correct === true;
-        return html`<button type="button" data-choice="${i}" class="journey-choice ${answered && right ? 'is-correct' : answered && chosen ? 'is-wrong' : ''}" ${answered ? raw('disabled') : ''} aria-pressed="${chosen}"><span class="journey-choice-marker" aria-hidden="true">${String.fromCharCode(65+i)}</span><span class="journey-choice-label" lang="${question.meta?.answerLanguage==='en'?'en':'it'}">${c.label}</span>${answered && (right || chosen) ? raw(html`<small>${right ? 'Correct' : 'Your answer'}</small>`) : ''}</button>`;
+        return html`<button type="button" data-choice="${i}" class="journey-choice choice ${answered && right ? 'is-correct' : answered && chosen ? 'is-wrong' : ''}" ${answered ? raw('disabled') : ''} aria-pressed="${chosen}"><span class="journey-choice-marker" aria-hidden="true">${String.fromCharCode(65+i)}</span><span class="journey-choice-label" lang="${question.meta?.answerLanguage==='en'?'en':'it'}">${c.label}</span>${answered && (right || chosen) ? raw(html`<small>${right ? 'Correct' : 'Your answer'}</small>`) : ''}</button>`;
       }).join(''))}</div>`) : raw(html`<form data-answer-form autocomplete="off"><label for="journey-answer">${question.meta?.answerLanguage === 'en' ? 'Your answer in English' : 'Your answer in Italian'}</label><input id="journey-answer" data-answer type="text" value="${ui.draft || ''}" autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="done" ${answered ? raw('readonly') : ''}>
       ${answered ? '' : raw(html`<div class="journey-accents" aria-label="Accented letters">${raw(['à','è','é','ì','ò','ù',"'"].map(c=>html`<button type="button" data-letter="${c}" aria-label="Insert ${c}">${c}</button>`).join(''))}</div><button type="submit" class="btn primary journey-primary" data-check ${ui.draft?.trim() ? '' : raw('disabled')}>Check answer</button>`)}</form>`)}
       </section>${answered ? raw(feedbackHTML()) : ''}
@@ -580,6 +593,14 @@ export async function render(root, params = {}, query = {}) {
   }
   function summaryHTML(complete) {
     const progress = journeyProgress(plan, session, store.learning);
+    if(progress.wordShort) {
+      const pending=progress.pending.length,next=recommend(store,{kind:'word'});
+      return html`<section class="journey-recap"><div class="journey-recap-mark" aria-hidden="true">${raw(icon(pending?'book':'check',{size:30}))}</div><div class="journey-kicker">Your word lesson</div>
+        <h1 data-focus tabindex="-1">${pending?'Saved for another try':`${nameOf(entry)} · complete`}</h1>
+        <p>${pending?'Your place is saved. Practise the remaining questions when you’re ready.':'You’ve learned its meaning and practised recognising it. We’ll bring it back to help it stick.'}</p>
+        ${pending?raw(primary('Practise remaining questions','data-retry')):next&&next.entry.id!==entry.id?raw(html`<a class="btn primary journey-primary" href="${practiceHref(next.entry)}">Learn ${nameOf(next.entry)}</a>`):raw('<a class="btn primary journey-primary" href="#/learn">Keep learning</a>')}
+        <a class="btn ghost" href="#/words">Back to Words</a></section>`;
+    }
     const summaries = progress.chapters || [];
     const pending = complete ? summaries.filter(c=>!c.optional).flatMap(c=>c.pending) : summaries.find(c=>c.id===step.chapter?.id)?.pending || [];
     if(entry.kind==='verb' && mode==='lesson') {
@@ -651,18 +672,17 @@ export async function render(root, params = {}, query = {}) {
     else if (step.type === 'unavailable') content = html`<h1 data-focus tabindex="-1">This saved lesson cannot open yet</h1><p>Its saved progress is preserved. Reload the app to check for an update, or return to your other lessons.</p><a class="btn primary" href="#/learn">Back to Learn</a>`;
     else content = html`<h1 data-focus tabindex="-1">Save this part for later</h1><p>We need another useful example before checking this part again. Your practice so far is saved.</p>${raw(primary('Continue with this part saved', 'data-skip'))}<a class="btn ghost" href="#/reference/${encodeURIComponent(entry.id)}">Read the available examples</a>`;
     const lessonHeader=overview?html`<header class="journey-header is-overview"><div class="journey-overview-top"><span class="journey-kicker">Choose your next step</span><a href="#/learn">All lessons ${raw(icon('chevronRight',{size:16}))}</a></div></header>`:html`<header class="journey-header"><div class="journey-top"><div class="journey-history-controls"><button type="button" data-lesson-back aria-label="Previous lesson page" ${paused||!ui.history.length||past&&ui.historyCursor===0?raw('disabled'):''}>${raw(icon('chevron',{size:16}))}<span>Back</span></button></div>
-      <button type="button" class="journey-map-toggle" ${raw(entry.kind==='verb'&&mode==='lesson'?'data-overview aria-label="Your verb and tenses"':'data-map')} aria-expanded="${!!ui.mapOpen}" ${past?raw('disabled'):''}><span>${displayStep.chapter?.title || 'Lesson recap'}${idx>=0?raw(html`<small>${idx+1}/${core.length}</small>`):''}</span><span aria-hidden="true">${raw(icon('chevronDown',{size:17}))}</span></button>
+      ${progress.wordShort?raw(html`<div class="journey-map-toggle"><span>Word lesson <small>${progress.answered}/${progress.total}</small></span></div>`):raw(html`<button type="button" class="journey-map-toggle" ${raw(entry.kind==='verb'&&mode==='lesson'?'data-overview aria-label="Your verb and tenses"':'data-map')} aria-expanded="${!!ui.mapOpen}" ${past?raw('disabled'):''}><span>${displayStep.chapter?.title || 'Lesson recap'}${idx>=0?raw(html`<small>${idx+1}/${core.length}</small>`):''}</span><span aria-hidden="true">${raw(icon('chevronDown',{size:17}))}</span></button>`)}
       <button type="button" class="btn ghost" data-pause ${paused ? raw('hidden') : ''}>Pause</button></div>
       ${past?raw(html`<div class="journey-history-controls"><button type="button" data-lesson-forward aria-label="Next lesson page">Forward ${raw(icon('chevronRight',{size:16}))}</button><button type="button" data-lesson-current>Current lesson</button></div>`):''}
       ${ui.mapOpen&&!past ? raw(html`<nav class="journey-map" aria-label="Lesson chapters">${raw(plan.chapters.map(c=>html`<button type="button" data-chapter="${c.id}" aria-current="${step.chapter?.id === c.id ? 'step' : 'false'}">${c.title}${c.optional ? raw('<small>Explore more</small>') : ''}</button>`).join(''))}</nav>`) : ''}
       ${raw(chapterRailHTML(progress,displayStep))}
-      <ol class="journey-stages" aria-label="Chapter stages">${raw(['Learn','Practise','Recall'].map(label=>html`<li ${label === stage ? raw('aria-current="step"') : ''}>${label}</li>`).join(''))}</ol></header>`;
-    root.innerHTML = html`<div class="journey-page ${floatingActions?'has-action-dock':''}" data-journey data-history="${!!past}" data-phase="${phase}" data-chapter="${overview?'overview':displayStep.chapter?.id || ''}" data-group="${displayStep.group?.id || ''}" data-target="${displayStep.target?.id || ''}">
+      <ol class="journey-stages" aria-label="Chapter stages">${raw((entry.kind==='word'?['Learn','Practise']:['Learn','Practise','Recall']).map(label=>html`<li ${label === stage ? raw('aria-current="step"') : ''}>${label}</li>`).join(''))}</ol></header>`;
+    root.innerHTML = html`<div class="journey-page glass ${floatingActions?'has-action-dock':''}" data-journey data-history="${!!past}" data-phase="${phase}" data-chapter="${overview?'overview':displayStep.chapter?.id || ''}" data-group="${displayStep.group?.id || ''}" data-target="${displayStep.target?.id || ''}">
       ${raw(lessonHeader)}
       <main class="journey-main ${enter&&!reducedMotion()?'journey-enter':''}" tabindex="0" aria-label="Lesson content">${legacy && !prior && !ui.legacyDismissed ? raw(html`<aside class="journey-legacy"><p>Your previous practice is saved.</p><a href="${practiceHref(entry, null, mode)}${mode === 'lesson' ? '?' : '&'}legacy=1&session=${encodeURIComponent(legacy.id)}">Resume your previous question</a><button type="button" data-dismiss-legacy aria-label="Dismiss saved question notice">×</button></aside>`) : ''}${raw(content)}</main>
-      ${floatingActions?raw(actionsHTML(step.type==='teach')):''}
       ${entry.kind==='verb'&&!paused?raw(html`<button type="button" class="journey-table-tab" data-conjugation-toggle aria-label="Open verb forms" aria-expanded="false" aria-controls="journey-conjugation-panel">${raw(icon('chevron',{size:18}))}</button><dialog id="journey-conjugation-panel" class="journey-conjugation-panel" aria-labelledby="journey-conjugation-title"></dialog>`):''}
-    </div>`;
+    </div>${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
     if (displayQuestion?.type==='letters') {
       const activity=past?past.activity:ui.activity;
       const typed=letterAnswer({...displayQuestion,id:displayStep.questionId},activity).trim();

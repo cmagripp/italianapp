@@ -57,6 +57,8 @@ function compatible(plan, session) {
   if (j.varietyRound !== undefined && !integer(j.varietyRound)) return false;
   if (j.caseMode !== undefined && typeof j.caseMode !== 'boolean') return false;
   if (j.redoStartIndex !== undefined && j.redoStartIndex !== null && !integer(j.redoStartIndex)) return false;
+  if (j.wordShort !== undefined && (!record(j.wordShort) || j.wordShort.version !== 1 || !integer(j.wordShort.teachingIndex)
+    || !(j.wordShort.slotId === null || typeof j.wordShort.slotId === 'string') || !mapOf(j.wordShort.completed, value => typeof value === 'string') || !mapOf(j.wordShort.skipped, clock))) return false;
   if (j.caseCursors !== undefined && !mapOf(j.caseCursors, value => record(value) && typeof value.chapterId === 'string'
     && compatible(plan, { ...session, journey: { ...j, ...value, caseCursors: undefined } }))) return false;
   if ((j.awaitingContinue || ['repair', 'repair-teach'].includes(j.phase)) && (!j.current || !j.lastAttempt)) return false;
@@ -261,6 +263,61 @@ function schedule(plan, session, learning, now) {
   return session;
 }
 
+function wordSlots(plan) { return plan.wordLesson?.slots || []; }
+function wordLocation(plan, targetId) {
+  for (const chapter of plan.chapters || []) {
+    const groupIndex = groups(chapter).findIndex(group => group.targets?.some(target => target.id === targetId));
+    if (groupIndex >= 0) return { chapter, groupIndex };
+  }
+  return null;
+}
+function startWordSlot(plan, session) {
+  const j=session.journey, word=j.wordShort;
+  const slot=wordSlots(plan).find(slot=>!word.completed[slot.id]&&!Object.hasOwn(word.skipped,slot.id));
+  j.awaitingContinue=false;j.current=null;j.repairReturn=null;j.blocked=false;
+  if(!slot){j.phase='recap';word.slotId=null;return session;}
+  const location=wordLocation(plan,slot.targetId),target=targetFor(plan,slot.targetId);
+  if(!location||!available(target)){j.phase='guided';j.blocked='word-content-unavailable';return session;}
+  word.slotId=slot.id;j.chapterId=location.chapter.id;j.groupIndex=location.groupIndex;j.phase='guided';
+  setQuestion(plan,session,target,'guided',{activityFormat:slot.format||'mc'});
+  j.current.variant=slot.variant;
+  return session;
+}
+function startWordTeaching(plan, session) {
+  const j=session.journey, ref=plan.wordLesson?.teaching?.[j.wordShort.teachingIndex];
+  if(!ref)return startWordSlot(plan,session);
+  const chapter=plan.chapters.find(c=>c.id===ref.chapterId),groupIndex=groups(chapter).findIndex(g=>g.id===ref.groupId);
+  const cardIndex=groups(chapter)[groupIndex]?.cards?.findIndex(c=>c.id===ref.cardId);
+  if(!chapter||groupIndex<0||cardIndex<0)return startWordSlot(plan,session);
+  j.chapterId=chapter.id;j.groupIndex=groupIndex;j.cardIndex=cardIndex;j.current=null;j.phase='teach';j.awaitingContinue=false;j.blocked=false;
+  return session;
+}
+export function upgradeShortWordSession(plan, oldSession, {now=Date.now()}={}) {
+  if(plan.kind!=='word'||!plan.wordLesson||oldSession?.journey?.wordShort||!compatible(plan,oldSession))return oldSession;
+  const session=copy(oldSession),j=session.journey;
+  j.legacyWordCursor={chapterId:j.chapterId,groupIndex:j.groupIndex,cardIndex:j.cardIndex,phase:j.phase,current:j.current,queue:j.queue,awaitingContinue:j.awaitingContinue,skipped:copy(j.skipped),deferred:copy(session.deferred)};
+  j.wordShort={version:1,teachingIndex:0,slotId:null,completed:{},skipped:{}};
+  j.focusTargetId=null;j.queue=[];j.current=null;j.awaitingContinue=false;j.lastAttempt=null;j.repairReturn=null;
+  session.objectiveIds=[...new Set(wordSlots(plan).map(slot=>slot.targetId))];
+  for(const id of session.objectiveIds){delete session.deferred[id];delete j.skipped[id];}
+  startWordTeaching(plan,session);
+  return changed(session,now);
+}
+function advanceShortWord(plan, oldSession, learning, now) {
+  const session=copy(oldSession),j=session.journey,word=j.wordShort;
+  if(j.phase==='teach'){word.teachingIndex++;startWordTeaching(plan,session);}
+  else if(j.phase==='recap'){j.phase='complete';j.current=null;}
+  else if(j.phase==='repair-teach'){
+    const slot=wordSlots(plan).find(slot=>slot.id===word.slotId);
+    if(slot){j.phase='repair';setQuestion(plan,session,targetFor(plan,slot.targetId),'repair',{activityFormat:'mc',repairTag:j.lastAttempt?.errorTags?.[0]||'meaning'});j.current.variant=slot.variant;}
+  }else if(j.awaitingContinue){
+    j.awaitingContinue=false;
+    if(!j.lastAttempt?.ok){j.phase='repair-teach';}
+    else startWordSlot(plan,session);
+  }
+  return changed(session,now);
+}
+
 export function createJourneySession({ id, plan, now = Date.now(), mode = 'lesson', chapterId = null, targetId = null, caseMode = false }) {
   const chapter = targetId ? plan.chapters?.find(c => targets(c).some(t => t.id === targetId))
     : plan.chapters?.find(c => c.id === chapterId) || plan.chapters?.find(c => !c.optional && (mode !== 'review' || targets(c).some(required))) || plan.chapters?.[0];
@@ -271,13 +328,15 @@ export function createJourneySession({ id, plan, now = Date.now(), mode = 'lesso
   if (!chapter) session.journey.phase = 'complete';
   else if (mode === 'review') startPass(plan, session, null, 'review', eligibleTargets(plan, session).map(target => target.id), now);
   else startGroup(plan, session, null, now);
-  return session;
+  return plan.kind==='word'&&plan.wordLesson ? upgradeShortWordSession(plan,session,{now}) : session;
 }
 
 export function currentJourneyStep(plan, session, learning = null, now = Date.now()) {
   if (!compatible(plan, session) || (learning?.version > LEARNING_VERSION)) return { type: 'unavailable', reason: 'version-mismatch' };
   const j = session.journey, chapter = chapterFor(plan, session);
-  const target = targetFor(plan, j.current?.targetId), group = target ? groupFor(chapter, target.id) : groups(chapter)[j.groupIndex];
+  let target = targetFor(plan, j.current?.targetId);
+  if(target&&j.wordShort){const slot=wordSlots(plan).find(s=>s.id===j.wordShort.slotId);target={...target,shortWord:true,wordSlotId:j.wordShort.slotId,wordPairTargets:(slot?.pairTargetIds||[]).map(id=>targetFor(plan,id)).filter(Boolean)};}
+  const group = target ? groupFor(chapter, target.id) : groups(chapter)[j.groupIndex];
   const base = { chapter, group, target, awaitingContinue: j.awaitingContinue, phase: j.current?.phase || j.phase,
     ...(j.current || {}), helpSuggested: !!target && (j.failures[target.id] || 0) >= 2 };
   if (j.phase === 'complete') return { ...base, type: 'complete' };
@@ -292,6 +351,7 @@ export function currentJourneyStep(plan, session, learning = null, now = Date.no
 
 export function advanceJourney(plan, oldSession, learning, { now = Date.now() } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION) return oldSession;
+  if(oldSession.journey.wordShort)return advanceShortWord(plan,oldSession,learning,now);
   const session = copy(oldSession), j = session.journey, chapter = chapterFor(plan, session);
   if (j.phase === 'teach') {
     const group = groups(chapter)[j.groupIndex];
@@ -347,6 +407,7 @@ export function journeyAttempt(plan, session, question, grade, { assistance = []
     ...(Number.isInteger(question.meta?.variantCount) ? { availableVariants: question.meta.variantCount } : {}),
     ok: grade.ok === true, outcome: grade.outcome || (grade.ok ? 'correct' : 'incorrect'), assistance: help, firstAttempt: true,
     errorTags: grade.errorTags || [], components: grade.components || [],
+    ...(j.wordShort ? {wordPolicy:'word-short-v1',wordSlotId:j.wordShort.slotId,mode:'recognition',activityKind:current.phase==='repair'?'repair':'guided'} : {}),
   };
 }
 
@@ -414,6 +475,7 @@ export function recordJourneyAttempt(plan, oldSession, event, result) {
   j.awaitingContinue = true;
   j.lastAttempt = { id: event.id, targetId: event.objectiveId, variant: j.current.variant, ok: event.ok, outcome: event.outcome, errorTags: event.errorTags || [] };
   j.lastAnswered[event.objectiveId] = session.index;
+  if(j.wordShort&&event.wordPolicy==='word-short-v1'&&event.wordSlotId===j.wordShort.slotId&&event.ok)j.wordShort.completed[event.wordSlotId]=event.id;
   // An answer copied from support has not tried this variant independently.
   // Retry that same useful context after a gap rather than letting scheduling
   // parity strand every credited answer on the other variant forever.
@@ -432,6 +494,11 @@ export function recordJourneyAttempt(plan, oldSession, event, result) {
 export function skipJourneyTarget(plan, oldSession, targetId = null, { now = Date.now(), learning = null } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION) return oldSession;
   const session = copy(oldSession), j = session.journey;
+  if(j.wordShort){
+    if(j.phase==='teach'){j.wordShort.teachingIndex++;startWordTeaching(plan,session);}
+    else {const slot=wordSlots(plan).find(slot=>slot.id===j.wordShort.slotId);if(slot){j.wordShort.skipped[slot.id]=now;session.deferred[slot.targetId]=now;j.skipped[slot.targetId]=now;}startWordSlot(plan,session);}
+    return changed(session,now);
+  }
   if (j.phase === 'teach' && !targetId) {
     const group = groups(chapterFor(plan, session))[j.groupIndex];
     for (const target of taughtTargets(group)) { j.skipped[target.id] = now; session.deferred[target.id] = now; }
@@ -451,6 +518,7 @@ export function skipJourneyTarget(plan, oldSession, targetId = null, { now = Dat
 const cursorKeys = ['chapterId', 'groupIndex', 'cardIndex', 'phase', 'queue', 'current', 'awaitingContinue', 'lastAttempt', 'repairReturn', 'focusTargetId', 'blocked', 'redoStartIndex'];
 export function chooseJourneyChapter(plan, oldSession, chapterId, { now = Date.now(), learning = null, redo = false, restart = false } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION || !plan.chapters.some(c => c.id === chapterId)) return oldSession;
+  if(oldSession.journey.wordShort){const session=copy(oldSession),index=plan.wordLesson.teaching.findIndex(ref=>ref.chapterId===chapterId);session.journey.wordShort.teachingIndex=index<0?plan.wordLesson.teaching.length:index;startWordTeaching(plan,session);return changed(session,now);}
   const session = copy(oldSession), j = session.journey;
   for (const target of targets(plan.chapters.find(c => c.id === chapterId))) { delete j.skipped[target.id]; delete session.deferred[target.id]; }
   if (j.chapterId === chapterId && !redo && !restart && !['recap', 'complete'].includes(j.phase)) return changed(session, now);
@@ -474,6 +542,7 @@ export function chooseJourneyChapter(plan, oldSession, chapterId, { now = Date.n
 export function retryJourneyPending(plan, oldSession, learning, { now = Date.now() } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION) return oldSession;
   const session = copy(oldSession), j = session.journey;
+  if(j.wordShort){j.wordShort.skipped={};for(const slot of wordSlots(plan)){delete session.deferred[slot.targetId];delete j.skipped[slot.targetId];}startWordSlot(plan,session);return changed(session,now);}
   const pending = targets(chapterFor(plan, session)).filter(target => (j.focusTargetId ? available(target) && !target.supplementalOnly && !target.guidedOnly : required(target))
     && (!j.focusTargetId || target.id === j.focusTargetId)
     && (session.mode === 'review' ? !reviewed(learning, target, session, now) : !readyForRun(learning, target, session, now)));
@@ -486,6 +555,7 @@ export function retryJourneyPending(plan, oldSession, learning, { now = Date.now
 // screen. The postponed prompt does not produce a wrong answer, XP, or a lapse.
 export function deferJourneyTarget(plan, oldSession, learning, { now = Date.now() } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION || !oldSession.journey.current || oldSession.journey.awaitingContinue) return oldSession;
+  if(oldSession.journey.wordShort)return oldSession; // Recognition intentionally keeps its visible choices.
   const session = copy(oldSession), j = session.journey, id = j.current.targetId;
   j.lastAnswered[id] = session.index;
   if (!j.current.supplemental) j.queue.push(id);
@@ -495,6 +565,7 @@ export function deferJourneyTarget(plan, oldSession, learning, { now = Date.now(
 }
 
 export function journeyProgress(plan, session, learning = null, now = Date.now()) {
+  if(session?.journey && Object.hasOwn(session.journey,'wordShort'))return shortWordProgress(plan,session,learning,now);
   const chapters = (plan.chapters || []).map(chapter => {
     const states = targets(chapter).filter(required).map(target => ({ target, ...journeyTargetState(learning, target, now),
       ...(session?.journey?.chapterId === chapter.id && session.journey.redoStartIndex != null ? { ready: readyForRun(learning, target, session, now) } : {}),
@@ -506,6 +577,24 @@ export function journeyProgress(plan, session, learning = null, now = Date.now()
   });
   return { chapters, currentChapterId: session?.journey?.chapterId || null, complete: plan.kind === 'verb' && coreJourneyChapters(plan).length === CORE_JOURNEY_CASES.length ? journeyCaseProgress(plan, learning, session, now).complete : chapters.filter(c => !c.optional).every(c => c.complete),
     covered: chapters.filter(c => !c.optional).every(c => c.covered), pending: chapters.flatMap(c => c.pending) };
+}
+
+function shortWordProgress(plan,session,learning,now) {
+  // Progress is also rendered beside the unavailable screen. Do not execute an
+  // imported cursor rejected by currentJourneyStep, or fall back to legacy
+  // mastery when its short-word state is malformed. Leave the payload intact.
+  const valid=record(session.journey.wordShort) && compatible(plan,session) && !(learning?.version>LEARNING_VERSION);
+  const word=valid?session.journey.wordShort:{completed:{},skipped:{}};
+  const slots=wordSlots(plan).map(slot=>{
+    const event=learning?.events?.[word.completed[slot.id]],done=!!event&&event.epochId===learning.epoch?.id&&event.contentVersion===plan.version&&event.wordPolicy==='word-short-v1'&&event.wordSlotId===slot.id&&event.sessionId===session.id&&event.objectiveId===slot.targetId&&event.ok;
+    return {...slot,target:targetFor(plan,slot.targetId),ready:done,completed:done,supportedCompletion:true,skipped:Object.hasOwn(word.skipped,slot.id)};
+  });
+  const chapters=plan.chapters.map(chapter=>{
+    const ids=new Set(targets(chapter).map(t=>t.id)),states=slots.filter(slot=>ids.has(slot.targetId));
+    return {id:chapter.id,title:chapter.title,optional:!states.length,targets:states,total:states.length,ready:states.filter(s=>s.completed).length,remembered:0,pending:states.filter(s=>!s.completed),covered:valid&&!!session.journey.covered[chapter.id],complete:valid&&states.every(s=>s.completed)};
+  });
+  return {wordShort:true,unavailable:!valid,chapters,currentChapterId:valid?session.journey.chapterId:null,total:slots.length,answered:slots.filter(s=>s.completed).length,
+    complete:valid&&slots.length>0&&slots.every(s=>s.completed),covered:valid&&['recap','complete'].includes(session.journey.phase),pending:slots.filter(s=>!s.completed),independentMastery:false};
 }
 
 // Intersect intervals rather than replaying the whole event log for each prefix.

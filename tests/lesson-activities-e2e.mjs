@@ -188,19 +188,20 @@ try {
     assert.equal(await page.locator(selector('data-pair-left', first.id)).isVisible(), false);
     await solveJourneyQuestion(page, q); assert.equal((await state()).session.ui.result.ok, true); await shot('equivalent-pair-forms');
   });
-  await check('Word letter banks retain repeated letters and accents and still lead to writing', async () => {
-    await fresh(); await gotoRoute(page, '/learn/word/' + encodeURIComponent('w:caffè|noun'));
-    const q = await reachJourneyActivity(page, 'letters'); assert(q.answer.includes('caffè'));
-    assert.equal(q.tiles.filter(t => t.text === 'f').length, 2); assert(q.tiles.some(t => t.text === 'è'));
-    const before = await state(); await putLetters(q, 'cafèf', Infinity, true);
+  await check('Verb letter banks retain repeated letters and accents and still lead to writing', async () => {
+    await fresh(); await gotoRoute(page, '/learn/verb/v:credere?chapter=future');
+    const q = await reachJourneyActivity(page, 'letters'); assert(['crederò','crederai','crederà','crederemo','crederete','crederanno'].includes(q.answer[0]));
+    assert.equal(q.tiles.filter(t => t.text === 'r').length, 2); assert(q.tiles.some(t => /[àò]/u.test(t.text)));
+    const incorrect=[...q.answer[0]];[incorrect[0],incorrect[1]]=[incorrect[1],incorrect[0]];
+    const before = await state(); await putLetters(q, incorrect.join(''), Infinity, true);
     const wrong = await state(); assert.equal(wrong.events.length, before.events.length + 1); assert.equal(wrong.events.at(-1).ok, false);
     assert.equal(wrong.events.at(-1).mode, 'recognition'); assert(wrong.events.at(-1).assistance.length);
-    await shot('word-letter-mistake'); await page.locator('[data-continue]').click();
+    await shot('verb-letter-mistake'); await page.locator('[data-continue]').click();
     const writing = await reachJourneyActivity(page, q => q.type === 'type' && q.meta.mode === 'production', { limit: 100 });
     assert(writing.answer.length); assert.equal(await page.locator('[data-answer]').count(), 1, 'writing remains part of the lesson');
   });
   await check('A saved completed spelling recovers its single pending answer after an interrupted write', async () => {
-    await fresh(); await gotoRoute(page, '/learn/word/' + encodeURIComponent('w:caffè|noun'));
+    await fresh(); await gotoRoute(page, '/learn/verb/v:credere?chapter=future');
     const q = await reachJourneyActivity(page, 'letters'), before = await state();
     // Reproduce the crash boundary after persisting the final tile but before
     // recording its attempt, using the production reducer and real question.

@@ -159,9 +159,9 @@ body.journey-viewport #view.scene-in { animation-name:journeyViewIn; }
 
 /* Quiet secondary actions, floating full-width primary action. */
 .journey-page [hidden] { display:none!important; }
-.journey-page .btn.ghost { border:0; background:none; box-shadow:none; border-radius:8px; color:var(--ink-2); }
-.journey-page .btn.ghost:hover { color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
-.journey-page .btn.ghost:focus-visible,.journey-action-navigation button:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+.journey-page .btn.ghost,.journey-action-dock .btn.ghost { border:0; background:none; box-shadow:none; border-radius:8px; color:var(--ink-2); }
+.journey-page .btn.ghost:hover,.journey-action-dock .btn.ghost:hover { color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
+.journey-page .btn.ghost:focus-visible,.journey-action-dock .btn.ghost:focus-visible,.journey-action-navigation button:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
 .journey-main > .btn + .btn { margin-top:12px; }
 .journey-action-dock { position:fixed; z-index:25; bottom:calc(8px + var(--sab)); left:50%; transform:translateX(-50%); width:calc(100% - 2 * max(var(--gutter),var(--sal),var(--sar))); max-width:610px; }
 .journey-action-dock::before { content:""; position:absolute; z-index:-1; inset:-12px -16px calc(-8px - var(--sab)); background:linear-gradient(transparent,var(--bg-0) 40%); pointer-events:none; }
@@ -353,3 +353,62 @@ body.journey-viewport #view.scene-in { animation-name:journeyViewIn; }
 .journey-overview .journey-overview-progress{margin:12px 0 16px}
 
 .journey-tense-card[data-tense-case="condizionale"]:not(.is-complete) { --case-accent: #c89e5b; }
+
+/* Shared Parola surfaces: grammar typography, Words tiles, Play posters and
+   the same glass matching cards used by the conjugation drills. */
+.journey-page.glass { background:var(--glass); border-radius:var(--r-m); box-shadow:var(--shadow-1),inset 0 1px 0 var(--glass-highlight); }
+.journey-header { padding:8px 16px 10px; background:transparent; }
+.journey-main { padding:20px 16px 24px; }
+.journey-main h1 { font-weight:600; font-size:clamp(28px,7.6vw,38px); font-variation-settings:"opsz" 144; }
+.journey-main p { font-size:15px; line-height:1.65; }
+.journey-kicker { color:var(--ink-3); font-size:10px; }
+.journey-map-toggle > span:last-child { color:var(--gold-text); }
+.journey-stages { gap:8px; padding:0; }
+.journey-stages li { flex:1; text-align:center; padding:7px 9px; font-size:12px; border-radius:var(--r-pill); background:var(--glass); border:1px solid var(--glass-border); box-shadow:inset 0 1px 0 var(--glass-highlight); }
+.journey-stages li[aria-current] { color:var(--gold-text); background:color-mix(in srgb,var(--gold) 14%,var(--glass)); border-color:color-mix(in srgb,var(--gold) 45%,var(--glass-border)); }
+.journey-stages li[aria-current]::after { display:none; }
+.journey-chapter-rail .is-current { background:var(--gold); box-shadow:0 0 10px color-mix(in srgb,var(--gold) 30%,transparent); }
+.journey-teaching.is-meet .journey-intro { text-align:left; padding:16px 0 6px; }
+.journey-teaching.is-meet .journey-intro-title { justify-content:space-between; flex-wrap:nowrap; }
+.journey-teaching.is-meet .journey-intro-title h1 { flex:1; }
+.journey-teaching.is-meet .journey-intro > p:first-of-type { font:400 italic 23px/1.3 var(--font-display); color:var(--ink-2); }
+.journey-hero-audio { flex:none; width:44px; height:44px; padding:0; border-radius:50%; color:var(--on-gold); background:linear-gradient(135deg,var(--gold),var(--gold-2)); box-shadow:0 10px 28px -10px var(--gold); }
+.journey-form-card.poster { --p1:color-mix(in srgb,var(--journey-accent) 75%,#376b73); --p2:color-mix(in srgb,var(--journey-accent) 34%,#172b43); min-height:188px; height:auto; padding:18px; gap:14px; border:0; border-radius:24px; color:#fff; background:linear-gradient(160deg,var(--p1),var(--p2)); box-shadow:var(--shadow-2),inset 0 1px 0 rgba(255,255,255,.35); opacity:.7; transform:scale(.96); }
+.journey-form-card.poster[aria-pressed=true] { opacity:1; transform:scale(1); border-color:transparent; background:linear-gradient(160deg,var(--p1),var(--p2)); }
+.journey-form-card.poster .poster-ghost { top:-16px; left:8px; font-size:152px; opacity:.13; text-transform:uppercase; }
+.journey-form-card.poster > :not(.poster-ghost) { position:relative; z-index:1; }
+.journey-form-card.poster .journey-form-person,.journey-form-card.poster .journey-form-gloss,.journey-form-card.poster .journey-form-sound,.journey-form-card.poster .ic { color:#fff; }
+.journey-form-card.poster .journey-form-person { letter-spacing:.12em; text-transform:uppercase; font-size:10px; }
+.journey-form-card.poster .journey-form-value { margin:12px 0 8px; font-weight:600; text-shadow:0 2px 12px rgba(0,0,0,.2); }
+.journey-form-card.poster .journey-form-gloss { opacity:.85; }
+.journey-form-card.poster .journey-form-sound { opacity:.9; }
+.journey-example,.journey-exercise-card.q-card,.journey-help { padding:16px; background:var(--glass); border:1px solid var(--glass-border); border-radius:var(--r-m); box-shadow:inset 0 1px 0 var(--glass-highlight); }
+.journey-example-line p { font-size:24px; }
+.journey-insight { padding:14px 16px; border-radius:0 16px 16px 0; border-left-color:var(--gold); background:color-mix(in srgb,var(--gold) 6%,transparent); }
+.journey-insight-heading,.journey-example-kicker { color:var(--gold-text); }
+.journey-insight p { font-size:13px; }
+.journey-choice.choice { min-height:56px; padding:12px 14px; border-radius:16px; font:600 16px/1.35 var(--font-text); background:var(--glass); box-shadow:inset 0 1px 0 var(--glass-highlight); }
+.journey-choice.choice::before { display:none; }
+.journey-choice.choice.is-correct { color:var(--ok); border-color:color-mix(in srgb,var(--ok) 55%,transparent); background:color-mix(in srgb,var(--ok) 16%,var(--glass)); }
+.journey-choice.choice.is-wrong { color:var(--ko); border-color:color-mix(in srgb,var(--ko) 55%,transparent); background:color-mix(in srgb,var(--ko) 14%,var(--glass)); }
+.journey-pair-board.match-grid { gap:8px; }
+.journey-pair-column { gap:8px; }
+.journey-pair-board.match-grid .m { min-height:64px; padding:12px 10px; border-radius:16px; font:600 18px/1.2 var(--font-display); background:var(--glass); border:1px solid var(--glass-border); box-shadow:inset 0 1px 0 var(--glass-highlight); }
+.journey-pair-board.match-grid .m.is-selected { color:var(--gold-text); border-color:var(--gold); background:color-mix(in srgb,var(--gold) 16%,transparent); }
+.journey-pair-board.match-grid .m.is-wrong { color:var(--ko); border-color:var(--ko); background:color-mix(in srgb,var(--ko) 14%,transparent); }
+.journey-feedback { background:color-mix(in srgb,var(--ko) 10%,var(--glass)); border-radius:var(--r-m); box-shadow:inset 0 1px 0 var(--glass-highlight); }
+.journey-feedback.is-correct { background:color-mix(in srgb,var(--ok) 10%,var(--glass)); }
+.journey-tense-card.glass-flat { padding:16px 14px 10px; border-radius:var(--r-m); background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--case-accent) 14%,transparent),transparent 60%),var(--glass); box-shadow:inset 0 1px 0 var(--glass-highlight); }
+.journey-tense-card.glass-flat.is-complete { background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--turquoise) 24%,transparent),transparent 70%),var(--glass); }
+.journey-tense-number.qi { --qc:var(--case-accent); width:32px; height:32px; font-size:12px; }
+.journey-tense-status { font-size:11px; }
+.journey-tense-card p.journey-tense-cue { font-size:13px; line-height:1.5; }
+.journey-tense-card p.journey-tense-italian { font:400 italic 16px/1.3 var(--font-display); color:var(--ink-2); }
+.journey-tense-action { font-size:12px; }
+.journey-tense-card:last-child:nth-child(odd) { grid-column:1/-1; }
+.journey-overview .journey-overview-progress p { font-size:12px; }
+.journey-overview .journey-intro>p:first-of-type { font:400 italic 22px/1.3 var(--font-display); }
+@media(max-width:359px) { .journey-main,.journey-header { padding-left:12px; padding-right:12px; }.journey-tense-status{font-size:10px}.journey-pair-board.match-grid .m{font-size:17px;padding:10px 8px} }
+
+.journey-word-progress { height:3px; margin:4px 0 14px; overflow:hidden; border-radius:3px; background:var(--hairline); }
+.journey-word-progress > span { display:block; height:100%; background:var(--gold); transition:width .25s ease; }

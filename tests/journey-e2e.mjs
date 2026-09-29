@@ -258,13 +258,17 @@ try {
     await screenshot('verb-complete-phone');
     return { answers: lessonEvents.length, transitions: traversal.seen.length, interludes: Object.fromEntries(['mc', 'letters', 'pairs'].map(format => [format, interludes.filter(s => s.format === format).length])) };
   });
-  await check('A built-in noun can finish all required taught parts without a spacing dead end', async () => {
+  await check('A built-in noun finishes a short recognition introduction without inventing independent mastery', async () => {
     await gotoRoute(page, entryRoute('word', 'w:casa|noun'));
     const traversal = await traverse({ until: s => s.step.type === 'complete', limit: 500 });
     const p = await progress();
     assert.equal(p.complete, true);
     const events = traversal.state.events.filter(e => e.entryId === 'w:casa|noun');
-    for (const skill of ['meaning', 'recall', 'article', 'plural']) assert(events.some(e => e.skill === skill && e.mode === 'production' && e.ok && !e.assistance.length), skill + ' demonstrated independently');
+    for (const skill of ['meaning', 'recall', 'article', 'plural']) assert(events.some(e => e.skill === skill && e.mode === 'recognition' && e.ok), skill + ' practised in the short introduction');
+    assert(events.every(e => e.mode === 'recognition'), 'recognition is not silently upgraded to production');
+    assert(traversal.state.plan.wordLesson.slots.length >= 6 && traversal.state.plan.wordLesson.slots.length <= 8);
+    assert.equal(traversal.state.learned, true, 'the introduction can finish without claiming independent recall');
+    assert(p.chapters.every(c => !c.remembered), 'same-session word choices do not establish delayed retention');
     assert(events.every(e => e.entryId === 'w:casa|noun'));
     await screenshot('noun-complete-phone');
     return { answers: events.length, transitions: traversal.seen.length };

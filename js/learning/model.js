@@ -72,7 +72,7 @@ function normalizeEvent(raw, epochId) {
     objectiveId: raw.objectiveId, entryId: text(raw.entryId), kind: raw.kind === 'verb' ? 'verb' : 'word',
     skill: text(raw.skill, 'recall'), tense: text(raw.tense) || null,
     person: typeof raw.person === 'number' && Number.isInteger(raw.person) ? raw.person : text(raw.person) || null,
-    mode: raw.mode === 'production' ? 'production' : 'recognition',
+    mode: raw.mode === 'production' && raw.wordPolicy !== 'word-short-v1' ? 'production' : 'recognition',
     variantId: text(raw.variantId), contextId: text(raw.contextId),
     ok: outcome === 'correct' && raw.ok === true, outcome,
     assistance: strings(raw.assistance).filter(x => x !== 'none'), firstAttempt: raw.firstAttempt === true,
@@ -82,8 +82,9 @@ function normalizeEvent(raw, epochId) {
       policy: 'journey-v1', targetId: text(raw.targetId, raw.objectiveId),
       chapterId: text(raw.chapterId), contentVersion: Math.max(1, Math.floor(finite(raw.contentVersion, 1))),
       role: text(raw.role) || null,
-      activityKind: ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
+      activityKind: raw.wordPolicy==='word-short-v1' ? raw.activityKind==='repair'?'repair':'guided' : ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
       ...(Number.isInteger(raw.availableVariants) && raw.availableVariants >= 0 ? { availableVariants: raw.availableVariants } : {}),
+      ...(raw.wordPolicy === 'word-short-v1' ? { wordPolicy: 'word-short-v1', wordSlotId: text(raw.wordSlotId) } : {}),
     } : {}),
   };
 }
@@ -299,9 +300,9 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
       else result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
     } else if (needsRepair) {
       result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
-    } else if (eligible && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
+    } else if ((eligible || e.wordPolicy === 'word-short-v1') && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
       && (!result.srs.due || e.at >= result.srs.due || (!result.srs.reps && !result.srs.lapses))) {
-      result.srs = schedule(result.srs, 4, e.at); advanced.add(e.sessionId);
+      result.srs = schedule(result.srs, eligible ? 4 : 3, e.at); advanced.add(e.sessionId);
     } else if (!result.srs.due) result.srs.due = e.at + SHORT_REVIEW;
 
     const unresolved = main.unresolved || Object.values(result.components).some(t => t.unresolved) || Object.values(result.personEvidence).some(t => t.unresolved);

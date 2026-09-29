@@ -336,4 +336,23 @@ function finalize(entry,plan){
  }
  return plan;
 }
-export function buildLesson(entry){if(!entry?.id)return null;return finalize(entry,{version:LESSON_CONTENT_VERSION,entryId:entry.id,kind:verb(entry)?'verb':'word',title:entry.inf||entry.it,meaning:lessonEntry(entry).en||'',referenceMeanings:entry.en||'',chapters:verb(entry)?verbLesson(lessonEntry(entry)):wordLesson(entry)});}
+function briefWordLesson(plan) {
+ const meaning=plan.chapters.find(c=>c.id==='meaning'),forms=plan.chapters.find(c=>c.id==='forms');
+ const meaningTarget=meaning?.groups.flatMap(g=>g.targets).find(t=>t.skill==='meaning');
+ const recall=meaning?.groups.flatMap(g=>g.targets).find(t=>t.skill==='recall');
+ if(!meaningTarget||!recall)return plan;
+ const formTargets=(forms?.groups.flatMap(g=>g.targets)||[]).filter(t=>t.available!==false&&['article','plural','agreement'].includes(t.skill));
+ const distinctForms=new Set(formTargets.flatMap(t=>t.answerForms||[]));
+ const pairTargets=formTargets.length>=2&&distinctForms.size>=2?formTargets.slice(0,3):[];
+ // A matching board is one short activity; its individual rows still produce
+ // supported evidence. Keep the entire ordinary lesson to six answer screens.
+ const sequence=[meaningTarget,recall,...(pairTargets.length?[formTargets[0],formTargets.at(-1)]:formTargets),meaningTarget,recall];
+ while(sequence.length<6)sequence.push(formTargets.length?formTargets[(sequence.length-4)%formTargets.length]:sequence.length%2?recall:meaningTarget);
+ const seen={};
+ const slots=sequence.slice(0,8).map((t,i)=>{const variant=seen[t.id]||0;seen[t.id]=variant+1;return {id:`${plan.entryId}::short-word::${i}`,targetId:t.id,variant,format:i===2&&pairTargets.length?'pairs':'mc',...(i===2&&pairTargets.length?{pairTargetIds:pairTargets.map(t=>t.id)}:{})};});
+ const teaching=[{chapterId:'meaning',groupId:meaning.groups[0].id,cardId:'meaning'}];
+ if(formTargets.length)teaching.push({chapterId:'forms',groupId:forms.groups[0].id,cardId:'forms'});
+ plan.wordLesson={version:1,teaching,slots};
+ return plan;
+}
+export function buildLesson(entry){if(!entry?.id)return null;const plan=finalize(entry,{version:LESSON_CONTENT_VERSION,entryId:entry.id,kind:verb(entry)?'verb':'word',title:entry.inf||entry.it,meaning:lessonEntry(entry).en||'',referenceMeanings:entry.en||'',chapters:verb(entry)?verbLesson(lessonEntry(entry)):wordLesson(entry)});return plan.kind==='word'?briefWordLesson(plan):plan;}
