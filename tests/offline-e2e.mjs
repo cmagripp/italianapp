@@ -7,7 +7,8 @@ import path from 'node:path';
 import { ROOT, loadPlaywright, launchBrowser, contextOptions, boot, gotoRoute, reloadApp } from './lib.mjs';
 
 const actualWorker = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
-let workerSource = `self.addEventListener('install',e=>e.waitUntil(caches.open('parola-v4').then(c=>c.put('./old-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
+const currentVersion = actualWorker.match(/const VERSION = '([^']+)'/)[1];
+let workerSource = `self.addEventListener('install',e=>e.waitUntil(caches.open('parola-v5-adaptive').then(c=>c.put('./old-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
 let broken = false;
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
 const server = http.createServer((req, res) => {
@@ -49,7 +50,7 @@ try {
   await boot(page, base);
   await page.evaluate(() => navigator.serviceWorker.ready);
   await check('an existing installation upgrades its complete offline shell', async () => {
-    assert((await page.evaluate(() => caches.keys())).includes('parola-v4'));
+    assert((await page.evaluate(() => caches.keys())).includes('parola-v5-adaptive'));
     await page.evaluate(async () => {
       const { store } = await import('./js/store.js');
       store.markLearned('v:essere', 'verb'); store.addToList('bank', 'v:essere');
@@ -58,33 +59,33 @@ try {
     workerSource = actualWorker;
     assert.equal(await updateWorker(), 'activated');
     const keys = await page.evaluate(() => caches.keys());
-    assert(!keys.includes('parola-v4')); assert(keys.includes('parola-v5-adaptive'));
-    assert(await page.evaluate(async () => !!(await caches.match('./js/learning/model.js'))));
-    assert(await page.evaluate(async () => !!(await caches.match('./css/adaptive.css'))));
+    assert(!keys.includes('parola-v5-adaptive')); assert(keys.includes(currentVersion));
+    assert(await page.evaluate(async () => !!(await caches.match('./js/learning/journey.js'))));
+    assert(await page.evaluate(async () => !!(await caches.match('./css/journey.css'))));
   });
   await check('an incomplete update cannot replace the working offline worker', async () => {
-    broken = true; workerSource = actualWorker.replace('parola-v5-adaptive', 'parola-v5-incomplete-test');
+    broken = true; workerSource = actualWorker.replace(currentVersion, currentVersion + '-incomplete-test');
     assert.equal(await updateWorker(), 'redundant');
-    assert((await page.evaluate(() => caches.keys())).includes('parola-v5-adaptive'));
+    assert((await page.evaluate(() => caches.keys())).includes(currentVersion));
   });
   await check('course and lesson load offline while old learned items remain intact', async () => {
     await context.setOffline(true);
     await reloadApp(page);
     await gotoRoute(page, '/course');
-    assert(await page.locator('#core-title').isVisible());
+    assert(await page.locator('#path-title').isVisible());
     assert(await page.evaluate(async () => { const { store } = await import('./js/store.js'); return store.isLearned('v:essere') && store.inList('bank', 'v:essere'); }));
-    await gotoRoute(page, '/learn/verb/v:mangiare?objective=' + encodeURIComponent('v:mangiare::presente::conjugation'));
-    await page.locator('[data-start]').click();
+    await gotoRoute(page, '/learn/verb/v:mangiare?chapter=present');
+    for (let i=0; i<10 && await page.locator('[data-journey]').getAttribute('data-phase') === 'teach'; i++) await page.locator('[data-continue]').click();
     if (await page.locator('[data-choice]').count()) await page.locator('[data-choice]').first().click();
     else { await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click(); }
-    await page.locator('[data-adaptive][data-phase="feedback"]').waitFor();
+    await page.locator('[data-journey][data-phase="feedback"]').waitFor();
   });
   await check('an offline answer and exact feedback resume after reload without duplicate XP', async () => {
-    const before = await page.evaluate(async () => { const { store } = await import('./js/store.js'); await store.saveNow(); return { count: Object.keys(store.learning.events).length, xp: store.current.stats.xp, id: store.learning.session.ui.current.id }; });
+    const before = await page.evaluate(async () => { const { store } = await import('./js/store.js'); await store.saveNow(); return { count: Object.keys(store.learning.events).length, xp: store.current.stats.xp, id: store.learning.session.ui.questionId }; });
     await reloadApp(page);
-    const after = await page.evaluate(async () => { const { store } = await import('./js/store.js'); return { count: Object.keys(store.learning.events).length, xp: store.current.stats.xp, id: store.learning.session.ui.current.id }; });
+    const after = await page.evaluate(async () => { const { store } = await import('./js/store.js'); return { count: Object.keys(store.learning.events).length, xp: store.current.stats.xp, id: store.learning.session.ui.questionId }; });
     assert.deepEqual(after, before); assert(before.count > 0);
-    assert.equal(await page.locator('[data-adaptive]').getAttribute('data-phase'), 'feedback');
+    assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
     assert.deepEqual(errors, []);
   });
   fs.writeFileSync(path.join(ROOT, 'tests/report-offline.json'), JSON.stringify({ results, errors }, null, 2));

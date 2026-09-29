@@ -5,8 +5,8 @@ import { ANCHOR_CONTEXTS, TENSE_LESSONS } from './content.js';
 export const CORE_STAGES = [
   { id: 'present', label: 'Present', tense: 'presente', description: 'Now and everyday routines' },
   { id: 'past', label: 'Past: what happened', tense: 'passatoProssimo', description: 'Completed events, auxiliaries and participles' },
-  { id: 'background', label: 'Past: how things were', tense: 'imperfetto', description: 'Past habits, descriptions and background' },
   { id: 'future', label: 'Future', tense: 'futuro', description: 'Plans and predictions' },
+  { id: 'background', label: 'Past: how things were', tense: 'imperfetto', description: 'Past habits, descriptions and background', followOn: true },
 ];
 export const EXPANSIONS = [
   { id: 'requests', label: 'Requests and commands', tenses: ['condizionale', 'imperativo'] },
@@ -25,14 +25,14 @@ export function allowedTenses(learningOrPreferences = {}) {
   const idx = Math.max(0, CORE_STAGES.findIndex(s => s.id === stage));
   const selected = p.expansions || p.enrolledExpansions || [];
   const ids = new Set(Array.isArray(selected) ? selected.map(x => typeof x === 'string' ? x : x?.id) : Object.keys(selected).filter(k => selected[k]));
-  return [...new Set([...CORE_STAGES.slice(0, idx + 1).map(s => s.tense), ...EXPANSIONS.filter(e => ids.has(e.id)).flatMap(e => e.tenses)])];
+  return [...new Set([...CORE_STAGES.slice(0, idx + 1).map(s => s.tense), ...(p.legacyTenses || []).filter(t => t === 'imperfetto'), ...EXPANSIONS.filter(e => ids.has(e.id)).flatMap(e => e.tenses)])];
 }
 
 function objective(e, stage, tense, skill, label, explanation, extra = {}) {
   return { id: objectiveId(e.id, tense, skill), entryId: e.id, kind: entryKind(e), stage, tense: tense || null, skill, label, description: explanation, explanation, ...extra };
 }
 
-export function objectivesFor(entry, { stage = 'present', expansions = [] } = {}) {
+export function objectivesFor(entry, { stage = 'present', expansions = [], legacyTenses = [] } = {}) {
   if (!entry?.id) return [];
   if (entryKind(entry) === 'word') {
     const out = [
@@ -49,7 +49,7 @@ export function objectivesFor(entry, { stage = 'present', expansions = [] } = {}
   const current = CORE_STAGES.find(s => s.id === stage) || CORE_STAGES[0];
   let c;
   try { c = conjugate(entry.inf || entry.it, { aux: entry.aux, isc: entry.isc }); } catch { return []; }
-  const tenses = allowedTenses({ stage, expansions });
+  const tenses = allowedTenses({ stage, expansions, legacyTenses });
   const out = [objective(entry, stage, 'meaning', 'recall', 'Recall the verb', 'Connect the meaning with the infinitive, then retrieve it without help.')];
   for (const tense of tenses) {
     if (!c.tenses[tense]?.some(validForm)) continue;

@@ -7,7 +7,7 @@ import { buildQueue } from '../srs.js';
 import { runDrill, showResults } from '../games/engine.js';
 import { qTranslateMC, qTypeIt, qGender, qCloze, qConjMC, qConjType, qAux, qParticiple, qPluralMC } from '../games/questions.js';
 import { setScene } from '../fx.js';
-import { reviewItems, eligibleSkills, practiceHref } from '../learning/integration.js';
+import { reviewItems, eligibleSkills, practiceHref, skillLabel } from '../learning/integration.js';
 import { allowedTenses } from '../learning/curriculum.js';
 
 // Pick a question type according to how well the item is known: weak items get recognition tasks, strong ones get production tasks.
@@ -60,7 +60,7 @@ function renderAdaptiveReview(root, query = {}) {
   const due = reviewItems(store);
   const ahead = !due.length || query.mode === 'extra';
   const items = ahead ? [...due, ...eligibleSkills(store).filter(s => !due.some(d => d.objectiveId === s.objectiveId)).sort((a, b) => (a.due || Infinity) - (b.due || Infinity)).map(skill => ({ entry: getEntry(skill.entryId), objectiveId: skill.objectiveId, skill }))] : due;
-  root.innerHTML = html`<div class="course-page"><header><div class="kicker">Ripasso · keep it with you</div><h1 class="display">${due.length ? `${due.length} skills to revisit` : 'A little practice for later.'}</h1><p>Review the part that needs attention. A hint or a lucky choice will lead to another independent check.</p></header>
-    ${items.length ? raw(html`<a class="btn primary" href="${practiceHref(items[0].entry, items[0].objectiveId, 'review')}">${due.length ? 'Start focused review' : 'Practice ahead'}</a><ul class="course-skills">${raw(items.slice(0, store.settings.dailyReviews || 40).map(x => html`<li><div><strong>${x.entry.inf || x.entry.it}</strong><span>${x.skill ? x.skill.skill.replace(/[-_]/g, ' ') : 'Check your earlier learning'}</span><small>${x.skill?.unresolvedErrors?.length ? 'Focused practice on a recent difficulty' : x.skill?.remembered ? 'Strengthen a remembered skill' : 'Practice, then demonstrate it independently'}</small></div><a class="btn sm secondary" href="${practiceHref(x.entry, x.objectiveId, 'review')}">Practice</a></li>`).join(''))}</ul>`) : raw('<p>There is nothing to review yet. Start a lesson and your skills will return here when it is time to practice them again.</p>')}
+  root.innerHTML = html`<div class="course-page"><header><div class="kicker">Ripasso · keep it with you</div><h1 class="display">${due.length ? 'Bring it back to mind.' : 'A little practice for later.'}</h1><p>Revisit familiar words and forms in a short practice session. You can return to your lesson whenever you like.</p></header>
+    ${items.length ? raw(html`<a class="btn primary" href="${practiceHref(items[0].entry, items[0].objectiveId, 'review')}">${due.length ? 'Start focused review' : 'Practice ahead'}</a><ul class="course-skills">${raw(items.slice(0, store.settings.dailyReviews || 40).map(x => html`<li><div><strong>${x.entry.inf || x.entry.it}</strong><span>${x.skill ? skillLabel(x.entry, x.skill) : 'Check your earlier learning'}</span><small>${x.skill?.unresolvedErrors?.length ? 'Focused practice on a recent difficulty' : x.skill?.remembered ? 'Strengthen a remembered skill' : 'Try another example'}</small></div><a class="btn sm secondary" href="${practiceHref(x.entry, x.objectiveId, 'review')}">Practice</a></li>`).join(''))}</ul>`) : raw('<p>There is nothing to review yet. Start a lesson and your skills will return here when it is time to practice them again.</p>')}
     <a class="btn secondary" href="#/course">Your learning path</a><a href="#/learn">Back to Learn</a></div>`;
 }

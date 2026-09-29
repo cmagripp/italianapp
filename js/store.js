@@ -2,7 +2,7 @@
 // Primary storage is IndexedDB (large quota, survives Safari homescreen installs); localStorage is the fallback.
 import { schedule as srsSchedule } from './srs.js';
 import { data, LEVELS } from './data.js'; // data.js imports nothing, so no cycle
-import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills } from './learning/model.js';
+import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills, learningSessionKey } from './learning/model.js';
 
 const DB_NAME = 'italiano-db';
 const KV = 'kv';
@@ -276,9 +276,10 @@ class Store extends EventTarget {
   }
   saveLearningSession(session) {
     const domain = this.learning;
+    if (domain.version > LEARNING_VERSION) return;
     domain.session = session ? { ...session, updatedAt: Date.now() } : null;
     domain.sessions ||= {};
-    if (session) domain.sessions[session.entryId + '|' + (session.mode || 'lesson')] = domain.session;
+    if (session) domain.sessions[learningSessionKey(session)] = domain.session;
     this.save();
   }
   setLearningPreference(key, value) {

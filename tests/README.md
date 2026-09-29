@@ -1,6 +1,9 @@
 # Browser tests
 
-`node tests/adaptive-e2e.mjs` exercises the default adaptive learner in a fresh phone-sized browser profile: repeated
+`node tests/journey-e2e.mjs` exercises the default taught lessons in a fresh phone-sized browser, including teaching,
+formal address, immediate choice feedback, repeated recall, focused repairs, word forms and exact resume.
+
+`node tests/adaptive-e2e.mjs` explicitly selects `legacy=1` to verify compatibility for earlier saved adaptive sessions: repeated
 independent success after mistakes, hints/reveals, exact question and draft resumption, explicit defer/resume, voluntary
 check-ins, solvable word/verb practice, focused review, six-person checkpoints, narrow-scope handling, and preservation
 of learning saved by a newer application version. It writes `tests/report-adaptive-e2e.json` and a phone screenshot.
@@ -41,7 +44,8 @@ cd /path/to/italianapp && (python3 -m http.server 8123 --bind 127.0.0.1 >/dev/nu
 ## Running
 
 ```bash
-node tests/adaptive-e2e.mjs              # new lesson loops, repeated evidence, hints, skip and resume
+node tests/adaptive-e2e.mjs              # retained legacy lesson loops, evidence, hints, skip and resume
+node tests/journey-e2e.mjs               # default taught chapters, contextual practice, formal you and complete journeys
 node tests/game-learning-e2e.mjs         # shared game runner feeds accurate evidence without duplicate rewards
 node tests/offline-e2e.mjs               # actual worker upgrade, failed precache and offline reload/resume
 node tests/e2e.mjs                       # all routes + all flows (≈7 min)

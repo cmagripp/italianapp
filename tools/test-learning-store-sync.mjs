@@ -113,6 +113,20 @@ try {
     assert.equal(store.learning.session.index, 3);
   });
 
+  await test('chapter sessions coexist with legacy exact resumes through save and backup', async () => {
+    store.saveLearningSession({ id: 'chapter-resume', entryId: 'v:andare', mode: 'lesson', objectiveIds: ['journey-target'],
+      index: 2, createdAt: START, deferred: { 'pending-target': START }, answeredEventIds: ['one', 'two'],
+      journey: { version: 1, planVersion: 1, chapterId: 'present', phase: 'practice', current: { questionId: 'chapter-resume:journey:3', targetId: 'journey-target' } },
+      ui: { version: 2, draft: 'partial answer', assistance: ['hint'], exposures: { vado: 2 }, paused: true } });
+    await store.saveNow();
+    await store.importJSON(store.exportJSON(), { merge: true });
+    assert.equal(store.learning.sessions['v:andare|lesson'].id, 'resumable');
+    const chapter = store.learning.sessions['v:andare|journey:lesson'];
+    assert.equal(chapter.ui.draft, 'partial answer'); assert.equal(chapter.ui.paused, true);
+    assert.equal(chapter.journey.current.questionId, 'chapter-resume:journey:3');
+    assert.equal(chapter.deferred['pending-target'], START);
+  });
+
   await test('switching local users isolates evidence, rewards and resume state', async () => {
     profileB = (await store.createProfile('Second learner')).id;
     assert.notEqual(profileB, profileA);
@@ -122,7 +136,8 @@ try {
     await store.switchProfile(profileA);
     assert.equal(store.learning.events['profile-b-event'], undefined);
     assert.ok(store.learning.events['stable-event']);
-    assert.equal(store.learning.session.id, 'resumable');
+    assert.equal(store.learning.session.id, 'chapter-resume');
+    assert.equal(store.learning.sessions['v:andare|lesson'].id, 'resumable');
     await store.switchProfile(profileB);
     assert.ok(store.learning.events['profile-b-event']);
     assert.equal(store.learning.events['stable-event'], undefined);
@@ -197,10 +212,13 @@ try {
 
   await test('cloud conflicts refetch, merge concurrent evidence, and retry atomically', async () => {
     configureSync();
-    store.recordLearningAttempt(attempt({ id: 'before-sync' }));
+    store.recordLearningAttempt(attempt({ id: 'before-sync', policy: 'journey-v1', targetId: objectiveId,
+      chapterId: 'present', contentVersion: 1, role: 'formal', activityKind: 'independent' }));
     const remote = { data: clone(store.current), revision: 7, updated_at: new Date(START).toISOString() };
     store.recordLearningAttempt(attempt({ id: 'local-during-offline' }));
     store.saveLearningSession({ id: 'local-resume', entryId: 'v:andare', mode: 'lesson', objectiveIds: [objectiveId], activeObjectiveId: objectiveId, index: 2, createdAt: START, ui: { phase: 'question' } });
+    store.saveLearningSession({ id: 'journey-cloud-local', entryId: 'v:andare', mode: 'lesson', objectiveIds: [objectiveId], index: 1,
+      createdAt: START, journey: { version: 1, planVersion: 1, chapterId: 'present', phase: 'practice' }, ui: { draft: 'local-only draft' } });
     let pulls = 0, pushes = 0, remoteEvent;
     globalThis.fetch = async (url, options = {}) => {
       assert.ok(String(url).startsWith('https://example.invalid/'));
@@ -209,6 +227,9 @@ try {
       const body = JSON.parse(options.body); pushes++;
       assert.equal(body.p_data.learning.session, null);
       assert.deepEqual(body.p_data.learning.sessions, {});
+      assert.equal(body.p_data.learning.events['before-sync'].policy, 'journey-v1');
+      assert.equal(body.p_data.learning.events['before-sync'].role, 'formal');
+      assert.equal(JSON.stringify(body.p_data.learning).includes('local-only draft'), false);
       if (pushes === 1) {
         remoteEvent = addRemote(remote.data, { id: 'remote-concurrent', objectiveId: 'w:pane:recall', entryId: 'w:pane', kind: 'word', skill: 'recall', tense: null });
         remote.revision++; return response({ conflict: true });
@@ -225,6 +246,7 @@ try {
     assert.equal(store.current.stats.xp, 6);
     assert.equal(store.current.stats.learningXP, 6);
     assert.equal(store.learning.sessions['v:andare|lesson'].id, 'local-resume');
+    assert.equal(store.learning.sessions['v:andare|journey:lesson'].id, 'journey-cloud-local');
     assert.equal(sync.getConfig().lastError, '');
   });
 

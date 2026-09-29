@@ -9,7 +9,7 @@ import { conjugate, primary } from '../conjugator.js';
 import { GAMES } from '../games/index.js';
 import { posterHTML } from './games.js';
 import { setScene, orbit, ticker, reel, mount, countUp, parallax } from '../fx.js';
-import { reviewItems } from '../learning/integration.js';
+import { reviewItems, recommendLesson, practiceHref } from '../learning/integration.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const REEL_GAMES = ['flashcards', 'quiz', 'conj-drill', 'crossword', 'speed'];
@@ -80,8 +80,9 @@ export async function render(root) {
   const goalDone = newWordsLeft === 0 && newVerbsLeft === 0 && due === 0;
   const week = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - (6 - i)); const k = todayKey(d); const st = p.stats.days[k]; return { k, today: i === 6, active: !!(st && ((st.correct || 0) + (st.new || 0) + (st.games || 0)) > 0), label: 'SMTWTFS'[d.getDay()] }; });
   const activeDays = week.filter(d => d.active).length;
-  const continueHref = due ? '#/review' : store.settings.adaptiveLearning !== false ? '#/course' : '#/learn';
-  const continueHint = due ? `review · ${due} due` : goalDone ? 'keep going · learn ahead' : newVerbsLeft ? `learn · ${newVerbsLeft} new verb${newVerbsLeft === 1 ? '' : 's'}` : `learn · ${newWordsLeft} new word${newWordsLeft === 1 ? '' : 's'}`;
+  const nextLesson = store.settings.adaptiveLearning !== false ? recommendLesson(store) : null;
+  const continueHref = nextLesson ? practiceHref(nextLesson.entry,nextLesson.objectiveId,nextLesson.mode) : due ? '#/review' : '#/learn';
+  const continueHint = nextLesson?.session ? `resume · ${nextLesson.entry.inf || nextLesson.entry.it}` : nextLesson?.mode === 'review' ? 'a short review · or choose a new lesson' : due ? `review · ${due} due` : goalDone ? 'keep going · learn ahead' : newVerbsLeft ? `learn · ${newVerbsLeft} new verb${newVerbsLeft === 1 ? '' : 's'}` : `learn · ${newWordsLeft} new word${newWordsLeft === 1 ? '' : 's'}`;
   const picks = (L) => ({ wotd: dailyPick(data.vocab.filter(e => e.level === L), 1), votd: dailyPick(data.verbs.filter(e => e.level === L), 2) });
   let { wotd, votd } = picks(lvl);
   const recent = recentlyLearned();
