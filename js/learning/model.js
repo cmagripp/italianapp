@@ -2,7 +2,7 @@
 // produces identical progress, including after an offline merge or backup import.
 import { schedule } from '../srs.js';
 
-export const LEARNING_VERSION = 2;
+export const LEARNING_VERSION = 3;
 const DAY = 86400e3;
 const SHORT_REVIEW = 10 * 60e3;
 const REPEAT_DELAY = 8 * 3600e3;
@@ -93,10 +93,38 @@ export function createLearning(now = Date.now()) {
   return {
     version: LEARNING_VERSION, createdAt: finite(now),
     // A common initial epoch lets independently migrated devices merge their work.
-    epoch: { id: 'initial', at: 0 }, events: {},
+    epoch: { id: 'initial', at: 0 }, events: {}, completions: {},
     preferences: { stage: 'present', expansions: [], updatedAt: 0, coreOrderVersion: 2 },
     session: null, sessions: {},
   };
+}
+
+export const completionKey = (entryId, caseId = 'word') => `${encodeURIComponent(entryId)}|${caseId}`;
+function normalizeCompletions(raw) {
+  const records = {};
+  for (const value of Object.values(raw || {})) {
+    if (!value || !text(value.entryId) || !text(value.caseId) || !text(value.id) || typeof value.checked !== 'boolean'
+      || BAD_KEYS.has(value.entryId) || BAD_KEYS.has(value.caseId)) continue;
+    const record = { entryId:value.entryId, caseId:value.caseId, id:value.id, checked:value.checked,
+      at:Math.max(0,finite(value.at)), source:value.source === 'legacy' ? 'legacy' : 'manual' };
+    const key = completionKey(record.entryId,record.caseId);
+    records[key] = newest(records[key],record,'at');
+  }
+  return records;
+}
+// Explicit completion is enrollment, never answer evidence or independent mastery.
+// False records are tombstones: deleting a checkbox must survive an offline merge.
+export function completionRecord(domain, entryId, caseId = 'word') {
+  if (unsupported(domain)) return null;
+  const own=domain?.completions?.[completionKey(entryId,caseId)], all=domain?.completions?.[completionKey(entryId,'*')];
+  if(own?.source==='manual' && all?.source==='legacy')return own;
+  return newest(own,all,'at') || null;
+}
+export function setCompletionRecord(domain, record, now = Date.now()) {
+  if (unsupported(domain)) throw new Error('Update Parola before changing this learning data.');
+  const learning = normalizeLearning(domain,now);
+  learning.completions = normalizeCompletions({ ...learning.completions, [completionKey(record.entryId,record.caseId)]:record });
+  return learning;
 }
 
 export function normalizeLearning(raw, now = Date.now()) {
@@ -136,7 +164,7 @@ export function normalizeLearning(raw, now = Date.now()) {
   }
   return {
     ...p, version: Math.max(LEARNING_VERSION, Math.floor(finite(p.version, LEARNING_VERSION))),
-    createdAt: finite(p.createdAt, fresh.createdAt), epoch, events, preferences, session, sessions,
+    createdAt: finite(p.createdAt, fresh.createdAt), epoch, events, completions:normalizeCompletions(p.completions), preferences, session, sessions,
   };
 }
 
@@ -160,10 +188,12 @@ export function mergeLearning(a, b, now = Date.now()) {
   }
   const sessions = { ...left.sessions };
   for (const [key, session] of Object.entries(right.sessions)) sessions[key] = newest(sessions[key], session, 'updatedAt');
+  const completions = { ...left.completions };
+  for (const [key, record] of Object.entries(right.completions)) completions[key] = newest(completions[key],record,'at');
   return normalizeLearning({
     ...newest(left, right, 'createdAt'),
     version: Math.max(left.version, right.version), createdAt: Math.min(left.createdAt, right.createdAt),
-    epoch: left.epoch, events,
+    epoch: left.epoch, events, completions,
     preferences: newest(left.preferences, right.preferences, 'updatedAt'),
     session: newest(left.session, right.session, 'updatedAt'), sessions,
   }, now);

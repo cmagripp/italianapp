@@ -15,6 +15,7 @@ import { createSentencePanel } from '../learning/sentence-panel.js';
 import { gradePairActivity } from '../learning/lesson-activities.js';
 import { activityHTML, activityState, activityAction, activityActionFromButton, focusActivity, letterAnswer } from '../learning/activity-panel.js';
 import { lessonOverviewHTML } from '../learning/lesson-overview.js';
+import { bindCompletionMenu } from '../completion-menu.js';
 import { progressiveForms, progressiveInfo } from '../learning/progressive-content.js';
 import { gradeQuestion } from '../learning/diagnose.js';
 import { feedbackHTML as gameFeedbackHTML } from '../games/engine.js';
@@ -151,6 +152,7 @@ export async function render(root, params = {}, query = {}) {
   let renderedStep = '', renderedScene = '', fragmentIndex = 0;
   let disposed = false, submitting = false, question = null, recoveredQuestionId = null;
   let tableTense = null, tableDropdown = null, tableButton = null, tableRestoreFocus = true;
+  let completionMenu = null;
   const stepNow = () => currentJourneyStep(plan, session, store.learning, Date.now());
   let step = stepNow();
   const save = () => {
@@ -689,9 +691,26 @@ export async function render(root, params = {}, query = {}) {
       ${ui.mapOpen?raw(html`<nav id="journey-recap-map" class="journey-map" aria-label="Lesson chapters">${raw(plan.chapters.map(c=>html`<button type="button" data-chapter="${c.id}" aria-current="${step.chapter?.id===c.id?'step':'false'}">${c.title}${c.optional?raw('<small>Explore more</small>'):''}</button>`).join(''))}</nav>`):''}
       <a class="btn ghost" href="#/review">Review another day</a></section>`;
   }
+  function refreshOverviewCompletion() {
+    if (!ui.overview) return;
+    const current = root.querySelector('.journey-overview');
+    if (!current) return;
+    const template = document.createElement('template');
+    template.innerHTML = lessonOverviewHTML({entry,plan,progress:journeyCaseProgress(plan,store.learning,session),session});
+    // Keep the menu anchor, its focus and the saved lesson draft untouched.
+    // These sections have delegated controls, so no handlers are lost.
+    for (const selector of ['.journey-overview-progress','.journey-tense-grid','.journey-overview-extras']) {
+      const old = current.querySelector(selector), next = template.content.querySelector(selector);
+      if (old && next) old.replaceWith(next);
+      else if (old) old.remove();
+      else if (next) current.append(next);
+    }
+    updateScrollCue();
+  }
   function draw(focus = false) {
     if (disposed || store.current.id !== owner) return;
     const contentScroll = focus ? 0 : root.querySelector('.journey-main')?.scrollTop || 0;
+    completionMenu?.destroy(); completionMenu = null;
     closeTable({restoreFocus:false});
     prepare();
     const overview=!!ui.overview;
@@ -714,7 +733,7 @@ export async function render(root, params = {}, query = {}) {
     const stage = phaseName(displayStep);
     const floatingActions = !overview && !paused && !past && ['teach','repair'].includes(step.type);
     const cases=entry.kind==='verb'?journeyCaseProgress(plan,store.learning,session):null;
-    if (!past && mode === 'lesson' && (cases?cases.complete:step.type==='complete'&&progress.complete) && !store.isLearned(entry.id)) store.markLearned(entry.id,entry.kind);
+    if (!past && mode === 'lesson' && (cases?cases.complete:step.type==='complete'&&progress.complete) && !store.getItem(entry.id)?.learned) store.markLearned(entry.id,entry.kind);
     let content;
     if(overview) {
       const intro=plan.chapters.find(c=>c.id==='meet')?.groups.flatMap(g=>g.cards||[]).find(c=>c.id==='meaning');
@@ -742,6 +761,11 @@ export async function render(root, params = {}, query = {}) {
       ${feedback&&!past&&!paused?raw(html`<div class="journey-feedback-dock">${raw(feedbackHTML(ui.result,question,ui.given,{showNext:true}))}</div>`):''}
     </div>
     ${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
+    if (overview) completionMenu = bindCompletionMenu(root.querySelector('[data-completion-menu]'), {
+      entry, getState:() => store.completionState(entry),
+      setCase:(caseId,checked) => store.setCompletion(entry,{caseId,checked}),
+      setAll:checked => store.setCompletion(entry,{checked}), onChange:refreshOverviewCompletion,
+    });
     if (displayQuestion?.type==='letters') {
       const activity=past?past.activity:ui.activity;
       const typed=letterAnswer({...displayQuestion,id:displayStep.questionId},activity).trim();
@@ -906,5 +930,5 @@ export async function render(root, params = {}, query = {}) {
   };
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('scroll',scroll,true);root.addEventListener('keydown',keydown);
   draw();
-  return () => { words.destroy();closeTable({restoreFocus:false});tableButton?.removeEventListener('click',toggleTable);tableButton?.remove();save();disposed=true;stopSpeech();document.body.classList.remove('journey-viewport','journey-compact','journey-has-reference');document.body.style.removeProperty('--journey-viewport-height');window.visualViewport?.removeEventListener('resize',fitViewport);window.visualViewport?.removeEventListener('scroll',fitViewport);window.removeEventListener('resize',fitViewport);window.removeEventListener('pageshow',fitViewport);window.removeEventListener('orientationchange',fitViewport);document.removeEventListener('focusin',fitViewport);document.removeEventListener('focusout',fitViewport);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
+  return () => { completionMenu?.destroy();words.destroy();closeTable({restoreFocus:false});tableButton?.removeEventListener('click',toggleTable);tableButton?.remove();save();disposed=true;stopSpeech();document.body.classList.remove('journey-viewport','journey-compact','journey-has-reference');document.body.style.removeProperty('--journey-viewport-height');window.visualViewport?.removeEventListener('resize',fitViewport);window.visualViewport?.removeEventListener('scroll',fitViewport);window.removeEventListener('resize',fitViewport);window.removeEventListener('pageshow',fitViewport);window.removeEventListener('orientationchange',fitViewport);document.removeEventListener('focusin',fitViewport);document.removeEventListener('focusout',fitViewport);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
 }

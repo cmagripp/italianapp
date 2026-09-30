@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { data } from '../js/data.js';
-import { createLearning, recordAttempt, learningSessionKey, normalizeLearning } from '../js/learning/model.js';
+import { createLearning, recordAttempt, learningSessionKey, normalizeLearning, setCompletionRecord } from '../js/learning/model.js';
 import { createJourneySession, skipJourneyTarget, chooseJourneyChapter } from '../js/learning/journey.js';
 import { lessonPlan, lessonObjectives, recommendLesson, eligibleSkills, dueSkills, activeObjectives, practiceHref } from '../js/learning/integration.js';
 
@@ -30,12 +30,14 @@ function fixture(entries=[verb('credere'),word('casa')]){
     store.learning=recordAttempt(store.learning,event).learning;
   };
   store.save=session=>{store.learning.sessions[learningSessionKey(session)]=session;};
+  store.complete=(entry,caseId)=>{store.learning=setCompletionRecord(store.learning,{entryId:entry.id,caseId,checked:true,at:NOW,id:`completion:${entry.id}:${caseId}`});};
   return store;
 }
 const target=(entry,predicate)=>lessonObjectives(entry).find(predicate);
 test('unfinished lesson resumes before a due review; voluntary review remains separate',()=>{
   const e=verb('credere'),w=word('casa'),s=fixture();
   s.answer(w,target(w,t=>t.skill==='recall'));
+  s.complete(w,'word');
   const session=createJourneySession({id:'paused',plan:lessonPlan(e),now:NOW+2});
   session.ui={paused:true,draft:'cre'};s.save(session);
   assert.equal(recommendLesson(s,{now:NOW+DAY}).session.id,'paused');
@@ -50,6 +52,7 @@ test('recommendations stay within the selected scope',()=>{
 });
 test('review links preserve target and review mode',()=>{
   const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.skill==='conjugation');s.answer(e,t);
+  s.complete(e,'present');
   const next=recommendLesson(s,{now:NOW+DAY});assert.equal(next.mode,'review');assert.equal(next.objectiveId,t.id);
   const href=practiceHref(next.entry,next.objectiveId,next.mode);
   assert.equal(new URLSearchParams(href.split('?')[1]).get('objective'),t.id);
@@ -63,18 +66,22 @@ test('helper facts and supplied construction parts never become independent due 
 });
 test('optional expansion review follows enrollment without losing its events',()=>{
   const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.tense==='imperativo');assert(t);
-  s.answer(e,t);assert.equal(dueSkills(s,NOW+DAY).length,0);
+  const targets=lessonObjectives(e).filter(o=>o.chapterId==='imperativo'&&o.available!==false&&o.required!==false&&!o.supplementalOnly);
+  for(let round=0;round<2;round++)for(const o of targets)s.answer(e,o,{ok:true,outcome:'correct',errorTags:[]});
+  s.answer(e,t);const eventCount=Object.keys(s.learning.events).length;assert.equal(dueSkills(s,NOW+DAY).length,0);
   s.learning.preferences.expansions=['requests'];assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
   s.learning.preferences.expansions=[];assert.equal(dueSkills(s,NOW+DAY).length,0);
-  assert.equal(Object.keys(s.learning.events).length,1);
+  assert.equal(Object.keys(s.learning.events).length,eventCount);
 });
-test('an explicitly visited imperfetto remains reviewable independently of beginner stage',()=>{
+test('a completed imperfetto remains reviewable independently of beginner stage',()=>{
   const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.chapterId==='background');s.answer(e,t);
+  s.complete(e,'background');
   assert.equal(s.learning.preferences.stage,'present');
   assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
 });
 test('explicit defer survives other reviews and suppresses automatic re-insertion',()=>{
   const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.chapterId==='present'&&t.person===0);
+  s.complete(e,'present');
   s.answer(e,t);let session=createJourneySession({id:'skip',plan:lessonPlan(e),now:NOW+10,chapterId:'present'});
   session=skipJourneyTarget(lessonPlan(e),session,t.id,{now:NOW+20,learning:s.learning});s.save(session);
   s.save(createJourneySession({id:'different-review',plan:lessonPlan(e),mode:'review',targetId:target(e,t=>t.person===1).id,now:NOW+30}));
@@ -84,6 +91,7 @@ test('explicit defer survives other reviews and suppresses automatic re-insertio
 });
 test('new attempts after an explicit return supersede an older deferred timestamp',()=>{
   const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.person===0);s.answer(e,t);
+  s.complete(e,'present');
   const session=createJourneySession({id:'old-skip',plan:lessonPlan(e),now:NOW});session.deferred[t.id]=NOW+20;s.save(session);
   s.answer(e,t,{at:NOW+30});assert(eligibleSkills(s,NOW+DAY).some(x=>x.objectiveId===t.id));
 });
@@ -106,6 +114,7 @@ test('a completed run recommends another supported core case, never an empty Mee
 });
 test('promoted conditional evidence remains reviewable without optional expansion enrollment',()=>{
  const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.chapterId==='condizionale'&&t.skill==='conjugation');
+ s.complete(e,'condizionale');
  assert.equal(t.optional,false);s.answer(e,t);assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
  s.learning.preferences.expansions=[];assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
 });

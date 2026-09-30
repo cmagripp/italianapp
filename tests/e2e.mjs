@@ -291,11 +291,11 @@ const flows = [
     if (!fin.score) throw new Error(`Finito shows no check score: ${fin.text}`);
     return `${r.scenes.join(' → ')} → ${fin.score} · stamp ${fin.stamp || '—'} · learned=${await isLearned('w:casa|noun')}`;
   } },
-  // The success path the two flows above never reach: every question answered from the oracle, so the drill passes,
-  // the item is marked learned, the learned bonus is paid, the stamp lands and Finito offers the next item.
+  // Pass each real drill with the oracle. Classic verbs enroll only their
+  // taught/tested cases; passing the shorter word check completes that word.
   { name: 'verb-intro-pass', run: async () => {
     const id = 'v:mangiare';
-    const xp0 = await storeEval(`delete ctx.store.current.items[arg]; return ctx.store.current.stats.xp;`, id); // pristine item: the 30 XP bonus is paid once per item
+    const xp0 = await storeEval(`delete ctx.store.current.items[arg]; ctx.store.setCompletion(arg,{checked:false}); return ctx.store.current.stats.xp;`, id);
     await gotoRoute(page, '/learn/verb/' + id);
     const r = await playWalkthrough({ oracleId: id });
     if (!r.ok) throw new Error(`walkthrough did not reach Finito (${r.scenes.join(' → ')}): ${r.stuck}`);
@@ -304,12 +304,17 @@ const flows = [
     const unanswered = r.oracled.filter(x => /unrecognised|not among/.test(x));
     const pct = fin.score ? Number(fin.score.match(/^(\d+)%/)[1]) : -1;
     if (pct < 66) throw new Error(`drill not passed with the oracle: ${fin.score || fin.text}${unanswered.length ? ` — ${unanswered.join('; ')}` : ''}`);
-    if (!(await isLearned(id))) throw new Error('drill passed but the verb is not marked learned');
+    const completion = await storeEval(`return ctx.store.completionState(arg);`,id);
+    const covered = completion.cases.filter(c=>c.checked).map(c=>c.id).sort();
+    if (JSON.stringify(covered)!==JSON.stringify(['background','future','past','present'])) throw new Error(`A1 cases checked with real answers were not saved correctly: ${covered.join(', ')}`);
+    if (completion.complete || await isLearned(id)) throw new Error('The untested conditional must prevent whole-verb completion');
     if (!fin.stamp) throw new Error(`Finito shows no stamp: ${fin.text}`);
     const xp = (await storeEval(`return ctx.store.current.stats.xp;`)) - xp0;
-    if (xp < 30) throw new Error(`XP rose by ${xp}, expected at least the 30 XP learned bonus`);
+    const score = fin.score.match(/(\d+)% \((\d+) of (\d+) correct\)/);
+    const expectedXP = Number(score[2])*3 + (Number(score[1])===100 && Number(score[3])>=5 ? 10 : 0);
+    if (xp !== expectedXP) throw new Error(`XP rose by ${xp}, expected ${expectedXP} for the actual drill without an unearned whole-verb bonus`);
     if (!(await has('.wt-scene[data-key="finito"] [data-next-verb]'))) throw new Error('Finito has no "Next verb" link');
-    return `${fin.score} · stamp ${fin.stamp} · learned · +${xp} XP · next-verb link · ${r.oracled.length} questions answered`;
+    return `${fin.score} · stamp ${fin.stamp} · four cases completed, conditional still unlearned · +${xp} XP · ${r.oracled.length} questions answered`;
   } },
   { name: 'word-intro-pass', run: async () => {
     const id = 'w:casa|noun';
@@ -591,7 +596,7 @@ const flows = [
     if (foreign.length) throw new Error(`results list entries outside the list: ${foreign.slice(0, 4).join(', ')}`);
     return `scope → ${hash1.slice(0, 40)} · list → ${decodeURIComponent(hash2).slice(0, 44)} · ${missed.length} missed, all from the list`;
   } },
-  // the entry page's action bar: word bank, list picker, mark learned / unmark, listen — every tap checked in the store and restored
+  // Entry actions and completion menu: every tap checked in the store and restored.
   { name: 'entry-actions', run: async () => {
     const id = 'w:casa|noun';
     const inList = (l) => storeEval(`return ctx.store.inList(arg.l, arg.id);`, { l, id });
@@ -616,10 +621,12 @@ const flows = [
     if ((await inList(lid)) !== in0) throw new Error('unticking did not restore the list');
     await page.keyboard.press('Escape'); await wait(400);
     const learned0 = await isLearned(id);
-    await tap('#view [data-actions] [data-act="learned"]', { label: learned0 ? 'Learned (unmark)' : 'Mark learned' }); await wait(300);
+    await tap('#view [data-completion-menu]', { label: 'Completion menu' });
+    await tap('[data-completion-item]', { label: learned0 ? 'Learned (unmark)' : 'Mark learned' }); await wait(300);
     if ((await isLearned(id)) === learned0) throw new Error(`tapping "${learned0 ? 'Learned' : 'Mark learned'}" did not toggle the learned state`);
-    await tap('#view [data-actions] [data-act="learned"]', { label: 'learned (back)' }); await wait(300);
+    await tap('[data-completion-item]', { label: 'learned (back)' }); await wait(300);
     if ((await isLearned(id)) !== learned0) throw new Error('the second tap did not restore the learned state');
+    await page.keyboard.press('Escape'); await wait(200);
     if (!learned0 && !(await has('#view a[href*="#/learn/word/"]'))) throw new Error('no Learn link on an unlearned entry');
     if (await has('#view [data-say]')) await tap('#view [data-say]', { label: 'Listen' }); // speechSynthesis may be silent headless; it must not throw
     return `word bank ${bank0 ? 'off/on' : 'on/off'}, list picker tick/untick, learned ${learned0 ? 'off/on' : 'on/off'}, listen — store followed each tap`;

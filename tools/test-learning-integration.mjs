@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { data } from '../js/data.js';
-import { createLearning, recordAttempt, createSession, skillState, selectNext } from '../js/learning/model.js';
+import { createLearning, recordAttempt, createSession, skillState, selectNext, setCompletionRecord } from '../js/learning/model.js';
 import { objectivesFor, stageObjectives, CORE_STAGES } from '../js/learning/curriculum.js';
 import { activeObjectives, eligibleSkills, dueSkills, reviewItems, recommend, courseProgress, practiceHref } from '../js/learning/integration.js';
 import { buildQuestion } from '../js/learning/questions.js';
@@ -28,6 +28,7 @@ function fixture({ stage = 'present', entries = null } = {}) {
     dueIds(now = Date.now()) { return Object.keys(this.current.items).filter(id => this.current.items[id].due && this.current.items[id].due <= now); },
   };
   store.learning.preferences.stage = stage;
+  store.completeCase=(entry,caseId)=>{store.learning=setCompletionRecord(store.learning,{entryId:entry.id,caseId,checked:true,at:START,id:`complete:${entry.id}:${caseId}`});};
   store.add = (objective, patch = {}) => {
     const sessionId = patch.sessionId || 'initial', index = indices.get(sessionId) || 0;
     const event = {
@@ -61,38 +62,42 @@ function fixture({ stage = 'present', entries = null } = {}) {
 test('due skills are ordered by their schedules and keep skill-level identities', () => {
   const store = fixture();
   const first = objectivesFor(verb('andare'))[1], second = objectivesFor(verb('parlare'))[1];
+  store.completeCase(verb('andare'),'present');store.completeCase(verb('parlare'),'present');
   store.add(first, { ok: false, outcome: 'incorrect', at: START + 1000 });
   store.add(second, { ok: false, outcome: 'incorrect', at: START + 500 });
   const due = dueSkills(store, START + DAY);
-  assert.deepEqual(due.map(s => s.objectiveId), [second.id, first.id]);
+  assert.deepEqual(due.slice(0,2).map(s => s.objectiveId), [second.id, first.id]);
   assert.equal(recommend(store, { now: START + DAY }).objectiveId, second.id);
   assert.equal(recommend(store, { now: START + DAY }).mode, 'review');
 });
 
-test('disabling an expansion removes its due questions without deleting evidence', () => {
+test('a completed core conditional is reviewable independently of old expansion preferences', () => {
   const store = fixture();
   const expanded = objectivesFor(verb('andare'), { stage: 'present', expansions: ['requests'] }).find(o => o.tense === 'condizionale');
   store.add(expanded, { ok: false, outcome: 'incorrect' });
   assert.equal(dueSkills(store, START + DAY).some(s => s.objectiveId === expanded.id), false);
-  store.learning.preferences.expansions = ['requests'];
+  store.completeCase(verb('andare'),'condizionale');store.learning.preferences.expansions = ['requests'];
   assert.equal(dueSkills(store, START + DAY).some(s => s.objectiveId === expanded.id), true);
   store.learning.preferences.expansions = [];
-  assert.equal(dueSkills(store, START + DAY).some(s => s.objectiveId === expanded.id), false);
+  assert.equal(dueSkills(store, START + DAY).some(s => s.objectiveId === expanded.id), true);
   assert.equal(Object.keys(store.learning.events).length, 1);
 });
 
 test('legacy learned/due items enter diagnosis without fabricated skill readiness', () => {
   const entry = verb('andare'), store = fixture({ entries: [entry] });
   store.current.items[entry.id] = { learned: true, due: START - 1, seen: 90, ok: 90, s: 5 };
+  store.learning=setCompletionRecord(store.learning,{entryId:entry.id,caseId:'*',checked:true,at:START-DAY,id:'legacy-known',source:'legacy'});
   const queue = reviewItems(store, START);
-  assert.equal(queue.length, 1); assert.equal(queue[0].objectiveId, null);
+  assert.ok(queue.length>0); assert.ok(queue.every(x=>x.objectiveId && !x.skill.ready));
   for (const objective of activeObjectives(entry, store.learning)) assert.equal(skillState(store.learning, objective.id, START).ready, false);
 });
 
-test('word meaning records remain eligible although they have no grammatical tense', () => {
+test('completed word meaning records are eligible; an unfinished attempt alone is not', () => {
   const entry = word('casa'), store = fixture({ entries: [entry] });
   const meaning = objectivesFor(entry).find(o => o.skill === 'meaning');
   store.add(meaning, { ok: false, outcome: 'incorrect' });
+  assert.deepEqual(eligibleSkills(store,START+DAY),[]);
+  store.completeCase(entry,'word');
   assert.equal(eligibleSkills(store, START + DAY)[0].objectiveId, meaning.id);
   assert.equal(recommend(store, { kind: 'word', now: START + DAY }).objectiveId, meaning.id);
 });

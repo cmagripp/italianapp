@@ -38,6 +38,7 @@
   --ease-out: cubic-bezier(.2,.8,.2,1); --ease-in-out: cubic-bezier(.65,0,.35,1); --ease-spring: cubic-bezier(.34,1.4,.64,1);
   --t-fast: 160ms; --t-base: 260ms; --t-slow: 420ms; --t-scene: 700ms; --t-ambient: 70s;
 
+  --app-height: 100dvh;
   --top-h: 52px; --dock-h: 64px; --dock-gap: 10px;
   --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px); --sar: env(safe-area-inset-right, 0px);
@@ -84,7 +85,13 @@ html { transition: --orb-1 1.2s var(--ease-in-out), --orb-2 1.2s var(--ease-in-o
 /* ---------- 2. BASE ---------- */
 *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 /* overflow-x: clip on the root (not just body) keeps the layout viewport from widening during the 260ms scene-in scale */
-html { height: 100%; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top-h) + var(--sat) + 8px); scroll-padding-bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 12px); overflow-x: clip; }
+html { height: 100%; background:var(--bg-0); -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top-h) + var(--sat) + 8px); scroll-padding-bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 12px); overflow-x: clip; }
+/* Home Screen apps have no browser toolbar: vh includes the status-bar area
+   that iOS can incorrectly subtract from dvh during a cold launch. */
+@media (display-mode: standalone) {
+  html { --app-height:100vh; height:var(--app-height); min-height:var(--app-height); }
+}
+html.is-standalone { --app-height:100vh; height:var(--app-height); min-height:var(--app-height); }
 body {
   margin: 0; min-height: 100%; background: var(--bg-0); color: var(--ink);
   font-family: var(--font-text); font-size: 15px; line-height: 1.5; font-weight: 500;
@@ -825,9 +832,9 @@ body.no-tabs .sticky-actions { bottom: calc(var(--sab) + 12px); }
 .kbd-space { height: 240px; }
 
 /* ---------- 15. SCENES, MOUNT, MOTION ---------- */
-.scenes { scroll-snap-type: y mandatory; overflow-y: auto; height: 100vh; height: 100dvh; margin: calc(-1 * (var(--top-h) + var(--sat) + 16px)) calc(-1 * var(--gutter)) 0; padding: 0; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
+.scenes { scroll-snap-type: y mandatory; overflow-y: auto; height:100vh; height:var(--app-height,100dvh); margin: calc(-1 * (var(--top-h) + var(--sat) + 16px)) calc(-1 * var(--gutter)) 0; padding: 0; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
 .scenes::-webkit-scrollbar { display: none; }
-.scene { position: relative; height: 100vh; height: 100dvh; scroll-snap-align: start; scroll-snap-stop: always; display: grid; grid-template-rows: auto 1fr auto; padding: calc(var(--top-h) + var(--sat) + 8px) var(--gutter) calc(var(--sab) + 20px); }
+.scene { position: relative; height:100vh; height:var(--app-height,100dvh); scroll-snap-align: start; scroll-snap-stop: always; display: grid; grid-template-rows: auto 1fr auto; padding: calc(var(--top-h) + var(--sat) + 8px) var(--gutter) calc(var(--sab) + 20px); }
 .scene .scene-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .scene .scene-head .step { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; color: var(--ink-3); }
 .scene .scene-head .title { font-family: var(--font-display); font-weight: 600; font-size: 22px; }
@@ -864,3 +871,10 @@ body.no-tabs .sticky-actions { bottom: calc(var(--sab) + 12px); }
 }
 @media (min-width: 560px) { .grid3.wide { grid-template-columns: repeat(4, 1fr); } .flash { height: 360px; } .fan { height: 280px; } .gstack { grid-template-columns: repeat(3, 1fr); } .gstack.records { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 359px) { .headword .hw-line { --hw: 44px; } .grid3 { gap: 8px; } .stat .num { font-size: 26px; } .fan-tools .btn { padding: 0 12px; } .gstack { grid-template-columns: 1fr; } }
+
+/* Full-screen lesson/practice surfaces use document geometry, including their
+   backdrop, rather than iOS's shorter fixed-position viewport. */
+html.is-standalone:has(body.journey-viewport) .aurora,
+html.is-standalone:has(body.practice-viewport) .aurora {
+  position:absolute; inset:0; height:var(--app-height); min-height:var(--app-height);
+}

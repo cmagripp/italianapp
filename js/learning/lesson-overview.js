@@ -32,7 +32,7 @@ export function lessonOverviewHTML({entry,plan,progress,session}={}) {
   return `<section class="journey-overview" aria-label="Verb lesson overview">
     <div class="journey-overview-intro journey-teaching is-meet">
       <div class="journey-kicker">Your verb, five useful lessons</div>
-      <div class="journey-intro"><div class="journey-intro-title"><h1 data-focus tabindex="-1">${esc(title)}</h1><button type="button" class="journey-hero-audio" data-say="${esc(entry.inf||entry.it||title)}" aria-label="Listen to ${esc(title)}">${icon('speaker',{size:25})}</button></div>
+      <div class="journey-intro"><div class="journey-intro-title"><h1 data-focus tabindex="-1">${esc(title)}</h1><button type="button" class="journey-hero-audio" data-say="${esc(entry.inf||entry.it||title)}" aria-label="Listen to ${esc(title)}">${icon('speaker',{size:25})}</button><button type="button" class="icon-btn completion-toggle${progress?.complete?' is-complete':''}" data-completion-menu aria-haspopup="menu" aria-expanded="false" aria-label="Update completion for ${esc(entry.inf||title)}" title="Update completion">${icon('check',{size:20})}</button></div>
         ${body.map(text=>`<p>${esc(text)}</p>`).join('')}</div>
 
     </div>

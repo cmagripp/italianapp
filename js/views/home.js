@@ -25,7 +25,7 @@ const fit = (w) => { const n = String(w || '').length; return n <= 6 ? 32 : n <=
 
 function recentlyLearned(n = 14) {
   return Object.entries(store.current.items)
-    .filter(([, it]) => it.learned)
+    .filter(([id]) => store.isLearned(id))
     .sort((a, b) => (b[1].learnedAt || b[1].first || 0) - (a[1].learnedAt || a[1].first || 0))
     .slice(0, n).map(([id]) => getEntry(id)).filter(Boolean).map(headword);
 }
@@ -65,7 +65,8 @@ export async function render(root) {
   const p = store.current;
   const day = store.today();
   const s = p.settings;
-  const due = store.settings.adaptiveLearning !== false ? reviewItems(store).length : store.dueIds().length;
+  const review = reviewItems(store);
+  const due = store.settings.adaptiveLearning !== false ? review.length : new Set(review.map(item=>item.entry.id)).size;
   // the plan never promises more new items than the study scope still holds (a 2-word list is not "8 new words")
   const unlearnedInScope = (kind) => itemsForScope(store.scope, store, { kind }).filter(e => !store.isLearned(e.id)).length;
   const newWordsLeft = Math.min(Math.max(0, s.dailyNew - ((day.new || 0) - (day.newVerbs || 0))), unlearnedInScope('word'));

@@ -12,15 +12,29 @@ const browser = await launchBrowser(chromium);
 const results = [], errors = [], screenshots = [];
 fs.mkdirSync(SHOTS_DIR, { recursive: true });
 let context, page;
-async function fresh(theme = 'light', width = 390, { height = width === 375 ? 667 : 844, insets = {}, standaloneInset = 0 } = {}) {
+async function fresh(theme = 'light', width = 390, { height = width === 375 ? 667 : 844, insets = {}, standaloneInset = 0, coldStart = null } = {}) {
   await context?.close();
-  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height }, reducedMotion: 'reduce' }));
+  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height }, screen:{width,height}, reducedMotion: 'reduce' }));
   await context.addInitScript(() => Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
     getVoices: () => [], cancel: () => {}, speak: utterance => {
       const calls = JSON.parse(sessionStorage.getItem('experience-speech') || '[]');
       calls.push({ text: utterance.text, lang: utterance.lang }); sessionStorage.setItem('experience-speech', JSON.stringify(calls));
     },
   } }));
+  if (coldStart) {
+    // Reproduce the specific WebKit cold-start mismatch: dynamic viewport CSS
+    // and JS both lose the top62px, while large viewport units still cover956px.
+    // Native Home Screen behavior is checked separately in the iOS simulator.
+    await context.route('**/css/*.css', async route => {
+      const response=await route.fetch();
+      await route.fulfill({response,body:(await response.text()).replaceAll('100dvh',`${height-coldStart.shortfall}px`)});
+    });
+    await context.addInitScript(({standalone,shortfall})=>{
+      Object.defineProperty(navigator,'standalone',{configurable:true,value:standalone});
+      Object.defineProperty(window,'innerHeight',{configurable:true,get:()=>document.documentElement.clientHeight-shortfall});
+      Object.defineProperty(visualViewport,'height',{configurable:true,get:()=>document.documentElement.clientHeight-shortfall});
+    },coldStart);
+  }
   page = await context.newPage();
   page.on('pageerror', e => errors.push(e.message));
   page.on('console', m => { if (m.type() === 'error' && !/fonts\.g(oogleapis|static)\.com/.test(m.location()?.url || '')) errors.push(m.text()); });
@@ -304,6 +318,33 @@ try {
     assert.equal((await session()).ui.questionId, active.ui.questionId); assert.deepEqual(await evidence(), before);
     assert((await session()).ui.assistance.includes('visible-form'), 'looking back cannot turn a copied answer into independent evidence');
     await answerCorrect(); assert.equal((await evidence()).events.length, before.events.length + 1);
+  });
+  await check('Home Screen cold start fills iPhone16 Pro Max despite short dynamic CSS and JS heights',async()=>{
+    await fresh('dark',440,{height:956,insets:{t:62,b:34},coldStart:{standalone:true,shortfall:62}});
+    await gotoRoute(page,'/learn/verb/v:credere?chapter=present');
+    const measure=()=>page.evaluate(()=>Object.fromEntries(['html','body','#view','.aurora','.journey-action-dock','[data-action-track] .journey-action'].map(selector=>[selector,document.querySelector(selector)?.getBoundingClientRect().toJSON()])));
+    let rects=await measure();
+    assert.equal(await page.evaluate(()=>innerHeight),894,'fixture reports the same shortened native metric');
+    for(const selector of ['html','body','#view','.aurora','.journey-action-dock'])assert(Math.abs(rects[selector].bottom-956)<=1,`${selector} reaches full screen instead of894px`);
+    assert(Math.abs(rects['[data-action-track] .journey-action'].bottom-922)<=1,'controls reserve only the home-indicator inset');
+    assert.equal(await page.locator('#view').evaluate(e=>getComputedStyle(e).position),'relative','the app is not clipped by the fixed viewport');
+    assert.equal(await page.evaluate(()=>scrollY),0);
+    await shot('iphone16-pro-max-standalone-cold-start');
+    await reachJourneyActivity(page,'type');await page.locator('[data-answer]').fill('cre');
+    await page.evaluate(()=>{Object.defineProperty(visualViewport,'height',{configurable:true,value:450});visualViewport.dispatchEvent(new Event('resize'));});
+    assert(Math.abs((await page.locator('#view').boundingBox()).y+(await page.locator('#view').boundingBox()).height-450)<=1,'typing remains above the keyboard');
+    await page.locator('[data-answer]').evaluate(e=>e.blur());
+    assert.equal(await page.evaluate(()=>document.body.style.getPropertyValue('--journey-viewport-height')),'');
+    rects=await measure();assert(Math.abs(rects['#view'].bottom-956)<=1,'dismissal restores full screen even with stale short viewport metrics');
+    assert.equal(await page.locator('[data-answer]').inputValue(),'cre');
+    await gotoRoute(page,'/game/flashcards?src=level:A1');
+    assert(Math.abs((await page.locator('#view').boundingBox()).y+(await page.locator('#view').boundingBox()).height-956)<=1,'Play shares the corrected screen height');
+  });
+  await check('Safari browser keeps its smaller visible viewport instead of expanding behind browser controls',async()=>{
+    await fresh('light',440,{height:956,insets:{b:34},coldStart:{standalone:false,shortfall:62}});
+    await gotoRoute(page,'/learn/verb/v:credere?chapter=present');
+    const view=await page.locator('#view').boundingBox();assert(Math.abs(view.y+view.height-894)<=1,'regular browser honors its shorter dynamic viewport');
+    assert.equal(await page.evaluate(()=>document.documentElement.classList.contains('is-standalone')),false);
   });
   await check('No application errors', async () => assert.deepEqual(errors, []));
 } catch (error) {

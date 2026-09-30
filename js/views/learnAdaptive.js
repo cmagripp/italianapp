@@ -155,7 +155,7 @@ export async function render(root, params = {}, query = {}) {
     ui.given = ''; ui.draft = ''; ui.result = null; ui.assistance = []; ui.hintVisible = false;
     if (selection.done) {
       ui.phase = 'complete'; ui.current = null; question = null;
-      if (requiredObjectives.every(o => stateFor(o).ready)) store.markLearned(entry.id, entry.kind);
+      if (mode==='lesson' && requiredObjectives.every(o => stateFor(o).ready))store.completeLegacyEvidence(entry,requiredObjectives,{sessionId:session.id});
       save(); draw(); return;
     }
     const obj = typeof selection.objective === 'string' ? descriptors.find(o => o.id === selection.objective) : selection.objective;
@@ -324,7 +324,8 @@ export async function render(root, params = {}, query = {}) {
     const checkpoint = ui.phase === 'checkpoint';
     const allReady = complete && deferred().length === 0;
     const title = checkpoint ? 'A moment to check in' : complete ? allReady ? 'Ready for the next step' : 'Your practice is saved' : 'Take a breather';
-    const message = checkpoint ? 'You have done ten more practice questions. Keep working on this step, or take a break. There is no question limit.' : complete ? allReady ? 'You have demonstrated these skills in varied practice. We’ll revisit them later to help them last.' : 'You chose to leave some steps for later. They are saved without being marked ready.' : 'Your exact place is saved, including any help you used. Pick up here when you are ready.';
+    const unchecked=complete&&!store.completionState(entry).complete;
+    const message = checkpoint ? 'You have done ten more practice questions. Keep working on this step, or take a break. There is no question limit.' : complete ? allReady ? unchecked?'Your earlier practice is saved. Cases or words you left unchecked remain unfinished; continue the current lesson to complete them.':'You have demonstrated these skills in varied practice. We’ll revisit them later to help them last.' : 'You chose to leave some steps for later. They are saved without being marked ready.' : 'Your exact place is saved, including any help you used. Pick up here when you are ready.';
     const recommendation = complete ? recommend(store, { kind: entry.kind, excludeObjectives: Object.keys(session.deferred || {}) }) : null;
     const next = recommendation?.entry && !(recommendation.entry.id === entry.id && (!recommendation.objectiveId || objectives.some(o => o.id === recommendation.objectiveId))) ? recommendation : null;
     const extra = complete ? entryObjectives.filter(o => o.optional || o.required === false) : [];
@@ -332,6 +333,7 @@ export async function render(root, params = {}, query = {}) {
       <div class="adaptive-summary-stats"><div><strong>${readyCount()}</strong><span>steps ready</span></div><div><strong>${deferred().length}</strong><span>saved for later</span></div><div><strong>+${ui.xp}</strong><span>practice XP</span></div></div>
       ${!complete ? raw(html`<button type="button" class="btn primary block" data-resume>${checkpoint ? 'Keep practicing' : 'Resume practice'} ${arrow()}</button>`) : next ? raw(html`<a class="btn primary block" href="${practiceHref(next.entry, next.objectiveId, next.mode)}">Continue learning ${arrow()}</a>`) : ''}
       <a class="btn secondary block" href="#/learn">${checkpoint ? 'Take a break' : 'Back to Learn'}</a>
+      ${unchecked?raw(html`<a class="btn secondary block" href="${practiceHref(entry)}">Continue the current lesson</a>`):''}
       ${checkpoint ? raw('<button type="button" class="btn ghost block" data-skip-step>Skip this step</button>') : ''}
       ${raw(deferredHTML())}
       ${extra.length ? raw(html`<section class="adaptive-deferred"><h2>Extra practice</h2><p>Optional ways to use and hear this word. Choose one when you want more.</p>${raw(extra.map(o => html`<a class="adaptive-extra-link" data-extra-practice href="${practiceHref(entry, o.id)}"><span>${o.label}</span>${arrow()}</a>`).join(''))}</section>`) : ''}

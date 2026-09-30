@@ -51,6 +51,11 @@ try {
     await assert.rejects(save(1, []), /Invalid profile/);
     await assert.rejects(save(1, null), /Invalid profile/);
   });
+  await check('RPC preserves merged completion fields including false tombstones without a schema change',async()=>{
+    const completions={'v:andare|present':{entryId:'v:andare',caseId:'present',checked:false,at:10,id:'uncheck'},'v:andare|past':{entryId:'v:andare',caseId:'past',checked:true,at:11,id:'check'}};
+    assert.equal((await save(1,{learning:{version:3,completions,events:{first:{ok:true}}}})).conflict,false);
+    const row=(await db.query('select data from parola_profiles')).rows[0];assert.deepEqual(row.data.learning.completions,completions);
+  });
   await signIn(b);
   await check('a different account cannot read or write another account’s row', async () => {
     assert.equal((await db.query('select * from parola_profiles')).rows.length, 0);

@@ -7,18 +7,19 @@ import { buildQueue } from '../srs.js';
 import { runDrill, showResults } from '../games/engine.js';
 import { qTranslateMC, qTypeIt, qGender, qCloze, qConjMC, qConjType, qAux, qParticiple, qPluralMC } from '../games/questions.js';
 import { setScene } from '../fx.js';
-import { reviewItems, eligibleSkills, practiceHref, skillLabel } from '../learning/integration.js';
-import { allowedTenses } from '../learning/curriculum.js';
+import { reviewItems, eligibleSkills, practiceHref, skillLabel, reviewableTenses } from '../learning/integration.js';
 
 // Pick a question type according to how well the item is known: weak items get recognition tasks, strong ones get production tasks.
 function questionFor(e, pool) {
   const it = store.getItem(e.id) || { s: 0 };
   const strong = it.s >= 3;
   if (e.kind === 'verb') {
-    const r = Math.random();
-    const tenses = allowedTenses(store.learning);
-    if (!strong) return r < 0.4 ? qTranslateMC(e, pool, 'it-en') : r < 0.7 || !tenses.includes('passatoProssimo') ? qConjMC(e, sample(tenses), pool) : r < 0.85 ? qAux(e) : qParticiple(e, false);
-    return r < 0.3 ? qConjType(e, sample(tenses)) : r < 0.5 ? qCloze(e, { typed: true, pool }) || qConjType(e, 'presente') : r < 0.7 ? qConjMC(e, sample(tenses), pool) : r < 0.85 && tenses.includes('passatoProssimo') ? qParticiple(e, true) : qTranslateMC(e, pool, 'en-it');
+    const tenses = reviewableTenses(store,e);
+    if(!tenses.length)return null;
+    // A generic source-example cloze can silently introduce a different tense.
+    // Automatic review draws its actual form only from this verb's completed cases.
+    const tense=sample(tenses);
+    return strong ? qConjType(e,tense) : qConjMC(e,tense,pool);
   }
   const r = Math.random();
   if (!strong) return r < 0.45 ? qTranslateMC(e, pool, 'it-en') : r < 0.75 ? qTranslateMC(e, pool, 'en-it') : (qGender(e) || qCloze(e, { pool }) || qTranslateMC(e, pool, 'it-en'));
@@ -31,17 +32,18 @@ export async function render(root, params, query) {
   const level = store.settings.level || 'A1';
   setScene(level);
   const limit = store.settings.dailyReviews || 40;
-  const dueNow = store.dueIds().length;
-  let ids = store.dueIds();
+  const dueCandidates=reviewItems(store), enrolled=eligibleSkills(store);
+  const dueNow = new Set(dueCandidates.map(x=>x.entry.id)).size;
+  let ids = [...new Set(dueCandidates.map(x=>x.entry.id))];
   if (query.mode === 'extra' || ids.length < 5) {
     // review ahead: weakest learned items not yet due
-    const learned = store.learnedIds().filter(id => !ids.includes(id));
+    const learned = [...new Set([...store.learnedWordIds(),...enrolled.map(s=>s.entryId)])].filter(id => !ids.includes(id));
     const extra = buildQueue(learned, id => store.getItem(id), { limitNew: 0, limitTotal: Math.max(8, 12 - ids.length), includeNew: false });
     const byDue = learned.map(id => [id, store.getItem(id)?.due || 0]).sort((a, b) => a[1] - b[1]).map(x => x[0]);
     ids = [...ids, ...extra, ...byDue].filter((v, i, a) => a.indexOf(v) === i).slice(0, Math.max(ids.length, 12));
   }
   ids = ids.slice(0, limit);
-  const entries = ids.map(getEntry).filter(Boolean);
+  const entries = ids.map(getEntry).filter(e=>e && (e.kind!=='verb' || reviewableTenses(store,e).length));
   if (!entries.length) {
     root.innerHTML = html`<div class="empty"><span class="kicker">Ripasso</span><p>${raw(tr('Niente da ripassare, per ora.', 'Nothing to review, for now.'))}</p><p class="small muted">Learn some new words first: they come back here when they are due.</p><a class="btn primary" href="#/learn">Learn</a></div>`;
     return;

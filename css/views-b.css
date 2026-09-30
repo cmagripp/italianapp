@@ -277,6 +277,19 @@
 .dropdown .opt.act .ic { opacity: 1; color: var(--ink-3); }
 .dropdown .opt.act.danger, .dropdown .opt.act.danger .ic { color: var(--ko); }
 
+/* The compact completion menu is shared by dictionary entries and lesson hubs. */
+.completion-toggle.icon-btn { flex:none; width:40px; height:40px; color:var(--ink-3); border:1px solid var(--glass-border); border-radius:50%; }
+.completion-toggle.is-partial { color:var(--gold-text); }
+.completion-toggle.is-complete { color:var(--ok); background:color-mix(in srgb,var(--ok) 12%,transparent); border-color:color-mix(in srgb,var(--ok) 38%,var(--glass-border)); }
+.codex .hw-row .completion-toggle { margin-left:2px; }
+.completion-dropdown .completion-all .ic { opacity:1; color:var(--ink-3); }
+.completion-divider { margin:5px 10px; height:1px; background:var(--glass-border); }
+.completion-dropdown .completion-case { font-size:14px; }
+.completion-checkbox { display:grid; place-items:center; width:22px; height:22px; flex:none; border:1px solid var(--glass-border); border-radius:7px; }
+.completion-dropdown .completion-checkbox .ic { color:var(--ok); }
+.completion-case.on .completion-checkbox { border-color:color-mix(in srgb,var(--ok) 50%,var(--glass-border)); background:color-mix(in srgb,var(--ok) 12%,transparent); }
+.completion-status { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+
 /* ---------- 11. REDUCED MOTION & RESPONSIVE ---------- */
 @media (prefers-reduced-motion: reduce) {
   .sbar, .sbar .clear, .qtile, .topic, .list-row .lr-main, .bank-pane, .jump-bar, .jump-bar .jb-word, .pick-state, .lvl-chip, .state-chip { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }

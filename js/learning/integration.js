@@ -1,9 +1,9 @@
 // Route-level recommendations. Grammar readiness is independent of dictionary CEFR.
 import { data, getEntry, itemsForScope } from '../data.js';
 import { objectivesFor, allowedTenses, CORE_STAGES, EXPANSIONS, ANCHOR_VERBS, stageObjectives } from './curriculum.js';
-import { allSkills, skillState } from './model.js';
+import { allSkills, skillState, completionRecord } from './model.js';
 import { buildLesson } from './lesson-content.js';
-import { currentJourneyStep, journeyProgress, journeyCaseProgress } from './journey.js';
+import { currentJourneyStep, journeyProgress, journeyCaseProgress, journeyWordCompletion, journeyChapterCompletions } from './journey.js';
 export { journeyCaseProgress, coreJourneyChapters } from './journey.js';
 
 const lessonCache = new WeakMap();
@@ -15,6 +15,22 @@ export function lessonPlan(entry) {
 export function lessonObjectives(entry) {
   return lessonPlan(entry)?.chapters.flatMap(c => c.groups.flatMap(g => g.targets.map(t => ({ ...t, entryId:entry.id,
     kind:entry.kind, chapterId:c.id, chapterTitle:c.title, optional:!!c.optional, label:learningLabel(t,c) })))) || [];
+}
+export function entryCompletion(entry, learning, item = null, now = Date.now()) {
+  if (!entry) return {complete:false,cases:[]};
+  const plan=lessonPlan(entry);
+  if(entry.kind==='verb') {
+    const progress=journeyCaseProgress(plan,learning,null,now);
+    return {...progress,cases:progress.cases.map(c=>({...c,checked:c.ready}))};
+  }
+  const state=journeyWordCompletion(plan,learning), override=completionRecord(learning,entry.id,'word');
+  return {...state,complete:state.complete || !override && !!item?.learned,cases:[]};
+}
+const chapterForTense = tense => ({presente:'present',presenteProgressivo:'present',passatoProssimo:'past',imperfetto:'background',imperfettoProgressivo:'background',futuro:'future',condizionale:'condizionale'}[tense]);
+export function reviewableTenses(store, entry, now = Date.now()) {
+  const selected=new Set(store.learning.preferences?.expansions || []);
+  return journeyChapterCompletions(lessonPlan(entry),store.learning,now).filter(c=>c.ready && (!c.optional
+    || EXPANSIONS.some(e=>selected.has(e.id)&&e.tenses.includes(c.tense)))).map(c=>c.tense);
 }
 function learningLabel(target, chapter) {
   const names = {meaning:'Meaning',recall:'Recall the word',article:'Articles',plural:'Plural',context:'Use in a sentence',agreement:'Agreement',listening:'Listening',address:'Formal you'};
@@ -35,10 +51,23 @@ export function eligibleSkills(store, now = Date.now()) {
   const allowed = new Set(allowedTenses(store.learning));
   const scopeIds = new Set(scopedEntries(store).map(e => e.id));
   const objectiveIds = new Map();
-  return allSkills(store.learning, now).filter(s => {
+  const completion = new Map();
+  const status = entry => {if(!completion.has(entry.id))completion.set(entry.id,entryCompletion(entry,store.learning,store.current.items?.[entry.id],now));return completion.get(entry.id);};
+  const evidenceSkills=allSkills(store.learning,now);
+  const skills = evidenceSkills.filter(s => {
     const entry = getEntry(s.entryId);
     if (!entry || !scopeIds.has(entry.id)) return false;
     const journeyObjective = lessonObjectives(entry).find(o=>o.id===s.objectiveId);
+    if(entry.kind==='verb') {
+      // Mixed practice was offered only after the full core course. Keep that
+      // boundary after an uncheck too, so its spacing contrasts cannot need an
+      // unchecked tense or strand a single remaining mixed target.
+      if(journeyObjective?.chapterId==='mixed' && !status(entry).complete)return false;
+      const chapterId=journeyObjective?.sourceChapter || journeyObjective?.chapterId || chapterForTense(s.tense);
+      const chapter=journeyChapterCompletions(lessonPlan(entry),store.learning,now).find(c=>c.id===chapterId || !chapterId && c.tense===s.tense);
+      if(!chapter?.ready)return false;
+      if(chapter.optional && !EXPANSIONS.some(e=>(store.learning.preferences?.expansions || []).includes(e.id)&&e.tenses.includes(chapter.tense)))return false;
+    } else if(!status(entry).complete)return false;
     if (journeyObjective) {
       if (journeyObjective.supplementalOnly || journeyObjective.guidedOnly || journeyObjective.available === false) return false;
       const deferredAt = Math.max(0, ...Object.values(store.learning.sessions || {}).filter(x=>x.journey && x.entryId===entry.id).map(x=>x.deferred?.[s.objectiveId] || 0));
@@ -51,10 +80,39 @@ export function eligibleSkills(store, now = Date.now()) {
       }
       return true;
     }
+    // Completed core cases are enrolled individually, irrespective of the old
+    // global course-stage setting. Explicit games keep their own broad scope.
+    if (entry.kind==='verb')return true;
     if (s.tense && s.tense !== 'meaning' && !allowed.has(s.tense)) return false;
     if (!objectiveIds.has(entry.id)) objectiveIds.set(entry.id, new Set(activeObjectives(entry, store.learning).map(o => o.id)));
     return objectiveIds.get(entry.id).has(s.objectiveId);
   });
+  const known=new Set(skills.map(s=>s.objectiveId));
+  const candidateIds=new Set([...evidenceSkills.map(s=>s.entryId),...Object.values(store.learning.completions || {}).map(c=>c.entryId)]);
+  for(const entry of scopedEntries(store)) {
+    if(!candidateIds.has(entry.id))continue;
+    if(entry.kind!=='verb') {
+      if(!skills.some(s=>s.entryId===entry.id) && status(entry).complete) {
+        const objective=lessonObjectives(entry).find(o=>o.skill==='meaning' && o.available!==false);
+        if(objective)skills.push({...skillState(store.learning,objective.id,now),objectiveId:objective.id,entryId:entry.id,kind:entry.kind,skill:objective.skill,
+          enrolled:true,due:(status(entry).completedAt || store.current.items?.[entry.id]?.learnedAt || 0)+8*3600e3});
+      }
+      continue;
+    }
+    const enrolled=status(entry).cases.filter(c=>c.checked);
+    if(!enrolled.length)continue;
+    for(const objective of lessonObjectives(entry)) {
+      const chapter=enrolled.find(c=>c.id===objective.chapterId);
+      if(!chapter || known.has(objective.id) || objective.supplementalOnly || objective.guidedOnly || objective.available===false || objective.required===false)continue;
+      const state=skillState(store.learning,objective.id,now);
+      // A manually known case gets a real diagnostic review, not synthetic
+      // correct attempts. Natural completions already have target schedules.
+      if(state.attempts)continue;
+      skills.push({...state,objectiveId:objective.id,entryId:entry.id,kind:entry.kind,skill:objective.skill,tense:objective.tense,
+        chapterId:objective.chapterId,enrolled:true,due:(chapter.completedAt || 0)+8*3600e3});
+    }
+  }
+  return skills;
 }
 export function dueSkills(store, now = Date.now()) {
   return eligibleSkills(store, now).filter(s => s.due && s.due <= now).sort((a, b) => a.due - b.due || a.objectiveId.localeCompare(b.objectiveId));
@@ -63,10 +121,11 @@ export function reviewItems(store, now = Date.now()) {
   const skills = dueSkills(store, now);
   // Legacy evidence is deliberately not inflated into per-skill mastery. Items with
   // adaptive records use the skill queue; older items enter a fresh diagnostic loop.
-  const known = new Set(allSkills(store.learning, now).map(s => s.entryId));
+  const known = new Set([...allSkills(store.learning, now).map(s => s.entryId),...skills.map(s=>s.entryId)]);
   const scopeIds = new Set(scopedEntries(store).map(e => e.id));
   return [...skills.map(s => ({ entry: getEntry(s.entryId), objectiveId: s.objectiveId, skill: s })),
-    ...store.dueIds(now).filter(id => !known.has(id) && scopeIds.has(id)).map(id => ({ entry: getEntry(id), objectiveId: null })).filter(x => x.entry)];
+    ...store.dueIds(now).filter(id => !known.has(id) && scopeIds.has(id)).map(id => ({ entry: getEntry(id), objectiveId: null })).filter(x => x.entry?.kind!=='verb'
+      && x.entry && entryCompletion(x.entry,store.learning,store.current.items?.[x.entry.id],now).complete)];
 }
 export function practiceHref(entry, objectiveId = null, mode = 'lesson') {
   const query = new URLSearchParams();
@@ -83,6 +142,8 @@ export function recommendLesson(store, { kind = null, review = false, now = Date
     .sort((a,b)=>b.updatedAt-a.updatedAt);
   if (!review) for (const session of sessions) {
     const entry = getEntry(session.entryId), plan = lessonPlan(entry);
+    const completion=entryCompletion(entry,store.learning,store.current.items?.[entry.id],now);
+    if(completion.complete || completion.cases.some(c=>c.id===session.journey.chapterId && c.checked))continue;
     const step = currentJourneyStep(plan,session,store.learning,now);
     if (step.type !== 'complete') return {entry,session,mode:'lesson',reason:`Continue ${nameFor(entry)} from where you stopped.`};
   }
@@ -95,6 +156,7 @@ export function recommendLesson(store, { kind = null, review = false, now = Date
   const anchors = new Map(['credere','parlare','essere','avere','dormire','capire','dire','andare',...ANCHOR_VERBS].map((x,i)=>[x,i]));
   const candidates=scope.slice().sort((a,b)=>(anchors.get(a.inf)??100)-(anchors.get(b.inf)??100));
   for (const entry of candidates) {
+    if(entryCompletion(entry,store.learning,store.current.items?.[entry.id],now).complete)continue;
     const session=sessions.find(s=>s.entryId===entry.id);
     if (!session) return {entry,mode:'lesson',reason:entry.kind==='verb'?'Choose a tense: present, passato prossimo, imperfetto, future or conditional.':'Learn a word through its meaning, forms and real examples.'};
     if (!journeyProgress(lessonPlan(entry),session,store.learning,now).complete) {

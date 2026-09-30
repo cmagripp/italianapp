@@ -1,8 +1,8 @@
 /* PAROLA · one screen, with scrolling at the viewport edge.
    Only lesson content scrolls; the header and bottom actions share its height. */
 html:has(body.journey-viewport) { overflow:hidden; scroll-padding:0; }
-body.journey-viewport { --journey-inset:max(var(--gutter),var(--sal),var(--sar),calc((100vw - var(--content-max)) / 2 + var(--gutter))); --journey-bottom:max(8px,var(--sab)); height:100dvh; min-height:0; overflow:hidden; padding:0; }
-body.journey-viewport #view { position:fixed; top:calc(var(--top-h) + var(--sat)); left:0; right:0; height:calc(var(--journey-viewport-height,100dvh) - var(--top-h) - var(--sat)); width:100%; max-width:none; margin:0; padding:0; display:flex; flex-direction:column; overflow:hidden; }
+body.journey-viewport { --journey-inset:max(var(--gutter),var(--sal),var(--sar),calc((100vw - var(--content-max)) / 2 + var(--gutter))); --journey-bottom:max(8px,var(--sab)); height:var(--app-height,100dvh); min-height:0; overflow:hidden; padding:calc(var(--top-h) + var(--sat)) 0 0; }
+body.journey-viewport #view { position:relative; height:calc(var(--journey-viewport-height,var(--app-height,100dvh)) - var(--top-h) - var(--sat)); width:100%; max-width:none; margin:0; padding:0; display:flex; flex-direction:column; overflow:hidden; }
 body.journey-viewport #view.scene-in { animation-name:journeyViewIn; }
 @keyframes journeyViewIn { from { opacity:0; } to { opacity:1; } }
 
@@ -198,7 +198,7 @@ body.journey-viewport #view.scene-in { animation-name:journeyViewIn; }
 .journey-word { display:inline; padding:1px 0; margin:0; font:inherit; line-height:inherit; letter-spacing:inherit; color:inherit; text-decoration:underline; text-decoration-style:dotted; text-decoration-color:color-mix(in srgb,var(--journey-accent,var(--gold)) 42%,transparent); text-underline-offset:5px; text-decoration-thickness:1px; }
 .journey-word:hover,.journey-word:focus-visible { color:var(--journey-accent-text,var(--gold-text)); }
 .journey-word:active { background:var(--glass); border-radius:4px; }
-.journey-word-dialog { color:var(--ink); background:var(--bg-1); border:1px solid var(--glass-border); border-radius:26px; padding:0; width:calc(100% - 28px); max-width:520px; max-height:calc(var(--journey-viewport-height,100dvh) - var(--sat) - var(--sab) - 40px); overflow:hidden; box-shadow:var(--shadow-2); }
+.journey-word-dialog { color:var(--ink); background:var(--bg-1); border:1px solid var(--glass-border); border-radius:26px; padding:0; width:calc(100% - 28px); max-width:520px; max-height:calc(var(--journey-viewport-height,var(--app-height,100dvh)) - var(--sat) - var(--sab) - 40px); overflow:hidden; box-shadow:var(--shadow-2); }
 .journey-word-dialog[open] { display:flex; flex-direction:column; }
 .journey-word-dialog::backdrop { background:rgba(5,8,16,.6); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
 .journey-word-heading { flex:none; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 22px 16px; border-bottom:1px solid var(--hairline); background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 8%,transparent),transparent); }
@@ -488,7 +488,7 @@ body.journey-viewport #topTitle { text-align:left; padding-left:4px; }
 .journey-info-toggle .ic { width:20px; height:20px; }
 .journey-info-toggle[aria-expanded=true] { border-color:var(--gold); color:var(--gold-text); background:var(--primary-soft); }
 .journey-info-toggle:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
-.journey-conjugation-dropdown.dropdown { display:flex; flex-direction:column; overflow:hidden; max-height:calc(var(--journey-viewport-height,100dvh) - var(--top-h) - var(--sat) - var(--sab) - 24px); }
+.journey-conjugation-dropdown.dropdown { display:flex; flex-direction:column; overflow:hidden; max-height:calc(var(--journey-viewport-height,var(--app-height,100dvh)) - var(--top-h) - var(--sat) - var(--sab) - 24px); }
 .journey-conjugation-dropdown .journey-panel-header { padding:10px 12px; }
 .journey-conjugation-dropdown .journey-panel-header h2 { font-size:26px; }
 .journey-conjugation-dropdown .journey-kicker { margin-bottom:3px; color:var(--gold-text); }

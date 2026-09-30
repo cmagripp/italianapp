@@ -1,7 +1,7 @@
 // Real store/sync modules, isolated browser primitives and a fake Supabase endpoint.
 // This never reads browser profiles, opens a socket or contacts a cloud account.
 import assert from 'node:assert/strict';
-import { recordAttempt, skillState } from '../js/learning/model.js';
+import { recordAttempt, skillState, setCompletionRecord, completionRecord } from '../js/learning/model.js';
 
 class MemoryStorage {
   values = new Map();
@@ -215,6 +215,7 @@ try {
     store.recordLearningAttempt(attempt({ id: 'before-sync', policy: 'journey-v1', targetId: objectiveId,
       chapterId: 'present', contentVersion: 1, role: 'formal', activityKind: 'independent' }));
     const remote = { data: clone(store.current), revision: 7, updated_at: new Date(START).toISOString() };
+    store.current.learning=setCompletionRecord(store.learning,{entryId:'v:andare',caseId:'present',checked:false,at:START+10,id:'local-uncheck'});
     store.recordLearningAttempt(attempt({ id: 'local-during-offline' }));
     store.saveLearningSession({ id: 'local-resume', entryId: 'v:andare', mode: 'lesson', objectiveIds: [objectiveId], activeObjectiveId: objectiveId, index: 2, createdAt: START, ui: { phase: 'question' } });
     store.saveLearningSession({ id: 'journey-cloud-local', entryId: 'v:andare', mode: 'lesson', objectiveIds: [objectiveId], index: 1,
@@ -231,12 +232,15 @@ try {
       assert.equal(body.p_data.learning.events['before-sync'].role, 'formal');
       assert.equal(JSON.stringify(body.p_data.learning).includes('local-only draft'), false);
       if (pushes === 1) {
+        remote.data.learning=setCompletionRecord(remote.data.learning,{entryId:'v:andare',caseId:'past',checked:true,at:START+20,id:'remote-check'});
         remoteEvent = addRemote(remote.data, { id: 'remote-concurrent', objectiveId: 'w:pane:recall', entryId: 'w:pane', kind: 'word', skill: 'recall', tense: null });
         remote.revision++; return response({ conflict: true });
       }
       assert.equal(body.p_expected_revision, remote.revision);
       assert.ok(body.p_data.learning.events['local-during-offline']);
       assert.ok(body.p_data.learning.events[remoteEvent.id]);
+      assert.equal(completionRecord(body.p_data.learning,'v:andare','present').checked,false);
+      assert.equal(completionRecord(body.p_data.learning,'v:andare','past').checked,true);
       remote.data = body.p_data; remote.revision++;
       return response({ conflict: false, revision: remote.revision, updated_at: new Date(START + pushes).toISOString() });
     };

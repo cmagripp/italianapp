@@ -20,6 +20,9 @@
   <!-- The web fonts must never block first paint: the stylesheet loads as a print sheet (non-blocking) and is switched on
        when it arrives, the fallback stack renders meanwhile (display=swap); a slow or unreachable fonts host cannot delay the app. -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+  <!-- iOS may report a short dynamic viewport at Home Screen cold start. Select
+       the full-screen CSS unit before the first frame (the media query can lag). -->
+  <script>if (navigator.standalone) document.documentElement.classList.add('is-standalone');</script>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/learn.css">
   <link rel="stylesheet" href="css/adaptive.css">
