@@ -58,6 +58,12 @@ try {
     assert.equal((await save(1,{learning:{version:4,completions,events:{first:grammar},sessions,preferences:{courseLevel:'A2'}}})).conflict,false);
     const row=(await db.query('select data from parola_profiles')).rows[0];assert.deepEqual(row.data.learning.completions,completions);assert.deepEqual(row.data.learning.events.first,grammar);assert.deepEqual(row.data.learning.sessions,sessions);assert.equal(row.data.learning.preferences.courseLevel,'A2');
   });
+  await check('RPC preserves v5 facet evidence and personal portfolio metadata alongside legacy sessions',async()=>{
+    const previous=(await db.query('select data from parola_profiles')).rows[0].data;
+    const updated={...previous,learning:{...previous.learning,version:5,events:{...previous.learning.events,v2:{policy:'grammar-v2',contentVersion:2,outcome:'ungraded',grammarPhase:'portfolio',facet:'register',requiredFacets:['register','reference'],completedTargets:[],assistance:[]}},sessions:{...previous.learning.sessions,'g:v2-example|lesson':{courseV2:{version:2,phase:'step',draft:'La mia risposta',portfolios:{output:{draft:'Testo personale',criteria:[0],recording:{key:'local-only-reference'}}}}}}}};
+    assert.equal((await save(2,updated)).conflict,false);
+    assert.deepEqual((await db.query('select data from parola_profiles')).rows[0].data,updated);
+  });
   await signIn(b);
   await check('a different account cannot read or write another account’s row', async () => {
     assert.equal((await db.query('select * from parola_profiles')).rows.length, 0);

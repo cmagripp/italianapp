@@ -39,7 +39,7 @@ function learningLabel(target, chapter) {
   return `${chapter?.title || ''}${target.skill === 'conjugation' ? ` · ${people[target.person] || 'verb forms'}` : ` · ${names[target.skill] || 'Practice'}`}`;
 }
 export function skillLabel(entry, state) {
-  if(entry.kind==='grammar')return grammarLesson(entry.id)?.objectives.find(o=>o.id===state?.objectiveId)?.label || 'Grammar';
+  if(entry.kind==='grammar'){const lesson=grammarLesson(entry.id);return (lesson?.targets || lesson?.objectives || []).find(o=>o.id===state?.objectiveId)?.label || 'Grammar';}
   return lessonObjectives(entry).find(o=>o.id===state?.objectiveId)?.label || ({meaning:'Meaning',recall:'Recall',article:'Articles',plural:'Plurals',conjugation:'Verb forms',auxiliary:'The auxiliary',participle:'Past participle',agreement:'Agreement',context:'Use in a sentence',listening:'Listening'}[state?.skill] || 'Practice');
 }
 

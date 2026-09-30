@@ -31,6 +31,12 @@ jobs:
           node tools/test-noun-forms.mjs
           node tools/check-modules.mjs
           node tools/test-conjugator.mjs
+          node tools/test-course-v2-content.mjs --recovery
+          node tools/test-course-v2-engine.mjs
+          node tools/test-course-v2-durability.mjs
+          node tools/test-course-v2-assets.mjs
+          node tools/test-course-v2-lexicon.mjs
+          node tools/test-course-v2-editorial.mjs
           node tools/test-grammar-course.mjs
           node tools/test-grammar-durability.mjs
           node tools/test-grammar-lexicon.mjs

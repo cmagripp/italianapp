@@ -90,7 +90,7 @@ try {
   profile.items[verb.id]={learned:true,learnedAt:START-1,last:START,due:START};profile.stats.xp=42;
   const session=createJourneySession({id:'v9-draft',plan:lessonPlan(word),now});session.ui={draft:'retained',paused:true};profile.learning.session=session;profile.learning.sessions.saved=session;
   profile.lists.starred={id:'starred',name:'Starred',items:[word.id]};await store.importJSON(JSON.stringify({profile}));
-  assert.equal(store.learning.version,LEARNING_VERSION);assert.equal(LEARNING_VERSION,4);assert.equal(store.current.stats.xp,42);assert.equal(store.learning.session.ui.draft,'retained');assert.deepEqual(store.lists.starred.items,[word.id]);
+  assert.equal(store.learning.version,LEARNING_VERSION);assert.equal(LEARNING_VERSION,5);assert.equal(store.current.stats.xp,42);assert.equal(store.learning.session.ui.draft,'retained');assert.deepEqual(store.lists.starred.items,[word.id]);
   assert.equal(store.completionState(verb).complete,true);assert.deepEqual(store.learning.events,{});assert.ok(eligibleSkills(store,now+DAY).every(s=>!s.ready));
   const newer={...copy(store.learning),version:LEARNING_VERSION+1};assert.deepEqual(normalizeLearning(newer),newer);assert.throws(()=>mergeLearning(store.learning,newer),/newer version/);
  });

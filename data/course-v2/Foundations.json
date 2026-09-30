@@ -1,0 +1,2130 @@
+{
+  "version": 2,
+  "level": "Foundations",
+  "title": "Foundations",
+  "sources": [
+    {
+      "title": "CEFR Companion Volume",
+      "url": "https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4"
+    },
+    {
+      "title": "CILS guidelines",
+      "url": "https://cils.unistrasi.it/public/articoli/72/linee_guida_cils.pdf"
+    },
+    {
+      "title": "Italian A1 reference syllabus (four certifying bodies)",
+      "url": "https://www.unistrapg.it/sites/default/files/docs/certificazioni/sillabo-4-enti-A1.pdf"
+    }
+  ],
+  "units": [
+    {
+      "id": "v2-foundations-u1",
+      "title": "Make first contact",
+      "description": "Greet, exchange names, and choose familiar or polite address.",
+      "lessons": [
+        {
+          "id": "v2-f-greet",
+          "title": "Begin and end an exchange",
+          "outcome": "I can greet someone and take leave.",
+          "minutes": 7,
+          "prerequisites": [],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Ciao is familiar; buongiorno is a polite greeting; arrivederci ends an exchange.",
+          "targets": [
+            {
+              "id": "v2-f-greet.core",
+              "label": "Begin and end an exchange",
+              "explanation": "Ciao is familiar; buongiorno is a polite greeting; arrivederci ends an exchange.",
+              "facets": [
+                "familiar-greeting",
+                "polite-greeting",
+                "farewell"
+              ],
+              "minIndependent": 3,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Try begin and end an exchange again",
+                "body": "Use ciao with a friend. Use buongiorno in a polite daytime exchange.",
+                "examples": [
+                  {
+                    "it": "Ciao, Anna!",
+                    "en": "Hi, Anna!"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-greet.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "ciao",
+                  "en": "hello or goodbye (familiar)"
+                },
+                {
+                  "it": "buongiorno",
+                  "en": "good morning or good day"
+                },
+                {
+                  "it": "arrivederci",
+                  "en": "goodbye"
+                },
+                {
+                  "it": "signora",
+                  "en": "madam"
+                },
+                {
+                  "it": "a domani",
+                  "en": "see you tomorrow"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-greet.s2",
+              "kind": "teach",
+              "title": "A friendly beginning",
+              "body": "Use ciao with a friend. Use buongiorno in a polite daytime exchange.",
+              "examples": [
+                {
+                  "it": "Ciao, Anna!",
+                  "en": "Hi, Anna!"
+                }
+              ],
+              "introduces": [
+                "v2-f-greet.core"
+              ]
+            },
+            {
+              "id": "v2-f-greet.s3",
+              "kind": "teach",
+              "title": "A polite ending",
+              "body": "Arrivederci is a useful goodbye in a polite exchange.",
+              "examples": [
+                {
+                  "it": "Buongiorno, signora. Arrivederci!",
+                  "en": "Good day, madam. Goodbye!"
+                }
+              ],
+              "introduces": [
+                "v2-f-greet.core"
+              ]
+            },
+            {
+              "id": "v2-f-greet.s4",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "familiar-greeting",
+              "stage": "guided",
+              "contextKey": "v2-f-greet.guided",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Ciao, Anna!",
+              "answer": "Hi, Anna!",
+              "options": [
+                "Hi, Anna!",
+                "Goodbye, madam.",
+                "Thank you, Anna."
+              ],
+              "speak": "Ciao, Anna!",
+              "explanation": "Ciao opens this familiar exchange.",
+              "hint": "The people know each other."
+            },
+            {
+              "id": "v2-f-greet.match-greetings",
+              "kind": "question",
+              "format": "match",
+              "target": "v2-f-greet.core",
+              "facet": "familiar-greeting",
+              "stage": "guided",
+              "contextKey": "v2-f-greet.match-greetings",
+              "prompt": "Match the pairs.",
+              "pairs": [
+                {
+                  "left": "ciao",
+                  "right": "hi · familiar"
+                },
+                {
+                  "left": "buongiorno",
+                  "right": "good day · polite"
+                },
+                {
+                  "left": "arrivederci",
+                  "right": "goodbye · polite"
+                }
+              ],
+              "explanation": "Each pair uses the forms you have just met.",
+              "hint": "Compare each card with the examples above."
+            },
+            {
+              "id": "v2-f-greet.s5",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "polite-greeting",
+              "stage": "independent",
+              "contextKey": "v2-f-greet.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___, signora.",
+              "translation": "You greet a woman politely in the morning.",
+              "answer": "Buongiorno",
+              "options": [
+                "Buongiorno",
+                "Ciao",
+                "Arrivederci"
+              ],
+              "speak": "Buongiorno, signora.",
+              "explanation": "Buongiorno fits a polite daytime greeting.",
+              "hint": "This is an opening, not a farewell."
+            },
+            {
+              "id": "v2-f-greet.s6",
+              "kind": "passage",
+              "title": "Two short greetings",
+              "it": "Anna: «Ciao, Luca!»\nLuca: «Ciao, Anna!»\nAnna: «Arrivederci!»",
+              "en": "Anna: “Hi, Luca!”\nLuca: “Hi, Anna!”\nAnna: “Goodbye!”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-f-greet.s6"
+            },
+            {
+              "id": "v2-f-greet.s7",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "farewell",
+              "stage": "independent",
+              "contextKey": "v2-f-greet.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Anna: «A domani!» Luca: «___!»",
+              "translation": "Anna says “See you tomorrow!” Luca says goodbye.",
+              "answer": "Arrivederci",
+              "options": [
+                "Arrivederci",
+                "Buongiorno",
+                "Grazie"
+              ],
+              "speak": "Anna: «A domani!» Luca: «Arrivederci!»",
+              "explanation": "Arrivederci closes the conversation.",
+              "hint": "Choose the leave-taking word."
+            },
+            {
+              "id": "v2-f-greet.s8",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "polite-greeting",
+              "stage": "independent",
+              "contextKey": "v2-f-greet.independent-3",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Buongiorno!",
+              "answer": "Good morning!",
+              "options": [
+                "Good morning!",
+                "Goodbye!",
+                "Please!"
+              ],
+              "speak": "Buongiorno!",
+              "explanation": "Buongiorno is a daytime greeting.",
+              "hint": "Look for a greeting used at the start."
+            },
+            {
+              "id": "v2-f-greet.s9",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "familiar-greeting",
+              "stage": "independent",
+              "contextKey": "v2-f-greet.independent-4",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«___, Luca!»",
+              "translation": "You greet your friend Luca informally.",
+              "answer": "Ciao",
+              "options": [
+                "Ciao",
+                "Buongiorno",
+                "Arrivederci"
+              ],
+              "speak": "Ciao, Luca!",
+              "explanation": "Ciao fits a greeting between friends.",
+              "hint": "The relationship is familiar."
+            },
+            {
+              "id": "v2-f-greet.s10",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "familiar-greeting",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-greet.reserve-10",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«___, Sara!»",
+              "translation": "Greet your friend Sara when she arrives.",
+              "answer": "Ciao",
+              "options": [
+                "Ciao",
+                "Arrivederci",
+                "Buongiorno"
+              ],
+              "speak": "Ciao, Sara!",
+              "explanation": "Ciao is natural with this friend.",
+              "hint": "This is an arrival between peers."
+            },
+            {
+              "id": "v2-f-greet.s11",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "farewell",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-greet.reserve-11",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Grazie, signora. ___!»",
+              "translation": "Thank the woman and end the exchange politely.",
+              "answer": "Arrivederci",
+              "options": [
+                "Arrivederci",
+                "Buongiorno",
+                "Ciao"
+              ],
+              "speak": "Grazie, signora. Arrivederci!",
+              "explanation": "Arrivederci is a polite farewell.",
+              "hint": "The exchange is ending."
+            },
+            {
+              "id": "v2-f-greet.review-0",
+              "kind": "question",
+              "target": "v2-f-greet.core",
+              "facet": "polite-greeting",
+              "stage": "independent",
+              "contextKey": "v2-f-greet.review-0",
+              "reserve": true,
+              "format": "choice",
+              "prompt": "Choose the expression that fits.",
+              "context": "___, dottore.",
+              "translation": "Greet a doctor politely during the day.",
+              "answer": "Buongiorno",
+              "options": [
+                "Buongiorno",
+                "Arrivederci",
+                "Ciao"
+              ],
+              "speak": "Buongiorno, dottore.",
+              "explanation": "Buongiorno opens a polite daytime exchange.",
+              "hint": "Buongiorno opens a polite daytime exchange."
+            },
+            {
+              "id": "v2-f-greet.s12",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Ciao is familiar; buongiorno is a polite greeting; arrivederci ends an exchange.",
+              "examples": [
+                {
+                  "it": "Buongiorno, signora. Arrivederci!",
+                  "en": "Good day, madam. Goodbye!"
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-f-name",
+          "title": "Exchange names",
+          "outcome": "I can ask and give a name with a model.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-f-greet"
+          ],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Mi chiamo… and Come ti chiami? are useful whole phrases; their verb parts are explained later.",
+          "targets": [
+            {
+              "id": "v2-f-name.core",
+              "label": "Exchange names",
+              "explanation": "Mi chiamo… and Come ti chiami? are useful whole phrases; their verb parts are explained later.",
+              "facets": [
+                "give-name",
+                "ask-name"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Try exchange names again",
+                "body": "Say Mi chiamo followed by a name. Keep the whole expression together.",
+                "examples": [
+                  {
+                    "it": "Mi chiamo Anna.",
+                    "en": "My name is Anna."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-name.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "Mi chiamo…",
+                  "en": "My name is…",
+                  "note": "Learn this as a whole expression."
+                },
+                {
+                  "it": "Come ti chiami?",
+                  "en": "What is your name? (familiar)",
+                  "note": "A whole question for someone you call tu."
+                }
+              ]
+            },
+            {
+              "id": "v2-f-name.s2",
+              "kind": "teach",
+              "title": "Give a name",
+              "body": "Say Mi chiamo followed by a name. Keep the whole expression together.",
+              "examples": [
+                {
+                  "it": "Mi chiamo Anna.",
+                  "en": "My name is Anna."
+                }
+              ],
+              "introduces": [
+                "v2-f-name.core"
+              ]
+            },
+            {
+              "id": "v2-f-name.s3",
+              "kind": "teach",
+              "title": "Ask a peer",
+              "body": "Ask Come ti chiami? when you speak to someone familiarly.",
+              "examples": [
+                {
+                  "it": "Come ti chiami? Mi chiamo Luca.",
+                  "en": "What is your name? My name is Luca."
+                }
+              ],
+              "introduces": [
+                "v2-f-name.core"
+              ]
+            },
+            {
+              "id": "v2-f-name.s4",
+              "kind": "question",
+              "target": "v2-f-name.core",
+              "facet": "give-name",
+              "stage": "guided",
+              "contextKey": "v2-f-name.guided",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Mi chiamo Anna.",
+              "answer": "My name is Anna.",
+              "options": [
+                "My name is Anna.",
+                "Your name is Anna.",
+                "Goodbye, Anna."
+              ],
+              "speak": "Mi chiamo Anna.",
+              "explanation": "Mi chiamo gives the speaker’s name.",
+              "hint": "The speaker is talking about herself."
+            },
+            {
+              "id": "v2-f-name.match-name",
+              "kind": "question",
+              "format": "match",
+              "target": "v2-f-name.core",
+              "facet": "give-name",
+              "stage": "guided",
+              "contextKey": "v2-f-name.match-name",
+              "prompt": "Match the pairs.",
+              "pairs": [
+                {
+                  "left": "Mi chiamo Anna.",
+                  "right": "My name is Anna."
+                },
+                {
+                  "left": "Come ti chiami?",
+                  "right": "What is your name? · familiar"
+                }
+              ],
+              "explanation": "Each pair uses the forms you have just met.",
+              "hint": "Compare each card with the examples above."
+            },
+            {
+              "id": "v2-f-name.s5",
+              "kind": "question",
+              "target": "v2-f-name.core",
+              "facet": "give-name",
+              "stage": "independent",
+              "contextKey": "v2-f-name.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Come ti chiami?» «___»",
+              "translation": "A peer asks your name; you answer “My name is Luca.”",
+              "answer": "Mi chiamo Luca.",
+              "options": [
+                "Mi chiamo Luca.",
+                "Come ti chiami?",
+                "Buongiorno Luca."
+              ],
+              "speak": "Come ti chiami? Mi chiamo Luca.",
+              "explanation": "Mi chiamo Luca answers the question with a name.",
+              "hint": "Answer rather than repeat the question."
+            },
+            {
+              "id": "v2-f-name.s6",
+              "kind": "passage",
+              "title": "First meeting",
+              "it": "Luca: «Ciao! Come ti chiami?»\nSara: «Mi chiamo Sara. E tu?»\nLuca: «Mi chiamo Luca.»",
+              "en": "Luca: “Hi! What is your name?”\nSara: “My name is Sara. And you?”\nLuca: “My name is Luca.”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-f-name.s7",
+              "kind": "question",
+              "target": "v2-f-name.core",
+              "facet": "give-name",
+              "stage": "independent",
+              "contextKey": "v2-f-name.independent-2",
+              "format": "order",
+              "prompt": "Put these supplied words in a natural order.",
+              "translation": "My name is Anna.",
+              "answer": "Mi chiamo Anna.",
+              "tokens": [
+                "Anna.",
+                "chiamo",
+                "Mi"
+              ],
+              "speak": "Mi chiamo Anna.",
+              "explanation": "Keep Mi chiamo together before the supplied name.",
+              "hint": "Begin with Mi chiamo."
+            },
+            {
+              "id": "v2-f-name.s8",
+              "kind": "question",
+              "target": "v2-f-name.core",
+              "facet": "ask-name",
+              "stage": "independent",
+              "contextKey": "v2-f-name.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«___» «Mi chiamo Sara.»",
+              "translation": "Ask Sara her name in a familiar exchange.",
+              "answer": "Come ti chiami?",
+              "options": [
+                "Come ti chiami?",
+                "Mi chiamo Sara.",
+                "Arrivederci!"
+              ],
+              "speak": "Come ti chiami? Mi chiamo Sara.",
+              "explanation": "Come ti chiami? is the taught familiar name question.",
+              "hint": "Select a question, not an answer."
+            },
+            {
+              "id": "v2-f-name.s9",
+              "kind": "question",
+              "target": "v2-f-name.core",
+              "facet": "ask-name",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-name.reserve-9",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Ciao! ___»",
+              "translation": "Ask a new peer for their name.",
+              "answer": "Come ti chiami?",
+              "options": [
+                "Come ti chiami?",
+                "Mi chiamo Anna.",
+                "Arrivederci!"
+              ],
+              "speak": "Ciao! Come ti chiami?",
+              "explanation": "The familiar question asks for a name.",
+              "hint": "Choose the question, not its answer."
+            },
+            {
+              "id": "v2-f-name.review-0",
+              "kind": "question",
+              "target": "v2-f-name.core",
+              "facet": "give-name",
+              "stage": "independent",
+              "contextKey": "v2-f-name.review-0",
+              "reserve": true,
+              "format": "choice",
+              "prompt": "Choose the expression that fits.",
+              "context": "«Come ti chiami?» «___»",
+              "translation": "Answer using the name Sara.",
+              "answer": "Mi chiamo Sara.",
+              "options": [
+                "Mi chiamo Sara.",
+                "Come ti chiami?",
+                "Mi chiamo Luca."
+              ],
+              "speak": "«Come ti chiami?» «Mi chiamo Sara.»",
+              "explanation": "Mi chiamo gives your own name.",
+              "hint": "Mi chiamo gives your own name."
+            },
+            {
+              "id": "v2-f-name.s10",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Mi chiamo… and Come ti chiami? are useful whole phrases; their verb parts are explained later.",
+              "examples": [
+                {
+                  "it": "Come ti chiami? Mi chiamo Luca.",
+                  "en": "What is your name? My name is Luca."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-f-name-polite",
+          "title": "Ask a name politely",
+          "outcome": "I can choose a polite name question for a stranger.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-f-name"
+          ],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Come si chiama? is the polite whole question; Come ti chiami? is familiar. Do not infer the full reflexive pattern yet.",
+          "targets": [
+            {
+              "id": "v2-f-name-polite.core",
+              "label": "Ask a name politely",
+              "explanation": "Come si chiama? is the polite whole question; Come ti chiami? is familiar. Do not infer the full reflexive pattern yet.",
+              "facets": [
+                "polite-address",
+                "familiar-address"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Try ask a name politely again",
+                "body": "Use Come ti chiami? with a peer you call tu. Use Come si chiama? for polite Lei address.",
+                "examples": [
+                  {
+                    "it": "Buongiorno, signora. Come si chiama?",
+                    "en": "Good morning, madam. What is your name?"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-name-polite.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "Come si chiama?",
+                  "en": "What is your name? (polite)"
+                },
+                {
+                  "it": "Lei",
+                  "en": "you (polite, singular)"
+                },
+                {
+                  "it": "signora",
+                  "en": "madam"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-name-polite.s2",
+              "kind": "teach",
+              "title": "Two social relationships",
+              "body": "Use Come ti chiami? with a peer you call tu. Use Come si chiama? for polite Lei address.",
+              "examples": [
+                {
+                  "it": "Buongiorno, signora. Come si chiama?",
+                  "en": "Good morning, madam. What is your name?"
+                }
+              ],
+              "introduces": [
+                "v2-f-name-polite.core"
+              ]
+            },
+            {
+              "id": "v2-f-name-polite.s3",
+              "kind": "question",
+              "target": "v2-f-name-polite.core",
+              "facet": "polite-address",
+              "stage": "guided",
+              "contextKey": "v2-f-name-polite.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Buongiorno, signora. ___",
+              "translation": "You ask a woman you have just met for her name politely.",
+              "answer": "Come si chiama?",
+              "options": [
+                "Come si chiama?",
+                "Come ti chiami?",
+                "Mi chiamo?"
+              ],
+              "speak": "Buongiorno, signora. Come si chiama?",
+              "explanation": "The polite situation calls for Come si chiama?",
+              "hint": "She is a stranger, not a familiar peer."
+            },
+            {
+              "id": "v2-f-name-polite.s4",
+              "kind": "question",
+              "target": "v2-f-name-polite.core",
+              "facet": "polite-address",
+              "stage": "independent",
+              "contextKey": "v2-f-name-polite.independent-1",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Come si chiama?",
+              "answer": "What is your name? (polite)",
+              "options": [
+                "What is your name? (polite)",
+                "My name is…",
+                "Where are you from?"
+              ],
+              "speak": "Come si chiama?",
+              "explanation": "This is the polite name question.",
+              "hint": "It is a question asked of someone."
+            },
+            {
+              "id": "v2-f-name-polite.s5",
+              "kind": "passage",
+              "title": "At reception",
+              "it": "Addetta: «Buongiorno. Come si chiama?»\nAnna: «Mi chiamo Anna Rossi.»",
+              "en": "Receptionist: “Good morning. What is your name?”\nAnna: “My name is Anna Rossi.”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-f-name-polite.s5"
+            },
+            {
+              "id": "v2-f-name-polite.s6",
+              "kind": "question",
+              "target": "v2-f-name-polite.core",
+              "facet": "familiar-address",
+              "stage": "independent",
+              "contextKey": "v2-f-name-polite.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Ciao! ___»",
+              "translation": "You meet a peer and ask for their name.",
+              "answer": "Come ti chiami?",
+              "options": [
+                "Come ti chiami?",
+                "Come si chiama?",
+                "Mi chiamo Marco."
+              ],
+              "speak": "Ciao! Come ti chiami?",
+              "explanation": "Ciao and a peer cue familiar ti.",
+              "hint": "Use the familiar form."
+            },
+            {
+              "id": "v2-f-name-polite.s7",
+              "kind": "question",
+              "target": "v2-f-name-polite.core",
+              "facet": "polite-address",
+              "stage": "independent",
+              "contextKey": "v2-f-name-polite.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Buongiorno. ___» «Mi chiamo Anna.»",
+              "translation": "A clerk asks a customer her name politely.",
+              "answer": "Come si chiama?",
+              "options": [
+                "Come si chiama?",
+                "Come ti chiami?",
+                "Arrivederci?"
+              ],
+              "speak": "Buongiorno. Come si chiama? Mi chiamo Anna.",
+              "explanation": "A polite service exchange takes Come si chiama?",
+              "hint": "Buongiorno marks the polite setting."
+            },
+            {
+              "id": "v2-f-name-polite.s8",
+              "kind": "question",
+              "target": "v2-f-name-polite.core",
+              "facet": "familiar-address",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-name-polite.reserve-8",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Ciao! ___»",
+              "translation": "In a class role-play, ask another student for their name.",
+              "answer": "Come ti chiami?",
+              "options": [
+                "Come ti chiami?",
+                "Come si chiama?",
+                "Mi chiamo Luca."
+              ],
+              "speak": "Ciao! Come ti chiami?",
+              "explanation": "A familiar student takes the ti question.",
+              "hint": "The peer is addressed as tu."
+            },
+            {
+              "id": "v2-f-name-polite.s9",
+              "kind": "portfolio",
+              "title": "Introduce yourself",
+              "prompt": "Practise a two-line polite introduction with a fictional name.",
+              "mode": "speak",
+              "model": "Buongiorno. Mi chiamo Anna. E Lei, come si chiama?",
+              "rubric": [
+                "Use buongiorno to open politely.",
+                "Give a name using Mi chiamo.",
+                "Ask the polite question."
+              ]
+            },
+            {
+              "id": "v2-f-name-polite.review-0",
+              "kind": "question",
+              "target": "v2-f-name-polite.core",
+              "facet": "polite-address",
+              "stage": "independent",
+              "contextKey": "v2-f-name-polite.review-0",
+              "reserve": true,
+              "format": "choice",
+              "prompt": "Choose the expression that fits.",
+              "context": "Dottore, ___",
+              "translation": "Ask the doctor for his name politely.",
+              "answer": "come si chiama?",
+              "options": [
+                "come si chiama?",
+                "come ti chiami?",
+                "mi chiamo Luca."
+              ],
+              "speak": "Dottore, come si chiama?",
+              "explanation": "Polite address uses si chiama, whether the person is a man or a woman.",
+              "hint": "Polite address uses si chiama, whether the person is a man or a woman."
+            },
+            {
+              "id": "v2-f-name-polite.s10",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Come si chiama? is the polite whole question; Come ti chiami? is familiar. Do not infer the full reflexive pattern yet.",
+              "examples": [
+                {
+                  "it": "Buongiorno, signora. Come si chiama?",
+                  "en": "Good morning, madam. What is your name?"
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v2-foundations-u2",
+      "title": "Keep the exchange going",
+      "description": "Use courtesy and repair phrases in short conversations.",
+      "lessons": [
+        {
+          "id": "v2-f-courtesy",
+          "title": "Thank and ask politely",
+          "outcome": "I can use grazie, prego, scusi and per favore in their different jobs.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-f-name-polite"
+          ],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Grazie thanks someone; prego responds; scusi gets attention; per favore softens a request.",
+          "targets": [
+            {
+              "id": "v2-f-courtesy.core",
+              "label": "Thank and ask politely",
+              "explanation": "Grazie thanks someone; prego responds; scusi gets attention; per favore softens a request.",
+              "facets": [
+                "thank",
+                "reply-to-thanks",
+                "get-attention",
+                "please-in-request"
+              ],
+              "minIndependent": 4,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Try thank and ask politely again",
+                "body": "Grazie thanks someone. Prego is a natural answer to thanks.",
+                "examples": [
+                  {
+                    "it": "«Grazie!» «Prego!»",
+                    "en": "“Thank you!” “You are welcome!”"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-courtesy.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "grazie",
+                  "en": "thank you"
+                },
+                {
+                  "it": "prego",
+                  "en": "you are welcome"
+                },
+                {
+                  "it": "scusi",
+                  "en": "excuse me (polite)"
+                },
+                {
+                  "it": "per favore",
+                  "en": "please"
+                },
+                {
+                  "it": "un caffè",
+                  "en": "a coffee"
+                },
+                {
+                  "it": "ecco",
+                  "en": "here is"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-courtesy.s2",
+              "kind": "teach",
+              "title": "Thank and answer",
+              "body": "Grazie thanks someone. Prego is a natural answer to thanks.",
+              "examples": [
+                {
+                  "it": "«Grazie!» «Prego!»",
+                  "en": "“Thank you!” “You are welcome!”"
+                }
+              ],
+              "introduces": [
+                "v2-f-courtesy.core"
+              ]
+            },
+            {
+              "id": "v2-f-courtesy.s3",
+              "kind": "teach",
+              "title": "Get attention",
+              "body": "Scusi attracts attention politely. Per favore belongs inside a request.",
+              "examples": [
+                {
+                  "it": "Scusi, per favore.",
+                  "en": "Excuse me, please."
+                }
+              ],
+              "introduces": [
+                "v2-f-courtesy.core"
+              ]
+            },
+            {
+              "id": "v2-f-courtesy.s4",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "reply-to-thanks",
+              "stage": "guided",
+              "contextKey": "v2-f-courtesy.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Grazie!» «___»",
+              "translation": "Someone thanks you; answer “You are welcome.”",
+              "answer": "Prego!",
+              "options": [
+                "Prego!",
+                "Scusi!",
+                "Ciao!"
+              ],
+              "speak": "Grazie! Prego!",
+              "explanation": "Prego answers grazie.",
+              "hint": "This is a reply to thanks."
+            },
+            {
+              "id": "v2-f-courtesy.match-courtesy",
+              "kind": "question",
+              "format": "match",
+              "target": "v2-f-courtesy.core",
+              "facet": "thank",
+              "stage": "guided",
+              "contextKey": "v2-f-courtesy.match-courtesy",
+              "prompt": "Match the pairs.",
+              "pairs": [
+                {
+                  "left": "grazie",
+                  "right": "thank you"
+                },
+                {
+                  "left": "prego",
+                  "right": "you’re welcome"
+                },
+                {
+                  "left": "per favore",
+                  "right": "please"
+                }
+              ],
+              "explanation": "Each pair uses the forms you have just met.",
+              "hint": "Compare each card with the examples above."
+            },
+            {
+              "id": "v2-f-courtesy.s5",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "thank",
+              "stage": "independent",
+              "contextKey": "v2-f-courtesy.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Ecco il libro.» «___»",
+              "translation": "Someone hands you a book; thank them.",
+              "answer": "Grazie!",
+              "options": [
+                "Grazie!",
+                "Prego!",
+                "Scusi!"
+              ],
+              "speak": "Ecco il libro. Grazie!",
+              "explanation": "Grazie thanks the person who helped.",
+              "hint": "You received something."
+            },
+            {
+              "id": "v2-f-courtesy.s6",
+              "kind": "passage",
+              "title": "A small favour",
+              "it": "Luca: «Scusi. Un caffè, per favore.»\nBarista: «Ecco il caffè.»\nLuca: «Grazie!»\nBarista: «Prego!»",
+              "en": "Luca: “Excuse me. A coffee, please.”\nBarista: “Here is the coffee.”\nLuca: “Thank you!”\nBarista: “You are welcome!”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-f-courtesy.s6"
+            },
+            {
+              "id": "v2-f-courtesy.s7",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "get-attention",
+              "stage": "independent",
+              "contextKey": "v2-f-courtesy.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___, signora.",
+              "translation": "You need to get a stranger’s attention politely.",
+              "answer": "Scusi",
+              "options": [
+                "Scusi",
+                "Prego",
+                "Grazie"
+              ],
+              "speak": "Scusi, signora.",
+              "explanation": "Scusi politely gets attention.",
+              "hint": "You are beginning a request."
+            },
+            {
+              "id": "v2-f-courtesy.s8",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "please-in-request",
+              "stage": "independent",
+              "contextKey": "v2-f-courtesy.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Un caffè, ___.",
+              "translation": "You ask for a coffee politely.",
+              "answer": "per favore",
+              "options": [
+                "per favore",
+                "prego",
+                "grazie"
+              ],
+              "speak": "Un caffè, per favore.",
+              "explanation": "Per favore makes the request polite.",
+              "hint": "The request is still being made."
+            },
+            {
+              "id": "v2-f-courtesy.s9",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "reply-to-thanks",
+              "stage": "independent",
+              "contextKey": "v2-f-courtesy.independent-4",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Grazie per il caffè.» «___»",
+              "translation": "A customer thanks you for a coffee.",
+              "answer": "Prego!",
+              "options": [
+                "Prego!",
+                "Scusi!",
+                "Buongiorno!"
+              ],
+              "speak": "Grazie per il caffè. Prego!",
+              "explanation": "Prego responds to thanks.",
+              "hint": "This is the reply to grazie."
+            },
+            {
+              "id": "v2-f-courtesy.s10",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "thank",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-courtesy.receive-coffee",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Ecco il caffè.» «___»",
+              "translation": "You receive your coffee. Thank the person.",
+              "answer": "Grazie!",
+              "options": [
+                "Grazie!",
+                "Prego!",
+                "Scusi!"
+              ],
+              "speak": "Ecco il caffè. Grazie!",
+              "explanation": "Grazie thanks the helper.",
+              "hint": "You have received help."
+            },
+            {
+              "id": "v2-f-courtesy.s11",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "reply-to-thanks",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-courtesy.reserve-11",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Grazie per il libro.» «___»",
+              "translation": "Someone thanks you for a book; reply naturally.",
+              "answer": "Prego!",
+              "options": [
+                "Prego!",
+                "Scusi!",
+                "Per favore!"
+              ],
+              "speak": "Grazie per il libro. Prego!",
+              "explanation": "Prego is the reply to grazie.",
+              "hint": "You are responding to thanks."
+            },
+            {
+              "id": "v2-f-courtesy.s12",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "get-attention",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-courtesy.reserve-12",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___, dottore.",
+              "translation": "Get a doctor’s attention politely.",
+              "answer": "Scusi",
+              "options": [
+                "Scusi",
+                "Prego",
+                "Grazie"
+              ],
+              "speak": "Scusi, dottore.",
+              "explanation": "Scusi politely gets attention.",
+              "hint": "You need to address someone first."
+            },
+            {
+              "id": "v2-f-courtesy.s13",
+              "kind": "question",
+              "target": "v2-f-courtesy.core",
+              "facet": "please-in-request",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-courtesy.reserve-13",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Un libro, ___.",
+              "translation": "Ask for a book politely.",
+              "answer": "per favore",
+              "options": [
+                "per favore",
+                "prego",
+                "grazie"
+              ],
+              "speak": "Un libro, per favore.",
+              "explanation": "Per favore softens the request.",
+              "hint": "The request is being made now."
+            },
+            {
+              "id": "v2-f-courtesy.s14",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Grazie thanks someone; prego responds; scusi gets attention; per favore softens a request.",
+              "examples": [
+                {
+                  "it": "Scusi, per favore.",
+                  "en": "Excuse me, please."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-f-repair",
+          "title": "Ask for a repeat",
+          "outcome": "I can say I do not understand and ask for repetition.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-f-courtesy"
+          ],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Non capisco and Può ripetere, per favore? are whole repair expressions. Their internal grammar comes later.",
+          "targets": [
+            {
+              "id": "v2-f-repair.core",
+              "label": "Ask for a repeat",
+              "explanation": "Non capisco and Può ripetere, per favore? are whole repair expressions. Their internal grammar comes later.",
+              "facets": [
+                "state-nonunderstanding",
+                "request-repetition"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Try ask for a repeat again",
+                "body": "Use Non capisco when you have not understood.",
+                "examples": [
+                  {
+                    "it": "Scusi, non capisco.",
+                    "en": "Excuse me, I do not understand."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-repair.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "Non capisco.",
+                  "en": "I do not understand."
+                },
+                {
+                  "it": "Può ripetere, per favore?",
+                  "en": "Could you repeat, please? (polite)"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-repair.s2",
+              "kind": "teach",
+              "title": "Say what happened",
+              "body": "Use Non capisco when you have not understood.",
+              "examples": [
+                {
+                  "it": "Scusi, non capisco.",
+                  "en": "Excuse me, I do not understand."
+                }
+              ],
+              "introduces": [
+                "v2-f-repair.core"
+              ]
+            },
+            {
+              "id": "v2-f-repair.s3",
+              "kind": "teach",
+              "title": "Ask for a repeat",
+              "body": "Può ripetere, per favore? asks politely for the same message again.",
+              "examples": [
+                {
+                  "it": "Può ripetere, per favore?",
+                  "en": "Could you repeat, please?"
+                }
+              ],
+              "introduces": [
+                "v2-f-repair.core"
+              ]
+            },
+            {
+              "id": "v2-f-repair.s4",
+              "kind": "question",
+              "target": "v2-f-repair.core",
+              "facet": "state-nonunderstanding",
+              "stage": "guided",
+              "contextKey": "v2-f-repair.guided",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Non capisco.",
+              "answer": "I do not understand.",
+              "options": [
+                "I do not understand.",
+                "I am from Rome.",
+                "My name is Luca."
+              ],
+              "speak": "Non capisco.",
+              "explanation": "Non capisco states a problem understanding.",
+              "hint": "This phrase names a communication problem."
+            },
+            {
+              "id": "v2-f-repair.s5",
+              "kind": "question",
+              "target": "v2-f-repair.core",
+              "facet": "state-nonunderstanding",
+              "stage": "independent",
+              "contextKey": "v2-f-repair.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Scusi, ___.»",
+              "translation": "You did not understand what the receptionist said.",
+              "answer": "non capisco",
+              "options": [
+                "non capisco",
+                "mi chiamo",
+                "prego"
+              ],
+              "speak": "Scusi, non capisco.",
+              "explanation": "Non capisco explains why you need help.",
+              "hint": "State that you did not understand."
+            },
+            {
+              "id": "v2-f-repair.s6",
+              "kind": "passage",
+              "title": "When a name is missed",
+              "it": "Addetta: «Come si chiama?»\nLuca: «Scusi, non capisco. Può ripetere, per favore?»\nAddetta: «Come si chiama?»",
+              "en": "Receptionist: “What is your name?”\nLuca: “Sorry, I do not understand. Could you repeat, please?”\nReceptionist: “What is your name?”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-f-repair.s7",
+              "kind": "question",
+              "target": "v2-f-repair.core",
+              "facet": "request-repetition",
+              "stage": "independent",
+              "contextKey": "v2-f-repair.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Scusi. ___»",
+              "translation": "Ask a stranger to say the message again.",
+              "answer": "Può ripetere, per favore?",
+              "options": [
+                "Può ripetere, per favore?",
+                "Come ti chiami?",
+                "Arrivederci!"
+              ],
+              "speak": "Scusi. Può ripetere, per favore?",
+              "explanation": "Può ripetere requests repetition politely.",
+              "hint": "Ask for the same words again."
+            },
+            {
+              "id": "v2-f-repair.s8",
+              "kind": "question",
+              "target": "v2-f-repair.core",
+              "facet": "request-repetition",
+              "stage": "independent",
+              "contextKey": "v2-f-repair.independent-3",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Può ripetere, per favore?",
+              "answer": "Could you repeat, please?",
+              "options": [
+                "Could you repeat, please?",
+                "What is your name?",
+                "Thank you very much."
+              ],
+              "speak": "Può ripetere, per favore?",
+              "explanation": "This whole question asks for repetition.",
+              "hint": "Look for a request to hear something again."
+            },
+            {
+              "id": "v2-f-repair.s9",
+              "kind": "question",
+              "target": "v2-f-repair.core",
+              "facet": "state-nonunderstanding",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-repair.reserve-9",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Scusi, ___.»",
+              "translation": "You cannot follow the spoken instruction.",
+              "answer": "non capisco",
+              "options": [
+                "non capisco",
+                "mi chiamo",
+                "prego"
+              ],
+              "speak": "Scusi, non capisco.",
+              "explanation": "Non capisco states that you did not understand.",
+              "hint": "Describe your difficulty."
+            },
+            {
+              "id": "v2-f-repair.s10",
+              "kind": "portfolio",
+              "title": "Repair an exchange",
+              "prompt": "Practise asking for a repeat after a polite greeting.",
+              "mode": "interact",
+              "model": "Buongiorno. Scusi, non capisco. Può ripetere, per favore?",
+              "rubric": [
+                "Open politely.",
+                "Say what you did not understand.",
+                "Ask for repetition as a whole phrase."
+              ],
+              "partnerPrompt": "Buongiorno. Come si chiama?"
+            },
+            {
+              "id": "v2-f-repair.review-0",
+              "kind": "question",
+              "target": "v2-f-repair.core",
+              "facet": "request-repetition",
+              "stage": "independent",
+              "contextKey": "v2-f-repair.review-0",
+              "reserve": true,
+              "format": "choice",
+              "prompt": "Choose the expression that fits.",
+              "context": "«Non capisco. ___»",
+              "translation": "Ask politely to hear the instruction again.",
+              "answer": "Può ripetere, per favore?",
+              "options": [
+                "Può ripetere, per favore?",
+                "Come ti chiami?",
+                "Mi chiamo Anna."
+              ],
+              "speak": "«Non capisco. Può ripetere, per favore?»",
+              "explanation": "Può ripetere asks the person to repeat.",
+              "hint": "Può ripetere asks the person to repeat."
+            },
+            {
+              "id": "v2-f-repair.s11",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Non capisco and Può ripetere, per favore? are whole repair expressions. Their internal grammar comes later.",
+              "examples": [
+                {
+                  "it": "Può ripetere, per favore?",
+                  "en": "Could you repeat, please?"
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v2-foundations-u3",
+      "title": "Connect meaning and sound",
+      "description": "Use supported origin phrases and hear familiar spelling patterns.",
+      "lessons": [
+        {
+          "id": "v2-f-origin",
+          "title": "Say where you are from",
+          "outcome": "I can use Sono di with a supplied place name.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-f-repair"
+          ],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Sono di Roma means I am from Rome. Keep sono di as a whole origin frame for now.",
+          "targets": [
+            {
+              "id": "v2-f-origin.core",
+              "label": "Say where you are from",
+              "explanation": "Sono di Roma means I am from Rome. Keep sono di as a whole origin frame for now.",
+              "facets": [
+                "f-origin"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Try say where you are from again",
+                "body": "Say Sono di plus the supplied city name. You do not need a general preposition rule yet.",
+                "examples": [
+                  {
+                    "it": "Sono di Roma.",
+                    "en": "I am from Rome."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-origin.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "Sono di…",
+                  "en": "I am from…"
+                },
+                {
+                  "it": "Di dove sei?",
+                  "en": "Where are you from? (familiar)"
+                },
+                {
+                  "it": "Roma",
+                  "en": "Rome"
+                },
+                {
+                  "it": "Milano",
+                  "en": "Milan"
+                },
+                {
+                  "it": "Napoli",
+                  "en": "Naples"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-origin.s2",
+              "kind": "teach",
+              "title": "An origin frame",
+              "body": "Say Sono di plus the supplied city name. You do not need a general preposition rule yet.",
+              "examples": [
+                {
+                  "it": "Sono di Roma.",
+                  "en": "I am from Rome."
+                }
+              ],
+              "introduces": [
+                "v2-f-origin.core"
+              ]
+            },
+            {
+              "id": "v2-f-origin.s3",
+              "kind": "question",
+              "target": "v2-f-origin.core",
+              "facet": "f-origin",
+              "stage": "guided",
+              "contextKey": "v2-f-origin.guided",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Sono di Roma.",
+              "answer": "I am from Rome.",
+              "options": [
+                "I am from Rome.",
+                "I live in Rome.",
+                "I am called Roma."
+              ],
+              "speak": "Sono di Roma.",
+              "explanation": "Sono di expresses origin in this frame.",
+              "hint": "The speaker names where they are from."
+            },
+            {
+              "id": "v2-f-origin.s4",
+              "kind": "question",
+              "target": "v2-f-origin.core",
+              "facet": "f-origin",
+              "stage": "independent",
+              "contextKey": "v2-f-origin.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Di dove sei?» «___»",
+              "translation": "The supplied place is Milano; answer “I am from Milan.”",
+              "answer": "Sono di Milano.",
+              "options": [
+                "Sono di Milano.",
+                "Sono di Roma.",
+                "Mi chiamo Milano."
+              ],
+              "speak": "Di dove sei? Sono di Milano.",
+              "explanation": "Sono di Milano gives the requested origin.",
+              "hint": "Keep Sono di and choose Milano."
+            },
+            {
+              "id": "v2-f-origin.s5",
+              "kind": "passage",
+              "title": "Two origins",
+              "it": "Anna: «Ciao, sono Anna. Sono di Roma.»\nLuca: «Mi chiamo Luca. Sono di Napoli.»",
+              "en": "Anna: “Hi, I am Anna. I am from Rome.”\nLuca: “My name is Luca. I am from Naples.”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-f-origin.s5"
+            },
+            {
+              "id": "v2-f-origin.s6",
+              "kind": "question",
+              "target": "v2-f-origin.core",
+              "facet": "f-origin",
+              "stage": "independent",
+              "contextKey": "v2-f-origin.independent-2",
+              "format": "order",
+              "prompt": "Put these supplied words in a natural order.",
+              "translation": "I am from Naples.",
+              "answer": "Sono di Napoli.",
+              "tokens": [
+                "Napoli.",
+                "di",
+                "Sono"
+              ],
+              "speak": "Sono di Napoli.",
+              "explanation": "The taught frame is Sono di + city.",
+              "hint": "Begin with Sono di."
+            },
+            {
+              "id": "v2-f-origin.s7",
+              "kind": "question",
+              "target": "v2-f-origin.core",
+              "facet": "f-origin",
+              "stage": "independent",
+              "contextKey": "v2-f-origin.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Sono di Roma. E tu?» «___»",
+              "translation": "A speaker from Rome asks you; your supplied city is Napoli.",
+              "answer": "Sono di Napoli.",
+              "options": [
+                "Sono di Napoli.",
+                "Sono di Roma.",
+                "Come ti chiami?"
+              ],
+              "speak": "Sono di Roma. E tu? Sono di Napoli.",
+              "explanation": "The reply keeps the origin frame and changes the supplied city.",
+              "hint": "Use your supplied city, Napoli."
+            },
+            {
+              "id": "v2-f-origin.review-0",
+              "kind": "question",
+              "target": "v2-f-origin.core",
+              "facet": "f-origin",
+              "stage": "independent",
+              "contextKey": "v2-f-origin.review-0",
+              "reserve": true,
+              "format": "choice",
+              "prompt": "Choose the expression that fits.",
+              "context": "«Di dove sei, Anna?» «___»",
+              "translation": "Anna is from Rome. Choose her reply.",
+              "answer": "Sono di Roma.",
+              "options": [
+                "Sono di Roma.",
+                "Mi chiamo Roma.",
+                "Come ti chiami?"
+              ],
+              "speak": "«Di dove sei, Anna?» «Sono di Roma.»",
+              "explanation": "Sono di gives the city you are from.",
+              "hint": "Sono di gives the city you are from."
+            },
+            {
+              "id": "v2-f-origin.s8",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Sono di Roma means I am from Rome. Keep sono di as a whole origin frame for now.",
+              "examples": [
+                {
+                  "it": "Sono di Roma.",
+                  "en": "I am from Rome."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-f-sound-c",
+          "title": "Read two c patterns",
+          "outcome": "I can connect familiar c spellings with their taught sounds.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-f-origin"
+          ],
+          "related": [
+            {
+              "entryId": "w:casa|noun"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "C before a or o is hard in casa and come. C before e is soft in cena. In ciao the i signals soft c but is not a separate vowel sound.",
+          "targets": [
+            {
+              "id": "v2-f-sound-c.core",
+              "label": "Read two c patterns",
+              "explanation": "C before a or o is hard in casa and come. C before e is soft in cena. In ciao the i signals soft c but is not a separate vowel sound.",
+              "facets": [
+                "hard-c",
+                "soft-c"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Try hear two c sounds again",
+                "body": "In casa and come, c before a or o has a hard sound. Listen to both known words.",
+                "examples": [
+                  {
+                    "it": "La casa è a Roma.",
+                    "en": "The house is in Rome."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-sound-c.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "casa",
+                  "en": "house",
+                  "article": "la",
+                  "plural": "case"
+                },
+                {
+                  "it": "come",
+                  "en": "how"
+                },
+                {
+                  "it": "cena",
+                  "en": "dinner",
+                  "article": "la",
+                  "plural": "cene"
+                },
+                {
+                  "it": "ciao",
+                  "en": "hi or bye"
+                },
+                {
+                  "it": "caffè",
+                  "en": "coffee",
+                  "article": "il",
+                  "plural": "caffè"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-sound-c.s2",
+              "kind": "teach",
+              "title": "Hear hard c",
+              "body": "In casa and come, c before a or o has a hard sound. Listen to both known words.",
+              "examples": [
+                {
+                  "it": "La casa è a Roma.",
+                  "en": "The house is in Rome."
+                }
+              ],
+              "introduces": [
+                "v2-f-sound-c.core"
+              ]
+            },
+            {
+              "id": "v2-f-sound-c.s3",
+              "kind": "teach",
+              "title": "Hear soft c",
+              "body": "In cena, c before e is soft. Ciao also begins with soft c; its written i cues that sound and is not a separate vowel.",
+              "examples": [
+                {
+                  "it": "Ciao! La cena è pronta.",
+                  "en": "Hi! Dinner is ready."
+                }
+              ],
+              "introduces": [
+                "v2-f-sound-c.core"
+              ]
+            },
+            {
+              "id": "v2-f-sound-c.s4",
+              "kind": "question",
+              "target": "v2-f-sound-c.core",
+              "facet": "hard-c",
+              "stage": "guided",
+              "contextKey": "v2-f-sound-c.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "La ___ è a Roma.",
+              "translation": "Choose the familiar word meaning house, with hard c.",
+              "answer": "casa",
+              "options": [
+                "casa",
+                "cena",
+                "ciao"
+              ],
+              "speak": "La casa è a Roma.",
+              "explanation": "Casa has hard c before a and means house.",
+              "hint": "The target means house."
+            },
+            {
+              "id": "v2-f-sound-c.s5",
+              "kind": "question",
+              "target": "v2-f-sound-c.core",
+              "facet": "soft-c",
+              "stage": "independent",
+              "contextKey": "v2-f-sound-c.independent-1",
+              "format": "choice",
+              "prompt": "Which word begins with the same soft c sound as cena?",
+              "context": "cena",
+              "translation": "Choose the known word with the same soft initial c sound as cena.",
+              "answer": "ciao",
+              "options": [
+                "ciao",
+                "casa",
+                "come"
+              ],
+              "speak": "Ciao, Anna!",
+              "explanation": "Ciao and cena begin with a soft c sound.",
+              "hint": "Compare the first sound, not the meaning."
+            },
+            {
+              "id": "v2-f-sound-c.s6",
+              "kind": "passage",
+              "title": "Familiar sounds in a small exchange",
+              "it": "Anna: «Ciao! Come ti chiami?»\nLuca: «Mi chiamo Luca. La cena è pronta.»",
+              "en": "Anna: “Hi! What is your name?”\nLuca: “My name is Luca. Dinner is ready.”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-f-sound-c.s6"
+            },
+            {
+              "id": "v2-f-sound-c.s7",
+              "kind": "question",
+              "target": "v2-f-sound-c.core",
+              "facet": "hard-c",
+              "stage": "independent",
+              "contextKey": "v2-f-sound-c.independent-2",
+              "format": "choice",
+              "prompt": "Which word starts with the same hard c sound as casa?",
+              "context": "casa",
+              "translation": "Choose the known word with the same hard initial c as casa.",
+              "answer": "come",
+              "options": [
+                "come",
+                "cena",
+                "ciao"
+              ],
+              "speak": "Come ti chiami?",
+              "explanation": "Come and casa begin with hard c.",
+              "hint": "Compare the first sound, not the meaning."
+            },
+            {
+              "id": "v2-f-sound-c.s8",
+              "kind": "question",
+              "target": "v2-f-sound-c.core",
+              "facet": "soft-c",
+              "stage": "independent",
+              "contextKey": "v2-f-sound-c.dinner",
+              "format": "choice",
+              "prompt": "Choose the initial sound.",
+              "context": "cena",
+              "translation": "The word means dinner. Is its first c hard or soft?",
+              "answer": "soft c",
+              "options": [
+                "hard c",
+                "soft c"
+              ],
+              "speak": "La cena è pronta.",
+              "explanation": "Before e, c is soft in cena.",
+              "hint": "Look at the vowel after c.",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-sound-c.s9",
+              "kind": "question",
+              "target": "v2-f-sound-c.core",
+              "facet": "hard-c",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-sound-c.coffee",
+              "format": "choice",
+              "prompt": "Choose the initial sound.",
+              "context": "caffè",
+              "translation": "The word means coffee. Is its first c hard or soft?",
+              "answer": "hard c",
+              "options": [
+                "hard c",
+                "soft c"
+              ],
+              "speak": "Un caffè, per favore.",
+              "explanation": "Before a, c is hard in caffè.",
+              "hint": "Look at the vowel after c."
+            },
+            {
+              "id": "v2-f-sound-c.s10",
+              "kind": "portfolio",
+              "title": "Say familiar c words",
+              "prompt": "Practise casa, cena and ciao aloud after the models. Notice two initial sounds.",
+              "mode": "speak",
+              "model": "casa — cena — ciao",
+              "rubric": [
+                "Identify the different initial sound in casa.",
+                "Use the same soft initial sound in cena and ciao.",
+                "Do not pronounce the i in ciao as a separate vowel."
+              ]
+            },
+            {
+              "id": "v2-f-sound-c.read-note",
+              "kind": "passage",
+              "mode": "read",
+              "title": "A short message",
+              "it": "Ciao, Anna! La cena è pronta.",
+              "en": "Hi, Anna! Dinner is ready.",
+              "task": "Read the familiar greeting and the dinner message. Pronta means ready."
+            },
+            {
+              "id": "v2-f-sound-c.s11",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "C before a or o is hard in casa and come. C before e is soft in cena. In ciao the i signals soft c but is not a separate vowel sound.",
+              "examples": [
+                {
+                  "it": "Ciao! La cena è pronta.",
+                  "en": "Hi! Dinner is ready."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-f-keep-c-hard",
+          "title": "Keep c hard before e and i",
+          "outcome": "I can recognize ch in a few introduced words.",
+          "minutes": 8,
+          "prerequisites": [
+            "v2-f-sound-c"
+          ],
+          "related": [],
+          "legacyLessonIds": [
+            "a1-sounds-spelling"
+          ],
+          "takeaway": "C is soft before e and i; ch keeps it hard. Learn the meaning and sound of a word before practising its spelling.",
+          "targets": [
+            {
+              "id": "v2-f-keep-c-hard.spelling",
+              "label": "Recognize ch before e and i",
+              "explanation": "Ch keeps c hard before e or i in these familiar words.",
+              "facets": [
+                "before-e",
+                "before-i"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "language",
+              "repair": {
+                "title": "Notice the h",
+                "body": "Compare soft c in cena with hard ch in che. The h changes the spelling pattern, not the meaning of an unknown sentence.",
+                "examples": [
+                  {
+                    "it": "che · chi · il chilo",
+                    "en": "what/that · who · the kilo"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-keep-c-hard.words",
+              "kind": "words",
+              "title": "Meet the words first",
+              "words": [
+                {
+                  "it": "il chilo",
+                  "en": "the kilo",
+                  "article": "il",
+                  "plural": "i chili"
+                },
+                {
+                  "it": "la chiesa",
+                  "en": "the church",
+                  "article": "la",
+                  "plural": "le chiese"
+                },
+                {
+                  "it": "chi",
+                  "en": "who"
+                },
+                {
+                  "it": "che",
+                  "en": "what or that, depending on the phrase"
+                },
+                {
+                  "it": "che cosa?",
+                  "en": "what? · a useful question chunk"
+                },
+                {
+                  "it": "un chilo di pane",
+                  "en": "a kilo of bread · a useful shopping chunk"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-keep-c-hard.teach",
+              "kind": "teach",
+              "title": "The h keeps the sound hard",
+              "body": "Before e or i, c normally has the soft sound heard in cena. Add h to keep the hard sound: che, chi, chilo and chiesa. The h is a spelling signal; it is not a separate sound.",
+              "examples": [
+                {
+                  "it": "Che cosa? Un chilo di pane.",
+                  "en": "What? A kilo of bread."
+                }
+              ],
+              "introduces": [
+                "v2-f-keep-c-hard.spelling"
+              ]
+            },
+            {
+              "id": "v2-f-keep-c-hard.guided",
+              "kind": "question",
+              "target": "v2-f-keep-c-hard.spelling",
+              "facet": "before-i",
+              "stage": "guided",
+              "reserve": false,
+              "contextKey": "v2-f-keep-c-hard.guided",
+              "format": "choice",
+              "prompt": "Keep the hard c sound in this familiar word.",
+              "context": "il ___ilo",
+              "translation": "the kilo",
+              "answer": "ch",
+              "options": [
+                "ch",
+                "c"
+              ],
+              "speak": "il chilo",
+              "explanation": "Before e or i, ch keeps the hard c sound. Without h, c before e or i would be soft.",
+              "hint": "Look at the vowel after the gap."
+            },
+            {
+              "id": "v2-f-keep-c-hard.che",
+              "kind": "question",
+              "target": "v2-f-keep-c-hard.spelling",
+              "facet": "before-e",
+              "stage": "independent",
+              "reserve": false,
+              "contextKey": "v2-f-keep-c-hard.che",
+              "format": "choice",
+              "prompt": "Keep the hard c sound in this familiar word.",
+              "context": "___e cosa?",
+              "translation": "what?",
+              "answer": "Ch",
+              "options": [
+                "Ch",
+                "C"
+              ],
+              "speak": "Che cosa?",
+              "explanation": "Before e or i, ch keeps the hard c sound. Without h, c before e or i would be soft.",
+              "hint": "Look at the vowel after the gap."
+            },
+            {
+              "id": "v2-f-keep-c-hard.shopping",
+              "kind": "passage",
+              "mode": "read",
+              "title": "Use the word in a real sentence",
+              "it": "Anna compra un chilo di pane.",
+              "en": "Anna buys a kilo of bread.",
+              "task": "The word chilo is familiar now. Comprare means to buy; compra is the form used with Anna. This sentence is an example, not a test of a new verb."
+            },
+            {
+              "id": "v2-f-keep-c-hard.chiesa",
+              "kind": "question",
+              "target": "v2-f-keep-c-hard.spelling",
+              "facet": "before-i",
+              "stage": "independent",
+              "reserve": false,
+              "contextKey": "v2-f-keep-c-hard.chiesa",
+              "format": "choice",
+              "prompt": "Keep the hard c sound in this familiar word.",
+              "context": "la ___iesa",
+              "translation": "the church",
+              "answer": "ch",
+              "options": [
+                "ch",
+                "c"
+              ],
+              "speak": "la chiesa",
+              "explanation": "Before e or i, ch keeps the hard c sound. Without h, c before e or i would be soft.",
+              "hint": "Look at the vowel after the gap."
+            },
+            {
+              "id": "v2-f-keep-c-hard.chi",
+              "kind": "question",
+              "target": "v2-f-keep-c-hard.spelling",
+              "facet": "before-i",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-keep-c-hard.chi",
+              "format": "choice",
+              "prompt": "Keep the hard c sound in this familiar word.",
+              "context": "___i?",
+              "translation": "who?",
+              "answer": "Ch",
+              "options": [
+                "Ch",
+                "C"
+              ],
+              "speak": "Chi?",
+              "explanation": "Before e or i, ch keeps the hard c sound. Without h, c before e or i would be soft.",
+              "hint": "Look at the vowel after the gap."
+            },
+            {
+              "id": "v2-f-keep-c-hard.che-repair",
+              "kind": "question",
+              "target": "v2-f-keep-c-hard.spelling",
+              "facet": "before-e",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-f-keep-c-hard.che-repair",
+              "format": "choice",
+              "prompt": "Keep the hard c sound in this familiar word.",
+              "context": "Che cosa?",
+              "translation": "Why does che keep the hard c sound before e?",
+              "answer": "The h keeps c hard",
+              "options": [
+                "The h keeps c hard",
+                "The e makes c hard"
+              ],
+              "speak": "Che cosa?",
+              "explanation": "Before e or i, ch keeps the hard c sound. Without h, c before e or i would be soft.",
+              "hint": "Look at the vowel after the gap."
+            },
+            {
+              "id": "v2-f-keep-c-hard.application",
+              "kind": "portfolio",
+              "mode": "speak",
+              "title": "Try the small shopping phrase",
+              "prompt": "Say un chilo di pane after the model. You already know what the phrase means. Recording is optional.",
+              "model": "Un chilo di pane, per favore.",
+              "rubric": [
+                "Keep c hard in chilo.",
+                "Do not pronounce h as a separate sound.",
+                "Use the phrase to ask for a kilo of bread."
+              ]
+            },
+            {
+              "id": "v2-f-keep-c-hard.recap",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "C is soft before e or i. Ch keeps it hard: che, chi, chilo, chiesa.",
+              "examples": [
+                {
+                  "it": "Un chilo di pane.",
+                  "en": "A kilo of bread."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

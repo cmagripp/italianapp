@@ -1,0 +1,57 @@
+{
+  "version": 2,
+  "assets": [
+    {
+      "lessonId": "v2-c1-u8-narrative-stance",
+      "unitId": "v2-c1-u8",
+      "level": "C1",
+      "voice": "Riccardo Fasol",
+      "source": "https://librivox.org/il-fu-mattia-pascal-by-luigi-pirandello/",
+      "originalAudio": "https://archive.org/download/mattia_pascal_1012_librivox/mattiapascal_01_pirandello.mp3",
+      "textSource": "https://it.wikisource.org/wiki/Il_fu_Mattia_Pascal/1",
+      "id": "v2-c1-u8-narrative-stance.passage",
+      "src": "audio/course-v2/C1/pascal-opening.m4a",
+      "kind": "recorded",
+      "reviewed": true,
+      "reviewMethod": "Public-domain source transcript compared with recording transcription; excerpts retain original narration.",
+      "license": "Public domain (LibriVox)",
+      "licenseUrl": "https://librivox.org/pages/public-domain/",
+      "textLicense": "Underlying work public domain; Wikisource transcription CC BY-SA 4.0; punctuation modernized.",
+      "textLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "textSha256": "2d22147ee0ca2934e5f60937b64eab58d5dc84a3e66d540fe4dfeb75182abcf1",
+      "sha256": "1819c8867d8606a1bcbacc81a130889d0138869394aa404a69fd5deac54f3f8f",
+      "bytes": 881774,
+      "seconds": 106.5,
+      "originalExcerptSeconds": [
+        30.0,
+        136.5
+      ]
+    },
+    {
+      "lessonId": "v2-c2-u5-literary-narrator",
+      "unitId": "v2-c2-u5",
+      "level": "C2",
+      "voice": "Simona Pagliari",
+      "source": "https://librivox.org/le-avventure-di-pinocchio-by-c-collodi/",
+      "originalAudio": "https://archive.org/download/avventure_pinocchio_librivox/avventurepinocchio_01_collodi.mp3",
+      "textSource": "https://it.wikisource.org/wiki/Le_avventure_di_Pinocchio/Capitolo_1",
+      "id": "v2-c2-u5-literary-narrator.passage",
+      "src": "audio/course-v2/C2/pinocchio-opening.m4a",
+      "kind": "recorded",
+      "reviewed": true,
+      "reviewMethod": "Public-domain source transcript compared with recording transcription; excerpts retain original narration.",
+      "license": "Public domain (LibriVox)",
+      "licenseUrl": "https://librivox.org/pages/public-domain/",
+      "textLicense": "Underlying work public domain; Wikisource transcription CC BY-SA 4.0; punctuation modernized.",
+      "textLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "textSha256": "ffd487655f4ce5eef9a0d395dcd9e7debdf466a80d620bdd0e8e4f0b272b105f",
+      "sha256": "a3d72ee9072c7b176f577eb910669829fdc42b9ebcdb5d482bbf868bdd0c920e",
+      "bytes": 1019470,
+      "seconds": 135.2,
+      "originalExcerptSeconds": [
+        40.3,
+        175.5
+      ]
+    }
+  ]
+}

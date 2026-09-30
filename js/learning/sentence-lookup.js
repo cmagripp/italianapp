@@ -359,7 +359,7 @@ export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
       return e.pos === 'noun' ? { ...base, ...nounCandidate(e, variant) } : base;
     });
     for (const query of keys) {
-      for (const [word, pos, meaning] of FUNCTIONS) if (query === word && !candidates.some(c => norm(c.word) === query && c.pos === pos)) candidates.push({ id: `function:${word}:${pos}`, source: 'function', word, label: word, meaning, pos, note: '', exposureForms: [word] });
+      for (const [word, pos, meaning] of FUNCTIONS) if (query === norm(word) && !candidates.some(c => norm(c.word) === query && c.pos === pos)) candidates.push({ id: `function:${word}:${pos}`, source: 'function', word, label: word, meaning, pos, note: '', exposureForms: [word] });
       const prep = PREPOSITIONS.get(query);
       if (prep && !candidates.some(c => norm(c.word) === query && c.pos === 'prep')) candidates.push({ id: `preposition:${query}`, source: 'function', word: query, label: query, meaning: prep.meaning, pos: 'prep', note: `${prep.base} + a definite article`, exposureForms: [query] });
       const properText=contraction ? text.slice(text.search(/['’‘]/)+1) : text;

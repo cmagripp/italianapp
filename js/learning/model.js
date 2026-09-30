@@ -2,8 +2,9 @@
 // produces identical progress, including after an offline merge or backup import.
 import { schedule } from '../srs.js';
 import { grammarSkill } from './grammar-state.js';
+import { courseSkill } from './course-v2-state.js';
 
-export const LEARNING_VERSION = 4;
+export const LEARNING_VERSION = 5;
 const DAY = 86400e3;
 const SHORT_REVIEW = 10 * 60e3;
 const REPEAT_DELAY = 8 * 3600e3;
@@ -61,7 +62,7 @@ export function learningSessionKey(session) {
 function normalizeEvent(raw, epochId) {
   if (!raw || typeof raw !== 'object' || !text(raw.id) || BAD_KEYS.has(raw.id) || !text(raw.objectiveId) || BAD_KEYS.has(raw.objectiveId) || BAD_KEYS.has(raw.sessionId)) return null;
   if (raw.epochId !== epochId) return null;
-  const outcome = ['correct', 'incorrect', 'skipped', 'revealed'].includes(raw.outcome) ? raw.outcome : raw.ok === true ? 'correct' : 'incorrect';
+  const outcome = (raw.policy === 'grammar-v2' ? ['correct', 'incorrect', 'skipped', 'revealed', 'ungraded'] : ['correct', 'incorrect', 'skipped', 'revealed']).includes(raw.outcome) ? raw.outcome : raw.ok === true ? 'correct' : 'incorrect';
   const components = [];
   for (const c of Array.isArray(raw.components) ? raw.components : []) {
     if (!c || !text(c.skill) || BAD_KEYS.has(c.skill) || typeof c.ok !== 'boolean') continue;
@@ -82,6 +83,17 @@ function normalizeEvent(raw, epochId) {
     ...(raw.kind === 'grammar' && raw.policy === 'grammar-v1' ? {
       kind:'grammar', policy:'grammar-v1', contentVersion:Math.max(1,Math.floor(finite(raw.contentVersion,1))),
       grammarPhase:['guided','independent','repair'].includes(raw.grammarPhase)?raw.grammarPhase:'guided',
+    } : {}),
+    ...(raw.kind === 'grammar' && raw.policy === 'grammar-v2' ? {
+      kind:'grammar', policy:'grammar-v2', contentVersion:Math.max(2,Math.floor(finite(raw.contentVersion,2))),
+      grammarPhase:['guided','independent','repair','portfolio'].includes(raw.grammarPhase)?raw.grammarPhase:'guided',
+      facet:text(raw.facet), requiredFacets:strings(raw.requiredFacets),
+      minIndependent:Math.max(2,Math.min(20,Math.floor(finite(raw.minIndependent,2)))),
+      requiresProduction:raw.requiresProduction===true,
+      modality:['language','reading','listening'].includes(raw.modality)?raw.modality:'language',
+      exposureGroup:text(raw.exposureGroup), responseMode:text(raw.responseMode),
+      ...(raw.skill==='course-completion'&&outcome==='ungraded'?{completedTargets:strings(raw.completedTargets),lessonFinished:true}:{}),
+      ...(outcome==='ungraded'?{xp:0,ok:false}:{}),
     } : {}),
     ...(raw.policy === 'journey-v1' ? {
       policy: 'journey-v1', targetId: text(raw.targetId, raw.objectiveId),
@@ -253,7 +265,7 @@ function confirm(t, event, eligible) {
 
 function analyze(domain, objectiveId, now, all, positions, events, chronology = new Map()) {
   const last = events[events.length - 1];
-  if (last?.kind === 'grammar') return grammarSkill(events,now);
+  if (last?.kind === 'grammar') return last.policy === 'grammar-v2' ? courseSkill(events,now) : grammarSkill(events,now);
   const journey = last?.policy === 'journey-v1';
   // A new content policy never upgrades legacy evidence, even if an imported
   // custom target accidentally reuses an older objective identifier.
