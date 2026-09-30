@@ -41,11 +41,11 @@ export function lessonOverviewHTML({entry,plan,progress,session}={}) {
     <div class="journey-tense-grid" aria-label="Choose a tense">${cards.map((card,index)=>{
       const ready=card.progress?.ready===true,started=card.progress?.started===true,available=card.progress?.available!==false;
       const status=!available?'Not used here':ready?'Complete':started?'In progress':'Ready to learn';
-      const action=ready?'Practise again':started?'Continue this tense':'Learn this tense';
+      const action=card.progress?.updateAvailable?'New practice':ready?'Practise again':started?'Continue this tense':'Learn this tense';
       return `<article class="journey-tense-card glass-flat ${ready?'is-complete':started?'is-started':''}" data-tense-case="${card.id}" aria-labelledby="journey-tense-${card.id}">
-        <div class="journey-tense-top"><span class="journey-tense-number qi" aria-hidden="true">${ready?icon('check',{size:19}):index+1}</span><span class="journey-tense-status">${status}</span></div>
+        <div class="journey-tense-top"><span class="journey-tense-number qi" aria-hidden="true">${ready?icon('check',{size:19}):index+1}</span><span class="journey-tense-status">${status}${card.progress?.updateAvailable?' · new practice':''}</span></div>
         <h2 id="journey-tense-${card.id}">${card.label}</h2><p class="journey-tense-italian" lang="it">${card.italian}</p><p class="journey-tense-cue">${esc(available?card.cue:card.progress?.limitation||'This form is not normally used for this verb.')}</p>
-        <button type="button" class="journey-tense-action" ${ready?'data-redo-lesson':'data-open-lesson'}="${card.id}" aria-label="${esc(action)}: ${card.italian}" ${card.chapter&&available?'':'disabled'}><span>${action}</span>${icon('chevronRight',{size:18})}</button>
+        <button type="button" class="journey-tense-action" ${ready&&!card.progress?.updateAvailable?'data-redo-lesson':'data-open-lesson'}="${card.id}" aria-label="${esc(action)}: ${card.italian}" ${card.chapter&&available?'':'disabled'}><span>${action}</span>${icon('chevronRight',{size:18})}</button>
       </article>`;
     }).join('')}</div>
     <details class="journey-overview-meaning"><summary>Meaning and examples ${icon('chevronDown',{size:17})}</summary><div>

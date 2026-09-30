@@ -213,11 +213,11 @@ test('skipping a teaching group defers its forms without testing untaught materi
 });
 
 
-test('explicit chapter revisit clears that chapter’s deferred targets and keeps others pending', () => {
+test('explicit chapter restart clears that chapter’s deferred targets and keeps others pending', () => {
   const h = harness(plan, { chapterId: 'present' }); h.skip();
   const outside = 'another-chapter-target'; h.session.deferred[outside] = START; h.session.journey.skipped[outside] = START;
   assert.ok(h.session.deferred[mainTargets[0].id]);
-  h.session = chooseJourneyChapter(plan, h.session, 'present', { now: h.now + 1, learning: h.learning });
+  h.session = chooseJourneyChapter(plan, h.session, 'present', { now: h.now + 1, learning: h.learning, restart: true });
   assert.equal(h.step().type, 'teach'); assert.equal(h.session.deferred[mainTargets[0].id], undefined);
   assert.equal(h.session.journey.skipped[mainTargets[0].id], undefined);
   assert.equal(h.session.deferred[outside], START); assert.equal(h.session.journey.skipped[outside], START);

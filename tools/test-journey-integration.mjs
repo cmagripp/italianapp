@@ -119,4 +119,12 @@ test('promoted conditional evidence remains reviewable without optional expansio
  s.learning.preferences.expansions=[];assert.equal(dueSkills(s,NOW+DAY)[0].objectiveId,t.id);
 });
 
+test('historical completion enrolls old forms but not unlearned added constructions',()=>{
+ const e=verb('viaggiare'),s=fixture([e]),old=target(e,t=>t.chapterId==='present'&&t.skill==='conjugation'),fresh=target(e,t=>t.chapterId==='present'&&t.flowVersion===2&&t.skill==='progressive');
+ s.complete(e,'present');s.answer(e,old,{ok:true,outcome:'correct'});s.answer(e,fresh,{ok:true,outcome:'correct',mode:'recognition',activityKind:'guided'});
+ const ids=new Set(eligibleSkills(s,NOW+DAY).map(t=>t.objectiveId));assert(ids.has(old.id));assert(!ids.has(fresh.id));
+ s.learning=setCompletionRecord(s.learning,{entryId:e.id,caseId:'present',checked:true,at:NOW+10,id:'verb-flow-v2:current-manual',flowVersion:2});
+ assert(eligibleSkills(s,NOW+DAY).some(t=>t.objectiveId===fresh.id),'an explicit current manual completion enrolls the chosen construction');
+});
+
 console.log(`\n${passed} taught-lesson integration checks passed.`);

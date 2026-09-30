@@ -61,7 +61,7 @@ async function assertPresentTeaching() {
   const lesson = page.locator('[data-journey]');
   assert.equal(await lesson.getAttribute('data-phase'), 'teach');
   assert.equal(await lesson.getAttribute('data-chapter'), 'present');
-  assert.equal(await page.locator('.journey-stages [aria-current="step"]').innerText(), 'Learn');
+  assert.equal(await page.locator('.journey-stages [aria-current="step"]').innerText(), 'Present forms');
   assert(!/Your progress · Meet|You’ve learned the forms and used them/.test(await lesson.innerText()));
 }
 async function shot(name) {

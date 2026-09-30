@@ -118,7 +118,7 @@ test('optional chapters have actual required forms; imperative has no io or thir
 test('optional weather retrieval changes the real cue, not just the variant id',()=>{
  const e=vb('piovere'),ch=chapter(e,'background'),t=targets(ch).find(t=>t.skill==='conjugation');
  const italian=buildJourneyQuestion(e,ch,t,{variant:0}),english=buildJourneyQuestion(e,ch,t,{variant:1});
- assert.notEqual(italian.prompt,english.prompt);assert.ok(italian.prompt.includes('piovere'));assert.ok(english.prompt.includes('to rain'));assert.deepEqual(italian.answer,['pioveva']);
+ assert.notEqual(italian.prompt,english.prompt);assert.ok(italian.context&&english.context);assert.notEqual(italian.meta.contextId,english.meta.contextId);assert.match(italian.context.en,/rain/);assert.deepEqual(italian.answer,['pioveva']);
 });
 test('missing defective forms never become available targets',()=>{
  const e=vb('solere'),ch=chapter(e,'past');assert.equal(targets(ch).some(t=>t.available&&t.skill==='conjugation'),false);
@@ -169,7 +169,7 @@ test('non-noun word types receive no noun morphology or verb questions',()=>{
  for(const pos of ['adv','prep','conj','pron','det','num','interj','expr']){const e=words.find(x=>x.pos===pos);assert.ok(e);assert.ok(buildLesson(e).chapters.flatMap(targets).every(t=>!['article','plural','conjugation'].includes(t.skill)));}
 });
 test('nonrevealing spacers stay supported and omit the word/verb answer',()=>{
- for(const e of [wd('casa'),wd('bene','adv'),vb('piovere')]){const ch=chapter(e,e.inf?'present':'meaning');for(const t of targets(ch).filter(t=>t.supplementalOnly)){const question=buildJourneyQuestion(e,ch,t);assert.equal(question.meta.mode,'recognition');assert.ok(!question.prompt.includes(e.inf||e.it));assert.equal(t.required,false);}}
+ for(const e of [wd('casa'),wd('bene','adv'),vb('piovere')]){const ch=chapter(e,e.inf?'present':'meaning');for(const t of targets(ch).filter(t=>t.supplementalOnly)){const question=buildJourneyQuestion(e,ch,t);assert.equal(question.meta.mode,'recognition');assert.ok(!question.prompt.includes(t.skill==='progressiveFact'?question.answer[0]:e.inf||e.it));assert.equal(t.required,false);}}
 });
 test('variant-specific answers and persons match the actual next contextual question',()=>{
  const e=vb('credere'),ch=chapter(e,'past'),t=target(e,'past','context');for(let v=0;v<t.independentVariantCount;v++){const question=buildJourneyQuestion(e,ch,t,{variant:v});assert.deepEqual(t.answerFormsByVariant[v%t.answerFormsByVariant.length],question.answer);assert.equal(t.personsByVariant[v%t.personsByVariant.length],question.meta.person);}
@@ -230,7 +230,7 @@ test('present and past progressive questions diagnose helper, time, gerund and c
  }
  const reflexive=vb('lavarsi'),ch=chapter(reflexive,'background'),t=targets(ch).find(t=>t.skill==='progressive'&&t.person===0),question=buildJourneyQuestion(reflexive,ch,t);
  assert.ok(gradeQuestion(question,'mi stavo lavando').ok);assert.ok(gradeQuestion(question,'stavo lavandomi').ok);wrong(question,'stavo lavando','clitic');
- const usage=targets(chapter(vb('credere'),'present')).find(t=>t.skill==='progressiveUsage');assert.equal(usage.completionRequired,true);assert.equal(usage.required,false);
+ const usage=chapter(vb('credere'),'present').groups.find(g=>g.id==='progressive');assert.equal(usage.targets.length,0);assert.match(usage.cards[0].body,/belief/);assert(targets(chapter(vb('credere'),'present')).some(t=>t.finalReview&&!t.progressive));
 });
 
 

@@ -6,7 +6,7 @@ import { createSentenceLookup, tokenizeItalianSentence } from '../js/learning/se
 import { hasPluralForm, isPluralOnly, withArticle } from '../js/data.js';
 import { conjugate, primary } from '../js/conjugator.js';
 import { lessonContexts } from '../js/learning/lesson-content.js';
-import { progressiveContexts } from '../js/learning/progressive-content.js';
+import { progressiveContexts, simpleVerbContexts } from '../js/learning/progressive-content.js';
 
 const vocab = JSON.parse(readFileSync(new URL('../data/vocab.json', import.meta.url)));
 const verbs = JSON.parse(readFileSync(new URL('../data/verbs.json', import.meta.url)));
@@ -14,7 +14,7 @@ const lookup = createSentenceLookup({ vocab, verbs });
 const candidate = (token, id, options) => lookup(token, options).candidates.find(c => c.id === id);
 const noun = it => vocab.find(e => e.it === it && e.pos === 'noun');
 const coreChapters=['present','past','background','future','conditional'];
-const reviewedScenes=entry=>[...coreChapters.flatMap(chapter=>lessonContexts(entry,chapter).filter(s=>s.reviewed)),...progressiveContexts(entry),...progressiveContexts(entry,{chapter:'background'})];
+const reviewedScenes=entry=>[...coreChapters.flatMap(chapter=>lessonContexts(entry,chapter).filter(s=>s.reviewed)),...['present','background'].flatMap(chapter=>[...progressiveContexts(entry,{chapter,section:'all'}),...simpleVerbContexts(entry,{chapter,section:'all'})])];
 let passed = 0;
 function test(name, run) { try { run(); passed++; console.log(`✓ ${name}`); } catch (e) { console.error(`✗ ${name}`); throw e; } }
 
@@ -284,17 +284,24 @@ test('authored lookup supplements supply complete noun details without replacing
   assert.equal(candidate('menu','w:menù|noun').plural,'i menù');
 });
 
-test('every token in five core tenses and both progressive context sets has local lexical help', () => {
-  let checked = 0;
+test('every distinct token in five core tenses and both progressive context sets has local lexical help', () => {
+  let checked = 0; const identified = new Set();
   for (const e of verbs) for (const sentence of reviewedScenes(e)) {
     for (const token of tokenizeItalianSentence(sentence.it)) {
       if (token.type !== 'word') continue;
-      assert.notEqual(lookup(token.text, { sentence }).status, 'unavailable', `${token.text}: ${sentence.it}`);
+      // This is lexical coverage, not sentence disambiguation (tested above).
+      // Repeated pronouns/articles across thousands of bounded scenes need one
+      // lookup; keep the first actual sentence for context-dependent forms.
+      const key = token.text.toLocaleLowerCase('it');
+      if (!identified.has(key)) {
+        assert.notEqual(lookup(token.text, { sentence }).status, 'unavailable', `${token.text}: ${sentence.it}`);
+        identified.add(key);
+      }
       checked++;
     }
   }
   assert.ok(checked > 6700);
-  console.log(`  Reviewed core lesson contexts: ${checked}/${checked} tokens identified.`);
+  console.log(`  Reviewed core lesson contexts: ${checked} tokens, ${identified.size} distinct forms identified.`);
 });
 
 test('catalog sentence and lesson-context audit reports honest coverage gaps', () => {

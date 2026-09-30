@@ -164,7 +164,7 @@ try {
     fixtures.forEach(([,forms],i)=>forms.forEach(form=>assert(actual.forms[i].includes(form),form)));
     assert.deepEqual(actual.weather[0],[]);assert(actual.weather[1].includes('sta piovendo'));
     assert(!actual.belief.targets.some(t=>t.skill==='progressive'&&t.required));
-    assert(actual.belief.targets.some(t=>t.skill==='progressiveUsage'&&t.guidedOnly));
+    assert.equal(actual.belief.targets.length,0);assert(actual.belief.cards.some(c=>/belief/.test(c.body)));
   });
   await check('A real progressive group teaches stare and gerundio, repairs the helper and reaches fresh written proof',async()=>{
     await fresh(390,'dark');await gotoRoute(page,'/learn/verb/v:parlare?chapter=present');
@@ -215,13 +215,14 @@ try {
     await reloadApp(page);unchanged(answered,await state());assert.equal((await state()).phase,'feedback');await shot('conditional-feedback');
     await finishCase('condizionale');assert.equal(await page.locator('[data-next-lesson="present"]').count(),1,'choosing the last case first still offers the first unfinished case');assert.equal((await state()).step.chapter.id,'condizionale');
   });
-  await check('Imperfetto lesson explains four viewpoints and correctly teaches the past progressive',async()=>{
+  await check('Imperfetto lesson teaches the named verb’s past progressive and simple contrast',async()=>{
     await fresh();await gotoRoute(page,'/learn/verb/v:mangiare?chapter=background');
     for(let i=0;i<12&&(await state()).step.group?.id!=='progressive';i++){assert.equal((await state()).phase,'teach');await page.locator('[data-skip]').click();}
     assert.equal((await state()).step.group.id,'progressive');let text='';
     while((await state()).phase==='teach'){text+=' '+await page.locator('.journey-main').innerText();if((await state()).step.card?.id==='progressive-contrast'){await shot('past-progressive-contrast');await page.setViewportSize({width:375,height:667});await shot('past-progressive-contrast-375');await page.setViewportSize({width:390,height:844});}await page.locator('[data-continue]').click();}
-    for(const form of ['sto mangiando','stavo mangiando','mangiavo','ho mangiato'])assert(text.includes(form),form+' viewpoint taught');
-    assert.match(text,/does not.*every bit/s);for(const form of ['stavo','stavi','stava','stavamo','stavate','stavano'])assert(text.includes(form));
+    for(const form of ['stavo mangiando','mangiavo'])assert(text.includes(form),form+' viewpoint taught');
+    assert.match(text,/simple imperfetto can also express an ongoing action/);assert(!text.includes('ho mangiato'));
+    for(const form of ['stavo','stavi','stava','stavamo','stavate','stavano'])assert(text.includes(form));
     await page.locator('[data-conjugation-toggle]').click();await page.locator('[data-conjugation-tense="imperfettoProgressivo"]').click();
     assert.match(await page.locator('.journey-conjugation-dropdown').innerText(),/stavo mangiando/);await page.keyboard.press('Escape');
     const forms=await page.evaluate(async()=>{const{getEntry}=await import('./js/data.js');const{progressiveForms}=await import('./js/learning/progressive-content.js');return progressiveForms(getEntry('v:lavarsi'),0,{chapter:'background'});});

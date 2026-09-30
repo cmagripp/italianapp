@@ -49,7 +49,9 @@ jobs:
           node tools/test-short-word-model.mjs
           node tools/test-journey-model.mjs
           node tools/test-lesson-activities.mjs
+          node tools/build-verb-progressive.mjs --check
           node tools/test-progressive-content.mjs
+          node tools/test-verb-flow-v2.mjs
           node tools/test-journey-integration.mjs
       - name: Verify SQL migration
         run: |
@@ -62,7 +64,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [course-v2-e2e, grammar-course-e2e, grammar-offline-e2e, completion-menu-e2e, practice-controls-e2e, review-layout-e2e, short-words-e2e, adaptive-e2e, journey-e2e, lesson-actions-e2e, lesson-experience-e2e, lesson-activities-e2e, lesson-overview-e2e, noun-forms-e2e, game-learning-e2e, offline-e2e, e2e]
+        suite: [verb-flow-v2-e2e, course-v2-e2e, grammar-course-e2e, grammar-offline-e2e, completion-menu-e2e, practice-controls-e2e, review-layout-e2e, short-words-e2e, adaptive-e2e, journey-e2e, lesson-actions-e2e, lesson-experience-e2e, lesson-activities-e2e, lesson-overview-e2e, noun-forms-e2e, game-learning-e2e, offline-e2e, e2e]
     env:
       PLAYWRIGHT_DIR: /tmp/parola-tools
     steps:
@@ -77,10 +79,10 @@ jobs:
       - name: Verify browser behavior
         run: node tests/${{ matrix.suite }}.mjs
       - name: Verify the course on WebKit
-        if: matrix.suite == 'course-v2-e2e'
+        if: matrix.suite == 'course-v2-e2e' || matrix.suite == 'verb-flow-v2-e2e'
         run: |
           "$PLAYWRIGHT_DIR/node_modules/.bin/playwright" install --with-deps webkit
-          COURSE_BROWSER=webkit node tests/course-v2-e2e.mjs
+          COURSE_BROWSER=webkit VERB_BROWSER=webkit node tests/${{ matrix.suite }}.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

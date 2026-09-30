@@ -1,7 +1,7 @@
 // Service worker: offline cache for the app shell (HTML, CSS, every JS module) and the dictionary data.
 // Bump VERSION when a file is added to SHELL or the data schema changes (old caches are dropped on activate).
 // Every shell or course-data change needs a version bump so installation stays atomic.
-const VERSION = 'parola-v12-taught-course';
+const VERSION = 'parola-v13-verb-flow';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
@@ -15,7 +15,7 @@ const SHELL = [
   './js/views/learnGrammar.js', './js/views/courseSession.js',
   './js/learning/grammar-lexicon.js','./js/learning/course-v2-glosses.js', './js/learning/grammar-state.js', './js/learning/grammar-course.js', './js/learning/grammar-journey.js',
   './js/views/course.js', './js/views/learnAdaptive.js', './js/views/learnJourney.js',
-  './js/learning/journey.js', './js/learning/lesson-content.js', './js/learning/lesson-questions.js', './js/learning/word-questions.js', './js/learning/sentence-lookup.js', './js/learning/sentence-panel.js', './js/learning/lesson-activities.js', './js/learning/activity-panel.js', './js/learning/lesson-overview.js', './js/learning/progressive-content.js',
+  './js/learning/journey.js', './js/learning/lesson-content.js', './js/learning/lesson-questions.js', './js/learning/word-questions.js', './js/learning/sentence-lookup.js', './js/learning/sentence-panel.js', './js/learning/lesson-activities.js', './js/learning/activity-panel.js', './js/learning/lesson-overview.js', './js/learning/progressive-content.js', './js/learning/legacy-progressive-content.js', './js/learning/verb-progressive-data.js', './js/learning/verb-lexicon-extra.js', './js/learning/verb-lexicon.js',
   './data/grammar-course/A1.json', './data/grammar-course/A2.json', './data/grammar-course/B1.json', './data/grammar-course/B2.json', './data/grammar-course/C1.json', './data/grammar-course/C2.json',
   './data/course-v2/Foundations.json', './data/course-v2/A1.json', './data/course-v2/A2.json', './data/course-v2/B1.json', './data/course-v2/B2.json', './data/course-v2/C1.json', './data/course-v2/C2.json', './data/course-v2/audio.json',
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',

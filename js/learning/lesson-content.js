@@ -4,7 +4,8 @@ import { conjugate, PERSONS, MISSING, splitClitic, irregularCells, TENSES, TENSE
 import { article, withArticle, isPluralOnly, isUncountable, hasPluralForm, nounNumberNote } from '../data.js';
 import { expandedForms, wordContext, buildQuestion as buildMorphologyQuestion } from './questions.js';
 import { WEATHER_VERBS, TENSE_LESSONS } from './content.js';
-import { buildProgressiveGroup } from './progressive-content.js';
+import { buildProgressiveGroup, buildVerbMixedGroup, simpleVerbContexts, progressiveSpec } from './progressive-content.js';
+import { buildProgressiveGroup as legacyProgressiveGroup } from './legacy-progressive-content.js';
 export const LESSON_CONTENT_VERSION = 1;
 const stages = [['present','Present','presente'],['past','Passato prossimo','passatoProssimo'],['background','Imperfetto','imperfetto'],['future','Future','futuro'],['condizionale','Conditional','condizionale']];
 const clean = x => expandedForms(x).filter(f => f && f !== MISSING);
@@ -202,19 +203,21 @@ function conditionalTeaching(e) {
  const finite=p>=0?lessonForms(e,'condizionale',p)[0].split(' ').at(-1):'',stem=p>=0&&finite.endsWith(endings[p])?finite.slice(0,-endings[p].length):'';
  return `The condizionale presente can express a wish, a polite request or a hypothetical result. It does not state a definite future plan. Keep the future stem, including its final r, and add io -ei, tu -esti, lui/lei/Lei -ebbe, noi -emmo, voi -este, loro -ebbero. ${stem?`${e.inf}: ${stem}- + ${endings[p]} → ${finite}.`:''} Common stems include essere → sar-, avere → avr-, andare → andr-, fare → far-, volere → vorr- and potere → potr-. Vorrei un caffè means I would like a coffee; Potrebbe aiutarmi? is a polite request. A hypothetical result can be Andrei, se avessi tempo — I would go if I had time. Do not use the conditional in place of the required form after se in this pattern. The past conditional, avrei parlato, is a separate later topic.`;
 }
-function verbLesson(e) {
+function verbLesson(e,{legacy=false}={}) {
+ const previous=legacy?null:verbLesson(e,{legacy:true});
  const chapters=[];let c;try{c=conjugate(e.inf,{aux:e.aux,isc:e.isc});}catch{c=null;}
  const refs=(e.examples||[]).filter(x=>x.it&&x.en).map(x=>({it:x.it,en:x.en}));
  chapters.push({id:'meet',title:`Meet ${e.inf}`,tense:null,groups:[{id:'meaning',title:'Meaning and use',cards:[card('meaning',e.inf,e.en,(lessonContexts(e,'present').length?lessonContexts(e,'present'):refs).slice(0,1).map(x=>({it:x.it,en:x.en})),[],[e.inf==='credere'?'Credere a qualcuno means believing what that person says. Credere in qualcuno means having confidence in that person.':e.inf==='dire'?'Dire has forms to learn individually: dico in the present, detto as its past participle, and dir- as its future stem. You will meet each pattern before using it.':'Learn the meaning together with the construction.']),{...card('reference','Usage reference',e.inf==='credere'?(e.usage||e.en).replace("'credo che' takes the subjunctive","'credo che' often introduces a subjunctive clause; the mood depends on the construction and meaning"):e.usage||e.en,refs,[],['Explore these other uses whenever you want; some include grammar from later chapters.']),reference:true}],targets:[]}]});
  for(const [ch,title,tense]of stages){
-  const contexts=lessonContexts(e,ch),weather=WEATHER_VERBS.has(e.inf),experiencer=e.inf==='piacere';
+  const authored=!legacy&&['present','background'].includes(ch)?simpleVerbContexts(e,{chapter:ch}):[];
+  const contexts=authored.length?authored:lessonContexts(e,ch),weather=WEATHER_VERBS.has(e.inf),experiencer=e.inf==='piacere';
   const groups=[];
   if(ch==='past')groups.push({id:'building',title:'Build the past',cards:[card('auxiliary','Start with the auxiliary',`${e.inf} uses ${e.aux==='both'?'an auxiliary that depends on its construction':e.aux||'its dictionary auxiliary'}. The auxiliary carries the person.`,[],[{label:'avere',form:'ho · hai · ha · abbiamo · avete · hanno',gloss:'present forms used to build the past'},{label:'essere',form:'sono · sei · è · siamo · siete · sono',gloss:'present forms used to build the past'}]),card('participle','Add the past participle',participleTeaching(e,c),[],[],[e.aux==='essere'?'With essere, agreement follows the subject: Marco è arrivato; Sara è arrivata. Formal Lei still uses è; the ending follows the addressee.':'In the simple avere constructions here, the participle does not change with the person. Object-pronoun agreement is a later topic.'])],targets:[target(e,ch,'auxiliary-part','auxiliary',{tense,person:weather?2:0,required:false,guidedOnly:true,guidedFormat:'type',available:lessonForms(e,tense,weather?2:0).length>0}),target(e,ch,'participle-part','participle',{tense,required:false,guidedOnly:true,guidedFormat:'type',available:lessonParticiples(e).length>0})]});
   if(ch==='future')groups.push({id:'stem',title:'Build the future',cards:[card('stem','Stem, then ending',futureTeaching(e))],targets:[]});
   for(const [g,ps]of [['singular',[0,1,2]],['plural',[3,4,5]]]){
    const persons=ps.filter(p=>lessonForms(e,tense,p).length&&(!weather||p===2)&&(!experiencer||[2,5].includes(p)));
    if(!persons.length)continue;
-   const forms=persons.map(p=>({label:senseSubject(e,p)||(weather?'impersonal':p===2?'lui / lei / Lei (formal you)':PERSONS[p]),form:lessonForms(e,tense,p).join(' / '),gloss:senseSubject(e,p)||(weather?'it (weather)':p===2?'he / she / you politely':['I','you (one person)','he / she','we','you (more than one)','they'][p])}));
+   const forms=persons.map(p=>({label:(!legacy&&progressiveSpec(e)?.subjects?.[p]?.[0])||senseSubject(e,p)||(weather?'impersonal':p===2?'lui / lei / Lei (formal you)':PERSONS[p]),form:lessonForms(e,tense,p).join(' / '),gloss:(!legacy&&progressiveSpec(e)?.subjects?.[p]?.[1])||senseSubject(e,p)||(weather?'it (weather)':p===2?'he / she / you politely':['I','you (one person)','he / she','we','you (more than one)','they'][p])}));
    const notes=[...(ch==='present'?presentTeaching(e,c):ch==='background'?[imperfectTeaching(e)]:[]),weather?'Weather use has no personal subject. Say piove, without lui or lei.':experiencer?'With piacere, the liked thing is the grammatical subject: mi piace il libro, mi piacciono i libri.':sensePersons[e.inf]?'Use the grammatical subject of this dictionary sense, not the person affected.':'Lei addresses one person politely and takes the third-person singular form. It does not add a seventh form.'];
    if(c?.clitic)notes.push('Keep the small pronouns with this verb; their form can change with the person.');
    if(e.aux==='both'&&ch==='past')notes.push('The table shows possibilities across constructions. A sentence uses only the auxiliary allowed by that particular construction.');
@@ -226,10 +229,33 @@ function verbLesson(e) {
   if(weather)groups[0]?.targets.push(target(e,ch,'time-meaning','timeMeaning',{tense,required:false,supplementalOnly:true}),target(e,ch,'subject-use','subjectUse',{tense,required:false,supplementalOnly:true}));
   if(sensePersons[e.inf])groups[0]?.targets.push(target(e,ch,'time-meaning','timeMeaning',{tense,required:false,supplementalOnly:true}),target(e,ch,'subject-use','subjectUse',{tense,required:false,supplementalOnly:true,fact:e.inf==='bisognare'?'An impersonal necessity construction':'The thing or situation is the grammatical subject'}));
   groups.push({id:'use',title:'Use it in a situation',cards:[card('situations','Meaning in context',contexts.length?'Notice what the speaker means, then practise the whole verb form.':'Explore the dictionary examples, then practise the forms for this chapter. More situations can be added as you learn.',contexts.filter((x,i)=>i<2).map(x=>({it:x.it,en:x.en})))],targets:[target(e,ch,'context','context',{tense,guidedFormat:'type',available:!!contexts.length,required:!['background','condizionale'].includes(ch)&&!!contexts.length,evidenceScope:'context',contextIds:contexts.map(x=>x.id),reason:contexts.length?null:'Sentence practice is not yet available for this chapter.'})]});
-  if(['present','background'].includes(ch))groups.push(buildProgressiveGroup(e,{chapter:ch}));
-  chapters.push({id:ch,title,tense,groups:groups.filter(Boolean)});
+  let legacyRequirements;
+  if(['present','background'].includes(ch)){
+   if(legacy)groups.push(legacyProgressiveGroup(e,{chapter:ch}));
+   else{
+    // Old target ids retain their evidence. New construction checks have their
+    // own ids and cannot inherit a guessed generic usage answer.
+    legacyRequirements=previous.find(c=>c.id===ch).groups.flatMap(g=>g.targets).map(t=>({id:t.id,required:t.required,available:t.available,completionRequired:!!t.completionRequired,supplementalOnly:!!t.supplementalOnly}));
+    if(authored.length)for(const group of groups)for(const t of group.targets){
+     if(!['conjugation','address','context'].includes(t.skill))continue;
+     const scenes=authored.filter(x=>t.skill==='context'||x.person===t.person&&x.role===(t.role||'ordinary'));
+     if(scenes.length){t.contexts=scenes;t.authoredContexts=true;}
+    }
+    groups.forEach(g=>g.stage='forms');
+    groups.push(buildProgressiveGroup(e,{chapter:ch}));
+    groups.push(buildVerbMixedGroup(e,{chapter:ch,groups:groups.filter(Boolean),fallbackSimple:lessonContexts(e,ch)}));
+   }
+  }
+  chapters.push({id:ch,title,tense,groups:groups.filter(Boolean),...(!legacy&&legacyRequirements&&progressiveSpec(e)?{flowVersion:2,legacyRequirements}: {})});
  }
  chapters.push({id:'mixed',title:'Use what you learned',tense:null,optional:true,groups:[{id:'transfer',title:'Five cases together',cards:[card('transfer','Choose from meaning','Review the intended time and meaning. These checks use the completed chapters together.')],targets:stages.map(([ch,,tense])=>target(e,'mixed',ch,'context',{tense,sourceChapter:ch,available:!!lessonContexts(e,ch).length,required:!!lessonContexts(e,ch).length,evidenceScope:'context',reason:lessonContexts(e,ch).length?null:'Sentence practice is not yet available for this chapter.'}))}]});
+ if(!legacy){
+  const mixed=chapters.find(ch=>ch.id==='mixed').groups[0];
+  for(const ch of chapters.filter(ch=>['present','background'].includes(ch.id))){
+   const progressive=ch.groups.find(g=>g.finalReview)?.targets.find(t=>t.progressive);
+   if(progressive)mixed.targets.push({...progressive,id:id(e,'mixed',`v2-${ch.id}-progressive`),sourceChapter:ch.id,dependsOn:[],finalReview:true});
+  }
+ }
  for(const t of TENSES.filter(t=>!stages.some(x=>x[2]===t.key))){
   const ch=t.key==='imperfetto'?'background':t.key,weather=WEATHER_VERBS.has(e.inf),persons=(t.key==='imperativo'?[1,2,3,4,5]:[0,1,2,3,4,5]).filter(p=>lessonForms(e,t.key,p).length&&(!weather||p===2)&&(e.inf!=='piacere'||[2,5].includes(p)));
   if(!persons.length)continue;
@@ -304,10 +330,10 @@ function finalize(entry,plan){
    group.cards=group.cards.filter(c=>!c.reference);
   }
   for(const group of chapter.groups)for(const t of group.targets){
-   if(t.progressive)continue; // Explicit authored progressive variants belong to their own construction.
+   if(t.progressive||t.finalReview)continue; // Explicit authored progressive variants belong to their own construction.
    let answers=[];t.independentVariantCount=2;
    if(plan.kind==='verb'){
-    const contexts=lessonContexts(entry,t.sourceChapter||chapter.id).filter(x=>t.skill==='context'||x.person===t.person&&x.role===(t.role||'ordinary'));
+    const contexts=(t.contexts||lessonContexts(entry,t.sourceChapter||chapter.id)).filter(x=>t.skill==='context'||x.person===t.person&&x.role===(t.role||'ordinary'));
     if(['context','address','conjugation'].includes(t.skill)&&contexts.length){t.answerFormsByVariant=contexts.map(x=>x.answers||[x.answer]);t.personsByVariant=contexts.map(x=>x.person);answers=t.answerFormsByVariant.flat();t.independentVariantCount=contexts.length*2;}
     else if(t.skill==='conjugation')answers=lessonForms(entry,t.tense,t.person);
     else if(t.skill==='address'){t.answerFormsByVariant=[formalLessonForms(entry,t.tense,true),formalLessonForms(entry,t.tense,false)];answers=t.answerFormsByVariant.flat();}
@@ -355,4 +381,4 @@ function briefWordLesson(plan) {
  plan.wordLesson={version:1,teaching,slots};
  return plan;
 }
-export function buildLesson(entry){if(!entry?.id)return null;const plan=finalize(entry,{version:LESSON_CONTENT_VERSION,entryId:entry.id,kind:verb(entry)?'verb':'word',title:entry.inf||entry.it,meaning:lessonEntry(entry).en||'',referenceMeanings:entry.en||'',chapters:verb(entry)?verbLesson(lessonEntry(entry)):wordLesson(entry)});return plan.kind==='word'?briefWordLesson(plan):plan;}
+export function buildLesson(entry,{legacy=false}={}){if(!entry?.id)return null;const plan=finalize(entry,{version:LESSON_CONTENT_VERSION,entryId:entry.id,kind:verb(entry)?'verb':'word',...(!legacy&&verb(entry)?{flowVersion:2}:{}),title:entry.inf||entry.it,meaning:lessonEntry(entry).en||'',referenceMeanings:entry.en||'',chapters:verb(entry)?verbLesson(lessonEntry(entry),{legacy}):wordLesson(entry)});return plan.kind==='word'?briefWordLesson(plan):plan;}

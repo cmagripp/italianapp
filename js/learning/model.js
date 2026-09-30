@@ -99,6 +99,7 @@ function normalizeEvent(raw, epochId) {
       policy: 'journey-v1', targetId: text(raw.targetId, raw.objectiveId),
       chapterId: text(raw.chapterId), contentVersion: Math.max(1, Math.floor(finite(raw.contentVersion, 1))),
       role: text(raw.role) || null,
+      ...(raw.contextPolicy==='distinct-scene'||/::v2-/.test(text(raw.targetId,raw.objectiveId))?{contextPolicy:'distinct-scene'}:{}),
       activityKind: raw.wordPolicy==='word-short-v1' ? raw.activityKind==='repair'?'repair':'guided' : ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
       ...(Number.isInteger(raw.availableVariants) && raw.availableVariants >= 0 ? { availableVariants: raw.availableVariants } : {}),
       ...(raw.wordPolicy === 'word-short-v1' ? { wordPolicy: 'word-short-v1', wordSlotId: text(raw.wordSlotId) } : {}),
@@ -123,7 +124,7 @@ function normalizeCompletions(raw) {
     if (!value || !text(value.entryId) || !text(value.caseId) || !text(value.id) || typeof value.checked !== 'boolean'
       || BAD_KEYS.has(value.entryId) || BAD_KEYS.has(value.caseId)) continue;
     const record = { entryId:value.entryId, caseId:value.caseId, id:value.id, checked:value.checked,
-      at:Math.max(0,finite(value.at)), source:value.source === 'legacy' ? 'legacy' : 'manual' };
+      at:Math.max(0,finite(value.at)), source:value.source === 'legacy' ? 'legacy' : 'manual',...(value.flowVersion===2||text(value.id).startsWith('verb-flow-v2:')?{flowVersion:2}:{}) };
     const key = completionKey(record.entryId,record.caseId);
     records[key] = newest(records[key],record,'at');
   }
@@ -243,7 +244,7 @@ function compareEvents(a, b) {
 }
 function orderedEvents(domain) { return Object.values(domain.events).sort(compareEvents); }
 const independent = (e) => e.mode === 'production' && e.firstAttempt && e.assistance.length === 0 && (e.policy !== 'journey-v1' || e.activityKind === 'independent') && (e.outcome === 'correct' || e.outcome === 'incorrect');
-const variantKey = (e) => [e.variantId || 'unvaried', e.contextId || '', e.person ?? ''].join('|');
+const variantKey = (e) => e.contextPolicy==='distinct-scene' ? [e.contextId || 'unvaried',e.person ?? ''].join('|') : [e.variantId || 'unvaried', e.contextId || '', e.person ?? ''].join('|');
 
 function tracker(skill) {
   return { skill, seen: 0, correct: 0, independentCorrect: 0, unresolved: false, errorTag: null, lastFailureAt: 0, confirmationVariants: [], confirmations: 0 };
