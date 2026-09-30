@@ -285,4 +285,37 @@ test('legacy game metadata matches objectives and actual evidence without invent
   assert.equal(command.meta.person, 1); assert.equal(gradeQuestion(command, 'parla').ok, true);
 });
 
+test('legacy reflexive choice diagnoses scalar answers without stalling', () => {
+  const e = byVerb('addormentarsi');
+  const q = annotateGameQuestion({
+    type: 'mc', itemId: e.id, prompt: 'addormentarsi · presente · lui/lei',
+    answer: 'si addormenta',
+    choices: [
+      { label: 'si addormenta', correct: true },
+      { label: 'presta', correct: false },
+      { label: 'mi addormento', correct: false },
+    ],
+  }, e, { skill: 'conjugation', tense: 'presente', person: 2, allowedTenses: ['presente'] });
+  assert.equal(typeof q.answer, 'string', 'the game question keeps its legacy scalar answer');
+  assert.equal(gradeQuestion(q, 'si addormenta').ok, true);
+  const unrelated = gradeQuestion(q, 'presta');
+  assert.equal(unrelated.ok, false);
+  assert.deepEqual(unrelated.errorTags, ['uncertain'], 'an unrelated verb does not imply a specific misconception');
+  wrong(q, 'addormenta', 'clitic');
+  wrong(q, 'mi addormento', 'person');
+});
+
+test('progressive diagnosis accepts a scalar answer', () => {
+  const q = {
+    type: 'type', answer: 'sto parlando',
+    meta: { skill: 'progressive', diagnostic: {
+      kind: 'progressive', person: 0, gerund: 'parlando',
+      personForms: [], stareForms: ['sto', 'stai', 'sta', 'stiamo', 'state', 'stanno'],
+      otherTenseForms: [],
+    } },
+  };
+  assert.equal(gradeQuestion(q, 'sto parlando').ok, true);
+  wrong(q, 'sto parlare', 'gerund');
+});
+
 console.log(`Learning curriculum/questions/diagnosis: ${checks} test groups passed.`);
