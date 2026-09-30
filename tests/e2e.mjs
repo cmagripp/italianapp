@@ -591,7 +591,7 @@ const flows = [
     if (foreign.length) throw new Error(`results list entries outside the list: ${foreign.slice(0, 4).join(', ')}`);
     return `scope → ${hash1.slice(0, 40)} · list → ${decodeURIComponent(hash2).slice(0, 44)} · ${missed.length} missed, all from the list`;
   } },
-  // the entry page's action bar: word bank, list picker, mark learned / unmark, listen — every tap checked in the store and restored
+  // Entry actions and completion menu: every tap checked in the store and restored.
   { name: 'entry-actions', run: async () => {
     const id = 'w:casa|noun';
     const inList = (l) => storeEval(`return ctx.store.inList(arg.l, arg.id);`, { l, id });
@@ -616,10 +616,12 @@ const flows = [
     if ((await inList(lid)) !== in0) throw new Error('unticking did not restore the list');
     await page.keyboard.press('Escape'); await wait(400);
     const learned0 = await isLearned(id);
-    await tap('#view [data-actions] [data-act="learned"]', { label: learned0 ? 'Learned (unmark)' : 'Mark learned' }); await wait(300);
+    await tap('#view [data-completion-menu]', { label: 'Completion menu' });
+    await tap('[data-completion-item]', { label: learned0 ? 'Learned (unmark)' : 'Mark learned' }); await wait(300);
     if ((await isLearned(id)) === learned0) throw new Error(`tapping "${learned0 ? 'Learned' : 'Mark learned'}" did not toggle the learned state`);
-    await tap('#view [data-actions] [data-act="learned"]', { label: 'learned (back)' }); await wait(300);
+    await tap('[data-completion-item]', { label: 'learned (back)' }); await wait(300);
     if ((await isLearned(id)) !== learned0) throw new Error('the second tap did not restore the learned state');
+    await page.keyboard.press('Escape'); await wait(200);
     if (!learned0 && !(await has('#view a[href*="#/learn/word/"]'))) throw new Error('no Learn link on an unlearned entry');
     if (await has('#view [data-say]')) await tap('#view [data-say]', { label: 'Listen' }); // speechSynthesis may be silent headless; it must not throw
     return `word bank ${bank0 ? 'off/on' : 'on/off'}, list picker tick/untick, learned ${learned0 ? 'off/on' : 'on/off'}, listen — store followed each tap`;

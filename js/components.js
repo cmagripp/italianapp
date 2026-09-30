@@ -318,7 +318,7 @@ export function actionBar(e) {
   return html`<div class="action-bar">
     <button type="button" class="btn sm ${inBank ? 'on' : ''}" data-act="bank">${ic('star', { size: 16 })}${inBank ? 'In word bank' : 'Word bank'}</button>
     <button type="button" class="btn sm" data-act="lists">${ic('plus', { size: 16 })}List</button>
-    <button type="button" class="btn sm ${learned ? 'on' : ''}" data-act="learned">${ic('check', { size: 16 })}${learned ? 'Learned' : 'Mark learned'}</button>
+    <button type="button" class="btn sm ${learned ? 'on' : ''}" data-act="learned" aria-pressed="${learned ? 'true' : 'false'}">${ic('check', { size: 16 })}${learned ? 'Learned' : 'Mark learned'}</button>
     ${e.custom ? raw(`<button type="button" class="btn sm danger" data-act="delete-custom">${icon('trash', { size: 16 })}Delete</button>`) : ''}
   </div>`;
 }
@@ -331,7 +331,7 @@ export function bindActionBar(root, e, rerender) {
     const act = b.dataset.act;
     if (act === 'bank') { if (store.inList('bank', e.id)) { store.removeFromList('bank', e.id); toast('Removed from word bank'); } else { store.addToList('bank', e.id); toast('Saved to word bank', { kind: 'ok' }); } rerender && rerender(); }
     else if (act === 'lists') openListPicker(e.id, { onChange: () => rerender && rerender() });
-    else if (act === 'learned') { if (store.isLearned(e.id)) { store.unlearn(e.id); toast('Unmarked'); } else { store.markLearned(e.id, e.kind); toast('Marked as learned', { kind: 'ok' }); } rerender && rerender(); }
+    else if (act === 'learned') { const checked=!store.isLearned(e.id); if(store.setCompletion(e,{checked}))toast(checked?'Marked as learned':'Unmarked',checked?{kind:'ok'}:{}); rerender && rerender(); }
     else if (act === 'delete-custom') { const { confirmDialog } = await import('./ui.js'); if (await confirmDialog('Delete this custom word?', { ok: 'Delete', danger: true })) { store.removeCustomWord(e.id); const { registerCustom } = await import('./data.js'); registerCustom(store.current.custom); location.hash = '#/lists'; } }
   };
   root.__actionBarHandler = handler;

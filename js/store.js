@@ -2,7 +2,8 @@
 // Primary storage is IndexedDB (large quota, survives Safari homescreen installs); localStorage is the fallback.
 import { schedule as srsSchedule } from './srs.js';
 import { data, LEVELS } from './data.js'; // data.js imports nothing, so no cycle
-import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills, learningSessionKey } from './learning/model.js';
+import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills, learningSessionKey, completionKey, completionRecord, setCompletionRecord } from './learning/model.js';
+import { entryCompletion } from './learning/integration.js';
 
 const DB_NAME = 'italiano-db';
 const KV = 'kv';
@@ -127,7 +128,15 @@ function normalize(p) {
   for (const l of Object.values(p.lists)) if (l && !Array.isArray(l.items)) l.items = [];
   p.stats = { ...fresh.stats, ...(p.stats || {}) }; p.stats.days ||= {}; p.stats.games ||= {};
   p.scope = { ...fresh.scope, ...(p.scope || {}) }; p.recent ||= [];
+  const oldLearningVersion=p.learning?.version || 0;
   p.learning = normalizeLearning(p.learning);
+  if(oldLearningVersion<3) {
+    const chapterEntries=new Set(Object.values(p.learning.events || {}).filter(e=>e.policy==='journey-v1').map(e=>e.entryId));
+    for(const [entryId,item] of Object.entries(p.items))if(item?.learned && !chapterEntries.has(entryId)) {
+      const key=completionKey(entryId,'*');
+      p.learning.completions[key] ||= {entryId,caseId:'*',checked:true,at:Number(item.learnedAt || item.last || 0),id:`legacy:${entryId}`,source:'legacy'};
+    }
+  }
   p.customDeleted ||= {};
   p.version = Math.max(2, Number(p.version) || 1);
   return p;
@@ -147,6 +156,8 @@ function nextLearningIdentity() {
   return { deviceId: device, sequence, id: device + ':' + sequence + ':' + uid() };
 }
 const learningXP = (domain) => Object.values(domain?.events || {}).reduce((n, e) => n + (Number(e.xp) || 0), 0);
+const entryCompletionRecords = (domain,id) => ['*','word','present','past','background','future','condizionale']
+  .map(caseId=>domain?.completions?.[completionKey(id,caseId)]).filter(Boolean);
 
 class Store extends EventTarget {
   constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; this._saveQueue = Promise.resolve(); this._mirrorSerial = 0; }
@@ -328,11 +339,37 @@ class Store extends EventTarget {
     this.save();
   }
   learningSkills(now = Date.now()) { return allSkills(this.learning, now); }
+  completionState(entryOrId) {
+    const entry=typeof entryOrId==='string' ? data.byId.get(entryOrId) || this.current.custom?.[entryOrId] : entryOrId;
+    return entryCompletion(entry && (entry.kind ? entry : {...entry,kind:entry.pos==='verb'?'verb':'word'}),this.learning,this.current.items[entry?.id]);
+  }
+  setCompletion(entryOrId,{caseId=null,checked}={}) {
+    if(typeof checked!=='boolean' || this.learning.version>LEARNING_VERSION)return false;
+    const entry=typeof entryOrId==='string' ? data.byId.get(entryOrId) || this.current.custom?.[entryOrId] : entryOrId;
+    if(!entry)return false;
+    const state=this.completionState(entry), ids=state.cases.length ? state.cases.filter(c=>c.available && (!caseId || c.id===caseId)).map(c=>c.id) : caseId ? [] : ['word'];
+    if(!ids.length)return false;
+    const at=Math.max(Date.now(),...Object.values(this.learning.completions || {}).map(c=>(c.at || 0)+1));
+    for(const id of ids)this.current.learning=setCompletionRecord(this.learning,{entryId:entry.id,caseId:id,checked,at,id:uid(),source:'manual'},at);
+    const item=this.ensureItem(entry.id), complete=this.completionState(entry).complete;
+    item.learned=complete;item.last=at;
+    if(complete)item.learnedAt ||= at;
+    if(checked && !item.due)item.due=at+8*3600e3;
+    this.save();void this.saveNow();
+    return true;
+  }
 
   // ---------- items / SRS ----------
   getItem(id) { return this.current.items[id] || null; }
   ensureItem(id) { return (this.current.items[id] ||= { s: 0, ef: 2.5, iv: 0, due: 0, reps: 0, lapses: 0, seen: 0, ok: 0, ko: 0, learned: false, first: Date.now() }); }
   markLearned(id, kind) {
+    if(this.learning.version>LEARNING_VERSION)return;
+    // A stale completed screen must not undo an explicit uncheck. Fresh lesson
+    // proof after that choice is required before automatic completion resumes.
+    const records=entryCompletionRecords(this.learning,id);
+    if(records.some(c=>!c.checked) && !this.completionState(id).complete)return;
+    if(!records.length && !Object.values(this.learning.events || {}).some(e=>e.entryId===id && e.policy==='journey-v1'))
+      this.current.learning=setCompletionRecord(this.learning,{entryId:id,caseId:'*',checked:true,at:Date.now(),id:`legacy:${id}`,source:'legacy'});
     const it = this.ensureItem(id);
     if (!it.learned) {
       // the reward (XP, learned counters, today's new items) is for the first time only: "Unmarked" keeps learnedAt, so
@@ -350,7 +387,7 @@ class Store extends EventTarget {
     }
     this.save();
   }
-  unlearn(id) { const it = this.current.items[id]; if (it) { it.learned = false; it.last = Date.now(); this.save(); } }
+  unlearn(id) { if(!this.setCompletion(id,{checked:false})){const it=this.current.items[id];if(it){it.learned=false;it.last=Date.now();this.save();}} }
   // record an answer: quality 0-5 (>=3 correct)
   recordAnswer(id, correct, opts = {}) {
     const it = this.ensureItem(id);
@@ -366,13 +403,13 @@ class Store extends EventTarget {
     this.save();
     return it;
   }
-  isLearned(id) { const it = this.current.items[id]; return !!(it && it.learned); }
+  isLearned(id) { const it = this.current.items[id]; return entryCompletionRecords(this.learning,id).length && (data.byId.has(id)||this.current.custom?.[id]) ? this.completionState(id).complete : !!it?.learned; }
   // a custom verb (c:…) is a verb too: the 'v:' prefix alone would file it under the learned words
   isVerbId(id) { return id.startsWith('v:') || (id.startsWith('c:') && this.current.custom?.[id]?.pos === 'verb'); }
   // progress keyed to an id the dictionary no longer has (an entry renamed or dropped by a data rebuild, a backup from
   // another version) is kept but not counted: Home/Learn/Me would otherwise promise reviews that Review cannot show
   known(id) { return !data.loaded || data.byId.has(id) || (id.startsWith('c:') && !!this.current.custom?.[id]); }
-  learnedIds(prefix) { return Object.entries(this.current.items).filter(([id, it]) => it.learned && this.known(id) && (!prefix || (prefix === 'v:' ? this.isVerbId(id) : id.startsWith(prefix)))).map(([id]) => id); }
+  learnedIds(prefix) { return Object.keys(this.current.items).filter(id => this.isLearned(id) && this.known(id) && (!prefix || (prefix === 'v:' ? this.isVerbId(id) : id.startsWith(prefix)))); }
   learnedWordIds() { return this.learnedIds().filter(id => !this.isVerbId(id)); }
   dueIds(now = Date.now()) { return Object.entries(this.current.items).filter(([id, it]) => (it.learned || it.seen > 0) && this.known(id) && it.due && it.due <= now).map(([id]) => id); }
 
@@ -448,6 +485,7 @@ class Store extends EventTarget {
     if (!p || !p.items || !p.lists) throw new Error('Not a valid backup file');
     if (p.learning?.version > LEARNING_VERSION) throw new Error('This progress uses a newer version of Parola. Update the app before importing or syncing it. Your current progress has been kept.');
     if (merge) {
+      normalize(p); // migrate remote legacy learned enrollment before merging it
       const cur = normalize(this.current);
       const remoteLearning = normalizeLearning(p.learning);
       const epochOrder = (remoteLearning.epoch.at - cur.learning.epoch.at) || (remoteLearning.epoch.id < cur.learning.epoch.id ? -1 : remoteLearning.epoch.id > cur.learning.epoch.id ? 1 : 0);

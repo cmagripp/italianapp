@@ -1,6 +1,6 @@
 // Pure chapter sequencing. Teaching and supported activities never masquerade as
 // independent evidence; the event reducer remains the only source of readiness.
-import { createSession, applySessionAttempt, skillState, LEARNING_VERSION } from './model.js';
+import { createSession, applySessionAttempt, skillState, completionRecord, LEARNING_VERSION } from './model.js';
 
 export const JOURNEY_VERSION = 1;
 export const CORE_JOURNEY_CASES = ['present', 'past', 'background', 'future', 'condizionale'];
@@ -77,8 +77,19 @@ export function journeyTargetState(learning, target, now = Date.now()) {
 }
 
 const redoCache = new WeakMap();
+const completionEvidenceCache = new WeakMap();
+function completionEvidence(learning, entryId, chapterId) {
+  const override = completionRecord(learning,entryId,chapterId);
+  if (!override || override.checked || !learning) return learning;
+  let cache = completionEvidenceCache.get(learning);
+  if (!cache || cache.events !== learning.events || cache.completions !== learning.completions) {
+    cache = {events:learning.events,completions:learning.completions,domains:new Map()}; completionEvidenceCache.set(learning,cache);
+  }
+  if (!cache.domains.has(override.id)) cache.domains.set(override.id,{...learning,events:Object.fromEntries(Object.entries(learning.events || {}).filter(([,e])=>e.at>override.at))});
+  return cache.domains.get(override.id);
+}
 function readyForRun(learning, target, session, now) {
-  if (!journeyTargetState(learning, target, now).ready) return false;
+  if (!journeyTargetState(completionEvidence(learning,session.entryId,session.journey.chapterId), target, now).ready) return false;
   const start = session.journey.redoStartIndex;
   if (start === undefined || start === null || !learning) return true;
   let cache = redoCache.get(learning);
@@ -193,8 +204,10 @@ function reviewed(learning, target, session, now) {
 
 function schedule(plan, session, learning, now) {
   const j = session.journey, chapter = chapterFor(plan, session);
+  const reviewAllowed = target => session.mode!=='review' || chapter.id!=='mixed' || !learning
+    || journeyCaseProgress(plan,learning,null,now).cases.some(c=>c.id===target?.sourceChapter && c.ready);
   j.blocked = false;
-  j.queue = j.queue.filter(id => available(targetFor(plan, id)) && !Object.hasOwn(j.skipped, id));
+  j.queue = j.queue.filter(id => available(targetFor(plan, id)) && reviewAllowed(targetFor(plan,id)) && !Object.hasOwn(j.skipped, id));
   const pairFailure = Object.values(j.pairRepairs || {}).find(failure => targets(chapter).some(t => t.id === failure.targetId) && !Object.hasOwn(j.skipped, failure.targetId));
   if (pairFailure) {
     delete j.pairRepairs[pairFailure.targetId];
@@ -236,7 +249,7 @@ function schedule(plan, session, learning, now) {
   if (next >= 0) { setQuestion(plan, session, targetFor(plan, j.queue.splice(next, 1)[0]), 'independent'); return session; }
   // A focused review can use a different person or skill as a brief contrast.
   // These are supported activities, not extra completion requirements.
-  const alternatives = targets(chapter).filter(target => available(target) && !j.queue.includes(target.id)
+  const alternatives = targets(chapter).filter(target => available(target) && reviewAllowed(target) && !j.queue.includes(target.id)
     && !Object.hasOwn(j.skipped, target.id) && !exposed(session, target, 'guided')
     && !j.queue.some(id => answersFor(session, target, 'guided').some(answer => answersFor(session, targetFor(plan, id)).includes(answer)))
     && (session.mode === 'review' || groups(chapter).indexOf(groupFor(chapter, target.id)) <= j.groupIndex));
@@ -248,7 +261,7 @@ function schedule(plan, session, learning, now) {
   // Their queue positions remain intact, and support never gains mastery.
   const waiting = targetFor(plan, possible[0] || j.queue[0]);
   const waitingAnswers = answersFor(session, waiting);
-  const contrasts = targets(chapter).filter(target => available(target) && target.id !== waiting.id
+  const contrasts = targets(chapter).filter(target => available(target) && reviewAllowed(target) && target.id !== waiting.id
     && !Object.hasOwn(j.skipped, target.id)
     && (session.mode === 'review' || groups(chapter).indexOf(groupFor(chapter, target.id)) <= j.groupIndex)
     && (j.lastAnswered[target.id] === undefined || session.index - j.lastAnswered[target.id] >= 2)
@@ -266,7 +279,8 @@ function schedule(plan, session, learning, now) {
 function wordSlots(plan) { return plan.wordLesson?.slots || []; }
 function validWordCompletion(plan,session,learning,slot,eventId) {
   const event=learning?.events?.[eventId];
-  return !!event&&event.epochId===learning.epoch?.id&&event.contentVersion===plan.version&&event.wordPolicy==='word-short-v1'&&event.wordSlotId===slot.id&&event.sessionId===session.id&&event.objectiveId===slot.targetId&&event.ok;
+  const override=completionRecord(learning,plan.entryId,'word');
+  return !!event&&(!override || override.checked || event.at>override.at)&&event.epochId===learning.epoch?.id&&event.contentVersion===plan.version&&event.wordPolicy==='word-short-v1'&&event.wordSlotId===slot.id&&event.sessionId===session.id&&event.objectiveId===slot.targetId&&event.ok;
 }
 function wordLocation(plan, targetId) {
   for (const chapter of plan.chapters || []) {
@@ -620,25 +634,54 @@ function milestone(states) {
   return null;
 }
 const caseCache = new WeakMap();
-export function journeyCaseProgress(plan, learning, session = null, now = Date.now()) {
+export function journeyChapterCompletions(plan, learning, now = Date.now()) {
   let cached = learning && caseCache.get(learning);
-  if (!cached || cached.events !== learning?.events || cached.plan !== plan) {
-    cached = { events: learning?.events, plan, cases: coreJourneyChapters(plan).map(chapter => {
+  if (!cached || cached.events !== learning?.events || cached.completions !== learning?.completions || cached.plan !== plan) {
+    cached = { events: learning?.events, completions:learning?.completions, plan, cases: (plan?.chapters || []).filter(c=>!['meet','mixed'].includes(c.id)).map(chapter => {
       const states = targets(chapter).filter(required).map(target => journeyTargetState(learning, target, now));
+      const core=CORE_JOURNEY_CASES.includes(chapter.id);
+      const override = core ? completionRecord(learning,plan.entryId,chapter.id) : null;
+      const evidence = core ? completionEvidence(learning,plan.entryId,chapter.id) : learning;
+      const completionStates = evidence === learning ? states : targets(chapter).filter(required).map(target=>journeyTargetState(evidence,target,now));
       const available = targets(chapter).some(target => required(target) && !target.guidedOnly && !target.completionRequired);
-      const completedAt = available ? milestone(states) : null, ready = completedAt !== null;
-      return { id: chapter.id, title: chapter.title, tense: chapter.tense, ready, completedAt,
+      const demonstratedAt = available ? milestone(completionStates) : null;
+      const completedAt = available && override?.checked ? override.at : demonstratedAt, ready = completedAt !== null;
+      return { id: chapter.id, title: chapter.title, tense: chapter.tense, optional:!!chapter.optional, ready, completedAt,
+        source:ready && override?.checked ? override.source : ready ? 'lesson' : null, manual:override?.source === 'manual',
         available, exempt: !available, limitation: available ? null : 'This entry has no supported forms for this case in the current course.',
         started: states.some(state => state.attempts > 0), pending: states.filter(state => !state.ready).length,
         total: states.length, reviewNeeded: ready && states.some(state => !state.ready) };
     }) };
     if (learning) caseCache.set(learning, cached);
   }
-  const cases = cached.cases.map(item => {
+  return cached.cases.map(item=>({...item}));
+}
+export function journeyCaseProgress(plan, learning, session = null, now = Date.now()) {
+  const all=journeyChapterCompletions(plan,learning,now);
+  const cases = CORE_JOURNEY_CASES.map(id=>all.find(c=>c.id===id)).filter(Boolean).map(item => {
     const cursor = session?.journey?.chapterId === item.id ? session.journey : session?.journey?.caseCursors?.[item.id];
     return { ...item, started: item.started || !!cursor && (cursor.groupIndex > 0 || cursor.cardIndex > 0 || cursor.phase !== 'teach') };
   });
   const completed = cases.filter(item => item.ready).length, total = cases.filter(item => !item.exempt).length;
   const complete = cases.length === CORE_JOURNEY_CASES.length && total > 0 && completed === total;
   return { cases, complete, completed, total, caseCount: CORE_JOURNEY_CASES.length, nextChapterId: cases.find(item => !item.ready && !item.exempt)?.id || null, mixedAvailable: complete && total > 0 };
+}
+
+// Completion of the short word lesson can be recovered from synced events even
+// though its device-local cursor is intentionally omitted from cloud snapshots.
+export function journeyWordCompletion(plan, learning) {
+  const override = completionRecord(learning,plan.entryId,'word');
+  if (override?.checked) return {complete:true,completedAt:override.at,source:override.source};
+  const slots = wordSlots(plan), sessions = new Map();
+  for (const event of Object.values(learning?.events || {})) {
+    if (event.entryId !== plan.entryId || !event.ok || event.wordPolicy !== 'word-short-v1' || event.contentVersion !== plan.version
+      || event.epochId !== learning.epoch?.id || override && event.at <= override.at) continue;
+    const slot = slots.find(slot=>slot.id===event.wordSlotId && slot.targetId===event.objectiveId);
+    if (!slot) continue;
+    if (!sessions.has(event.sessionId)) sessions.set(event.sessionId,new Map());
+    sessions.get(event.sessionId).set(slot.id,event.at);
+  }
+  for (const found of sessions.values()) if (slots.length && slots.every(slot=>found.has(slot.id)))
+    return {complete:true,completedAt:Math.max(...found.values()),source:'lesson'};
+  return {complete:false,completedAt:null,source:null};
 }

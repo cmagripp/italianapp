@@ -71,7 +71,7 @@ function progressCard(e, actions) {
     <div class="action-bar">${raw(actions)}</div>
     ${lists.length ? raw(html`<div class="tiny muted mt">In lists: ${lists.join(', ')}</div>`) : ''}`;
 }
-function learnedBtn(e) { const on = store.isLearned(e.id); return html`<button type="button" class="btn sm ${on ? 'on' : ''}" data-act="learned">${ic('check', { size: 16 })}${on ? 'Learned' : 'Mark learned'}</button>`; }
+function learnedBtn(e) { const on = store.isLearned(e.id); return html`<button type="button" class="btn sm ${on ? 'on' : ''}" data-act="learned" aria-pressed="${on ? 'true' : 'false'}">${ic('check', { size: 16 })}${on ? 'Learned' : 'Mark learned'}</button>`; }
 const listBtn = () => html`<button type="button" class="btn sm" data-act="lists">${ic('plus', { size: 16 })}List</button>`;
 const jumpChips = (jumps, cls = '') => jumps.map(j => html`<button type="button" class="chip sm ${cls}" data-jump="${j.id}">${j.label}</button>`).join('');
 
@@ -355,7 +355,7 @@ function renderVerb(root, e) {
     if (head) { const lazy = head.parentElement.querySelector('[data-lazy]'); if (lazy && !lazy.dataset.done) { lazy.dataset.done = '1'; lazy.innerHTML = TENSES.filter(t => t.mood === lazy.dataset.lazy).map(t => html`<div class="ref-acc-tense"><div class="ref-tense-head"><span class="ref-tense-name">${t.name}</span><span class="ref-tense-en">${t.en}</span></div>${raw(tenseTable(conj, t.key, cells, { compact: true }))}</div>`).join(''); } return; }
     const b = ev.target.closest('[data-act]'); if (!b) return;
     if (b.dataset.act === 'lists') openListPicker(e.id, { onChange: paintProgress });
-    else if (b.dataset.act === 'learned') { if (store.isLearned(e.id)) { store.unlearn(e.id); toast('Unmarked'); } else { store.markLearned(e.id, 'verb'); toast('Marked as learned', { kind: 'ok' }); } paintProgress(); }
+    else if (b.dataset.act === 'learned') { const checked=!store.isLearned(e.id); if(store.setCompletion(e,{checked}))toast(checked?'Marked as learned':'Unmarked',checked?{kind:'ok'}:{}); paintProgress(); }
   };
   root.addEventListener('click', onClick);
   const unmountMini = mountMini(root, e.inf, jumps);
@@ -605,7 +605,7 @@ function renderWord(root, e) {
     const sp = ev.target.closest('[data-fan-spread]'); if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const b = ev.target.closest('[data-act]'); if (!b) return;
     if (b.dataset.act === 'lists') openListPicker(e.id, { onChange: paintProgress });
-    else if (b.dataset.act === 'learned') { if (store.isLearned(e.id)) { store.unlearn(e.id); toast('Unmarked'); } else { store.markLearned(e.id, 'word'); toast('Marked as learned', { kind: 'ok' }); } paintProgress(); }
+    else if (b.dataset.act === 'learned') { const checked=!store.isLearned(e.id); if(store.setCompletion(e,{checked}))toast(checked?'Marked as learned':'Unmarked',checked?{kind:'ok'}:{}); paintProgress(); }
   };
   root.addEventListener('click', onClick);
   const unmountMini = mountMini(root, headword(e), jumps);

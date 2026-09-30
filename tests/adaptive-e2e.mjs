@@ -203,6 +203,15 @@ try {
     assert(result.ready); assert(result.independentCorrect >= 4); assert(result.variantCount >= 2);
   });
   await check('Focused review rechecks an already-ready skill in a new session', async () => {
+    // This compatibility lesson proves one legacy skill, not every target in
+    // the new Present chapter. Explicitly enroll that case for automatic review
+    // while keeping the earlier answer evidence and rewards unchanged.
+    const beforeEnrollment = await state();
+    await page.evaluate(async () => { const {store}=await import('./js/store.js'); store.setCompletion('v:mangiare',{caseId:'present',checked:true}); });
+    const afterEnrollment = await state();
+    const byId = events => [...events].sort((a,b)=>a.id.localeCompare(b.id));
+    assert.deepEqual(byId(afterEnrollment.events),byId(beforeEnrollment.events));
+    assert.equal(afterEnrollment.xp,beforeEnrollment.xp);
     await gotoRoute(page, '/review?mode=extra');
     const objective = 'v:mangiare::presente::conjugation';
     const link = page.locator(`a[href*="objective=${encodeURIComponent(objective)}"]`).first();

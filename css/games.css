@@ -116,7 +116,7 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 
 /* ---------- 6. CROSSWORD ---------- */
 .cw-frame { padding: 10px; border-radius: var(--r-m); overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; scrollbar-width: none;
-  max-height: calc(100vh - var(--top-h) - var(--sat) - var(--game-dock, 280px) - 112px); max-height: calc(100dvh - var(--top-h) - var(--sat) - var(--game-dock, 280px) - 112px); min-height: 132px; }
+  max-height: calc(100vh - var(--top-h) - var(--sat) - var(--game-dock, 280px) - 112px); max-height: calc(var(--app-height,100dvh) - var(--top-h) - var(--sat) - var(--game-dock, 280px) - 112px); min-height: 132px; }
 .cw-frame::-webkit-scrollbar { display: none; }
 .cw { display: grid; gap: 3px; margin: 0 auto; width: max-content; max-width: 100%; }
 .cw .c { width: var(--cell, 30px); height: var(--cell, 30px); border-radius: 5px; font-size: calc(var(--cell, 30px) * .56); line-height: 1; transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast), transform var(--t-fast); }
@@ -244,8 +244,8 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 
 /* Practice uses the available screen: answer areas grow, content scrolls within it. */
 html:has(body.practice-viewport) { overflow:hidden; scroll-padding:0; }
-body.practice-viewport { height:100dvh; min-height:0; overflow:hidden; padding-bottom:0; }
-body.practice-viewport #view { height:calc(var(--practice-height,100dvh) - var(--top-h) - var(--sat)); padding-top:8px; padding-bottom:calc(12px + var(--sab)); display:flex; flex-direction:column; overflow:hidden; }
+body.practice-viewport { height:var(--app-height,100dvh); min-height:0; overflow:hidden; padding-bottom:0; }
+body.practice-viewport #view { height:calc(var(--practice-height,var(--app-height,100dvh)) - var(--top-h) - var(--sat)); padding-top:8px; padding-bottom:calc(12px + var(--sab)); display:flex; flex-direction:column; overflow:hidden; }
 body.practice-viewport #view.scene-in { animation-name:fadeOnly; }
 .practice-host { flex:1; min-height:0; display:flex; flex-direction:column; gap:12px; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:thin; }
 .practice-host > .dock-space { flex-shrink:0; }
@@ -296,7 +296,7 @@ body.practice-viewport [data-review-strip] { flex:none; margin-bottom:10px; }
 .flash-history { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:32px; flex:none; }
 .flash-history button { min-height:32px; padding:4px 8px; font-size:12px; color:var(--ink-2); }
 .flash-history button:disabled { opacity:.3; }
-.flash-session .flash { height:clamp(172px,calc(var(--practice-height,100dvh) * .29),290px); min-height:172px; flex:0 1 auto; margin:0 0 10px; cursor:default; }
+.flash-session .flash { height:clamp(172px,calc(var(--practice-height,var(--app-height,100dvh)) * .29),290px); min-height:172px; flex:0 1 auto; margin:0 0 10px; cursor:default; }
 .flash-session .flash-flip { display:block; position:relative; width:100%; height:100%; padding:0; border:0; border-radius:var(--r-l); background:none; text-align:inherit; touch-action:pan-y; z-index:1; }
 .flash-session .flash-flip:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
 .flash-session .inner { display:block; }

@@ -8,6 +8,7 @@ import { wordHero, wordForms, verbHero, conjSection, bindConjSection, actionBar,
 import { conjugate, primary, accepted } from '../conjugator.js';
 import { stage, STAGE_LABEL } from '../srs.js';
 import { setScene, mount, fan, reducedMotion } from '../fx.js';
+import { completionButtonHTML, bindCompletionMenu } from '../completion-menu.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const AUX_LABEL = { avere: 'avere', essere: 'essere', both: 'avere / essere' };
@@ -136,7 +137,11 @@ function progressHTML(e) {
 }
 function actionsHTML(e) {
   const lists = store.listsContaining(e.id).map(l => l.name);
-  return actionBar(e) + (lists.length ? html`<div class="in-lists">In lists: ${raw(lists.map(n => html`<b>${n}</b>`).join(', '))}</div>` : '');
+  const actions = document.createElement('template');
+  actions.innerHTML = actionBar(e);
+  // Completion lives in the compact menu instead of a second action below.
+  actions.content.querySelector('[data-act="learned"]')?.remove();
+  return actions.innerHTML + (lists.length ? html`<div class="in-lists">In lists: ${raw(lists.map(n => html`<b>${n}</b>`).join(', '))}</div>` : '');
 }
 
 export async function render(root, params) {
@@ -150,10 +155,22 @@ export async function render(root, params) {
   root.innerHTML = html`<div class="pg codex" data-kind="${e.kind}">${raw(page.body)}<div id="progressi" data-progress>${raw(progressHTML(e))}</div><div class="card" data-actions>${raw(actionsHTML(e))}</div>${isVerb ? raw(drillsHTML(e)) : ''}</div>`;
   const codex = root.firstElementChild;
   const cleanups = [];
+  codex.querySelector('[data-headword] .hw-row')?.insertAdjacentHTML('beforeend', completionButtonHTML(e,store.completionState(e)));
+  const refreshProgress = () => {
+    codex.querySelector('[data-actions]').innerHTML = actionsHTML(e);
+    codex.querySelector('[data-progress]').innerHTML = progressHTML(e);
+    completion.refresh();
+  };
+  const completion = bindCompletionMenu(codex.querySelector('[data-completion-menu]'), {
+    entry:e, getState:() => store.completionState(e),
+    setCase:(caseId,checked) => store.setCompletion(e,{caseId,checked}),
+    setAll:checked => store.setCompletion(e,{checked}), onChange:refreshProgress,
+  });
+  cleanups.push(() => completion.destroy());
   if (isVerb) { const c = bindConjSection(codex, page.conj); if (c) cleanups.push(() => c.destroy()); }
   else cleanups.push(bindForms(codex, e, page.cells));
   // bound on the codex element (which leaves with the view) and unbound on cleanup, so it never outlives this entry
-  cleanups.push(bindActionBar(codex, e, () => { codex.querySelector('[data-actions]').innerHTML = actionsHTML(e); codex.querySelector('[data-progress]').innerHTML = progressHTML(e); }));
+  cleanups.push(bindActionBar(codex, e, refreshProgress));
 
   // sticky jump bar: reveals the headword once the identity block has scrolled under the top bar
   const bar = codex.querySelector('[data-jump]'); const hw = codex.querySelector('[data-headword]');

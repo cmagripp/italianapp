@@ -7,7 +7,7 @@ import { IT_POS } from '../components.js';
 import { conjugate } from '../conjugator.js';
 import { setScene, dropdown, mount, reducedMotion } from '../fx.js';
 import { coursePreview } from './course.js';
-import { reviewItems } from '../learning/integration.js';
+import { reviewItems, eligibleSkills } from '../learning/integration.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 
@@ -116,7 +116,8 @@ export async function render(root) {
     const s = store.settings;
     const lvl = LEVELS.includes(s.level) ? s.level : 'A1';
     setScene(lvl);
-    const due = store.settings.adaptiveLearning !== false ? reviewItems(store).length : store.dueIds().length;
+    const now = Date.now(), review = reviewItems(store,now);
+    const due = store.settings.adaptiveLearning !== false ? review.length : new Set(review.map(item=>item.entry.id)).size;
     const newWordsDone = (day.new || 0) - (day.newVerbs || 0);
     const newVerbsDone = day.newVerbs || 0;
     const verbs = nextNew('verb', 3);
@@ -124,7 +125,10 @@ export async function render(root) {
     const scopeAll = itemsForScope(store.scope, store);
     const learnedInScope = scopeAll.filter(e => store.isLearned(e.id)).length;
     const learnedVerbs = store.learnedIds('v:').length;
-    const nextDue = Object.values(store.current.items).filter(it => (it.learned || it.seen > 0) && it.due && it.due > Date.now()).reduce((m, it) => Math.min(m, it.due), Infinity);
+    const evidenceIds = new Set(Object.values(store.learning.events || {}).map(event=>event.entryId));
+    const legacyDates = scopeAll.filter(e=>e.kind==='word' && store.isLearned(e.id) && !evidenceIds.has(e.id)).map(e=>store.getItem(e.id)?.due);
+    const nextDue = [...eligibleSkills(store,now).map(skill=>skill.due),...legacyDates]
+      .filter(due=>Number.isFinite(due) && due>now).reduce((soonest,due)=>Math.min(soonest,due),Infinity);
     const ringPct = Math.min(100, Math.round((due / Math.max(1, s.dailyReviews || 40)) * 100));
     // the ?auto=1 chain runs until the daily goal is met, so the label counts what is left of the goal (capped by the
     // unlearned words in scope), not the three cards of the deck
