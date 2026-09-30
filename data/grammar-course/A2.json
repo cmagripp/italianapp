@@ -1,0 +1,3056 @@
+{
+  "version": 1,
+  "level": "A2",
+  "title": "Italian grammar A2: everyday stories and choices",
+  "sources": [
+    {
+      "title": "Council of Europe, CEFR Companion Volume (2020), communicative competence descriptors",
+      "url": "https://rm.coe.int/cefr-companion-volume-with-new-descriptors-2020/16809ea0d4"
+    },
+    {
+      "title": "Treccani, Indicativo passato prossimo (La grammatica italiana)",
+      "url": "https://www.treccani.it/enciclopedia/indicativo-passato-prossimo_%28La-grammatica-italiana%29/"
+    },
+    {
+      "title": "Treccani, Indicativo imperfetto (La grammatica italiana)",
+      "url": "https://www.treccani.it/enciclopedia/indicativo-imperfetto_%28La-grammatica-italiana%29/"
+    },
+    {
+      "title": "Treccani, Strutture perifrastiche (Enciclopedia dell’Italiano)",
+      "url": "https://www.treccani.it/enciclopedia/strutture-perifrastiche_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani, Pronomi personali (Enciclopedia dell’Italiano)",
+      "url": "https://www.treccani.it/enciclopedia/pronomi-personali_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani, Comparazione",
+      "url": "https://www.treccani.it/enciclopedia/comparazione/"
+    },
+    {
+      "title": "Treccani, Imperativo negativo (La grammatica italiana)",
+      "url": "https://www.treccani.it/enciclopedia/imperativo-negativo_%28La-grammatica-italiana%29/"
+    },
+    {
+      "title": "Treccani, Proposizioni relative (La grammatica italiana)",
+      "url": "https://www.treccani.it/enciclopedia/proposizioni-relative_%28La-grammatica-italiana%29/"
+    }
+  ],
+  "units": [
+    {
+      "id": "a2-completed-past",
+      "title": "Completed past",
+      "description": "Tell a short account of completed actions with the right auxiliary and participle.",
+      "lessons": [
+        {
+          "id": "a2-passato-regular",
+          "title": "Build regular completed past",
+          "outcome": "I can form passato prossimo with avere and regular participles across three verb families.",
+          "minutes": 6,
+          "prerequisites": [
+            "a1-first-past"
+          ],
+          "referenceTopics": [
+            "tenses",
+            "auxiliaries"
+          ],
+          "related": [
+            {
+              "entryId": "v:avere",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:parlare",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:finire",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "Present avere + participle reports a completed event; -ato, -uto, -ito are the regular endings.",
+          "objectives": [
+            {
+              "id": "a2-passato-regular.core",
+              "label": "Build regular completed past",
+              "errorTag": "passato-avere",
+              "explanation": "Present avere + participle reports a completed event; -ato, -uto, -ito are the regular endings.",
+              "teach": [
+                {
+                  "title": "The two-part form",
+                  "body": "Use present avere plus the participle. The auxiliary changes with the person; the participle normally stays in its base form with avere.",
+                  "examples": [
+                    {
+                      "it": "Abbiamo parlato con il medico.",
+                      "en": "We spoke with the doctor."
+                    }
+                  ]
+                },
+                {
+                  "title": "Three participle endings",
+                  "body": "Parlare → parlato; ricevere → ricevuto; finire → finito. A time word can make the finished event clear.",
+                  "examples": [
+                    {
+                      "it": "Ieri ho finito il libro.",
+                      "en": "Yesterday I finished the book."
+                    }
+                  ],
+                  "tip": "Some common verbs have irregular participles, taught next."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ieri noi ___ fino a tardi.",
+                  "translation": "Yesterday we worked until late.",
+                  "answer": "abbiamo lavorato",
+                  "options": [
+                    "abbiamo lavorato",
+                    "siamo lavorati",
+                    "lavoravamo"
+                  ],
+                  "explanation": "Lavorare uses avere here; the completed action is abbiamo lavorato.",
+                  "hint": "Use the we form of avere.",
+                  "speak": "Ieri noi abbiamo lavorato fino a tardi.",
+                  "id": "a2-passato-regular.q1",
+                  "errorTag": "passato-avere"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Marta ___ un messaggio ieri.",
+                  "translation": "Marta received a message yesterday.",
+                  "answer": "ha ricevuto",
+                  "options": [
+                    "ha ricevuto",
+                    "è ricevuta",
+                    "riceve"
+                  ],
+                  "explanation": "Ricevere forms ricevuto and takes avere for receiving something.",
+                  "hint": "Use ha plus -uto.",
+                  "speak": "Marta ha ricevuto un messaggio ieri.",
+                  "id": "a2-passato-regular.q2",
+                  "errorTag": "passato-avere"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "They finished the work.",
+                  "answer": "Hanno finito il lavoro.",
+                  "tokens": [
+                    "il",
+                    "Hanno",
+                    "lavoro.",
+                    "finito"
+                  ],
+                  "explanation": "Hanno finito reports a completed action by they.",
+                  "hint": "Put the auxiliary before the participle.",
+                  "speak": "Hanno finito il lavoro.",
+                  "id": "a2-passato-regular.q3",
+                  "errorTag": "passato-avere"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Tu ___ una lettera stamattina.",
+                  "translation": "You received a letter this morning.",
+                  "answer": "hai ricevuto",
+                  "explanation": "Ricevere takes the regular participle ricevuto, with avere.",
+                  "hint": "Use hai plus ricevuto.",
+                  "speak": "Tu hai ricevuto una lettera stamattina.",
+                  "id": "a2-passato-regular.q4",
+                  "errorTag": "passato-avere"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-passato-essere",
+          "title": "Use essere in the past",
+          "outcome": "I can form passato prossimo with essere and make its participle agree with the subject.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-passato-regular"
+          ],
+          "referenceTopics": [
+            "tenses",
+            "auxiliaries",
+            "adjectives"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:andare",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:venire",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "With verbs such as andare and arrivare, use essere; the participle matches the subject.",
+          "objectives": [
+            {
+              "id": "a2-passato-essere.core",
+              "label": "Use essere in the past",
+              "errorTag": "passato-essere-agreement",
+              "explanation": "With verbs such as andare and arrivare, use essere; the participle matches the subject.",
+              "teach": [
+                {
+                  "title": "The auxiliary essere",
+                  "body": "Some common intransitive verbs use essere: sono andato, siamo arrivati. Learn the auxiliary with the verb.",
+                  "examples": [
+                    {
+                      "it": "Marco è arrivato alle nove.",
+                      "en": "Marco arrived at nine."
+                    }
+                  ]
+                },
+                {
+                  "title": "Subject agreement",
+                  "body": "With essere, -o/-a/-i/-e show masculine/feminine and singular/plural. A female speaker says sono andata.",
+                  "examples": [
+                    {
+                      "it": "Anna e Sara sono partite presto.",
+                      "en": "Anna and Sara left early."
+                    }
+                  ],
+                  "tip": "The participle agrees with the subject, not the destination."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Sara ___ a Roma ieri.",
+                  "translation": "Sara went to Rome yesterday.",
+                  "answer": "è andata",
+                  "options": [
+                    "è andata",
+                    "ha andato",
+                    "è andato"
+                  ],
+                  "explanation": "Andare takes essere; andata agrees with Sara.",
+                  "hint": "Use feminine singular after è.",
+                  "speak": "Sara è andata a Roma ieri.",
+                  "id": "a2-passato-essere.q1",
+                  "errorTag": "passato-essere-agreement"
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match the Italian sentence halves.",
+                  "translation": "Everyday Italian sentences.",
+                  "pairs": [
+                    {
+                      "left": "Sara è",
+                      "right": "andata a scuola."
+                    },
+                    {
+                      "left": "I ragazzi sono",
+                      "right": "arrivati in ritardo."
+                    },
+                    {
+                      "left": "Le amiche sono",
+                      "right": "partite presto."
+                    }
+                  ],
+                  "explanation": "With essere, the participle agrees with the subject’s gender and number.",
+                  "hint": "Match -a, -i, and -e endings to their subjects.",
+                  "speak": "Sara è andata a scuola.",
+                  "id": "a2-passato-essere.q2",
+                  "errorTag": "passato-essere-agreement"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "We women returned home.",
+                  "answer": "Siamo tornate a casa.",
+                  "tokens": [
+                    "casa.",
+                    "Siamo",
+                    "a",
+                    "tornate"
+                  ],
+                  "explanation": "Siamo tornate agrees with an all-female we.",
+                  "hint": "The subject is explicitly women.",
+                  "speak": "Siamo tornate a casa.",
+                  "id": "a2-passato-essere.q3",
+                  "errorTag": "passato-essere-agreement"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Io, Giulia, ___ presto.",
+                  "translation": "I, Giulia, left early.",
+                  "answer": "sono partita",
+                  "explanation": "Partire takes essere and a female speaker uses partita.",
+                  "hint": "Use sono plus feminine singular.",
+                  "speak": "Io, Giulia, sono partita presto.",
+                  "id": "a2-passato-essere.q4",
+                  "errorTag": "passato-essere-agreement"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-irregular-participles",
+          "title": "Recall common participles",
+          "outcome": "I can use frequent irregular participles for completed events.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-passato-essere"
+          ],
+          "referenceTopics": [
+            "tenses",
+            "auxiliaries"
+          ],
+          "related": [
+            {
+              "entryId": "v:fare",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:dire",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:vedere",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "High-frequency past participles include fatto, detto, visto, letto, and preso.",
+          "objectives": [
+            {
+              "id": "a2-irregular-participles.core",
+              "label": "Recall common participles",
+              "errorTag": "irregular-participle",
+              "explanation": "High-frequency past participles include fatto, detto, visto, letto, and preso.",
+              "teach": [
+                {
+                  "title": "Learn the whole word",
+                  "body": "Fare → fatto, dire → detto, vedere → visto. These completed events commonly take avere.",
+                  "examples": [
+                    {
+                      "it": "Ho visto Marco al mercato.",
+                      "en": "I saw Marco at the market."
+                    }
+                  ]
+                },
+                {
+                  "title": "More everyday forms",
+                  "body": "Leggere → letto, prendere → preso, scrivere → scritto. Keep the auxiliary before the participle.",
+                  "examples": [
+                    {
+                      "it": "Giulia ha scritto una lettera.",
+                      "en": "Giulia wrote a letter."
+                    }
+                  ],
+                  "tip": "Do not attach regular -uto to an irregular participle."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ieri Luca ___ la cena.",
+                  "translation": "Yesterday Luca made dinner.",
+                  "answer": "ha fatto",
+                  "options": [
+                    "ha fatto",
+                    "ha facuto",
+                    "è fatto"
+                  ],
+                  "explanation": "Fare has the participle fatto.",
+                  "hint": "Use ha plus fatto.",
+                  "speak": "Ieri Luca ha fatto la cena.",
+                  "id": "a2-irregular-participles.q1",
+                  "errorTag": "irregular-participle"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Noi ___ il film ieri sera.",
+                  "translation": "We saw the film last night.",
+                  "answer": "abbiamo visto",
+                  "options": [
+                    "abbiamo visto",
+                    "abbiamo vedito",
+                    "siamo visti"
+                  ],
+                  "explanation": "Vedere commonly uses visto with avere.",
+                  "hint": "Use the everyday participle visto.",
+                  "speak": "Noi abbiamo visto il film ieri sera.",
+                  "id": "a2-irregular-participles.q2",
+                  "errorTag": "irregular-participle"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "Did you read the message?",
+                  "answer": "Hai letto il messaggio?",
+                  "tokens": [
+                    "il",
+                    "Hai",
+                    "messaggio?",
+                    "letto"
+                  ],
+                  "explanation": "Letto is the common participle of leggere.",
+                  "hint": "Place letto after hai.",
+                  "speak": "Hai letto il messaggio?",
+                  "id": "a2-irregular-participles.q3",
+                  "errorTag": "irregular-participle"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Marta ___ la verità.",
+                  "translation": "Marta told the truth.",
+                  "answer": "ha detto",
+                  "explanation": "Dire has the participle detto, with avere here.",
+                  "hint": "Use ha plus detto.",
+                  "speak": "Marta ha detto la verità.",
+                  "id": "a2-irregular-participles.q4",
+                  "errorTag": "irregular-participle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-choose-auxiliary",
+          "title": "Choose the past auxiliary",
+          "outcome": "I can choose the auxiliary from a verb’s pattern, including common movement exceptions.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-irregular-participles"
+          ],
+          "referenceTopics": [
+            "auxiliaries",
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:comprare",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:andare",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:vivere",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "All transitive verbs use avere; many intransitives use essere, but movement alone is not a rule.",
+          "objectives": [
+            {
+              "id": "a2-choose-auxiliary.core",
+              "label": "Choose the past auxiliary",
+              "errorTag": "auxiliary-choice",
+              "explanation": "All transitive verbs use avere; many intransitives use essere, but movement alone is not a rule.",
+              "teach": [
+                {
+                  "title": "Object-taking verbs",
+                  "body": "A verb acting directly on an object takes avere: ho comprato il pane, abbiamo preso il treno.",
+                  "examples": [
+                    {
+                      "it": "Anna ha comprato il pane.",
+                      "en": "Anna bought bread."
+                    }
+                  ]
+                },
+                {
+                  "title": "Learn intransitives individually",
+                  "body": "Andare and arrivare take essere, but camminare and viaggiare use avere. Always learn the auxiliary with the verb.",
+                  "examples": [
+                    {
+                      "it": "Abbiamo camminato per un’ora.",
+                      "en": "We walked for an hour."
+                    }
+                  ],
+                  "tip": "Do not choose essere merely because someone moves."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ieri Marco ___ il treno.",
+                  "translation": "Yesterday Marco took the train.",
+                  "answer": "ha preso",
+                  "options": [
+                    "ha preso",
+                    "è preso",
+                    "è presa"
+                  ],
+                  "explanation": "Prendere has a direct object, il treno, so use avere.",
+                  "hint": "What did Marco take?",
+                  "speak": "Ieri Marco ha preso il treno.",
+                  "id": "a2-choose-auxiliary.q1",
+                  "errorTag": "auxiliary-choice"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ieri le amiche ___ al parco.",
+                  "translation": "Yesterday the female friends went to the park.",
+                  "answer": "sono andate",
+                  "options": [
+                    "sono andate",
+                    "hanno andato",
+                    "sono andati"
+                  ],
+                  "explanation": "Andare takes essere and the participle agrees with amiche.",
+                  "hint": "Use essere plus feminine plural.",
+                  "speak": "Ieri le amiche sono andate al parco.",
+                  "id": "a2-choose-auxiliary.q2",
+                  "errorTag": "auxiliary-choice"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "We travelled by train.",
+                  "answer": "Abbiamo viaggiato in treno.",
+                  "tokens": [
+                    "treno.",
+                    "Abbiamo",
+                    "in",
+                    "viaggiato"
+                  ],
+                  "explanation": "Viaggiare uses avere despite expressing movement.",
+                  "hint": "The auxiliary is abbiamo.",
+                  "speak": "Abbiamo viaggiato in treno.",
+                  "id": "a2-choose-auxiliary.q3",
+                  "errorTag": "auxiliary-choice"
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match the Italian sentence halves.",
+                  "translation": "Everyday Italian sentences.",
+                  "pairs": [
+                    {
+                      "left": "Ho comprato",
+                      "right": "un biglietto."
+                    },
+                    {
+                      "left": "Sono arrivata",
+                      "right": "a casa alle sette."
+                    },
+                    {
+                      "left": "Abbiamo camminato",
+                      "right": "nel parco."
+                    }
+                  ],
+                  "explanation": "Transitive comprare and intransitive camminare use avere; arrivare uses essere, here for a female speaker.",
+                  "hint": "Match each auxiliary with a natural completed event.",
+                  "speak": "Ho comprato un biglietto.",
+                  "id": "a2-choose-auxiliary.q4",
+                  "errorTag": "auxiliary-choice"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2-past-aspect",
+      "title": "Past background and action in progress",
+      "description": "Show what used to happen, what happened once, and what was in progress.",
+      "lessons": [
+        {
+          "id": "a2-imperfetto",
+          "title": "Describe past habits and states",
+          "outcome": "I can form common imperfect forms for repeated actions and background states.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-choose-auxiliary"
+          ],
+          "referenceTopics": [
+            "tenses",
+            "passato-imperfetto"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere",
+              "caseId": "background"
+            },
+            {
+              "entryId": "v:parlare",
+              "caseId": "background"
+            }
+          ],
+          "takeaway": "The imperfect uses -avo/-evo/-ivo patterns; essere has ero, eri, era, eravamo, eravate, erano.",
+          "objectives": [
+            {
+              "id": "a2-imperfetto.core",
+              "label": "Describe past habits and states",
+              "errorTag": "imperfect-form-use",
+              "explanation": "The imperfect uses -avo/-evo/-ivo patterns; essere has ero, eri, era, eravamo, eravate, erano.",
+              "teach": [
+                {
+                  "title": "Repeated past actions",
+                  "body": "For a past routine, use forms such as parlavo, parlavi, parlava; the plural gives parlavamo, parlavate, parlavano.",
+                  "examples": [
+                    {
+                      "it": "Da bambino giocavo nel parco ogni giorno.",
+                      "en": "As a child I played in the park every day."
+                    }
+                  ]
+                },
+                {
+                  "title": "Past descriptions",
+                  "body": "Use the imperfect for past states and background: era, avevo, faceva. It does not itself mark a finished boundary.",
+                  "examples": [
+                    {
+                      "it": "Ieri alle otto ero stanca.",
+                      "en": "Yesterday at eight I was tired."
+                    }
+                  ],
+                  "tip": "Essere is irregular in the imperfect: ero, not essevo."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Da piccoli noi ___ spesso a casa dei nonni.",
+                  "translation": "When we were small, we often ate at our grandparents’ home.",
+                  "answer": "mangiavamo",
+                  "options": [
+                    "mangiavamo",
+                    "mangiamo",
+                    "mangiavano"
+                  ],
+                  "explanation": "Spesso and da piccoli frame a past habit; noi takes mangiavamo.",
+                  "hint": "Use the imperfect we ending.",
+                  "speak": "Da piccoli noi mangiavamo spesso a casa dei nonni.",
+                  "id": "a2-imperfetto.q1",
+                  "errorTag": "imperfect-form-use"
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match the Italian sentence halves.",
+                  "translation": "Everyday Italian sentences.",
+                  "pairs": [
+                    {
+                      "left": "Io",
+                      "right": "avevo un cane da piccolo."
+                    },
+                    {
+                      "left": "Noi",
+                      "right": "avevamo una casa al mare."
+                    },
+                    {
+                      "left": "Loro",
+                      "right": "avevano molto tempo libero."
+                    }
+                  ],
+                  "explanation": "Avevo, avevamo, and avevano describe past states for different subjects.",
+                  "hint": "Match the subject to the imperfect ending.",
+                  "speak": "Io avevo un cane da piccolo.",
+                  "id": "a2-imperfetto.q2",
+                  "errorTag": "imperfect-form-use"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "As a girl I used to read every evening.",
+                  "answer": "Da bambina leggevo ogni sera.",
+                  "tokens": [
+                    "sera.",
+                    "Da",
+                    "leggevo",
+                    "bambina",
+                    "ogni"
+                  ],
+                  "explanation": "Leggevo with ogni sera expresses a repeated past habit.",
+                  "hint": "Start with the childhood phrase.",
+                  "speak": "Da bambina leggevo ogni sera.",
+                  "id": "a2-imperfetto.q3",
+                  "errorTag": "imperfect-form-use"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Ieri alle otto Marta ___ a casa.",
+                  "translation": "Yesterday at eight Marta was at home.",
+                  "answer": "era",
+                  "explanation": "Era is the imperfect of essere for one person.",
+                  "hint": "Use essere’s third-person imperfect.",
+                  "speak": "Ieri alle otto Marta era a casa.",
+                  "id": "a2-imperfetto.q4",
+                  "errorTag": "imperfect-form-use"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-past-contrast",
+          "title": "Contrast background and event",
+          "outcome": "I can choose imperfect for an ongoing background and passato prossimo for a completed event.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-imperfetto"
+          ],
+          "referenceTopics": [
+            "passato-imperfetto",
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere",
+              "caseId": "background"
+            },
+            {
+              "entryId": "v:arrivare",
+              "caseId": "background"
+            }
+          ],
+          "takeaway": "The imperfect sets the scene; passato prossimo marks the bounded event in it.",
+          "objectives": [
+            {
+              "id": "a2-past-contrast.core",
+              "label": "Contrast background and event",
+              "errorTag": "past-aspect-choice",
+              "explanation": "The imperfect sets the scene; passato prossimo marks the bounded event in it.",
+              "teach": [
+                {
+                  "title": "Background plus arrival",
+                  "body": "Use imperfect for an action already underway and passato prossimo for the event that occurred: leggevo quando è arrivato.",
+                  "examples": [
+                    {
+                      "it": "Leggevo quando Marco è arrivato.",
+                      "en": "I was reading when Marco arrived."
+                    }
+                  ]
+                },
+                {
+                  "title": "Habit versus one occasion",
+                  "body": "Ogni sabato is often a past habit; sabato scorso can point to one completed occasion. Time words help but meaning decides.",
+                  "examples": [
+                    {
+                      "it": "Sabato scorso ho letto tutto il libro.",
+                      "en": "Last Saturday I read the whole book."
+                    }
+                  ],
+                  "tip": "A single sentence can combine both tenses."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Mentre io ___, il telefono ha suonato.",
+                  "translation": "While I was cooking, the phone rang.",
+                  "answer": "cucinavo",
+                  "options": [
+                    "cucinavo",
+                    "ho cucinato",
+                    "cucino"
+                  ],
+                  "explanation": "Mentre introduces the action in progress; the ring is the completed event.",
+                  "hint": "Use imperfect for the background cooking.",
+                  "speak": "Mentre io cucinavo, il telefono ha suonato.",
+                  "id": "a2-past-contrast.q1",
+                  "errorTag": "past-aspect-choice"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ieri Anna ___ alle nove.",
+                  "translation": "Yesterday Anna arrived at nine.",
+                  "answer": "è arrivata",
+                  "options": [
+                    "è arrivata",
+                    "arrivava",
+                    "ha arrivato"
+                  ],
+                  "explanation": "A single arrival at a stated time is a completed event.",
+                  "hint": "Use essere for arrivare.",
+                  "speak": "Ieri Anna è arrivata alle nove.",
+                  "id": "a2-past-contrast.q2",
+                  "errorTag": "past-aspect-choice"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "It was raining when we went out.",
+                  "answer": "Pioveva quando siamo usciti.",
+                  "tokens": [
+                    "siamo",
+                    "Pioveva",
+                    "usciti.",
+                    "quando"
+                  ],
+                  "explanation": "Pioveva is the background; siamo usciti is the bounded action.",
+                  "hint": "Place the weather background first.",
+                  "speak": "Pioveva quando siamo usciti.",
+                  "id": "a2-past-contrast.q3",
+                  "errorTag": "past-aspect-choice"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Da bambino io ___ al mare ogni estate.",
+                  "translation": "As a child I used to go to the sea every summer.",
+                  "answer": "andavo",
+                  "explanation": "Ogni estate frames a repeated past habit, so andavo.",
+                  "hint": "Use imperfect, not a single trip.",
+                  "speak": "Da bambino io andavo al mare ogni estate.",
+                  "id": "a2-past-contrast.q4",
+                  "errorTag": "past-aspect-choice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-progressive-now",
+          "title": "Focus on an action now",
+          "outcome": "I can use stare + gerund for an action in progress now and avoid it for ordinary habits.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-past-contrast"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:stare",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:leggere",
+              "caseId": "present"
+            }
+          ],
+          "takeaway": "Sto leggendo focuses on the current unfolding action; the simple present remains normal for habits and states.",
+          "objectives": [
+            {
+              "id": "a2-progressive-now.core",
+              "label": "Focus on an action now",
+              "errorTag": "present-progressive",
+              "explanation": "Sto leggendo focuses on the current unfolding action; the simple present remains normal for habits and states.",
+              "teach": [
+                {
+                  "title": "Build the present progressive",
+                  "body": "Conjugate stare and add -ando for -are or -endo for -ere/-ire: sto parlando, stai leggendo.",
+                  "examples": [
+                    {
+                      "it": "Adesso sto leggendo una lettera.",
+                      "en": "Right now I am reading a letter."
+                    }
+                  ]
+                },
+                {
+                  "title": "Know its limit",
+                  "body": "Use the simple present for routines and stable possession: leggo ogni sera, ho due sorelle. Italian does not need the progressive whenever English uses “-ing.”",
+                  "examples": [
+                    {
+                      "it": "Leggo ogni sera prima di dormire.",
+                      "en": "I read every evening before sleep."
+                    }
+                  ],
+                  "tip": "Do not say sto avendo for ordinary possession."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Adesso Luca ___ una mail.",
+                  "translation": "Right now Luca is writing an email.",
+                  "answer": "sta scrivendo",
+                  "options": [
+                    "sta scrivendo",
+                    "sto scrivendo",
+                    "scrivono"
+                  ],
+                  "explanation": "Luca takes sta; scrivere gives scrivendo for the action underway.",
+                  "hint": "Use third-person stare plus a gerund.",
+                  "speak": "Adesso Luca sta scrivendo una mail.",
+                  "id": "a2-progressive-now.q1",
+                  "errorTag": "present-progressive"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ogni mattina io ___ alle sette.",
+                  "translation": "Every morning I eat at seven.",
+                  "answer": "mangio",
+                  "options": [
+                    "mangio",
+                    "sto mangiando",
+                    "ho mangiato"
+                  ],
+                  "explanation": "Ogni mattina is a habitual routine, so the simple present is natural.",
+                  "hint": "A repeated habit uses the plain present.",
+                  "speak": "Ogni mattina io mangio alle sette.",
+                  "id": "a2-progressive-now.q2",
+                  "errorTag": "present-progressive"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "We are waiting for the train now.",
+                  "answer": "Stiamo aspettando il treno.",
+                  "tokens": [
+                    "il",
+                    "Stiamo",
+                    "treno.",
+                    "aspettando"
+                  ],
+                  "explanation": "Stiamo + aspettando focuses on the current wait.",
+                  "hint": "Put stare before the gerund.",
+                  "speak": "Stiamo aspettando il treno.",
+                  "id": "a2-progressive-now.q3",
+                  "errorTag": "present-progressive"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Use stare + gerundio to type the missing phrase.",
+                  "context": "In questo momento loro ___ la cena.",
+                  "translation": "At this moment they are preparing dinner.",
+                  "answer": "stanno preparando",
+                  "explanation": "Loro takes stanno; preparare gives preparando.",
+                  "hint": "Use the they form of stare plus -ando.",
+                  "speak": "In questo momento loro stanno preparando la cena.",
+                  "id": "a2-progressive-now.q4",
+                  "errorTag": "present-progressive"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-progressive-past",
+          "title": "Focus on an action underway then",
+          "outcome": "I can use stavo/stava/stavamo + gerund for an action underway at a past moment.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-progressive-now"
+          ],
+          "referenceTopics": [
+            "tenses",
+            "passato-imperfetto"
+          ],
+          "related": [
+            {
+              "entryId": "v:stare",
+              "caseId": "background"
+            },
+            {
+              "entryId": "v:parlare",
+              "caseId": "background"
+            }
+          ],
+          "takeaway": "The past progressive uses imperfect stare + gerund; it often provides the background to a completed event.",
+          "objectives": [
+            {
+              "id": "a2-progressive-past.core",
+              "label": "Focus on an action underway then",
+              "errorTag": "past-progressive",
+              "explanation": "The past progressive uses imperfect stare + gerund; it often provides the background to a completed event.",
+              "teach": [
+                {
+                  "title": "The past viewpoint",
+                  "body": "Stavo parlando means I was speaking at a particular past moment; stava, stavamo, and other imperfect forms change with the subject.",
+                  "examples": [
+                    {
+                      "it": "Alle otto stavo studiando.",
+                      "en": "At eight I was studying."
+                    }
+                  ]
+                },
+                {
+                  "title": "Background and interruption",
+                  "body": "Combine it with a completed event: stavamo cenando quando è arrivata Giulia. For a repeated habit, use a plain imperfect.",
+                  "examples": [
+                    {
+                      "it": "Stavamo cenando quando è arrivata Giulia.",
+                      "en": "We were having dinner when Giulia arrived."
+                    }
+                  ],
+                  "tip": "Avoid a perfect form of stare + gerund for this meaning."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Alle nove Marta ___ un libro.",
+                  "translation": "At nine Marta was reading a book.",
+                  "answer": "stava leggendo",
+                  "options": [
+                    "stava leggendo",
+                    "sta leggendo",
+                    "ha letto"
+                  ],
+                  "explanation": "At a past moment, Marta’s ongoing reading takes stava leggendo.",
+                  "hint": "Use imperfect stare.",
+                  "speak": "Alle nove Marta stava leggendo un libro.",
+                  "id": "a2-progressive-past.q1",
+                  "errorTag": "past-progressive"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Io ___ quando hai chiamato.",
+                  "translation": "I was cooking when you called.",
+                  "answer": "stavo cucinando",
+                  "options": [
+                    "stavo cucinando",
+                    "sto cucinando",
+                    "ho cucinato"
+                  ],
+                  "explanation": "The cooking was underway before the completed call.",
+                  "hint": "Use stavo plus -ando.",
+                  "speak": "Io stavo cucinando quando hai chiamato.",
+                  "id": "a2-progressive-past.q2",
+                  "errorTag": "past-progressive"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "We were sleeping when the phone rang.",
+                  "answer": "Stavamo dormendo quando è suonato il telefono.",
+                  "tokens": [
+                    "è",
+                    "quando",
+                    "Stavamo",
+                    "telefono.",
+                    "suonato",
+                    "dormendo",
+                    "il"
+                  ],
+                  "explanation": "Stavamo dormendo is ongoing background; è suonato marks the interrupting event.",
+                  "hint": "Start with the ongoing action.",
+                  "speak": "Stavamo dormendo quando è suonato il telefono.",
+                  "id": "a2-progressive-past.q3",
+                  "errorTag": "past-progressive"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Use stare + gerundio to type the missing phrase.",
+                  "context": "Ieri alle tre voi ___ al parco.",
+                  "translation": "Yesterday at three you all were walking in the park.",
+                  "answer": "stavate camminando",
+                  "explanation": "Voi takes stavate; camminare gives camminando.",
+                  "hint": "Use the voi imperfect of stare.",
+                  "speak": "Ieri alle tre voi stavate camminando al parco.",
+                  "id": "a2-progressive-past.q4",
+                  "errorTag": "past-progressive"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2-pronouns-reflexives",
+      "title": "Reflexives and small pronouns",
+      "description": "Keep the right person or thing in view without repeating each noun.",
+      "lessons": [
+        {
+          "id": "a2-reflexive-present",
+          "title": "Describe your own routine",
+          "outcome": "I can use a reflexive pronoun with a present-tense daily-routine verb.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-progressive-past"
+          ],
+          "referenceTopics": [
+            "reflexives",
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:alzarsi",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:svegliarsi",
+              "caseId": "present"
+            }
+          ],
+          "takeaway": "Mi, ti, si, ci, vi, si go before a finite reflexive verb and identify who receives the action.",
+          "objectives": [
+            {
+              "id": "a2-reflexive-present.core",
+              "label": "Describe your own routine",
+              "errorTag": "reflexive-present",
+              "explanation": "Mi, ti, si, ci, vi, si go before a finite reflexive verb and identify who receives the action.",
+              "teach": [
+                {
+                  "title": "Match pronoun and person",
+                  "body": "Alzarsi gives mi alzo, ti alzi, si alza, ci alziamo, vi alzate, si alzano. The small pronoun is part of the verb phrase.",
+                  "examples": [
+                    {
+                      "it": "Mi alzo alle sette.",
+                      "en": "I get up at seven."
+                    }
+                  ]
+                },
+                {
+                  "title": "Everyday routines",
+                  "body": "A reflexive verb often names a routine done to oneself: si sveglia, ci laviamo. Italian may use a reflexive where English does not.",
+                  "examples": [
+                    {
+                      "it": "Anna si sveglia presto.",
+                      "en": "Anna wakes up early."
+                    }
+                  ],
+                  "tip": "The reflexive pronoun sits before the finite verb in an ordinary statement."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Io ___ alle sette.",
+                  "translation": "I get up at seven.",
+                  "answer": "mi alzo",
+                  "options": [
+                    "mi alzo",
+                    "si alza",
+                    "ti alzi"
+                  ],
+                  "explanation": "Io needs mi and the io verb form alzo.",
+                  "hint": "Match both small pronoun and verb to io.",
+                  "speak": "Io mi alzo alle sette.",
+                  "id": "a2-reflexive-present.q1",
+                  "errorTag": "reflexive-present"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Noi ___ prima di cena.",
+                  "translation": "We wash up before dinner.",
+                  "answer": "ci laviamo",
+                  "options": [
+                    "ci laviamo",
+                    "vi lavate",
+                    "si lavano"
+                  ],
+                  "explanation": "Noi takes ci laviamo.",
+                  "hint": "Use the we pronoun ci.",
+                  "speak": "Noi ci laviamo prima di cena.",
+                  "id": "a2-reflexive-present.q2",
+                  "errorTag": "reflexive-present"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "Marta wakes up early.",
+                  "answer": "Marta si sveglia presto.",
+                  "tokens": [
+                    "presto.",
+                    "sveglia",
+                    "Marta",
+                    "si"
+                  ],
+                  "explanation": "Marta takes si before the finite verb.",
+                  "hint": "Put si just before sveglia.",
+                  "speak": "Marta si sveglia presto.",
+                  "id": "a2-reflexive-present.q3",
+                  "errorTag": "reflexive-present"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Tu ___ alle otto?",
+                  "translation": "Do you get up at eight?",
+                  "answer": "ti alzi",
+                  "explanation": "Tu takes ti alzi.",
+                  "hint": "Use ti plus the tu form.",
+                  "speak": "Tu ti alzi alle otto?",
+                  "id": "a2-reflexive-present.q4",
+                  "errorTag": "reflexive-present"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-reflexive-past",
+          "title": "Tell a reflexive past event",
+          "outcome": "I can use essere with a past reflexive verb and agree the participle.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-reflexive-present"
+          ],
+          "referenceTopics": [
+            "reflexives",
+            "auxiliaries",
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:alzarsi",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:svegliarsi",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "Reflexive passato prossimo uses a reflexive pronoun + essere + an agreeing participle.",
+          "objectives": [
+            {
+              "id": "a2-reflexive-past.core",
+              "label": "Tell a reflexive past event",
+              "errorTag": "reflexive-past",
+              "explanation": "Reflexive passato prossimo uses a reflexive pronoun + essere + an agreeing participle.",
+              "teach": [
+                {
+                  "title": "The three parts",
+                  "body": "Mi sono alzato, ti sei alzata, si è alzato combine pronoun, essere, and participle.",
+                  "examples": [
+                    {
+                      "it": "Ieri mi sono svegliata presto.",
+                      "en": "Yesterday I, a woman, woke up early."
+                    }
+                  ]
+                },
+                {
+                  "title": "Agreement remains",
+                  "body": "The participle matches the subject: le ragazze si sono alzate. With plural or feminine subjects, change the ending.",
+                  "examples": [
+                    {
+                      "it": "I ragazzi si sono lavati le mani.",
+                      "en": "The boys washed their hands."
+                    }
+                  ],
+                  "tip": "The auxiliary is essere for reflexive verbs even when the non-reflexive verb uses avere."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ieri Anna ___ presto.",
+                  "translation": "Yesterday Anna got up early.",
+                  "answer": "si è alzata",
+                  "options": [
+                    "si è alzata",
+                    "ha alzato",
+                    "si è alzato"
+                  ],
+                  "explanation": "Anna takes si è, and alzata agrees with her.",
+                  "hint": "Use feminine singular after essere.",
+                  "speak": "Ieri Anna si è alzata presto.",
+                  "id": "a2-reflexive-past.q1",
+                  "errorTag": "reflexive-past"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Noi due donne ___ alle sette.",
+                  "translation": "We two women woke up at seven.",
+                  "answer": "ci siamo svegliate",
+                  "options": [
+                    "ci siamo svegliate",
+                    "ci abbiamo svegliato",
+                    "ci siamo svegliati"
+                  ],
+                  "explanation": "Ci siamo is reflexive past; svegliate agrees with two women.",
+                  "hint": "Use feminine plural.",
+                  "speak": "Noi due donne ci siamo svegliate alle sette.",
+                  "id": "a2-reflexive-past.q2",
+                  "errorTag": "reflexive-past"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "I, a man, washed my hands.",
+                  "answer": "Mi sono lavato le mani.",
+                  "tokens": [
+                    "mani.",
+                    "Mi",
+                    "lavato",
+                    "le",
+                    "sono"
+                  ],
+                  "explanation": "Reflexive past takes mi sono and masculine lavato here.",
+                  "hint": "Start with mi sono.",
+                  "speak": "Mi sono lavato le mani.",
+                  "id": "a2-reflexive-past.q3",
+                  "errorTag": "reflexive-past"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Tu, Marco, ___ tardi ieri.",
+                  "translation": "You, Marco, got up late yesterday.",
+                  "answer": "ti sei alzato",
+                  "explanation": "Marco is male: ti sei alzato.",
+                  "hint": "Use the tu auxiliary sei and -o.",
+                  "speak": "Tu, Marco, ti sei alzato tardi ieri.",
+                  "id": "a2-reflexive-past.q4",
+                  "errorTag": "reflexive-past"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-direct-object-pronouns",
+          "title": "Replace the thing seen",
+          "outcome": "I can use lo, la, li, and le before a finite verb to avoid repeating a direct object.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-reflexive-past"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:vedere",
+              "caseId": "present"
+            },
+            {
+              "entryId": "w:libro|noun"
+            }
+          ],
+          "takeaway": "A direct-object pronoun replaces the person or thing acted on and agrees with that noun.",
+          "objectives": [
+            {
+              "id": "a2-direct-object-pronouns.core",
+              "label": "Replace the thing seen",
+              "errorTag": "direct-object-pronoun",
+              "explanation": "A direct-object pronoun replaces the person or thing acted on and agrees with that noun.",
+              "teach": [
+                {
+                  "title": "Singular things",
+                  "body": "Lo replaces a masculine singular direct object; la replaces a feminine singular one. Place it before the finite verb.",
+                  "examples": [
+                    {
+                      "it": "Vedi il libro? Sì, lo vedo.",
+                      "en": "Do you see the book? Yes, I see it."
+                    }
+                  ]
+                },
+                {
+                  "title": "Plural things",
+                  "body": "Li replaces masculine plural objects; le replaces feminine plural objects. With non, say non lo vedo.",
+                  "examples": [
+                    {
+                      "it": "Cerchi le chiavi? Le vedo qui.",
+                      "en": "Are you looking for the keys? I see them here."
+                    }
+                  ],
+                  "tip": "With a preceding direct object in a compound past tense, participle agreement needs extra care; that comes later."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Cerco il libro. Non ___ trovo.",
+                  "translation": "I am looking for the book. I cannot find it.",
+                  "answer": "lo",
+                  "options": [
+                    "lo",
+                    "la",
+                    "li"
+                  ],
+                  "explanation": "Il libro is masculine singular, so lo replaces it.",
+                  "hint": "Use the masculine singular object pronoun.",
+                  "speak": "Cerco il libro. Non lo trovo.",
+                  "id": "a2-direct-object-pronouns.q1",
+                  "errorTag": "direct-object-pronoun"
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match the Italian sentence halves.",
+                  "translation": "Everyday Italian sentences.",
+                  "pairs": [
+                    {
+                      "left": "Compro le mele e",
+                      "right": "le porto a casa."
+                    },
+                    {
+                      "left": "Compro il pane e",
+                      "right": "lo porto a casa."
+                    },
+                    {
+                      "left": "Compro i libri e",
+                      "right": "li porto a casa."
+                    }
+                  ],
+                  "explanation": "Le, lo, and li replace the feminine plural, masculine singular, and masculine plural objects.",
+                  "hint": "Match each pronoun to the noun it replaces.",
+                  "speak": "Compro le mele e le porto a casa.",
+                  "id": "a2-direct-object-pronouns.q2",
+                  "errorTag": "direct-object-pronoun"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "I see her from the window.",
+                  "answer": "La vedo dalla finestra.",
+                  "tokens": [
+                    "finestra.",
+                    "La",
+                    "dalla",
+                    "vedo"
+                  ],
+                  "explanation": "La is the feminine direct object before vedo.",
+                  "hint": "Begin with the object pronoun.",
+                  "speak": "La vedo dalla finestra.",
+                  "id": "a2-direct-object-pronouns.q3",
+                  "errorTag": "direct-object-pronoun"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Hai i biglietti? Sì, ___ ho.",
+                  "translation": "Do you have the tickets? Yes, I have them.",
+                  "answer": "li",
+                  "explanation": "I biglietti is masculine plural; li stands before ho.",
+                  "hint": "Use the masculine plural pronoun.",
+                  "speak": "Hai i biglietti? Sì, li ho.",
+                  "id": "a2-direct-object-pronouns.q4",
+                  "errorTag": "direct-object-pronoun"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-indirect-object-pronouns",
+          "title": "Say to whom",
+          "outcome": "I can use mi, ti, gli, and le for a receiver or addressee.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-direct-object-pronouns"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:dare",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:dire",
+              "caseId": "present"
+            }
+          ],
+          "takeaway": "An indirect-object pronoun often means to/for someone and normally goes before the finite verb.",
+          "objectives": [
+            {
+              "id": "a2-indirect-object-pronouns.core",
+              "label": "Say to whom",
+              "errorTag": "indirect-object-pronoun",
+              "explanation": "An indirect-object pronoun often means to/for someone and normally goes before the finite verb.",
+              "teach": [
+                {
+                  "title": "The recipient",
+                  "body": "Mi means to me and ti to you. Gli means to him; le means to her in the common singular pattern.",
+                  "examples": [
+                    {
+                      "it": "Marco mi dà il libro.",
+                      "en": "Marco gives me the book."
+                    }
+                  ]
+                },
+                {
+                  "title": "With speaking verbs",
+                  "body": "Dire and telefonare often take a recipient: gli dico la verità, le telefono. Keep the message or thing separate from the person receiving it.",
+                  "examples": [
+                    {
+                      "it": "Le telefono domani.",
+                      "en": "I will call her tomorrow."
+                    }
+                  ],
+                  "tip": "In the common singular pattern, le refers to her; context identifies the person."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Parlo a Luca. ___ parlo domani.",
+                  "translation": "I speak to Luca. I will speak to him tomorrow.",
+                  "answer": "Gli",
+                  "options": [
+                    "Gli",
+                    "Le",
+                    "Lo"
+                  ],
+                  "explanation": "Luca is the male addressee, so gli means to him.",
+                  "hint": "This is to him, not a direct object.",
+                  "speak": "Parlo a Luca. Gli parlo domani.",
+                  "id": "a2-indirect-object-pronouns.q1",
+                  "errorTag": "indirect-object-pronoun"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Do il libro a Marta. ___ do il libro.",
+                  "translation": "I give the book to Marta. I give her the book.",
+                  "answer": "Le",
+                  "options": [
+                    "Le",
+                    "Gli",
+                    "La"
+                  ],
+                  "explanation": "Marta is the female recipient, so le means to her.",
+                  "hint": "Choose the indirect form for her.",
+                  "speak": "Do il libro a Marta. Le do il libro.",
+                  "id": "a2-indirect-object-pronouns.q2",
+                  "errorTag": "indirect-object-pronoun"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "I send you a photo.",
+                  "answer": "Ti mando una foto.",
+                  "tokens": [
+                    "una",
+                    "Ti",
+                    "foto.",
+                    "mando"
+                  ],
+                  "explanation": "Ti means to you and goes before mando.",
+                  "hint": "Place ti before the verb.",
+                  "speak": "Ti mando una foto.",
+                  "id": "a2-indirect-object-pronouns.q3",
+                  "errorTag": "indirect-object-pronoun"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Anna parla a me. Anna ___ parla.",
+                  "translation": "Anna speaks to me. Anna speaks to me.",
+                  "answer": "mi",
+                  "explanation": "Mi means to me before parla.",
+                  "hint": "Use the first-person receiver pronoun.",
+                  "speak": "Anna parla a me. Anna mi parla.",
+                  "id": "a2-indirect-object-pronouns.q4",
+                  "errorTag": "indirect-object-pronoun"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-pronoun-placement",
+          "title": "Place a pronoun with an infinitive",
+          "outcome": "I can place a direct-object pronoun before a modal or attach it to the infinitive.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-indirect-object-pronouns"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:volere",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:potere",
+              "caseId": "present"
+            }
+          ],
+          "takeaway": "With a modal + infinitive, either lo voglio leggere or voglio leggerlo can express the same object.",
+          "objectives": [
+            {
+              "id": "a2-pronoun-placement.core",
+              "label": "Place a pronoun with an infinitive",
+              "errorTag": "pronoun-position",
+              "explanation": "With a modal + infinitive, either lo voglio leggere or voglio leggerlo can express the same object.",
+              "teach": [
+                {
+                  "title": "Before the modal",
+                  "body": "Lo voglio leggere places lo before the finite modal. Non goes before the pronoun: non lo posso comprare.",
+                  "examples": [
+                    {
+                      "it": "Lo voglio leggere stasera.",
+                      "en": "I want to read it tonight."
+                    }
+                  ]
+                },
+                {
+                  "title": "After the infinitive",
+                  "body": "Voglio leggerlo attaches the pronoun to the infinitive after removing its final -e. These two placements are common alternatives.",
+                  "examples": [
+                    {
+                      "it": "Voglio leggerlo stasera.",
+                      "en": "I want to read it tonight."
+                    }
+                  ],
+                  "tip": "Do not attach lo to the conjugated modal."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Questo libro è interessante: ___ stasera.",
+                  "translation": "This book is interesting: I want to read it tonight.",
+                  "answer": "voglio leggerlo",
+                  "options": [
+                    "voglio leggerlo",
+                    "voglio leggere lo",
+                    "voglio lo leggere"
+                  ],
+                  "explanation": "Attach lo to the infinitive after dropping final -e.",
+                  "hint": "Make leggere + lo one word.",
+                  "speak": "Questo libro è interessante: voglio leggerlo stasera.",
+                  "id": "a2-pronoun-placement.q1",
+                  "errorTag": "pronoun-position"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Il biglietto è caro: non ___ comprare.",
+                  "translation": "The ticket is expensive: I cannot buy it.",
+                  "answer": "lo posso",
+                  "options": [
+                    "lo posso",
+                    "posso lo",
+                    "la posso"
+                  ],
+                  "explanation": "Lo replaces masculine biglietto and stands before posso.",
+                  "hint": "Place the pronoun before the finite modal.",
+                  "speak": "Il biglietto è caro: non lo posso comprare.",
+                  "id": "a2-pronoun-placement.q2",
+                  "errorTag": "pronoun-position"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "I have to call her today.",
+                  "answer": "La devo chiamare oggi.",
+                  "tokens": [
+                    "chiamare",
+                    "La",
+                    "oggi.",
+                    "devo"
+                  ],
+                  "explanation": "La can stand before devo in a modal + infinitive phrase.",
+                  "hint": "Begin with the pronoun.",
+                  "speak": "La devo chiamare oggi.",
+                  "id": "a2-pronoun-placement.q3",
+                  "errorTag": "pronoun-position"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Il film è bello; ___ domani.",
+                  "translation": "The film is good; I want to see it tomorrow.",
+                  "answer": "voglio vederlo",
+                  "explanation": "Vedere drops its final -e when lo attaches: vederlo.",
+                  "hint": "Attach lo to the infinitive.",
+                  "speak": "Il film è bello; voglio vederlo domani.",
+                  "accepted": [
+                    "lo voglio vedere"
+                  ],
+                  "id": "a2-pronoun-placement.q4",
+                  "errorTag": "pronoun-position"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2-future-conditional",
+      "title": "Future and polite possibilities",
+      "description": "Make a future plan and soften a request with a conditional form.",
+      "lessons": [
+        {
+          "id": "a2-future-regular",
+          "title": "Make a future plan",
+          "outcome": "I can form the regular future of common -are, -ere, and -ire verbs.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-pronoun-placement"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:parlare",
+              "caseId": "future"
+            },
+            {
+              "entryId": "v:prendere",
+              "caseId": "future"
+            },
+            {
+              "entryId": "v:finire",
+              "caseId": "future"
+            }
+          ],
+          "takeaway": "Future endings are -ò, -ai, -à, -emo, -ete, -anno; -are uses e in its future stem.",
+          "objectives": [
+            {
+              "id": "a2-future-regular.core",
+              "label": "Make a future plan",
+              "errorTag": "future-form",
+              "explanation": "Future endings are -ò, -ai, -à, -emo, -ete, -anno; -are uses e in its future stem.",
+              "teach": [
+                {
+                  "title": "The shared endings",
+                  "body": "Parlare gives parlerò, parlerai, parlerà; the -are vowel becomes e. The plural includes parleremo, parlerete, parleranno.",
+                  "examples": [
+                    {
+                      "it": "Domani parlerò con Marco.",
+                      "en": "Tomorrow I will speak with Marco."
+                    }
+                  ]
+                },
+                {
+                  "title": "Other regular families",
+                  "body": "Prendere gives prenderò, partire gives partirò. Italian also often uses the present for near plans, but the future makes futurity explicit.",
+                  "examples": [
+                    {
+                      "it": "La settimana prossima partiremo.",
+                      "en": "Next week we will leave."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Domani noi ___ italiano.",
+                  "translation": "Tomorrow we will speak Italian.",
+                  "answer": "parleremo",
+                  "options": [
+                    "parleremo",
+                    "parlerete",
+                    "parleranno"
+                  ],
+                  "explanation": "Parlare takes the future stem parler- and noi ending -emo.",
+                  "hint": "Use parler- plus the we ending.",
+                  "speak": "Domani noi parleremo italiano.",
+                  "id": "a2-future-regular.q1",
+                  "errorTag": "future-form"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Domani Marta ___ il treno.",
+                  "translation": "Tomorrow Marta will take the train.",
+                  "answer": "prenderà",
+                  "options": [
+                    "prenderà",
+                    "prenderai",
+                    "prenderanno"
+                  ],
+                  "explanation": "Prendere takes the future stem prender- and third-person -à.",
+                  "hint": "Use the third-person future ending.",
+                  "speak": "Domani Marta prenderà il treno.",
+                  "id": "a2-future-regular.q2",
+                  "errorTag": "future-form"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "They will leave on Monday morning.",
+                  "answer": "Partiranno lunedì mattina.",
+                  "tokens": [
+                    "mattina.",
+                    "Partiranno",
+                    "lunedì"
+                  ],
+                  "explanation": "Partiranno has the third-person plural future ending.",
+                  "hint": "Start with the future verb.",
+                  "speak": "Partiranno lunedì mattina.",
+                  "id": "a2-future-regular.q3",
+                  "errorTag": "future-form"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Use the future tense to type the missing form.",
+                  "context": "Io ___ il lavoro domani.",
+                  "translation": "I will finish the work tomorrow.",
+                  "answer": "finirò",
+                  "explanation": "Finire takes the future ending -ò.",
+                  "hint": "Use finir- plus the I ending.",
+                  "speak": "Io finirò il lavoro domani.",
+                  "id": "a2-future-regular.q4",
+                  "errorTag": "future-form"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-future-irregular",
+          "title": "Use common irregular futures",
+          "outcome": "I can use future stems of essere, avere, andare, fare, and venire.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-future-regular"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere",
+              "caseId": "future"
+            },
+            {
+              "entryId": "v:avere",
+              "caseId": "future"
+            },
+            {
+              "entryId": "v:andare",
+              "caseId": "future"
+            }
+          ],
+          "takeaway": "Some common futures keep regular endings but change their stems: sar-, avr-, andr-, far-, verr-.",
+          "objectives": [
+            {
+              "id": "a2-future-irregular.core",
+              "label": "Use common irregular futures",
+              "errorTag": "irregular-future",
+              "explanation": "Some common futures keep regular endings but change their stems: sar-, avr-, andr-, far-, verr-.",
+              "teach": [
+                {
+                  "title": "Short future stems",
+                  "body": "Essere → sarò, avere → avrò, andare → andrò. The future ending still tells the person.",
+                  "examples": [
+                    {
+                      "it": "Domani sarò a casa.",
+                      "en": "Tomorrow I will be at home."
+                    }
+                  ]
+                },
+                {
+                  "title": "More useful stems",
+                  "body": "Fare → farò and venire → verrò. For a plural subject: faremo, verranno.",
+                  "examples": [
+                    {
+                      "it": "Loro verranno sabato.",
+                      "en": "They will come on Saturday."
+                    }
+                  ],
+                  "tip": "Keep the doubled r in verrò and verranno."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Domani io ___ a Milano.",
+                  "translation": "Tomorrow I will go to Milan.",
+                  "answer": "andrò",
+                  "options": [
+                    "andrò",
+                    "anderò",
+                    "ando"
+                  ],
+                  "explanation": "Andare uses the future stem andr-.",
+                  "hint": "Use andr- plus -ò.",
+                  "speak": "Domani io andrò a Milano.",
+                  "id": "a2-future-irregular.q1",
+                  "errorTag": "irregular-future"
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match the Italian sentence halves.",
+                  "translation": "Everyday Italian sentences.",
+                  "pairs": [
+                    {
+                      "left": "Io",
+                      "right": "avrò tempo domani."
+                    },
+                    {
+                      "left": "Voi",
+                      "right": "avrete tempo domani."
+                    },
+                    {
+                      "left": "Loro",
+                      "right": "avranno tempo domani."
+                    }
+                  ],
+                  "explanation": "Avere keeps the future stem avr- while its ending changes with the person.",
+                  "hint": "Match -ò, -ete, and -anno to their subjects.",
+                  "speak": "Io avrò tempo domani.",
+                  "id": "a2-future-irregular.q2",
+                  "errorTag": "irregular-future"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "Luca will be here soon.",
+                  "answer": "Luca sarà qui presto.",
+                  "tokens": [
+                    "qui",
+                    "Luca",
+                    "sarà",
+                    "presto."
+                  ],
+                  "explanation": "Sarà is the future third-person form of essere.",
+                  "hint": "Put the future verb after Luca.",
+                  "speak": "Luca sarà qui presto.",
+                  "id": "a2-future-irregular.q3",
+                  "errorTag": "irregular-future"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Use the future tense to type the missing form.",
+                  "context": "Marta e Luca ___ la cena.",
+                  "translation": "Marta and Luca will make dinner.",
+                  "answer": "faranno",
+                  "explanation": "Fare has future stem far- and third-person plural -anno.",
+                  "hint": "Use far- plus -anno.",
+                  "speak": "Marta e Luca faranno la cena.",
+                  "id": "a2-future-irregular.q4",
+                  "errorTag": "irregular-future"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-conditional-politeness",
+          "title": "Ask more politely",
+          "outcome": "I can use vorrei, potrei, and potrebbe in courteous requests and simple possibilities.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-future-irregular"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:volere",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:potere",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:piacere",
+              "caseId": "condizionale"
+            }
+          ],
+          "takeaway": "The present conditional softens a wish or request: vorrei, potrei, and polite Lei potrebbe.",
+          "objectives": [
+            {
+              "id": "a2-conditional-politeness.core",
+              "label": "Ask more politely",
+              "errorTag": "conditional-politeness",
+              "explanation": "The present conditional softens a wish or request: vorrei, potrei, and polite Lei potrebbe.",
+              "teach": [
+                {
+                  "title": "A softer wish",
+                  "body": "Vorrei + a noun or infinitive is a polite “I would like.” Contrast the direct voglio.",
+                  "examples": [
+                    {
+                      "it": "Vorrei un caffè, per favore.",
+                      "en": "I would like a coffee, please."
+                    }
+                  ]
+                },
+                {
+                  "title": "A possible action",
+                  "body": "Potrei + infinitive means “I could.” Potrebbe + infinitive politely asks one person addressed as Lei. Mi piacerebbe + infinitive expresses a wish.",
+                  "examples": [
+                    {
+                      "it": "Potrei pagare con la carta?",
+                      "en": "Could I pay by card?"
+                    }
+                  ],
+                  "tip": "These are present conditional forms, even though English uses “would/could.”"
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Al bar: ___ un tè, per favore.",
+                  "translation": "At the café: I would like a tea, please.",
+                  "answer": "vorrei",
+                  "options": [
+                    "vorrei",
+                    "vorresti",
+                    "vorrò"
+                  ],
+                  "explanation": "Vorrei is the polite conditional request.",
+                  "hint": "Choose the form meaning “I would like.”",
+                  "speak": "Al bar: vorrei un tè, per favore.",
+                  "id": "a2-conditional-politeness.q1",
+                  "errorTag": "conditional-politeness"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "___ aprire la finestra?",
+                  "translation": "Could I open the window?",
+                  "answer": "Potrei",
+                  "options": [
+                    "Potrei",
+                    "Potrebbe",
+                    "Potremo"
+                  ],
+                  "explanation": "Potrei expresses a softened possibility or request.",
+                  "hint": "Choose “could I,” not plain “can I.”",
+                  "speak": "Potrei aprire la finestra?",
+                  "id": "a2-conditional-politeness.q2",
+                  "errorTag": "conditional-politeness"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "I would like to visit Rome.",
+                  "answer": "Mi piacerebbe visitare Roma.",
+                  "tokens": [
+                    "Roma.",
+                    "Mi",
+                    "visitare",
+                    "piacerebbe"
+                  ],
+                  "explanation": "Mi piacerebbe introduces a desired action.",
+                  "hint": "Begin with mi piacerebbe.",
+                  "speak": "Mi piacerebbe visitare Roma.",
+                  "id": "a2-conditional-politeness.q3",
+                  "errorTag": "conditional-politeness"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Signora, ___ un bicchiere d’acqua?",
+                  "translation": "Madam, could you give me a glass of water?",
+                  "answer": "potrebbe darmi",
+                  "explanation": "Potrebbe is the courteous Lei form; darmi means “give me.”",
+                  "hint": "Use polite Lei plus an infinitive with mi attached.",
+                  "speak": "Signora, potrebbe darmi un bicchiere d’acqua?",
+                  "accepted": [
+                    "mi potrebbe dare",
+                    "mi darebbe"
+                  ],
+                  "id": "a2-conditional-politeness.q4",
+                  "errorTag": "conditional-politeness"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2-comparison-amount",
+      "title": "Compare and measure",
+      "description": "Compare people and things, then describe a useful amount.",
+      "lessons": [
+        {
+          "id": "a2-comparatives",
+          "title": "Compare two things",
+          "outcome": "I can use più/meno ... di for two people or things and ... che for two qualities or actions.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-conditional-politeness"
+          ],
+          "referenceTopics": [
+            "adjectives"
+          ],
+          "related": [
+            {
+              "entryId": "w:ragazzo|noun"
+            },
+            {
+              "entryId": "w:casa|noun"
+            }
+          ],
+          "takeaway": "Use di before the second compared noun; che joins two qualities or two actions for the same referent.",
+          "objectives": [
+            {
+              "id": "a2-comparatives.core",
+              "label": "Compare two things",
+              "errorTag": "comparison-link",
+              "explanation": "Use di before the second compared noun; che joins two qualities or two actions for the same referent.",
+              "teach": [
+                {
+                  "title": "Two people or things",
+                  "body": "Use più or meno + adjective + di to compare two different people or things. Contract di + article when needed.",
+                  "examples": [
+                    {
+                      "it": "Luca è più alto di Marco.",
+                      "en": "Luca is taller than Marco."
+                    }
+                  ]
+                },
+                {
+                  "title": "Two features or actions",
+                  "body": "When comparing two qualities of the same thing, use che: più comodo che elegante. The comparison is within one referent.",
+                  "examples": [
+                    {
+                      "it": "Questo divano è più comodo che bello.",
+                      "en": "This sofa is more comfortable than beautiful."
+                    }
+                  ],
+                  "tip": "Some comparisons have irregular words such as migliore; learn those later."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Sara è più alta ___ Anna.",
+                  "translation": "Sara is taller than Anna.",
+                  "answer": "di",
+                  "options": [
+                    "di",
+                    "che",
+                    "da"
+                  ],
+                  "explanation": "Two different people are compared: Sara and Anna.",
+                  "hint": "Use di before the second person.",
+                  "speak": "Sara è più alta di Anna.",
+                  "id": "a2-comparatives.q1",
+                  "errorTag": "comparison-link"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Questo zaino è più pratico ___ elegante.",
+                  "translation": "This backpack is more practical than elegant.",
+                  "answer": "che",
+                  "options": [
+                    "che",
+                    "di",
+                    "da"
+                  ],
+                  "explanation": "Pratico and elegante are two qualities of the same backpack.",
+                  "hint": "Compare two qualities with che.",
+                  "speak": "Questo zaino è più pratico che elegante.",
+                  "id": "a2-comparatives.q2",
+                  "errorTag": "comparison-link"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "The train is less slow than the bus.",
+                  "answer": "Il treno è più veloce dell’autobus.",
+                  "tokens": [
+                    "più",
+                    "dell’autobus.",
+                    "è",
+                    "Il",
+                    "veloce",
+                    "treno"
+                  ],
+                  "explanation": "Di + l’autobus contracts to dell’autobus after a comparison.",
+                  "hint": "Put più before the adjective.",
+                  "speak": "Il treno è più veloce dell’autobus.",
+                  "id": "a2-comparatives.q3",
+                  "errorTag": "comparison-link"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Questa stanza è più grande ___ cucina.",
+                  "translation": "This room is bigger than the kitchen.",
+                  "answer": "della",
+                  "explanation": "Di + la cucina contracts to della.",
+                  "hint": "Use di plus the feminine article.",
+                  "speak": "Questa stanza è più grande della cucina.",
+                  "id": "a2-comparatives.q4",
+                  "errorTag": "comparison-link"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-superlatives",
+          "title": "Pick the highest degree",
+          "outcome": "I can say “the most” in a group and intensify an adjective with -issimo.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-comparatives"
+          ],
+          "referenceTopics": [
+            "adjectives"
+          ],
+          "related": [
+            {
+              "entryId": "w:casa|noun"
+            },
+            {
+              "entryId": "w:ragazza|noun"
+            }
+          ],
+          "takeaway": "Il/la più ... di marks a relative superlative; -issimo intensifies a quality without comparing a group.",
+          "objectives": [
+            {
+              "id": "a2-superlatives.core",
+              "label": "Pick the highest degree",
+              "errorTag": "superlative-degree",
+              "explanation": "Il/la più ... di marks a relative superlative; -issimo intensifies a quality without comparing a group.",
+              "teach": [
+                {
+                  "title": "Highest in a group",
+                  "body": "Use article + più + adjective + di/in to pick one within a group: la più alta della classe.",
+                  "examples": [
+                    {
+                      "it": "Marta è la più alta della classe.",
+                      "en": "Marta is the tallest in the class."
+                    }
+                  ]
+                },
+                {
+                  "title": "Very, without a group",
+                  "body": "Add -issimo/-issima/-issimi/-issime to many adjectives for a strong degree: bellissima. It agrees with the noun.",
+                  "examples": [
+                    {
+                      "it": "Queste scarpe sono comodissime.",
+                      "en": "These shoes are extremely comfortable."
+                    }
+                  ],
+                  "tip": "Molto bello also means very beautiful, but does not select one from a group."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Marta è ___ della squadra.",
+                  "translation": "Marta is the fastest on the team.",
+                  "answer": "la più veloce",
+                  "options": [
+                    "la più veloce",
+                    "il più veloce",
+                    "più veloce"
+                  ],
+                  "explanation": "Marta is feminine singular and this selects one person from a group.",
+                  "hint": "Include the article for “the most.”",
+                  "speak": "Marta è la più veloce della squadra.",
+                  "id": "a2-superlatives.q1",
+                  "errorTag": "superlative-degree"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Queste torte sono ___.",
+                  "translation": "These cakes are extremely good.",
+                  "answer": "buonissime",
+                  "options": [
+                    "buonissime",
+                    "buonissimi",
+                    "buonissima"
+                  ],
+                  "explanation": "Torte is feminine plural, so buonissime agrees.",
+                  "hint": "Use the feminine plural -issime ending.",
+                  "speak": "Queste torte sono buonissime.",
+                  "id": "a2-superlatives.q2",
+                  "errorTag": "superlative-degree"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "Luca is the youngest in the family.",
+                  "answer": "Luca è il più giovane della famiglia.",
+                  "tokens": [
+                    "della",
+                    "il",
+                    "Luca",
+                    "famiglia.",
+                    "è",
+                    "più",
+                    "giovane"
+                  ],
+                  "explanation": "Il più giovane selects Luca from the family group.",
+                  "hint": "Keep il più together before the adjective.",
+                  "speak": "Luca è il più giovane della famiglia.",
+                  "id": "a2-superlatives.q3",
+                  "errorTag": "superlative-degree"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "La casa è ___.",
+                  "translation": "The house is extremely beautiful.",
+                  "answer": "bellissima",
+                  "explanation": "Bella takes -issima for feminine singular intensity; molto bella is also natural.",
+                  "hint": "Use the feminine singular intensive form.",
+                  "speak": "La casa è bellissima.",
+                  "accepted": [
+                    "molto bella"
+                  ],
+                  "id": "a2-superlatives.q4",
+                  "errorTag": "superlative-degree"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-quantity-patterns",
+          "title": "Use approximate amounts",
+          "outcome": "I can choose qualche, alcuni/alcune, troppo, and un po’ di with suitable nouns.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-superlatives"
+          ],
+          "referenceTopics": [
+            "adjectives",
+            "articles"
+          ],
+          "related": [
+            {
+              "entryId": "w:libro|noun"
+            },
+            {
+              "entryId": "w:latte|noun"
+            }
+          ],
+          "takeaway": "Qualche takes a singular count noun; alcuni/alcune take plural nouns; troppo agrees when it modifies a noun.",
+          "objectives": [
+            {
+              "id": "a2-quantity-patterns.core",
+              "label": "Use approximate amounts",
+              "errorTag": "quantity-pattern",
+              "explanation": "Qualche takes a singular count noun; alcuni/alcune take plural nouns; troppo agrees when it modifies a noun.",
+              "teach": [
+                {
+                  "title": "Some: singular or plural",
+                  "body": "Qualche always precedes a singular count noun: qualche libro. Alcuni libri and alcune case use plural nouns.",
+                  "examples": [
+                    {
+                      "it": "Ho comprato qualche libro.",
+                      "en": "I bought a few books."
+                    }
+                  ]
+                },
+                {
+                  "title": "Too much and a little",
+                  "body": "Troppo agrees with a noun: troppi libri, troppa acqua. Un po’ di works for a modest amount of a mass noun.",
+                  "examples": [
+                    {
+                      "it": "Nel caffè c’è troppo zucchero.",
+                      "en": "There is too much sugar in the coffee."
+                    }
+                  ],
+                  "tip": "Qualche is not followed by a plural noun."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Vorrei ___ mela per il viaggio.",
+                  "translation": "I would like a few apples for the trip.",
+                  "answer": "qualche",
+                  "options": [
+                    "qualche",
+                    "alcune",
+                    "molte"
+                  ],
+                  "explanation": "Qualche is followed by singular mela despite plural meaning.",
+                  "hint": "Look at the noun form mela.",
+                  "speak": "Vorrei qualche mela per il viaggio.",
+                  "id": "a2-quantity-patterns.q1",
+                  "errorTag": "quantity-pattern"
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match the Italian sentence halves.",
+                  "translation": "Everyday Italian sentences.",
+                  "pairs": [
+                    {
+                      "left": "Ci sono troppe",
+                      "right": "persone in questa stanza."
+                    },
+                    {
+                      "left": "Ho troppi",
+                      "right": "libri in valigia."
+                    },
+                    {
+                      "left": "C’è troppa",
+                      "right": "acqua sul pavimento."
+                    }
+                  ],
+                  "explanation": "Troppo agrees with persone, libri, and acqua in gender and number.",
+                  "hint": "Match -e, -i, and -a to the noun.",
+                  "speak": "Ci sono troppe persone in questa stanza.",
+                  "id": "a2-quantity-patterns.q2",
+                  "errorTag": "quantity-pattern"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "I have some ideas for dinner.",
+                  "answer": "Ho alcune idee per la cena.",
+                  "tokens": [
+                    "cena.",
+                    "alcune",
+                    "la",
+                    "Ho",
+                    "per",
+                    "idee"
+                  ],
+                  "explanation": "Alcune accompanies plural feminine idee.",
+                  "hint": "Use the plural determiner.",
+                  "speak": "Ho alcune idee per la cena.",
+                  "id": "a2-quantity-patterns.q3",
+                  "errorTag": "quantity-pattern"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Use un po’ di to type the missing phrase.",
+                  "context": "Metto ___ latte nel caffè.",
+                  "translation": "I put a little milk in the coffee.",
+                  "answer": "un po’ di",
+                  "explanation": "Un po’ di introduces a small amount of the mass noun latte.",
+                  "hint": "Use the fixed phrase before latte.",
+                  "speak": "Metto un po’ di latte nel caffè.",
+                  "accepted": [
+                    "un po' di"
+                  ],
+                  "id": "a2-quantity-patterns.q4",
+                  "errorTag": "quantity-pattern"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2-directions-links",
+      "title": "Commands, prepositions, and links",
+      "description": "Give clear directions and connect two small ideas in a useful sentence.",
+      "lessons": [
+        {
+          "id": "a2-polite-commands",
+          "title": "Address one person politely",
+          "outcome": "I can give a courteous Lei instruction with a common command form.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-quantity-patterns"
+          ],
+          "referenceTopics": [
+            "imperative"
+          ],
+          "related": [
+            {
+              "entryId": "v:parlare",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:prendere",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:venire",
+              "caseId": "present"
+            }
+          ],
+          "takeaway": "A formal Lei command uses a present subjunctive-shaped form such as parli, prenda, venga.",
+          "objectives": [
+            {
+              "id": "a2-polite-commands.core",
+              "label": "Address one person politely",
+              "errorTag": "formal-imperative",
+              "explanation": "A formal Lei command uses a present subjunctive-shaped form such as parli, prenda, venga.",
+              "teach": [
+                {
+                  "title": "Lei commands",
+                  "body": "For a person addressed as Lei, say Parli più piano, Prenda posto, Venga qui. The form differs from familiar tu commands.",
+                  "examples": [
+                    {
+                      "it": "Prenda posto, signora.",
+                      "en": "Please take a seat, madam."
+                    }
+                  ]
+                },
+                {
+                  "title": "Keep the register consistent",
+                  "body": "Use a formal form with signora, dottore, or a stranger. For -are, Lei often ends in -i; for -ere/-ire, commonly -a.",
+                  "examples": [
+                    {
+                      "it": "Mi dica il suo nome, per favore.",
+                      "en": "Please tell me your name."
+                    }
+                  ],
+                  "tip": "Dica is the irregular formal command of dire."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Signora, ___ qui, per favore.",
+                  "translation": "Madam, come here, please.",
+                  "answer": "venga",
+                  "options": [
+                    "venga",
+                    "vieni",
+                    "venite"
+                  ],
+                  "explanation": "Venga is the polite Lei command of venire.",
+                  "hint": "Address one person formally.",
+                  "speak": "Signora, venga qui, per favore.",
+                  "id": "a2-polite-commands.q1",
+                  "errorTag": "formal-imperative"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Dottore, ___ più piano, per favore.",
+                  "translation": "Doctor, speak more slowly, please.",
+                  "answer": "parli",
+                  "options": [
+                    "parli",
+                    "parla",
+                    "parlate"
+                  ],
+                  "explanation": "Parli is the formal Lei command of parlare.",
+                  "hint": "Formal -are commands often end in -i.",
+                  "speak": "Dottore, parli più piano, per favore.",
+                  "id": "a2-polite-commands.q2",
+                  "errorTag": "formal-imperative"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "Please take a seat, madam.",
+                  "answer": "Prenda posto, signora.",
+                  "tokens": [
+                    "signora.",
+                    "Prenda",
+                    "posto,"
+                  ],
+                  "explanation": "Prenda is a formal singular command.",
+                  "hint": "Start with the formal command.",
+                  "speak": "Prenda posto, signora.",
+                  "id": "a2-polite-commands.q3",
+                  "errorTag": "formal-imperative"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Signora, mi ___ il suo nome, per favore.",
+                  "translation": "Madam, please tell me your name.",
+                  "answer": "dica",
+                  "explanation": "Dica is the courteous Lei command of dire.",
+                  "hint": "Use the polite command of dire.",
+                  "speak": "Signora, mi dica il suo nome, per favore.",
+                  "id": "a2-polite-commands.q4",
+                  "errorTag": "formal-imperative"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-negative-commands",
+          "title": "Tell someone not to do it",
+          "outcome": "I can form a negative tu command and place an object pronoun naturally.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-polite-commands"
+          ],
+          "referenceTopics": [
+            "imperative",
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:prendere",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:parlare",
+              "caseId": "present"
+            }
+          ],
+          "takeaway": "For tu, use non + infinitive; with a pronoun, both non lo prendere and non prenderlo are possible.",
+          "objectives": [
+            {
+              "id": "a2-negative-commands.core",
+              "label": "Tell someone not to do it",
+              "errorTag": "negative-imperative",
+              "explanation": "For tu, use non + infinitive; with a pronoun, both non lo prendere and non prenderlo are possible.",
+              "teach": [
+                {
+                  "title": "Negative tu",
+                  "body": "Unlike the positive tu command, the negative uses non + infinitive: non parlare, non entrare.",
+                  "examples": [
+                    {
+                      "it": "Non entrare adesso.",
+                      "en": "Do not come in now."
+                    }
+                  ]
+                },
+                {
+                  "title": "With a small pronoun",
+                  "body": "A pronoun can precede the infinitive or attach to it: non lo prendere / non prenderlo. Keep non first.",
+                  "examples": [
+                    {
+                      "it": "Non prenderlo, è rotto.",
+                      "en": "Do not take it; it is broken."
+                    }
+                  ],
+                  "tip": "For voi, use non + the voi command: Non entrate."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Marco, ___ così forte.",
+                  "translation": "Marco, do not speak so loudly.",
+                  "answer": "non parlare",
+                  "options": [
+                    "non parlare",
+                    "non parla",
+                    "non parli"
+                  ],
+                  "explanation": "The informal singular negative command is non + infinitive.",
+                  "hint": "Use the whole infinitive after non.",
+                  "speak": "Marco, non parlare così forte.",
+                  "id": "a2-negative-commands.q1",
+                  "errorTag": "negative-imperative"
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match the Italian sentence halves.",
+                  "translation": "Everyday Italian sentences.",
+                  "pairs": [
+                    {
+                      "left": "Marco, non",
+                      "right": "parlare così forte."
+                    },
+                    {
+                      "left": "Ragazzi, non",
+                      "right": "entrate qui."
+                    },
+                    {
+                      "left": "Signora, non",
+                      "right": "entri adesso."
+                    }
+                  ],
+                  "explanation": "Tu uses non + infinitive; voi and polite Lei use their corresponding command forms.",
+                  "hint": "Match each addressee to the command form.",
+                  "speak": "Marco, non parlare così forte.",
+                  "id": "a2-negative-commands.q2",
+                  "errorTag": "negative-imperative"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "Do not take it; it is broken.",
+                  "answer": "Non lo prendere, è rotto.",
+                  "tokens": [
+                    "rotto.",
+                    "lo",
+                    "Non",
+                    "è",
+                    "prendere,"
+                  ],
+                  "explanation": "Lo can go before the negative tu infinitive.",
+                  "hint": "Begin with non lo.",
+                  "speak": "Non lo prendere, è rotto.",
+                  "id": "a2-negative-commands.q3",
+                  "errorTag": "negative-imperative"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Lucia, ___ la porta.",
+                  "translation": "Lucia, do not open the door.",
+                  "answer": "non aprire",
+                  "explanation": "Negative tu uses non + infinitive aprire.",
+                  "hint": "Use the infinitive, not the affirmative command.",
+                  "speak": "Lucia, non aprire la porta.",
+                  "id": "a2-negative-commands.q4",
+                  "errorTag": "negative-imperative"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-da-place-time",
+          "title": "Use da for source, person, and duration",
+          "outcome": "I can distinguish da for origin, visiting a person, and a duration continuing now.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-negative-commands"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:venire",
+              "caseId": "present"
+            },
+            {
+              "entryId": "w:tempo|noun"
+            }
+          ],
+          "takeaway": "Da can mean from, at someone’s place, or since/for when an action continues to now.",
+          "objectives": [
+            {
+              "id": "a2-da-place-time.core",
+              "label": "Use da for source, person, and duration",
+              "errorTag": "da-place-duration",
+              "explanation": "Da can mean from, at someone’s place, or since/for when an action continues to now.",
+              "teach": [
+                {
+                  "title": "From and to a person",
+                  "body": "Vengo da Milano marks origin; vado da Marco means going to Marco’s place or presence. With an article, da + il is dal.",
+                  "examples": [
+                    {
+                      "it": "Stasera vado da Luca.",
+                      "en": "Tonight I am going to Luca’s place."
+                    }
+                  ]
+                },
+                {
+                  "title": "Since or for, still continuing",
+                  "body": "Studio italiano da due anni means I have studied Italian for two years and still do. Use present tense for the ongoing situation.",
+                  "examples": [
+                    {
+                      "it": "Vivo qui da tre anni.",
+                      "en": "I have lived here for three years."
+                    }
+                  ],
+                  "tip": "Do not copy an English present perfect automatically in this pattern."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Domani vado ___ dentista.",
+                  "translation": "Tomorrow I am going to the dentist.",
+                  "answer": "dal",
+                  "options": [
+                    "dal",
+                    "al",
+                    "nel"
+                  ],
+                  "explanation": "Da + il dentista becomes dal dentista, a visit to the person.",
+                  "hint": "Use da + il.",
+                  "speak": "Domani vado dal dentista.",
+                  "id": "a2-da-place-time.q1",
+                  "errorTag": "da-place-duration"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Abito a Torino ___ cinque anni.",
+                  "translation": "I have lived in Turin for five years and still live there.",
+                  "answer": "da",
+                  "options": [
+                    "da",
+                    "per",
+                    "di"
+                  ],
+                  "explanation": "For a duration continuing now, Italian uses present + da.",
+                  "hint": "The living continues now.",
+                  "speak": "Abito a Torino da cinque anni.",
+                  "id": "a2-da-place-time.q2",
+                  "errorTag": "da-place-duration"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "I come from Naples.",
+                  "answer": "Vengo da Napoli.",
+                  "tokens": [
+                    "Napoli.",
+                    "Vengo",
+                    "da"
+                  ],
+                  "explanation": "Da marks the city of origin.",
+                  "hint": "Put da before the place.",
+                  "speak": "Vengo da Napoli.",
+                  "id": "a2-da-place-time.q3",
+                  "errorTag": "da-place-duration"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Sara è ___ medico adesso.",
+                  "translation": "Sara is at the doctor’s office now.",
+                  "answer": "dal",
+                  "explanation": "Da + il medico contracts to dal.",
+                  "hint": "She is at the person’s place.",
+                  "speak": "Sara è dal medico adesso.",
+                  "id": "a2-da-place-time.q4",
+                  "errorTag": "da-place-duration"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-linking-ideas",
+          "title": "Connect cause and sequence",
+          "outcome": "I can link short ideas with perché, quindi, poi, and mentre.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-da-place-time"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "w:perché|conj"
+            },
+            {
+              "entryId": "w:quando|conj"
+            }
+          ],
+          "takeaway": "Perché gives a cause; quindi a result; poi a next step; mentre joins simultaneous actions.",
+          "objectives": [
+            {
+              "id": "a2-linking-ideas.core",
+              "label": "Connect cause and sequence",
+              "errorTag": "linking-cause-sequence",
+              "explanation": "Perché gives a cause; quindi a result; poi a next step; mentre joins simultaneous actions.",
+              "teach": [
+                {
+                  "title": "Cause and result",
+                  "body": "Use perché for why something happens and quindi for its consequence. They organize the same facts from different directions.",
+                  "examples": [
+                    {
+                      "it": "Piove, quindi resto a casa.",
+                      "en": "It is raining, so I am staying home."
+                    }
+                  ]
+                },
+                {
+                  "title": "Next and simultaneous",
+                  "body": "Poi orders the next event. Mentre introduces something happening at the same time and often leads to an imperfect past background.",
+                  "examples": [
+                    {
+                      "it": "Preparo il tè mentre Luca legge.",
+                      "en": "I make tea while Luca reads."
+                    }
+                  ],
+                  "tip": "Use commas to help a reader follow two clauses."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ho fame, ___ preparo la cena.",
+                  "translation": "I am hungry, so I prepare dinner.",
+                  "answer": "quindi",
+                  "options": [
+                    "quindi",
+                    "perché",
+                    "mentre"
+                  ],
+                  "explanation": "The second clause is the result of being hungry.",
+                  "hint": "Choose the connector meaning “so.”",
+                  "speak": "Ho fame, quindi preparo la cena.",
+                  "id": "a2-linking-ideas.q1",
+                  "errorTag": "linking-cause-sequence"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Resto a casa ___ piove.",
+                  "translation": "I am staying home because it is raining.",
+                  "answer": "perché",
+                  "options": [
+                    "perché",
+                    "quindi",
+                    "poi"
+                  ],
+                  "explanation": "The rain is the reason for staying home.",
+                  "hint": "Choose “because.”",
+                  "speak": "Resto a casa perché piove.",
+                  "id": "a2-linking-ideas.q2",
+                  "errorTag": "linking-cause-sequence"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "First I buy bread, then I return home.",
+                  "answer": "Prima compro il pane, poi torno a casa.",
+                  "tokens": [
+                    "torno",
+                    "Prima",
+                    "a",
+                    "poi",
+                    "il",
+                    "compro",
+                    "pane,",
+                    "casa."
+                  ],
+                  "explanation": "Poi marks the next step after buying bread.",
+                  "hint": "Start with prima.",
+                  "speak": "Prima compro il pane, poi torno a casa.",
+                  "id": "a2-linking-ideas.q3",
+                  "errorTag": "linking-cause-sequence"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Luca legge ___ io cucino.",
+                  "translation": "Luca reads while I cook.",
+                  "answer": "mentre",
+                  "explanation": "Mentre links simultaneous actions.",
+                  "hint": "Use the connector for “while.”",
+                  "speak": "Luca legge mentre io cucino.",
+                  "id": "a2-linking-ideas.q4",
+                  "errorTag": "linking-cause-sequence"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a2-relative-che",
+          "title": "Add one detail with che",
+          "outcome": "I can join a noun to a simple describing clause with che.",
+          "minutes": 6,
+          "prerequisites": [
+            "a2-linking-ideas"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "w:ragazza|noun"
+            },
+            {
+              "entryId": "w:libro|noun"
+            }
+          ],
+          "takeaway": "Che is the same relative word for male, female, singular, and plural antecedents.",
+          "objectives": [
+            {
+              "id": "a2-relative-che.core",
+              "label": "Add one detail with che",
+              "errorTag": "relative-che",
+              "explanation": "Che is the same relative word for male, female, singular, and plural antecedents.",
+              "teach": [
+                {
+                  "title": "Describe the person",
+                  "body": "Che connects a noun to information about it: la ragazza che parla. The finite verb in the added clause has its own subject.",
+                  "examples": [
+                    {
+                      "it": "La ragazza che parla è mia sorella.",
+                      "en": "The girl who is speaking is my sister."
+                    }
+                  ]
+                },
+                {
+                  "title": "Describe a thing",
+                  "body": "Che can also mean that/which for a thing: il libro che leggo. It does not change form with libro or libri.",
+                  "examples": [
+                    {
+                      "it": "Il libro che leggo è interessante.",
+                      "en": "The book I am reading is interesting."
+                    }
+                  ],
+                  "tip": "Do not confuse this relative che with the comparative che."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "La donna ___ parla è mia madre.",
+                  "translation": "The woman who is speaking is my mother.",
+                  "answer": "che",
+                  "options": [
+                    "che",
+                    "chi",
+                    "cui"
+                  ],
+                  "explanation": "Che links donna to the clause that identifies her.",
+                  "hint": "Use the basic relative word.",
+                  "speak": "La donna che parla è mia madre.",
+                  "id": "a2-relative-che.q1",
+                  "errorTag": "relative-che"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "I libri ___ cerco sono qui.",
+                  "translation": "The books that I am looking for are here.",
+                  "answer": "che",
+                  "options": [
+                    "che",
+                    "cui",
+                    "quali"
+                  ],
+                  "explanation": "Che stays the same with plural libri.",
+                  "hint": "The relative form does not change for plural.",
+                  "speak": "I libri che cerco sono qui.",
+                  "id": "a2-relative-che.q2",
+                  "errorTag": "relative-che"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to say this in Italian.",
+                  "translation": "The train that leaves at eight is full.",
+                  "answer": "Il treno che parte alle otto è pieno.",
+                  "tokens": [
+                    "otto",
+                    "che",
+                    "pieno.",
+                    "Il",
+                    "alle",
+                    "treno",
+                    "è",
+                    "parte"
+                  ],
+                  "explanation": "Che introduces the identifying clause about il treno.",
+                  "hint": "Put che directly after the noun.",
+                  "speak": "Il treno che parte alle otto è pieno.",
+                  "id": "a2-relative-che.q3",
+                  "errorTag": "relative-che"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian word or short phrase.",
+                  "context": "Conosco la ragazza ___ lavora qui.",
+                  "translation": "I know the girl who works here.",
+                  "answer": "che",
+                  "explanation": "Che joins ragazza with the clause lavora qui.",
+                  "hint": "Use the same relative form for feminine nouns.",
+                  "speak": "Conosco la ragazza che lavora qui.",
+                  "id": "a2-relative-che.q4",
+                  "errorTag": "relative-che"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

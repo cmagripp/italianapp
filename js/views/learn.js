@@ -6,7 +6,8 @@ import { data, itemsForScope, describeScope, LEVELS, LEVEL_INFO, CATS, article, 
 import { IT_POS } from '../components.js';
 import { conjugate } from '../conjugator.js';
 import { setScene, dropdown, mount, reducedMotion } from '../fx.js';
-import { coursePreview } from './course.js';
+import { coursePreview, courseSummary, bindCourseMenu } from './course.js';
+import { loadGrammarCourse, grammarHref, nextGrammarLesson, courseLevel, relatedVocabulary } from '../learning/grammar-course.js';
 import { reviewItems, eligibleSkills } from '../learning/integration.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
@@ -106,6 +107,7 @@ function applyScopeChoice(v) {
 }
 
 export async function render(root) {
+  await loadGrammarCourse();
   setTitle('Learn');
   let cleanups = [];
   const cleanup = () => { cleanups.forEach(f => { try { f(); } catch { /* ignore */ } }); cleanups = []; };
@@ -114,14 +116,16 @@ export async function render(root) {
     cleanup();
     const day = store.today();
     const s = store.settings;
-    const lvl = LEVELS.includes(s.level) ? s.level : 'A1';
+    const lvl = courseLevel(store);
     setScene(lvl);
     const now = Date.now(), review = reviewItems(store,now);
     const due = store.settings.adaptiveLearning !== false ? review.length : new Set(review.map(item=>item.entry.id)).size;
     const newWordsDone = (day.new || 0) - (day.newVerbs || 0);
     const newVerbsDone = day.newVerbs || 0;
-    const verbs = nextNew('verb', 3);
-    const words = nextNew('word', 3);
+    const grammar = nextGrammarLesson(store);
+    const connected = kind => { const related=relatedVocabulary(grammar,store,{kind,unfinished:true}).map(x=>x.entry); return [...related,...nextNew(kind,3)].filter((e,i,all)=>all.findIndex(x=>x.id===e.id)===i).slice(0,3); };
+    const verbs = connected('verb');
+    const words = connected('word');
     const scopeAll = itemsForScope(store.scope, store);
     const learnedInScope = scopeAll.filter(e => store.isLearned(e.id)).length;
     const learnedVerbs = store.learnedIds('v:').length;
@@ -137,22 +141,25 @@ export async function render(root) {
 
     root.innerHTML = html`
       <div class="learn">
-        ${store.settings.adaptiveLearning !== false ? raw(coursePreview()) : ''}
+        ${raw(coursePreview())}
+        ${raw(courseSummary())}
+        <section class="grammar-next glass-flat"><div class="sec-head"><span class="kicker">Grammar</span><a class="more" href="#/course">Browse lessons</a></div><h2>${grammar?.title || 'This level is complete'}</h2><p>${grammar?.outcome || 'Revisit a lesson or choose your next level.'}</p>${grammar?raw(html`<span class="tiny muted">${grammar.level} · ${grammar.minutes} min</span>`):''}<div class="course-actions">${grammar?raw(html`<a class="btn primary" href="${grammarHref(grammar)}">${Object.values(store.learning.sessions || {}).some(s=>s.entryId==='g:'+grammar.id&&s.grammar?.phase!=='complete')?'Resume grammar':'Start grammar'}${ic('arrow',{size:18})}</a>`):raw('<a class="btn primary" href="#/course">Choose a lesson</a>')}<button type="button" class="btn secondary" data-session-menu aria-haspopup="menu" aria-expanded="false">Start a session ${ic('chevronDown',{size:16})}</button></div></section>
+        <div class="vocabulary-heading"><h2>Vocabulary</h2><span class="tiny muted">Build the words to use it</span></div>
         <div class="scope-line glass-flat">
-          <div class="scope-main"><span class="kicker">Scope</span><div class="scope-desc mono">${describeScope(store.scope, store)}</div><div class="tiny muted">${learnedInScope} / ${scopeAll.length} learned</div></div>
+          <div class="scope-main"><span class="kicker">Vocabulary filter</span><div class="scope-desc mono">${describeScope(store.scope, store)}</div><div class="tiny muted">${learnedInScope} / ${scopeAll.length} learned</div></div>
           <button type="button" class="btn sm secondary" data-scope-menu aria-haspopup="menu" aria-expanded="false">Change${ic('chevronDown', { size: 16 })}</button>
           <a class="icon-btn" href="#/scope" aria-label="Scope details">${ic('chevronRight', { size: 20 })}</a>
         </div>
 
         <section class="next-up">
-          <div class="sec-head"><div><span class="kicker">Next up</span><span class="title">${raw(tr('Verbi', 'Verbs'))}</span></div><span class="mono sec-side">${newVerbsDone} / ${s.dailyVerbs} today</span></div>
+          <div class="sec-head"><div><span class="title">${raw(tr('Verbi', 'Verbs'))}</span></div><span class="mono sec-side">${newVerbsDone} / ${s.dailyVerbs} today</span></div>
           ${raw(deckHTML('verb', verbs))}
         </section>
 
         <section class="next-up">
-          <div class="sec-head"><div><span class="kicker">Next up</span><span class="title">${raw(tr('Parole', 'Words'))}</span></div><span class="mono sec-side">${newWordsDone} / ${s.dailyNew} today</span></div>
+          <div class="sec-head"><div><span class="title">${raw(tr('Parole', 'Words'))}</span></div><span class="mono sec-side">${newWordsDone} / ${s.dailyNew} today</span></div>
           ${raw(deckHTML('word', words))}
-          ${words.length ? raw(html`<a class="btn ghost sm block session-link" href="#/learn/word/${encodeURIComponent(words[0].id)}?auto=1">${ic('play', { size: 16 })}Start a session of ${sessionN} word${sessionN === 1 ? '' : 's'}</a>`) : ''}
+          ${words.length ? raw(html`<a class="btn ghost sm block session-link" href="#/learn/session?start=words">${ic('play', { size: 16 })}Start a short word session</a>`) : ''}
         </section>
 
         <section class="review-pane glass pad-l">
@@ -178,6 +185,8 @@ export async function render(root) {
       </div>`;
 
     const view = root.querySelector('.learn');
+    bindCourseMenu(view,draw);
+    view.querySelector('[data-session-menu]').addEventListener('click',event=>dropdown(event.currentTarget,[...(store.learning.sessions['course:everyday|course']?.course&&!store.learning.sessions['course:everyday|course'].course.finished?[{value:'resume',label:'Resume your session',sub:'Continue the parts you already chose'}]:[]),{value:'together',label:'Together',sub:'Grammar, one verb tense, and up to three words'},{value:'grammar',label:'Grammar',sub:'One clear idea, step by step'},{value:'verbs',label:'Verbs',sub:'One relevant tense'},{value:'words',label:'Words',sub:'A short vocabulary session'}],{align:'end',width:300,onSelect:value=>{location.hash=value==='resume'?'#/learn/session':'#/learn/session?start='+value;}}));
     mount(view);
     view.querySelectorAll('.deck.live').forEach(d => cleanups.push(bindDeck(d)));
     const menuBtn = view.querySelector('[data-scope-menu]');

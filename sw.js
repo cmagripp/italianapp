@@ -1,18 +1,21 @@
 // Service worker: offline cache for the app shell (HTML, CSS, every JS module) and the dictionary data.
 // Bump VERSION when a file is added to SHELL or the data schema changes (old caches are dropped on activate).
 // Ordinary data updates need no bump: /data/ is served from the cache and refreshed in the background.
-const VERSION = 'parola-v10-iphone-completion';
+const VERSION = 'parola-v11-everyday-grammar';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
-  './css/adaptive.css', './css/course.css', './css/journey.css',
+  './css/grammar-course.css', './css/adaptive.css', './css/course.css', './css/journey.css',
   './icons/icon.svg',
   './js/app.js', './js/components.js', './js/completion-menu.js', './js/conjugator.js', './js/data.js', './js/fx.js', './js/icons.js', './js/irregular.js', './js/source.js', './js/srs.js', './js/store.js', './js/sync.js', './js/ui.js',
   './js/views/addWord.js', './js/views/browse.js', './js/views/entry.js', './js/views/games.js', './js/views/grammar.js', './js/views/home.js', './js/views/learn.js', './js/views/learnVerb.js', './js/views/learnWord.js', './js/views/list.js', './js/views/lists.js', './js/views/play.js', './js/views/profile.js', './js/views/reference.js', './js/views/referenceEntry.js', './js/views/review.js', './js/views/scope.js', './js/views/search.js', './js/views/walkthrough.js', './js/views/words.js',
   './js/games/crossword.js', './js/games/engine.js', './js/games/flashcards.js', './js/games/hangman.js', './js/games/index.js', './js/games/matching.js', './js/games/questions.js', './js/games/sentence.js', './js/games/speed.js',
   './js/learning/model.js', './js/learning/curriculum.js', './js/learning/content.js', './js/learning/questions.js', './js/learning/diagnose.js', './js/learning/integration.js',
+  './js/views/learnGrammar.js', './js/views/courseSession.js',
+  './js/learning/grammar-lexicon.js', './js/learning/grammar-state.js', './js/learning/grammar-course.js', './js/learning/grammar-journey.js',
   './js/views/course.js', './js/views/learnAdaptive.js', './js/views/learnJourney.js',
   './js/learning/journey.js', './js/learning/lesson-content.js', './js/learning/lesson-questions.js', './js/learning/word-questions.js', './js/learning/sentence-lookup.js', './js/learning/sentence-panel.js', './js/learning/lesson-activities.js', './js/learning/activity-panel.js', './js/learning/lesson-overview.js', './js/learning/progressive-content.js',
+  './data/grammar-course/A1.json', './data/grammar-course/A2.json', './data/grammar-course/B1.json', './data/grammar-course/B2.json', './data/grammar-course/C1.json', './data/grammar-course/C2.json',
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',
 ];
 // Activate only when the complete shell is cached. A missing module must leave the

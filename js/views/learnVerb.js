@@ -88,7 +88,7 @@ const availablePersons = (forms) => forms.map((f, i) => (primary(f) && primary(f
 const cleanChoices = (q) => { if (q && q.choices) q.choices = q.choices.filter(c => c.label !== MISSING); return q; };
 
 export async function render(root, params, query = {}) {
-  if (store.settings.adaptiveLearning !== false) return (await import('./learnAdaptive.js')).render(root, params, query);
+  if (store.settings.adaptiveLearning !== false || query?.courseSession || query?.fromGrammar) return (await import('./learnAdaptive.js')).render(root, params, query);
   return renderLegacy(root, params);
 }
 

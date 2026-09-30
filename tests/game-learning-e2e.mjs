@@ -32,6 +32,13 @@ try {
       Q.qConjType(verb('alzarsi'), 'passatoProssimo', 0),
       Q.qTenseDetective(verb('parlare')),
     ];
+    // A present-only reflexive choice pulls an unrelated verb from the pool.
+    // That wrong click used to throw in the shared diagnostic and stall the game.
+    store.current.learning.preferences.stage = 'present';
+    const reflexive = Q.qConjMC(verb('addormentarsi'), 'presente', [verb('addormentarsi'), verb('prestare')], 2);
+    store.current.learning.preferences.stage = 'past';
+    if (!reflexive?.choices.some(c => c.label === 'presta' && !c.correct)) throw new Error('Reflexive distractor unavailable');
+    questions.push(reflexive);
     if (questions.some(q => !q)) throw new Error('Test question unavailable');
     const host = document.createElement('div'); host.id = 'game-evidence-test';
     host.style.cssText = 'position:fixed;inset:0;overflow:auto;background:var(--paper);z-index:999;';
@@ -88,6 +95,16 @@ try {
   });
   s = await snapshot(); assert.equal(s.events.length, 6, 'unsupported tense detective does not grant mastery evidence');
   assert.equal(s.day.correct - s.before.correct, 4); assert.equal(s.xp - s.before.xp, 8); groups++;
+  await next();
+  await page.evaluate(() => {
+    const q = window.__evidenceTest.questions[7];
+    document.querySelector(`#game-evidence-test [data-choice="${q.choices.findIndex(c => c.label === 'presta')}"]`).click();
+  });
+  s = await snapshot();
+  assert.equal(s.events.length, 7, 'wrong reflexive choice records one attempt');
+  assert.deepEqual(s.events[6].errorTags, ['uncertain']);
+  assert.equal(s.day.wrong - s.before.wrong, 4);
+  assert.equal(await page.locator('#game-evidence-test [data-drill]').getAttribute('data-state'), 'feedback'); groups++;
   await next();
   assert.equal(await page.evaluate(() => typeof window.__evidenceTest.done), 'number');
   await page.evaluate(() => { window.__evidenceRunner.destroy(); document.querySelector('#game-evidence-test').remove(); });

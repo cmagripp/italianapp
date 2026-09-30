@@ -1,8 +1,9 @@
 // Adaptive learning's data model. No browser or store dependencies: identical evidence
 // produces identical progress, including after an offline merge or backup import.
 import { schedule } from '../srs.js';
+import { grammarSkill } from './grammar-state.js';
 
-export const LEARNING_VERSION = 3;
+export const LEARNING_VERSION = 4;
 const DAY = 86400e3;
 const SHORT_REVIEW = 10 * 60e3;
 const REPEAT_DELAY = 8 * 3600e3;
@@ -78,6 +79,10 @@ function normalizeEvent(raw, epochId) {
     assistance: strings(raw.assistance).filter(x => x !== 'none'), firstAttempt: raw.firstAttempt === true,
     errorTags: strings(raw.errorTags), components,
     xp: Math.max(0, Math.min(3, finite(raw.xp))),
+    ...(raw.kind === 'grammar' && raw.policy === 'grammar-v1' ? {
+      kind:'grammar', policy:'grammar-v1', contentVersion:Math.max(1,Math.floor(finite(raw.contentVersion,1))),
+      grammarPhase:['guided','independent','repair'].includes(raw.grammarPhase)?raw.grammarPhase:'guided',
+    } : {}),
     ...(raw.policy === 'journey-v1' ? {
       policy: 'journey-v1', targetId: text(raw.targetId, raw.objectiveId),
       chapterId: text(raw.chapterId), contentVersion: Math.max(1, Math.floor(finite(raw.contentVersion, 1))),
@@ -248,6 +253,7 @@ function confirm(t, event, eligible) {
 
 function analyze(domain, objectiveId, now, all, positions, events, chronology = new Map()) {
   const last = events[events.length - 1];
+  if (last?.kind === 'grammar') return grammarSkill(events,now);
   const journey = last?.policy === 'journey-v1';
   // A new content policy never upgrades legacy evidence, even if an imported
   // custom target accidentally reuses an older objective identifier.

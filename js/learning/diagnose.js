@@ -45,7 +45,7 @@ function positiveComponents(q) {
   return [...skills].map(skill => component(skill, true));
 }
 
-function diagnoseWrong(q, given) {
+function diagnoseWrong(q, given, answers) {
   const d = q.meta?.diagnostic || {};
   const skill = q.meta?.skill || 'recall';
   const base = [component(skill, false)];
@@ -66,7 +66,7 @@ function diagnoseWrong(q, given) {
     const words = normalize(given).split(' '), stare = words.find(word => d.stareForms.includes(word));
     if (words.some(word => d.otherTenseForms?.includes(word))) return failure('tense', [component(skill, false, 'tense'), component('tense', false, 'tense')], 'The action is progressive, but the form of stare must match the requested time.');
     const expectedStare = d.stareForms[d.person];
-    const gerundOK = words.includes(d.gerund) || q.answer.some(answer => lastWord(answer) === lastWord(given) && lastWord(answer).startsWith(d.gerund));
+    const gerundOK = words.includes(d.gerund) || answers.some(answer => lastWord(answer) === lastWord(given) && lastWord(answer).startsWith(d.gerund));
     if (!stare && !gerundOK) return failure('uncertain');
     const components = [component(skill, false)], tags = [];
     if (!stare) { components.push(component('auxiliary', false, 'auxiliary')); tags.push('auxiliary'); }
@@ -84,7 +84,7 @@ function diagnoseWrong(q, given) {
     if (sameTense.length && !samePerson.length) return failure('tense', [component(skill, false, 'tense'), component('tense', false, 'tense')]);
     if (d.compound) {
       const c = d.compound, actual = compoundParts(given);
-      const expected = expandedForms(q.answer).map(compoundParts);
+      const expected = answers.map(compoundParts);
       const family = Object.keys(c.allAuxForms).filter(k => any(actual.aux, c.allAuxForms[k]));
       const familyOK = family.some(k => c.auxKeys.includes(k));
       const auxPersonOK = any(actual.aux, c.auxForms);
@@ -111,9 +111,9 @@ function diagnoseWrong(q, given) {
     if (d.clitic) {
       // If only the leading clitic differs, the finite form is identifiable.
       const remove = s => normalize(s).replace(/^(?:(?:mi|ti|si|ci|vi|me|te|se|ce|ve|ne|la|lo)\s+)+/, '');
-      if (q.answer.some(a => remove(a) === remove(given))) return failure('clitic', [component(skill, false, 'clitic'), component('clitic', false, 'clitic'), component('person', true)]);
+      if (answers.some(a => remove(a) === remove(given))) return failure('clitic', [component(skill, false, 'clitic'), component('clitic', false, 'clitic'), component('person', true)]);
     }
-    if (any(given, d.regularized || []) && !any(given, q.answer)) return failure('irregular', [component(skill, false, 'irregular')], 'This verb has an irregular form here. Compare its stem with the model, then try a new person or context.');
+    if (any(given, d.regularized || []) && !any(given, answers)) return failure('irregular', [component(skill, false, 'irregular')], 'This verb has an irregular form here. Compare its stem with the model, then try a new person or context.');
     return failure('uncertain');
   }
   if (d.kind === 'article') return failure('article', [component('article', false, 'article')]);
@@ -150,6 +150,6 @@ export function gradeQuestion(q, given, { revealed = false, assistance = [], acc
     ok: false, outcome: 'incorrect', errorTags: ['accent'], feedback: `Check the accent: ${answers[0]}. The grammar is otherwise right.`,
     components: [...positiveComponents(q), component('orthography', false, 'accent')], exact: false, accentIssue: true, assisted,
   };
-  const result = diagnoseWrong(q, input);
+  const result = diagnoseWrong(q, input, answers);
   return { ok: false, outcome: 'incorrect', ...result, exact: false, accentIssue: false, assisted };
 }

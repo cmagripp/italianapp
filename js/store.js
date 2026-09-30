@@ -334,7 +334,8 @@ class Store extends EventTarget {
   }
   setLearningPreference(key, value) {
     if (this.learning.version > LEARNING_VERSION) return;
-    if (!['stage', 'expansions'].includes(key)) return;
+    if (!['stage', 'expansions', 'courseLevel'].includes(key)) return;
+    if (key === 'courseLevel' && !LEVELS.includes(value)) return;
     this.learning.preferences = { ...this.learning.preferences, [key]: value, updatedAt: Date.now() };
     this.current.learning = normalizeLearning(this.learning);
     this.save();

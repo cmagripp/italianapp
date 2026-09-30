@@ -4,6 +4,7 @@ import { html, raw, icon, speak, stopSpeech, keyboardViewportHeight } from '../u
 import { setScene, reducedMotion, dropdown } from '../fx.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
+import { grammarLesson } from '../learning/grammar-course.js';
 import { getEntry, itemsForScope } from '../data.js';
 import { LEARNING_VERSION } from '../learning/model.js';
 import { CORE_STAGES, EXPANSIONS } from '../learning/curriculum.js';
@@ -56,6 +57,7 @@ export async function render(root, params = {}, query = {}) {
   const suggestion = !params.id && !query.id && !requested ? recommend(store, { review: mode === 'review' }) : null;
   if (!query.mode && !params.id && !query.id) mode = requested?.mode === 'review' || suggestion?.mode === 'review' ? 'review' : 'lesson';
   const entryId = params.id || query.id || requested?.entryId || suggestion?.entry?.id;
+  if(entryId?.startsWith('g:') && grammarLesson(entryId))return (await import('./learnGrammar.js')).render(root,{id:entryId.slice(2)},{...query,mode,objective:query.objective || suggestion?.objectiveId});
   const entry = entryId ? getEntry(entryId) : itemsForScope(store.scope, store)[0];
   if (!entry) {
     root.innerHTML = entryId
@@ -64,6 +66,13 @@ export async function render(root, params = {}, query = {}) {
     return;
   }
   const plan = buildLesson(entry, { expansions: store.learning.preferences?.expansions || [] });
+  // Opening an explicitly linked grammar example enrolls its optional chapter.
+  // It never completes the chapter or enrolls other unfinished forms for review.
+  if(query.fromGrammar && grammarLesson(query.fromGrammar)?.related.some(link=>link.entryId===entry.id&&link.caseId===query.chapter)) {
+    const linked=plan.chapters.find(c=>c.id===query.chapter);
+    const expansion=linked?.optional && EXPANSIONS.find(x=>x.tenses.includes(linked.tense));
+    if(expansion && !store.learning.preferences.expansions.includes(expansion.id))store.setLearningPreference('expansions',[...store.learning.preferences.expansions,expansion.id]);
+  }
   const selectedExpansions = store.learning.preferences?.expansions || [];
   const extraTenses = new Set(EXPANSIONS.filter(x=>selectedExpansions.includes(x.id)).flatMap(x=>x.tenses));
   plan.chapters = plan.chapters.filter(c=>!c.optional || c.id==='mixed' || c.id==='background' || extraTenses.has(c.tense));
@@ -90,6 +99,9 @@ export async function render(root, params = {}, query = {}) {
     session=upgraded;
     session.ui={...session.ui,historyCursor:null,questionId:null,draft:'',given:'',result:null,activity:null,assistance:[],hint:false,forms:false};
   }
+  if(query.session)query={...query,fromGrammar:query.fromGrammar || session.fromGrammar,courseSession:query.courseSession || session.courseSession};
+  if(grammarLesson(query.fromGrammar))session.fromGrammar=query.fromGrammar;else delete session.fromGrammar;
+  if(query.courseSession)session.courseSession='1';else delete session.courseSession;
   let ui = session.ui?.version === 2 ? session.ui : { version: 2, draft: '', assistance: [], exposures: {}, mapOpen: false };
   ui.exposures = ui.exposures && typeof ui.exposures === 'object' && !Array.isArray(ui.exposures)
     ? Object.fromEntries(Object.entries(ui.exposures).filter(([key,value])=>!['__proto__','prototype','constructor'].includes(key) && Number.isFinite(value) && value >= 0)) : {};
@@ -162,6 +174,8 @@ export async function render(root, params = {}, query = {}) {
   function updateRoute() {
     const route = new URLSearchParams(); route.set('session', session.id);
     if (mode === 'review') route.set('mode', mode);
+    if (query.courseSession) route.set('courseSession','1');
+    if (grammarLesson(query.fromGrammar)) route.set('fromGrammar',query.fromGrammar);
     if (ui.overview) route.set('overview','1');
     history.replaceState(history.state, '', `#/learn/${entry.kind === 'verb' ? 'verb' : 'word'}/${encodeURIComponent(entry.id)}?${route}`);
   }
@@ -654,13 +668,14 @@ export async function render(root, params = {}, query = {}) {
   }
   function summaryHTML(complete) {
     const progress = journeyProgress(plan, session, store.learning);
+    const courseReturn=query.courseSession?'<a class="btn primary block" href="#/learn/session">Continue your session</a>':grammarLesson(query.fromGrammar)?html`<a class="btn primary block" href="#/learn/grammar/${encodeURIComponent(query.fromGrammar)}?recap=1">Back to your grammar lesson</a>`:'';
     if(progress.wordShort) {
       const pending=progress.pending.length,next=recommend(store,{kind:'word'});
       return html`<section class="journey-recap"><div class="journey-recap-mark" aria-hidden="true">${raw(icon(pending?'book':'check',{size:30}))}</div><div class="journey-kicker">Your word lesson</div>
         <h1 data-focus tabindex="-1">${pending?'Saved for another try':`${nameOf(entry)} · complete`}</h1>
         <p>${pending?'Your place is saved. Practise the remaining questions when you’re ready.':'You’ve learned its meaning and practised recognising it. We’ll bring it back to help it stick.'}</p>
-        ${pending?raw(primary('Practise remaining questions','data-retry')):next&&next.entry.id!==entry.id?raw(html`<a class="btn primary journey-primary" href="${practiceHref(next.entry)}">Learn ${nameOf(next.entry)}</a>`):raw('<a class="btn primary journey-primary" href="#/learn">Keep learning</a>')}
-        <a class="btn ghost" href="#/words">Back to Words</a></section>`;
+        ${pending?raw(primary('Practise remaining questions','data-retry')):courseReturn?'':next&&next.entry.id!==entry.id?raw(html`<a class="btn primary journey-primary" href="${practiceHref(next.entry)}">Learn ${nameOf(next.entry)}</a>`):raw('<a class="btn primary journey-primary" href="#/learn">Keep learning</a>')}
+        ${raw(courseReturn)}<a class="btn ghost" href="#/words">Back to Words</a></section>`;
     }
     const summaries = progress.chapters || [];
     const pending = complete ? summaries.filter(c=>!c.optional).flatMap(c=>c.pending) : summaries.find(c=>c.id===step.chapter?.id)?.pending || [];
@@ -675,7 +690,7 @@ export async function render(root, params = {}, query = {}) {
         <h1 data-focus tabindex="-1">${pending.length?`${title} · a little more practice`:`${title} · complete`}</h1>
         <p>${pending.length?'Your work is saved. Practise the remaining forms now, or return whenever you’re ready.':cases.complete?`You’ve completed the core lessons for ${nameOf(entry)}. You can revisit any of them or try a mixed review.`:'You’ve learned and practised this tense. Continue when you’re ready, or come back another time.'}</p>
         ${pending.length?raw(primary('Practise remaining forms','data-retry')):''}
-        ${next?raw(primary(`Next: ${next.title}`,`data-next-lesson="${next.id}"`)):''}
+        ${raw(courseReturn)}${next&&!courseReturn?raw(primary(`Next: ${next.title}`,`data-next-lesson="${next.id}"`)):''}
         <button type="button" class="btn ${next||pending.length?'ghost':'primary journey-primary'}" data-overview>Back to ${nameOf(entry)}</button>
         ${cases.complete?raw('<button type="button" class="btn ghost" data-open-lesson="mixed">Mix your tenses</button>'):''}
       </section>`;
@@ -740,7 +755,7 @@ export async function render(root, params = {}, query = {}) {
       for(const chapter of plan.chapters.filter(c=>!c.optional))revealTeaching(intro?{...intro,notes:[],examples:[],exposureForms:[]}:null,chapter);
       content=lessonOverviewHTML({entry,plan,progress:cases,session});
     }
-    else if (paused) content = html`<h1 data-focus tabindex="-1">Your place is saved</h1><p>Come back to this question whenever you’re ready.</p>${raw(primary('Resume lesson', 'data-resume'))}${entry.kind==='verb'&&mode==='lesson'?raw('<button type="button" class="btn ghost" data-overview>Back to your verb</button>'):''}<a class="btn ghost" href="#/learn">Back to Learn</a>`;
+    else if (paused) content = html`${query.courseSession?raw('<a class="btn secondary block" href="#/learn/session">Your session</a>'):''}<h1 data-focus tabindex="-1">Your place is saved</h1><p>Come back to this question whenever you’re ready.</p>${raw(primary('Resume lesson', 'data-resume'))}${entry.kind==='verb'&&mode==='lesson'?raw('<button type="button" class="btn ghost" data-overview>Back to your verb</button>'):''}<a class="btn ghost" href="#/learn">Back to Learn</a>`;
     else if(past)content=historyHTML(past);
     else if (step.type === 'teach') {
       revealTeaching(step.card);
