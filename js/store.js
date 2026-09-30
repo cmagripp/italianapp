@@ -354,7 +354,7 @@ class Store extends EventTarget {
     const state=this.completionState(entry), ids=state.cases.length ? state.cases.filter(c=>c.available && (!caseId || c.id===caseId)).map(c=>c.id) : caseId ? [] : ['word'];
     if(!ids.length)return false;
     const at=Math.max(Date.now(),...Object.values(this.learning.completions || {}).map(c=>(c.at || 0)+1));
-    for(const id of ids)this.current.learning=setCompletionRecord(this.learning,{entryId:entry.id,caseId:id,checked,at,id:uid(),source:'manual'},at);
+    for(const id of ids)this.current.learning=setCompletionRecord(this.learning,{entryId:entry.id,caseId:id,checked,at,id:`verb-flow-v2:${uid()}`,source:'manual',flowVersion:2},at);
     const item=this.ensureItem(entry.id), complete=this.completionState(entry).complete;
     item.learned=complete;item.last=at;
     if(complete)item.learnedAt ||= at;

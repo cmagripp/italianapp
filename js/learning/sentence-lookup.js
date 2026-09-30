@@ -3,6 +3,8 @@ import { article, withArticle, hasPluralForm, isPluralOnly, nounNumberNote, GEND
 import { conjugate, accepted, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING } from '../conjugator.js';
 import { progressiveForms } from './progressive-content.js';
 import { GRAMMAR_LOOKUP_ENTRIES, GRAMMAR_LOOKUP_ENTRY_PATCHES, GRAMMAR_LOOKUP_ALIASES, GRAMMAR_LOOKUP_FUNCTIONS, GRAMMAR_LOOKUP_NAMES, GRAMMAR_LOOKUP_PLACES, GRAMMAR_LOOKUP_FORM_NOTES } from './grammar-lexicon.js';
+import { VERB_EXTRA_ENTRIES, VERB_EXTRA_ALIASES, VERB_EXTRA_FUNCTIONS, VERB_EXTRA_PLACES, VERB_EXTRA_NAMES } from './verb-lexicon-extra.js';
+import { VERB_LOOKUP_ENTRIES, VERB_LOOKUP_ALIASES, VERB_LOOKUP_FUNCTIONS, VERB_LOOKUP_NAMES, VERB_LOOKUP_PLACES } from './verb-lexicon.js';
 
 const norm = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
 const usable = value => typeof value === 'string' && !!value.trim() && !['-', MISSING].includes(value.trim());
@@ -25,6 +27,8 @@ const SUPPLEMENT = [
   ['testo', 'text; written passage', 'm', 'testi'],
 ].map(([it, en, g, pl]) => ({ id: `lookup:${it}|noun`, it, en, g, pl, pos: 'noun', lookupSource: 'curated', ...(it === pl ? { note: 'Invariable noun.' } : {}) }));
 SUPPLEMENT.push(...GRAMMAR_LOOKUP_ENTRIES);
+SUPPLEMENT.push(...VERB_EXTRA_ENTRIES);
+SUPPLEMENT.push(...VERB_LOOKUP_ENTRIES);
 SUPPLEMENT.push({ id: 'lookup:riposare|verb', inf: 'riposare', en: 'to rest', pos: 'verb', aux: 'avere', lookupSource: 'curated' });
 
 // Expand only alternatives explicitly supplied by the existing conjugator.
@@ -78,6 +82,8 @@ const FUNCTIONS = [
   ['alcuni', 'det', 'some; a few'], ['alcune', 'det', 'some; a few'], ['stanotte', 'adv', 'tonight; last night, depending on the sentence'],
 ];
 FUNCTIONS.push(...GRAMMAR_LOOKUP_FUNCTIONS);
+FUNCTIONS.push(...VERB_EXTRA_FUNCTIONS);
+FUNCTIONS.push(...VERB_LOOKUP_FUNCTIONS);
 // These closed-class forms and shortened headwords are explicitly listed here;
 // no general suffix rule is used to manufacture forms for arbitrary entries.
 const LEXICAL_ALIASES = {
@@ -90,6 +96,8 @@ const LEXICAL_ALIASES = {
   avere: ['aver'], essere: ['esser'], fare: ['far'], dire: ['dir'],
 };
 for(const [lemma,aliases] of Object.entries(GRAMMAR_LOOKUP_ALIASES)) LEXICAL_ALIASES[lemma]=unique([...(LEXICAL_ALIASES[lemma] || []),...aliases]);
+for(const [lemma,aliases] of Object.entries(VERB_EXTRA_ALIASES)) LEXICAL_ALIASES[lemma]=unique([...(LEXICAL_ALIASES[lemma] || []),...aliases]);
+for(const [lemma,aliases] of Object.entries(VERB_LOOKUP_ALIASES)) LEXICAL_ALIASES[lemma]=unique([...(LEXICAL_ALIASES[lemma] || []),...aliases]);
 const PREPOSITIONS = new Map();
 for (const [base, gloss, words] of [
   ['di', 'of / from the; some (partitive use)', ['del', 'dello', 'della', "dell'", 'dei', 'degli', 'delle']],
@@ -123,9 +131,13 @@ const ELISIONS = new Map([
 ]);
 const NAMES = new Set(['Marco', 'Sara', 'Luca', 'Maria', 'Anna', 'Paolo', 'Giulia', 'Giovanni', 'Francesca', 'Giuseppe', 'Paola', 'Rossi', 'Bianchi'].map(norm));
 for(const name of GRAMMAR_LOOKUP_NAMES)NAMES.add(norm(name));
+for(const name of VERB_LOOKUP_NAMES)NAMES.add(norm(name));
+for(const name of VERB_EXTRA_NAMES)NAMES.add(norm(name));
 const PLACES = new Map([['roma', 'Rome'], ['italia', 'Italy'], ['milano', 'Milan'], ['napoli', 'Naples'], ['torino', 'Turin'], ['firenze', 'Florence'], ['venezia', 'Venice'], ['bologna', 'Bologna']]);
 
 for(const [place,meaning] of GRAMMAR_LOOKUP_PLACES)PLACES.set(norm(place),meaning);
+for(const [place,meaning] of VERB_LOOKUP_PLACES)PLACES.set(norm(place),meaning);
+for(const [place,meaning] of VERB_EXTRA_PLACES)PLACES.set(norm(place),meaning);
 
 function contractionFor(key) {
   const apostrophe = key.indexOf("'");

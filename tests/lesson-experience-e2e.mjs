@@ -290,6 +290,7 @@ try {
     const prompt = (await question()).prompt;
     const fixture = prompt.includes('domanda')
       ? { word:'domanda', singular:'la domanda', exposed:['question','la','le','domanda','domande'] }
+      : prompt.includes('regola') ? { word:'regola', singular:'la regola', exposed:['rule','la','le','regola','regole'] }
       : { word:'problema', singular:'il problema', exposed:['problem','il','i','problema','problemi'] };
     assert(prompt.includes(fixture.word), 'a separately checked authored noun is available in the rotated prompt');
     await page.locator(`.journey-prompt [data-lookup-word="${fixture.word}"]`).click();

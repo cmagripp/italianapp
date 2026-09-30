@@ -52,6 +52,8 @@ function diagnoseWrong(q, given, answers) {
   const failure = (tag, components = base, message = null) => ({ errorTags: [tag], components, feedback: message || ERROR_TIPS[tag] || ERROR_TIPS.uncertain });
   if (!normalize(given)) return failure('uncertain', base, 'Take a look at the example, then try a smaller step. This objective will stay in practice.');
 
+  if(any(given,d.counterpartForms))return failure('viewpoint',[component(skill,false,'viewpoint')],d.viewpointMessage);
+
   if (d.kind === 'auxiliary') {
     if (d.inflected) {
       const family = Object.keys(d.allAuxForms || {}).filter(k => any(given, d.allAuxForms[k]));

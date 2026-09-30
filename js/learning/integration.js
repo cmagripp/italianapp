@@ -68,6 +68,7 @@ export function eligibleSkills(store, now = Date.now()) {
       const chapterId=journeyObjective?.sourceChapter || journeyObjective?.chapterId || chapterForTense(s.tense);
       const chapter=journeyChapterCompletions(lessonPlan(entry),store.learning,now).find(c=>c.id===chapterId || !chapterId && c.tense===s.tense);
       if(!chapter?.ready)return false;
+      if(journeyObjective?.flowVersion===2 && chapter.updateAvailable && !s.readyPeriods?.length)return false;
       if(chapter.optional && !EXPANSIONS.some(e=>(store.learning.preferences?.expansions || []).includes(e.id)&&e.tenses.includes(chapter.tense)))return false;
     } else if(!status(entry).complete)return false;
     if (journeyObjective) {
@@ -109,7 +110,7 @@ export function eligibleSkills(store, now = Date.now()) {
       const state=skillState(store.learning,objective.id,now);
       // A manually known case gets a real diagnostic review, not synthetic
       // correct attempts. Natural completions already have target schedules.
-      if(state.attempts)continue;
+      if(state.attempts || chapter.updateAvailable && objective.flowVersion===2)continue;
       skills.push({...state,objectiveId:objective.id,entryId:entry.id,kind:entry.kind,skill:objective.skill,tense:objective.tense,
         chapterId:objective.chapterId,enrolled:true,due:(chapter.completedAt || 0)+8*3600e3});
     }
@@ -146,7 +147,7 @@ export function recommendLesson(store, { kind = null, review = false, now = Date
   if (!review) for (const session of sessions) {
     const entry = getEntry(session.entryId), plan = lessonPlan(entry);
     const completion=entryCompletion(entry,store.learning,store.current.items?.[entry.id],now);
-    if(completion.complete || completion.cases.some(c=>c.id===session.journey.chapterId && c.checked))continue;
+    if(completion.complete&&!completion.cases.some(c=>c.updateAvailable) || completion.cases.some(c=>c.id===session.journey.chapterId && c.checked&&!c.updateAvailable))continue;
     const step = currentJourneyStep(plan,session,store.learning,now);
     if (step.type !== 'complete') return {entry,session,mode:'lesson',reason:`Continue ${nameFor(entry)} from where you stopped.`};
   }

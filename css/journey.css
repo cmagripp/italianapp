@@ -508,3 +508,9 @@ body.journey-viewport #topTitle { text-align:left; padding-left:4px; }
   .journey-feedback-dock .feedback { margin:0; }
   .journey-feedback-dock .feedback-bar > .btn { align-self:stretch; height:100%; }
 }
+
+/* Stable milestones keep adaptive repairs inside the section being learned. */
+.journey-progress-sections .journey-stages{width:100%;grid-template-columns:1fr 1fr 1fr}
+.journey-progress-sections .journey-stages li{font-size:clamp(10px,2.8vw,14px);padding:8px 4px;white-space:normal;text-align:center}
+.journey-stages li.is-done{color:var(--mint,#5fdac5);border-color:color-mix(in srgb,var(--mint,#5fdac5) 45%,transparent)}
+.journey-stages li.is-deferred{opacity:.7}

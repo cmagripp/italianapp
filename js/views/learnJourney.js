@@ -21,7 +21,7 @@ import { progressiveForms, progressiveInfo } from '../learning/progressive-conte
 import { gradeQuestion } from '../learning/diagnose.js';
 import { feedbackHTML as gameFeedbackHTML } from '../games/engine.js';
 import { createJourneySession, currentJourneyStep, advanceJourney, recordJourneyAttempt,
-  skipJourneyTarget, chooseJourneyChapter, upgradeShortWordSession, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
+  skipJourneyTarget, chooseJourneyChapter, upgradeShortWordSession, upgradeVerbJourneySession, reconcileJourneyReview, journeyStageProgress, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
 import { recommendLesson as recommend, practiceHref } from '../learning/integration.js';
 
 const uid = () => globalThis.crypto?.randomUUID?.() || `journey-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -65,7 +65,7 @@ export async function render(root, params = {}, query = {}) {
       : '<div class="empty"><h1>Choose something to learn</h1><a class="btn primary" href="#/scope">Choose your topics</a></div>';
     return;
   }
-  const plan = buildLesson(entry, { expansions: store.learning.preferences?.expansions || [] });
+  let plan = buildLesson(entry, { expansions: store.learning.preferences?.expansions || [] });
   // Opening an explicitly linked grammar example enrolls its optional chapter.
   // It never completes the chapter or enrolls other unfinished forms for review.
   if(query.fromGrammar && grammarLesson(query.fromGrammar)?.related.some(link=>link.entryId===entry.id&&link.caseId===query.chapter)) {
@@ -76,7 +76,7 @@ export async function render(root, params = {}, query = {}) {
   const selectedExpansions = store.learning.preferences?.expansions || [];
   const extraTenses = new Set(EXPANSIONS.filter(x=>selectedExpansions.includes(x.id)).flatMap(x=>x.tenses));
   plan.chapters = plan.chapters.filter(c=>!c.optional || c.id==='mixed' || c.id==='background' || extraTenses.has(c.tense));
-  const allTargets = plan.chapters.flatMap(c => c.groups.flatMap(g => g.targets || []));
+  let allTargets = plan.chapters.flatMap(c => c.groups.flatMap(g => g.targets || []));
   const oldObjective = query.objective || suggestion?.objectiveId;
   const objectiveChapter = oldObjective && plan.chapters.find(c => c.groups.some(g => g.targets.some(t => t.id === oldObjective))
     || (c.tense && oldObjective.includes(`::${c.tense}::`)));
@@ -86,9 +86,22 @@ export async function render(root, params = {}, query = {}) {
   const legacy = requested && !requested.journey ? requested : store.learning.sessions?.[`${entry.id}|${mode}`];
   const focusedReviewChanged = mode === 'review' && oldObjective && prior?.journey?.focusTargetId !== oldObjective;
   let session = prior && (!query.session || prior.id === query.session) && !focusedReviewChanged && !(mode === 'review' && prior.journey?.phase === 'complete' && query.session !== prior.id)
-    ? clone(prior) : createJourneySession({ id: uid(), plan, now: Date.now(), mode, chapterId, caseMode:entry.kind==='verb'&&mode==='lesson',
+    ? clone(prior) : createJourneySession({ id: uid(), plan, learning:store.learning, now: Date.now(), mode, chapterId, caseMode:entry.kind==='verb'&&mode==='lesson',
       targetId: mode === 'review' && allTargets.some(t => t.id === oldObjective) ? oldObjective : undefined });
+  const updatedPlan=plan;
+  const heldLegacyQuestion=entry.kind==='verb' && !session.journey.verbFlowVersion && !!session.journey.current;
+  if(heldLegacyQuestion){
+    plan=buildLesson(entry,{legacy:true});
+    plan.chapters=plan.chapters.filter(c=>updatedPlan.chapters.some(next=>next.id===c.id));
+    allTargets=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets||[]));
+  }else session=upgradeVerbJourneySession(plan,session,store.learning);
   if (chapterId && !query.session && mode !== 'review') session = chooseJourneyChapter(plan, session, chapterId, { now: Date.now(), learning:store.learning });
+  preserveLegacyCaseQuestion();
+  const eligibleReviewSession=reconcileJourneyReview(plan,session,store.learning);
+  if(eligibleReviewSession!==session){
+    session=eligibleReviewSession;
+    session.ui={...session.ui,questionId:null,draft:'',given:'',result:null,activity:null,assistance:[],hint:false,forms:false};
+  }
   // Older releases saved an empty introduction recap. Resume at the next real
   // teaching card without pretending that the introduction included practice.
   if (session.journey?.phase === 'recap' && session.journey.chapterId === 'meet'
@@ -119,8 +132,10 @@ export async function render(root, params = {}, query = {}) {
     ? Object.fromEntries(Object.entries(ui.formDecks).filter(([key,value])=>!['__proto__','prototype','constructor'].includes(key)&&Number.isInteger(value)&&value>=0)) : {};
   // History stores bounded presentation descriptors, never HTML or a copy of the
   // learning state. Reconstruct every page from the current trusted lesson plan.
+  let historyLegacyPlan=null;
   const historyStep = snapshot => {
-    const chapter = plan.chapters.find(c=>c.id===snapshot?.chapterId);
+    const historyPlan=entry.kind==='verb'&&snapshot?.verbFlowVersion!==2?(historyLegacyPlan ||= buildLesson(entry,{legacy:true})):plan;
+    const chapter = historyPlan.chapters.find(c=>c.id===snapshot?.chapterId);
     const group = chapter?.groups.find(g=>g.id===snapshot.groupId);
     const card = group?.cards?.find(c=>c.id===snapshot.cardId);
     let target = chapter?.groups.flatMap(g=>g.targets||[]).find(t=>t.id===snapshot.targetId);
@@ -137,7 +152,7 @@ export async function render(root, params = {}, query = {}) {
   const safeSnapshot = source => {
     if (!source || typeof source!=='object' || source.version!==1 || source.entryId!==entry.id || source.contentVersion!==plan.version
       || !['teach','question','repair','recap','complete','blocked'].includes(source.type)) return null;
-    const snapshot = { version:1, entryId:entry.id, contentVersion:plan.version, type:source.type };
+    const snapshot = { version:1, entryId:entry.id, contentVersion:plan.version, type:source.type,...(source.verbFlowVersion===2?{verbFlowVersion:2}:{}) };
     for (const key of ['chapterId','groupId','cardId','targetId','questionId','repairTag','wordSlotId']) snapshot[key]=typeof source[key]==='string'?source[key].slice(0,300):'';
     snapshot.variant=Number.isInteger(source.variant)&&source.variant>=0&&source.variant<1000000?source.variant:0;
     snapshot.phase=['guided','independent','repair'].includes(source.phase)?source.phase:'guided';
@@ -385,7 +400,21 @@ export async function render(root, params = {}, query = {}) {
     if (focus) card.focus();
     save();
   }
+  function preserveLegacyCaseQuestion(){
+    if(entry.kind!=='verb'||session.journey.verbFlowVersion===2)return;
+    if(session.journey.current){plan=buildLesson(entry,{legacy:true});plan.chapters=plan.chapters.filter(c=>updatedPlan.chapters.some(next=>next.id===c.id));}
+    else {plan=updatedPlan;session=upgradeVerbJourneySession(plan,session,store.learning);}
+    allTargets=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets||[]));
+  }
+  function activateUpdatedVerbFlow(){
+    if(plan===updatedPlan)return;
+    plan=updatedPlan;allTargets=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets||[]));
+    session=upgradeVerbJourneySession(plan,session,store.learning);
+    ui.questionId=null;ui.draft='';ui.given='';ui.result=null;ui.activity=null;ui.assistance=[];ui.historyCursor=null;
+  }
   function progressHTML(progress, stage, displayStep = step) {
+    const stages=journeyStageProgress(plan,session,store.learning);
+    if(stages)return html`<div class="journey-progress-line journey-progress-sections"><ol class="journey-stages" aria-label="Lesson progress">${raw(stages.map(item=>html`<li class="${item.done?'is-done':''} ${item.deferred?'is-deferred':''}" ${item.current?raw('aria-current="step"'):''}>${item.done?raw('<span aria-hidden="true">✓ </span>'):''}${item.label}</li>`).join(''))}</ol></div>`;
     const current = progress.chapters.find(c=>c.id===displayStep.chapter?.id);
     const done = progress.wordShort?progress.answered:current?.ready||0;
     const total = progress.wordShort?progress.total:current?.total||0;
@@ -409,7 +438,7 @@ export async function render(root, params = {}, query = {}) {
     const progress = journeyProgress(plan,session,store.learning);
     const pending = progress.wordShort ? progress.pending : step.type==='complete' ? progress.chapters.filter(c=>!c.optional).flatMap(c=>c.pending)
       : progress.chapters.find(c=>c.id===step.chapter?.id)?.pending || [];
-    const snapshot = safeSnapshot({version:1,entryId:entry.id,contentVersion:plan.version,
+    const snapshot = safeSnapshot({version:1,entryId:entry.id,contentVersion:plan.version,...(plan.flowVersion===2?{verbFlowVersion:2}:{}),
       type:step.type,chapterId:step.chapter?.id,groupId:step.group?.id,cardId:step.card?.id,targetId:step.target?.id,wordSlotId:step.target?.wordSlotId,
       phase:step.phase,questionId:step.questionId,variant:step.type==='repair'?session.journey.lastAttempt?.variant:step.variant,
       format:step.format,repairTag:step.repairTag,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
@@ -772,7 +801,7 @@ export async function render(root, params = {}, query = {}) {
       ${raw(progressHTML(progress,stage,displayStep))}</header>`;
     root.innerHTML = html`<div class="journey-page ${floatingActions?'has-action-dock':''}" data-journey data-history="${!!past}" data-phase="${phase}" data-chapter="${overview?'overview':displayStep.chapter?.id || ''}" data-group="${displayStep.group?.id || ''}" data-target="${displayStep.target?.id || ''}">
       ${raw(lessonHeader)}
-      <main class="journey-main ${enter&&!reducedMotion()?'journey-enter':''}" tabindex="0" aria-label="Lesson content">${legacy && !prior && !ui.legacyDismissed ? raw(html`<aside class="journey-legacy"><p>Your previous practice is saved.</p><a href="${practiceHref(entry, null, mode)}${mode === 'lesson' ? '?' : '&'}legacy=1&session=${encodeURIComponent(legacy.id)}">Resume your previous question</a><button type="button" data-dismiss-legacy aria-label="Dismiss saved question notice">×</button></aside>`) : ''}${raw(content)}</main>
+      <main class="journey-main ${enter&&!reducedMotion()?'journey-enter':''}" tabindex="0" aria-label="Lesson content">${legacy && !prior && !ui.legacyDismissed ? raw(html`<aside class="journey-legacy"><p>Your previous practice is saved.</p><a href="${practiceHref(entry, null, mode)}${mode === 'lesson' ? '?' : '&'}legacy=1&session=${encodeURIComponent(legacy.id)}">Resume your previous question</a><button type="button" data-dismiss-legacy aria-label="Dismiss saved question notice">×</button></aside>`) : ''}${session.flowUpdateNotice&&!overview?raw(html`<aside class="journey-legacy"><p>${session.flowUpdateNotice}</p><button type="button" data-dismiss-flow aria-label="Dismiss lesson update notice">×</button></aside>`):''}${raw(content)}</main>
       ${feedback&&!past&&!paused?raw(html`<div class="journey-feedback-dock">${raw(feedbackHTML(ui.result,question,ui.given,{showNext:true}))}</div>`):''}
     </div>
     ${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
@@ -801,7 +830,12 @@ export async function render(root, params = {}, query = {}) {
     root.querySelector('.journey-main').scrollTop = past&&focus?past.scrollTop:contentScroll;
     requestAnimationFrame(updateScrollCue);
     for (const track of root.querySelectorAll('[data-form-track]')) updateFormDeck(track);
-    if (focus) requestAnimationFrame(() => root.querySelector('[data-focus]')?.focus({ preventScroll: true }));
+    if (focus) requestAnimationFrame(() => {
+      // A learner may already be typing before this frame runs (especially on
+      // mobile WebKit). Never move focus away from an active answer/control.
+      if (renderedStep !== stepKey || root.contains(document.activeElement) && document.activeElement.matches('input,textarea,button,a,select')) return;
+      root.querySelector('[data-focus]')?.focus({ preventScroll: true });
+    });
     save();
     // A saved final tile may precede the aggregate event if the app closes.
     // Stable attempt IDs make resuming completion safe without replaying audio.
@@ -871,6 +905,7 @@ export async function render(root, params = {}, query = {}) {
       if(!ui.overview)capturePage();
       saveCaseDraft();save();
       session=chooseJourneyChapter(plan,session,chapterId,{now:Date.now(),learning:store.learning,redo});
+      preserveLegacyCaseQuestion();
       contentScroll=restoreCaseDraft(chapterId,redo);
       recoveredQuestionId=null;
     }
@@ -920,16 +955,17 @@ export async function render(root, params = {}, query = {}) {
       return;
     }
     if (b.hasAttribute('data-choice')) { const c=question?.choices?.[Number(b.dataset.choice)]; if(c) submit(c.value ?? c.label); return; }
-    if (b.hasAttribute('data-continue')) { capturePage();session=advanceJourney(plan,session,store.learning,{now:Date.now()}); ui.paused=false; save(); draw(true); }
+    if (b.hasAttribute('data-continue')) { capturePage();session=advanceJourney(plan,session,store.learning,{now:Date.now()}); activateUpdatedVerbFlow();ui.paused=false; save(); draw(true); }
     else if (b.hasAttribute('data-resume')) { ui.paused=false;save();draw(true); }
     else if (b.hasAttribute('data-map')) { ui.mapOpen=!ui.mapOpen;draw(); }
-    else if (b.hasAttribute('data-chapter')) { capturePage();session=chooseJourneyChapter(plan,session,b.dataset.chapter,{now:Date.now(),learning:store.learning});ui.mapOpen=false;ui.paused=false;ui.questionId=null;save();draw(true); }
-    else if (b.hasAttribute('data-skip')) { capturePage();session=skipJourneyTarget(plan,session,step.target?.id,{now:Date.now(),learning:store.learning});save();draw(true); }
+    else if (b.hasAttribute('data-chapter')) { capturePage();activateUpdatedVerbFlow();session=chooseJourneyChapter(plan,session,b.dataset.chapter,{now:Date.now(),learning:store.learning});ui.mapOpen=false;ui.paused=false;ui.questionId=null;save();draw(true); }
+    else if (b.hasAttribute('data-skip')) { capturePage();session=skipJourneyTarget(plan,session,step.target?.id,{now:Date.now(),learning:store.learning});activateUpdatedVerbFlow();save();draw(true); }
     else if (b.hasAttribute('data-retry')) { capturePage();session=retryJourneyPending(plan,session,store.learning,{now:Date.now()});save();draw(true); }
     else if (b.hasAttribute('data-help')) { ui.hint=!ui.hint;if(ui.hint&&!ui.assistance.includes('hint'))ui.assistance.push('hint');save();draw(); }
     else if (b.hasAttribute('data-show-forms')) { ui.forms=true;if(!ui.assistance.includes('visible-form'))ui.assistance.push('visible-form');for(const c of step.group?.cards||[])revealTeaching(c);save();draw(); }
     else if (b.hasAttribute('data-reveal')) submit('',true);
     else if (b.hasAttribute('data-answer-audio')) { if(!question.meta?.audioIsPrompt&&!ui.assistance.includes('answer-audio'))ui.assistance.push('answer-audio');save();speak(question.say,{force:true}); }
+    else if (b.hasAttribute('data-dismiss-flow')) { delete session.flowUpdateNotice;save();draw(); }
     else if (b.hasAttribute('data-dismiss-legacy')) { ui.legacyDismissed=true;draw(); }
     else if (b.hasAttribute('data-letter')) { const input=root.querySelector('[data-answer]');if(!input)return;const at=input.selectionStart??input.value.length;const end=input.selectionEnd??at;input.value=input.value.slice(0,at)+b.dataset.letter+input.value.slice(end);ui.draft=input.value;input.focus();input.setSelectionRange(at+1,at+1);root.querySelector('[data-check]').disabled=!input.value.trim();save(); }
   };

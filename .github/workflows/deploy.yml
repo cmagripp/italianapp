@@ -52,7 +52,9 @@ jobs:
           node tools/test-short-word-model.mjs
           node tools/test-journey-model.mjs
           node tools/test-lesson-activities.mjs
+          node tools/build-verb-progressive.mjs --check
           node tools/test-progressive-content.mjs
+          node tools/test-verb-flow-v2.mjs
           node tools/test-journey-integration.mjs
           node tools/check-shell.mjs
       - uses: actions/configure-pages@v5

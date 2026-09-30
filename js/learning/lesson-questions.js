@@ -6,6 +6,7 @@ import { withArticle, data } from '../data.js';
 import { WEATHER_VERBS } from './content.js';
 import { createLetterActivity, createPairActivity } from './lesson-activities.js';
 import { progressiveForms, progressiveInfo } from './progressive-content.js';
+import { progressiveForms as legacyForms, progressiveInfo as legacyInfo } from './legacy-progressive-content.js';
 import { buildShortWordQuestion } from './word-questions.js';
 const esc=escapeHTML;
 const unique=xs=>[...new Set(xs.filter(Boolean))];
@@ -25,25 +26,26 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  const o={id:target.id,entryId:entry.id,kind,skill:target.skill,tense:target.tense||null,stage:'future',label:target.skill,explanation:''};
  let q;
  const source=target.sourceChapter||chapter.id;
- const contexts=kind==='verb'&&['conjugation','context','address'].includes(target.skill)?lessonContexts(entry,source).filter(c=>target.skill==='context'||c.person===target.person&&c.role===(target.role||'ordinary')):[];
+ const contexts=kind==='verb'&&['conjugation','context','address'].includes(target.skill)?(target.contexts||lessonContexts(entry,source)).filter(c=>target.skill==='context'||c.person===target.person&&c.role===(target.role||'ordinary')):[];
  const smallRepair=phase==='repair'&&['auxiliary','auxiliaryPerson','participle','agreement','clitic'].includes(repairTag);
  if(target.progressive){
-  const info=progressiveInfo(entry,{chapter:chapter.id}),person=target.person??0;
+  const formsFor=target.flowVersion===2?progressiveForms:legacyForms, infoFor=target.flowVersion===2?progressiveInfo:legacyInfo;
+  const info=infoFor(entry,{chapter:source}),person=target.contexts?.[v%target.contexts.length]?.person??target.person??0;
   if(target.skill==='progressiveUsage'){
    q={prompt:text(target.usageQuestion),answer:target.usageAnswers,tip:target.explanation,lesson:target.explanation,say:'',meta:{supportOnly:true,answerLanguage:'en',diagnostic:{kind:'component',component:'progressiveUsage'},variantId:`${target.id}:usage`,contextId:`${target.id}:usage`}};
    choices(q,target.usageDistractors||[],true,rng);
   }else{
    const situations=target.contexts||[],context=situations[v%situations.length],englishCue=situations.length&&Math.floor(v/situations.length)%2===1;
-   const answers=progressiveForms(entry,person,{chapter:chapter.id});if(!answers.length)return null;
-   const tenseCue=chapter.id==='background'?'stare (imperfetto) + gerundio':'stare (present) + gerundio';
-   const who=target.role==='formal'?'Lei · formal':person===1?'tu · informal':person===4?'voi · plural':info.weather?'impersonal weather use':PERSONS[person];
-   const diagnostic={kind:'progressive',gerund:info.gerund,clitic:info.clitic,person,stareForms:info.helperForms,otherTenseForms:progressiveInfo(entry,{chapter:chapter.id==='background'?'present':'background'}).helperForms,personForms:Array.from({length:6},(_,p)=>progressiveForms(entry,p,{chapter:chapter.id}).map(answer=>({person:p,answer}))).flat()};
+   const answers=context?.answers||formsFor(entry,person,{chapter:source});if(!answers.length)return null;
+   const tenseCue=source==='background'?'stare (imperfetto) + gerundio':'stare (present) + gerundio';
+   const who=context?.subjectLabel||((context?.role||target.role)==='formal'?'Lei · formal':person===1?'tu · informal':person===4?'voi · plural':info.weather?'impersonal weather use':PERSONS[person]);
+   const diagnostic={kind:'progressive',gerund:info.gerund,clitic:info.clitic,person,stareForms:info.helperForms,otherTenseForms:infoFor(entry,{chapter:source==='background'?'present':'background'}).helperForms,personForms:Array.from({length:6},(_,p)=>formsFor(entry,p,{chapter:source}).map(answer=>({person:p,answer}))).flat()};
    q={prompt:text(v%2?entry.en:entry.inf,`${who} · ${tenseCue} · action in progress`),answer:answers,choices:[],say:answers[0],tip:`Use the matching form of stare, then ${info.gerund}. Keep any pronouns with the construction.`,lesson:`${who} → ${answers.join(' / ')}`,example:`${who} → ${answers.join(' / ')}`,meta:{diagnostic,variantId:`${target.id}:cue-${v%2}`,contextId:`${target.id}:form-cue-${v%2}`,evidenceScope:'form'}};
    if(context&&format!=='match'){
     const at=context.it.toLocaleLowerCase('it').indexOf(context.answer.toLocaleLowerCase('it'));if(at<0)return null;
     q.prompt=englishCue?text(context.en,`${who} · ${tenseCue}`):`<div class="sub">${esc(context.en)}</div><div class="sentence">${esc(context.it.slice(0,at))}<span class="blank">…</span>${esc(context.it.slice(at+context.answer.length))}</div><div class="sub">${esc(who)} · ${esc(tenseCue)}</div>`;
     q.answer=context.answers;q.context={it:context.it,en:context.en};q.example=context.it;q.exampleTranslation=context.en;q.say=context.it;
-    q.meta.variantId=`${context.id}:${englishCue?'english-retrieval':'italian-gap'}`;q.meta.contextId=context.id;q.meta.evidenceScope='construction';
+    q.meta.person=context.person;q.meta.role=context.role;q.meta.variantId=`${context.id}:${englishCue?'english-retrieval':'italian-gap'}`;q.meta.contextId=context.id;q.meta.evidenceScope='construction';
    }
    if(phase==='repair'&&['auxiliary','auxiliaryPerson','person','gerund'].includes(repairTag)){
     const gerund=repairTag==='gerund',answer=gerund?info.gerund:diagnostic.stareForms[person];
@@ -56,17 +58,17 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  }else if(target.supplementalOnly){
   const time=chapter.id==='past'?'A completed event':chapter.id==='future'?'A future event':chapter.id==='background'?'Past habits or background':chapter.id==='condizionale'?'A wish, polite request or hypothetical result':'Now or a routine';
   const answer=target.fact||(target.skill==='timeMeaning'?time:'An impersonal weather construction');
-  const prompt=target.skill==='timeMeaning'?'Which meaning are we practising in this chapter?':target.skill==='subjectUse'?(target.fact?'In the meaning taught here, what is the grammatical subject?':'In its everyday weather use, what kind of subject does the verb have?'):target.skill==='wordFunction'?'Recall the role of the word type taught in this lesson.':'Which pattern matters for the word type taught in this lesson?';
+  const prompt=target.question||(target.skill==='timeMeaning'?'Which meaning are we practising in this chapter?':target.skill==='subjectUse'?(target.fact?'In the meaning taught here, what is the grammatical subject?':'In its everyday weather use, what kind of subject does the verb have?'):target.skill==='wordFunction'?'Recall the role of the word type taught in this lesson.':'Which pattern matters for the word type taught in this lesson?');
   const wrong=target.skill==='timeMeaning'?['A completed event','A future event','Past habits or background','A wish, polite request or hypothetical result','Now or a routine']:target.skill==='subjectUse'?['A person called Lei','A group addressed as voi']:target.skill==='wordFunction'?['An action conjugated for six people.','A number used only for counting.','A noun’s definite article.']:['Always conjugate it in the past.','Always attach a masculine plural ending.'];
   q={prompt:text(prompt),answer:[answer],choices:[],say:'',tip:answer,lesson:answer,example:'',meta:{diagnostic:{kind:'component',component:target.skill},variantId:`${target.id}:fact`,contextId:`${target.id}:fact`,supportOnly:true}};
-  choices(q,wrong,true,rng);
+  choices(q,target.distractors||wrong,true,rng);
  }else if(kind==='verb'&&contexts.length&&format!=='match'&&!smallRepair){
   const context=contexts[v%contexts.length],englishCue=Math.floor(v/contexts.length)%2===1;
   const at=context.it.toLocaleLowerCase('it').indexOf(context.answer.toLocaleLowerCase('it'));if(at<0)return null;
   const e=context.aux?{...entry,aux:context.aux}:entry;
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:'production',repairPerson:context.person,allowedTenses:permitted,variant:v,rng});if(!q)return null;
   q.answer=context.answers||[context.answer];
-  const personCue=context.role==='formal'?'Lei · formal':context.person===1?'tu · informal':context.person===4?'voi · plural':PERSONS[context.person];
+  const personCue=context.subjectLabel||(context.role==='formal'?'Lei · formal':context.person===1?'tu · informal':context.person===4?'voi · plural':PERSONS[context.person]);
   const instruction=`${personCue} · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`;
   q.prompt=englishCue?text(context.en,instruction):`<div class="sub">${esc(context.en)}</div><div class="sentence">${esc(context.it.slice(0,at))}<span class="blank">…</span>${esc(context.it.slice(at+context.answer.length))}</div><div class="sub">${esc(instruction)}</div>`;
   q.example=context.it;q.exampleTranslation=context.en;q.context={it:context.it,en:context.en};q.say=context.it;
@@ -131,7 +133,13 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  if(format==='type'&&!q.meta?.supportOnly){q.type='type';q.choices=[];}
  if(q.type==='mc')q.prompt=q.prompt.replace(/Write the whole/gi,'Choose the whole').replace(/write the whole/gi,'choose the whole').replace(/Write only/gi,'Choose only').replace(/Write this/gi,'Choose this').replace(/Supply only/gi,'Choose').replace(/Give the/gi,'Choose the').replace(/Answer in English/gi,'Choose the English meaning');
  const recognition=supported||!!q.meta?.scaffold||!!q.meta?.supportOnly;
- q.meta={...q.meta,entryId:entry.id,objectiveId:target.id,targetId:target.id,chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION,kind,skill:q.meta?.skill||target.skill,tense:target.tense||null,person:q.meta?.person??target.person??null,role:q.meta?.role||target.role||'ordinary',mode:recognition?'recognition':'production',evidenceMode:recognition?'recognition':'production',activityKind:format==='match'?'matching':phase,evidenceScope:q.meta?.evidenceScope||target.evidenceScope||target.skill};
+ q.meta={...q.meta,...(target.contextPolicy?{contextPolicy:target.contextPolicy}:{}),entryId:entry.id,objectiveId:target.id,targetId:target.id,chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION,kind,skill:q.meta?.skill||target.skill,tense:target.tense||null,person:q.meta?.person??target.person??null,role:q.meta?.role||target.role||'ordinary',mode:recognition?'recognition':'production',evidenceMode:recognition?'recognition':'production',activityKind:format==='match'?'matching':phase,evidenceScope:q.meta?.evidenceScope||target.evidenceScope||target.skill};
+ if(kind==='verb'&&target.authoredContexts&&!q.meta.scaffold&&Number.isInteger(q.meta.person)){
+  const counterparts=target.progressive?lessonForms(entry,source==='background'?'imperfetto':'presente',q.meta.person):progressiveForms(entry,q.meta.person,{chapter:source});
+  q.meta.diagnostic={...q.meta.diagnostic,counterpartForms:counterparts,viewpointMessage:target.progressive?
+    'That simple form can be valid Italian. This prompt asks you to make the ongoing viewpoint explicit with stare + gerundio.':
+    `That progressive form can be valid Italian. This prompt asks for the simple ${source==='background'?'imperfetto':'present'} form.`};
+ }
  q.id=`${target.id}:${q.meta.variantId}`;
  q.meta.exposureForms=lessonExposureForms(entry,q.answer,target.skill);
  q.meta.promptExposureForms=[];q.meta.feedbackExposureForms=[];
@@ -156,10 +164,11 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   :kind==='verb'?`${entry.inf}: ${q.answer.join(' / ')} is the requested ${TENSE_BY_KEY[target.tense]?.name||'verb'} form.`
   :target.skill==='agreement'?`${q.answer.join(' / ')} is the ${target.formLabel||['masculine singular','feminine singular','masculine plural','feminine plural'][target.formIndex]} form. Match the adjective to the noun.`
   :`${entry.it} — ${entry.en}. ${target.skill==='article'?'Learn this article with the noun.':target.skill==='plural'?entry.it===entry.pl?'The noun keeps its spelling; the article shows the plural.':'Notice the plural ending or spelling change.':''}`;
+ if(target.finalReview&&q.context)q.explanation+=target.progressive?' Stare carries the person; the gerundio highlights the ongoing action.':` Here the label requests the simple ${source==='background'?'imperfetto':'present'} form.`;
  if(format==='letters')return createLetterActivity(q,{seed:v});
  if(format==='pairs'){
   const group=chapter.groups?.find(g=>g.targets?.some(t=>t.id===target.id));
-  const eligible=(group?.targets||[]).filter(t=>t.available!==false&&!t.supplementalOnly&&!t.guidedOnly&&['conjugation','address'].includes(t.skill)&&Number.isInteger(t.person));
+  const eligible=(group?.targets||[]).filter(t=>t.available!==false&&!t.supplementalOnly&&!t.guidedOnly&&['conjugation','address','progressive'].includes(t.skill)&&Number.isInteger(t.person));
   if(kind==='verb'&&eligible.length>=3&&eligible.some(t=>t.id===target.id)){
    const start=eligible.findIndex(t=>t.id===target.id),selected=[...eligible.slice(start),...eligible.slice(0,start)].slice(0,3);
    const pairs=selected.map(t=>({targetId:t.id,label:t.role==='formal'?`Lei · formal${TENSE_BY_KEY[t.tense]?.compound?` (${v%2?'man':'woman'})`:''}`:t.role==='formalPlural'?'Loro · formal plural':t.person===1?'tu · informal':t.person===4?'voi · plural':PERSONS[t.person],question:buildJourneyQuestion(entry,chapter,t,{variant:v,format:'match',phase:'guided'})}));
