@@ -12,14 +12,15 @@ export function coursePreview() {
   const grammarWins=grammarSession && (!vocabulary?.session || grammarSession.updatedAt>=vocabulary.session.updatedAt);
   const next=nextGrammarLesson(store);
   const active=grammarWins?grammarLesson(grammarSession.entryId):null;
+  const legacy=active&&!active.targets;
   let href=active?grammarHref(active):vocabulary?.session?practiceHref(vocabulary.entry)+'?session='+encodeURIComponent(vocabulary.session.id):next?grammarHref(next):'#/course';
   const queue=store.learning.sessions['course:everyday|course'];
   const resumeQueue=queue?.course&&!queue.course.finished&&queue.updatedAt>=Math.max(vocabulary?.session?.updatedAt || 0,grammarSession?.updatedAt || 0);
   if(resumeQueue)return html`<section class="course-preview glass pad-l"><div class="kicker">Your learning path</div><h2 class="display">Everyday Italian</h2><p>Continue your saved session, one part at a time.</p><div class="course-actions"><a class="btn primary" href="#/learn/session">Resume session ${raw(icon('arrow',{size:18}))}</a></div></section>`;
   if(queue?.course&&!queue.course.finished&&queue.course.items.some(item=>item.id===(active?.id || vocabulary?.entry?.id)))href+=(href.includes('?')?'&':'?')+'courseSession=1';
   const title=active?.title || (vocabulary?.session?(vocabulary.entry.inf || vocabulary.entry.it):'Everyday Italian');
-  const description=active?active.outcome:vocabulary?.session?'Continue from where you stopped.':next?next.outcome:'Your progress, at your pace. Revisit a lesson or explore another level.';
-  return html`<section class="course-preview glass pad-l"><div class="kicker">Your learning path</div><h2 class="display">${title}</h2><p>${description}</p><div class="course-actions"><a class="btn primary" href="${href}">${active||vocabulary?.session?'Resume lesson':'Start a lesson'} ${raw(icon('arrow',{size:18}))}</a></div></section>`;
+  const description=legacy?'Your earlier lesson is saved. The updated course is available below.':active?active.outcome:vocabulary?.session?'Continue from where you stopped.':next?next.outcome:'Your progress, at your pace. Revisit a lesson or explore another level.';
+  return html`<section class="course-preview glass pad-l"><div class="kicker">Your learning path</div><h2 class="display">${title}</h2><p>${description}</p><div class="course-actions"><a class="btn primary" href="${href}">${legacy?'Resume earlier lesson':active||vocabulary?.session?'Resume lesson':'Start a lesson'} ${raw(icon('arrow',{size:18}))}</a></div></section>`;
 }
 export function courseSummary() {
   const level=courseLevel(store),lessons=grammarCourse.lessons.filter(l=>l.level===level),completed=lessons.filter(l=>grammarProgress(l,store.learning).complete).length;
