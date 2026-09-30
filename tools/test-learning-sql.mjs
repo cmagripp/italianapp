@@ -51,10 +51,12 @@ try {
     await assert.rejects(save(1, []), /Invalid profile/);
     await assert.rejects(save(1, null), /Invalid profile/);
   });
-  await check('RPC preserves merged completion fields including false tombstones without a schema change',async()=>{
+  await check('RPC preserves grammar evidence, drafts, and completion tombstones without a schema change',async()=>{
     const completions={'v:andare|present':{entryId:'v:andare',caseId:'present',checked:false,at:10,id:'uncheck'},'v:andare|past':{entryId:'v:andare',caseId:'past',checked:true,at:11,id:'check'}};
-    assert.equal((await save(1,{learning:{version:3,completions,events:{first:{ok:true}}}})).conflict,false);
-    const row=(await db.query('select data from parola_profiles')).rows[0];assert.deepEqual(row.data.learning.completions,completions);
+    const grammar={kind:'grammar',policy:'grammar-v1',objectiveId:'a1-test.focus',entryId:'g:a1-test',ok:true};
+    const sessions={'g:a1-test|lesson':{entryId:'g:a1-test',grammar:{draft:'Una bozza',phase:'question'}}};
+    assert.equal((await save(1,{learning:{version:4,completions,events:{first:grammar},sessions,preferences:{courseLevel:'A2'}}})).conflict,false);
+    const row=(await db.query('select data from parola_profiles')).rows[0];assert.deepEqual(row.data.learning.completions,completions);assert.deepEqual(row.data.learning.events.first,grammar);assert.deepEqual(row.data.learning.sessions,sessions);assert.equal(row.data.learning.preferences.courseLevel,'A2');
   });
   await signIn(b);
   await check('a different account cannot read or write another account’s row', async () => {

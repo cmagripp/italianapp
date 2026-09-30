@@ -28,6 +28,9 @@ jobs:
           node tools/check-modules.mjs
           node tools/check-shell.mjs
           node tools/test-conjugator.mjs
+          node tools/test-grammar-course.mjs
+          node tools/test-grammar-durability.mjs
+          node tools/test-grammar-lexicon.mjs
           node tools/test-learning-model.mjs
           node tools/test-learning-questions.mjs
           node tools/test-learning-store-sync.mjs
@@ -53,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [completion-menu-e2e, practice-controls-e2e, review-layout-e2e, short-words-e2e, adaptive-e2e, journey-e2e, lesson-actions-e2e, lesson-experience-e2e, lesson-activities-e2e, lesson-overview-e2e, noun-forms-e2e, game-learning-e2e, offline-e2e, e2e]
+        suite: [grammar-course-e2e, grammar-offline-e2e, completion-menu-e2e, practice-controls-e2e, review-layout-e2e, short-words-e2e, adaptive-e2e, journey-e2e, lesson-actions-e2e, lesson-experience-e2e, lesson-activities-e2e, lesson-overview-e2e, noun-forms-e2e, game-learning-e2e, offline-e2e, e2e]
     env:
       PLAYWRIGHT_DIR: /tmp/parola-tools
     steps:

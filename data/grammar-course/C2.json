@@ -1,0 +1,2663 @@
+{
+  "version": 1,
+  "level": "C2",
+  "title": "Mastery: precision and interpretation",
+  "sources": [
+    {
+      "title": "Università per Stranieri di Perugia, CELI 5 (C2): competenze richieste",
+      "url": "https://www.unistrapg.it/sites/default/files/docs/certificazioni/celi-5-competenze-richieste.pdf"
+    },
+    {
+      "title": "Accademia della Crusca, Periodo ipotetico",
+      "url": "https://accademiadellacrusca.it/it/consulenza/periodo-ipotetico/66"
+    },
+    {
+      "title": "Treccani, Lingua d’oggi (Enciclopedia dell’Italiano)",
+      "url": "https://www.treccani.it/enciclopedia/lingua-d-oggi_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani, Frasi scisse (Enciclopedia dell’Italiano)",
+      "url": "https://www.treccani.it/enciclopedia/frasi-scisse_%28Enciclopedia-dell%27Italiano%29/"
+    }
+  ],
+  "units": [
+    {
+      "id": "c2-nuanced-choices",
+      "title": "Nuanced grammatical choices",
+      "description": "Choose forms by evidence, viewpoint and degree of certainty.",
+      "lessons": [
+        {
+          "id": "c2-mood-evidence",
+          "title": "Evidence and speaker stance",
+          "outcome": "I can distinguish an asserted fact from a speaker’s inference.",
+          "minutes": 8,
+          "prerequisites": [
+            "c1-reformulation"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:sapere",
+              "caseId": "congiuntivoPassato"
+            },
+            {
+              "entryId": "v:essere"
+            }
+          ],
+          "takeaway": "So che asserts; è possibile che presents possibility.",
+          "objectives": [
+            {
+              "id": "c2-mood-evidence.focus",
+              "label": "Use an indicative assertion or a subjunctive evaluation according to the matrix clause.",
+              "errorTag": "mood-evidence",
+              "explanation": "C2 control includes choosing a mood for stance, not applying one mechanical rule to every che-clause.",
+              "teach": [
+                {
+                  "title": "Assert evidence",
+                  "body": "So che presents information as known.",
+                  "examples": [
+                    {
+                      "it": "So che il treno è partito.",
+                      "en": "I know the train has left."
+                    }
+                  ]
+                },
+                {
+                  "title": "Evaluate uncertainty",
+                  "body": "È possibile che places the event in the realm of possibility.",
+                  "examples": [
+                    {
+                      "it": "È possibile che il treno sia partito.",
+                      "en": "It is possible that the train has left."
+                    }
+                  ],
+                  "tip": "Keep the time relationship while changing stance."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il tabellone lo conferma: so che il treno ___ .",
+                  "translation": "The board confirms it: I know the train has left.",
+                  "answer": "è partito",
+                  "options": [
+                    "è partito",
+                    "sia partito",
+                    "partirebbe"
+                  ],
+                  "explanation": "So che plus confirmed information takes an indicative assertion.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-mood-evidence.focus.q1",
+                  "errorTag": "mood-evidence",
+                  "guided": false,
+                  "speak": "Il tabellone lo conferma: so che il treno è partito."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Begin with È possibile che.",
+                  "context": "Il treno è partito. Presentalo come una possibilità, non un fatto verificato.",
+                  "translation": "The train has left; present this as possible, not verified.",
+                  "answer": "È possibile che il treno sia partito.",
+                  "accepted": [],
+                  "explanation": "È possibile che calls for the subjunctive while sia partito preserves prior completion.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-mood-evidence.focus.q2",
+                  "errorTag": "mood-evidence",
+                  "guided": false,
+                  "speak": "È possibile che il treno sia partito."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Non ho conferma: è possibile che il treno ___ .",
+                  "translation": "I have no confirmation: the train may have left.",
+                  "answer": "sia partito",
+                  "options": [
+                    "sia partito",
+                    "è partito",
+                    "sarebbe partito"
+                  ],
+                  "explanation": "The speaker evaluates an earlier event as possible, so sia partito.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-mood-evidence.focus.q3",
+                  "errorTag": "mood-evidence",
+                  "guided": false,
+                  "speak": "Non ho conferma: è possibile che il treno sia partito."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Il rapporto conferma che i dati sono corretti.",
+                  "translation": "The report confirms that the data are correct.",
+                  "answer": "Il rapporto conferma che i dati sono corretti.",
+                  "tokens": [
+                    "Il",
+                    "rapporto",
+                    "conferma",
+                    "che",
+                    "i",
+                    "dati",
+                    "sono",
+                    "corretti."
+                  ],
+                  "explanation": "Conferma presents the content as verified and takes indicative sono.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-mood-evidence.focus.q4",
+                  "errorTag": "mood-evidence",
+                  "guided": false,
+                  "speak": "Il rapporto conferma che i dati sono corretti."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-aspect-perspective",
+          "title": "Event boundary and viewpoint",
+          "outcome": "I can choose a past form to foreground an event or its background.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-mood-evidence"
+          ],
+          "referenceTopics": [
+            "passato-imperfetto"
+          ],
+          "related": [
+            {
+              "entryId": "v:piovere",
+              "caseId": "background"
+            },
+            {
+              "entryId": "v:uscire"
+            }
+          ],
+          "takeaway": "Imperfetto frames; a perfective past form closes an event.",
+          "objectives": [
+            {
+              "id": "c2-aspect-perspective.focus",
+              "label": "Use passato prossimo for a bounded event and imperfetto for the ongoing background in this context.",
+              "errorTag": "aspect-perspective",
+              "explanation": "The same real-world episode can be packaged differently according to the narrative viewpoint.",
+              "teach": [
+                {
+                  "title": "Background state",
+                  "body": "Imperfetto places the reader inside an ongoing scene.",
+                  "examples": [
+                    {
+                      "it": "Pioveva quando uscimmo.",
+                      "en": "It was raining when we went out."
+                    }
+                  ]
+                },
+                {
+                  "title": "Bounded event",
+                  "body": "Passato prossimo presents a completed occurrence.",
+                  "examples": [
+                    {
+                      "it": "Ha piovuto tutta la notte.",
+                      "en": "It rained all night."
+                    }
+                  ],
+                  "tip": "A duration can still be presented as bounded."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Quando sono uscito, ___ già.",
+                  "translation": "When I went out, it was already raining.",
+                  "answer": "pioveva",
+                  "options": [
+                    "pioveva",
+                    "ha piovuto",
+                    "pioverà"
+                  ],
+                  "explanation": "Pioveva supplies the ongoing background at my departure.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-aspect-perspective.focus.q1",
+                  "errorTag": "aspect-perspective",
+                  "guided": false,
+                  "speak": "Quando sono uscito, pioveva già."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with the verb piovere in a perfective past.",
+                  "context": "Ieri la pioggia è durata tutta la notte.",
+                  "translation": "Yesterday the rain lasted the whole night as a complete episode.",
+                  "answer": "Ieri ha piovuto tutta la notte.",
+                  "accepted": [
+                    "Ieri è piovuto per tutta la notte."
+                  ],
+                  "explanation": "Ha piovuto presents the full night’s rain as a bounded episode.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-aspect-perspective.focus.q2",
+                  "errorTag": "aspect-perspective",
+                  "guided": false,
+                  "speak": "Ieri ha piovuto tutta la notte."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Alle otto il pubblico ___ ancora, poi è arrivato il relatore.",
+                  "translation": "At eight the audience was still waiting; then the speaker arrived.",
+                  "answer": "aspettava",
+                  "options": [
+                    "aspettava",
+                    "ha aspettato",
+                    "aspetterà"
+                  ],
+                  "explanation": "Aspettava frames the ongoing state when the later event occurred.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-aspect-perspective.focus.q3",
+                  "errorTag": "aspect-perspective",
+                  "guided": false,
+                  "speak": "Alle otto il pubblico aspettava ancora, poi è arrivato il relatore."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Mentre Marta leggeva, è suonato il telefono.",
+                  "translation": "While Marta was reading, the phone rang.",
+                  "answer": "Mentre Marta leggeva, è suonato il telefono.",
+                  "tokens": [
+                    "Mentre",
+                    "Marta",
+                    "leggeva,",
+                    "è",
+                    "suonato",
+                    "il",
+                    "telefono."
+                  ],
+                  "explanation": "Leggeva is background; è suonato is the bounded interruption.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-aspect-perspective.focus.q4",
+                  "errorTag": "aspect-perspective",
+                  "guided": false,
+                  "speak": "Mentre Marta leggeva, è suonato il telefono."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-modal-inference",
+          "title": "Degrees of inference",
+          "outcome": "I can express strong or tentative inference about an earlier action.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-aspect-perspective"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:dovere",
+              "caseId": "condizionalePassato"
+            },
+            {
+              "entryId": "v:potere"
+            }
+          ],
+          "takeaway": "Deve aver = strong inference; potrebbe aver = tentative possibility.",
+          "objectives": [
+            {
+              "id": "c2-modal-inference.focus",
+              "label": "Distinguish deve aver + participle from potrebbe aver + participle.",
+              "errorTag": "modal-inference",
+              "explanation": "Deve aver marks a strong inference in context; potrebbe aver leaves more room for alternatives.",
+              "teach": [
+                {
+                  "title": "Strong inference",
+                  "body": "Deve aver expresses a conclusion supported by strong evidence.",
+                  "examples": [
+                    {
+                      "it": "La porta è aperta: deve essere uscito.",
+                      "en": "The door is open: he must have gone out."
+                    }
+                  ]
+                },
+                {
+                  "title": "Tentative possibility",
+                  "body": "Potrebbe aver presents a possible explanation.",
+                  "examples": [
+                    {
+                      "it": "Potrebbe aver perso le chiavi.",
+                      "en": "He may have lost the keys."
+                    }
+                  ],
+                  "tip": "Neither expression is a direct observation."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the stronger inference supported by the evidence.",
+                  "context": "La cucina è piena di fumo: qualcuno ___ bruciato la cena.",
+                  "translation": "The kitchen is full of smoke: someone must have burned dinner.",
+                  "answer": "deve aver",
+                  "options": [
+                    "deve aver",
+                    "potrebbe aver",
+                    "avrebbe"
+                  ],
+                  "explanation": "The conspicuous smoke supports a strong inference, expressed by deve aver.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-modal-inference.focus.q1",
+                  "errorTag": "modal-inference",
+                  "guided": false,
+                  "speak": "La cucina è piena di fumo: qualcuno deve aver bruciato la cena."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with potrebbe aver.",
+                  "context": "Forse Giulia ha perso le chiavi; non ne siamo sicuri.",
+                  "translation": "Perhaps Giulia lost the keys; we are not sure.",
+                  "answer": "Giulia potrebbe aver perso le chiavi.",
+                  "accepted": [
+                    "Giulia potrebbe avere perso le chiavi."
+                  ],
+                  "explanation": "Potrebbe aver keeps the past event tentative.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-modal-inference.focus.q2",
+                  "errorTag": "modal-inference",
+                  "guided": false,
+                  "speak": "Giulia potrebbe aver perso le chiavi."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Non sappiamo perché manchi il libro: Luca ___ preso per errore.",
+                  "translation": "We do not know why the book is missing: Luca might have taken it by mistake.",
+                  "answer": "potrebbe averlo",
+                  "options": [
+                    "potrebbe averlo",
+                    "deve averlo",
+                    "lo avrà certamente"
+                  ],
+                  "explanation": "Potrebbe averlo expresses one unverified explanation.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-modal-inference.focus.q3",
+                  "errorTag": "modal-inference",
+                  "guided": false,
+                  "speak": "Non sappiamo perché manchi il libro: Luca potrebbe averlo preso per errore."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Deve aver dimenticato l’indirizzo: continua a chiamare.",
+                  "translation": "He must have forgotten the address: he keeps calling.",
+                  "answer": "Deve aver dimenticato l’indirizzo: continua a chiamare.",
+                  "tokens": [
+                    "Deve",
+                    "aver",
+                    "dimenticato",
+                    "l’indirizzo:",
+                    "continua",
+                    "a",
+                    "chiamare."
+                  ],
+                  "explanation": "Deve aver presents a strong inference about an earlier lapse.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-modal-inference.focus.q4",
+                  "errorTag": "modal-inference",
+                  "guided": false,
+                  "speak": "Deve aver dimenticato l’indirizzo: continua a chiamare."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-hypotheticals",
+      "title": "Advanced hypotheticals",
+      "description": "Track unreal pasts, present results and implicit conditions.",
+      "lessons": [
+        {
+          "id": "c2-counterfactual-past",
+          "title": "Unreal past conditions",
+          "outcome": "I can state an unreal past condition and its unreal result.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-modal-inference"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:sapere",
+              "caseId": "congiuntivoTrapassato"
+            },
+            {
+              "entryId": "v:venire"
+            }
+          ],
+          "takeaway": "Se avessi fatto ... avrei fatto ... for an unreal past.",
+          "objectives": [
+            {
+              "id": "c2-counterfactual-past.focus",
+              "label": "Use se + trapassato congiuntivo with a past conditional result.",
+              "errorTag": "counterfactual-past",
+              "explanation": "The result is counterfactual because the stated past condition did not happen.",
+              "teach": [
+                {
+                  "title": "Past condition",
+                  "body": "Se avessi saputo describes an unreal prior condition.",
+                  "examples": [
+                    {
+                      "it": "Se avessi saputo, sarei venuto.",
+                      "en": "If I had known, I would have come."
+                    }
+                  ]
+                },
+                {
+                  "title": "Past result",
+                  "body": "The apodosis takes a past conditional for the unreal outcome.",
+                  "examples": [
+                    {
+                      "it": "Se fossimo partiti prima, avremmo preso il treno.",
+                      "en": "If we had left earlier, we would have caught the train."
+                    }
+                  ],
+                  "tip": "Do not use se avrei in a standard conditional protasis."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Se lo ___ ieri, ti avrei chiamato.",
+                  "translation": "If I had known it yesterday, I would have called you.",
+                  "answer": "avessi saputo",
+                  "options": [
+                    "avessi saputo",
+                    "avrei saputo",
+                    "sapevo"
+                  ],
+                  "explanation": "Se introduces the unreal condition with avessi saputo.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-counterfactual-past.focus.q1",
+                  "errorTag": "counterfactual-past",
+                  "guided": false,
+                  "speak": "Se lo avessi saputo ieri, ti avrei chiamato."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite as an unreal past condition.",
+                  "context": "Non siamo partiti prima, quindi abbiamo perso il treno.",
+                  "translation": "We did not leave earlier, so we missed the train.",
+                  "answer": "Se fossimo partiti prima, avremmo preso il treno.",
+                  "accepted": [
+                    "Se fossimo partiti prima, non avremmo perso il treno."
+                  ],
+                  "explanation": "The unreal earlier departure and result require trapassato congiuntivo plus past conditional.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-counterfactual-past.focus.q2",
+                  "errorTag": "counterfactual-past",
+                  "guided": false,
+                  "speak": "Se fossimo partiti prima, avremmo preso il treno."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Se Marta fosse arrivata in tempo, ___ il discorso.",
+                  "translation": "If Marta had arrived on time, she would have heard the speech.",
+                  "answer": "avrebbe sentito",
+                  "options": [
+                    "avrebbe sentito",
+                    "avesse sentito",
+                    "sentiva"
+                  ],
+                  "explanation": "The unreal result uses avrebbe sentito.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-counterfactual-past.focus.q3",
+                  "errorTag": "counterfactual-past",
+                  "guided": false,
+                  "speak": "Se Marta fosse arrivata in tempo, avrebbe sentito il discorso."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Se avessimo prenotato, avremmo trovato posto.",
+                  "translation": "If we had booked, we would have found a place.",
+                  "answer": "Se avessimo prenotato, avremmo trovato posto.",
+                  "tokens": [
+                    "Se",
+                    "avessimo",
+                    "prenotato,",
+                    "avremmo",
+                    "trovato",
+                    "posto."
+                  ],
+                  "explanation": "The two compound forms mark unreal condition and result.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-counterfactual-past.focus.q4",
+                  "errorTag": "counterfactual-past",
+                  "guided": false,
+                  "speak": "Se avessimo prenotato, avremmo trovato posto."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-mixed-conditions",
+          "title": "Past cause, present result",
+          "outcome": "I can connect an unreal past condition to a present state.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-counterfactual-past"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:dormire",
+              "caseId": "congiuntivoTrapassato"
+            },
+            {
+              "entryId": "v:sapere"
+            }
+          ],
+          "takeaway": "Past unreal cause + present conditional result: se avessi..., ora sarei....",
+          "objectives": [
+            {
+              "id": "c2-mixed-conditions.focus",
+              "label": "Use a past subjunctive condition with a present conditional result when the result is now.",
+              "errorTag": "mixed-conditions",
+              "explanation": "A mixed conditional locates the unreal cause in the past and its consequence in the present.",
+              "teach": [
+                {
+                  "title": "Past cause",
+                  "body": "The condition did not happen earlier.",
+                  "examples": [
+                    {
+                      "it": "Se avessi dormito, ora starei meglio.",
+                      "en": "If I had slept, I would feel better now."
+                    }
+                  ]
+                },
+                {
+                  "title": "Present consequence",
+                  "body": "The result is a present state, so use the present conditional.",
+                  "examples": [
+                    {
+                      "it": "Se avessimo studiato, oggi sapremmo rispondere.",
+                      "en": "If we had studied, we would know how to answer today."
+                    }
+                  ],
+                  "tip": "Now or oggi anchors the present result."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Se ieri avessi dormito, ora ___ meno stanco.",
+                  "translation": "If I had slept yesterday, I would be less tired now.",
+                  "answer": "sarei",
+                  "options": [
+                    "sarei",
+                    "sarei stato",
+                    "fossi"
+                  ],
+                  "explanation": "Ora makes the result present, so sarei.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-mixed-conditions.focus.q1",
+                  "errorTag": "mixed-conditions",
+                  "guided": false,
+                  "speak": "Se ieri avessi dormito, ora sarei meno stanco."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite as a mixed conditional.",
+                  "context": "Non ho studiato prima; oggi non so rispondere.",
+                  "translation": "I did not study earlier; today I cannot answer.",
+                  "answer": "Se avessi studiato, oggi saprei rispondere.",
+                  "accepted": [
+                    "Se avessi studiato, saprei rispondere oggi."
+                  ],
+                  "explanation": "Avessi studiato is the unreal past cause; saprei is its present result.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-mixed-conditions.focus.q2",
+                  "errorTag": "mixed-conditions",
+                  "guided": false,
+                  "speak": "Se avessi studiato, oggi saprei rispondere."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Se avessimo preso il treno delle sette, adesso ___ a Roma.",
+                  "translation": "If we had taken the seven o’clock train, we would be in Rome now.",
+                  "answer": "saremmo",
+                  "options": [
+                    "saremmo",
+                    "saremmo stati",
+                    "fossimo"
+                  ],
+                  "explanation": "Adesso calls for the present conditional state saremmo.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-mixed-conditions.focus.q3",
+                  "errorTag": "mixed-conditions",
+                  "guided": false,
+                  "speak": "Se avessimo preso il treno delle sette, adesso saremmo a Roma."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Se avessi ascoltato il consiglio, oggi avrei più tempo.",
+                  "translation": "If I had taken the advice, I would have more time today.",
+                  "answer": "Se avessi ascoltato il consiglio, oggi avrei più tempo.",
+                  "tokens": [
+                    "Se",
+                    "avessi",
+                    "ascoltato",
+                    "il",
+                    "consiglio,",
+                    "oggi",
+                    "avrei",
+                    "più",
+                    "tempo."
+                  ],
+                  "explanation": "The past condition has a present consequence.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-mixed-conditions.focus.q4",
+                  "errorTag": "mixed-conditions",
+                  "guided": false,
+                  "speak": "Se avessi ascoltato il consiglio, oggi avrei più tempo."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-implicit-hypotheses",
+          "title": "Conditions without se",
+          "outcome": "I can recognize an implied condition in a compact phrase.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-mixed-conditions"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:riuscire",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:leggere"
+            }
+          ],
+          "takeaway": "Con or senza + noun can carry an implied if-clause.",
+          "objectives": [
+            {
+              "id": "c2-implicit-hypotheses.focus",
+              "label": "Read senza + noun or con + noun as an implicit hypothetical when paired with a conditional.",
+              "errorTag": "implicit-hypotheses",
+              "explanation": "An implicit phrase can stand for a fuller if-clause; the conditional shows its hypothetical status.",
+              "teach": [
+                {
+                  "title": "With a condition",
+                  "body": "Con più tempo can mean if I had more time.",
+                  "examples": [
+                    {
+                      "it": "Con più tempo, leggerei di più.",
+                      "en": "With more time, I would read more."
+                    }
+                  ]
+                },
+                {
+                  "title": "Without a condition",
+                  "body": "Senza il tuo aiuto can mean if I did not have your help.",
+                  "examples": [
+                    {
+                      "it": "Senza il tuo aiuto, non riuscirei.",
+                      "en": "Without your help, I would not manage."
+                    }
+                  ],
+                  "tip": "Make the implied condition explicit when clarity matters."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ più tempo, leggerei ogni giorno.",
+                  "translation": "If I had more time, I would read every day.",
+                  "answer": "Con",
+                  "options": [
+                    "Con",
+                    "Per",
+                    "Da"
+                  ],
+                  "explanation": "Con più tempo is the compact implicit condition here.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-implicit-hypotheses.focus.q1",
+                  "errorTag": "implicit-hypotheses",
+                  "guided": false,
+                  "speak": "Con più tempo, leggerei ogni giorno."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Condense the if-clause with senza.",
+                  "context": "Se non avessi il tuo aiuto, non riuscirei.",
+                  "translation": "If I did not have your help, I would not manage.",
+                  "answer": "Senza il tuo aiuto, non riuscirei.",
+                  "accepted": [],
+                  "explanation": "Senza il tuo aiuto replaces the full negative condition.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-implicit-hypotheses.focus.q2",
+                  "errorTag": "implicit-hypotheses",
+                  "guided": false,
+                  "speak": "Senza il tuo aiuto, non riuscirei."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ una mappa, troveremmo subito la strada.",
+                  "translation": "If we had a map, we would find the way immediately.",
+                  "answer": "Con",
+                  "options": [
+                    "Con",
+                    "Da",
+                    "Fra"
+                  ],
+                  "explanation": "Con una mappa supplies the implied condition.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-implicit-hypotheses.focus.q3",
+                  "errorTag": "implicit-hypotheses",
+                  "guided": false,
+                  "speak": "Con una mappa, troveremmo subito la strada."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Senza un accordo, il progetto si fermerebbe.",
+                  "translation": "Without an agreement, the project would stop.",
+                  "answer": "Senza un accordo, il progetto si fermerebbe.",
+                  "tokens": [
+                    "Senza",
+                    "un",
+                    "accordo,",
+                    "il",
+                    "progetto",
+                    "si",
+                    "fermerebbe."
+                  ],
+                  "explanation": "Senza un accordo gives the unstated if-condition.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-implicit-hypotheses.focus.q4",
+                  "errorTag": "implicit-hypotheses",
+                  "guided": false,
+                  "speak": "Senza un accordo, il progetto si fermerebbe."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-precision-ambiguity",
+      "title": "Scope and unambiguous reference",
+      "description": "Edit sentences so readers know exactly who and how many.",
+      "lessons": [
+        {
+          "id": "c2-pronoun-scope",
+          "title": "Resolve competing antecedents",
+          "outcome": "I can remove a pronoun ambiguity in a short text.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-implicit-hypotheses"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:scrivere"
+            },
+            {
+              "entryId": "v:dire"
+            }
+          ],
+          "takeaway": "A repeated name can be more precise than an ambiguous pronoun.",
+          "objectives": [
+            {
+              "id": "c2-pronoun-scope.focus",
+              "label": "Repeat a name or role when two referents could fit a pronoun.",
+              "errorTag": "pronoun-scope",
+              "explanation": "In precise prose, explicit reference often serves better than a formally grammatical but unclear pronoun.",
+              "teach": [
+                {
+                  "title": "Ambiguous reference",
+                  "body": "Lui can refer to either man if both are in view.",
+                  "examples": [
+                    {
+                      "it": "Paolo ha scritto a Marco. Lui era preoccupato.",
+                      "en": "Paolo wrote to Marco. He was worried."
+                    }
+                  ]
+                },
+                {
+                  "title": "Explicit repair",
+                  "body": "Name the intended person in the second clause.",
+                  "examples": [
+                    {
+                      "it": "Paolo ha scritto a Marco. Marco era preoccupato.",
+                      "en": "Paolo wrote to Marco. Marco was worried."
+                    }
+                  ],
+                  "tip": "Do not make the reader infer an antecedent without evidence."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the clearest subject: Marco is the worried person.",
+                  "context": "Paolo ha scritto a Marco. ___ era preoccupato.",
+                  "translation": "Paolo wrote to Marco. Marco was worried.",
+                  "answer": "Marco",
+                  "options": [
+                    "Marco",
+                    "Lui",
+                    "Egli"
+                  ],
+                  "explanation": "Marco uniquely identifies the intended person here.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-pronoun-scope.focus.q1",
+                  "errorTag": "pronoun-scope",
+                  "guided": false,
+                  "speak": "Paolo ha scritto a Marco. Marco era preoccupato."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite the second sentence to make the reference explicit.",
+                  "context": "Anna ha chiamato Marta. Lei era in ritardo. Intendi Marta.",
+                  "translation": "Anna called Marta. Marta was late.",
+                  "answer": "Anna ha chiamato Marta. Marta era in ritardo.",
+                  "accepted": [
+                    "Anna ha chiamato Marta; Marta era in ritardo."
+                  ],
+                  "explanation": "Repeating Marta eliminates the two possible readings of lei.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-pronoun-scope.focus.q2",
+                  "errorTag": "pronoun-scope",
+                  "guided": false,
+                  "speak": "Anna ha chiamato Marta. Marta era in ritardo."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the clearest subject: the patient returns tomorrow.",
+                  "context": "Il medico ha parlato al paziente. ___ tornerà domani.",
+                  "translation": "The doctor spoke to the patient. The patient will return tomorrow.",
+                  "answer": "Il paziente",
+                  "options": [
+                    "Il paziente",
+                    "Lui",
+                    "Egli"
+                  ],
+                  "explanation": "Il paziente fixes the intended referent.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-pronoun-scope.focus.q3",
+                  "errorTag": "pronoun-scope",
+                  "guided": false,
+                  "speak": "Il medico ha parlato al paziente. Il paziente tornerà domani."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Giulia ha salutato Laura. Laura è partita subito.",
+                  "translation": "Giulia greeted Laura. Laura left immediately.",
+                  "answer": "Giulia ha salutato Laura. Laura è partita subito.",
+                  "tokens": [
+                    "Giulia",
+                    "ha",
+                    "salutato",
+                    "Laura.",
+                    "Laura",
+                    "è",
+                    "partita",
+                    "subito."
+                  ],
+                  "explanation": "Repeating Laura avoids an unclear lei.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-pronoun-scope.focus.q4",
+                  "errorTag": "pronoun-scope",
+                  "guided": false,
+                  "speak": "Giulia ha salutato Laura. Laura è partita subito."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-relative-precision",
+          "title": "Possession in relative clauses",
+          "outcome": "I can express whose item is involved without a vague pronoun.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-pronoun-scope"
+          ],
+          "referenceTopics": [
+            "pronouns",
+            "articles"
+          ],
+          "related": [
+            {
+              "entryId": "v:mancare"
+            },
+            {
+              "entryId": "v:essere"
+            }
+          ],
+          "takeaway": "Il cui costo; la cui firma: the article matches the possessed noun.",
+          "objectives": [
+            {
+              "id": "c2-relative-precision.focus",
+              "label": "Use il cui / la cui + possessed noun with agreement to the possessed noun.",
+              "errorTag": "relative-precision",
+              "explanation": "Cui itself is invariable; the article agrees with the noun that follows, not with the antecedent.",
+              "teach": [
+                {
+                  "title": "Masculine possessed noun",
+                  "body": "Il cui costo agrees with costo.",
+                  "examples": [
+                    {
+                      "it": "Il progetto il cui costo è alto sarà rivisto.",
+                      "en": "The project whose cost is high will be reviewed."
+                    }
+                  ]
+                },
+                {
+                  "title": "Feminine possessed noun",
+                  "body": "La cui firma agrees with firma.",
+                  "examples": [
+                    {
+                      "it": "La donna la cui firma manca è assente.",
+                      "en": "The woman whose signature is missing is absent."
+                    }
+                  ],
+                  "tip": "Possession is shown by cui, while the article follows the possessed noun."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il progetto ___ costo è alto sarà rivisto.",
+                  "translation": "The project whose cost is high will be reviewed.",
+                  "answer": "il cui",
+                  "options": [
+                    "il cui",
+                    "la cui",
+                    "di cui il"
+                  ],
+                  "explanation": "Costo is masculine singular, so il cui.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-relative-precision.focus.q1",
+                  "errorTag": "relative-precision",
+                  "guided": false,
+                  "speak": "Il progetto il cui costo è alto sarà rivisto."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Combine with la cui firma.",
+                  "context": "La donna è assente. La firma della donna manca.",
+                  "translation": "The woman whose signature is missing is absent.",
+                  "answer": "La donna la cui firma manca è assente.",
+                  "accepted": [],
+                  "explanation": "La cui agrees with the feminine noun firma.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-relative-precision.focus.q2",
+                  "errorTag": "relative-precision",
+                  "guided": false,
+                  "speak": "La donna la cui firma manca è assente."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "L’autrice ___ romanzi leggo vive a Torino.",
+                  "translation": "The author whose novels I read lives in Turin.",
+                  "answer": "i cui",
+                  "options": [
+                    "i cui",
+                    "le cui",
+                    "il cui"
+                  ],
+                  "explanation": "Romanzi is masculine plural, so i cui.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-relative-precision.focus.q3",
+                  "errorTag": "relative-precision",
+                  "guided": false,
+                  "speak": "L’autrice i cui romanzi leggo vive a Torino."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Ho incontrato il musicista le cui canzoni ami.",
+                  "translation": "I met the musician whose songs you love.",
+                  "answer": "Ho incontrato il musicista le cui canzoni ami.",
+                  "tokens": [
+                    "Ho",
+                    "incontrato",
+                    "il",
+                    "musicista",
+                    "le",
+                    "cui",
+                    "canzoni",
+                    "ami."
+                  ],
+                  "explanation": "Le cui agrees with feminine plural canzoni.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-relative-precision.focus.q4",
+                  "errorTag": "relative-precision",
+                  "guided": false,
+                  "speak": "Ho incontrato il musicista le cui canzoni ami."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-negation-scope",
+          "title": "Quantifier scope under negation",
+          "outcome": "I can distinguish “not all” from “none.”",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-relative-precision"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:arrivare"
+            },
+            {
+              "entryId": "v:essere"
+            }
+          ],
+          "takeaway": "Non tutti allows some; nessuno excludes all.",
+          "objectives": [
+            {
+              "id": "c2-negation-scope.focus",
+              "label": "Use non tutti for a partial negative and nessuno for a total negative.",
+              "errorTag": "negation-scope",
+              "explanation": "The placement of negation changes the logical claim; non tutti leaves open that some did.",
+              "teach": [
+                {
+                  "title": "Partial negative",
+                  "body": "Non tutti means at least one exception.",
+                  "examples": [
+                    {
+                      "it": "Non tutti gli ospiti sono arrivati.",
+                      "en": "Not all the guests arrived."
+                    }
+                  ]
+                },
+                {
+                  "title": "Total negative",
+                  "body": "Nessuno means zero members.",
+                  "examples": [
+                    {
+                      "it": "Nessun ospite è arrivato.",
+                      "en": "No guest arrived."
+                    }
+                  ],
+                  "tip": "Avoid treating non tutti as equivalent to nessuno."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the logically accurate full statement.",
+                  "context": "Tre dei cinque ospiti sono arrivati: ___ .",
+                  "translation": "Three of five guests arrived: not all arrived.",
+                  "answer": "Non tutti gli ospiti sono arrivati",
+                  "options": [
+                    "Non tutti gli ospiti sono arrivati",
+                    "Nessun ospite è arrivato",
+                    "Tutti gli ospiti sono arrivati"
+                  ],
+                  "explanation": "Three arrived, so non tutti is true while nessuno is false.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-negation-scope.focus.q1",
+                  "errorTag": "negation-scope",
+                  "guided": false,
+                  "speak": "Non tutti gli ospiti sono arrivati."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with non tutti.",
+                  "context": "Alcuni studenti hanno capito, altri no.",
+                  "translation": "Some students understood, others did not.",
+                  "answer": "Non tutti gli studenti hanno capito.",
+                  "accepted": [],
+                  "explanation": "Non tutti precisely expresses the partial negative.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-negation-scope.focus.q2",
+                  "errorTag": "negation-scope",
+                  "guided": false,
+                  "speak": "Non tutti gli studenti hanno capito."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Sono state presentate tre domande, ma ___.",
+                  "translation": "Zero questions received an answer.",
+                  "answer": "nessuna ha ricevuto risposta",
+                  "options": [
+                    "nessuna ha ricevuto risposta",
+                    "una ha ricevuto risposta",
+                    "tutte hanno ricevuto risposta"
+                  ],
+                  "explanation": "Nessuna expresses zero answered questions, unlike non tutte.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-negation-scope.focus.q3",
+                  "errorTag": "negation-scope",
+                  "guided": false,
+                  "speak": "Sono state presentate tre domande, ma nessuna ha ricevuto risposta."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Non tutti i partecipanti erano d’accordo.",
+                  "translation": "Not all participants agreed.",
+                  "answer": "Non tutti i partecipanti erano d’accordo.",
+                  "tokens": [
+                    "Non",
+                    "tutti",
+                    "i",
+                    "partecipanti",
+                    "erano",
+                    "d’accordo."
+                  ],
+                  "explanation": "Non tutti signals that at least one participant dissented.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-negation-scope.focus.q4",
+                  "errorTag": "negation-scope",
+                  "guided": false,
+                  "speak": "Non tutti i partecipanti erano d’accordo."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-ellipsis-implication",
+      "title": "Ellipsis and implication",
+      "description": "Recover what a short expression leaves unsaid.",
+      "lessons": [
+        {
+          "id": "c2-ellipsis",
+          "title": "Parallel ellipsis",
+          "outcome": "I can omit a repeated verb without hiding the relationship.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-negation-scope"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:leggere"
+            },
+            {
+              "entryId": "v:portare"
+            }
+          ],
+          "takeaway": "Omit a repeated verb only when the reader can recover it exactly.",
+          "objectives": [
+            {
+              "id": "c2-ellipsis.focus",
+              "label": "In balanced clauses, omit a recoverable repeated verb and keep the two parts parallel.",
+              "errorTag": "ellipsis",
+              "explanation": "A comma may mark the place of an omitted verb in compact edited prose.",
+              "teach": [
+                {
+                  "title": "Recoverable predicate",
+                  "body": "The second clause inherits the first clause’s verb.",
+                  "examples": [
+                    {
+                      "it": "Marta legge romanzi; Luca, saggi.",
+                      "en": "Marta reads novels; Luca, essays."
+                    }
+                  ]
+                },
+                {
+                  "title": "Parallel structure",
+                  "body": "The omitted verb must fit the second clause too.",
+                  "examples": [
+                    {
+                      "it": "Io porto il pane; tu, l’acqua.",
+                      "en": "I will bring the bread; you, the water."
+                    }
+                  ],
+                  "tip": "Keep the matching roles in matching positions."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Complete the compact parallel clause without repeating the verb.",
+                  "context": "Marta legge romanzi; Luca, ___ .",
+                  "translation": "Marta reads novels; Luca reads essays.",
+                  "answer": "saggi",
+                  "options": [
+                    "saggi",
+                    "legge saggi",
+                    "a saggi"
+                  ],
+                  "explanation": "The repeated verb legge is understood, leaving the object saggi.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-ellipsis.focus.q1",
+                  "errorTag": "ellipsis",
+                  "guided": false,
+                  "speak": "Marta legge romanzi; Luca, saggi."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with a clear ellipsis after tu.",
+                  "context": "Io porto il pane; tu porti l’acqua.",
+                  "translation": "I bring bread; you bring water.",
+                  "answer": "Io porto il pane; tu, l’acqua.",
+                  "accepted": [
+                    "Io porto il pane, tu l’acqua."
+                  ],
+                  "explanation": "The parallel subject and object let the second verb be omitted.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-ellipsis.focus.q2",
+                  "errorTag": "ellipsis",
+                  "guided": false,
+                  "speak": "Io porto il pane; tu, l’acqua."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Complete with ellipsis, omitting the repeated verb.",
+                  "context": "Anna scrive la relazione; Paolo, ___ .",
+                  "translation": "Anna writes the report; Paolo writes the summary.",
+                  "answer": "il riassunto",
+                  "options": [
+                    "il riassunto",
+                    "scrive il riassunto",
+                    "al riassunto"
+                  ],
+                  "explanation": "The second object completes the balanced clause with scrive understood.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-ellipsis.focus.q3",
+                  "errorTag": "ellipsis",
+                  "guided": false,
+                  "speak": "Anna scrive la relazione; Paolo, il riassunto."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Giulia sceglie il tè; Marco, il caffè.",
+                  "translation": "Giulia chooses tea; Marco chooses coffee.",
+                  "answer": "Giulia sceglie il tè; Marco, il caffè.",
+                  "tokens": [
+                    "Giulia",
+                    "sceglie",
+                    "il",
+                    "tè;",
+                    "Marco,",
+                    "il",
+                    "caffè."
+                  ],
+                  "explanation": "The omitted sceglie is recoverable from the first clause.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-ellipsis.focus.q4",
+                  "errorTag": "ellipsis",
+                  "guided": false,
+                  "speak": "Giulia sceglie il tè; Marco, il caffè."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-presupposition",
+          "title": "Implications of aspect verbs",
+          "outcome": "I can infer what smettere and riprendere imply.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-ellipsis"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:smettere",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:ricominciare"
+            }
+          ],
+          "takeaway": "Smesso di and ripreso a carry information about an earlier phase.",
+          "objectives": [
+            {
+              "id": "c2-presupposition.focus",
+              "label": "Recognize the earlier activity implied by smettere and riprendere.",
+              "errorTag": "presupposition",
+              "explanation": "Smettere di X implies X occurred before; riprendere a X implies X occurred earlier and was interrupted.",
+              "teach": [
+                {
+                  "title": "Stopping",
+                  "body": "Smettere di presupposes an activity before the stopping point.",
+                  "examples": [
+                    {
+                      "it": "Marta ha smesso di fumare.",
+                      "en": "Marta stopped smoking."
+                    }
+                  ],
+                  "tip": "It does not say when the earlier activity began."
+                },
+                {
+                  "title": "Resuming",
+                  "body": "Riprendere a presupposes an earlier phase and interruption.",
+                  "examples": [
+                    {
+                      "it": "Marta ha ripreso a correre.",
+                      "en": "Marta has started running again."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the implication supported by the sentence.",
+                  "context": "“Marta ha smesso di fumare.” Che cosa si può dedurre? ___ .",
+                  "translation": "“Marta stopped smoking.” What follows: she smoked before.",
+                  "answer": "Prima Marta fumava",
+                  "options": [
+                    "Prima Marta fumava",
+                    "Marta non ha mai fumato",
+                    "Marta fumerà domani"
+                  ],
+                  "explanation": "Stopping smoking presupposes earlier smoking.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-presupposition.focus.q1",
+                  "errorTag": "presupposition",
+                  "guided": false,
+                  "speak": "Prima Marta fumava."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Condense with riprendere a.",
+                  "context": "Marta correva, poi ha interrotto. Ora corre di nuovo.",
+                  "translation": "Marta used to run, stopped, and now runs again.",
+                  "answer": "Marta ha ripreso a correre.",
+                  "accepted": [
+                    "Marta ha ricominciato a correre."
+                  ],
+                  "explanation": "Riprendere a correre packages the earlier activity and return.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-presupposition.focus.q2",
+                  "errorTag": "presupposition",
+                  "guided": false,
+                  "speak": "Marta ha ripreso a correre."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "“Luca ha ripreso a studiare.” È implicito che ___ .",
+                  "translation": "“Luca resumed studying.” It follows that he studied before.",
+                  "answer": "studiava già in precedenza",
+                  "options": [
+                    "studiava già in precedenza",
+                    "non aveva mai studiato",
+                    "ha finito gli studi"
+                  ],
+                  "explanation": "Riprendere entails an earlier phase of the activity.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-presupposition.focus.q3",
+                  "errorTag": "presupposition",
+                  "guided": false,
+                  "speak": "Luca studiava già in precedenza."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Dopo una pausa, Anna ha ripreso a leggere.",
+                  "translation": "After a break, Anna resumed reading.",
+                  "answer": "Dopo una pausa, Anna ha ripreso a leggere.",
+                  "tokens": [
+                    "Dopo",
+                    "una",
+                    "pausa,",
+                    "Anna",
+                    "ha",
+                    "ripreso",
+                    "a",
+                    "leggere."
+                  ],
+                  "explanation": "Ripreso a signals the return after interruption.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-presupposition.focus.q4",
+                  "errorTag": "presupposition",
+                  "guided": false,
+                  "speak": "Dopo una pausa, Anna ha ripreso a leggere."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-literary-history",
+      "title": "Literary and historical forms",
+      "description": "Read marked written forms and restate them in current usage.",
+      "lessons": [
+        {
+          "id": "c2-literary-tenses",
+          "title": "Narrative past and present relevance",
+          "outcome": "I can recognize the narrative function of passato remoto.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-presupposition"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:annunciare",
+              "caseId": "passatoRemoto"
+            },
+            {
+              "entryId": "v:approvare"
+            }
+          ],
+          "takeaway": "Read remoto as a narrative past; choose it when the historical style is specified.",
+          "objectives": [
+            {
+              "id": "c2-literary-tenses.focus",
+              "label": "Use passato remoto for a closed historical narrative when the task asks for that style.",
+              "errorTag": "literary-tenses",
+              "explanation": "Passato prossimo also occurs in Italian narratives; this lesson fixes the intended written register explicitly.",
+              "teach": [
+                {
+                  "title": "Historical narration",
+                  "body": "Passato remoto can advance a sequence of completed past events.",
+                  "examples": [
+                    {
+                      "it": "Nel 1861 il Parlamento proclamò il Regno d’Italia.",
+                      "en": "In 1861 Parliament proclaimed the Kingdom of Italy."
+                    }
+                  ]
+                },
+                {
+                  "title": "Contemporary restatement",
+                  "body": "Passato prossimo often suits a current report about a recent event.",
+                  "examples": [
+                    {
+                      "it": "Oggi il Parlamento ha approvato la legge.",
+                      "en": "Today Parliament approved the law."
+                    }
+                  ],
+                  "tip": "Regional and stylistic variation affects everyday choices."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the passato remoto form for historical narration.",
+                  "context": "Nel 1861 il Parlamento ___ il Regno d’Italia.",
+                  "translation": "In historical narration: in 1861 Parliament proclaimed the Kingdom of Italy.",
+                  "answer": "proclamò",
+                  "options": [
+                    "proclamò",
+                    "ha proclamato",
+                    "proclamava"
+                  ],
+                  "explanation": "Proclamò is the requested passato remoto for the bounded historical event.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-literary-tenses.focus.q1",
+                  "errorTag": "literary-tenses",
+                  "guided": false,
+                  "speak": "Nel 1861 il Parlamento proclamò il Regno d’Italia."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite in passato remoto.",
+                  "context": "Nel 1861 il Parlamento ha proclamato il Regno d’Italia.",
+                  "translation": "In 1861 Parliament proclaimed the Kingdom of Italy; use literary historical narration.",
+                  "answer": "Nel 1861 il Parlamento proclamò il Regno d’Italia.",
+                  "accepted": [],
+                  "explanation": "Proclamò gives the event in passato remoto as requested.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-literary-tenses.focus.q2",
+                  "errorTag": "literary-tenses",
+                  "guided": false,
+                  "speak": "Nel 1861 il Parlamento proclamò il Regno d’Italia."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the passato remoto form for historical narration.",
+                  "context": "Il re ___ la lettera e uscì.",
+                  "translation": "In a historical narrative: the king read the letter and went out.",
+                  "answer": "lesse",
+                  "options": [
+                    "lesse",
+                    "ha letto",
+                    "leggeva"
+                  ],
+                  "explanation": "Lesse is the passato remoto matching the bounded sequence with uscì.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-literary-tenses.focus.q3",
+                  "errorTag": "literary-tenses",
+                  "guided": false,
+                  "speak": "Il re lesse la lettera e uscì."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Entrò il messaggero e consegnò la lettera.",
+                  "translation": "The messenger entered and delivered the letter; historical narration.",
+                  "answer": "Entrò il messaggero e consegnò la lettera.",
+                  "tokens": [
+                    "Entrò",
+                    "il",
+                    "messaggero",
+                    "e",
+                    "consegnò",
+                    "la",
+                    "lettera."
+                  ],
+                  "explanation": "Entrò and consegnò advance the narrative with passato remoto.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-literary-tenses.focus.q4",
+                  "errorTag": "literary-tenses",
+                  "guided": false,
+                  "speak": "Entrò il messaggero e consegnò la lettera."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-historical-syntax",
+          "title": "Marked order in literary narration",
+          "outcome": "I can interpret a literary subject placed after the verb.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-literary-tenses"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:entrare",
+              "caseId": "passatoRemoto"
+            },
+            {
+              "entryId": "v:arrivare"
+            }
+          ],
+          "takeaway": "In “Entrò il messaggero,” il messaggero is the subject.",
+          "objectives": [
+            {
+              "id": "c2-historical-syntax.focus",
+              "label": "Recognize verb–subject order as a way of introducing a new actor in a narrative scene.",
+              "errorTag": "historical-syntax",
+              "explanation": "In this context, the postverbal noun remains the subject, not the object.",
+              "teach": [
+                {
+                  "title": "Actor after verb",
+                  "body": "The subject can follow an intransitive verb in narration.",
+                  "examples": [
+                    {
+                      "it": "Entrò il messaggero.",
+                      "en": "The messenger entered."
+                    }
+                  ]
+                },
+                {
+                  "title": "Current paraphrase",
+                  "body": "A neutral paraphrase can put the subject first.",
+                  "examples": [
+                    {
+                      "it": "Il messaggero entrò.",
+                      "en": "The messenger entered."
+                    }
+                  ],
+                  "tip": "The order change shifts presentation, not who acted."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Identify the grammatical subject in the quoted narrative sentence.",
+                  "context": "“Arrivò il sindaco.” Chi arrivò? ___ .",
+                  "translation": "“The mayor arrived.” Who arrived? The mayor.",
+                  "answer": "Il sindaco",
+                  "options": [
+                    "Il sindaco",
+                    "Un messaggero",
+                    "Nessuno"
+                  ],
+                  "explanation": "Il sindaco is the postverbal subject of arrivò.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-historical-syntax.focus.q1",
+                  "errorTag": "historical-syntax",
+                  "guided": false,
+                  "speak": "Arrivò il sindaco."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Put the subject first.",
+                  "context": "Entrò il messaggero.",
+                  "translation": "The messenger entered; restate with neutral subject-first order.",
+                  "answer": "Il messaggero entrò.",
+                  "accepted": [],
+                  "explanation": "The subject moves before the verb without changing the event.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-historical-syntax.focus.q2",
+                  "errorTag": "historical-syntax",
+                  "guided": false,
+                  "speak": "Il messaggero entrò."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "“Si aprì la porta ed entrò una donna.” Il soggetto di entrò è ___ .",
+                  "translation": "“The door opened and a woman entered.” The subject of entered is a woman.",
+                  "answer": "una donna",
+                  "options": [
+                    "una donna",
+                    "la porta",
+                    "si"
+                  ],
+                  "explanation": "Una donna is the noun after entrò and the person entering.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-historical-syntax.focus.q3",
+                  "errorTag": "historical-syntax",
+                  "guided": false,
+                  "speak": "Si aprì la porta ed entrò una donna."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "All’improvviso apparve una luce.",
+                  "translation": "Suddenly a light appeared.",
+                  "answer": "All’improvviso apparve una luce.",
+                  "tokens": [
+                    "All’improvviso",
+                    "apparve",
+                    "una",
+                    "luce."
+                  ],
+                  "explanation": "Una luce is the postverbal subject of apparve.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-historical-syntax.focus.q4",
+                  "errorTag": "historical-syntax",
+                  "guided": false,
+                  "speak": "All’improvviso apparve una luce."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-register-variation",
+      "title": "Variation and register",
+      "description": "Recognize spoken constructions and choose edited alternatives.",
+      "lessons": [
+        {
+          "id": "c2-contemporary-variation",
+          "title": "Spoken dislocation in context",
+          "outcome": "I can identify a spoken topic structure and recast it for a formal text.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-historical-syntax"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:piacere"
+            },
+            {
+              "entryId": "v:essere"
+            }
+          ],
+          "takeaway": "Recognize spoken topicalization; edit to a neutral formal order when asked.",
+          "objectives": [
+            {
+              "id": "c2-contemporary-variation.focus",
+              "label": "Recognize clitic resumption as common in conversation; choose a neutral order for formal editing when needed.",
+              "errorTag": "contemporary-variation",
+              "explanation": "Spoken “a me mi” is a marked topicalization; formal prose can say “a me piace” or use a neutral clause.",
+              "teach": [
+                {
+                  "title": "Conversation",
+                  "body": "A left topic with clitic can occur naturally in speech.",
+                  "examples": [
+                    {
+                      "it": "A me, questa idea mi piace.",
+                      "en": "As for me, I like this idea."
+                    }
+                  ]
+                },
+                {
+                  "title": "Edited alternative",
+                  "body": "A more neutral written form can omit the repeated clitic.",
+                  "examples": [
+                    {
+                      "it": "A me piace questa idea.",
+                      "en": "I like this idea."
+                    }
+                  ],
+                  "tip": "Register depends on situation, not a blanket right/wrong label."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the neutral wording for a formal report.",
+                  "context": "___.",
+                  "translation": "For a formal report, choose the neutral version: I like this idea.",
+                  "answer": "Mi piace questa idea",
+                  "options": [
+                    "Mi piace questa idea",
+                    "A me questa idea mi piace",
+                    "A me mi piace questa idea"
+                  ],
+                  "explanation": "Mi piace questa idea is the unmarked concise written form.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-contemporary-variation.focus.q1",
+                  "errorTag": "contemporary-variation",
+                  "guided": false,
+                  "speak": "Mi piace questa idea."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite in neutral edited prose.",
+                  "context": "A me, questa proposta mi sembra utile.",
+                  "translation": "As for me, this proposal seems useful; rewrite neutrally for a report.",
+                  "answer": "Questa proposta mi sembra utile.",
+                  "accepted": [
+                    "Questa proposta mi pare utile."
+                  ],
+                  "explanation": "Removing the fronted topic leaves a clear neutral written clause.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-contemporary-variation.focus.q2",
+                  "errorTag": "contemporary-variation",
+                  "guided": false,
+                  "speak": "Questa proposta mi sembra utile."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "«Il libro, l’ho già letto»: il tema è ___.",
+                  "translation": "In conversation, “The book, I have already read it” topicalizes the book.",
+                  "answer": "il libro",
+                  "options": [
+                    "il libro",
+                    "io",
+                    "già"
+                  ],
+                  "explanation": "The fronted object il libro is the topic, resumed by l’.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-contemporary-variation.focus.q3",
+                  "errorTag": "contemporary-variation",
+                  "guided": false,
+                  "speak": "Il libro, l’ho già letto."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Il film mi è piaciuto molto.",
+                  "translation": "I liked the film very much; neutral written wording.",
+                  "answer": "Il film mi è piaciuto molto.",
+                  "tokens": [
+                    "Il",
+                    "film",
+                    "mi",
+                    "è",
+                    "piaciuto",
+                    "molto."
+                  ],
+                  "explanation": "The neutral clause conveys the evaluation without topicalization.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-contemporary-variation.focus.q4",
+                  "errorTag": "contemporary-variation",
+                  "guided": false,
+                  "speak": "Il film mi è piaciuto molto."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite in neutral edited prose.",
+                  "context": "A me, questo film mi è sembrato lento.",
+                  "translation": "As for me, this film seemed slow; rewrite neutrally for a review.",
+                  "answer": "Questo film mi è sembrato lento.",
+                  "accepted": [],
+                  "explanation": "Removing the fronted topic leaves a neutral written clause.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-contemporary-variation.focus.q5",
+                  "errorTag": "contemporary-variation",
+                  "guided": false,
+                  "speak": "Questo film mi è sembrato lento."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-register-shifts",
+          "title": "Match request to audience",
+          "outcome": "I can rewrite a direct request for a formal recipient while preserving the request.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-contemporary-variation"
+          ],
+          "referenceTopics": [
+            "imperative",
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:potere",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:inviare"
+            }
+          ],
+          "takeaway": "A formal request can use Potrebbe + infinitive.",
+          "objectives": [
+            {
+              "id": "c2-register-shifts.focus",
+              "label": "Use a courteous conditional and a clear request complement in formal correspondence.",
+              "errorTag": "register-shifts",
+              "explanation": "Formal tone comes from grammar and framing as well as word choice.",
+              "teach": [
+                {
+                  "title": "Direct to a friend",
+                  "body": "A direct imperative fits familiar speech.",
+                  "examples": [
+                    {
+                      "it": "Mandami il documento.",
+                      "en": "Send me the document."
+                    }
+                  ]
+                },
+                {
+                  "title": "Formal recipient",
+                  "body": "Potrebbe + infinitive makes the same request more courteous.",
+                  "examples": [
+                    {
+                      "it": "Potrebbe inviarmi il documento?",
+                      "en": "Could you send me the document?"
+                    }
+                  ],
+                  "tip": "Do not change what is being requested."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the courteous form specified by the situation.",
+                  "context": "A un ufficio, in un’e-mail formale: “___ il documento?”",
+                  "translation": "In a formal email to an office: “Could you send me the document?”",
+                  "answer": "Potrebbe inviarmi",
+                  "options": [
+                    "Potrebbe inviarmi",
+                    "Mandami",
+                    "Mi mandi subito"
+                  ],
+                  "explanation": "Potrebbe inviarmi expresses the request courteously and directly.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-register-shifts.focus.q1",
+                  "errorTag": "register-shifts",
+                  "guided": false,
+                  "speak": "Potrebbe inviarmi il documento?"
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite as a formal question with Potrebbe.",
+                  "context": "Mandami il modulo.",
+                  "translation": "Send me the form; address a public office politely.",
+                  "answer": "Potrebbe inviarmi il modulo?",
+                  "accepted": [
+                    "Mi potrebbe inviare il modulo?"
+                  ],
+                  "explanation": "Potrebbe inviarmi changes the directive to a courteous question.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-register-shifts.focus.q2",
+                  "errorTag": "register-shifts",
+                  "guided": false,
+                  "speak": "Potrebbe inviarmi il modulo?"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "A un amico con cui parli abitualmente in modo informale: “___ il link?”",
+                  "translation": "To a friend you normally address informally: “Can you send me the link?”",
+                  "answer": "Mi mandi",
+                  "options": [
+                    "Mi mandi",
+                    "Potrebbe inviarmi",
+                    "Si richiede l’invio del"
+                  ],
+                  "explanation": "Mi mandi is a natural familiar request in this context.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-register-shifts.focus.q3",
+                  "errorTag": "register-shifts",
+                  "guided": false,
+                  "speak": "Mi mandi il link?"
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Potrebbe indicarmi l’orario di apertura?",
+                  "translation": "Could you tell me the opening time?",
+                  "answer": "Potrebbe indicarmi l’orario di apertura?",
+                  "tokens": [
+                    "Potrebbe",
+                    "indicarmi",
+                    "l’orario",
+                    "di",
+                    "apertura?"
+                  ],
+                  "explanation": "Potrebbe makes the request courteous for a formal recipient.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-register-shifts.focus.q4",
+                  "errorTag": "register-shifts",
+                  "guided": false,
+                  "speak": "Potrebbe indicarmi l’orario di apertura?"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-text-editing",
+      "title": "Edit a complex text",
+      "description": "Correct logical links, compress repetition and keep parallel structures.",
+      "lessons": [
+        {
+          "id": "c2-cohesion-editing",
+          "title": "Repair a false logical link",
+          "outcome": "I can replace a connector that misstates the relation between claims.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-register-shifts"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:arrivare"
+            },
+            {
+              "entryId": "v:essere"
+            }
+          ],
+          "takeaway": "Edit a connector to express the real cause or contrast.",
+          "objectives": [
+            {
+              "id": "c2-cohesion-editing.focus",
+              "label": "Choose a connector from the actual logic, not from surface punctuation.",
+              "errorTag": "cohesion-editing",
+              "explanation": "A misleading connective can make a grammatical text incoherent.",
+              "teach": [
+                {
+                  "title": "Cause and result",
+                  "body": "Perciò signals a result from the prior claim.",
+                  "examples": [
+                    {
+                      "it": "La strada è chiusa; perciò deviamo.",
+                      "en": "The road is closed; therefore we detour."
+                    }
+                  ]
+                },
+                {
+                  "title": "Unexpected contrast",
+                  "body": "Eppure signals an outcome contrary to expectation.",
+                  "examples": [
+                    {
+                      "it": "La strada è lunga; eppure arriviamo presto.",
+                      "en": "The road is long; yet we arrive early."
+                    }
+                  ],
+                  "tip": "The second claim determines which relation is defensible."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La strada è chiusa; ___ dobbiamo deviare.",
+                  "translation": "The road is closed; therefore we must detour.",
+                  "answer": "perciò",
+                  "options": [
+                    "perciò",
+                    "eppure",
+                    "tuttavia"
+                  ],
+                  "explanation": "The detour follows from the closure, so perciò.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-cohesion-editing.focus.q1",
+                  "errorTag": "cohesion-editing",
+                  "guided": false,
+                  "speak": "La strada è chiusa; perciò dobbiamo deviare."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Replace the misleading connector.",
+                  "context": "Il treno è in ritardo; tuttavia arriveremo tardi.",
+                  "translation": "The train is delayed; therefore we will arrive late.",
+                  "answer": "Il treno è in ritardo; perciò arriveremo tardi.",
+                  "accepted": [
+                    "Il treno è in ritardo; quindi arriveremo tardi."
+                  ],
+                  "explanation": "Perciò repairs the mistaken contrast and shows consequence.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-cohesion-editing.focus.q2",
+                  "errorTag": "cohesion-editing",
+                  "guided": false,
+                  "speak": "Il treno è in ritardo; perciò arriveremo tardi."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il percorso è lungo; ___ siamo arrivati in anticipo.",
+                  "translation": "The route is long; yet we arrived early.",
+                  "answer": "eppure",
+                  "options": [
+                    "eppure",
+                    "perciò",
+                    "infatti"
+                  ],
+                  "explanation": "Early arrival contrasts with the expected effect of a long route.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-cohesion-editing.focus.q3",
+                  "errorTag": "cohesion-editing",
+                  "guided": false,
+                  "speak": "Il percorso è lungo; eppure siamo arrivati in anticipo."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Il prezzo è alto; tuttavia il prodotto si vende bene.",
+                  "translation": "The price is high; nevertheless the product sells well.",
+                  "answer": "Il prezzo è alto; tuttavia il prodotto si vende bene.",
+                  "tokens": [
+                    "Il",
+                    "prezzo",
+                    "è",
+                    "alto;",
+                    "tuttavia",
+                    "il",
+                    "prodotto",
+                    "si",
+                    "vende",
+                    "bene."
+                  ],
+                  "explanation": "Tuttavia links unexpectedly strong sales to a high price.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-cohesion-editing.focus.q4",
+                  "errorTag": "cohesion-editing",
+                  "guided": false,
+                  "speak": "Il prezzo è alto; tuttavia il prodotto si vende bene."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-condense-expand",
+          "title": "Compress without hiding an agent",
+          "outcome": "I can condense a clause while keeping who did what clear.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-cohesion-editing"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:approvare"
+            },
+            {
+              "entryId": "v:decidere"
+            }
+          ],
+          "takeaway": "Compress an action, but preserve its actor and object.",
+          "objectives": [
+            {
+              "id": "c2-condense-expand.focus",
+              "label": "Use nominalization with a named agent when it is needed for meaning.",
+              "errorTag": "condense-expand",
+              "explanation": "A shorter noun phrase is useful only if the performer and affected item stay recoverable.",
+              "teach": [
+                {
+                  "title": "Agent retained",
+                  "body": "Da parte del consiglio names the approving actor.",
+                  "examples": [
+                    {
+                      "it": "L’approvazione del piano da parte del consiglio è attesa.",
+                      "en": "The council’s approval of the plan is awaited."
+                    }
+                  ]
+                },
+                {
+                  "title": "Expand for clarity",
+                  "body": "A finite clause can restore the agent if a nominal phrase becomes opaque.",
+                  "examples": [
+                    {
+                      "it": "Il consiglio ha approvato il piano.",
+                      "en": "The council approved the plan."
+                    }
+                  ],
+                  "tip": "Conciseness must not erase a needed distinction."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "“L’approvazione del piano ___ consiglio” chiarisce chi approva.",
+                  "translation": "“The approval of the plan by the council” identifies who approves.",
+                  "answer": "da parte del",
+                  "options": [
+                    "da parte del",
+                    "nel",
+                    "al"
+                  ],
+                  "explanation": "Da parte del explicitly identifies the council as approving agent.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-condense-expand.focus.q1",
+                  "errorTag": "condense-expand",
+                  "guided": false,
+                  "speak": "“L’approvazione del piano da parte del consiglio” chiarisce chi approva."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Condense into one sentence beginning L’approvazione.",
+                  "context": "Il consiglio ha approvato il piano. Questo è avvenuto ieri.",
+                  "translation": "The council approved the plan yesterday.",
+                  "answer": "L’approvazione del piano da parte del consiglio è avvenuta ieri.",
+                  "accepted": [],
+                  "explanation": "The nominalization retains plan and council and compresses the two clauses.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-condense-expand.focus.q2",
+                  "errorTag": "condense-expand",
+                  "guided": false,
+                  "speak": "L’approvazione del piano da parte del consiglio è avvenuta ieri."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Select the phrase that states what the director decided.",
+                  "context": "La decisione del direttore di chiudere è stata comunicata.",
+                  "translation": "The director’s decision to close was communicated.",
+                  "answer": "la decisione del direttore di chiudere",
+                  "options": [
+                    "la decisione del direttore di chiudere",
+                    "la decisione del direttore",
+                    "la decisione di qualcuno"
+                  ],
+                  "explanation": "The infinitive di chiudere states the content of the decision.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-condense-expand.focus.q3",
+                  "errorTag": "condense-expand",
+                  "guided": false,
+                  "speak": "La decisione del direttore di chiudere è stata comunicata."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "La firma del contratto da parte del cliente è prevista domani.",
+                  "translation": "The signing of the contract by the customer is scheduled for tomorrow.",
+                  "answer": "La firma del contratto da parte del cliente è prevista domani.",
+                  "tokens": [
+                    "La",
+                    "firma",
+                    "del",
+                    "contratto",
+                    "da",
+                    "parte",
+                    "del",
+                    "cliente",
+                    "è",
+                    "prevista",
+                    "domani."
+                  ],
+                  "explanation": "The formal phrase keeps both the contract and signer explicit.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-condense-expand.focus.q4",
+                  "errorTag": "condense-expand",
+                  "guided": false,
+                  "speak": "La firma del contratto da parte del cliente è prevista domani."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-parallelism",
+          "title": "Parallel clauses in edited prose",
+          "outcome": "I can repair an uneven pair of coordinated complements.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-condense-expand"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:ridurre"
+            },
+            {
+              "entryId": "v:migliorare"
+            }
+          ],
+          "takeaway": "Coordinate like with like: a ridurre ... e a migliorare....",
+          "objectives": [
+            {
+              "id": "c2-parallelism.focus",
+              "label": "Give coordinated items the same grammatical form when they play the same role.",
+              "errorTag": "parallelism",
+              "explanation": "Parallelism makes a comparison or list easier to parse without changing its meaning.",
+              "teach": [
+                {
+                  "title": "Two infinitives",
+                  "body": "The same governing verb can coordinate two infinitives.",
+                  "examples": [
+                    {
+                      "it": "Il piano mira a ridurre i costi e a migliorare il servizio.",
+                      "en": "The plan aims to reduce costs and improve service."
+                    }
+                  ]
+                },
+                {
+                  "title": "Matching prepositions",
+                  "body": "Repeat a governing preposition when it helps symmetry and clarity.",
+                  "examples": [
+                    {
+                      "it": "Puntiamo a capire il problema e a risolverlo.",
+                      "en": "We aim to understand the problem and solve it."
+                    }
+                  ],
+                  "tip": "A parallel rewrite should keep both actions."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il piano mira a ridurre i costi e ___ il servizio.",
+                  "translation": "The plan aims to reduce costs and to improve service.",
+                  "answer": "a migliorare",
+                  "options": [
+                    "a migliorare",
+                    "il miglioramento di",
+                    "miglioramento"
+                  ],
+                  "explanation": "A migliorare parallels a ridurre after mira.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-parallelism.focus.q1",
+                  "errorTag": "parallelism",
+                  "guided": false,
+                  "speak": "Il piano mira a ridurre i costi e a migliorare il servizio."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with two parallel infinitives.",
+                  "context": "Puntiamo a capire il problema e alla sua soluzione.",
+                  "translation": "We aim to understand the problem and solve it.",
+                  "answer": "Puntiamo a capire il problema e a risolverlo.",
+                  "accepted": [
+                    "Puntiamo a comprendere il problema e a risolverlo."
+                  ],
+                  "explanation": "Two a + infinitive complements form a parallel pair.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-parallelism.focus.q2",
+                  "errorTag": "parallelism",
+                  "guided": false,
+                  "speak": "Puntiamo a capire il problema e a risolverlo."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "L’accordo serve a proteggere i dati e ___ gli utenti.",
+                  "translation": "The agreement serves to protect data and inform users.",
+                  "answer": "a informare",
+                  "options": [
+                    "a informare",
+                    "l’informazione di",
+                    "informazione"
+                  ],
+                  "explanation": "A informare parallels a proteggere under serve.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-parallelism.focus.q3",
+                  "errorTag": "parallelism",
+                  "guided": false,
+                  "speak": "L’accordo serve a proteggere i dati e a informare gli utenti."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Vogliamo chiarire i fatti e correggere gli errori.",
+                  "translation": "We want to clarify the facts and correct the errors.",
+                  "answer": "Vogliamo chiarire i fatti e correggere gli errori.",
+                  "tokens": [
+                    "Vogliamo",
+                    "chiarire",
+                    "i",
+                    "fatti",
+                    "e",
+                    "correggere",
+                    "gli",
+                    "errori."
+                  ],
+                  "explanation": "The two infinitives are parallel complements of vogliamo.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-parallelism.focus.q4",
+                  "errorTag": "parallelism",
+                  "guided": false,
+                  "speak": "Vogliamo chiarire i fatti e correggere gli errori."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-integration",
+      "title": "Interpret and produce",
+      "description": "Apply grammar choices across short authentic-style situations.",
+      "lessons": [
+        {
+          "id": "c2-interpretation",
+          "title": "Read stance across two sentences",
+          "outcome": "I can identify what is asserted and what remains a possibility.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-parallelism"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:confermare",
+              "caseId": "condizionalePassato"
+            },
+            {
+              "entryId": "v:dire"
+            }
+          ],
+          "takeaway": "Source marking plus verb mood show how strongly a claim is presented.",
+          "objectives": [
+            {
+              "id": "c2-interpretation.focus",
+              "label": "Track both source marking and grammatical mood across a short report.",
+              "errorTag": "interpretation",
+              "explanation": "A conditional attributed to a source reports a claim; an indicative confirmation asserts verified information.",
+              "teach": [
+                {
+                  "title": "Unverified claim",
+                  "body": "Secondo voci marks a reported source; the conditional maintains distance.",
+                  "examples": [
+                    {
+                      "it": "Secondo voci, il direttore si sarebbe dimesso.",
+                      "en": "According to rumors, the director has reportedly resigned."
+                    }
+                  ]
+                },
+                {
+                  "title": "Verified update",
+                  "body": "A later confirmation can switch to indicative.",
+                  "examples": [
+                    {
+                      "it": "L’ufficio ha confermato che si è dimesso.",
+                      "en": "The office confirmed that he resigned."
+                    }
+                  ],
+                  "tip": "Do not treat the first sentence as the same evidential status as the second."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the status licensed by the whole sentence.",
+                  "context": "“Secondo voci, il direttore si sarebbe dimesso.” La frase presenta le dimissioni come ___ .",
+                  "translation": "“According to rumors, the director has reportedly resigned.” How certain is the claim?",
+                  "answer": "non confermate",
+                  "options": [
+                    "non confermate",
+                    "confermate ufficialmente",
+                    "impossibili"
+                  ],
+                  "explanation": "Secondo voci with the conditional marks an unconfirmed report.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-interpretation.focus.q1",
+                  "errorTag": "interpretation",
+                  "guided": false,
+                  "speak": "Secondo voci, il direttore si sarebbe dimesso."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite as a complete sentence with ha confermato che.",
+                  "context": "L’ufficio ha confermato le dimissioni del direttore.",
+                  "translation": "The office has confirmed the director’s resignation.",
+                  "answer": "L’ufficio ha confermato che il direttore si è dimesso.",
+                  "accepted": [],
+                  "explanation": "The indicative after ha confermato presents an official confirmation.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-interpretation.focus.q2",
+                  "errorTag": "interpretation",
+                  "guided": false,
+                  "speak": "L’ufficio ha confermato che il direttore si è dimesso."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "“L’ufficio ha confermato che il direttore si è dimesso.” Qui l’evento è ___ .",
+                  "translation": "“The office confirmed that the director resigned.” How is the event presented?",
+                  "answer": "confermato",
+                  "options": [
+                    "confermato",
+                    "solo ipotizzato",
+                    "negato"
+                  ],
+                  "explanation": "Ha confermato marks the content as verified by the office.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-interpretation.focus.q3",
+                  "errorTag": "interpretation",
+                  "guided": false,
+                  "speak": "L’ufficio ha confermato che il direttore si è dimesso."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Secondo fonti non confermate, la seduta sarebbe stata rinviata.",
+                  "translation": "According to unconfirmed sources, the sitting was reportedly postponed.",
+                  "answer": "Secondo fonti non confermate, la seduta sarebbe stata rinviata.",
+                  "tokens": [
+                    "Secondo",
+                    "fonti",
+                    "non",
+                    "confermate,",
+                    "la",
+                    "seduta",
+                    "sarebbe",
+                    "stata",
+                    "rinviata."
+                  ],
+                  "explanation": "The source phrase and conditional jointly signal limited certainty.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-interpretation.focus.q4",
+                  "errorTag": "interpretation",
+                  "guided": false,
+                  "speak": "Secondo fonti non confermate, la seduta sarebbe stata rinviata."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-production",
+          "title": "Choose a precise final wording",
+          "outcome": "I can produce a concise, logically precise sentence for a specified audience.",
+          "minutes": 8,
+          "prerequisites": [
+            "c2-interpretation"
+          ],
+          "referenceTopics": [
+            "tenses",
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:potere",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:confermare"
+            }
+          ],
+          "takeaway": "State the exact condition or request in a short, audience-appropriate sentence.",
+          "objectives": [
+            {
+              "id": "c2-production.focus",
+              "label": "Combine condition, consequence and register in a single short rewrite.",
+              "errorTag": "production",
+              "explanation": "Check the intended relation and recipient before choosing the grammatical form.",
+              "teach": [
+                {
+                  "title": "Condition and consequence",
+                  "body": "A formal notice can state a condition clearly.",
+                  "examples": [
+                    {
+                      "it": "In caso di pioggia, la visita sarà rinviata.",
+                      "en": "In case of rain, the visit will be postponed."
+                    }
+                  ]
+                },
+                {
+                  "title": "Courteous follow-up",
+                  "body": "A formal request can use a conditional question.",
+                  "examples": [
+                    {
+                      "it": "Potrebbe confermarmi il nuovo orario?",
+                      "en": "Could you confirm the new time for me?"
+                    }
+                  ],
+                  "tip": "Precision includes both logic and audience."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the notice that preserves the stated condition.",
+                  "context": "Avviso formale: la visita si rinvia solo se piove. “___”",
+                  "translation": "Formal notice: the visit is postponed only if it rains.",
+                  "answer": "In caso di pioggia, la visita sarà rinviata.",
+                  "options": [
+                    "In caso di pioggia, la visita sarà rinviata.",
+                    "La visita sarà rinviata anche senza pioggia.",
+                    "Sebbene piova, la visita è confermata."
+                  ],
+                  "explanation": "In caso di pioggia states the intended condition without changing it.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-production.focus.q1",
+                  "errorTag": "production",
+                  "guided": false,
+                  "speak": "In caso di pioggia, la visita sarà rinviata."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with Potrebbe.",
+                  "context": "Conferma il nuovo orario.",
+                  "translation": "Confirm the new time; write a courteous request to an office.",
+                  "answer": "Potrebbe confermarmi il nuovo orario?",
+                  "accepted": [
+                    "Mi potrebbe confermare il nuovo orario?"
+                  ],
+                  "explanation": "The conditional question suits the formal recipient and keeps the request.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c2-production.focus.q2",
+                  "errorTag": "production",
+                  "guided": false,
+                  "speak": "Potrebbe confermarmi il nuovo orario?"
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il museo è chiuso per lavori; ___ la visita è stata rinviata.",
+                  "translation": "The museum is closed for works; therefore the visit was postponed.",
+                  "answer": "pertanto",
+                  "options": [
+                    "pertanto",
+                    "tuttavia",
+                    "eppure"
+                  ],
+                  "explanation": "Pertanto states the consequence of the closure.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c2-production.focus.q3",
+                  "errorTag": "production",
+                  "guided": false,
+                  "speak": "Il museo è chiuso per lavori; pertanto la visita è stata rinviata."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "In caso di ritardo, potrebbe avvisare la segreteria?",
+                  "translation": "In case of delay, could you inform the office?",
+                  "answer": "In caso di ritardo, potrebbe avvisare la segreteria?",
+                  "tokens": [
+                    "In",
+                    "caso",
+                    "di",
+                    "ritardo,",
+                    "potrebbe",
+                    "avvisare",
+                    "la",
+                    "segreteria?"
+                  ],
+                  "explanation": "The condition is explicit and the conditional request is courteous.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c2-production.focus.q4",
+                  "errorTag": "production",
+                  "guided": false,
+                  "speak": "In caso di ritardo, potrebbe avvisare la segreteria?"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

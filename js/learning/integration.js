@@ -3,6 +3,7 @@ import { data, getEntry, itemsForScope } from '../data.js';
 import { objectivesFor, allowedTenses, CORE_STAGES, EXPANSIONS, ANCHOR_VERBS, stageObjectives } from './curriculum.js';
 import { allSkills, skillState, completionRecord } from './model.js';
 import { buildLesson } from './lesson-content.js';
+import { grammarReviewSkills, grammarLesson, grammarEntry, grammarHref } from './grammar-course.js';
 import { currentJourneyStep, journeyProgress, journeyCaseProgress, journeyWordCompletion, journeyChapterCompletions } from './journey.js';
 export { journeyCaseProgress, coreJourneyChapters } from './journey.js';
 
@@ -38,6 +39,7 @@ function learningLabel(target, chapter) {
   return `${chapter?.title || ''}${target.skill === 'conjugation' ? ` · ${people[target.person] || 'verb forms'}` : ` · ${names[target.skill] || 'Practice'}`}`;
 }
 export function skillLabel(entry, state) {
+  if(entry.kind==='grammar')return grammarLesson(entry.id)?.objectives.find(o=>o.id===state?.objectiveId)?.label || 'Grammar';
   return lessonObjectives(entry).find(o=>o.id===state?.objectiveId)?.label || ({meaning:'Meaning',recall:'Recall',article:'Articles',plural:'Plurals',conjugation:'Verb forms',auxiliary:'The auxiliary',participle:'Past participle',agreement:'Agreement',context:'Use in a sentence',listening:'Listening'}[state?.skill] || 'Practice');
 }
 
@@ -112,7 +114,7 @@ export function eligibleSkills(store, now = Date.now()) {
         chapterId:objective.chapterId,enrolled:true,due:(chapter.completedAt || 0)+8*3600e3});
     }
   }
-  return skills;
+  return [...skills,...grammarReviewSkills(store,now)];
 }
 export function dueSkills(store, now = Date.now()) {
   return eligibleSkills(store, now).filter(s => s.due && s.due <= now).sort((a, b) => a.due - b.due || a.objectiveId.localeCompare(b.objectiveId));
@@ -123,11 +125,12 @@ export function reviewItems(store, now = Date.now()) {
   // adaptive records use the skill queue; older items enter a fresh diagnostic loop.
   const known = new Set([...allSkills(store.learning, now).map(s => s.entryId),...skills.map(s=>s.entryId)]);
   const scopeIds = new Set(scopedEntries(store).map(e => e.id));
-  return [...skills.map(s => ({ entry: getEntry(s.entryId), objectiveId: s.objectiveId, skill: s })),
+  return [...skills.map(s => ({ entry: s.kind==='grammar' ? grammarEntry(grammarLesson(s.entryId)) : getEntry(s.entryId), objectiveId: s.objectiveId, skill: s })),
     ...store.dueIds(now).filter(id => !known.has(id) && scopeIds.has(id)).map(id => ({ entry: getEntry(id), objectiveId: null })).filter(x => x.entry?.kind!=='verb'
       && x.entry && entryCompletion(x.entry,store.learning,store.current.items?.[x.entry.id],now).complete)];
 }
 export function practiceHref(entry, objectiveId = null, mode = 'lesson') {
+  if(entry.kind==='grammar')return grammarHref(grammarLesson(entry.id),mode,objectiveId);
   const query = new URLSearchParams();
   if (objectiveId) query.set('objective', objectiveId);
   if (mode !== 'lesson') query.set('mode', mode);
@@ -151,7 +154,7 @@ export function recommendLesson(store, { kind = null, review = false, now = Date
   if (due.length) return {...due[0],mode:'review',reason:'A short review of something you have already learned.'};
   if (review) {
     const ahead=eligibleSkills(store,now).filter(s=>!kind||s.kind===kind).sort((a,b)=>(a.due||Infinity)-(b.due||Infinity));
-    return ahead.length ? {entry:getEntry(ahead[0].entryId),objectiveId:ahead[0].objectiveId,mode:'review',reason:'Practise something familiar.'} : null;
+    return ahead.length ? {entry:ahead[0].kind==='grammar'?grammarEntry(grammarLesson(ahead[0].entryId)):getEntry(ahead[0].entryId),objectiveId:ahead[0].objectiveId,mode:'review',reason:'Practise something familiar.'} : null;
   }
   const anchors = new Map(['credere','parlare','essere','avere','dormire','capire','dire','andare',...ANCHOR_VERBS].map((x,i)=>[x,i]));
   const candidates=scope.slice().sort((a,b)=>(anchors.get(a.inf)??100)-(anchors.get(b.inf)??100));
@@ -184,7 +187,7 @@ export function recommend(store, { kind = null, review = false, now = Date.now()
   if (due.length) return { ...due[0], mode: 'review', reason: due[0].skill ? 'A skill is ready for another independent check.' : 'Check what you remember from an earlier lesson.' };
   if (review) {
     const eligible = eligibleSkills(store, now).filter(s => (!kind || s.kind === kind) && !excluded.has(s.objectiveId)).sort((a, b) => (a.due || Infinity) - (b.due || Infinity));
-    if (eligible.length) return { entry: getEntry(eligible[0].entryId), objectiveId: eligible[0].objectiveId, mode: 'review', reason: 'Practice ahead of your next scheduled review.' };
+    if (eligible.length) return { entry: eligible[0].kind==='grammar'?grammarEntry(grammarLesson(eligible[0].entryId)):getEntry(eligible[0].entryId), objectiveId: eligible[0].objectiveId, mode: 'review', reason: 'Practice ahead of your next scheduled review.' };
   }
   const scope = scopedEntries(store, kind);
   const scopeIds = new Set(scope.map(e => e.id));

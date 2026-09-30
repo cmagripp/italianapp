@@ -1,0 +1,2920 @@
+{
+  "version": 1,
+  "level": "B2",
+  "title": "B2 · Shape complex accounts and arguments",
+  "sources": [
+    {
+      "title": "Council of Europe: CEFR Companion Volume (2020)",
+      "url": "https://rm.coe.int/cefr-companion-volume-with-new-descriptors-2020/16809ea0d4"
+    },
+    {
+      "title": "Treccani: Congiuntivo",
+      "url": "https://www.treccani.it/enciclopedia/congiuntivo_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Concordanza dei tempi",
+      "url": "https://www.treccani.it/enciclopedia/concordanza-dei-tempi_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Periodo ipotetico",
+      "url": "https://www.treccani.it/enciclopedia/periodo-ipotetico_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Pronomi relativi",
+      "url": "https://www.treccani.it/enciclopedia/pronomi-relativi_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Discorso indiretto",
+      "url": "https://www.treccani.it/enciclopedia/discorso-indiretto_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Trapassato remoto",
+      "url": "https://www.treccani.it/enciclopedia/trapassato-remoto_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Costruzione passiva",
+      "url": "https://www.treccani.it/enciclopedia/costruzione-passiva_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Gerundio",
+      "url": "https://www.treccani.it/enciclopedia/gerundio_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani: Frase scissa",
+      "url": "https://www.treccani.it/enciclopedia/frase-scissa/"
+    },
+    {
+      "title": "Treccani: Passato remoto",
+      "url": "https://www.treccani.it/enciclopedia/passato-remoto_%28Enciclopedia-dell%27Italiano%29/"
+    }
+  ],
+  "units": [
+    {
+      "id": "b2-subjunctive",
+      "title": "Manage viewpoint and time",
+      "description": "Relate a subordinate event to the time of a belief, fear or judgment.",
+      "lessons": [
+        {
+          "id": "b2-past-subjunctive",
+          "title": "Earlier than a present judgment",
+          "outcome": "I can use congiuntivo passato for an event completed before a current viewpoint.",
+          "minutes": 6,
+          "prerequisites": [
+            "b1-opinion-doubt"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:pensare"
+            },
+            {
+              "entryId": "v:finire"
+            }
+          ],
+          "takeaway": "Movement and reflexive verbs use sia plus an agreeing participle.",
+          "objectives": [
+            {
+              "id": "b2-past-subjunctive.core",
+              "label": "Earlier than a present judgment",
+              "errorTag": "past-subjunctive",
+              "explanation": "After penso che or temo che, use present subjunctive of the auxiliary plus participle for an earlier event. Movement and reflexive verbs use sia plus an agreeing participle.",
+              "teach": [
+                {
+                  "title": "Present viewpoint, earlier event",
+                  "body": "After penso che or temo che, use present subjunctive of the auxiliary plus participle for an earlier event.",
+                  "examples": [
+                    {
+                      "it": "Penso che Anna abbia già finito.",
+                      "en": "I think Anna has already finished."
+                    }
+                  ]
+                },
+                {
+                  "title": "Choose the right auxiliary",
+                  "body": "Movement and reflexive verbs use sia plus an agreeing participle.",
+                  "examples": [
+                    {
+                      "it": "Temo che Luca sia partito.",
+                      "en": "I fear Luca has left."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Credo che Marta ___ già arrivata.",
+                  "translation": "I think Marta has already arrived.",
+                  "answer": "sia",
+                  "options": [
+                    "è",
+                    "siano",
+                    "sia"
+                  ],
+                  "explanation": "Current credo plus already completed arrival uses sia arrivata.",
+                  "hint": "Use present subjunctive of essere.",
+                  "speak": "Credo che Marta sia già arrivata.",
+                  "id": "b2-past-subjunctive.q1",
+                  "errorTag": "past-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Penso che i ragazzi ___ il treno.",
+                  "translation": "I think the boys missed the train.",
+                  "answer": "abbiano perso",
+                  "accepted": [],
+                  "explanation": "The loss is earlier than the present opinion; use abbiano perso.",
+                  "hint": "Use present subjunctive of avere plus perso.",
+                  "speak": "Penso che i ragazzi abbiano perso il treno.",
+                  "id": "b2-past-subjunctive.q2",
+                  "errorTag": "past-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Temo che loro ___ già usciti.",
+                  "translation": "I fear they have already gone out.",
+                  "answer": "siano",
+                  "options": [
+                    "siano",
+                    "sono",
+                    "fossi"
+                  ],
+                  "explanation": "A current fear about a completed departure takes siano usciti.",
+                  "hint": "Use the present subjunctive auxiliary.",
+                  "speak": "Temo che loro siano già usciti.",
+                  "id": "b2-past-subjunctive.q3",
+                  "errorTag": "past-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "I think Maria understood.",
+                  "answer": "Credo che Maria abbia capito.",
+                  "tokens": [
+                    "Credo",
+                    "che",
+                    "Maria",
+                    "abbia",
+                    "capito."
+                  ],
+                  "explanation": "Abbia capito is earlier than the current belief.",
+                  "hint": "Put the past subjunctive after credo che.",
+                  "speak": "Credo che Maria abbia capito.",
+                  "id": "b2-past-subjunctive.q4",
+                  "errorTag": "past-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "Penso che sia arrivata.",
+                      "right": "I think she has arrived."
+                    },
+                    {
+                      "left": "Pensavo che arrivasse.",
+                      "right": "I thought she was arriving."
+                    },
+                    {
+                      "left": "Pensavo che fosse arrivata.",
+                      "right": "I thought she had arrived."
+                    }
+                  ],
+                  "explanation": "Auxiliary and tense place the arrival before a present or past viewpoint.",
+                  "hint": "Locate the belief in time first.",
+                  "speak": "Penso che sia arrivata.",
+                  "id": "b2-past-subjunctive.q5",
+                  "errorTag": "past-subjunctive",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-imperfect-subjunctive",
+          "title": "Contemporary with a past viewpoint",
+          "outcome": "I can relate an ongoing event to a belief or feeling in the past.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-past-subjunctive"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:pensare"
+            },
+            {
+              "entryId": "v:essere"
+            }
+          ],
+          "takeaway": "The imperfect subjunctive keeps the event in the speaker’s viewpoint, without declaring it as a fact.",
+          "objectives": [
+            {
+              "id": "b2-imperfect-subjunctive.core",
+              "label": "Contemporary with a past viewpoint",
+              "errorTag": "imperfect-subjunctive",
+              "explanation": "Pensavo che or speravo che often takes imperfect subjunctive for a simultaneous or later event viewed from the past. The imperfect subjunctive keeps the event in the speaker’s viewpoint, without declaring it as a fact.",
+              "teach": [
+                {
+                  "title": "Past viewpoint, same time",
+                  "body": "Pensavo che or speravo che often takes imperfect subjunctive for a simultaneous or later event viewed from the past.",
+                  "examples": [
+                    {
+                      "it": "Pensavo che tu fossi a casa.",
+                      "en": "I thought you were at home."
+                    }
+                  ]
+                },
+                {
+                  "title": "Uncertainty remains",
+                  "body": "The imperfect subjunctive keeps the event in the speaker’s viewpoint, without declaring it as a fact.",
+                  "examples": [
+                    {
+                      "it": "Speravo che il treno arrivasse in orario.",
+                      "en": "I hoped the train would arrive on time."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Credevo che Luca ___ ancora in ufficio.",
+                  "translation": "I thought Luca was still in the office.",
+                  "answer": "fosse",
+                  "options": [
+                    "sia",
+                    "è",
+                    "fosse"
+                  ],
+                  "explanation": "The office state was simultaneous with the past belief.",
+                  "hint": "Use imperfect subjunctive of essere.",
+                  "speak": "Credevo che Luca fosse ancora in ufficio.",
+                  "id": "b2-imperfect-subjunctive.q1",
+                  "errorTag": "imperfect-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Speravamo che voi ___ con noi.",
+                  "translation": "We hoped you would come with us.",
+                  "answer": "veniste",
+                  "accepted": [],
+                  "explanation": "The hoped-for action was viewed from a past reference point.",
+                  "hint": "Use imperfect subjunctive of venire for voi.",
+                  "speak": "Speravamo che voi veniste con noi.",
+                  "id": "b2-imperfect-subjunctive.q2",
+                  "errorTag": "imperfect-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Temevo che lei non ___ la strada.",
+                  "translation": "I feared she did not know the way.",
+                  "answer": "conoscesse",
+                  "options": [
+                    "conoscesse",
+                    "conosca",
+                    "conosce"
+                  ],
+                  "explanation": "The fear and lack of knowledge are aligned in past time.",
+                  "hint": "Use imperfect subjunctive.",
+                  "speak": "Temevo che lei non conoscesse la strada.",
+                  "id": "b2-imperfect-subjunctive.q3",
+                  "errorTag": "imperfect-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "I thought they had time.",
+                  "answer": "Pensavo che loro avessero tempo.",
+                  "tokens": [
+                    "Pensavo",
+                    "che",
+                    "loro",
+                    "avessero",
+                    "tempo."
+                  ],
+                  "explanation": "Avessero relates the state to pensavo.",
+                  "hint": "Use the past viewpoint before the clause.",
+                  "speak": "Pensavo che loro avessero tempo.",
+                  "id": "b2-imperfect-subjunctive.q4",
+                  "errorTag": "imperfect-subjunctive",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-pluperfect-subjunctive",
+          "title": "Earlier than a past viewpoint",
+          "outcome": "I can show an event was already over when someone formed a past belief.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-imperfect-subjunctive"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:credere"
+            },
+            {
+              "entryId": "v:partire"
+            }
+          ],
+          "takeaway": "With essere, the participle agrees with the subordinate subject.",
+          "objectives": [
+            {
+              "id": "b2-pluperfect-subjunctive.core",
+              "label": "Earlier than a past viewpoint",
+              "errorTag": "pluperfect-subjunctive",
+              "explanation": "After a past opinion, use imperfect subjunctive auxiliary plus participle for an even earlier event. With essere, the participle agrees with the subordinate subject.",
+              "teach": [
+                {
+                  "title": "Two points in the past",
+                  "body": "After a past opinion, use imperfect subjunctive auxiliary plus participle for an even earlier event.",
+                  "examples": [
+                    {
+                      "it": "Pensavo che Anna fosse già partita.",
+                      "en": "I thought Anna had already left."
+                    }
+                  ]
+                },
+                {
+                  "title": "Auxiliary and agreement",
+                  "body": "With essere, the participle agrees with the subordinate subject.",
+                  "examples": [
+                    {
+                      "it": "Credevo che le ragazze fossero arrivate.",
+                      "en": "I thought the girls had arrived."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Pensavo che Luca ___ già partito.",
+                  "translation": "I thought Luca had already left.",
+                  "answer": "fosse",
+                  "options": [
+                    "sia",
+                    "era",
+                    "fosse"
+                  ],
+                  "explanation": "Earlier departure under past pensavo takes fosse partito.",
+                  "hint": "Use imperfect subjunctive auxiliary.",
+                  "speak": "Pensavo che Luca fosse già partito.",
+                  "id": "b2-pluperfect-subjunctive.q1",
+                  "errorTag": "pluperfect-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Credevamo che loro ___ il conto.",
+                  "translation": "We thought they had already paid the bill.",
+                  "answer": "avessero già pagato",
+                  "accepted": [],
+                  "explanation": "The payment precedes our past belief; use avessero pagato.",
+                  "hint": "Imperfect subjunctive of avere plus participle.",
+                  "speak": "Credevamo che loro avessero già pagato il conto.",
+                  "id": "b2-pluperfect-subjunctive.q2",
+                  "errorTag": "pluperfect-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Temevo che Maria ___ persa.",
+                  "translation": "I feared Maria had got lost.",
+                  "answer": "si fosse",
+                  "options": [
+                    "si fosse",
+                    "si sia",
+                    "si era"
+                  ],
+                  "explanation": "Earlier getting lost under past fear takes si fosse persa.",
+                  "hint": "Use a reflexive pluperfect subjunctive.",
+                  "speak": "Temevo che Maria si fosse persa.",
+                  "id": "b2-pluperfect-subjunctive.q3",
+                  "errorTag": "pluperfect-subjunctive",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "I hoped Anna had received the letter.",
+                  "answer": "Speravo che Anna avesse ricevuto la lettera.",
+                  "tokens": [
+                    "Speravo",
+                    "che",
+                    "Anna",
+                    "avesse",
+                    "ricevuto",
+                    "la",
+                    "lettera."
+                  ],
+                  "explanation": "Avesse ricevuto places receipt before the past hope.",
+                  "hint": "Use avesse plus the participle.",
+                  "speak": "Speravo che Anna avesse ricevuto la lettera.",
+                  "id": "b2-pluperfect-subjunctive.q4",
+                  "errorTag": "pluperfect-subjunctive",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-tense-relations",
+          "title": "Choose the time relationship",
+          "outcome": "I can distinguish simultaneous, earlier and later events inside a past viewpoint.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-pluperfect-subjunctive"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:pensare"
+            },
+            {
+              "entryId": "v:arrivare"
+            }
+          ],
+          "takeaway": "The imperfect subjunctive can also express an event expected later from a past viewpoint, often with a future time marker.",
+          "objectives": [
+            {
+              "id": "b2-tense-relations.core",
+              "label": "Choose the time relationship",
+              "errorTag": "tense-relations",
+              "explanation": "Pensavo che fosse in casa refers to then; pensavo che fosse uscito says he had left before then. The imperfect subjunctive can also express an event expected later from a past viewpoint, often with a future time marker.",
+              "teach": [
+                {
+                  "title": "Same time versus earlier",
+                  "body": "Pensavo che fosse in casa refers to then; pensavo che fosse uscito says he had left before then.",
+                  "examples": [
+                    {
+                      "it": "Credevo che Marco fosse in treno.",
+                      "en": "I thought Marco was on the train."
+                    }
+                  ]
+                },
+                {
+                  "title": "Later from a past point",
+                  "body": "The imperfect subjunctive can also express an event expected later from a past viewpoint, often with a future time marker.",
+                  "examples": [
+                    {
+                      "it": "Speravo che arrivasse il giorno dopo.",
+                      "en": "I hoped he would arrive the following day."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Alle otto pensavo che Marta ___ ancora al lavoro.",
+                  "translation": "At eight I thought Marta was still at work.",
+                  "answer": "fosse",
+                  "options": [
+                    "fosse stata",
+                    "sia",
+                    "fosse"
+                  ],
+                  "explanation": "Ancora al lavoro at eight is simultaneous with the thought.",
+                  "hint": "Choose the simple imperfect subjunctive.",
+                  "speak": "Alle otto pensavo che Marta fosse ancora al lavoro.",
+                  "id": "b2-tense-relations.q1",
+                  "errorTag": "tense-relations",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Alle otto pensavo che Marta ___ a casa.",
+                  "translation": "At eight I thought Marta had already gone home.",
+                  "answer": "fosse già tornata",
+                  "accepted": [],
+                  "explanation": "Già locates her return before the thought at eight.",
+                  "hint": "Use imperfect subjunctive auxiliary plus participle.",
+                  "speak": "Alle otto pensavo che Marta fosse già tornata a casa.",
+                  "id": "b2-tense-relations.q2",
+                  "errorTag": "tense-relations",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ieri speravo che Luca ___ oggi.",
+                  "translation": "Yesterday I hoped Luca would arrive today.",
+                  "answer": "arrivasse",
+                  "options": [
+                    "arrivasse",
+                    "fosse arrivato",
+                    "arriva"
+                  ],
+                  "explanation": "Oggi is later than yesterday’s hope; imperfect subjunctive expresses the expected arrival.",
+                  "hint": "Look at the time marker relative to speravo.",
+                  "speak": "Ieri speravo che Luca arrivasse oggi.",
+                  "id": "b2-tense-relations.q3",
+                  "errorTag": "tense-relations",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "I thought they had already eaten.",
+                  "answer": "Credevo che avessero già mangiato.",
+                  "tokens": [
+                    "Credevo",
+                    "che",
+                    "avessero",
+                    "già",
+                    "mangiato."
+                  ],
+                  "explanation": "Già indicates eating before the past belief.",
+                  "hint": "Use the compound subjunctive for earlier time.",
+                  "speak": "Credevo che avessero già mangiato.",
+                  "id": "b2-tense-relations.q4",
+                  "errorTag": "tense-relations",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-unreal",
+      "title": "Reflect on unreal outcomes",
+      "description": "Express unreal past situations, regrets and consequences still felt now.",
+      "lessons": [
+        {
+          "id": "b2-past-conditional",
+          "title": "Would have done",
+          "outcome": "I can state an unreal past result or polite retrospective judgment.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-tense-relations"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:andare",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:fare",
+              "caseId": "condizionale"
+            }
+          ],
+          "takeaway": "The participle agrees with the subject when the auxiliary is essere.",
+          "objectives": [
+            {
+              "id": "b2-past-conditional.core",
+              "label": "Would have done",
+              "errorTag": "past-conditional",
+              "explanation": "Present conditional of avere or essere plus participle gives would have done. The participle agrees with the subject when the auxiliary is essere.",
+              "teach": [
+                {
+                  "title": "Build the compound conditional",
+                  "body": "Present conditional of avere or essere plus participle gives would have done.",
+                  "examples": [
+                    {
+                      "it": "Sarei venuta, ma ero malata.",
+                      "en": "I would have come, but I was ill."
+                    }
+                  ]
+                },
+                {
+                  "title": "Agreement with essere",
+                  "body": "The participle agrees with the subject when the auxiliary is essere.",
+                  "examples": [
+                    {
+                      "it": "Le ragazze sarebbero partite prima.",
+                      "en": "The girls would have left earlier."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ti ___ chiamato, ma non avevo il numero.",
+                  "translation": "I would have called you, but I did not have the number.",
+                  "answer": "avrei",
+                  "options": [
+                    "avessi",
+                    "avevo",
+                    "avrei"
+                  ],
+                  "explanation": "Avrei chiamato describes a past action that did not happen.",
+                  "hint": "Use conditional of avere.",
+                  "speak": "Ti avrei chiamato, ma non avevo il numero.",
+                  "id": "b2-past-conditional.q1",
+                  "errorTag": "past-conditional",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Marco ___ venuto, ma lavorava.",
+                  "translation": "Marco would have come, but he was working.",
+                  "answer": "sarebbe",
+                  "accepted": [],
+                  "explanation": "Venire uses essere in the compound conditional.",
+                  "hint": "Use third-person conditional of essere.",
+                  "speak": "Marco sarebbe venuto, ma lavorava.",
+                  "id": "b2-past-conditional.q2",
+                  "errorTag": "past-conditional",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Le due amiche ___ rimaste, ma il treno partiva.",
+                  "translation": "The two friends would have stayed, but the train was leaving.",
+                  "answer": "sarebbero",
+                  "options": [
+                    "sarebbero",
+                    "avrebbero",
+                    "fossero"
+                  ],
+                  "explanation": "Rimanere takes essere, and plural subject requires sarebbero rimaste.",
+                  "hint": "Use plural conditional auxiliary.",
+                  "speak": "Le due amiche sarebbero rimaste, ma il treno partiva.",
+                  "id": "b2-past-conditional.q3",
+                  "errorTag": "past-conditional",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "We would have helped, but we did not know.",
+                  "answer": "Avremmo aiutato, ma non lo sapevamo.",
+                  "tokens": [
+                    "Avremmo",
+                    "aiutato,",
+                    "ma",
+                    "non",
+                    "lo",
+                    "sapevamo."
+                  ],
+                  "explanation": "Avremmo aiutato is a compound conditional of unreal past action.",
+                  "hint": "Put the conditional before the participle.",
+                  "speak": "Avremmo aiutato, ma non lo sapevamo.",
+                  "id": "b2-past-conditional.q4",
+                  "errorTag": "past-conditional",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "Avrei telefonato.",
+                      "right": "I would have called."
+                    },
+                    {
+                      "left": "Telefonerei.",
+                      "right": "I would call."
+                    },
+                    {
+                      "left": "Avevo telefonato.",
+                      "right": "I had called."
+                    }
+                  ],
+                  "explanation": "The compound conditional differs from a present conditional and a past fact.",
+                  "hint": "Compare avrei, telefonerei and avevo.",
+                  "speak": "Avrei telefonato.",
+                  "id": "b2-past-conditional.q5",
+                  "errorTag": "past-conditional",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-unreal-past",
+          "title": "If it had happened",
+          "outcome": "I can link an unreal past condition to its unreal past result.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-past-conditional"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:partire",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:arrivare",
+              "caseId": "condizionale"
+            }
+          ],
+          "takeaway": "The result normally uses compound conditional.",
+          "objectives": [
+            {
+              "id": "b2-unreal-past.core",
+              "label": "If it had happened",
+              "errorTag": "unreal-past",
+              "explanation": "Se plus pluperfect subjunctive marks an unreal past condition. The result normally uses compound conditional.",
+              "teach": [
+                {
+                  "title": "Past condition",
+                  "body": "Se plus pluperfect subjunctive marks an unreal past condition.",
+                  "examples": [
+                    {
+                      "it": "Se fossimo partiti prima, avremmo preso il treno.",
+                      "en": "If we had left earlier, we would have caught the train."
+                    }
+                  ]
+                },
+                {
+                  "title": "Past result",
+                  "body": "The result normally uses compound conditional.",
+                  "examples": [
+                    {
+                      "it": "Se mi avessi scritto, ti avrei risposto.",
+                      "en": "If you had written to me, I would have answered."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Se ___ studiato, avresti superato l’esame.",
+                  "translation": "If you had studied, you would have passed the exam.",
+                  "answer": "avessi",
+                  "options": [
+                    "avresti",
+                    "hai",
+                    "avessi"
+                  ],
+                  "explanation": "Se introduces the unreal past condition with avessi studiato.",
+                  "hint": "Use pluperfect subjunctive after se.",
+                  "speak": "Se avessi studiato, avresti superato l’esame.",
+                  "id": "b2-unreal-past.q1",
+                  "errorTag": "unreal-past",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Se fossimo arrivati prima, ___ un posto.",
+                  "translation": "If we had arrived earlier, we would have found a seat.",
+                  "answer": "avremmo trovato",
+                  "accepted": [],
+                  "explanation": "The unreal result needs compound conditional avremmo trovato.",
+                  "hint": "Use conditional of avere plus participle.",
+                  "speak": "Se fossimo arrivati prima, avremmo trovato un posto.",
+                  "id": "b2-unreal-past.q2",
+                  "errorTag": "unreal-past",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Se Anna mi avesse chiamato, ___ andato da lei.",
+                  "translation": "If Anna had called me, I would have gone to her place.",
+                  "answer": "sarei",
+                  "options": [
+                    "sarei",
+                    "fossi",
+                    "sono"
+                  ],
+                  "explanation": "The unreal result is sarei andato.",
+                  "hint": "Use compound conditional of andare.",
+                  "speak": "Se Anna mi avesse chiamato, sarei andato da lei.",
+                  "id": "b2-unreal-past.q3",
+                  "errorTag": "unreal-past",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "If it had rained, we would have stayed home.",
+                  "answer": "Se avesse piovuto, saremmo rimasti a casa.",
+                  "tokens": [
+                    "Se",
+                    "avesse",
+                    "piovuto,",
+                    "saremmo",
+                    "rimasti",
+                    "a",
+                    "casa."
+                  ],
+                  "explanation": "Avesse piovuto is condition; saremmo rimasti is result.",
+                  "hint": "Order se plus subjunctive before the conditional result.",
+                  "speak": "Se avesse piovuto, saremmo rimasti a casa.",
+                  "id": "b2-unreal-past.q4",
+                  "errorTag": "unreal-past",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-mixed-condition",
+          "title": "Past cause, present effect",
+          "outcome": "I can connect an unreal past event to its consequence now.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-unreal-past"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:studiare",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:essere",
+              "caseId": "condizionale"
+            }
+          ],
+          "takeaway": "Use present conditional for the present consequence and signal now with ora or adesso.",
+          "objectives": [
+            {
+              "id": "b2-mixed-condition.core",
+              "label": "Past cause, present effect",
+              "errorTag": "mixed-condition",
+              "explanation": "Use se plus pluperfect subjunctive for the past event that did not happen. Use present conditional for the present consequence and signal now with ora or adesso.",
+              "teach": [
+                {
+                  "title": "Condition in the past",
+                  "body": "Use se plus pluperfect subjunctive for the past event that did not happen.",
+                  "examples": [
+                    {
+                      "it": "Se avessi dormito, ora starei meglio.",
+                      "en": "If I had slept, I would feel better now."
+                    }
+                  ]
+                },
+                {
+                  "title": "Result in the present",
+                  "body": "Use present conditional for the present consequence and signal now with ora or adesso.",
+                  "examples": [
+                    {
+                      "it": "Se avessimo preso il treno, ora saremmo a casa.",
+                      "en": "If we had caught the train, we would be home now."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Se avessi ascoltato, adesso ___ la risposta.",
+                  "translation": "If you had listened, you would know the answer now.",
+                  "answer": "sapresti",
+                  "options": [
+                    "avresti saputo",
+                    "sapevi",
+                    "sapresti"
+                  ],
+                  "explanation": "Adesso makes the result present, so use present conditional.",
+                  "hint": "Look at adesso.",
+                  "speak": "Se avessi ascoltato, adesso sapresti la risposta.",
+                  "id": "b2-mixed-condition.q1",
+                  "errorTag": "mixed-condition",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Se avessi preso l’ombrello, ora non ___ bagnato.",
+                  "translation": "If I had taken the umbrella, I would not be wet now.",
+                  "answer": "sarei",
+                  "accepted": [],
+                  "explanation": "The wet state exists now; sarei is present conditional.",
+                  "hint": "Use present conditional of essere.",
+                  "speak": "Se avessi preso l’ombrello, ora non sarei bagnato.",
+                  "id": "b2-mixed-condition.q2",
+                  "errorTag": "mixed-condition",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Se fossimo partiti prima, ora ___ già lì.",
+                  "translation": "If we had left earlier, we would already be there now.",
+                  "answer": "saremmo",
+                  "options": [
+                    "saremmo",
+                    "saremmo stati",
+                    "fossimo"
+                  ],
+                  "explanation": "Ora calls for a present conditional result.",
+                  "hint": "Use the simple conditional of essere.",
+                  "speak": "Se fossimo partiti prima, ora saremmo già lì.",
+                  "id": "b2-mixed-condition.q3",
+                  "errorTag": "mixed-condition",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "If I had studied, I would understand now.",
+                  "answer": "Se avessi studiato, ora capirei.",
+                  "tokens": [
+                    "Se",
+                    "avessi",
+                    "studiato,",
+                    "ora",
+                    "capirei."
+                  ],
+                  "explanation": "A past unreal study leads to a present unreal ability.",
+                  "hint": "Combine past condition with present result.",
+                  "speak": "Se avessi studiato, ora capirei.",
+                  "id": "b2-mixed-condition.q4",
+                  "errorTag": "mixed-condition",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-reporting",
+      "title": "Retell from a later viewpoint",
+      "description": "Shift tense, time and person when reporting past speech or requests.",
+      "lessons": [
+        {
+          "id": "b2-reported-past",
+          "title": "He said he was leaving",
+          "outcome": "I can report a past statement with a past reporting verb.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-mixed-condition"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:dire",
+              "caseId": "background"
+            },
+            {
+              "entryId": "v:partire",
+              "caseId": "background"
+            }
+          ],
+          "takeaway": "An action already complete when spoken can become trapassato.",
+          "objectives": [
+            {
+              "id": "b2-reported-past.core",
+              "label": "He said he was leaving",
+              "errorTag": "reported-past",
+              "explanation": "With disse or ha detto, a simultaneous past claim commonly becomes imperfect in the reported clause. An action already complete when spoken can become trapassato.",
+              "teach": [
+                {
+                  "title": "Shift the viewpoint",
+                  "body": "With disse or ha detto, a simultaneous past claim commonly becomes imperfect in the reported clause.",
+                  "examples": [
+                    {
+                      "it": "«Sono stanco.» → Ha detto che era stanco.",
+                      "en": "“I am tired.” → He said he was tired."
+                    }
+                  ]
+                },
+                {
+                  "title": "Earlier action",
+                  "body": "An action already complete when spoken can become trapassato.",
+                  "examples": [
+                    {
+                      "it": "«Ho perso il treno.» → Ha detto che aveva perso il treno.",
+                      "en": "“I missed the train.” → He said he had missed it."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Luca disse: «Sono malato». Luca disse che ___ malato.",
+                  "translation": "Luca said he was ill.",
+                  "answer": "era",
+                  "options": [
+                    "ero",
+                    "erano",
+                    "era"
+                  ],
+                  "explanation": "Era reports a state simultaneous with Luca’s past statement.",
+                  "hint": "Use imperfect indicative for the reported fact.",
+                  "speak": "Luca disse: «Sono malato». Luca disse che era malato.",
+                  "id": "b2-reported-past.q1",
+                  "errorTag": "reported-past",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Anna ha detto: «Ho perso le chiavi». Anna ha detto che ___ le chiavi.",
+                  "translation": "Anna said she had lost the keys.",
+                  "answer": "aveva perso",
+                  "accepted": [],
+                  "explanation": "Losing the keys came before Anna spoke.",
+                  "hint": "Use trapassato in the reported content.",
+                  "speak": "Anna ha detto: «Ho perso le chiavi». Anna ha detto che aveva perso le chiavi.",
+                  "id": "b2-reported-past.q2",
+                  "errorTag": "reported-past",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Marco disse: «Parto oggi». Marco disse che ___ quel giorno.",
+                  "translation": "Marco said he was leaving that day.",
+                  "answer": "partiva",
+                  "options": [
+                    "partiva",
+                    "era partito",
+                    "partono"
+                  ],
+                  "explanation": "Partiva relates the departure to the past reporting frame.",
+                  "hint": "Shift the present statement into the past viewpoint.",
+                  "speak": "Marco disse: «Parto oggi». Marco disse che partiva quel giorno.",
+                  "id": "b2-reported-past.q3",
+                  "errorTag": "reported-past",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "He said he had already eaten.",
+                  "answer": "Ha detto che aveva già mangiato.",
+                  "tokens": [
+                    "Ha",
+                    "detto",
+                    "che",
+                    "aveva",
+                    "già",
+                    "mangiato."
+                  ],
+                  "explanation": "Aveva mangiato precedes the moment of saying.",
+                  "hint": "Use che to introduce the reported content.",
+                  "speak": "Ha detto che aveva già mangiato.",
+                  "id": "b2-reported-past.q4",
+                  "errorTag": "reported-past",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "Ha detto che era stanco.",
+                      "right": "He said he was tired."
+                    },
+                    {
+                      "left": "Ha detto che aveva perso il treno.",
+                      "right": "He said he had missed the train."
+                    },
+                    {
+                      "left": "Ha detto che sarebbe partito.",
+                      "right": "He said he would leave."
+                    }
+                  ],
+                  "explanation": "The subordinate tense shows same time, earlier time or later time than the past report.",
+                  "hint": "Look at era, aveva perso and sarebbe partito.",
+                  "speak": "Ha detto che era stanco.",
+                  "id": "b2-reported-past.q5",
+                  "errorTag": "reported-past",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-reported-questions",
+          "title": "Retell a question",
+          "outcome": "I can report past questions and adjust their reference words.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-reported-past"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:chiedere"
+            },
+            {
+              "entryId": "v:sapere"
+            }
+          ],
+          "takeaway": "Keep dove, quando or perché when that is the missing information.",
+          "objectives": [
+            {
+              "id": "b2-reported-questions.core",
+              "label": "Retell a question",
+              "errorTag": "reported-questions",
+              "explanation": "A question asked in the past becomes a se clause; the tense and pronouns follow the new viewpoint. Keep dove, quando or perché when that is the missing information.",
+              "teach": [
+                {
+                  "title": "Yes/no with se",
+                  "body": "A question asked in the past becomes a se clause; the tense and pronouns follow the new viewpoint.",
+                  "examples": [
+                    {
+                      "it": "«Hai fame?» → Mi chiese se avevo fame.",
+                      "en": "“Are you hungry?” → She asked me if I was hungry."
+                    }
+                  ]
+                },
+                {
+                  "title": "Wh word remains",
+                  "body": "Keep dove, quando or perché when that is the missing information.",
+                  "examples": [
+                    {
+                      "it": "«Dove abiti?» → Mi chiese dove abitavo.",
+                      "en": "“Where do you live?” → She asked where I lived."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Mi chiese: «Vieni domani?» Mi chiese ___ sarei venuto il giorno dopo.",
+                  "translation": "She asked whether I would come the following day.",
+                  "answer": "se",
+                  "options": [
+                    "che",
+                    "quando",
+                    "se"
+                  ],
+                  "explanation": "A yes/no question becomes a se clause.",
+                  "hint": "Use the word for whether.",
+                  "speak": "Mi chiese: «Vieni domani?» Mi chiese se sarei venuto il giorno dopo.",
+                  "id": "b2-reported-questions.q1",
+                  "errorTag": "reported-questions",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Mi domandò: «Dove lavori?» Mi domandò dove ___.",
+                  "translation": "She asked where I worked.",
+                  "answer": "lavoravo",
+                  "accepted": [],
+                  "explanation": "Present lavori shifts to imperfect lavoravo in the past report.",
+                  "hint": "Use imperfect indicative in the new viewpoint.",
+                  "speak": "Mi domandò: «Dove lavori?» Mi domandò dove lavoravo.",
+                  "id": "b2-reported-questions.q2",
+                  "errorTag": "reported-questions",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Durante il viaggio di ieri Luca chiese: «Quando parte il treno?» Luca chiese quando il treno ___.",
+                  "translation": "Luca asked when the train was leaving.",
+                  "answer": "partiva",
+                  "options": [
+                    "partiva",
+                    "partono",
+                    "partivano"
+                  ],
+                  "explanation": "The direct present is reported from a past viewpoint with partiva.",
+                  "hint": "Use an indicative imperfect for the timetable.",
+                  "speak": "Durante il viaggio di ieri Luca chiese: «Quando parte il treno?» Luca chiese quando il treno partiva.",
+                  "id": "b2-reported-questions.q3",
+                  "errorTag": "reported-questions",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "She asked me whether I had seen Maria.",
+                  "answer": "Mi chiese se avevo visto Maria.",
+                  "tokens": [
+                    "Mi",
+                    "chiese",
+                    "se",
+                    "avevo",
+                    "visto",
+                    "Maria."
+                  ],
+                  "explanation": "Se introduces the reported yes/no question.",
+                  "hint": "Keep the embedded question inside the statement.",
+                  "speak": "Mi chiese se avevo visto Maria.",
+                  "id": "b2-reported-questions.q4",
+                  "errorTag": "reported-questions",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-reported-commands",
+          "title": "Pass on an instruction",
+          "outcome": "I can report an instruction with di plus infinitive.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-reported-questions"
+          ],
+          "referenceTopics": [
+            "prepositions",
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:dire"
+            },
+            {
+              "entryId": "v:chiedere"
+            }
+          ],
+          "takeaway": "Use the correct indirect object when naming who received the instruction.",
+          "objectives": [
+            {
+              "id": "b2-reported-commands.core",
+              "label": "Pass on an instruction",
+              "errorTag": "reported-commands",
+              "explanation": "Dire or chiedere a qualcuno di plus infinitive reports an instruction or request. Use the correct indirect object when naming who received the instruction.",
+              "teach": [
+                {
+                  "title": "Command to another person",
+                  "body": "Dire or chiedere a qualcuno di plus infinitive reports an instruction or request.",
+                  "examples": [
+                    {
+                      "it": "«Chiudi la porta.» → Mi ha detto di chiudere la porta.",
+                      "en": "“Close the door.” → He told me to close it."
+                    }
+                  ]
+                },
+                {
+                  "title": "Keep the addressee",
+                  "body": "Use the correct indirect object when naming who received the instruction.",
+                  "examples": [
+                    {
+                      "it": "Ho chiesto a Sara di aspettare.",
+                      "en": "I asked Sara to wait."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Il medico mi ha detto ___ riposare.",
+                  "translation": "The doctor told me to rest.",
+                  "answer": "di",
+                  "options": [
+                    "che",
+                    "a",
+                    "di"
+                  ],
+                  "explanation": "Dire a qualcuno di plus infinitive reports the instruction.",
+                  "hint": "Use di before the infinitive.",
+                  "speak": "Il medico mi ha detto di riposare.",
+                  "id": "b2-reported-commands.q1",
+                  "errorTag": "reported-commands",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Marta ha chiesto a Paolo ___ la finestra.",
+                  "translation": "Marta asked Paolo to open the window.",
+                  "answer": "di aprire",
+                  "accepted": [],
+                  "explanation": "Chiedere a qualcuno di plus infinitive reports the request.",
+                  "hint": "Use di plus infinitive.",
+                  "speak": "Marta ha chiesto a Paolo di aprire la finestra.",
+                  "id": "b2-reported-commands.q2",
+                  "errorTag": "reported-commands",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "«Aspettate qui.» La guida ci ha detto ___ lì.",
+                  "translation": "“Wait here.” The guide told us to wait there.",
+                  "answer": "di aspettare",
+                  "options": [
+                    "di aspettare",
+                    "che aspettare",
+                    "ad aspettare"
+                  ],
+                  "explanation": "Reported instruction after dire uses di aspettare; qui shifts to lì.",
+                  "hint": "Use di plus the infinitive.",
+                  "speak": "«Aspettate qui.» La guida ci ha detto di aspettare lì.",
+                  "id": "b2-reported-commands.q3",
+                  "errorTag": "reported-commands",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "The boss asked us to arrive early.",
+                  "answer": "Il capo ci ha chiesto di arrivare presto.",
+                  "tokens": [
+                    "Il",
+                    "capo",
+                    "ci",
+                    "ha",
+                    "chiesto",
+                    "di",
+                    "arrivare",
+                    "presto."
+                  ],
+                  "explanation": "Ci marks the people asked; di introduces the requested action.",
+                  "hint": "Place the recipient before ha chiesto.",
+                  "speak": "Il capo ci ha chiesto di arrivare presto.",
+                  "id": "b2-reported-commands.q4",
+                  "errorTag": "reported-commands",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-voice",
+      "title": "Control agency",
+      "description": "Choose passive form and agreement for what the sentence puts in focus.",
+      "lessons": [
+        {
+          "id": "b2-passive-tenses",
+          "title": "Passive across time",
+          "outcome": "I can keep passive voice while moving an event across tenses.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-reported-commands"
+          ],
+          "referenceTopics": [
+            "auxiliaries",
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:aprire",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:pubblicare",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "For a completed event use essere stato plus participle; agreement follows the subject.",
+          "objectives": [
+            {
+              "id": "b2-passive-tenses.core",
+              "label": "Passive across time",
+              "errorTag": "passive-tenses",
+              "explanation": "Essere plus agreeing participle makes a passive; the auxiliary shows when the action happens. For a completed event use essere stato plus participle; agreement follows the subject.",
+              "teach": [
+                {
+                  "title": "Finite auxiliary carries tense",
+                  "body": "Essere plus agreeing participle makes a passive; the auxiliary shows when the action happens.",
+                  "examples": [
+                    {
+                      "it": "Il ponte sarà inaugurato domani.",
+                      "en": "The bridge will be opened tomorrow."
+                    }
+                  ]
+                },
+                {
+                  "title": "Completed passive",
+                  "body": "For a completed event use essere stato plus participle; agreement follows the subject.",
+                  "examples": [
+                    {
+                      "it": "Le lettere sono state inviate ieri.",
+                      "en": "The letters were sent yesterday."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "La mostra ___ aperta domani alle dieci.",
+                  "translation": "The exhibition will be opened tomorrow at ten.",
+                  "answer": "sarà",
+                  "options": [
+                    "è stata",
+                    "era",
+                    "sarà"
+                  ],
+                  "explanation": "Domani requires future passive sarà aperta.",
+                  "hint": "Use future essere with feminine participle.",
+                  "speak": "La mostra sarà aperta domani alle dieci.",
+                  "id": "b2-passive-tenses.q1",
+                  "errorTag": "passive-tenses",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "I documenti ___ firmati ieri.",
+                  "translation": "The documents were signed yesterday.",
+                  "answer": "sono stati",
+                  "accepted": [
+                    "furono",
+                    "vennero"
+                  ],
+                  "explanation": "Ieri indicates completed passive; plural documents require sono stati.",
+                  "hint": "Use plural essere stato.",
+                  "speak": "I documenti sono stati firmati ieri.",
+                  "id": "b2-passive-tenses.q2",
+                  "errorTag": "passive-tenses",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Quando arrivai, il negozio ___ già stato chiuso.",
+                  "translation": "When I arrived, the shop had already been closed.",
+                  "answer": "era",
+                  "options": [
+                    "era",
+                    "è",
+                    "sarà"
+                  ],
+                  "explanation": "Già and the past reference point require trapassato passive era stato chiuso.",
+                  "hint": "Use imperfect auxiliary before stato.",
+                  "speak": "Quando arrivai, il negozio era già stato chiuso.",
+                  "id": "b2-passive-tenses.q3",
+                  "errorTag": "passive-tenses",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "The requests will be examined tomorrow.",
+                  "answer": "Le richieste saranno esaminate domani.",
+                  "tokens": [
+                    "Le",
+                    "richieste",
+                    "saranno",
+                    "esaminate",
+                    "domani."
+                  ],
+                  "explanation": "Saranno esaminate agrees with feminine plural richieste.",
+                  "hint": "Use future passive with agreeing participle.",
+                  "speak": "Le richieste saranno esaminate domani.",
+                  "id": "b2-passive-tenses.q4",
+                  "errorTag": "passive-tenses",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "La mostra sarà aperta domani.",
+                      "right": "The exhibition will be opened tomorrow."
+                    },
+                    {
+                      "left": "La mostra è stata aperta ieri.",
+                      "right": "The exhibition was opened yesterday."
+                    },
+                    {
+                      "left": "La mostra era già stata aperta.",
+                      "right": "The exhibition had already been opened."
+                    }
+                  ],
+                  "explanation": "The passive auxiliary carries the time, while aperta agrees with mostra.",
+                  "hint": "Compare sarà, è stata and era stata.",
+                  "speak": "La mostra sarà aperta domani.",
+                  "id": "b2-passive-tenses.q5",
+                  "errorTag": "passive-tenses",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-si-passivante",
+          "title": "Things are sold here",
+          "outcome": "I can use si passivante with a singular or plural thing being acted upon.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-passive-tenses"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:vendere"
+            },
+            {
+              "entryId": "v:affittare"
+            }
+          ],
+          "takeaway": "A plural thing requires a plural verb in standard Italian.",
+          "objectives": [
+            {
+              "id": "b2-si-passivante.core",
+              "label": "Things are sold here",
+              "errorTag": "si-passivante",
+              "explanation": "With a transitive verb and an expressed thing, si passivante makes that thing the grammatical subject. A plural thing requires a plural verb in standard Italian.",
+              "teach": [
+                {
+                  "title": "The thing controls agreement",
+                  "body": "With a transitive verb and an expressed thing, si passivante makes that thing the grammatical subject.",
+                  "examples": [
+                    {
+                      "it": "Qui si vende il pane.",
+                      "en": "Bread is sold here."
+                    }
+                  ]
+                },
+                {
+                  "title": "Plural thing, plural verb",
+                  "body": "A plural thing requires a plural verb in standard Italian.",
+                  "examples": [
+                    {
+                      "it": "Qui si vendono libri usati.",
+                      "en": "Used books are sold here."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "In questo negozio si ___ scarpe sportive.",
+                  "translation": "Sports shoes are sold in this shop.",
+                  "answer": "vendono",
+                  "options": [
+                    "vende",
+                    "vendiamo",
+                    "vendono"
+                  ],
+                  "explanation": "Scarpe is plural, so si passivante takes vendono.",
+                  "hint": "Let the plural item control the verb.",
+                  "speak": "In questo negozio si vendono scarpe sportive.",
+                  "id": "b2-si-passivante.q1",
+                  "errorTag": "si-passivante",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Qui si ___ una stanza per l’estate.",
+                  "translation": "A room is rented here for the summer.",
+                  "answer": "affitta",
+                  "accepted": [],
+                  "explanation": "Una stanza is singular, so use si affitta.",
+                  "hint": "Match the singular item.",
+                  "speak": "Qui si affitta una stanza per l’estate.",
+                  "id": "b2-si-passivante.q2",
+                  "errorTag": "si-passivante",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Su questo sito si ___ molte ricette.",
+                  "translation": "Many recipes can be found on this site.",
+                  "answer": "trovano",
+                  "options": [
+                    "trovano",
+                    "trova",
+                    "troviamo"
+                  ],
+                  "explanation": "Molte ricette is plural, so the verb is trovano.",
+                  "hint": "Match plural ricette.",
+                  "speak": "Su questo sito si trovano molte ricette.",
+                  "id": "b2-si-passivante.q3",
+                  "errorTag": "si-passivante",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "Books are lent in the library.",
+                  "answer": "In biblioteca si prestano libri.",
+                  "tokens": [
+                    "In",
+                    "biblioteca",
+                    "si",
+                    "prestano",
+                    "libri."
+                  ],
+                  "explanation": "Libri is plural, so si prestano is plural.",
+                  "hint": "Put si before the plural verb.",
+                  "speak": "In biblioteca si prestano libri.",
+                  "id": "b2-si-passivante.q4",
+                  "errorTag": "si-passivante",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-clauses",
+      "title": "Compress and refine clauses",
+      "description": "Use precise relatives and shorter infinitive or gerund clauses.",
+      "lessons": [
+        {
+          "id": "b2-complex-relatives",
+          "title": "Clarify which noun you mean",
+          "outcome": "I can choose il quale or ciò che when a simple che is unclear or has no noun to refer to.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-si-passivante"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:leggere"
+            },
+            {
+              "entryId": "v:dire"
+            }
+          ],
+          "takeaway": "Ciò che means what or the thing that, without an explicit antecedent.",
+          "objectives": [
+            {
+              "id": "b2-complex-relatives.core",
+              "label": "Clarify which noun you mean",
+              "errorTag": "complex-relatives",
+              "explanation": "Il quale and its forms can clarify the noun after a preposition or in a crowded sentence. Ciò che means what or the thing that, without an explicit antecedent.",
+              "teach": [
+                {
+                  "title": "A clearer antecedent",
+                  "body": "Il quale and its forms can clarify the noun after a preposition or in a crowded sentence.",
+                  "examples": [
+                    {
+                      "it": "Ho parlato con Marta, la quale conosce il direttore.",
+                      "en": "I spoke with Marta, who knows the director."
+                    }
+                  ]
+                },
+                {
+                  "title": "No noun before it",
+                  "body": "Ciò che means what or the thing that, without an explicit antecedent.",
+                  "examples": [
+                    {
+                      "it": "Non capisco ciò che intendi.",
+                      "en": "I do not understand what you mean."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ho incontrato le colleghe, ___ mi hanno salutato.",
+                  "translation": "I met the colleagues, who greeted me.",
+                  "answer": "le quali",
+                  "options": [
+                    "la quale",
+                    "il quale",
+                    "le quali"
+                  ],
+                  "explanation": "Le quali agrees with feminine plural colleghe.",
+                  "hint": "Match gender and number to colleghe.",
+                  "speak": "Ho incontrato le colleghe, le quali mi hanno salutato.",
+                  "id": "b2-complex-relatives.q1",
+                  "errorTag": "complex-relatives",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Non so ___ desideri davvero.",
+                  "translation": "I do not know what you really want.",
+                  "answer": "ciò che",
+                  "accepted": [
+                    "quello che",
+                    "quel che"
+                  ],
+                  "explanation": "There is no noun antecedent; ciò che means “what.”",
+                  "hint": "Use a relative meaning the thing that.",
+                  "speak": "Non so ciò che desideri davvero.",
+                  "id": "b2-complex-relatives.q2",
+                  "errorTag": "complex-relatives",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Ecco il documento sul ___ abbiamo lavorato.",
+                  "translation": "Here is the document on which we worked.",
+                  "answer": "quale",
+                  "options": [
+                    "quale",
+                    "quali",
+                    "cui"
+                  ],
+                  "explanation": "Sul quale agrees with masculine singular documento; sul cui is not used here.",
+                  "hint": "The article is already in sul; add masculine singular quale.",
+                  "speak": "Ecco il documento sul quale abbiamo lavorato.",
+                  "id": "b2-complex-relatives.q3",
+                  "errorTag": "complex-relatives",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "What matters is clarity.",
+                  "answer": "Ciò che conta è la chiarezza.",
+                  "tokens": [
+                    "Ciò",
+                    "che",
+                    "conta",
+                    "è",
+                    "la",
+                    "chiarezza."
+                  ],
+                  "explanation": "Ciò che serves as a noun-free relative subject.",
+                  "hint": "Start with ciò che.",
+                  "speak": "Ciò che conta è la chiarezza.",
+                  "id": "b2-complex-relatives.q4",
+                  "errorTag": "complex-relatives",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "Le colleghe, le quali conosco, abitano qui.",
+                      "right": "The colleagues, whom I know, live here."
+                    },
+                    {
+                      "left": "Il documento sul quale lavoro è pronto.",
+                      "right": "The document on which I work is ready."
+                    },
+                    {
+                      "left": "Ciò che conta è la chiarezza.",
+                      "right": "What matters is clarity."
+                    }
+                  ],
+                  "explanation": "Il quale agrees with a noun; ciò che has no explicit noun before it.",
+                  "hint": "Look for the antecedent, then its gender and number.",
+                  "speak": "Le colleghe, le quali conosco, abitano qui.",
+                  "id": "b2-complex-relatives.q5",
+                  "errorTag": "complex-relatives",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-infinitive-clauses",
+          "title": "Shorter clauses with an infinitive",
+          "outcome": "I can use an infinitive when the subject relationship is clear.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-complex-relatives"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:decidere"
+            },
+            {
+              "entryId": "v:riuscire"
+            }
+          ],
+          "takeaway": "Aver or essere plus participle can place the infinitive action before the main verb.",
+          "objectives": [
+            {
+              "id": "b2-infinitive-clauses.core",
+              "label": "Shorter clauses with an infinitive",
+              "errorTag": "infinitive-clauses",
+              "explanation": "When the subject stays the same, a verb plus infinitive often replaces a full che clause. Aver or essere plus participle can place the infinitive action before the main verb.",
+              "teach": [
+                {
+                  "title": "Same subject",
+                  "body": "When the subject stays the same, a verb plus infinitive often replaces a full che clause.",
+                  "examples": [
+                    {
+                      "it": "Ho deciso di partire domani.",
+                      "en": "I decided to leave tomorrow."
+                    }
+                  ]
+                },
+                {
+                  "title": "Earlier action with a compound infinitive",
+                  "body": "Aver or essere plus participle can place the infinitive action before the main verb.",
+                  "examples": [
+                    {
+                      "it": "Dopo aver letto il messaggio, ho risposto.",
+                      "en": "After reading the message, I replied."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Sara ha deciso ___ cambiare lavoro.",
+                  "translation": "Sara decided to change jobs.",
+                  "answer": "di",
+                  "options": [
+                    "che",
+                    "a",
+                    "di"
+                  ],
+                  "explanation": "Decidere takes di before a same-subject infinitive.",
+                  "hint": "Learn decidere di as a unit.",
+                  "speak": "Sara ha deciso di cambiare lavoro.",
+                  "id": "b2-infinitive-clauses.q1",
+                  "errorTag": "infinitive-clauses",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Dopo ___ la mail, ho chiamato Marco.",
+                  "translation": "After reading the email, I called Marco.",
+                  "answer": "aver letto",
+                  "accepted": [],
+                  "explanation": "The reading came first and has the same subject as ho chiamato.",
+                  "hint": "Use a compound infinitive after dopo.",
+                  "speak": "Dopo aver letto la mail, ho chiamato Marco.",
+                  "id": "b2-infinitive-clauses.q2",
+                  "errorTag": "infinitive-clauses",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Prima di uscire, ricordati ___ spegnere la luce.",
+                  "translation": "Before leaving, remember to turn off the light.",
+                  "answer": "di",
+                  "options": [
+                    "di",
+                    "a",
+                    "che"
+                  ],
+                  "explanation": "Ricordarsi di plus infinitive is the natural pattern.",
+                  "hint": "Keep the verb’s preposition di.",
+                  "speak": "Prima di uscire, ricordati di spegnere la luce.",
+                  "id": "b2-infinitive-clauses.q3",
+                  "errorTag": "infinitive-clauses",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "For having replied late, I apologized.",
+                  "answer": "Mi sono scusato per aver risposto tardi.",
+                  "tokens": [
+                    "Mi",
+                    "sono",
+                    "scusato",
+                    "per",
+                    "aver",
+                    "risposto",
+                    "tardi."
+                  ],
+                  "explanation": "Aver risposto puts the reply before the apology.",
+                  "hint": "Use a compound infinitive after per.",
+                  "speak": "Mi sono scusato per aver risposto tardi.",
+                  "id": "b2-infinitive-clauses.q4",
+                  "errorTag": "infinitive-clauses",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-gerund-clauses",
+          "title": "While doing or by doing",
+          "outcome": "I can use a gerund when the understood actor is the same.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-infinitive-clauses"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:camminare"
+            },
+            {
+              "entryId": "v:leggere"
+            }
+          ],
+          "takeaway": "The gerund can also express how a result is achieved.",
+          "objectives": [
+            {
+              "id": "b2-gerund-clauses.core",
+              "label": "While doing or by doing",
+              "errorTag": "gerund-clauses",
+              "explanation": "The present gerund can show an action simultaneous with the main one; its subject normally matches. The gerund can also express how a result is achieved.",
+              "teach": [
+                {
+                  "title": "Same actor, overlapping action",
+                  "body": "The present gerund can show an action simultaneous with the main one; its subject normally matches.",
+                  "examples": [
+                    {
+                      "it": "Camminando, ascoltavo la radio.",
+                      "en": "While walking, I listened to the radio."
+                    }
+                  ]
+                },
+                {
+                  "title": "Method or cause",
+                  "body": "The gerund can also express how a result is achieved.",
+                  "examples": [
+                    {
+                      "it": "Studiando ogni giorno, farai progressi.",
+                      "en": "By studying every day, you will make progress."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "___ lungo il fiume, ho incontrato Anna.",
+                  "translation": "While walking along the river, I met Anna.",
+                  "answer": "Camminando",
+                  "options": [
+                    "Camminato",
+                    "Camminare",
+                    "Camminando"
+                  ],
+                  "explanation": "The same “I” is walking and meeting; present gerund fits.",
+                  "hint": "Use the -ando form.",
+                  "speak": "Camminando lungo il fiume, ho incontrato Anna.",
+                  "id": "b2-gerund-clauses.q1",
+                  "errorTag": "gerund-clauses",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "___ con attenzione, capirai meglio.",
+                  "translation": "By listening carefully, you will understand better.",
+                  "answer": "Ascoltando",
+                  "accepted": [],
+                  "explanation": "The same person listens and understands; gerund gives the method.",
+                  "hint": "Use the gerund of ascoltare.",
+                  "speak": "Ascoltando con attenzione, capirai meglio.",
+                  "id": "b2-gerund-clauses.q2",
+                  "errorTag": "gerund-clauses",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "___ la notizia, Marta è uscita subito.",
+                  "translation": "Having heard the news, Marta left immediately.",
+                  "answer": "Avendo sentito",
+                  "options": [
+                    "Avendo sentito",
+                    "Aveva sentito",
+                    "Avere sentito"
+                  ],
+                  "explanation": "Avendo sentito places the hearing before the departure.",
+                  "hint": "Use a compound gerund for prior action.",
+                  "speak": "Avendo sentito la notizia, Marta è uscita subito.",
+                  "id": "b2-gerund-clauses.q3",
+                  "errorTag": "gerund-clauses",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "While reading the newspaper, I found the advertisement.",
+                  "answer": "Leggendo il giornale, ho trovato l’annuncio.",
+                  "tokens": [
+                    "Leggendo",
+                    "il",
+                    "giornale,",
+                    "ho",
+                    "trovato",
+                    "l’annuncio."
+                  ],
+                  "explanation": "The reader and finder are the same subject.",
+                  "hint": "Place gerund clause before main clause.",
+                  "speak": "Leggendo il giornale, ho trovato l’annuncio.",
+                  "id": "b2-gerund-clauses.q4",
+                  "errorTag": "gerund-clauses",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-discourse",
+      "title": "Build an argument",
+      "description": "Mark contrast, concession and logical progression in connected prose.",
+      "lessons": [
+        {
+          "id": "b2-concession-contrast",
+          "title": "Despite the obstacle",
+          "outcome": "I can distinguish a factual contrast from a conceded possibility.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-gerund-clauses"
+          ],
+          "referenceTopics": [
+            "tenses",
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:piovere"
+            },
+            {
+              "entryId": "v:continuare"
+            }
+          ],
+          "takeaway": "Nonostante plus a noun does not need a subordinate verb.",
+          "objectives": [
+            {
+              "id": "b2-concession-contrast.core",
+              "label": "Despite the obstacle",
+              "errorTag": "concession-contrast",
+              "explanation": "Benché or sebbene introduces a conceded fact in a more formal register and takes subjunctive. Nonostante plus a noun does not need a subordinate verb.",
+              "teach": [
+                {
+                  "title": "Benchè with subjunctive",
+                  "body": "Benché or sebbene introduces a conceded fact in a more formal register and takes subjunctive.",
+                  "examples": [
+                    {
+                      "it": "Benché sia tardi, continuiamo.",
+                      "en": "Although it is late, we continue."
+                    }
+                  ]
+                },
+                {
+                  "title": "Nonostante as a preposition",
+                  "body": "Nonostante plus a noun does not need a subordinate verb.",
+                  "examples": [
+                    {
+                      "it": "Nonostante la pioggia, siamo usciti.",
+                      "en": "Despite the rain, we went out."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "___ sia stanco, finirò il lavoro.",
+                  "translation": "Although I am tired, I will finish the work.",
+                  "answer": "Benché",
+                  "options": [
+                    "Perché",
+                    "Quindi",
+                    "Benché"
+                  ],
+                  "explanation": "Benché takes the subjunctive sia and signals concession.",
+                  "hint": "Choose the formal although link.",
+                  "speak": "Benché sia stanco, finirò il lavoro.",
+                  "id": "b2-concession-contrast.q1",
+                  "errorTag": "concession-contrast",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "___ il traffico, siamo arrivati puntuali.",
+                  "translation": "Despite the traffic, we arrived on time.",
+                  "answer": "Nonostante",
+                  "accepted": [
+                    "Malgrado"
+                  ],
+                  "explanation": "Nonostante can introduce the noun il traffico directly.",
+                  "hint": "Use a preposition meaning despite.",
+                  "speak": "Nonostante il traffico, siamo arrivati puntuali.",
+                  "id": "b2-concession-contrast.q2",
+                  "errorTag": "concession-contrast",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Sebbene ___, siamo usciti.",
+                  "translation": "Although it was raining, we went out.",
+                  "answer": "piovesse",
+                  "options": [
+                    "piovesse",
+                    "pioveva",
+                    "pioverebbe"
+                  ],
+                  "explanation": "Sebbene takes imperfect subjunctive for this past contrast.",
+                  "hint": "Use imperfect subjunctive after sebbene.",
+                  "speak": "Sebbene piovesse, siamo usciti.",
+                  "id": "b2-concession-contrast.q3",
+                  "errorTag": "concession-contrast",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "Despite the rain, we went out.",
+                  "answer": "Nonostante la pioggia, siamo usciti.",
+                  "tokens": [
+                    "Nonostante",
+                    "la",
+                    "pioggia,",
+                    "siamo",
+                    "usciti."
+                  ],
+                  "explanation": "Nonostante plus the noun phrase states the obstacle.",
+                  "hint": "Put the concession before the main event.",
+                  "speak": "Nonostante la pioggia, siamo usciti.",
+                  "id": "b2-concession-contrast.q4",
+                  "errorTag": "concession-contrast",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "Benché sia tardi, continuiamo.",
+                      "right": "Although it is late, we continue."
+                    },
+                    {
+                      "left": "Nonostante la pioggia, usciamo.",
+                      "right": "Despite the rain, we go out."
+                    },
+                    {
+                      "left": "È utile; tuttavia, costa molto.",
+                      "right": "It is useful; however, it costs a lot."
+                    }
+                  ],
+                  "explanation": "Benché introduces a subjunctive clause, nonostante a noun here, tuttavia a counterpoint.",
+                  "hint": "Notice what follows each connector.",
+                  "speak": "Benché sia tardi, continuiamo.",
+                  "id": "b2-concession-contrast.q5",
+                  "errorTag": "concession-contrast",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-argument-links",
+          "title": "Guide a reader through a claim",
+          "outcome": "I can mark an addition, consequence and counterpoint in an argument.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-concession-contrast"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:ridurre"
+            },
+            {
+              "entryId": "v:aumentare"
+            }
+          ],
+          "takeaway": "Tuttavia introduces a point that limits or contrasts with the previous one.",
+          "objectives": [
+            {
+              "id": "b2-argument-links.core",
+              "label": "Guide a reader through a claim",
+              "errorTag": "argument-links",
+              "explanation": "Inoltre adds a point; pertanto or quindi draws a consequence from earlier evidence. Tuttavia introduces a point that limits or contrasts with the previous one.",
+              "teach": [
+                {
+                  "title": "Add and infer",
+                  "body": "Inoltre adds a point; pertanto or quindi draws a consequence from earlier evidence.",
+                  "examples": [
+                    {
+                      "it": "I costi sono aumentati; pertanto, cambieremo piano.",
+                      "en": "Costs rose; therefore, we will change the plan."
+                    }
+                  ]
+                },
+                {
+                  "title": "Counterpoint",
+                  "body": "Tuttavia introduces a point that limits or contrasts with the previous one.",
+                  "examples": [
+                    {
+                      "it": "Il progetto è utile; tuttavia, costa troppo.",
+                      "en": "The project is useful; however, it costs too much."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Il servizio è rapido. ___, è gratuito.",
+                  "translation": "The service is fast. Moreover, it is free.",
+                  "answer": "Inoltre",
+                  "options": [
+                    "Tuttavia",
+                    "Pertanto",
+                    "Inoltre"
+                  ],
+                  "explanation": "The second sentence adds another benefit; inoltre fits.",
+                  "hint": "Choose an addition link.",
+                  "speak": "Il servizio è rapido. Inoltre, è gratuito.",
+                  "id": "b2-argument-links.q1",
+                  "errorTag": "argument-links",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Il costo è troppo alto; ___, rinunciamo all’acquisto.",
+                  "translation": "The cost is too high; therefore we are giving up the purchase.",
+                  "answer": "pertanto",
+                  "accepted": [
+                    "quindi",
+                    "perciò"
+                  ],
+                  "explanation": "Pertanto presents the decision as a consequence of the cost.",
+                  "hint": "Use the formal therefore link.",
+                  "speak": "Il costo è troppo alto; pertanto, rinunciamo all’acquisto.",
+                  "id": "b2-argument-links.q2",
+                  "errorTag": "argument-links",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Il piano è ambizioso; ___, mancano i fondi.",
+                  "translation": "The plan is ambitious; however, funding is missing.",
+                  "answer": "tuttavia",
+                  "options": [
+                    "tuttavia",
+                    "inoltre",
+                    "pertanto"
+                  ],
+                  "explanation": "The missing funds limit the positive claim; tuttavia signals counterpoint.",
+                  "hint": "Choose a contrast link.",
+                  "speak": "Il piano è ambizioso; tuttavia, mancano i fondi.",
+                  "id": "b2-argument-links.q3",
+                  "errorTag": "argument-links",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "The data are incomplete; therefore caution is needed.",
+                  "answer": "I dati sono incompleti; pertanto, serve cautela.",
+                  "tokens": [
+                    "I",
+                    "dati",
+                    "sono",
+                    "incompleti;",
+                    "pertanto,",
+                    "serve",
+                    "cautela."
+                  ],
+                  "explanation": "Pertanto introduces an inference from the incomplete data.",
+                  "hint": "Place the conclusion after pertanto.",
+                  "speak": "I dati sono incompleti; pertanto, serve cautela.",
+                  "id": "b2-argument-links.q4",
+                  "errorTag": "argument-links",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-focus",
+      "title": "Put information in focus",
+      "description": "Change sentence structure to highlight or recover a known topic.",
+      "lessons": [
+        {
+          "id": "b2-cleft-focus",
+          "title": "It was Marta who called",
+          "outcome": "I can use è...che to focus the person, time or place that matters.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-argument-links"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:chiamare"
+            },
+            {
+              "entryId": "v:arrivare"
+            }
+          ],
+          "takeaway": "Era can place the focus in a past scene.",
+          "objectives": [
+            {
+              "id": "b2-cleft-focus.core",
+              "label": "It was Marta who called",
+              "errorTag": "cleft-focus",
+              "explanation": "È or era plus the focused element plus che highlights the answer to an implicit question. Era can place the focus in a past scene.",
+              "teach": [
+                {
+                  "title": "Split the sentence for focus",
+                  "body": "È or era plus the focused element plus che highlights the answer to an implicit question.",
+                  "examples": [
+                    {
+                      "it": "È Marta che ha chiamato, non Luca.",
+                      "en": "It was Marta who called, not Luca."
+                    }
+                  ]
+                },
+                {
+                  "title": "Keep time in the frame",
+                  "body": "Era can place the focus in a past scene.",
+                  "examples": [
+                    {
+                      "it": "Era ieri che dovevamo partire, non oggi.",
+                      "en": "It was yesterday that we were supposed to leave, not today."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "___ Paolo che ha prenotato, non Giulia.",
+                  "translation": "It was Paolo who booked, not Giulia.",
+                  "answer": "È",
+                  "options": [
+                    "Ha",
+                    "Sono",
+                    "È"
+                  ],
+                  "explanation": "È...che highlights Paolo as the corrected person.",
+                  "hint": "Use the cleft opening before the name.",
+                  "speak": "È Paolo che ha prenotato, non Giulia.",
+                  "id": "b2-cleft-focus.q1",
+                  "errorTag": "cleft-focus",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "___ alle otto che parte il treno, non alle nove.",
+                  "translation": "It is at eight that the train leaves, not at nine.",
+                  "answer": "È",
+                  "accepted": [],
+                  "explanation": "È...che highlights the corrected departure time.",
+                  "hint": "Open the focus construction with essere.",
+                  "speak": "È alle otto che parte il treno, non alle nove.",
+                  "id": "b2-cleft-focus.q2",
+                  "errorTag": "cleft-focus",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "___ ieri che avevamo appuntamento, non oggi.",
+                  "translation": "It was yesterday that we had an appointment, not today.",
+                  "answer": "Era",
+                  "options": [
+                    "Era",
+                    "C’era",
+                    "Aveva"
+                  ],
+                  "explanation": "Era...che situates the correction in a past frame.",
+                  "hint": "Use imperfect essere for the past scene.",
+                  "speak": "Era ieri che avevamo appuntamento, non oggi.",
+                  "id": "b2-cleft-focus.q3",
+                  "errorTag": "cleft-focus",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "It is Anna who chose the restaurant.",
+                  "answer": "È Anna che ha scelto il ristorante.",
+                  "tokens": [
+                    "È",
+                    "Anna",
+                    "che",
+                    "ha",
+                    "scelto",
+                    "il",
+                    "ristorante."
+                  ],
+                  "explanation": "The cleft puts Anna in focus as the chooser.",
+                  "hint": "Place È before the focused name and che after it.",
+                  "speak": "È Anna che ha scelto il ristorante.",
+                  "id": "b2-cleft-focus.q4",
+                  "errorTag": "cleft-focus",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "È Marta che ha chiamato.",
+                      "right": "It was Marta who called."
+                    },
+                    {
+                      "left": "È ieri che siamo partiti.",
+                      "right": "It was yesterday that we left."
+                    },
+                    {
+                      "left": "Quel libro, l’ho già letto.",
+                      "right": "That book, I have already read it."
+                    }
+                  ],
+                  "explanation": "The first two are clefts highlighting a person or time; the third resumes a fronted topic.",
+                  "hint": "Find the element receiving emphasis.",
+                  "speak": "È Marta che ha chiamato.",
+                  "id": "b2-cleft-focus.q5",
+                  "errorTag": "cleft-focus",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-dislocation",
+          "title": "Return to a known topic",
+          "outcome": "I can put a known object first and resume it with a pronoun.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-cleft-focus"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:leggere"
+            },
+            {
+              "entryId": "v:comprare"
+            }
+          ],
+          "takeaway": "A prepositional topic can be resumed by ci or ne when it matches the relation.",
+          "objectives": [
+            {
+              "id": "b2-dislocation.core",
+              "label": "Return to a known topic",
+              "errorTag": "dislocation",
+              "explanation": "Put a known object first, then resume it with a matching direct object clitic in everyday speech. A prepositional topic can be resumed by ci or ne when it matches the relation.",
+              "teach": [
+                {
+                  "title": "Left dislocation",
+                  "body": "Put a known object first, then resume it with a matching direct object clitic in everyday speech.",
+                  "examples": [
+                    {
+                      "it": "Quel libro, l’ho già letto.",
+                      "en": "That book, I have already read it."
+                    }
+                  ]
+                },
+                {
+                  "title": "Indirect topics",
+                  "body": "A prepositional topic can be resumed by ci or ne when it matches the relation.",
+                  "examples": [
+                    {
+                      "it": "Di quel problema, ne parliamo domani.",
+                      "en": "That problem, we will talk about it tomorrow."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "La lettera, ___ ho scritta ieri.",
+                  "translation": "The letter, I wrote it yesterday.",
+                  "answer": "l’",
+                  "options": [
+                    "lo",
+                    "ne",
+                    "l’"
+                  ],
+                  "explanation": "Feminine la becomes l’ before ho and resumes la lettera.",
+                  "hint": "Resume the fronted object with la.",
+                  "speak": "La lettera, l’ ho scritta ieri.",
+                  "id": "b2-dislocation.q1",
+                  "errorTag": "dislocation",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Type the missing Italian words.",
+                  "context": "Quei film, ___ abbiamo già visti.",
+                  "translation": "Those films, we have already seen them.",
+                  "answer": "li",
+                  "accepted": [],
+                  "explanation": "Li resumes masculine plural quei film; visti agrees.",
+                  "hint": "Use the masculine plural direct object clitic.",
+                  "speak": "Quei film, li abbiamo già visti.",
+                  "id": "b2-dislocation.q2",
+                  "errorTag": "dislocation",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that completes the sentence.",
+                  "context": "Di questo tema, ___ parleremo domani.",
+                  "translation": "This topic, we will discuss it tomorrow.",
+                  "answer": "ne",
+                  "options": [
+                    "ne",
+                    "ci",
+                    "lo"
+                  ],
+                  "explanation": "Parlare di takes ne to resume the fronted di phrase.",
+                  "hint": "Keep the relation parlare di.",
+                  "speak": "Di questo tema, ne parleremo domani.",
+                  "id": "b2-dislocation.q3",
+                  "errorTag": "dislocation",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "This book, I know it well.",
+                  "answer": "Questo libro, lo conosco bene.",
+                  "tokens": [
+                    "Questo",
+                    "libro,",
+                    "lo",
+                    "conosco",
+                    "bene."
+                  ],
+                  "explanation": "Lo resumes the fronted masculine singular object.",
+                  "hint": "Put the topic first and its clitic before the verb.",
+                  "speak": "Questo libro, lo conosco bene.",
+                  "id": "b2-dislocation.q4",
+                  "errorTag": "dislocation",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-narrative",
+      "title": "Read and tell distant events",
+      "description": "Recognize literary historical narration and the sequence before it.",
+      "lessons": [
+        {
+          "id": "b2-passato-remoto",
+          "title": "A completed story event",
+          "outcome": "I can recognize and use common passato remoto forms in a written story.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-dislocation"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:entrare",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:vedere",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "Frequent narrative forms include fu, ebbe, disse, fece, vide and venne.",
+          "objectives": [
+            {
+              "id": "b2-passato-remoto.core",
+              "label": "A completed story event",
+              "errorTag": "passato-remoto",
+              "explanation": "Passato remoto presents a bounded past event as detached from the present. It is common in written narratives; spoken use varies by region. Frequent narrative forms include fu, ebbe, disse, fece, vide and venne.",
+              "teach": [
+                {
+                  "title": "Narrative past",
+                  "body": "Passato remoto presents a bounded past event as detached from the present. It is common in written narratives; spoken use varies by region.",
+                  "examples": [
+                    {
+                      "it": "Nel 1861 nacque un nuovo Stato.",
+                      "en": "In 1861 a new state was born."
+                    }
+                  ]
+                },
+                {
+                  "title": "Common irregular forms",
+                  "body": "Frequent narrative forms include fu, ebbe, disse, fece, vide and venne.",
+                  "examples": [
+                    {
+                      "it": "Il re entrò e vide la lettera.",
+                      "en": "The king entered and saw the letter."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Complete this written story using the passato remoto.",
+                  "context": "Nel racconto, il viaggiatore ___ una porta nascosta.",
+                  "translation": "In the story, the traveler saw a hidden door.",
+                  "answer": "vide",
+                  "options": [
+                    "vedeva",
+                    "ha visto",
+                    "vide"
+                  ],
+                  "explanation": "Vide is a completed literary narrative event in passato remoto.",
+                  "hint": "Use the remote past of vedere.",
+                  "speak": "Nel racconto, il viaggiatore vide una porta nascosta.",
+                  "id": "b2-passato-remoto.q1",
+                  "errorTag": "passato-remoto",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Complete this written story using the passato remoto.",
+                  "context": "Nel 1900 la famiglia ___ a Torino.",
+                  "translation": "In 1900 the family moved to Turin.",
+                  "answer": "si trasferì",
+                  "accepted": [],
+                  "explanation": "The dated historical event fits passato remoto si trasferì.",
+                  "hint": "Use the remote past of trasferirsi.",
+                  "speak": "Nel 1900 la famiglia si trasferì a Torino.",
+                  "id": "b2-passato-remoto.q2",
+                  "errorTag": "passato-remoto",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Complete this written story using the passato remoto.",
+                  "context": "Il medico ___ la verità e poi uscì.",
+                  "translation": "The doctor told the truth and then left.",
+                  "answer": "disse",
+                  "options": [
+                    "disse",
+                    "diceva",
+                    "ha detto"
+                  ],
+                  "explanation": "Disse matches the completed sequence marked by poi uscì.",
+                  "hint": "Use remote past of dire.",
+                  "speak": "Il medico disse la verità e poi uscì.",
+                  "id": "b2-passato-remoto.q3",
+                  "errorTag": "passato-remoto",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "She entered the room and closed the door.",
+                  "answer": "Entrò nella stanza e chiuse la porta.",
+                  "tokens": [
+                    "Entrò",
+                    "nella",
+                    "stanza",
+                    "e",
+                    "chiuse",
+                    "la",
+                    "porta."
+                  ],
+                  "explanation": "Entrò and chiuse present two bounded literary events.",
+                  "hint": "Keep the narrative verbs in sequence.",
+                  "speak": "Entrò nella stanza e chiuse la porta.",
+                  "id": "b2-passato-remoto.q4",
+                  "errorTag": "passato-remoto",
+                  "guided": false
+                },
+                {
+                  "format": "match",
+                  "prompt": "Match each Italian expression with its meaning.",
+                  "translation": "Choose the matching English meaning.",
+                  "pairs": [
+                    {
+                      "left": "Il viaggiatore vide una luce.",
+                      "right": "The traveler saw a light, a bounded story event."
+                    },
+                    {
+                      "left": "Il viaggiatore vedeva una luce.",
+                      "right": "The traveler could see a light, a story background."
+                    },
+                    {
+                      "left": "Il viaggiatore aveva già visto la luce.",
+                      "right": "The traveler had already seen the light before that past point."
+                    }
+                  ],
+                  "explanation": "Vide narrates an event; vedeva describes background; aveva visto is earlier.",
+                  "hint": "Compare the simple remote, imperfect and trapassato forms.",
+                  "speak": "Il viaggiatore vide una luce.",
+                  "id": "b2-passato-remoto.q5",
+                  "errorTag": "passato-remoto",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b2-remote-pluperfect",
+          "title": "Before a remote past event",
+          "outcome": "I can recognize trapassato remoto in a written historical sequence.",
+          "minutes": 6,
+          "prerequisites": [
+            "b2-passato-remoto"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:finire",
+              "caseId": "past"
+            },
+            {
+              "entryId": "v:uscire",
+              "caseId": "past"
+            }
+          ],
+          "takeaway": "This tense is rare in everyday conversation; recognize it in formal or literary written Italian.",
+          "objectives": [
+            {
+              "id": "b2-remote-pluperfect.core",
+              "label": "Before a remote past event",
+              "errorTag": "remote-pluperfect",
+              "explanation": "In literary narration, trapassato remoto marks an action completed immediately before a passato remoto event, often after appena or non appena. This tense is rare in everyday conversation; recognize it in formal or literary written Italian.",
+              "teach": [
+                {
+                  "title": "A prior completed event",
+                  "body": "In literary narration, trapassato remoto marks an action completed immediately before a passato remoto event, often after appena or non appena.",
+                  "examples": [
+                    {
+                      "it": "Appena ebbe finito, uscì.",
+                      "en": "As soon as he had finished, he went out."
+                    }
+                  ]
+                },
+                {
+                  "title": "Reading priority",
+                  "body": "This tense is rare in everyday conversation; recognize it in formal or literary written Italian.",
+                  "examples": [
+                    {
+                      "it": "Appena fu arrivata, la chiamarono.",
+                      "en": "When she had arrived, they called her."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Complete this literary sequence using the trapassato remoto.",
+                  "context": "Appena ___ finito di parlare, il pubblico applaudì.",
+                  "translation": "As soon as he had finished speaking, the audience applauded.",
+                  "answer": "ebbe",
+                  "options": [
+                    "aveva",
+                    "avrebbe",
+                    "ebbe"
+                  ],
+                  "explanation": "Ebbe finito is trapassato remoto before applaudì.",
+                  "hint": "Use remote past of avere as auxiliary.",
+                  "speak": "Appena ebbe finito di parlare, il pubblico applaudì.",
+                  "id": "b2-remote-pluperfect.q1",
+                  "errorTag": "remote-pluperfect",
+                  "guided": false
+                },
+                {
+                  "format": "type",
+                  "prompt": "Complete this literary sequence using the trapassato remoto.",
+                  "context": "Non appena Anna ___ uscita, il telefono squillò.",
+                  "translation": "As soon as Anna had gone out, the phone rang.",
+                  "answer": "fu",
+                  "accepted": [],
+                  "explanation": "Fu uscita is trapassato remoto with essere.",
+                  "hint": "Use remote past of essere.",
+                  "speak": "Non appena Anna fu uscita, il telefono squillò.",
+                  "id": "b2-remote-pluperfect.q2",
+                  "errorTag": "remote-pluperfect",
+                  "guided": false
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Complete this literary sequence using the trapassato remoto.",
+                  "context": "Quando i ragazzi ___ partiti, iniziò a piovere.",
+                  "translation": "When the boys had left, it began to rain.",
+                  "answer": "furono",
+                  "options": [
+                    "furono",
+                    "erano",
+                    "sarebbero"
+                  ],
+                  "explanation": "Furono partiti places the completed departure just before iniziò.",
+                  "hint": "Use plural remote auxiliary.",
+                  "speak": "Quando i ragazzi furono partiti, iniziò a piovere.",
+                  "id": "b2-remote-pluperfect.q3",
+                  "errorTag": "remote-pluperfect",
+                  "guided": false
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this idea.",
+                  "translation": "As soon as she had closed the door, she left.",
+                  "answer": "Appena ebbe chiuso la porta, partì.",
+                  "tokens": [
+                    "Appena",
+                    "ebbe",
+                    "chiuso",
+                    "la",
+                    "porta,",
+                    "partì."
+                  ],
+                  "explanation": "Ebbe chiuso precedes the next remote past event.",
+                  "hint": "Put the completed prior action after appena.",
+                  "speak": "Appena ebbe chiuso la porta, partì.",
+                  "id": "b2-remote-pluperfect.q4",
+                  "errorTag": "remote-pluperfect",
+                  "guided": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { $, $$, toast, esc, closeSheets, stopSpeech } from './ui.js';
 import { icon } from './icons.js';
 import { mountAurora, setScene, SCENES, reducedMotion, closeDropdown } from './fx.js';
 import { startAutoSync, isEnabled as syncEnabled } from './sync.js';
+import { loadGrammarCourse } from './learning/grammar-course.js';
 
 const routes = [];
 let currentCleanup = null;
@@ -168,6 +169,8 @@ route('home', () => import('./views/home.js'));
 route('learn', () => import('./views/learn.js'));
 route('course', () => import('./views/course.js'));
 route('learn/practice', () => import('./views/learnAdaptive.js'));
+route('learn/grammar/:id', () => import('./views/learnGrammar.js'));
+route('learn/session', () => import('./views/courseSession.js'));
 route('learn/verb/:id', () => import('./views/learnVerb.js'));
 route('learn/word/:id', () => import('./views/learnWord.js'));
 route('review', () => import('./views/review.js'));
@@ -192,6 +195,7 @@ async function boot() {
   setScene(SCENES.home);
   // The dictionary (3.4 MB) and the first screen's module download while the profile is read: neither waits for the other.
   const dataReady = loadData();
+  const grammarReady = loadGrammarCourse().catch(error=>{ console.warn(error.message); });
   dataReady.catch(() => { /* reported below */ });
   const first = match(parse().parts);
   if (first) first.r.loader().catch(() => { /* render() reports a module that cannot load */ });
@@ -202,6 +206,7 @@ async function boot() {
   store.on('profile', () => { registerCustom(store.current.custom); applyTheme(); applyEnToggle(); applyScene(lastTab, parse().parts); });
   try {
     await dataReady;
+    await grammarReady;
     registerCustom(store.current.custom);
   } catch (err) {
     $('#view').innerHTML = `<div class="empty"><p>Could not load the dictionary.</p><p class="tiny muted">${esc(err.message)}</p><button class="btn primary" onclick="location.reload()">Retry</button></div>`;

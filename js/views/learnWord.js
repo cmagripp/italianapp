@@ -56,7 +56,7 @@ function pluralNote(e) {
 const sayText = (e) => (e.pos === 'noun' && !isPluralOnly(e) ? withArticle(e, false) : (e.pos === 'noun' ? withArticle(e, true) : e.it));
 
 export async function render(root, params, query) {
-  if (store.settings.adaptiveLearning !== false) return (await import('./learnAdaptive.js')).render(root, params, query);
+  if (store.settings.adaptiveLearning !== false || query?.courseSession || query?.fromGrammar) return (await import('./learnAdaptive.js')).render(root, params, query);
   return renderLegacy(root, params, query);
 }
 

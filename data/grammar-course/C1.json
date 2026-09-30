@@ -1,0 +1,2630 @@
+{
+  "version": 1,
+  "level": "C1",
+  "title": "Advanced Italian: control and cohesion",
+  "sources": [
+    {
+      "title": "Università per Stranieri di Perugia, CELI 4 (C1): competenze richieste",
+      "url": "https://www.unistrapg.it/sites/default/files/docs/certificazioni/celi-4-competenze-richieste.pdf"
+    },
+    {
+      "title": "Treccani, Congiuntivo (Enciclopedia dell’Italiano)",
+      "url": "https://www.treccani.it/enciclopedia/congiuntivo_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani, Gerundio (Enciclopedia dell’Italiano)",
+      "url": "https://www.treccani.it/enciclopedia/gerundio_%28Enciclopedia-dell%27Italiano%29/"
+    },
+    {
+      "title": "Treccani, Dislocazioni (Enciclopedia dell’Italiano)",
+      "url": "https://www.treccani.it/enciclopedia/dislocazioni_%28Enciclopedia-dell%27Italiano%29/"
+    }
+  ],
+  "units": [
+    {
+      "id": "c1-mood-aspect",
+      "title": "Mood and aspect in perspective",
+      "description": "Choose forms that show stance, sequence and conjecture.",
+      "lessons": [
+        {
+          "id": "c1-subjunctive-perspective",
+          "title": "Facts, opinion and the subjunctive",
+          "outcome": "I can distinguish a reported fact from a speaker’s evaluation.",
+          "minutes": 7,
+          "prerequisites": [
+            "b2-tense-relations"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere",
+              "caseId": "congiuntivoPresente"
+            },
+            {
+              "entryId": "v:dire"
+            }
+          ],
+          "takeaway": "Evaluation commonly calls for the subjunctive; assertion normally uses the indicative.",
+          "objectives": [
+            {
+              "id": "c1-subjunctive-perspective.focus",
+              "label": "Switch mood when a clause is evaluated rather than asserted.",
+              "errorTag": "subjunctive-perspective",
+              "explanation": "A factive statement can take the indicative; a judgment introduced by è strano che takes the subjunctive.",
+              "teach": [
+                {
+                  "title": "Assert a fact",
+                  "body": "Dire che presents the content as reported information, with indicative.",
+                  "examples": [
+                    {
+                      "it": "Dico che Marta è pronta.",
+                      "en": "I say that Marta is ready."
+                    }
+                  ],
+                  "tip": "Do not assume every che-clause needs the subjunctive."
+                },
+                {
+                  "title": "Evaluate a fact",
+                  "body": "È strano che evaluates the situation and takes the subjunctive.",
+                  "examples": [
+                    {
+                      "it": "È strano che Marta sia già pronta.",
+                      "en": "It is strange that Marta is already ready."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "È sorprendente che Luca ___ già qui.",
+                  "translation": "It is surprising that Luca is already here.",
+                  "answer": "sia",
+                  "options": [
+                    "sia",
+                    "è",
+                    "sarà"
+                  ],
+                  "explanation": "Surprise evaluates the situation, so sia is the present subjunctive.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-subjunctive-perspective.focus.q1",
+                  "errorTag": "subjunctive-perspective",
+                  "guided": false,
+                  "speak": "È sorprendente che Luca sia già qui."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Turn the fact into a sentence beginning È sorprendente che.",
+                  "context": "Luca è già qui. Esprimi sorpresa.",
+                  "translation": "Luca is already here; express surprise.",
+                  "answer": "È sorprendente che Luca sia già qui.",
+                  "accepted": [],
+                  "explanation": "È sorprendente che calls for sia.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-subjunctive-perspective.focus.q2",
+                  "errorTag": "subjunctive-perspective",
+                  "guided": false,
+                  "speak": "È sorprendente che Luca sia già qui."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il testimone dice che Luca ___ già qui.",
+                  "translation": "The witness says that Luca is already here, as a reported fact.",
+                  "answer": "è",
+                  "options": [
+                    "è",
+                    "sia",
+                    "fosse"
+                  ],
+                  "explanation": "Dice che reports the content as fact; è is indicative.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-subjunctive-perspective.focus.q3",
+                  "errorTag": "subjunctive-perspective",
+                  "guided": false,
+                  "speak": "Il testimone dice che Luca è già qui."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "La direttrice ritiene che la proposta sia utile.",
+                  "translation": "The director considers the proposal useful.",
+                  "answer": "La direttrice ritiene che la proposta sia utile.",
+                  "tokens": [
+                    "La",
+                    "direttrice",
+                    "ritiene",
+                    "che",
+                    "la",
+                    "proposta",
+                    "sia",
+                    "utile."
+                  ],
+                  "explanation": "Ritiene che expresses an opinion; sia marks that stance.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-subjunctive-perspective.focus.q4",
+                  "errorTag": "subjunctive-perspective",
+                  "guided": false,
+                  "speak": "La direttrice ritiene che la proposta sia utile."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-past-subjunctive-time",
+          "title": "Time within past evaluations",
+          "outcome": "I can place a subordinate event before or alongside a past viewpoint.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-subjunctive-perspective"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:pensare",
+              "caseId": "congiuntivoTrapassato"
+            },
+            {
+              "entryId": "v:partire"
+            }
+          ],
+          "takeaway": "Past viewpoint + simultaneous state: fosse; prior completed event: fosse partita.",
+          "objectives": [
+            {
+              "id": "c1-past-subjunctive-time.focus",
+              "label": "Choose imperfetto or trapassato congiuntivo from relative time.",
+              "errorTag": "past-subjunctive-time",
+              "explanation": "With a past main clause, contemporaneous events often use the imperfect subjunctive; earlier events use the pluperfect subjunctive.",
+              "teach": [
+                {
+                  "title": "At the same time",
+                  "body": "A past opinion about a simultaneous state uses the imperfect subjunctive.",
+                  "examples": [
+                    {
+                      "it": "Pensavo che fosse stanca.",
+                      "en": "I thought she was tired."
+                    }
+                  ],
+                  "tip": "Time is relative to the main clause."
+                },
+                {
+                  "title": "Before the viewpoint",
+                  "body": "A completed earlier action uses the pluperfect subjunctive.",
+                  "examples": [
+                    {
+                      "it": "Pensavo che fosse partita.",
+                      "en": "I thought she had left."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Alle otto pensavo che Anna ___ ancora in ufficio.",
+                  "translation": "At eight I thought Anna was still at the office then.",
+                  "answer": "fosse",
+                  "options": [
+                    "fosse",
+                    "sia stata",
+                    "era"
+                  ],
+                  "explanation": "A state simultaneous with pensavo takes fosse.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-past-subjunctive-time.focus.q1",
+                  "errorTag": "past-subjunctive-time",
+                  "guided": false,
+                  "speak": "Alle otto pensavo che Anna fosse ancora in ufficio."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite using the pluperfect subjunctive.",
+                  "context": "Pensavo che Anna partisse. La partenza era già avvenuta.",
+                  "translation": "I thought Anna had already left.",
+                  "answer": "Pensavo che Anna fosse partita.",
+                  "accepted": [
+                    "Pensavo che Anna fosse già partita."
+                  ],
+                  "explanation": "The departure precedes pensavo, so use fosse partita.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-past-subjunctive-time.focus.q2",
+                  "errorTag": "past-subjunctive-time",
+                  "guided": false,
+                  "speak": "Pensavo che Anna fosse partita."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Mi sorprese che loro ___ prima del mio arrivo.",
+                  "translation": "It surprised me that they had left before I arrived.",
+                  "answer": "fossero partiti",
+                  "options": [
+                    "fossero partiti",
+                    "partissero",
+                    "sono partiti"
+                  ],
+                  "explanation": "The departure happened before the past reaction, so fossero partiti.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-past-subjunctive-time.focus.q3",
+                  "errorTag": "past-subjunctive-time",
+                  "guided": false,
+                  "speak": "Mi sorprese che loro fossero partiti prima del mio arrivo."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Credevo che tu avessi già letto la lettera.",
+                  "translation": "I believed you had already read the letter.",
+                  "answer": "Credevo che tu avessi già letto la lettera.",
+                  "tokens": [
+                    "Credevo",
+                    "che",
+                    "tu",
+                    "avessi",
+                    "già",
+                    "letto",
+                    "la",
+                    "lettera."
+                  ],
+                  "explanation": "Avessi letto locates reading before credevo.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-past-subjunctive-time.focus.q4",
+                  "errorTag": "past-subjunctive-time",
+                  "guided": false,
+                  "speak": "Credevo che tu avessi già letto la lettera."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-future-perfect-conjecture",
+          "title": "Future forms as conjecture",
+          "outcome": "I can use future forms to express a present or past guess.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-past-subjunctive-time"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere",
+              "caseId": "futuroAnteriore"
+            },
+            {
+              "entryId": "v:avere"
+            }
+          ],
+          "takeaway": "Sarà can mean “probably is”; avrà fatto can mean “probably did.”",
+          "objectives": [
+            {
+              "id": "c1-future-perfect-conjecture.focus",
+              "label": "Distinguish chronological future from epistemic future.",
+              "errorTag": "future-perfect-conjecture",
+              "explanation": "Future forms can convey a guess: sarà for a present state and sarà stato for an earlier event.",
+              "teach": [
+                {
+                  "title": "Present guess",
+                  "body": "A present situation may be inferred with the future.",
+                  "examples": [
+                    {
+                      "it": "Sarà a casa, perché la luce è accesa.",
+                      "en": "He is probably at home, because the light is on."
+                    }
+                  ],
+                  "tip": "The context, not the form alone, determines the reading."
+                },
+                {
+                  "title": "Past guess",
+                  "body": "The future perfect can conjecture about a completed event.",
+                  "examples": [
+                    {
+                      "it": "Avrà dimenticato l’appuntamento.",
+                      "en": "He has probably forgotten the appointment."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La luce è accesa: Giulia ___ ancora in studio.",
+                  "translation": "The light is on: Giulia is probably still in the office.",
+                  "answer": "sarà",
+                  "options": [
+                    "sarà",
+                    "sarebbe",
+                    "fu"
+                  ],
+                  "explanation": "Sarà expresses a present conjecture here.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-future-perfect-conjecture.focus.q1",
+                  "errorTag": "future-perfect-conjecture",
+                  "guided": false,
+                  "speak": "La luce è accesa: Giulia sarà ancora in studio."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Replace forse ha perso with an epistemic future perfect.",
+                  "context": "Marco non risponde: forse ha perso il treno.",
+                  "translation": "Marco is not answering: perhaps he missed the train.",
+                  "answer": "Marco non risponde: avrà perso il treno.",
+                  "accepted": [
+                    "Marco non risponde. Avrà perso il treno."
+                  ],
+                  "explanation": "Avrà perso presents a guess about an earlier event.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-future-perfect-conjecture.focus.q2",
+                  "errorTag": "future-perfect-conjecture",
+                  "guided": false,
+                  "speak": "Marco non risponde: avrà perso il treno."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Non c’è il pacco: lo ___ al vicino.",
+                  "translation": "The parcel is missing: they have probably delivered it to the neighbor.",
+                  "answer": "avranno lasciato",
+                  "options": [
+                    "avranno lasciato",
+                    "lasceranno",
+                    "lascerebbero"
+                  ],
+                  "explanation": "Avranno lasciato conjectures about a completed delivery.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-future-perfect-conjecture.focus.q3",
+                  "errorTag": "future-perfect-conjecture",
+                  "guided": false,
+                  "speak": "Non c’è il pacco: lo avranno lasciato al vicino."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Sarà rimasto in ufficio fino a tardi.",
+                  "translation": "He probably stayed at the office until late.",
+                  "answer": "Sarà rimasto in ufficio fino a tardi.",
+                  "tokens": [
+                    "Sarà",
+                    "rimasto",
+                    "in",
+                    "ufficio",
+                    "fino",
+                    "a",
+                    "tardi."
+                  ],
+                  "explanation": "Sarà rimasto is a conjecture about a past stay.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-future-perfect-conjecture.focus.q4",
+                  "errorTag": "future-perfect-conjecture",
+                  "guided": false,
+                  "speak": "Sarà rimasto in ufficio fino a tardi."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-clause-relations",
+      "title": "Relations between clauses",
+      "description": "Mark concession, purpose and precise reference.",
+      "lessons": [
+        {
+          "id": "c1-concessive-relations",
+          "title": "Concession with sebbene and pur",
+          "outcome": "I can concede a fact without losing the main claim.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-future-perfect-conjecture"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere",
+              "caseId": "congiuntivoImperfetto"
+            },
+            {
+              "entryId": "v:continuare"
+            }
+          ],
+          "takeaway": "Sebbene + subjunctive; pur + gerund only when its implied subject is clear.",
+          "objectives": [
+            {
+              "id": "c1-concessive-relations.focus",
+              "label": "Use an explicit or implicit concessive form with the right subject.",
+              "errorTag": "concessive-relations",
+              "explanation": "Sebbene takes the subjunctive; pur + gerund normally shares its subject with the main clause.",
+              "teach": [
+                {
+                  "title": "Explicit concession",
+                  "body": "Sebbene introduces a concessive clause with the subjunctive.",
+                  "examples": [
+                    {
+                      "it": "Sebbene sia tardi, continuiamo.",
+                      "en": "Although it is late, we will continue."
+                    }
+                  ]
+                },
+                {
+                  "title": "Shared-subject reduction",
+                  "body": "Pur + gerund keeps the main subject in view.",
+                  "examples": [
+                    {
+                      "it": "Pur essendo stanca, Marta lavora.",
+                      "en": "Although she is tired, Marta works."
+                    }
+                  ],
+                  "tip": "Avoid a dangling gerund when subjects differ."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ sia costoso, il corso è molto richiesto.",
+                  "translation": "Although it is expensive, the course is popular.",
+                  "answer": "Sebbene",
+                  "options": [
+                    "Sebbene",
+                    "Poiché",
+                    "Affinché"
+                  ],
+                  "explanation": "Sebbene marks concession, not cause or purpose.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-concessive-relations.focus.q1",
+                  "errorTag": "concessive-relations",
+                  "guided": false,
+                  "speak": "Sebbene sia costoso, il corso è molto richiesto."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with pur + gerund.",
+                  "context": "Anche se è stanca, Marta lavora.",
+                  "translation": "Although she is tired, Marta works.",
+                  "answer": "Pur essendo stanca, Marta lavora.",
+                  "accepted": [],
+                  "explanation": "Marta is the subject of both clauses, so pur essendo is clear.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-concessive-relations.focus.q2",
+                  "errorTag": "concessive-relations",
+                  "guided": false,
+                  "speak": "Pur essendo stanca, Marta lavora."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Pur ___ poco tempo, abbiamo terminato.",
+                  "translation": "Although we had little time, we finished.",
+                  "answer": "avendo",
+                  "options": [
+                    "avendo",
+                    "abbiamo",
+                    "avuto"
+                  ],
+                  "explanation": "Pur avendo forms a shared-subject concessive clause.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-concessive-relations.focus.q3",
+                  "errorTag": "concessive-relations",
+                  "guided": false,
+                  "speak": "Pur avendo poco tempo, abbiamo terminato."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Sebbene il tempo fosse brutto, siamo usciti.",
+                  "translation": "Although the weather was bad, we went out.",
+                  "answer": "Sebbene il tempo fosse brutto, siamo usciti.",
+                  "tokens": [
+                    "Sebbene",
+                    "il",
+                    "tempo",
+                    "fosse",
+                    "brutto,",
+                    "siamo",
+                    "usciti."
+                  ],
+                  "explanation": "Fosse follows concessive sebbene in a past setting.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-concessive-relations.focus.q4",
+                  "errorTag": "concessive-relations",
+                  "guided": false,
+                  "speak": "Sebbene il tempo fosse brutto, siamo usciti."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-causal-purpose-shades",
+          "title": "Cause and purpose",
+          "outcome": "I can distinguish a reason from an intended result.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-concessive-relations"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:parlare",
+              "caseId": "congiuntivoPresente"
+            },
+            {
+              "entryId": "v:capire"
+            }
+          ],
+          "takeaway": "Cause explains why; purpose states what someone aims to achieve.",
+          "objectives": [
+            {
+              "id": "c1-causal-purpose-shades.focus",
+              "label": "Choose perché, poiché or affinché with the intended relationship.",
+              "errorTag": "causal-purpose-shades",
+              "explanation": "Poiché gives a reason; affinché introduces an intended result and takes the subjunctive.",
+              "teach": [
+                {
+                  "title": "Reason",
+                  "body": "Poiché connects an established cause to an outcome.",
+                  "examples": [
+                    {
+                      "it": "Poiché piove, restiamo dentro.",
+                      "en": "Since it is raining, we are staying inside."
+                    }
+                  ]
+                },
+                {
+                  "title": "Purpose",
+                  "body": "Affinché introduces a desired result rather than a fact.",
+                  "examples": [
+                    {
+                      "it": "Parlo piano affinché tutti capiscano.",
+                      "en": "I speak slowly so that everyone can understand."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Ho ripetuto la frase ___ tutti capissero.",
+                  "translation": "I repeated the sentence so that everyone would understand.",
+                  "answer": "affinché",
+                  "options": [
+                    "affinché",
+                    "poiché",
+                    "siccome"
+                  ],
+                  "explanation": "Affinché introduces a purpose and licenses capissero.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-causal-purpose-shades.focus.q1",
+                  "errorTag": "causal-purpose-shades",
+                  "guided": false,
+                  "speak": "Ho ripetuto la frase affinché tutti capissero."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Combine using Poiché.",
+                  "context": "Piove; per questo restiamo dentro.",
+                  "translation": "It is raining; for that reason we are staying indoors.",
+                  "answer": "Poiché piove, restiamo dentro.",
+                  "accepted": [],
+                  "explanation": "Poiché presents the rain as the cause.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-causal-purpose-shades.focus.q2",
+                  "errorTag": "causal-purpose-shades",
+                  "guided": false,
+                  "speak": "Poiché piove, restiamo dentro."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ il treno era in ritardo, abbiamo avvisato Anna.",
+                  "translation": "Since the train was late, we informed Anna.",
+                  "answer": "Poiché",
+                  "options": [
+                    "Poiché",
+                    "Affinché",
+                    "Benché"
+                  ],
+                  "explanation": "Poiché introduces the stated reason.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-causal-purpose-shades.focus.q3",
+                  "errorTag": "causal-purpose-shades",
+                  "guided": false,
+                  "speak": "Poiché il treno era in ritardo, abbiamo avvisato Anna."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Ti scrivo affinché tu abbia tutti i dettagli.",
+                  "translation": "I am writing so that you have all the details.",
+                  "answer": "Ti scrivo affinché tu abbia tutti i dettagli.",
+                  "tokens": [
+                    "Ti",
+                    "scrivo",
+                    "affinché",
+                    "tu",
+                    "abbia",
+                    "tutti",
+                    "i",
+                    "dettagli."
+                  ],
+                  "explanation": "Abbia follows affinché, which expresses purpose.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-causal-purpose-shades.focus.q4",
+                  "errorTag": "causal-purpose-shades",
+                  "guided": false,
+                  "speak": "Ti scrivo affinché tu abbia tutti i dettagli."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-relative-scope",
+          "title": "Precise relative links",
+          "outcome": "I can link a relative clause to the intended noun.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-causal-purpose-shades"
+          ],
+          "referenceTopics": [
+            "pronouns",
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:parlare"
+            },
+            {
+              "entryId": "v:lavorare"
+            }
+          ],
+          "takeaway": "Choose the preposition required by the relation, then attach it to cui or quale.",
+          "objectives": [
+            {
+              "id": "c1-relative-scope.focus",
+              "label": "Use preposition + cui or il quale to make the relationship explicit.",
+              "errorTag": "relative-scope",
+              "explanation": "The governing preposition belongs before cui; a matching article precedes quale.",
+              "teach": [
+                {
+                  "title": "Cui with a preposition",
+                  "body": "Cui is unchanged, while the preposition shows the relation.",
+                  "examples": [
+                    {
+                      "it": "La persona con cui lavoro è qui.",
+                      "en": "The person I work with is here."
+                    }
+                  ]
+                },
+                {
+                  "title": "Il quale for clarity",
+                  "body": "Il quale agrees with its antecedent and may clarify reference.",
+                  "examples": [
+                    {
+                      "it": "Il libro del quale parlo è raro.",
+                      "en": "The book I am speaking about is rare."
+                    }
+                  ]
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La collega ___ lavoro partirà domani.",
+                  "translation": "The colleague with whom I work will leave tomorrow.",
+                  "answer": "con cui",
+                  "options": [
+                    "con cui",
+                    "di cui",
+                    "a cui"
+                  ],
+                  "explanation": "Lavorare con qualcuno requires con cui.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-relative-scope.focus.q1",
+                  "errorTag": "relative-scope",
+                  "guided": false,
+                  "speak": "La collega con cui lavoro partirà domani."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Combine with di cui.",
+                  "context": "Parlo di questo libro. Il libro è raro.",
+                  "translation": "I am talking about this book. The book is rare.",
+                  "answer": "Il libro di cui parlo è raro.",
+                  "accepted": [],
+                  "explanation": "Parlare di takes di cui in the relative.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-relative-scope.focus.q2",
+                  "errorTag": "relative-scope",
+                  "guided": false,
+                  "speak": "Il libro di cui parlo è raro."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Questo è il progetto ___ abbiamo discusso ieri.",
+                  "translation": "This is the project we discussed yesterday; discutere di un progetto.",
+                  "answer": "di cui",
+                  "options": [
+                    "di cui",
+                    "con cui",
+                    "per cui"
+                  ],
+                  "explanation": "The stated verb construction is discutere di, so di cui.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-relative-scope.focus.q3",
+                  "errorTag": "relative-scope",
+                  "guided": false,
+                  "speak": "Questo è il progetto di cui abbiamo discusso ieri."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "La città nella quale vivo è piccola.",
+                  "translation": "The city in which I live is small.",
+                  "answer": "La città nella quale vivo è piccola.",
+                  "tokens": [
+                    "La",
+                    "città",
+                    "nella",
+                    "quale",
+                    "vivo",
+                    "è",
+                    "piccola."
+                  ],
+                  "explanation": "Nella quale matches feminine città and the location relation.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-relative-scope.focus.q4",
+                  "errorTag": "relative-scope",
+                  "guided": false,
+                  "speak": "La città nella quale vivo è piccola."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-nonfinite-forms",
+      "title": "Infinitive, participle and gerund",
+      "description": "Compress clauses while preserving time and subject.",
+      "lessons": [
+        {
+          "id": "c1-infinitive-control",
+          "title": "Infinitive subjects and sequence",
+          "outcome": "I can reduce a clause when its subject is understood.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-relative-scope"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:decidere"
+            },
+            {
+              "entryId": "v:volere"
+            }
+          ],
+          "takeaway": "Check who performs the subordinate action before reducing to an infinitive.",
+          "objectives": [
+            {
+              "id": "c1-infinitive-control.focus",
+              "label": "Use di + infinitive after a same-subject verb; use a full che-clause when subjects differ.",
+              "errorTag": "infinitive-control",
+              "explanation": "The understood subject of a dependent infinitive is constrained by its governing construction.",
+              "teach": [
+                {
+                  "title": "Same subject",
+                  "body": "Decidere di + infinitive normally has one subject.",
+                  "examples": [
+                    {
+                      "it": "Giulia ha deciso di partire.",
+                      "en": "Giulia decided to leave."
+                    }
+                  ]
+                },
+                {
+                  "title": "Different subjects",
+                  "body": "A finite clause names the other subject.",
+                  "examples": [
+                    {
+                      "it": "Giulia vuole che Marco parta.",
+                      "en": "Giulia wants Marco to leave."
+                    }
+                  ],
+                  "tip": "Do not silently assign Marco to Giulia’s infinitive."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Giulia ha deciso ___ domani.",
+                  "translation": "Giulia decided that she herself would leave tomorrow.",
+                  "answer": "di partire",
+                  "options": [
+                    "di partire",
+                    "che Marco parta",
+                    "partendo"
+                  ],
+                  "explanation": "Decidere di partire keeps Giulia as the leaver.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-infinitive-control.focus.q1",
+                  "errorTag": "infinitive-control",
+                  "guided": false,
+                  "speak": "Giulia ha deciso di partire domani."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Remove the repeated subject using an infinitive.",
+                  "context": "Giulia desidera che Giulia possa riposare.",
+                  "translation": "Giulia wants to rest herself.",
+                  "answer": "Giulia desidera riposare.",
+                  "accepted": [
+                    "Giulia desidera riposarsi."
+                  ],
+                  "explanation": "One subject permits the infinitive riposare.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-infinitive-control.focus.q2",
+                  "errorTag": "infinitive-control",
+                  "guided": false,
+                  "speak": "Giulia desidera riposare."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Giulia vuole ___ domani.",
+                  "translation": "Giulia wants Marco, a different person, to leave tomorrow.",
+                  "answer": "che Marco parta",
+                  "options": [
+                    "che Marco parta",
+                    "di partire",
+                    "partire"
+                  ],
+                  "explanation": "The explicit different subject requires a finite clause.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-infinitive-control.focus.q3",
+                  "errorTag": "infinitive-control",
+                  "guided": false,
+                  "speak": "Giulia vuole che Marco parta domani."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Spero di poter tornare presto.",
+                  "translation": "I hope I can return soon.",
+                  "answer": "Spero di poter tornare presto.",
+                  "tokens": [
+                    "Spero",
+                    "di",
+                    "poter",
+                    "tornare",
+                    "presto."
+                  ],
+                  "explanation": "The infinitive chain keeps the same understood subject.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-infinitive-control.focus.q4",
+                  "errorTag": "infinitive-control",
+                  "guided": false,
+                  "speak": "Spero di poter tornare presto."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-participle-gerund",
+          "title": "Earlier action in reduced clauses",
+          "outcome": "I can distinguish simultaneous from prior action in a reduced clause.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-infinitive-control"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:finire",
+              "caseId": "trapassatoProssimo"
+            },
+            {
+              "entryId": "v:uscire"
+            }
+          ],
+          "takeaway": "Camminando overlaps; avendo finito is earlier than the main event.",
+          "objectives": [
+            {
+              "id": "c1-participle-gerund.focus",
+              "label": "Use simple gerund for overlap, compound gerund or past participle for prior completion.",
+              "errorTag": "participle-gerund",
+              "explanation": "Gerund and participial clauses need a clear understood subject and a clear time relation.",
+              "teach": [
+                {
+                  "title": "Overlap",
+                  "body": "The simple gerund presents overlap with the main event.",
+                  "examples": [
+                    {
+                      "it": "Camminando, ascoltavo la radio.",
+                      "en": "While walking, I listened to the radio."
+                    }
+                  ]
+                },
+                {
+                  "title": "Earlier completion",
+                  "body": "The compound gerund locates an action before the main event.",
+                  "examples": [
+                    {
+                      "it": "Avendo finito, uscì.",
+                      "en": "Having finished, he went out."
+                    }
+                  ],
+                  "tip": "Keep the shared subject clear."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ il rapporto, Laura uscì.",
+                  "translation": "Having finished the report, Laura went out.",
+                  "answer": "Avendo finito",
+                  "options": [
+                    "Avendo finito",
+                    "Finendo",
+                    "Finisce"
+                  ],
+                  "explanation": "Avendo finito makes completion prior to uscì.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-participle-gerund.focus.q1",
+                  "errorTag": "participle-gerund",
+                  "guided": false,
+                  "speak": "Avendo finito il rapporto, Laura uscì."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Reduce using a compound gerund.",
+                  "context": "Dopo che ebbe letto la lettera, Marta chiamò Luca.",
+                  "translation": "After reading the letter, Marta called Luca.",
+                  "answer": "Avendo letto la lettera, Marta chiamò Luca.",
+                  "accepted": [],
+                  "explanation": "Marta performs both actions; avendo letto marks the earlier one.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-participle-gerund.focus.q2",
+                  "errorTag": "participle-gerund",
+                  "guided": false,
+                  "speak": "Avendo letto la lettera, Marta chiamò Luca."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ lungo il fiume, ascoltavamo gli uccelli.",
+                  "translation": "While walking by the river, we listened to the birds.",
+                  "answer": "Camminando",
+                  "options": [
+                    "Camminando",
+                    "Avendo camminato",
+                    "Camminati"
+                  ],
+                  "explanation": "Camminando shows simultaneous activity.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-participle-gerund.focus.q3",
+                  "errorTag": "participle-gerund",
+                  "guided": false,
+                  "speak": "Camminando lungo il fiume, ascoltavamo gli uccelli."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Terminata la riunione, i colleghi uscirono.",
+                  "translation": "Once the meeting ended, the colleagues left.",
+                  "answer": "Terminata la riunione, i colleghi uscirono.",
+                  "tokens": [
+                    "Terminata",
+                    "la",
+                    "riunione,",
+                    "i",
+                    "colleghi",
+                    "uscirono."
+                  ],
+                  "explanation": "Terminata agrees with riunione and marks a prior event.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-participle-gerund.focus.q4",
+                  "errorTag": "participle-gerund",
+                  "guided": false,
+                  "speak": "Terminata la riunione, i colleghi uscirono."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-information-structure",
+      "title": "Topic and focus",
+      "description": "Direct the reader’s attention without changing the facts.",
+      "lessons": [
+        {
+          "id": "c1-topic-focus",
+          "title": "Known topic and pronoun resumption",
+          "outcome": "I can put a known object first and resume it clearly.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-participle-gerund"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:leggere"
+            },
+            {
+              "entryId": "v:scrivere"
+            }
+          ],
+          "takeaway": "Fronted object + matching clitic makes the topic explicit.",
+          "objectives": [
+            {
+              "id": "c1-topic-focus.focus",
+              "label": "Recognize and form left dislocation with a matching clitic.",
+              "errorTag": "topic-focus",
+              "explanation": "In a topicalized object, a clitic resumes the fronted noun in standard contemporary usage.",
+              "teach": [
+                {
+                  "title": "Start with the topic",
+                  "body": "A familiar object may come first as topic.",
+                  "examples": [
+                    {
+                      "it": "Il contratto, l’ho letto ieri.",
+                      "en": "The contract, I read it yesterday."
+                    }
+                  ]
+                },
+                {
+                  "title": "Match the clitic",
+                  "body": "The clitic reflects gender and number of the object.",
+                  "examples": [
+                    {
+                      "it": "Le lettere, le ho spedite.",
+                      "en": "The letters, I mailed them."
+                    }
+                  ],
+                  "tip": "The participle may agree with a preceding direct-object clitic."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La proposta, ___abbiamo discussa ieri.",
+                  "translation": "The proposal, we discussed it yesterday.",
+                  "answer": "l’",
+                  "options": [
+                    "l’",
+                    "lo",
+                    "ne"
+                  ],
+                  "explanation": "La proposta is feminine singular, resumed by l’ before abbiamo.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-topic-focus.focus.q1",
+                  "errorTag": "topic-focus",
+                  "guided": false,
+                  "speak": "La proposta, l’abbiamo discussa ieri."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Topicalize il contratto.",
+                  "context": "Ho letto il contratto ieri. Il contratto è già noto.",
+                  "translation": "I read the contract yesterday; the contract is already the topic.",
+                  "answer": "Il contratto, l’ho letto ieri.",
+                  "accepted": [
+                    "Il contratto l’ho letto ieri."
+                  ],
+                  "explanation": "The object moves left and l’ resumes it.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-topic-focus.focus.q2",
+                  "errorTag": "topic-focus",
+                  "guided": false,
+                  "speak": "Il contratto, l’ho letto ieri."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Le lettere, ___ ho già spedite.",
+                  "translation": "The letters, I have already sent them.",
+                  "answer": "le",
+                  "options": [
+                    "le",
+                    "li",
+                    "ne"
+                  ],
+                  "explanation": "Le is the feminine plural direct-object clitic.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-topic-focus.focus.q3",
+                  "errorTag": "topic-focus",
+                  "guided": false,
+                  "speak": "Le lettere, le ho già spedite."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Quel libro, lo leggerò domani.",
+                  "translation": "That book, I will read it tomorrow.",
+                  "answer": "Quel libro, lo leggerò domani.",
+                  "tokens": [
+                    "Quel",
+                    "libro,",
+                    "lo",
+                    "leggerò",
+                    "domani."
+                  ],
+                  "explanation": "Lo resumes the masculine singular topic quel libro.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-topic-focus.focus.q4",
+                  "errorTag": "topic-focus",
+                  "guided": false,
+                  "speak": "Quel libro, lo leggerò domani."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-clefts-inversion",
+          "title": "Cleft focus and contrast",
+          "outcome": "I can highlight the one person or thing that matters.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-topic-focus"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere"
+            },
+            {
+              "entryId": "v:cercare"
+            }
+          ],
+          "takeaway": "È X che ... singles out X against alternatives.",
+          "objectives": [
+            {
+              "id": "c1-clefts-inversion.focus",
+              "label": "Use è ... che to focus a constituent and express contrast.",
+              "errorTag": "clefts-inversion",
+              "explanation": "A cleft presents one element as the new, contrastive focus.",
+              "teach": [
+                {
+                  "title": "Focus the subject",
+                  "body": "È + focused subject + che highlights who acted.",
+                  "examples": [
+                    {
+                      "it": "È Marta che ha firmato.",
+                      "en": "It was Marta who signed."
+                    }
+                  ]
+                },
+                {
+                  "title": "Focus an object",
+                  "body": "The highlighted item may be an object too.",
+                  "examples": [
+                    {
+                      "it": "È questo libro che cerco.",
+                      "en": "It is this book that I am looking for."
+                    }
+                  ],
+                  "tip": "Use when a contrast is intended."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Non Luca: ___ ha firmato il modulo.",
+                  "translation": "Not Luca: it was Marta who signed the form.",
+                  "answer": "È Marta che",
+                  "options": [
+                    "È Marta che",
+                    "Marta che",
+                    "È Marta cui"
+                  ],
+                  "explanation": "È Marta che creates a cleft with Marta as focus.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-clefts-inversion.focus.q1",
+                  "errorTag": "clefts-inversion",
+                  "guided": false,
+                  "speak": "È Marta che ha firmato il modulo."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite as a cleft beginning È Marta che.",
+                  "context": "Marta ha firmato il modulo, non Luca.",
+                  "translation": "Marta, rather than Luca, signed the form.",
+                  "answer": "È Marta che ha firmato il modulo.",
+                  "accepted": [],
+                  "explanation": "The cleft isolates Marta as the contrastive signer.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-clefts-inversion.focus.q2",
+                  "errorTag": "clefts-inversion",
+                  "guided": false,
+                  "speak": "È Marta che ha firmato il modulo."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Non quello rosso: ___ cerco.",
+                  "translation": "Not the red one: it is this blue book I am looking for.",
+                  "answer": "È questo libro blu che",
+                  "options": [
+                    "È questo libro blu che",
+                    "Questo libro blu che",
+                    "È questo libro blu cui"
+                  ],
+                  "explanation": "The cleft needs è before the focused object and che after it.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-clefts-inversion.focus.q3",
+                  "errorTag": "clefts-inversion",
+                  "guided": false,
+                  "speak": "È questo libro blu che cerco."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "È domani che parte il treno, non oggi.",
+                  "translation": "The train leaves tomorrow, not today.",
+                  "answer": "È domani che parte il treno, non oggi.",
+                  "tokens": [
+                    "È",
+                    "domani",
+                    "che",
+                    "parte",
+                    "il",
+                    "treno,",
+                    "non",
+                    "oggi."
+                  ],
+                  "explanation": "The cleft contrasts domani with oggi.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-clefts-inversion.focus.q4",
+                  "errorTag": "clefts-inversion",
+                  "guided": false,
+                  "speak": "È domani che parte il treno, non oggi."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-register-politeness",
+      "title": "Register and politeness",
+      "description": "Make requests and reports fit their audience.",
+      "lessons": [
+        {
+          "id": "c1-conditional-politeness",
+          "title": "Conditional requests and reported claims",
+          "outcome": "I can distinguish a polite request from an unverified report.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-clefts-inversion"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:volere",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:dire"
+            }
+          ],
+          "takeaway": "Conditional forms can soften a request or mark reported, unverified information.",
+          "objectives": [
+            {
+              "id": "c1-conditional-politeness.focus",
+              "label": "Read the conditional from its communicative setting.",
+              "errorTag": "conditional-politeness",
+              "explanation": "Vorrei softens a request; a journalistic conditional can distance the writer from an unverified claim.",
+              "teach": [
+                {
+                  "title": "Polite request",
+                  "body": "The present conditional reduces the force of a request.",
+                  "examples": [
+                    {
+                      "it": "Vorrei sapere se il posto è libero.",
+                      "en": "I would like to know whether the seat is free."
+                    }
+                  ]
+                },
+                {
+                  "title": "Unconfirmed report",
+                  "body": "The conditional can signal that a claim is reported rather than verified.",
+                  "examples": [
+                    {
+                      "it": "Il ministro sarebbe arrivato ieri.",
+                      "en": "The minister reportedly arrived yesterday."
+                    }
+                  ],
+                  "tip": "The meaning depends on context."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the most courteous form for the specified formal email.",
+                  "context": "Scrivi a un ufficio: “___ sapere quando apre lo sportello.”",
+                  "translation": "A polite email to an office: “I would like to know when the counter opens.”",
+                  "answer": "Vorrei",
+                  "options": [
+                    "Vorrei",
+                    "Voglio",
+                    "Pretendo di"
+                  ],
+                  "explanation": "Vorrei is a conventional courteous request in this setting.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-conditional-politeness.focus.q1",
+                  "errorTag": "conditional-politeness",
+                  "guided": false,
+                  "speak": "Vorrei sapere quando apre lo sportello."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite as a polite first-person request.",
+                  "context": "Dimmi quando apre lo sportello.",
+                  "translation": "Tell me when the counter opens; rewrite politely for an office.",
+                  "answer": "Vorrei sapere quando apre lo sportello.",
+                  "accepted": [
+                    "Vorrei sapere a che ora apre lo sportello."
+                  ],
+                  "explanation": "Vorrei sapere softens the direct command.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-conditional-politeness.focus.q2",
+                  "errorTag": "conditional-politeness",
+                  "guided": false,
+                  "speak": "Vorrei sapere quando apre lo sportello."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Secondo fonti non confermate, il ministro ___ ieri.",
+                  "translation": "According to unconfirmed sources, the minister reportedly arrived yesterday.",
+                  "answer": "sarebbe arrivato",
+                  "options": [
+                    "sarebbe arrivato",
+                    "è arrivato",
+                    "arriverà"
+                  ],
+                  "explanation": "Sarebbe arrivato marks the report as unverified.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-conditional-politeness.focus.q3",
+                  "errorTag": "conditional-politeness",
+                  "guided": false,
+                  "speak": "Secondo fonti non confermate, il ministro sarebbe arrivato ieri."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Secondo il giornale, il direttore si sarebbe dimesso.",
+                  "translation": "According to the newspaper, the director has reportedly resigned.",
+                  "answer": "Secondo il giornale, il direttore si sarebbe dimesso.",
+                  "tokens": [
+                    "Secondo",
+                    "il",
+                    "giornale,",
+                    "il",
+                    "direttore",
+                    "si",
+                    "sarebbe",
+                    "dimesso."
+                  ],
+                  "explanation": "The past conditional distances the speaker from the reported claim.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-conditional-politeness.focus.q4",
+                  "errorTag": "conditional-politeness",
+                  "guided": false,
+                  "speak": "Secondo il giornale, il direttore si sarebbe dimesso."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-impersonal-register",
+          "title": "Impersonal and passive si",
+          "outcome": "I can avoid an unnecessary agent in formal information.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-conditional-politeness"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:lavorare",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:cercare"
+            }
+          ],
+          "takeaway": "Si lavora; si cercano volontari: check whether a noun is the patient.",
+          "objectives": [
+            {
+              "id": "c1-impersonal-register.focus",
+              "label": "Use impersonal si for general activity and passive si with plural agreement when a plural object becomes subject.",
+              "errorTag": "impersonal-register",
+              "explanation": "Si lavora is impersonal; si cercano volontari is a passive construction whose verb agrees with volontari.",
+              "teach": [
+                {
+                  "title": "General activity",
+                  "body": "Impersonal si presents an action with no named agent.",
+                  "examples": [
+                    {
+                      "it": "Qui si lavora in silenzio.",
+                      "en": "People work quietly here."
+                    }
+                  ]
+                },
+                {
+                  "title": "Plural patient",
+                  "body": "With passive si, a plural patient controls plural agreement.",
+                  "examples": [
+                    {
+                      "it": "Si cercano volontari.",
+                      "en": "Volunteers are being sought."
+                    }
+                  ],
+                  "tip": "Do not write si cerca volontari in standard edited prose."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Avviso: ___ volontari per sabato.",
+                  "translation": "Notice: volunteers are being sought for Saturday.",
+                  "answer": "Si cercano",
+                  "options": [
+                    "Si cercano",
+                    "Si cerca",
+                    "Ci cercano"
+                  ],
+                  "explanation": "Volontari is plural, so passive si takes cercano.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-impersonal-register.focus.q1",
+                  "errorTag": "impersonal-register",
+                  "guided": false,
+                  "speak": "Si cercano volontari per sabato."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with passive si.",
+                  "context": "Cerchiamo due assistenti. Elimina l’agente in un annuncio.",
+                  "translation": "We seek two assistants; remove the agent in a notice.",
+                  "answer": "Si cercano due assistenti.",
+                  "accepted": [],
+                  "explanation": "Passive si agrees with the plural patient due assistenti.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-impersonal-register.focus.q2",
+                  "errorTag": "impersonal-register",
+                  "guided": false,
+                  "speak": "Si cercano due assistenti."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "In biblioteca ___ in silenzio.",
+                  "translation": "In the library, people work quietly.",
+                  "answer": "si lavora",
+                  "options": [
+                    "si lavora",
+                    "si lavorano",
+                    "si lavorerebbe"
+                  ],
+                  "explanation": "With no plural patient, the impersonal verb stays singular.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-impersonal-register.focus.q3",
+                  "errorTag": "impersonal-register",
+                  "guided": false,
+                  "speak": "In biblioteca si lavora in silenzio."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "In questo museo si conservano documenti antichi.",
+                  "translation": "Ancient documents are kept in this museum.",
+                  "answer": "In questo museo si conservano documenti antichi.",
+                  "tokens": [
+                    "In",
+                    "questo",
+                    "museo",
+                    "si",
+                    "conservano",
+                    "documenti",
+                    "antichi."
+                  ],
+                  "explanation": "Documenti antichi is the plural patient, so conservano agrees.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-impersonal-register.focus.q4",
+                  "errorTag": "impersonal-register",
+                  "guided": false,
+                  "speak": "In questo museo si conservano documenti antichi."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-cohesion-reference",
+      "title": "Cohesion and reference",
+      "description": "Keep readers oriented across connected sentences.",
+      "lessons": [
+        {
+          "id": "c1-reference",
+          "title": "Clear anaphoric reference",
+          "outcome": "I can refer back to the intended item in a two-item sequence.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-impersonal-register"
+          ],
+          "referenceTopics": [
+            "pronouns"
+          ],
+          "related": [
+            {
+              "entryId": "v:leggere"
+            },
+            {
+              "entryId": "v:parlare"
+            }
+          ],
+          "takeaway": "If two antecedents compete, name or label the one you mean.",
+          "objectives": [
+            {
+              "id": "c1-reference.focus",
+              "label": "Choose il primo or il secondo when pronouns would be ambiguous.",
+              "errorTag": "reference",
+              "explanation": "This lesson uses explicit ordinal reference so the antecedent is recoverable without guesswork.",
+              "teach": [
+                {
+                  "title": "Two mentioned items",
+                  "body": "Il primo points to the first noun in a stated pair.",
+                  "examples": [
+                    {
+                      "it": "Ho letto un saggio e un romanzo: il primo era breve.",
+                      "en": "I read an essay and a novel: the first was short."
+                    }
+                  ]
+                },
+                {
+                  "title": "Avoid a vague pronoun",
+                  "body": "Repeat or label an antecedent when it matters.",
+                  "examples": [
+                    {
+                      "it": "Marta ha parlato con Anna. Anna era preoccupata.",
+                      "en": "Marta spoke to Anna. Anna was worried."
+                    }
+                  ],
+                  "tip": "Lei alone could leave the reader unsure."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Ho visitato Torino e Milano; ___ è in Piemonte.",
+                  "translation": "I visited Turin and Milan; the first city is in Piedmont.",
+                  "answer": "la prima",
+                  "options": [
+                    "la prima",
+                    "la seconda",
+                    "quest’ultima"
+                  ],
+                  "explanation": "Torino was named first, so la prima identifies it.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-reference.focus.q1",
+                  "errorTag": "reference",
+                  "guided": false,
+                  "speak": "Ho visitato Torino e Milano; la prima è in Piemonte."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite the second sentence to identify Anna explicitly.",
+                  "context": "Marta ha parlato con Anna. Lei era preoccupata. Intendi Anna.",
+                  "translation": "Marta spoke with Anna. Anna was worried.",
+                  "answer": "Marta ha parlato con Anna. Anna era preoccupata.",
+                  "accepted": [
+                    "Marta ha parlato con Anna; Anna era preoccupata."
+                  ],
+                  "explanation": "Repeating Anna removes the possible ambiguity of lei.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-reference.focus.q2",
+                  "errorTag": "reference",
+                  "guided": false,
+                  "speak": "Marta ha parlato con Anna. Anna era preoccupata."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Ho letto un saggio e un romanzo; ___ racconta una storia.",
+                  "translation": "I read an essay and a novel; the second item tells a story.",
+                  "answer": "il secondo",
+                  "options": [
+                    "il secondo",
+                    "il primo",
+                    "questi"
+                  ],
+                  "explanation": "Romanzo is second, so il secondo identifies it.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-reference.focus.q3",
+                  "errorTag": "reference",
+                  "guided": false,
+                  "speak": "Ho letto un saggio e un romanzo; il secondo racconta una storia."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Abbiamo esaminato due proposte: la seconda costa meno.",
+                  "translation": "We examined two proposals: the second costs less.",
+                  "answer": "Abbiamo esaminato due proposte: la seconda costa meno.",
+                  "tokens": [
+                    "Abbiamo",
+                    "esaminato",
+                    "due",
+                    "proposte:",
+                    "la",
+                    "seconda",
+                    "costa",
+                    "meno."
+                  ],
+                  "explanation": "La seconda gives a precise link to one of the two proposals.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-reference.focus.q4",
+                  "errorTag": "reference",
+                  "guided": false,
+                  "speak": "Abbiamo esaminato due proposte: la seconda costa meno."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-connectives",
+          "title": "Contrast and consequence",
+          "outcome": "I can choose a connector that preserves the argument.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-reference"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere"
+            },
+            {
+              "entryId": "v:arrivare"
+            }
+          ],
+          "takeaway": "Tuttavia turns; pertanto follows logically.",
+          "objectives": [
+            {
+              "id": "c1-connectives.focus",
+              "label": "Distinguish tuttavia from pertanto in linked claims.",
+              "errorTag": "connectives",
+              "explanation": "Tuttavia introduces a contrast; pertanto introduces a consequence.",
+              "teach": [
+                {
+                  "title": "Contrast",
+                  "body": "Tuttavia signals an opposing fact.",
+                  "examples": [
+                    {
+                      "it": "Il piano è costoso; tuttavia, è utile.",
+                      "en": "The plan is expensive; however, it is useful."
+                    }
+                  ]
+                },
+                {
+                  "title": "Consequence",
+                  "body": "Pertanto draws an outcome from what came before.",
+                  "examples": [
+                    {
+                      "it": "Il treno è fermo; pertanto, arriveremo tardi.",
+                      "en": "The train has stopped; therefore, we will arrive late."
+                    }
+                  ],
+                  "tip": "Use the logic of the two claims, not just their punctuation."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il corso è difficile; ___, gli studenti lo apprezzano.",
+                  "translation": "The course is difficult; nevertheless, students appreciate it.",
+                  "answer": "tuttavia",
+                  "options": [
+                    "tuttavia",
+                    "pertanto",
+                    "infatti"
+                  ],
+                  "explanation": "Appreciation contrasts with the difficulty, so tuttavia.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-connectives.focus.q1",
+                  "errorTag": "connectives",
+                  "guided": false,
+                  "speak": "Il corso è difficile; tuttavia, gli studenti lo apprezzano."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Join the claims with pertanto.",
+                  "context": "Il treno è fermo. Arriveremo tardi.",
+                  "translation": "The train is stopped. We will therefore arrive late.",
+                  "answer": "Il treno è fermo; pertanto, arriveremo tardi.",
+                  "accepted": [
+                    "Il treno è fermo, pertanto arriveremo tardi."
+                  ],
+                  "explanation": "The late arrival follows from the stopped train.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-connectives.focus.q2",
+                  "errorTag": "connectives",
+                  "guided": false,
+                  "speak": "Il treno è fermo; pertanto, arriveremo tardi."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La strada è chiusa; ___, dobbiamo cambiare percorso.",
+                  "translation": "The road is closed; therefore, we must change route.",
+                  "answer": "pertanto",
+                  "options": [
+                    "pertanto",
+                    "tuttavia",
+                    "eppure"
+                  ],
+                  "explanation": "The route change is a consequence of the closure.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-connectives.focus.q3",
+                  "errorTag": "connectives",
+                  "guided": false,
+                  "speak": "La strada è chiusa; pertanto, dobbiamo cambiare percorso."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "La prova era complessa; tuttavia, tutti l’hanno superata.",
+                  "translation": "The test was complex; nevertheless, everyone passed it.",
+                  "answer": "La prova era complessa; tuttavia, tutti l’hanno superata.",
+                  "tokens": [
+                    "La",
+                    "prova",
+                    "era",
+                    "complessa;",
+                    "tuttavia,",
+                    "tutti",
+                    "l’hanno",
+                    "superata."
+                  ],
+                  "explanation": "Tuttavia marks the unexpected positive result.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-connectives.focus.q4",
+                  "errorTag": "connectives",
+                  "guided": false,
+                  "speak": "La prova era complessa; tuttavia, tutti l’hanno superata."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-sequence-tense",
+          "title": "Time in reported speech",
+          "outcome": "I can locate a future or earlier event from a past report.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-connectives"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:dire",
+              "caseId": "condizionalePassato"
+            },
+            {
+              "entryId": "v:venire"
+            }
+          ],
+          "takeaway": "From ha detto: sarebbe venuto is later; aveva finito is earlier.",
+          "objectives": [
+            {
+              "id": "c1-sequence-tense.focus",
+              "label": "Use past conditional for later-than-past and pluperfect for earlier-than-past.",
+              "errorTag": "sequence-tense",
+              "explanation": "Reported speech locates events relative to the original past speaking time.",
+              "teach": [
+                {
+                  "title": "Later from then",
+                  "body": "Sarebbe venuto is future in the past.",
+                  "examples": [
+                    {
+                      "it": "Ha detto che sarebbe venuto il giorno dopo.",
+                      "en": "He said he would come the next day."
+                    }
+                  ]
+                },
+                {
+                  "title": "Earlier from then",
+                  "body": "Aveva finito places an action before the report.",
+                  "examples": [
+                    {
+                      "it": "Ha detto che aveva già finito.",
+                      "en": "He said he had already finished."
+                    }
+                  ],
+                  "tip": "Temporal adverbs may also shift in indirect speech."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Una settimana fa Luca ha detto che ___ il giorno dopo.",
+                  "translation": "A week ago Luca said he would come the following day.",
+                  "answer": "sarebbe venuto",
+                  "options": [
+                    "sarebbe venuto",
+                    "verrà",
+                    "veniva"
+                  ],
+                  "explanation": "Sarebbe venuto reports a later event from yesterday’s viewpoint.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-sequence-tense.focus.q1",
+                  "errorTag": "sequence-tense",
+                  "guided": false,
+                  "speak": "Una settimana fa Luca ha detto che sarebbe venuto il giorno dopo."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Report Luca’s words one week later in indirect speech.",
+                  "context": "Una settimana fa Luca ha detto: «Verrò domani».",
+                  "translation": "A week ago Luca said, “I will come tomorrow.” Report it now.",
+                  "answer": "Luca ha detto che sarebbe venuto il giorno dopo.",
+                  "accepted": [
+                    "Luca ha detto che sarebbe venuto l’indomani."
+                  ],
+                  "explanation": "The event was future from Luca’s past statement and is today now.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-sequence-tense.focus.q2",
+                  "errorTag": "sequence-tense",
+                  "guided": false,
+                  "speak": "Luca ha detto che sarebbe venuto il giorno dopo."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Luca ha detto che ___ prima della riunione.",
+                  "translation": "Luca said he had finished before the meeting.",
+                  "answer": "aveva finito",
+                  "options": [
+                    "aveva finito",
+                    "finirà",
+                    "finisse"
+                  ],
+                  "explanation": "Aveva finito locates completion before the reported past point.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-sequence-tense.focus.q3",
+                  "errorTag": "sequence-tense",
+                  "guided": false,
+                  "speak": "Luca ha detto che aveva finito prima della riunione."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Ieri Marta ha detto che sarebbe partita oggi.",
+                  "translation": "Yesterday Marta said she would leave today.",
+                  "answer": "Ieri Marta ha detto che sarebbe partita oggi.",
+                  "tokens": [
+                    "Ieri",
+                    "Marta",
+                    "ha",
+                    "detto",
+                    "che",
+                    "sarebbe",
+                    "partita",
+                    "oggi."
+                  ],
+                  "explanation": "Sarebbe partita is future relative to ieri.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-sequence-tense.focus.q4",
+                  "errorTag": "sequence-tense",
+                  "guided": false,
+                  "speak": "Ieri Marta ha detto che sarebbe partita oggi."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-nominal-formal-style",
+      "title": "Concise formal style",
+      "description": "Turn actions into concise, readable formal statements.",
+      "lessons": [
+        {
+          "id": "c1-nominalization",
+          "title": "Actions as nouns",
+          "outcome": "I can turn a full action clause into a concise noun phrase.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-sequence-tense"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:chiudere"
+            },
+            {
+              "entryId": "v:approvare"
+            }
+          ],
+          "takeaway": "Nominalize one action while keeping its participants clear.",
+          "objectives": [
+            {
+              "id": "c1-nominalization.focus",
+              "label": "Use a clear event noun and preserve its participants.",
+              "errorTag": "nominalization",
+              "explanation": "Nominalization can foreground an event, but the agent or object should remain recoverable.",
+              "teach": [
+                {
+                  "title": "Name the event",
+                  "body": "Chiusura names the act of closing.",
+                  "examples": [
+                    {
+                      "it": "La chiusura del museo è prevista alle sei.",
+                      "en": "The museum’s closure is scheduled for six."
+                    }
+                  ]
+                },
+                {
+                  "title": "Keep the relation",
+                  "body": "A noun phrase can retain who acted with da parte di.",
+                  "examples": [
+                    {
+                      "it": "L’approvazione del piano da parte del consiglio è attesa.",
+                      "en": "Approval of the plan by the council is expected."
+                    }
+                  ],
+                  "tip": "Do not pile up nouns if a verb would be clearer."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La ___ del museo è prevista alle sei.",
+                  "translation": "The closure of the museum is scheduled for six.",
+                  "answer": "chiusura",
+                  "options": [
+                    "chiusura",
+                    "chiudere",
+                    "chiuso"
+                  ],
+                  "explanation": "Chiusura is the event noun that fits after la.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-nominalization.focus.q1",
+                  "errorTag": "nominalization",
+                  "guided": false,
+                  "speak": "La chiusura del museo è prevista alle sei."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Condense as one sentence beginning L’approvazione.",
+                  "context": "Il consiglio ha approvato il piano. L’atto è importante.",
+                  "translation": "The council approved the plan. The act is important.",
+                  "answer": "L’approvazione del piano da parte del consiglio è importante.",
+                  "accepted": [],
+                  "explanation": "The noun approvazione retains both the plan and the council.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-nominalization.focus.q2",
+                  "errorTag": "nominalization",
+                  "guided": false,
+                  "speak": "L’approvazione del piano da parte del consiglio è importante."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La ___ dei dati richiede tempo.",
+                  "translation": "Collecting the data takes time.",
+                  "answer": "raccolta",
+                  "options": [
+                    "raccolta",
+                    "raccogliere",
+                    "raccolti"
+                  ],
+                  "explanation": "Raccolta is the feminine event noun after la.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-nominalization.focus.q3",
+                  "errorTag": "nominalization",
+                  "guided": false,
+                  "speak": "La raccolta dei dati richiede tempo."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "La consegna dei documenti è prevista per lunedì.",
+                  "translation": "The delivery of the documents is scheduled for Monday.",
+                  "answer": "La consegna dei documenti è prevista per lunedì.",
+                  "tokens": [
+                    "La",
+                    "consegna",
+                    "dei",
+                    "documenti",
+                    "è",
+                    "prevista",
+                    "per",
+                    "lunedì."
+                  ],
+                  "explanation": "Consegna makes the event the sentence topic.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-nominalization.focus.q4",
+                  "errorTag": "nominalization",
+                  "guided": false,
+                  "speak": "La consegna dei documenti è prevista per lunedì."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-reduced-formal-clauses",
+          "title": "Compact formal clauses",
+          "outcome": "I can shorten a time or condition clause without losing the logical link.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-nominalization"
+          ],
+          "referenceTopics": [
+            "prepositions"
+          ],
+          "related": [
+            {
+              "entryId": "v:inviare"
+            },
+            {
+              "entryId": "v:avvisare"
+            }
+          ],
+          "takeaway": "In seguito a marks sequence; in caso di marks a condition.",
+          "objectives": [
+            {
+              "id": "c1-reduced-formal-clauses.focus",
+              "label": "Use a precise preposition and noun phrase for a compact formal relation.",
+              "errorTag": "reduced-formal-clauses",
+              "explanation": "A compact formal phrase must preserve whether it means after, before or on condition.",
+              "teach": [
+                {
+                  "title": "After an event",
+                  "body": "In seguito a + noun marks a later consequence.",
+                  "examples": [
+                    {
+                      "it": "In seguito alla verifica, invieremo il risultato.",
+                      "en": "After the check, we will send the result."
+                    }
+                  ]
+                },
+                {
+                  "title": "Condition",
+                  "body": "In caso di + noun marks a condition, not a cause.",
+                  "examples": [
+                    {
+                      "it": "In caso di ritardo, avvisateci.",
+                      "en": "In case of delay, let us know."
+                    }
+                  ],
+                  "tip": "The compact phrase must still specify the relation."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ ritardo, avvisate la segreteria.",
+                  "translation": "In case of delay, inform the office.",
+                  "answer": "In caso di",
+                  "options": [
+                    "In caso di",
+                    "In seguito a",
+                    "Nonostante"
+                  ],
+                  "explanation": "In caso di introduces the possible condition.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-reduced-formal-clauses.focus.q1",
+                  "errorTag": "reduced-formal-clauses",
+                  "guided": false,
+                  "speak": "In caso di ritardo, avvisate la segreteria."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with In seguito alla verifica.",
+                  "context": "Dopo che avremo verificato i dati, invieremo il risultato.",
+                  "translation": "After checking the data, we will send the result.",
+                  "answer": "In seguito alla verifica dei dati, invieremo il risultato.",
+                  "accepted": [],
+                  "explanation": "In seguito alla verifica preserves the later relation compactly.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-reduced-formal-clauses.focus.q2",
+                  "errorTag": "reduced-formal-clauses",
+                  "guided": false,
+                  "speak": "In seguito alla verifica dei dati, invieremo il risultato."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ verifica, abbiamo corretto il totale.",
+                  "translation": "Following the check, we corrected the total.",
+                  "answer": "In seguito alla",
+                  "options": [
+                    "In seguito alla",
+                    "In caso della",
+                    "A patto della"
+                  ],
+                  "explanation": "In seguito alla marks the prior check as the sequence point.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-reduced-formal-clauses.focus.q3",
+                  "errorTag": "reduced-formal-clauses",
+                  "guided": false,
+                  "speak": "In seguito alla verifica, abbiamo corretto il totale."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "In caso di pioggia, la visita sarà rinviata.",
+                  "translation": "In case of rain, the visit will be postponed.",
+                  "answer": "In caso di pioggia, la visita sarà rinviata.",
+                  "tokens": [
+                    "In",
+                    "caso",
+                    "di",
+                    "pioggia,",
+                    "la",
+                    "visita",
+                    "sarà",
+                    "rinviata."
+                  ],
+                  "explanation": "In caso di gives the condition for postponement.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-reduced-formal-clauses.focus.q4",
+                  "errorTag": "reduced-formal-clauses",
+                  "guided": false,
+                  "speak": "In caso di pioggia, la visita sarà rinviata."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-idiom-reformulation",
+      "title": "Idiomatic reformulation",
+      "description": "Restate a point accurately with compact idiomatic patterns.",
+      "lessons": [
+        {
+          "id": "c1-circumlocution",
+          "title": "Obligation and inevitability",
+          "outcome": "I can reformulate inevitability without changing its force.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-reduced-formal-clauses"
+          ],
+          "referenceTopics": [
+            "tenses"
+          ],
+          "related": [
+            {
+              "entryId": "v:potere",
+              "caseId": "condizionale"
+            },
+            {
+              "entryId": "v:fare"
+            }
+          ],
+          "takeaway": "Non posso fare a meno di X; non resta che X.",
+          "objectives": [
+            {
+              "id": "c1-circumlocution.focus",
+              "label": "Use non poter fare a meno di + infinitive or non restare che + infinitive appropriately.",
+              "errorTag": "circumlocution",
+              "explanation": "These constructions express that an action feels unavoidable, but differ from a bare physical inability.",
+              "teach": [
+                {
+                  "title": "Cannot help doing",
+                  "body": "Non poter fare a meno di means one cannot refrain from an action.",
+                  "examples": [
+                    {
+                      "it": "Non posso fare a meno di sorridere.",
+                      "en": "I cannot help smiling."
+                    }
+                  ]
+                },
+                {
+                  "title": "Only option left",
+                  "body": "Non resta che introduces the remaining course of action.",
+                  "examples": [
+                    {
+                      "it": "Non resta che aspettare.",
+                      "en": "All that remains is to wait."
+                    }
+                  ],
+                  "tip": "Use the infinitive after che in this fixed pattern."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "La battuta è divertente: non posso fare a meno ___ sorridere.",
+                  "translation": "The joke is funny: I cannot help smiling.",
+                  "answer": "di",
+                  "options": [
+                    "di",
+                    "a",
+                    "che"
+                  ],
+                  "explanation": "Fare a meno takes di before the infinitive.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-circumlocution.focus.q1",
+                  "errorTag": "circumlocution",
+                  "guided": false,
+                  "speak": "La battuta è divertente: non posso fare a meno di sorridere."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Use the idiom Non ci resta che.",
+                  "context": "L’unica cosa che possiamo fare è aspettare.",
+                  "translation": "The only thing we can do is wait.",
+                  "answer": "Non ci resta che aspettare.",
+                  "accepted": [
+                    "Non resta che aspettare."
+                  ],
+                  "explanation": "Non ci resta che expresses the only remaining option.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-circumlocution.focus.q2",
+                  "errorTag": "circumlocution",
+                  "guided": false,
+                  "speak": "Non ci resta che aspettare."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il treno è partito e non ci ___ aspettare il prossimo.",
+                  "translation": "The train has left, and all we can do is wait for the next one.",
+                  "answer": "resta che",
+                  "options": [
+                    "resta che",
+                    "rimane di",
+                    "manca a"
+                  ],
+                  "explanation": "Non ci resta che is the fixed idiomatic frame.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-circumlocution.focus.q3",
+                  "errorTag": "circumlocution",
+                  "guided": false,
+                  "speak": "Il treno è partito e non ci resta che aspettare il prossimo."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Non posso fare a meno di notarlo.",
+                  "translation": "I cannot help noticing it.",
+                  "answer": "Non posso fare a meno di notarlo.",
+                  "tokens": [
+                    "Non",
+                    "posso",
+                    "fare",
+                    "a",
+                    "meno",
+                    "di",
+                    "notarlo."
+                  ],
+                  "explanation": "Di links fare a meno to the infinitive notarlo.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-circumlocution.focus.q4",
+                  "errorTag": "circumlocution",
+                  "guided": false,
+                  "speak": "Non posso fare a meno di notarlo."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-comparative-degree",
+          "title": "Proportional comparisons",
+          "outcome": "I can link two changing quantities.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-circumlocution"
+          ],
+          "referenceTopics": [
+            "adjectives"
+          ],
+          "related": [
+            {
+              "entryId": "v:leggere"
+            },
+            {
+              "entryId": "v:capire"
+            }
+          ],
+          "takeaway": "Più X, più Y describes linked change.",
+          "objectives": [
+            {
+              "id": "c1-comparative-degree.focus",
+              "label": "Use più ... più ... to express parallel change.",
+              "errorTag": "comparative-degree",
+              "explanation": "Each più starts one comparative clause; the pattern relates their changes rather than comparing two static items.",
+              "teach": [
+                {
+                  "title": "Parallel rise",
+                  "body": "The two quantities increase together.",
+                  "examples": [
+                    {
+                      "it": "Più leggo, più capisco.",
+                      "en": "The more I read, the more I understand."
+                    }
+                  ]
+                },
+                {
+                  "title": "Parallel change",
+                  "body": "The pattern can also pair less with more.",
+                  "examples": [
+                    {
+                      "it": "Meno dormo, più sono stanco.",
+                      "en": "The less I sleep, the more tired I am."
+                    }
+                  ],
+                  "tip": "Keep each clause complete enough to identify what changes."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ leggo, più capisco.",
+                  "translation": "The more I read, the more I understand.",
+                  "answer": "Più",
+                  "options": [
+                    "Più",
+                    "Molto",
+                    "Tanto"
+                  ],
+                  "explanation": "The first comparative clause begins with più.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-comparative-degree.focus.q1",
+                  "errorTag": "comparative-degree",
+                  "guided": false,
+                  "speak": "Più leggo, più capisco."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite with più ... più ... .",
+                  "context": "Quando studio di più, capisco di più.",
+                  "translation": "The more I study, the more I understand.",
+                  "answer": "Più studio, più capisco.",
+                  "accepted": [],
+                  "explanation": "The two più clauses express proportional change.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-comparative-degree.focus.q2",
+                  "errorTag": "comparative-degree",
+                  "guided": false,
+                  "speak": "Più studio, più capisco."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "___ dormo, più sono stanco.",
+                  "translation": "The less I sleep, the more tired I am.",
+                  "answer": "Meno",
+                  "options": [
+                    "Meno",
+                    "Più",
+                    "Quanto"
+                  ],
+                  "explanation": "Meno introduces the decreasing quantity.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-comparative-degree.focus.q3",
+                  "errorTag": "comparative-degree",
+                  "guided": false,
+                  "speak": "Meno dormo, più sono stanco."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Più ascolti, meno errori fai.",
+                  "translation": "The more you listen, the fewer mistakes you make.",
+                  "answer": "Più ascolti, meno errori fai.",
+                  "tokens": [
+                    "Più",
+                    "ascolti,",
+                    "meno",
+                    "errori",
+                    "fai."
+                  ],
+                  "explanation": "Più and meno link opposing changes.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-comparative-degree.focus.q4",
+                  "errorTag": "comparative-degree",
+                  "guided": false,
+                  "speak": "Più ascolti, meno errori fai."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c1-reformulation",
+          "title": "Correction without contradiction",
+          "outcome": "I can replace an imprecise claim with a better one.",
+          "minutes": 7,
+          "prerequisites": [
+            "c1-comparative-degree"
+          ],
+          "referenceTopics": [
+            "adjectives"
+          ],
+          "related": [
+            {
+              "entryId": "v:essere"
+            },
+            {
+              "entryId": "v:costare"
+            }
+          ],
+          "takeaway": "Non tanto X quanto Y shifts the reader to the more apt description Y.",
+          "objectives": [
+            {
+              "id": "c1-reformulation.focus",
+              "label": "Use non tanto ... quanto ... to shift emphasis from one description to another.",
+              "errorTag": "reformulation",
+              "explanation": "The pattern does not always fully deny the first element; it foregrounds the second as more accurate.",
+              "teach": [
+                {
+                  "title": "Better description",
+                  "body": "Non tanto X quanto Y makes Y the stronger description.",
+                  "examples": [
+                    {
+                      "it": "Non è tanto difficile quanto lungo.",
+                      "en": "It is not so much difficult as long."
+                    }
+                  ]
+                },
+                {
+                  "title": "Parallel elements",
+                  "body": "Keep the two compared phrases grammatically parallel.",
+                  "examples": [
+                    {
+                      "it": "Non tanto per il costo quanto per il tempo.",
+                      "en": "Not so much because of the cost as because of the time."
+                    }
+                  ],
+                  "tip": "Use the same preposition where the structure requires it."
+                }
+              ],
+              "questions": [
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Il problema non è tanto il prezzo ___ il tempo necessario.",
+                  "translation": "The problem is not so much the price as the time needed.",
+                  "answer": "quanto",
+                  "options": [
+                    "quanto",
+                    "come",
+                    "che"
+                  ],
+                  "explanation": "Non tanto pairs with quanto in this contrast.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-reformulation.focus.q1",
+                  "errorTag": "reformulation",
+                  "guided": false,
+                  "speak": "Il problema non è tanto il prezzo quanto il tempo necessario."
+                },
+                {
+                  "format": "type",
+                  "prompt": "Rewrite using non tanto ... quanto ... .",
+                  "context": "La difficoltà principale è la durata, più che il costo.",
+                  "translation": "The main difficulty is the duration rather than the cost.",
+                  "answer": "Il problema non è tanto il costo quanto la durata.",
+                  "accepted": [],
+                  "explanation": "The frame shifts emphasis to la durata.",
+                  "hint": "Keep the original meaning.",
+                  "id": "c1-reformulation.focus.q2",
+                  "errorTag": "reformulation",
+                  "guided": false,
+                  "speak": "Il problema non è tanto il costo quanto la durata."
+                },
+                {
+                  "format": "choice",
+                  "prompt": "Choose the form that fits the stated meaning.",
+                  "context": "Lo faccio non tanto per abitudine ___ per necessità.",
+                  "translation": "I do it less from habit than from necessity.",
+                  "answer": "quanto",
+                  "options": [
+                    "quanto",
+                    "come",
+                    "che"
+                  ],
+                  "explanation": "The parallel phrases per abitudine and per necessità take quanto.",
+                  "hint": "Use the clause meaning and time cue.",
+                  "id": "c1-reformulation.focus.q3",
+                  "errorTag": "reformulation",
+                  "guided": false,
+                  "speak": "Lo faccio non tanto per abitudine quanto per necessità."
+                },
+                {
+                  "format": "order",
+                  "prompt": "Put the words in order to express this meaning.",
+                  "context": "Non era tanto arrabbiata quanto delusa.",
+                  "translation": "She was not so much angry as disappointed.",
+                  "answer": "Non era tanto arrabbiata quanto delusa.",
+                  "tokens": [
+                    "Non",
+                    "era",
+                    "tanto",
+                    "arrabbiata",
+                    "quanto",
+                    "delusa."
+                  ],
+                  "explanation": "Quanto introduces the more accurate description delusa.",
+                  "hint": "Follow the clause relationship.",
+                  "id": "c1-reformulation.focus.q4",
+                  "errorTag": "reformulation",
+                  "guided": false,
+                  "speak": "Non era tanto arrabbiata quanto delusa."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -36,6 +36,8 @@ function promptHTML(source) {
 
 export async function render(root, params = {}, query = {}) {
   if (query.legacy !== '1') return (await import('./learnJourney.js')).render(root, params, query);
+  const grammarId=params.id || query.id;
+  if(grammarId?.startsWith('g:'))return (await import('./learnGrammar.js')).render(root,{id:grammarId.slice(2)},query);
   const ownerId = store.current.id;
   if (store.learning.version > LEARNING_VERSION) {
     setTitle('Update Parola');
@@ -48,6 +50,7 @@ export async function render(root, params = {}, query = {}) {
     const requestedSession = query.session && Object.values(store.learning.sessions || {}).find(s => s.id === query.session);
     if (requestedSession) return render(root, { id: requestedSession.entryId }, { ...query, mode: requestedSession.mode, ...(requestedSession.objectiveIds.length === 1 ? { objective: requestedSession.objectiveIds[0] } : {}) });
     const suggestion = recommend(store, { review: mode === 'review' });
+    if(suggestion?.entry?.kind==='grammar')return (await import('./learnGrammar.js')).render(root,{id:suggestion.entry.id.slice(2)},{...query,mode:suggestion.mode,objective:suggestion.objectiveId});
     if (suggestion?.entry) return render(root, { id: suggestion.entry.id }, { ...query, mode: suggestion.mode || mode, ...(suggestion.objectiveId ? { objective: suggestion.objectiveId } : {}), ...(suggestion.session ? { session: suggestion.session.id } : {}) });
   }
   const domain = () => store.learning;

@@ -2,6 +2,7 @@
 import { article, withArticle, hasPluralForm, isPluralOnly, nounNumberNote, GENDER_NAME } from '../data.js';
 import { conjugate, accepted, PERSONS, IMP_PERSONS, TENSE_BY_KEY, MISSING } from '../conjugator.js';
 import { progressiveForms } from './progressive-content.js';
+import { GRAMMAR_LOOKUP_ENTRIES, GRAMMAR_LOOKUP_ENTRY_PATCHES, GRAMMAR_LOOKUP_ALIASES, GRAMMAR_LOOKUP_FUNCTIONS, GRAMMAR_LOOKUP_NAMES, GRAMMAR_LOOKUP_PLACES, GRAMMAR_LOOKUP_FORM_NOTES } from './grammar-lexicon.js';
 
 const norm = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
 const usable = value => typeof value === 'string' && !!value.trim() && !['-', MISSING].includes(value.trim());
@@ -23,6 +24,7 @@ const SUPPLEMENT = [
   ['momento', 'moment', 'm', 'momenti'], ['spiegazione', 'explanation', 'f', 'spiegazioni'],
   ['testo', 'text; written passage', 'm', 'testi'],
 ].map(([it, en, g, pl]) => ({ id: `lookup:${it}|noun`, it, en, g, pl, pos: 'noun', lookupSource: 'curated', ...(it === pl ? { note: 'Invariable noun.' } : {}) }));
+SUPPLEMENT.push(...GRAMMAR_LOOKUP_ENTRIES);
 SUPPLEMENT.push({ id: 'lookup:riposare|verb', inf: 'riposare', en: 'to rest', pos: 'verb', aux: 'avere', lookupSource: 'curated' });
 
 // Expand only alternatives explicitly supplied by the existing conjugator.
@@ -75,6 +77,7 @@ const FUNCTIONS = [
   ['qual', 'det', 'which; what (shortened quale)'], ['nessun', 'det', 'no; not any'], ['nessuna', 'det', 'no; not any'],
   ['alcuni', 'det', 'some; a few'], ['alcune', 'det', 'some; a few'], ['stanotte', 'adv', 'tonight; last night, depending on the sentence'],
 ];
+FUNCTIONS.push(...GRAMMAR_LOOKUP_FUNCTIONS);
 // These closed-class forms and shortened headwords are explicitly listed here;
 // no general suffix rule is used to manufacture forms for arbitrary entries.
 const LEXICAL_ALIASES = {
@@ -86,6 +89,7 @@ const LEXICAL_ALIASES = {
   'menù': ['menu'],
   avere: ['aver'], essere: ['esser'], fare: ['far'], dire: ['dir'],
 };
+for(const [lemma,aliases] of Object.entries(GRAMMAR_LOOKUP_ALIASES)) LEXICAL_ALIASES[lemma]=unique([...(LEXICAL_ALIASES[lemma] || []),...aliases]);
 const PREPOSITIONS = new Map();
 for (const [base, gloss, words] of [
   ['di', 'of / from the; some (partitive use)', ['del', 'dello', 'della', "dell'", 'dei', 'degli', 'delle']],
@@ -118,7 +122,10 @@ const ELISIONS = new Map([
   ["novant'", { meaning: 'ninety (elided novanta)', ambiguous: false }],
 ]);
 const NAMES = new Set(['Marco', 'Sara', 'Luca', 'Maria', 'Anna', 'Paolo', 'Giulia', 'Giovanni', 'Francesca', 'Giuseppe', 'Paola', 'Rossi', 'Bianchi'].map(norm));
+for(const name of GRAMMAR_LOOKUP_NAMES)NAMES.add(norm(name));
 const PLACES = new Map([['roma', 'Rome'], ['italia', 'Italy'], ['milano', 'Milan'], ['napoli', 'Naples'], ['torino', 'Turin'], ['firenze', 'Florence'], ['venezia', 'Venice'], ['bologna', 'Bologna']]);
+
+for(const [place,meaning] of GRAMMAR_LOOKUP_PLACES)PLACES.set(norm(place),meaning);
 
 function contractionFor(key) {
   const apostrophe = key.indexOf("'");
@@ -183,7 +190,8 @@ function explicitFemininePlural(entry) {
 
 /** Build once per catalog snapshot. No DOM, storage, network, catalog mutation or guessing. */
 export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
-  const entries = [...(Array.isArray(vocab) ? vocab : []), ...(Array.isArray(verbs) ? verbs : [])].filter(e => e && typeof e === 'object');
+  const entries = [...(Array.isArray(vocab) ? vocab : []), ...(Array.isArray(verbs) ? verbs : [])].filter(e => e && typeof e === 'object')
+    .map(e=>GRAMMAR_LOOKUP_ENTRY_PATCHES[e.id]?{...e,...GRAMMAR_LOOKUP_ENTRY_PATCHES[e.id]}:e);
   const supplied = new Set(entries.map(e => `${norm(e.inf || e.it)}|${e.kind === 'verb' || e.inf ? 'verb' : e.pos}`));
   for (const e of SUPPLEMENT) if (!supplied.has(`${norm(e.inf || e.it)}|${e.pos}`)) entries.push(e);
   const lexical = new Map(), phrases = new Map(), reverse = new Map(), paradigms = new Map();
@@ -345,7 +353,7 @@ export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
     const candidates = [...grouped.values()].map(({ e, id, variant, matches, phrase }) => {
       const verb = e.kind === 'verb' || e.pos === 'verb' || usable(e.inf);
       const word = variant?.it || e.inf || e.it;
-      const note = [phrase ? `Part of the recorded phrase “${phrase}”. The meaning shown is for the whole phrase.` : '', String(e.note || '')].filter(Boolean).join(' ');
+      const note = [phrase ? `Part of the recorded phrase “${phrase}”. The meaning shown is for the whole phrase.` : '', String(e.note || ''),...GRAMMAR_LOOKUP_FORM_NOTES.filter(x=>norm(x.lemma)===norm(word)&&norm(x.form)===key).map(x=>x.note)].filter(Boolean).join(' ');
       const base = { id, source: e.lookupSource || (verb && matches.length ? 'conjugation' : 'catalog'), word, label: word, meaning: String(e.en || 'Meaning not recorded for this entry.'), pos: verb ? 'verb' : e.pos || 'word', note, exposureForms: exposures([word]) };
       if (verb) return { ...base, ...verbDetails(e, matches, context, options) };
       return e.pos === 'noun' ? { ...base, ...nounCandidate(e, variant) } : base;
@@ -354,7 +362,8 @@ export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
       for (const [word, pos, meaning] of FUNCTIONS) if (query === word && !candidates.some(c => norm(c.word) === query && c.pos === pos)) candidates.push({ id: `function:${word}:${pos}`, source: 'function', word, label: word, meaning, pos, note: '', exposureForms: [word] });
       const prep = PREPOSITIONS.get(query);
       if (prep && !candidates.some(c => norm(c.word) === query && c.pos === 'prep')) candidates.push({ id: `preposition:${query}`, source: 'function', word: query, label: query, meaning: prep.meaning, pos: 'prep', note: `${prep.base} + a definite article`, exposureForms: [query] });
-      if (/^\p{Lu}/u.test(text) && (NAMES.has(query) || PLACES.has(query))) candidates.push({ id: `name:${query}`, source: 'name', word: text, label: text, meaning: PLACES.get(query) || 'A person’s name or surname', pos: 'proper noun', note: 'A name, not an ordinary vocabulary translation.', exposureForms: [text] });
+      const properText=contraction ? text.slice(text.search(/['’‘]/)+1) : text;
+      if (/^\p{Lu}/u.test(properText) && (NAMES.has(query) || PLACES.has(query))) candidates.push({ id: `name:${query}`, source: 'name', word: properText, label: properText, meaning: PLACES.get(query) || 'A person’s name or surname', pos: 'proper noun', note: 'A name, not an ordinary vocabulary translation.', exposureForms: [text] });
       if (/^\d+$/u.test(query)) candidates.push({ id: `number:${query}`, source: 'number', word: query, label: query, meaning: `Number ${query}`, pos: 'number', note: '', exposureForms: [query] });
     }
     // Articles are a useful ordering hint, not proof: la/lo can also be clitics.
