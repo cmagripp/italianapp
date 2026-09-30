@@ -1,5 +1,5 @@
 // Runs a game with the chosen source. The scene is tinted to the source's level (or the games palette) before the game starts.
-import { html, raw, esc, tr } from '../ui.js';
+import { html, raw, esc, tr, keyboardViewportHeight } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { GAME_BY_ID } from '../games/index.js';
@@ -56,7 +56,10 @@ export async function render(root, params, query) {
   root.dataset.practiceGame=game.id;
   window.scrollTo(0,0);
   const fit=()=>{
-    document.body.style.setProperty('--practice-height',`${window.visualViewport?.height||window.innerHeight}px`);
+    if(disposed)return;
+    const height=keyboardViewportHeight();
+    if(height===null)document.body.style.removeProperty('--practice-height');
+    else document.body.style.setProperty('--practice-height',`${height}px`);
     const input=document.activeElement;
     if(root.contains(input)&&input?.matches('input')) {
       const panel=input.closest('.drill-main')||root;
@@ -64,7 +67,10 @@ export async function render(root, params, query) {
       if(delta>0)panel.scrollTop+=delta+12;
     }
   };
-  fit();window.visualViewport?.addEventListener('resize',fit);window.addEventListener('resize',fit);
+  fit();
+  for(const event of ['resize','scroll'])window.visualViewport?.addEventListener(event,fit);
+  for(const event of ['resize','orientationchange','pageshow'])window.addEventListener(event,fit);
+  for(const event of ['focusin','focusout'])root.addEventListener(event,fit);
   const release=c=>{if(typeof c==='function')c();else c?.destroy?.();};
   const run = async (its) => {
     if(disposed||store.current.id!==owner)return;
@@ -83,7 +89,9 @@ export async function render(root, params, query) {
   run(items);
   return () => {
     disposed=true;generation++;release(cleanup);cleanup=null;
-    window.visualViewport?.removeEventListener('resize',fit);window.removeEventListener('resize',fit);
+    for(const event of ['resize','scroll'])window.visualViewport?.removeEventListener(event,fit);
+    for(const event of ['resize','orientationchange','pageshow'])window.removeEventListener(event,fit);
+    for(const event of ['focusin','focusout'])root.removeEventListener(event,fit);
     document.body.classList.remove('practice-viewport');document.body.style.removeProperty('--practice-height');
     delete root.dataset.practiceGame;setChrome({tabs:true});
   };

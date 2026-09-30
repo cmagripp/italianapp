@@ -73,8 +73,7 @@ async function railGeometry() {
     const track = document.querySelector('[data-action-track]');
     const card = document.querySelector('[data-journey]');
     const rect = node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom }; };
-    let dock = track;
-    while (dock && getComputedStyle(dock).position !== 'fixed') dock = dock.parentElement;
+    const dock = track.closest('.journey-action-dock');
     const actions = [...track.querySelectorAll('button, a')];
     return { width: innerWidth, height: innerHeight, pageWidth: document.documentElement.scrollWidth, card: rect(card), track: rect(track), scroll: track.scrollLeft, scrollWidth: track.scrollWidth, snap: getComputedStyle(track).scrollSnapType, dock: dock && rect(dock), actions: actions.map(a => ({ ...rect(a), name: a.textContent.trim(), tag: a.tagName, href: a.getAttribute('href'), tabIndex: a.tabIndex, font: parseFloat(getComputedStyle(a).fontSize) })) };
   });
@@ -173,8 +172,9 @@ try {
       await fresh(width, theme); await gotoRoute(page, route('v:capire') + '?chapter=present');
       await assertPresentTeaching();
       const before = await saved(), g = await railGeometry();
-      assert(g.dock, 'the action rail is fixed at the bottom');
-      assert(g.dock.bottom <= g.height + 1); assert(g.dock.bottom >= g.height - 40);
+      assert(g.dock, 'the action rail stays at the usable viewport bottom');
+      assert(Math.abs(g.dock.bottom-g.height)<=1,'footer fills the viewport instead of reserving a guessed gap');
+      assert(Math.abs(g.actions[0].bottom-(g.height-8))<=1,'only the intended 8px bottom clearance remains');
       assert.equal(g.actions.length, 3); assert.equal(g.actions[0].name, 'Continue');
       assert.match(g.actions[1].name, /meaning|example|reference/i); assert.match(g.actions[2].name, /Skip/);
       assert(g.scrollWidth > g.track.width * 2); assert.match(g.snap, /x/); assert(g.pageWidth <= width + 1);
@@ -216,8 +216,7 @@ try {
       const headerBefore = await page.locator('.journey-header').boundingBox();
       await page.locator('.journey-main').evaluate(panel => { panel.scrollTop = panel.scrollHeight; });
       const clearance = await page.evaluate(() => {
-        const track = document.querySelector('[data-action-track]'); let dock = track;
-        while (dock && getComputedStyle(dock).position !== 'fixed') dock = dock.parentElement;
+        const track = document.querySelector('[data-action-track]'), dock = track.closest('.journey-action-dock');
         const last = [...document.querySelectorAll('.journey-main h1, .journey-main p, .journey-main table, .journey-main .journey-example')].filter(e => e.checkVisibility()).at(-1);
         const panel = document.querySelector('.journey-main');
         return { contentBottom: last.getBoundingClientRect().bottom, panelBottom: panel.getBoundingClientRect().bottom, panelScroll: panel.scrollTop, dockTop: dock.getBoundingClientRect().top, width: innerWidth, pageWidth: document.documentElement.scrollWidth, windowScroll: scrollY };
@@ -225,7 +224,7 @@ try {
       assert.equal(clearance.windowScroll, 0, 'the outer page stays fixed'); assert(clearance.panelScroll > 0, 'the lesson panel scrolls');
       assert.deepEqual(await page.locator('.journey-header').boundingBox(), headerBefore, 'the lesson header remains still');
       assert(clearance.contentBottom <= clearance.panelBottom + 1, 'the last teaching text fits inside the scroll panel');
-      assert(clearance.panelBottom <= clearance.dockTop - 4, 'the content panel remains above the fixed dock');
+      assert(Math.abs(clearance.panelBottom-clearance.dockTop)<=1, 'the scroll panel ends exactly where its footer begins');
       assert(clearance.pageWidth <= clearance.width + 1); await shot(`${width}-${theme}-bottom-clearance`);
       const after = await saved(); assert.deepEqual(after.ids, before.ids); assert.equal(after.xp, before.xp);
       await page.locator('[data-continue]').click();

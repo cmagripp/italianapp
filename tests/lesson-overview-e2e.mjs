@@ -201,8 +201,8 @@ try {
     await page.locator('.journey-main').evaluate(panel=>{panel.scrollTop=0;});await shot(`${width}-${theme}`);
     await page.locator('[data-open-lesson="background"]').click();assert.equal((await state()).step.chapter.id,'background');assert.equal((await state()).phase,'teach');
     await page.locator('[data-conjugation-toggle]').click();
-    for(const tense of ['presente','passatoProssimo','imperfetto','futuro','condizionale'])assert.equal(await page.locator(`dialog.journey-conjugation-panel [data-conjugation-tense="${tense}"]`).count(),1);
-    assert.match(await page.locator('dialog.journey-conjugation-panel').innerText(),/dicevo/);await page.keyboard.press('Escape');
+    for(const tense of ['presente','passatoProssimo','imperfetto','futuro','condizionale'])assert.equal(await page.locator(`.journey-conjugation-dropdown [data-conjugation-tense="${tense}"]`).count(),1);
+    assert.match(await page.locator('.journey-conjugation-dropdown').innerText(),/dicevo/);await page.keyboard.press('Escape');
   });
   await check('Conditional opens as a core lesson, teaches the endings and keeps its exact written form',async()=>{
     await fresh();await gotoRoute(page,'/learn/verb/v:credere?chapter=condizionale');
@@ -223,13 +223,13 @@ try {
     for(const form of ['sto mangiando','stavo mangiando','mangiavo','ho mangiato'])assert(text.includes(form),form+' viewpoint taught');
     assert.match(text,/does not.*every bit/s);for(const form of ['stavo','stavi','stava','stavamo','stavate','stavano'])assert(text.includes(form));
     await page.locator('[data-conjugation-toggle]').click();await page.locator('[data-conjugation-tense="imperfettoProgressivo"]').click();
-    assert.match(await page.locator('dialog.journey-conjugation-panel').innerText(),/stavo mangiando/);await page.keyboard.press('Escape');
+    assert.match(await page.locator('.journey-conjugation-dropdown').innerText(),/stavo mangiando/);await page.keyboard.press('Escape');
     const forms=await page.evaluate(async()=>{const{getEntry}=await import('./js/data.js');const{progressiveForms}=await import('./js/learning/progressive-content.js');return progressiveForms(getEntry('v:lavarsi'),0,{chapter:'background'});});
     assert(forms.includes('mi stavo lavando'));assert(forms.includes('stavo lavandomi'));
   });
   await check('An impersonal verb drawer teaches the real subject and omits invented personal forms',async()=>{
     await fresh();await gotoRoute(page,'/learn/verb/v:bisognare?chapter=present');const before=await state();
-    await page.locator('[data-conjugation-toggle]').click();const drawer=page.locator('dialog.journey-conjugation-panel');
+    await page.locator('[data-conjugation-toggle]').click();const drawer=page.locator('.journey-conjugation-dropdown');
     assert.equal(await drawer.locator('.journey-forms tr').count(),1);assert.equal((await drawer.locator('.journey-forms td[lang="it"]').innerText()).trim(),'bisogna');
     assert.doesNotMatch(await drawer.locator('.journey-forms').innerText(),/\bio\b|\btu\b|lui|Lei|—/);unchanged(before,await state());await shot('impersonal-drawer');
     await drawer.locator('[data-conjugation-tense="condizionale"]').click();assert.equal((await drawer.locator('.journey-forms td[lang="it"]').innerText()).trim(),'bisognerebbe');unchanged(before,await state());

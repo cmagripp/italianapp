@@ -143,7 +143,8 @@ button.link { display: inline-flex; align-items: center; min-height: 40px; verti
 .hairline { border: 0; border-top: 1px solid var(--hairline); margin: 16px 0; }
 
 /* ---------- 4. AURORA ---------- */
-.aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--bg-0); contain: strict; }
+/* Paint through the Home Screen safe area, including WebKit's shorter fixed viewport. */
+.aurora { position: fixed; inset: 0 0 calc(-1 * var(--sab)); min-height:100lvh; z-index: 0; overflow: hidden; pointer-events: none; background: var(--bg-0); contain: strict; }
 .aurora .orb {
   position: absolute; width: 72vw; height: 72vw; min-width: 320px; min-height: 320px; max-width: 640px; max-height: 640px; border-radius: 50%;
   filter: blur(60px); opacity: var(--orb-opacity); will-change: transform; translate: 0 var(--py, 0px);

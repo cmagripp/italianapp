@@ -17,6 +17,43 @@ async function visibleContinue(page,scope=''){
  assert(geometry.top>=0&&geometry.bottom<=geometry.viewport+1,JSON.stringify(geometry));assert(geometry.hit,JSON.stringify(geometry));assert(geometry.height>=44);assert.equal(geometry.scrollY,0);assert(geometry.scrollWidth<=geometry.width+1);
 }
 try{
+ {
+  const context=await browser.newContext(contextOptions(devices['iPhone 13'],{viewport:{width:390,height:844},reducedMotion:'reduce'}));
+  await context.addInitScript(()=>{
+   const viewport=new EventTarget();Object.assign(viewport,{height:innerHeight,offsetTop:0,scale:1});
+   Object.defineProperty(window,'visualViewport',{configurable:true,value:viewport});window.__viewport=viewport;
+  });
+  const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));await boot(page);
+  await page.evaluate(async()=>{
+   const{store}=await import('./js/store.js');store.setSetting('tts',false);store.setSetting('adaptiveLearning',false);
+   for(const id of['w:casa|noun','w:libro|noun','w:caffè|noun']){store.markLearned(id,'word');Object.assign(store.current.items[id],{s:4,due:Date.now()-1000});}
+   Math.random=()=>.1;
+  });
+  for(const route of ['/game/typing?src=level:A1','/review?typed=1']) {
+   await page.evaluate(()=>Object.assign(window.__viewport,{height:innerHeight-80,offsetTop:0,scale:1}));
+   await gotoRoute(page,route);await page.locator('[data-answer]').waitFor();
+   const measure=()=>page.evaluate(()=>({height:document.body.getBoundingClientRect().height,screen:innerHeight,override:document.body.style.getPropertyValue('--practice-height')}));
+   let geometry=await measure();assert.equal(geometry.override,'','normal standalone shortfall must not shrink the shell');assert(Math.abs(geometry.height-geometry.screen)<1);
+   await page.locator('[data-answer]').focus();
+   await page.evaluate(()=>{Object.assign(window.__viewport,{height:innerHeight-300,offsetTop:40});window.__viewport.dispatchEvent(new Event('resize'));});
+   geometry=await measure();assert.equal(geometry.override,`${geometry.screen-260}px`,'keyboard height includes the visual offset');assert(Math.abs(geometry.height-geometry.screen)<1,'background shell keeps its full CSS height');
+   await page.evaluate(()=>{window.__viewport.offsetTop=60;window.__viewport.dispatchEvent(new Event('scroll'));});
+   geometry=await measure();assert.equal(geometry.override,`${geometry.screen-240}px`,'viewport panning updates the usable area');
+   await page.locator('[data-answer]').blur();assert.equal((await measure()).override,'','blur clears even a stale keyboard metric');
+   await page.locator('[data-answer]').focus();assert.notEqual((await measure()).override,'','refocus updates without waiting for another resize');
+   await page.evaluate(()=>{window.__viewport.height=innerHeight-80;window.__viewport.offsetTop=0;window.dispatchEvent(new Event('pageshow'));});
+   assert.equal((await measure()).override,'','resume returns to CSS baseline');
+   await page.evaluate(()=>{Object.assign(window.__viewport,{height:innerHeight-300,scale:1.5});window.__viewport.dispatchEvent(new Event('resize'));});
+   assert.equal((await measure()).override,'','pinch zoom is not a keyboard');
+   await page.evaluate(()=>{window.__viewport.scale=1;document.activeElement.readOnly=true;window.__viewport.dispatchEvent(new Event('resize'));});
+   assert.equal((await measure()).override,'','read-only input does not trigger keyboard sizing');
+   await gotoRoute(page,'/home');
+   await page.evaluate(()=>{window.__viewport.dispatchEvent(new Event('scroll'));window.dispatchEvent(new Event('pageshow'));});
+   assert.equal((await measure()).override,'','disposed route cannot restore a height override');
+   checks++;
+  }
+  await context.close();
+ }
  for (const changed of ['route','profile']) {
   const context=await browser.newContext(contextOptions(devices['iPhone 13'],{reducedMotion:'reduce'}));
   const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));await boot(page);
