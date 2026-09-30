@@ -231,6 +231,7 @@ try {
       await answerCorrect();await visibleContinue();await withinViewport();
       const feedback=await page.locator('.journey-feedback-dock').boundingBox(),button=await page.locator('[data-feedback-bar] [data-continue]').boundingBox();
       assert(Math.abs(feedback.y+feedback.height-height)<=1,'feedback footer fills the bottom without the old reserved gap');assert(Math.abs(button.y+button.height-(height-Math.max(8,insets.b||0)-12))<=1,'Continue keeps only safe-area padding plus the feedback card inset');
+      const verdict=await page.locator('[data-feedback-bar] .feedback').evaluate(region=>({region:region.getBoundingClientRect().toJSON(),title:region.querySelector('.fb-title').getBoundingClientRect().toJSON()}));assert(verdict.title.top>=verdict.region.top-1&&verdict.title.bottom<=verdict.region.bottom+1,'the full feedback verdict is readable before scrolling');
       await shot(`${label}-visible-continue`);
     });
   }

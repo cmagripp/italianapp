@@ -504,4 +504,7 @@ body.journey-viewport #topTitle { text-align:left; padding-left:4px; }
   .journey-header:not(.is-overview) > .journey-top { flex:1; min-width:0; }
   .journey-header:not(.is-overview) > .journey-progress-line { flex:1.4; min-width:0; }
   .journey-feedback-dock { max-height:48%; }
+  .journey-feedback-dock .feedback-bar { display:grid; grid-template-columns:minmax(0,1fr) minmax(140px,30%); grid-template-rows:minmax(0,1fr); gap:16px; }
+  .journey-feedback-dock .feedback { margin:0; }
+  .journey-feedback-dock .feedback-bar > .btn { align-self:stretch; height:100%; }
 }
