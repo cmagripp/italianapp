@@ -109,7 +109,7 @@ async function renderLegacy(root, params) {
   const auxKey = e.aux === 'essere' ? 'essere' : 'avere';
   const wanted = ['presente', 'passatoProssimo', 'imperfetto', 'futuro', ...(LEVELS.indexOf(level) >= 2 ? ['condizionale', 'congiuntivoPresente'] : [])];
   const tenses = wanted.filter(k => conj.tenses[k] && availablePersons(conj.tenses[k]).length);
-  const st = { result: null, learnedNow: false, restartDrill: null, celebrated: false };
+  const st = { result: null, learnedNow: false, learnedXP:0, checkedTenses:new Map(), restartDrill: null, celebrated: false };
 
   // ---------- 1 MEET ----------
   const meet = {
@@ -280,7 +280,8 @@ async function renderLegacy(root, params) {
           setTimeout(() => { if (host.isConnected) { api.refresh(); revealInScroller(host, { pad: 8 }); } }, 460);
           if (q.type === 'type') setTimeout(() => host.querySelector('[data-answer]')?.focus({ preventScroll: true }), 520);
         }
-        function finish() {
+        function finish(ok=false,{revealed=false}={}) {
+          if(ok&&!revealed)st.checkedTenses.set(key,Date.now());
           state = 'done';
           const strip = body.querySelector('[data-strip]');
           strip.hidden = false;
@@ -413,13 +414,15 @@ async function renderLegacy(root, params) {
       const start = () => {
         if (drill) drill.destroy();
         const qs = drillQuestions();
+        const completionRun=store.beginLegacyLessonRun(e,{questions:qs,passScore:PASS,taughtTenses:[...st.checkedTenses].map(([tense,at])=>({tense,at}))});
         if (qs.length !== 9) api.setHint(`${qs.length} quick questions · pass with ${PASS} %`); // defective verbs get fewer
         drill = runDrill(host, qs, {
           title: 'Verb drill', gameId: 'verb-intro', backHref: '#/learn', xpPer: 3, passScore: PASS, record: false,
           onDone: (result) => {
             st.result = result;
             const passed = result.score >= PASS;
-            if (passed && !store.isLearned(e.id)) { store.markLearned(e.id, 'verb'); st.learnedNow = true; }
+            const completion=store.finishLegacyLessonRun(completionRun,result);
+            st.learnedNow=completion.learnedNow;st.learnedXP=completion.xp;
             store.recordGame('verb-intro', result);
             renderResults(host, result, { passScore: PASS, onRetry: start });
             api.setHint(passed ? 'Passed — swipe up' : 'Not yet — retry or continue');
@@ -443,11 +446,11 @@ async function renderLegacy(root, params) {
       const r = st.result || { score: 0, correct: 0, total: 0, xp: 0 };
       const passed = r.score >= PASS;
       const next = nextNew('verb', 1)[0];
-      const xp = (r.xp || 0) + (st.learnedNow ? 30 : 0);
+      const xp = (r.xp || 0) + st.learnedXP;
       const fin = api.body.querySelector('[data-fin]');
       fin.innerHTML = html`<div class="fin-word display" data-word>${e.inf}</div>
         <div class="fin-stamp" data-stamp></div>
-        <p class="fin-line">${passed ? (st.learnedNow ? 'Added to your learned verbs — it will come back in reviews and games.' : 'Already in your learned verbs. Nice refresher.') : `Score ${PASS}% or more in the drill to add ${e.inf} to your learned verbs.`}</p>
+        <p class="fin-line">${passed ? (store.isLearned(e.id)?st.learnedNow?'Added to your learned verbs — it will come back in reviews and games.':'Already in your learned verbs. Nice refresher.':'The cases you completed are saved for review. Finish the remaining cases to complete this verb.') : `Score ${PASS}% or more in the drill to add ${e.inf} to your learned verbs.`}</p>
         <div class="fin-xp"><span class="display">+${xp}</span><span class="mono">XP</span><span class="mono fin-score">· ${r.score}% · ${r.correct} of ${r.total} correct</span></div>
         <div class="fin-actions">
           ${passed ? raw(next ? html`<a class="btn primary block" href="#/learn/verb/${encodeURIComponent(next.id)}" data-next-verb>Next verb: ${next.inf}${raw(icon('arrow', { size: 18 }))}</a>` : html`<a class="btn primary block" href="#/learn">All verbs in scope learned</a>`) : raw(html`<button type="button" class="btn primary block" data-retry>${raw(icon('refresh', { size: 18 }))}Retry the drill</button>`)}

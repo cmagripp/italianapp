@@ -158,6 +158,7 @@ function nextLearningIdentity() {
 const learningXP = (domain) => Object.values(domain?.events || {}).reduce((n, e) => n + (Number(e.xp) || 0), 0);
 const entryCompletionRecords = (domain,id) => ['*','word','present','past','background','future','condizionale']
   .map(caseId=>domain?.completions?.[completionKey(id,caseId)]).filter(Boolean);
+const legacyCase = tense => ({presente:'present',passatoProssimo:'past',imperfetto:'background',futuro:'future',condizionale:'condizionale'}[tense]);
 
 class Store extends EventTarget {
   constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; this._saveQueue = Promise.resolve(); this._mirrorSerial = 0; }
@@ -358,6 +359,57 @@ class Store extends EventTarget {
     this.save();void this.saveNow();
     return true;
   }
+  // Classic walkthroughs do not create adaptive answer evidence. A live run
+  // can enroll its actual taught/tested cases without weakening markLearned's
+  // protection against a stale completion screen undoing a later uncheck.
+  beginLegacyLessonRun(entry,{questions=[],passScore=100,taughtTenses=[]}={}) {
+    if(!entry?.id || this.learning.version>LEARNING_VERSION || !questions.length)return null;
+    const startedAt=Math.max(Date.now(),...entryCompletionRecords(this.learning,entry.id).map(c=>c.at+1));
+    return {entry,questions:[...questions],passScore,startedAt,taughtTenses:[...taughtTenses],profileId:this.current.id,epochId:this.learning.epoch.id,finished:false};
+  }
+  finishLegacyLessonRun(run,result) {
+    const rejected={complete:false,learnedNow:false,xp:0,caseIds:[]};
+    if(!run || run.finished)return rejected;
+    run.finished=true;
+    if(run.profileId!==this.current.id || run.epochId!==this.learning.epoch.id || this.learning.version>LEARNING_VERSION)return rejected;
+    const answers=result?.answers;
+    if(!Array.isArray(answers) || answers.length!==run.questions.length || !answers.every((a,i)=>a.q===run.questions[i] && typeof a.ok==='boolean')
+      || Math.round(answers.filter(a=>a.ok).length/answers.length*100)<run.passScore)return rejected;
+    const taught=run.taughtTenses.filter(check=>{
+      if(!check || !Number.isFinite(check.at))return false;
+      const override=completionRecord(this.learning,run.entry.id,legacyCase(check.tense));
+      return !override || override.checked || check.at>override.at;
+    }).map(check=>check.tense);
+    const ids=run.entry.kind==='verb' ? [...new Set([...taught,...answers.filter(a=>a.ok&&a.q.meta?.skill==='conjugation').map(a=>a.q.meta.tense)].map(legacyCase).filter(Boolean))] : ['word'];
+    return this._completeLegacyCases(run.entry,ids,run.startedAt);
+  }
+  completeLegacyEvidence(entry,objectives,{sessionId}={}) {
+    if(!entry?.id || !sessionId || this.learning.version>LEARNING_VERSION)return {complete:false,learnedNow:false,xp:0,caseIds:[]};
+    const groups=new Map();
+    for(const objective of objectives || []) {
+      const id=entry.kind==='verb'?legacyCase(objective.tense):'word';
+      if(!id || objective.required===false)continue;
+      if(!groups.has(id))groups.set(id,[]);groups.get(id).push(objective);
+    }
+    const ids=[];
+    for(const [id,required] of groups) {
+      const override=completionRecord(this.learning,entry.id,id), cutoff=override?.checked===false?override.at:-Infinity;
+      const evidence={...this.learning,events:Object.fromEntries(Object.entries(this.learning.events || {}).filter(([,e])=>e.at>cutoff))};
+      if(required.every(o=>skillState(evidence,o.id).ready) && required.every(o=>Object.values(evidence.events).some(e=>e.objectiveId===o.id&&e.entryId===entry.id&&e.sessionId===sessionId&&e.ok)))ids.push(id);
+    }
+    return this._completeLegacyCases(entry,ids);
+  }
+  _completeLegacyCases(entry,caseIds,startedAt=Infinity) {
+    const before=this.isLearned(entry.id), state=this.completionState(entry), xp=this.current.stats.xp;
+    const ids=caseIds.filter(id=>(entry.kind!=='verb' || state.cases.some(c=>c.id===id&&c.available))
+      && !(completionRecord(this.learning,entry.id,id)?.at>=startedAt));
+    const at=Math.max(Date.now(),...entryCompletionRecords(this.learning,entry.id).map(c=>c.at+1));
+    for(const caseId of ids)this.current.learning=setCompletionRecord(this.learning,{entryId:entry.id,caseId,checked:true,at,id:uid(),source:'legacy'});
+    const complete=this.completionState(entry).complete;
+    if(complete)this.markLearned(entry.id,entry.kind);
+    else if(ids.length){const item=this.ensureItem(entry.id);item.learned=false;item.last=at;this.save();}
+    return {complete,learnedNow:!before&&complete,xp:this.current.stats.xp-xp,caseIds:ids};
+  }
 
   // ---------- items / SRS ----------
   getItem(id) { return this.current.items[id] || null; }
@@ -374,7 +426,13 @@ class Store extends EventTarget {
     if (!it.learned) {
       // the reward (XP, learned counters, today's new items) is for the first time only: "Unmarked" keeps learnedAt, so
       // toggling Mark learned on an entry cannot farm 30 XP and a "new verb" per tap
-      const first = !it.learnedAt;
+      const completion=this.completionState(id);
+      const manuallyComplete=completion.complete && (completion.cases.length
+        ? completion.cases.filter(c=>c.available).every(c=>c.source==='manual') : completion.source==='manual');
+      // Concurrent manual case edits can complete the whole entry while both
+      // devices retain a partial legacy item flag. Reconciling that flag is not
+      // a newly passed lesson and must not award its completion bonus.
+      const first = !it.learnedAt && !manuallyComplete;
       it.learned = true; it.learnedAt = Date.now(); it.last = Date.now(); // `last` is what cloud sync compares: newest copy wins
       if (it.s < 1) it.s = 1;
       if (!it.due) { it.due = Date.now() + 8 * 3600e3; it.iv = 0; }

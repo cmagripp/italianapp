@@ -291,11 +291,11 @@ const flows = [
     if (!fin.score) throw new Error(`Finito shows no check score: ${fin.text}`);
     return `${r.scenes.join(' → ')} → ${fin.score} · stamp ${fin.stamp || '—'} · learned=${await isLearned('w:casa|noun')}`;
   } },
-  // The success path the two flows above never reach: every question answered from the oracle, so the drill passes,
-  // the item is marked learned, the learned bonus is paid, the stamp lands and Finito offers the next item.
+  // Pass each real drill with the oracle. Classic verbs enroll only their
+  // taught/tested cases; passing the shorter word check completes that word.
   { name: 'verb-intro-pass', run: async () => {
     const id = 'v:mangiare';
-    const xp0 = await storeEval(`delete ctx.store.current.items[arg]; return ctx.store.current.stats.xp;`, id); // pristine item: the 30 XP bonus is paid once per item
+    const xp0 = await storeEval(`delete ctx.store.current.items[arg]; ctx.store.setCompletion(arg,{checked:false}); return ctx.store.current.stats.xp;`, id);
     await gotoRoute(page, '/learn/verb/' + id);
     const r = await playWalkthrough({ oracleId: id });
     if (!r.ok) throw new Error(`walkthrough did not reach Finito (${r.scenes.join(' → ')}): ${r.stuck}`);
@@ -304,12 +304,17 @@ const flows = [
     const unanswered = r.oracled.filter(x => /unrecognised|not among/.test(x));
     const pct = fin.score ? Number(fin.score.match(/^(\d+)%/)[1]) : -1;
     if (pct < 66) throw new Error(`drill not passed with the oracle: ${fin.score || fin.text}${unanswered.length ? ` — ${unanswered.join('; ')}` : ''}`);
-    if (!(await isLearned(id))) throw new Error('drill passed but the verb is not marked learned');
+    const completion = await storeEval(`return ctx.store.completionState(arg);`,id);
+    const covered = completion.cases.filter(c=>c.checked).map(c=>c.id).sort();
+    if (JSON.stringify(covered)!==JSON.stringify(['background','future','past','present'])) throw new Error(`A1 cases checked with real answers were not saved correctly: ${covered.join(', ')}`);
+    if (completion.complete || await isLearned(id)) throw new Error('The untested conditional must prevent whole-verb completion');
     if (!fin.stamp) throw new Error(`Finito shows no stamp: ${fin.text}`);
     const xp = (await storeEval(`return ctx.store.current.stats.xp;`)) - xp0;
-    if (xp < 30) throw new Error(`XP rose by ${xp}, expected at least the 30 XP learned bonus`);
+    const score = fin.score.match(/(\d+)% \((\d+) of (\d+) correct\)/);
+    const expectedXP = Number(score[2])*3 + (Number(score[1])===100 && Number(score[3])>=5 ? 10 : 0);
+    if (xp !== expectedXP) throw new Error(`XP rose by ${xp}, expected ${expectedXP} for the actual drill without an unearned whole-verb bonus`);
     if (!(await has('.wt-scene[data-key="finito"] [data-next-verb]'))) throw new Error('Finito has no "Next verb" link');
-    return `${fin.score} · stamp ${fin.stamp} · learned · +${xp} XP · next-verb link · ${r.oracled.length} questions answered`;
+    return `${fin.score} · stamp ${fin.stamp} · four cases completed, conditional still unlearned · +${xp} XP · ${r.oracled.length} questions answered`;
   } },
   { name: 'word-intro-pass', run: async () => {
     const id = 'w:casa|noun';

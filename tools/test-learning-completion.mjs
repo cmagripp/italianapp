@@ -119,5 +119,45 @@ try {
   assert.ok(mixed.every(t=>!ids.has(t.id)));store.setCompletion(verb,{checked:true});assert.ok(mixed.every(t=>eligibleSkills(store,now).some(s=>s.objectiveId===t.id)));
   store.setCompletion(verb,{caseId:'past',checked:false});assert.ok(mixed.every(t=>!eligibleSkills(store,now).some(s=>s.objectiveId===t.id)));
  });
+ await test('a real fresh classic word pass reverses an uncheck without inventing answers or repeating a bonus',()=>{
+  fresh();store.setCompletion(word,{checked:true});store.setCompletion(word,{checked:false});
+  const questions=[{meta:{skill:'meaning'}},{meta:{skill:'article'}},{meta:{skill:'recall'}}],run=store.beginLegacyLessonRun(word,{questions,passScore:50});
+  const result={answers:questions.map(q=>({q,ok:true}))},events=copy(store.learning.events),done=store.finishLegacyLessonRun(run,result);
+  assert.equal(done.complete,true);assert.equal(done.learnedNow,true);assert.equal(done.xp,0);assert.equal(store.isLearned(word.id),true);assert.deepEqual(store.learning.events,events);
+  assert.equal(store.finishLegacyLessonRun(run,result).learnedNow,false);store.setCompletion(word,{checked:false});store.finishLegacyLessonRun(run,result);assert.equal(store.isLearned(word.id),false);
+ });
+ await test('classic completion rejects a failure, a newer uncheck, a profile change and a reset',async()=>{
+  fresh();const questions=[{meta:{skill:'meaning'}}],result={answers:questions.map(q=>({q,ok:true}))};
+  let run=store.beginLegacyLessonRun(word,{questions,passScore:50});store.finishLegacyLessonRun(run,{answers:[{q:questions[0],ok:false}]});assert.equal(store.isLearned(word.id),false);
+  run=store.beginLegacyLessonRun(word,{questions,passScore:50});store.setCompletion(word,{checked:false});assert.equal(store.finishLegacyLessonRun(run,result).complete,false);
+  run=store.beginLegacyLessonRun(word,{questions,passScore:50});store.current.learning=resetLearning(store.learning,++now,'new-reset');assert.equal(store.finishLegacyLessonRun(run,result).complete,false);
+  run=store.beginLegacyLessonRun(word,{questions,passScore:50});const profile=store.current.id;await store.createProfile('Changed during run');assert.equal(store.finishLegacyLessonRun(run,result).complete,false);await store.switchProfile(profile);
+ });
+ await test('classic verbs enroll only successfully taught or tested supported cases',()=>{
+  fresh();store.setCompletion(verb,{caseId:'present',checked:true});
+  const questions=[{meta:{skill:'conjugation',tense:'passatoProssimo'}},{meta:{skill:'conjugation',tense:'futuro'}},{meta:{skill:'recall'}}];
+  const run=store.beginLegacyLessonRun(verb,{questions,passScore:66,taughtTenses:[{tense:'imperfetto',at:now}]});
+  const result={answers:questions.map((q,i)=>({q,ok:i!==1}))};const done=store.finishLegacyLessonRun(run,result);
+  assert.deepEqual(store.completionState(verb).cases.filter(c=>c.checked).map(c=>c.id),['present','past','background']);assert.equal(done.complete,false);assert.equal(done.learnedNow,false);assert.equal(done.xp,0);assert.deepEqual(store.learning.events,{});
+ });
+ await test('a tense check before an uncheck cannot be reused by a later classic drill',()=>{
+  fresh();const taughtAt=now;store.setCompletion(verb,{caseId:'background',checked:false});now+=10;
+  const questions=[{meta:{skill:'conjugation',tense:'presente'}}],run=store.beginLegacyLessonRun(verb,{questions,passScore:66,taughtTenses:[{tense:'imperfetto',at:taughtAt}]});
+  store.finishLegacyLessonRun(run,{answers:questions.map(q=>({q,ok:true}))});assert.equal(store.completionState(verb).cases.find(c=>c.id==='background').checked,false);assert.equal(store.completionState(verb).cases[0].checked,true);
+ });
+ await test('fresh legacy adaptive evidence can complete its tested case; stale readiness cannot undo an uncheck',()=>{
+  fresh();const target={id:`${verb.id}::presente::conjugation`,skill:'conjugation',tense:'presente',required:true};
+  const prove=sessionId=>{for(let i=0;i<4;i++){evidence(target,{policy:null,sessionId});for(let j=0;j<2;j++)evidence({id:'spacer',skill:'meaning'},{policy:null,sessionId,mode:'recognition'});}};
+  prove('old-legacy');assert.equal(skillState(store.learning,target.id).ready,true);store.setCompletion(verb,{caseId:'present',checked:false});
+  store.completeLegacyEvidence(verb,[target],{sessionId:'old-legacy'});assert.equal(store.completionState(verb).cases[0].checked,false);
+  prove('new-legacy');store.completeLegacyEvidence(verb,[target],{sessionId:'new-legacy'});assert.equal(store.completionState(verb).cases[0].checked,true);assert.equal(store.isLearned(verb.id),false);assert.equal(store.current.stats.xp,0);
+ });
+ await test('merged manual cases cannot earn an automatic completion bonus from stale raw item flags',async()=>{
+  fresh();store.setCompletion(verb,{caseId:'present',checked:true});const remote=store.exportJSON();
+  fresh();for(const id of ['past','background','future','condizionale'])store.setCompletion(verb,{caseId:id,checked:true});
+  assert.equal(store.getItem(verb.id).learned,false);await store.importJSON(remote,{merge:true});assert.equal(store.isLearned(verb.id),true);assert.equal(store.getItem(verb.id).learned,false);
+  store.markLearned(verb.id,'verb');assert.equal(store.getItem(verb.id).learned,true);assert.equal(store.current.stats.xp,0);assert.equal(store.current.stats.verbsLearned||0,0);
+  store.setCompletion(word,{checked:true});store.getItem(word.id).learned=false;delete store.getItem(word.id).learnedAt;store.markLearned(word.id,'word');assert.equal(store.current.stats.xp,0);assert.equal(store.current.stats.wordsLearned||0,0);
+ });
  console.log(`\n${passed} completion/enrollment checks passed.`);
 } finally {await store.saveNow();clearTimeout(store._saveTimer);Date.now=originalNow;}

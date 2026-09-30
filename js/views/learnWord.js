@@ -70,7 +70,7 @@ async function renderLegacy(root, params, query) {
   let pool = data.vocab.filter(v => v.level === level && v.id !== e.id);
   if (pool.length < 8) pool = data.vocab;
   const isNoun = e.pos === 'noun';
-  const st = { result: null, learnedNow: false, restartDrill: null, celebrated: false, autoTimer: null };
+  const st = { result: null, learnedNow: false, learnedXP:0, restartDrill: null, celebrated: false, autoTimer: null };
 
   // ---------- MEET ----------
   const floats = [];
@@ -236,12 +236,14 @@ async function renderLegacy(root, params, query) {
       const host = api.body.querySelector('[data-host]');
       const start = () => {
         if (drill) drill.destroy();
-        drill = runDrill(host, quickQuestions(), {
+        const questions=quickQuestions(),completionRun=store.beginLegacyLessonRun(e,{questions,passScore:PASS});
+        drill = runDrill(host, questions, {
           title: 'Word check', gameId: 'word-intro', backHref: '#/learn', xpPer: 2, passScore: PASS, record: false,
           onDone: (result) => {
             st.result = result;
             const passed = result.score >= PASS;
-            if (passed && !store.isLearned(e.id)) { store.markLearned(e.id, 'word'); st.learnedNow = true; }
+            const completion=store.finishLegacyLessonRun(completionRun,result);
+            st.learnedNow=completion.learnedNow;st.learnedXP=completion.xp;
             store.recordGame('word-intro', result);
             renderResults(host, result, { passScore: PASS, retryLabel: 'Retry', onRetry: start });
             api.setHint(passed ? 'Passed — swipe up' : 'Not yet — retry or continue');
@@ -267,11 +269,11 @@ async function renderLegacy(root, params, query) {
       const next = nextNew('word', 1)[0];
       const chain = auto && passed && next && left > 0;
       const nextHref = next ? `#/learn/word/${encodeURIComponent(next.id)}${auto ? '?auto=1' : ''}` : '#/learn';
-      const xp = (r.xp || 0) + (st.learnedNow ? 10 : 0);
+      const xp = (r.xp || 0) + st.learnedXP;
       const fin = api.body.querySelector('[data-fin]');
       fin.innerHTML = html`<div class="fin-word display" data-word>${headword(e)}</div>
         <div class="fin-stamp" data-stamp></div>
-        <p class="fin-line">${passed ? (st.learnedNow ? 'Learned — it will come back in reviews and games.' : 'Already in your learned words. Nice refresher.') : `Score ${PASS}% or more to add ${e.it} to your learned words.`}</p>
+        <p class="fin-line">${passed ? (store.isLearned(e.id)?st.learnedNow?'Learned — it will come back in reviews and games.':'Already in your learned words. Nice refresher.':'Your practice is saved. This word remains unchecked; start a new check or update its completion when you are ready.') : `Score ${PASS}% or more to add ${e.it} to your learned words.`}</p>
         <div class="fin-xp"><span class="display">+${xp}</span><span class="mono">XP</span><span class="mono fin-score">· ${r.score}% · ${r.correct} of ${r.total} correct</span></div>
         <div class="fin-actions">
           ${passed ? raw(html`<a class="btn primary block" href="${nextHref}" data-next-word>${next ? 'Next word: ' + headword(next) : 'All words in scope learned'}${raw(icon('arrow', { size: 18 }))}</a>`) : raw(html`<button type="button" class="btn primary block" data-retry>${raw(icon('refresh', { size: 18 }))}Retry the check</button>`)}

@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadPlaywright, launchBrowser, contextOptions, ensureServer, boot, gotoRoute, reloadApp, TESTS_DIR, SHOTS_DIR } from './lib.mjs';
+import { loadPlaywright, launchBrowser, contextOptions, ensureServer, boot, gotoRoute, reloadApp, answerOracle, TESTS_DIR, SHOTS_DIR } from './lib.mjs';
 import { journeyQuestion, solveJourneyQuestion } from './journey-driver.mjs';
 
 const {chromium,devices}=await loadPlaywright(), stop=await ensureServer(), browser=await launchBrowser(chromium);
@@ -53,6 +53,51 @@ try {
       }
     }
     assert.deepEqual(await evidence(),before);
+  });
+  await check('A fresh classic word check restores completion after uncheck, without replaying stale rewards',async()=>{
+    await fresh();
+    await page.evaluate(async()=>{
+      const {store}=await import('./js/store.js');
+      store.setSetting('adaptiveLearning',false);store.setSetting('tts',false);
+      store.setCompletion('w:casa|noun',{checked:true});store.setCompletion('w:casa|noun',{checked:false});
+    });
+    const before=await evidence();
+    await gotoRoute(page,'/learn/word/w%3Acasa%7Cnoun');
+    const scope='.wt-scene[data-key="quick"]';
+    await page.locator(scope).waitFor({state:'attached'});
+    const showScene=async key=>{
+      // Shorten reaching the saved scene only. Its real question runner,
+      // answers, Continue callbacks and completion path are exercised below.
+      await page.evaluate(key=>{
+        for(const scene of document.querySelectorAll('.wt-scene'))scene.hidden=false;
+        const scene=document.querySelector(`.wt-scene[data-key="${key}"]`);
+        document.querySelector('.wt-scenes').scrollTop=scene.offsetTop;
+      },key);
+      await page.waitForFunction(key=>{
+        const scene=document.querySelector(`.wt-scene[data-key="${key}"]`),deck=document.querySelector('.wt-scenes');
+        return scene&&deck&&Math.abs(scene.offsetTop-deck.scrollTop)<3;
+      },key);
+    };
+    await showScene('quick');await page.locator(`${scope} [data-choice]`).first().waitFor();
+    for(let i=0;i<3;i++) {
+      const q=await answerOracle(page,scope,'w:casa|noun');
+      assert.equal(q.type,'mc');assert(q.index>=0,`A known casa answer is present: ${q.tag}`);
+      await page.locator(`${scope} [data-choice="${q.index}"]`).click();
+      await page.locator(`${scope} [data-next]`).click();
+    }
+    await page.locator(`${scope} .wt-results`).waitFor();
+    assert.match(await page.locator(`${scope} .wt-res-line`).innerText(),/3 of 3 correct/);
+    assert.equal((await state('w:casa|noun')).complete,true,'actual fresh classic answers restore completion');
+    const passed=await evidence();assert.deepEqual(passed.events,before.events,'classic completion does not manufacture adaptive attempts');
+    assert.equal(passed.xp-before.xp,6,'three real answers earn six XP; an earlier manual completion does not earn a second learned bonus');
+    await showScene('finito');await page.locator('.fin-xp').waitFor({state:'visible'});
+    assert.match(await page.locator('.fin-xp').innerText(),/\+6\b/,'the displayed reward matches the actual reward');
+    await showScene('quick');await showScene('finito');assert.deepEqual(await evidence(),passed,'revisiting completed scenes awards nothing twice');
+    await page.evaluate(async()=>(await import('./js/store.js')).store.setCompletion('w:casa|noun',{checked:false}));
+    await showScene('quick');await showScene('finito');assert.equal((await state('w:casa|noun')).complete,false,'a stale pass cannot undo a newer uncheck');
+    assert.deepEqual(await evidence(),passed);
+    await page.evaluate(async()=>(await import('./js/store.js')).store.saveNow());await reloadApp(page);
+    assert.equal((await state('w:casa|noun')).complete,false);assert.deepEqual(await evidence(),passed);
   });
   await check('Five individual verb cases determine whole-item completion',async()=>{
     await fresh();await gotoRoute(page,'/entry/v:credere');const before=await evidence();await open();
