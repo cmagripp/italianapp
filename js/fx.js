@@ -391,11 +391,11 @@ export function reel(el) {
 }
 
 // ---------- glass dropdown ----------
-// dropdown(anchorEl, contentHTML | [{value,label,sub,selected}], { onSelect(value, el), align:'start'|'end', width }) → { close(), el }
+// dropdown(anchorEl, contentHTML | [{value,label,sub,selected}], { onSelect(value, el), align:'start'|'end', width }) → { close({restoreFocus}), reposition(), el }
 let openDropdown = null;
 export function closeDropdown() { if (openDropdown) openDropdown.close(); }
 export function dropdown(anchorEl, content, { onSelect = null, align = 'start', width = null, onClose = null } = {}) {
-  if (!anchorEl) return { close: noop, el: null };
+  if (!anchorEl) return { close: noop, reposition: noop, el: null };
   if (openDropdown) openDropdown.close();
   const layer = doc.createElement('div');
   layer.className = 'dropdown-layer';
@@ -410,8 +410,10 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
   layer.append(backdrop, panel);
   doc.body.append(layer);
   anchorEl.setAttribute('aria-expanded', 'true');
+  let closed = false, placeFrame = 0, scrollTimer = 0, focusTimer = 0;
 
   function place() {
+    if (closed) return;
     const r = anchorEl.getBoundingClientRect();
     const vw = window.innerWidth, vh = window.innerHeight;
     const w = Math.min(width || Math.max(220, r.width), vw - 24);
@@ -424,23 +426,24 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
     // room on that side (it scrolls internally) instead of sliding under the bar
     const bar = doc.getElementById('topbar');
     const topMin = Math.max(12, bar ? bar.getBoundingClientRect().bottom + 8 : 12);
-    const roomBelow = vh - 12 - (r.bottom + 8);
+    const belowTop = Math.max(topMin, r.bottom + 8);
+    const roomBelow = vh - 12 - belowTop;
     const roomAbove = r.top - 8 - topMin;
     const below = ph <= roomBelow || roomBelow >= roomAbove;
     const room = Math.max(120, below ? roomBelow : roomAbove);
     const h = Math.min(ph, room);
     if (ph > room) panel.style.maxHeight = `${room}px`;
-    const top = below ? r.bottom + 8 : Math.max(topMin, r.top - 8 - h);
+    const top = below ? belowTop : Math.max(topMin, r.top - 8 - h);
     panel.classList.toggle('up', !below);
     panel.style.left = `${left}px`; panel.style.top = `${top}px`;
     panel.style.setProperty('--ox', `${clamp(r.left + r.width / 2 - left, 16, w - 16)}px`);
   }
   place();
-  requestAnimationFrame(() => { place(); panel.classList.add('open'); });
+  placeFrame = requestAnimationFrame(() => { if (!closed) { place(); panel.classList.add('open'); } });
 
-  let closed = false;
-  const close = () => {
+  const close = ({ restoreFocus = true } = {}) => {
     if (closed) return; closed = true;
+    cancelAnimationFrame(placeFrame);clearTimeout(scrollTimer);clearTimeout(focusTimer);
     panel.classList.remove('open');
     anchorEl.setAttribute('aria-expanded', 'false');
     doc.removeEventListener('keydown', onKey);
@@ -448,7 +451,7 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
     window.removeEventListener('scroll', onScroll, true);
     if (openDropdown === api) openDropdown = null;
     // keyboard users get their place back: focus that was moved into the panel returns to the anchor
-    if (panel.contains(doc.activeElement) && anchorEl.isConnected) { try { anchorEl.focus({ preventScroll: true }); } catch { /* ignore */ } }
+    if (restoreFocus && panel.contains(doc.activeElement) && anchorEl.isConnected) { try { anchorEl.focus({ preventScroll: true }); } catch { /* ignore */ } }
     setTimeout(() => layer.remove(), reducedMotion() ? 0 : 200);
     onClose && onClose();
   };
@@ -472,10 +475,10 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
   });
   doc.addEventListener('keydown', onKey);
   window.addEventListener('resize', place);
-  setTimeout(() => window.addEventListener('scroll', onScroll, true), 50);
+  scrollTimer = setTimeout(() => { if (!closed) window.addEventListener('scroll', onScroll, true); }, 50);
   // the menu is operable from the keyboard: the current option (or the first) takes focus once the panel is placed
-  setTimeout(() => { if (!closed) focusOpt(panel.querySelector('[data-value].on') || options()[0]); }, 60);
-  const api = { close, el: panel };
+  focusTimer = setTimeout(() => { if (!closed) focusOpt(panel.querySelector('[data-value].on') || options()[0]); }, 60);
+  const api = { close, reposition: place, el: panel };
   openDropdown = api;
   return api;
 }

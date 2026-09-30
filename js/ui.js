@@ -6,6 +6,20 @@ export { icon };
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
+// CSS owns the normal screen height. Some standalone iOS versions report a
+// visual viewport smaller than the screen even with no keyboard, so use it only
+// for a substantial, unzoomed reduction while a keyboard-editable field is focused.
+export function keyboardViewportHeight() {
+  const active = document.activeElement, viewport = window.visualViewport;
+  const editable = active && !active.disabled && !active.readOnly && active.inputMode !== 'none' &&
+    (active.isContentEditable || active.matches('textarea,input:is([type="text"],[type="search"],[type="url"],[type="tel"],[type="email"],[type="password"],[type="number"],:not([type]))'));
+  if (!editable || !viewport) return null;
+  const height = Number(viewport.height), offset = Number(viewport.offsetTop), scale = Number(viewport.scale), layout = window.innerHeight;
+  if (![height,offset,scale,layout].every(Number.isFinite) || height <= 0 || layout <= 0 || Math.abs(scale - 1) > .01) return null;
+  const bottom = Math.min(layout, height + Math.max(0,offset));
+  return layout - bottom > 100 ? Math.max(1,Math.round(bottom)) : null;
+}
+
 export function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }

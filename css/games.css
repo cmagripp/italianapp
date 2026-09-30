@@ -244,7 +244,7 @@ body.has-dock #toast { bottom: calc(var(--game-dock, 240px) + 12px); }
 
 /* Practice uses the available screen: answer areas grow, content scrolls within it. */
 html:has(body.practice-viewport) { overflow:hidden; scroll-padding:0; }
-body.practice-viewport { height:var(--practice-height,100dvh); min-height:0; overflow:hidden; padding-bottom:0; }
+body.practice-viewport { height:100dvh; min-height:0; overflow:hidden; padding-bottom:0; }
 body.practice-viewport #view { height:calc(var(--practice-height,100dvh) - var(--top-h) - var(--sat)); padding-top:8px; padding-bottom:calc(12px + var(--sab)); display:flex; flex-direction:column; overflow:hidden; }
 body.practice-viewport #view.scene-in { animation-name:fadeOnly; }
 .practice-host { flex:1; min-height:0; display:flex; flex-direction:column; gap:12px; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:thin; }

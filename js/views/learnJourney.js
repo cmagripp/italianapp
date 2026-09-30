@@ -1,7 +1,7 @@
 // Taught, resumable lessons. Sequencing and learning evidence live in journey.js;
 // this view persists only the current input, assistance and presentation state.
-import { html, raw, icon, speak, stopSpeech } from '../ui.js';
-import { setScene, reducedMotion } from '../fx.js';
+import { html, raw, icon, speak, stopSpeech, keyboardViewportHeight } from '../ui.js';
+import { setScene, reducedMotion, dropdown } from '../fx.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, itemsForScope } from '../data.js';
@@ -150,7 +150,7 @@ export async function render(root, params = {}, query = {}) {
   const translationVisibility = new Map();
   let renderedStep = '', renderedScene = '', fragmentIndex = 0;
   let disposed = false, submitting = false, question = null, recoveredQuestionId = null;
-  let tableTense = null, tableReturnFocus = null;
+  let tableTense = null, tableDropdown = null, tableButton = null, tableRestoreFocus = true;
   const stepNow = () => currentJourneyStep(plan, session, store.learning, Date.now());
   let step = stepNow();
   const save = () => {
@@ -166,11 +166,24 @@ export async function render(root, params = {}, query = {}) {
   updateRoute();
   setTitle(`${nameOf(entry)} · lesson`); setChrome({ tabs: false, back: false }); store.pushRecent(entry.id);
   document.body.classList.add('journey-viewport');
-  document.body.classList.toggle('journey-has-reference',entry.kind==='verb');
+  if(entry.kind==='verb') {
+    tableButton=document.createElement('button');
+    tableButton.type='button';tableButton.className='icon-btn journey-info-toggle';
+    tableButton.setAttribute('data-conjugation-toggle','');
+    tableButton.setAttribute('aria-label','Verb forms and usage');
+    tableButton.setAttribute('aria-haspopup','dialog');
+    tableButton.setAttribute('aria-expanded','false');
+    tableButton.setAttribute('aria-controls','journey-conjugation-panel');
+    tableButton.innerHTML='<svg class="ic ic-info" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>';
+    document.querySelector('#enToggle')?.before(tableButton);
+    tableButton.addEventListener('click',toggleTable);
+  }
   window.scrollTo(0,0);
   const fitViewport = () => {
-    const height = window.visualViewport?.height || window.innerHeight;
-    document.body.style.setProperty('--journey-viewport-height',`${height}px`);
+    const keyboardHeight = keyboardViewportHeight();
+    const height = keyboardHeight ?? window.innerHeight;
+    if (keyboardHeight === null) document.body.style.removeProperty('--journey-viewport-height');
+    else document.body.style.setProperty('--journey-viewport-height',`${keyboardHeight}px`);
     document.body.classList.toggle('journey-compact',height<600);
     const panel = root.querySelector('.journey-main'), input = document.activeElement;
     if (panel && input?.matches('[data-answer]')) {
@@ -180,7 +193,12 @@ export async function render(root, params = {}, query = {}) {
   };
   fitViewport();
   window.visualViewport?.addEventListener('resize',fitViewport);
+  window.visualViewport?.addEventListener('scroll',fitViewport);
   window.addEventListener('resize',fitViewport);
+  window.addEventListener('pageshow',fitViewport);
+  window.addEventListener('orientationchange',fitViewport);
+  document.addEventListener('focusin',fitViewport);
+  document.addEventListener('focusout',fitViewport);
 
   const words = createSentencePanel(root, {
     context(sentence) {
@@ -440,14 +458,13 @@ export async function render(root, params = {}, query = {}) {
     return banner+content;
   }
   function closeTable({restoreFocus=true}={}) {
-    const dialog=root.querySelector('.journey-conjugation-panel');
-    if(dialog?.open)dialog.close();
-    root.querySelector('[data-conjugation-toggle]')?.setAttribute('aria-expanded','false');
-    if(restoreFocus&&tableReturnFocus?.isConnected)tableReturnFocus.focus({preventScroll:true});
-    tableReturnFocus=null;
+    const opened=tableDropdown;
+    tableRestoreFocus=restoreFocus;
+    tableDropdown=null;
+    opened?.close({restoreFocus});
+    tableButton?.setAttribute('aria-expanded','false');
   }
-  function renderTable() {
-    const dialog=root.querySelector('.journey-conjugation-panel');if(!dialog)return;
+  function tableHTML() {
     const ongoing=['presenteProgressivo','imperfettoProgressivo'].includes(tableTense)&&progressiveInfo(entry).supported;
     const tense=ongoing?tableTense:TENSE_BY_KEY[tableTense]?tableTense:'presente',weather=WEATHER_VERBS.has(entry.inf);
     const tenseName=ongoing?(tense==='imperfettoProgressivo'?'Stavo + gerundio':'Sto + gerundio'):TENSE_BY_KEY[tense].name;
@@ -473,19 +490,64 @@ export async function render(root, params = {}, query = {}) {
     }
     if(ongoing)notes.push(tense==='imperfettoProgressivo'?'An action in progress at a past moment. For a past habit, use the simple imperfetto.':'An action in progress now. For a general routine, use the simple present.');
     if(entry.inf==='piacere')notes.push('The thing you like is the subject: mi piace il libro; mi piacciono i libri. The table also includes forms for other subjects.');
-    dialog.innerHTML=html`<header class="journey-panel-header"><div><span class="journey-kicker">Verb forms</span><h2 id="journey-conjugation-title">${entry.inf}</h2></div><button type="button" data-conjugation-close aria-label="Close verb forms">${raw(icon('x',{size:22}))}</button></header>
+    const content=html`<header class="journey-panel-header"><div><span class="journey-kicker">Verb forms</span><h2 id="journey-conjugation-title">${entry.inf}</h2></div><button type="button" data-conjugation-close aria-label="Close verb forms">${raw(icon('x',{size:22}))}</button></header>
       <div class="journey-conjugation-tabs" role="group" aria-label="Choose a tense">${raw([['presente','Present'],['passatoProssimo','Passato prossimo'],['imperfetto','Imperfetto'],['futuro','Future'],['condizionale','Conditional'],...(progressiveInfo(entry).supported?[['presenteProgressivo','Happening now'],['imperfettoProgressivo','Happening then']]:[])].map(([key,label])=>html`<button type="button" data-conjugation-tense="${key}" aria-pressed="${tense===key}">${label}</button>`).join(''))}</div>
       <section class="journey-conjugation-content" tabindex="0" aria-label="${tenseName} forms"><h3>${tenseName}</h3>${raw(formsHTML(rows.filter(row=>row.form!=='—')))}${raw(notes.map(note=>html`<p>${note}</p>`).join(''))}</section>`;
     save();
+    return content;
   }
-  function openTable(button) {
-    if(entry.kind!=='verb')return;
-    const shown=reviewingHistory()?historyStep(ui.history[ui.historyCursor]):step;
-    tableTense=shown.target?.progressive?shown.target.tense:shown.chapter?.tense||'presente';tableReturnFocus=button;
+  function renderTable() {
+    if(!tableDropdown?.el)return;
+    tableDropdown.el.innerHTML=tableHTML();
+    tableDropdown.reposition();
+  }
+  function revealTableTense({focus=false}={}) {
+    const selected=tableDropdown?.el.querySelector('[data-conjugation-tense][aria-pressed="true"]');
+    if(!selected)return;
+    const track=selected.parentElement,buttonBox=selected.getBoundingClientRect(),trackBox=track.getBoundingClientRect();
+    // Keep the chosen tense visible without scrolling the lesson or the page.
+    if(buttonBox.right>trackBox.right-6)track.scrollLeft+=buttonBox.right-trackBox.right+6;
+    else if(buttonBox.left<trackBox.left+6)track.scrollLeft+=buttonBox.left-trackBox.left-6;
+    if(focus)selected.focus({preventScroll:true});
+  }
+  function tableClick(event) {
+    const button=event.target.closest('button');
+    if(!button||!tableDropdown?.el.contains(button))return;
+    if(button.hasAttribute('data-conjugation-close'))closeTable();
+    else if(button.hasAttribute('data-conjugation-tense')) {
+      tableTense=button.dataset.conjugationTense;renderTable();
+      revealTableTense({focus:true});
+    }
+  }
+  function tableKey(event) {
+    if(event.key!=='Tab'||!tableDropdown?.el)return;
+    const controls=[...tableDropdown.el.querySelectorAll('button:not([disabled]),a[href],[tabindex="0"]')].filter(el=>!el.hidden);
+    const first=controls[0],last=controls.at(-1);
+    if(!first)return;
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus({preventScroll:true});}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus({preventScroll:true});}
+  }
+  function toggleTable() {
+    if(tableDropdown){closeTable();return;}
+    if(entry.kind!=='verb'||disposed||ui.paused||!tableButton?.isConnected)return;
+    const shown=ui.overview?null:reviewingHistory()?historyStep(ui.history[ui.historyCursor]):step;
+    tableTense=shown?.target?.progressive?shown.target.tense:shown?.chapter?.tense||'presente';
     if(step.type==='question'&&!step.awaitingContinue&&!ui.assistance.includes('visible-form'))ui.assistance.push('visible-form');
-    renderTable();
-    const dialog=root.querySelector('.journey-conjugation-panel');
-    dialog.showModal();button.setAttribute('aria-expanded','true');dialog.querySelector('[data-conjugation-close]')?.focus();
+    stopSpeech();
+    if(document.activeElement?.matches('[data-answer]'))document.activeElement.blur();
+    tableRestoreFocus=true;
+    const opened=dropdown(tableButton,tableHTML(),{align:'end',width:380,onClose(){
+      opened.el.removeEventListener('click',tableClick);opened.el.removeEventListener('keydown',tableKey);
+      if(tableDropdown===opened)tableDropdown=null;
+      tableButton?.setAttribute('aria-expanded','false');
+      if(tableRestoreFocus&&tableButton?.isConnected&&!tableButton.hidden)tableButton.focus({preventScroll:true});
+    }});
+    tableDropdown=opened;
+    opened.el.id='journey-conjugation-panel';opened.el.classList.add('journey-conjugation-dropdown');
+    opened.el.setAttribute('role','dialog');opened.el.setAttribute('aria-modal','true');
+    opened.el.setAttribute('aria-labelledby','journey-conjugation-title');
+    opened.el.addEventListener('click',tableClick);opened.el.addEventListener('keydown',tableKey);
+    opened.reposition();revealTableTense();opened.el.querySelector('[data-conjugation-close]')?.focus({preventScroll:true});
     save();
   }
   function primary(label, attrs = 'data-continue') { return html`<button type="button" class="btn primary journey-primary" ${raw(attrs)}>${label}</button>`; }
@@ -637,6 +699,7 @@ export async function render(root, params = {}, query = {}) {
     const displayStep=past?historyStep(past):step;
     const displayQuestion=past&&past.type==='question'?snapshotQuestion(displayStep):past?null:question;
     const paused = !!ui.paused;
+    if(tableButton)tableButton.hidden=paused;
     const feedback = displayStep.type === 'question' && displayStep.awaitingContinue;
     const phase = overview ? 'overview' : paused ? 'paused' : feedback ? 'feedback' : displayStep.type;
     const stepKey = [past?`history-${ui.historyCursor}`:'current',phase,displayStep.chapter?.id,displayStep.group?.id,displayStep.card?.id,displayStep.questionId,session.journey?.cardIndex].join('|');
@@ -677,7 +740,7 @@ export async function render(root, params = {}, query = {}) {
       ${raw(lessonHeader)}
       <main class="journey-main ${enter&&!reducedMotion()?'journey-enter':''}" tabindex="0" aria-label="Lesson content">${legacy && !prior && !ui.legacyDismissed ? raw(html`<aside class="journey-legacy"><p>Your previous practice is saved.</p><a href="${practiceHref(entry, null, mode)}${mode === 'lesson' ? '?' : '&'}legacy=1&session=${encodeURIComponent(legacy.id)}">Resume your previous question</a><button type="button" data-dismiss-legacy aria-label="Dismiss saved question notice">×</button></aside>`) : ''}${raw(content)}</main>
       ${feedback&&!past&&!paused?raw(html`<div class="journey-feedback-dock">${raw(feedbackHTML(ui.result,question,ui.given,{showNext:true}))}</div>`):''}
-    </div>${entry.kind==='verb'&&!paused?raw(html`<button type="button" class="journey-table-tab" data-conjugation-toggle aria-label="Open verb forms" aria-expanded="false" aria-controls="journey-conjugation-panel">${raw(icon('chevron',{size:18}))}</button><dialog id="journey-conjugation-panel" class="journey-conjugation-panel" aria-labelledby="journey-conjugation-title"></dialog>`):''}
+    </div>
     ${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
     if (displayQuestion?.type==='letters') {
       const activity=past?past.activity:ui.activity;
@@ -698,11 +761,6 @@ export async function render(root, params = {}, query = {}) {
     });
     root.querySelector('.journey-main').scrollTop = past&&focus?past.scrollTop:contentScroll;
     requestAnimationFrame(updateScrollCue);
-    const dialog=root.querySelector('.journey-conjugation-panel');
-    if(dialog){
-      dialog.addEventListener('cancel',event=>{event.preventDefault();closeTable();});
-      dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeTable();});
-    }
     for (const track of root.querySelectorAll('[data-form-track]')) updateFormDeck(track);
     if (focus) requestAnimationFrame(() => root.querySelector('[data-focus]')?.focus({ preventScroll: true }));
     save();
@@ -716,7 +774,7 @@ export async function render(root, params = {}, query = {}) {
     }
   }
   async function submit(given, revealed = false, { silent = false } = {}) {
-    if (submitting || ui.paused || ui.overview || reviewingHistory() || root.querySelector('.journey-conjugation-panel')?.open || step.type !== 'question' || step.awaitingContinue || !question || store.current.id !== owner) return;
+    if (submitting || ui.paused || ui.overview || reviewingHistory() || tableDropdown || step.type !== 'question' || step.awaitingContinue || !question || store.current.id !== owner) return;
     if (!revealed && !String(given || '').trim()) return;
     submitting = true;
     try {
@@ -791,9 +849,6 @@ export async function render(root, params = {}, query = {}) {
     if (b.hasAttribute('data-lesson-back')) {browseHistory(reviewingHistory()?ui.historyCursor-1:ui.history.length-1);return;}
     if (b.hasAttribute('data-lesson-forward')) {if(ui.historyCursor>=ui.history.length-1)resumeCurrent();else browseHistory(ui.historyCursor+1);return;}
     if (b.hasAttribute('data-lesson-current')) {resumeCurrent();return;}
-    if (b.hasAttribute('data-conjugation-toggle')) {openTable(b);return;}
-    if (b.hasAttribute('data-conjugation-close')) {closeTable();return;}
-    if (b.hasAttribute('data-conjugation-tense')) {tableTense=b.dataset.conjugationTense;renderTable();root.querySelector(`[data-conjugation-tense="${tableTense}"]`)?.focus();return;}
     if (b.hasAttribute('data-form-card')) {const track=b.closest('[data-form-track]');moveForm(track,Number(b.dataset.formCard));speak(b.dataset.formSay,{force:true});return;}
     if (b.hasAttribute('data-translation-toggle')) {const example=b.closest('.journey-example'),translation=example.querySelector('[data-translation]'),shown=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',String(shown));b.textContent=shown?'Hide translation':'Show translation';translation.hidden=!shown;translationVisibility.set(example.dataset.exampleKey,shown);updateScrollCue();return;}
     if (b.hasAttribute('data-say')) {ev.stopPropagation();speak(b.dataset.say,{force:true});return;}
@@ -851,5 +906,5 @@ export async function render(root, params = {}, query = {}) {
   };
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('scroll',scroll,true);root.addEventListener('keydown',keydown);
   draw();
-  return () => { words.destroy();closeTable({restoreFocus:false});save();disposed=true;stopSpeech();document.body.classList.remove('journey-viewport','journey-compact','journey-has-reference');document.body.style.removeProperty('--journey-viewport-height');window.visualViewport?.removeEventListener('resize',fitViewport);window.removeEventListener('resize',fitViewport);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
+  return () => { words.destroy();closeTable({restoreFocus:false});tableButton?.removeEventListener('click',toggleTable);tableButton?.remove();save();disposed=true;stopSpeech();document.body.classList.remove('journey-viewport','journey-compact','journey-has-reference');document.body.style.removeProperty('--journey-viewport-height');window.visualViewport?.removeEventListener('resize',fitViewport);window.visualViewport?.removeEventListener('scroll',fitViewport);window.removeEventListener('resize',fitViewport);window.removeEventListener('pageshow',fitViewport);window.removeEventListener('orientationchange',fitViewport);document.removeEventListener('focusin',fitViewport);document.removeEventListener('focusout',fitViewport);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
 }

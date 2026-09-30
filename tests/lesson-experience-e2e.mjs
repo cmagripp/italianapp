@@ -12,9 +12,9 @@ const browser = await launchBrowser(chromium);
 const results = [], errors = [], screenshots = [];
 fs.mkdirSync(SHOTS_DIR, { recursive: true });
 let context, page;
-async function fresh(theme = 'light', width = 390) {
+async function fresh(theme = 'light', width = 390, { height = width === 375 ? 667 : 844, insets = {}, standaloneInset = 0 } = {}) {
   await context?.close();
-  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height: width === 375 ? 667 : 844 }, reducedMotion: 'reduce' }));
+  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height }, reducedMotion: 'reduce' }));
   await context.addInitScript(() => Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
     getVoices: () => [], cancel: () => {}, speak: utterance => {
       const calls = JSON.parse(sessionStorage.getItem('experience-speech') || '[]');
@@ -25,13 +25,20 @@ async function fresh(theme = 'light', width = 390) {
   page.on('pageerror', e => errors.push(e.message));
   page.on('console', m => { if (m.type() === 'error' && !/fonts\.g(oogleapis|static)\.com/.test(m.location()?.url || '')) errors.push(m.text()); });
   await boot(page);
+  await page.evaluate(({insets,standaloneInset}) => {
+    for (const [key, value] of Object.entries(insets)) document.documentElement.style.setProperty('--sa' + key, value + 'px');
+    if (standaloneInset) {
+      Object.defineProperty(navigator,'standalone',{configurable:true,value:true});
+      Object.defineProperty(visualViewport,'height',{configurable:true,get:()=>innerHeight-standaloneInset});
+    }
+  }, {insets,standaloneInset});
   await page.evaluate(async theme => { const { store } = await import('./js/store.js'); store.setSetting('theme', theme); }, theme);
   await page.waitForFunction(theme => document.documentElement.dataset.theme === theme, theme);
 }
 async function check(name, run) {
   if (process.env.EXPERIENCE_FILTER && !name.toLowerCase().includes(process.env.EXPERIENCE_FILTER.toLowerCase()) && name !== 'No application errors') return;
   try { const detail = await run(); results.push({ name, ok: true, detail }); console.log('PASS', name); }
-  catch (error) { results.push({ name, ok: false, error: error.stack, visible: await page?.locator('body').innerText().catch(() => '') }); console.error('FAIL', name, error.message); throw error; }
+  catch (error) { await shot('failure').catch(()=>{}); const geometry=await page?.evaluate(()=>Object.fromEntries(['#view','.journey-header','.journey-main','.journey-feedback-dock','[data-feedback-bar]','[data-feedback-bar] [data-continue]'].map(s=>[s,document.querySelector(s)?.getBoundingClientRect().toJSON()]))).catch(()=>null); results.push({ name, ok: false, error: error.stack, geometry, visible: await page?.locator('body').innerText().catch(() => '') }); console.error('FAIL', name, error.message,geometry); throw error; }
 }
 async function evidence() {
   return page.evaluate(async () => {
@@ -96,7 +103,7 @@ async function visibleContinue() {
 }
 async function withinViewport() {
   const s = await page.evaluate(() => ({ width: innerWidth, pageWidth: document.documentElement.scrollWidth, x: scrollX, y: scrollY, height: innerHeight, panel: document.querySelector('.journey-main')?.getBoundingClientRect().toJSON(), english: document.querySelector('#enToggle')?.getBoundingClientRect().toJSON() }));
-  assert(s.pageWidth <= s.width + 1); assert.equal(s.x, 0); assert.equal(s.y, 0); assert(s.panel.height > 100); assert(s.panel.bottom <= s.height + 1);
+  assert(s.pageWidth <= s.width + 1); assert.equal(s.x, 0); assert.equal(s.y, 0); assert(s.panel.height >= 44); assert(s.panel.bottom <= s.height + 1);
   assert(s.english.right <= s.width + 1, 'English toggle stays inside the viewport');
 }
 
@@ -189,15 +196,45 @@ try {
       assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
     });
   }
-  for(const width of[375,390])for(const theme of['light','dark'])await check(`${width}px ${theme}: compact lessons center examples and reserve space for the reference tab`,async()=>{
-    await fresh(theme,width);await gotoRoute(page,'/learn/verb/v:capire?chapter=present');await withinViewport();
-    const g=await page.evaluate(()=>{const page=document.querySelector('[data-journey]'),main=document.querySelector('.journey-main'),header=document.querySelector('.journey-header'),tab=document.querySelector('[data-conjugation-toggle]'),line=document.querySelector('.journey-progress-line'),cs=getComputedStyle(page);return{page:page.getBoundingClientRect().toJSON(),main:main.getBoundingClientRect().toJSON(),header:header.getBoundingClientRect().toJSON(),tab:tab.getBoundingClientRect().toJSON(),line:line.getBoundingClientRect().toJSON(),border:cs.borderTopWidth,shadow:cs.boxShadow,background:cs.backgroundColor};});
-    assert.equal(g.border,'0px');assert.equal(g.shadow,'none');assert.equal(g.background,'rgba(0, 0, 0, 0)');assert(g.header.height<=110,'header leaves room for teaching');assert(g.tab.x>=g.main.right+4,'reference tab has its own edge space');assert(g.tab.right<=width+1);assert.equal(await page.locator('#backBtn').isVisible(),false);assert.equal(await page.locator('[data-map-toggle]').count(),0);
-    const stack=await page.locator('[data-form-track]').evaluate(e=>({width:e.clientWidth,scroll:e.scrollWidth}));assert(stack.scroll<=stack.width+1,'stacked forms have no horizontal scroller');await shot(`${width}-${theme}-compact-teaching`);
-    const deck=page.locator('.journey-teaching .journey-example-deck');await deck.scrollIntoViewIfNeeded();await waitForExample(0);await deck.focus();await page.keyboard.press('End');await waitForExample(1);await withinViewport();await shot(`${width}-${theme}-example-centered`);
-    await page.locator('[data-continue]').click();await reachJourneyActivity(page,'mc');await answerCorrect();await visibleContinue();await withinViewport();await shot(`${width}-${theme}-visible-continue`);
-  });
-  await check('The conjugation panel preserves the draft and makes a looked-up answer assisted', async () => {
+  const geometryCases = [
+    ...[375,390].flatMap(width => ['light','dark'].map(theme => ({width,height:width===375?667:844,theme}))),
+    {width:320,height:568,theme:'light'},
+    {width:667,height:320,theme:'dark'},
+    {width:390,height:844,theme:'dark',insets:{t:47,b:34},standaloneInset:34},
+    {width:667,height:320,theme:'light',insets:{l:44,r:44,b:21}},
+  ];
+  for(const fixture of geometryCases) {
+    const {width,height,theme,insets={},standaloneInset=0}=fixture, label=`${width}x${height}-${theme}${Object.keys(insets).length?'-safe-area':''}`;
+    await check(`${label}: edge scrolling, usable bottom and anchored info remain accessible`,async()=>{
+      await fresh(theme,width,{height,insets,standaloneInset});await gotoRoute(page,'/learn/verb/v:capire?chapter=present');await withinViewport();
+      const g=await page.evaluate(()=>{
+        const r=s=>document.querySelector(s).getBoundingClientRect().toJSON(),page=document.querySelector('[data-journey]'),main=document.querySelector('.journey-main'),cs=getComputedStyle(page);
+        return{view:r('#view'),page:r('[data-journey]'),main:r('.journey-main'),header:r('.journey-header'),info:r('[data-conjugation-toggle]'),en:r('#enToggle'),dock:r('.journey-action-dock'),action:r('[data-action-track] [data-continue]'),border:cs.borderTopWidth,shadow:cs.boxShadow,background:cs.backgroundColor,overflow:getComputedStyle(main).overflowY};
+      });
+      assert.equal(g.border,'0px');assert.equal(g.shadow,'none');assert.equal(g.background,'rgba(0, 0, 0, 0)');assert(g.header.height<=110,'header leaves room for teaching');
+      assert(Math.abs(g.main.x)<=1&&Math.abs(g.main.right-width)<=1,'the actual scrolling box and scrollbar reach both viewport edges');assert.equal(g.overflow,'auto');
+      assert(Math.abs(g.view.bottom-height)<=1&&Math.abs(g.dock.bottom-height)<=1,'the lesson and footer fill the viewport height');
+      assert(Math.abs(g.main.bottom-g.dock.y)<=1,'no unused strip separates scrolling content and footer');
+      assert(Math.abs(g.action.bottom-(height-Math.max(8,insets.b||0)))<=1,'action ends at the usable safe-area bottom with only intended clearance');
+      assert(Math.abs(g.info.height-g.info.width)<=1&&g.info.width>=40,'info is a circular topbar control');assert(g.info.right<=g.en.x-4&&g.en.x-g.info.right<=12,'info sits immediately beside EN');assert(Math.abs(g.info.y-g.en.y)<=1);
+      assert.equal(await page.locator('.journey-table-tab').count(),0,'the old side tab is gone');assert.equal(await page.locator('#backBtn').isVisible(),false);assert.equal(await page.locator('[data-map-toggle]').count(),0);
+      const stack=await page.locator('[data-form-track]').evaluate(e=>({width:e.clientWidth,scroll:e.scrollWidth,rect:e.getBoundingClientRect().toJSON()}));assert(stack.scroll<=stack.width+1,'stacked forms have no horizontal scroller');assert(stack.rect.x>=Math.max(16,insets.l||0)-1&&stack.rect.right<=width-Math.max(16,insets.r||0)+1,'content is padded inside the edge scroller');
+      await shot(`${label}-edge-teaching`);
+      const headerBefore=await page.locator('.journey-header').boundingBox();await page.locator('.journey-main').evaluate(e=>{e.scrollTop=e.scrollHeight;});
+      assert(await page.locator('.journey-main').evaluate(e=>e.scrollTop>0),'teaching really scrolls within the edge box');assert.deepEqual(await page.locator('.journey-header').boundingBox(),headerBefore,'scrolling never moves the header');
+      const deck=page.locator('.journey-teaching .journey-example-deck');await deck.scrollIntoViewIfNeeded();await waitForExample(0);await deck.focus();await page.keyboard.press('End');await waitForExample(1);await withinViewport();await shot(`${label}-example-centered`);
+      const beforeExplore=await evidence();await page.locator('[data-conjugation-toggle]').click();const menu=page.locator('.journey-conjugation-dropdown');assert(await menu.isVisible());
+      const menuBox=await menu.boundingBox();assert(menuBox.x>=Math.max(8,insets.l||0)-1&&menuBox.x+menuBox.width<=width-Math.max(8,insets.r||0)+1,'dropdown stays inside horizontal safe areas');assert(menuBox.y>=g.info.bottom-1&&menuBox.y-g.info.bottom<=16,'dropdown is anchored below info');assert(menuBox.y+menuBox.height<=height-Math.max(8,insets.b||0)+1,'dropdown fits the usable viewport height');
+      await shot(`${label}-info-dropdown`);await page.keyboard.press('Escape');await menu.waitFor({state:'hidden'});assert.equal(await menu.isVisible(),false);assert.deepEqual(await evidence(),beforeExplore,'exploring the table creates no learning evidence');
+      await page.locator('[data-continue]').click();await reachJourneyActivity(page,'mc');
+      const questionBox=await page.locator('.journey-main').boundingBox();assert(Math.abs(questionBox.y+questionBox.height-height)<=1,'the question scroll area extends to the viewport bottom when it has no footer');
+      await answerCorrect();await visibleContinue();await withinViewport();
+      const feedback=await page.locator('.journey-feedback-dock').boundingBox(),button=await page.locator('[data-feedback-bar] [data-continue]').boundingBox();
+      assert(Math.abs(feedback.y+feedback.height-height)<=1,'feedback footer fills the bottom without the old reserved gap');assert(Math.abs(button.y+button.height-(height-Math.max(8,insets.b||0)-12))<=1,'Continue keeps only safe-area padding plus the feedback card inset');
+      await shot(`${label}-visible-continue`);
+    });
+  }
+  await check('The anchored conjugation dropdown preserves the draft, help and accessible dismissal', async () => {
     await fresh();
     await gotoRoute(page, '/learn/verb/v:credere?mode=review&objective=' + encodeURIComponent('v:credere::lesson::present::form-0'));
     await reachQuestion(); const q = await question(); assert.equal(q.type, 'type'); assert(q.answer.includes('credo'));
@@ -205,11 +242,21 @@ try {
     const before = await evidence(), initial = await session();
     assert(!initial.ui.assistance.includes('visible-form'));
     await page.locator('[data-conjugation-toggle]').click();
-    const panel = page.locator('dialog.journey-conjugation-panel'); assert.equal(await panel.getAttribute('open'), '');
+    const panel = page.locator('.journey-conjugation-dropdown'); assert(await panel.isVisible()); assert.equal(await panel.getAttribute('role'),'dialog');
+    assert.equal(await page.locator('[data-conjugation-toggle]').getAttribute('aria-expanded'),'true');
+    assert.equal(await page.locator('dialog.journey-conjugation-panel').count(),0,'verb forms use an anchored dropdown rather than a native dialog');
     assert.match(await panel.innerText(), /credo/);
     await panel.locator('[data-conjugation-tense="futuro"]').click(); assert.match(await panel.innerText(), /crederò/);
-    await shot('conjugation-side-panel'); await page.keyboard.press('Escape');
-    assert.equal(await panel.getAttribute('open'), null);
+    await shot('conjugation-info-dropdown');
+    await panel.locator('.journey-conjugation-content').focus(); await page.keyboard.press('Tab');
+    assert.equal(await panel.locator('[data-conjugation-close]').evaluate(e=>e===document.activeElement),true,'Tab stays inside the open dropdown');
+    await page.keyboard.press('Shift+Tab'); assert.equal(await panel.locator('.journey-conjugation-content').evaluate(e=>e===document.activeElement),true);
+    await page.keyboard.press('Escape');
+    await panel.waitFor({state:'hidden'}); assert.equal(await panel.isVisible(),false); assert.equal(await page.locator('[data-conjugation-toggle]').getAttribute('aria-expanded'),'false');
+    assert.equal(await page.locator('[data-conjugation-toggle]').evaluate(e=>e===document.activeElement),true,'Escape returns focus to the info button');
+    await page.locator('[data-conjugation-toggle]').click(); assert(await panel.isVisible());
+    const outside=await page.locator('.journey-header').boundingBox(); await page.mouse.click(outside.x+4,outside.y+4);
+    await panel.waitFor({state:'hidden'}); assert.equal(await panel.isVisible(),false); assert.equal(await page.locator('[data-conjugation-toggle]').evaluate(e=>e===document.activeElement),true,'outside dismissal returns focus');
     assert.equal(await page.locator('[data-answer]').inputValue(), 'cre');
     assert((await session()).ui.assistance.includes('visible-form')); assert.deepEqual(await evidence(), before);
     await page.locator('[data-answer]').fill('credo'); await page.locator('[data-check]').click();
@@ -217,6 +264,7 @@ try {
     assert.equal(e.ok, true); assert(e.assistance.includes('visible-form'));
     assert.equal((await evidence()).events.length, before.events.length + 1);
     await shot('correct-answer-feedback');
+    await gotoRoute(page,'/home'); assert.equal(await page.locator('[data-conjugation-toggle], .journey-conjugation-dropdown').count(),0,'leaving the lesson removes its topbar control and dropdown');
   });
   await check('An active-question word lookup is recorded as help and keeps the answer draft', async () => {
     await fresh(); await gotoRoute(page, '/learn/verb/v:capire?chapter=present'); await reachJourneyActivity(page, 'mc');
