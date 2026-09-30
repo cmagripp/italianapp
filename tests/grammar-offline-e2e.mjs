@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Real service-worker upgrade, offline grammar navigation, persisted UI state,
-// and a stored v3 profile migrating to v4 without losing earlier learning.
+// and a stored v3 profile migrating to v5 without losing earlier learning.
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import fs from 'node:fs';
@@ -12,13 +12,13 @@ const currentVersion=actualWorker.match(/const VERSION = '([^']+)'/)?.[1];
 assert(currentVersion,'The app service worker needs a named cache version');
 let workerSource=`self.addEventListener('install',e=>e.waitUntil(caches.open('parola-grammar-previous').then(c=>c.put('./previous-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
 let failInstall=false;
-const mime={'.js':'text/javascript','.css':'text/css','.html':'text/html','.json':'application/json','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
+const mime={'.js':'text/javascript','.css':'text/css','.html':'text/html','.json':'application/json','.m4a':'audio/mp4','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
 const server=http.createServer((req,res)=>{
   const url=new URL(req.url,'http://127.0.0.1:8173');
   const name=decodeURIComponent(url.pathname).replace(/^\/+/, '')||'index.html';
   res.setHeader('Cache-Control','no-store');
   if(name==='sw.js'){res.setHeader('Content-Type',mime['.js']);res.end(workerSource);return;}
-  if(failInstall&&name==='data/grammar-course/B2.json'){res.statusCode=503;res.end('Simulated interrupted install');return;}
+  if(failInstall&&name==='data/course-v2/A2.json'){res.statusCode=503;res.end('Simulated interrupted install');return;}
   const file=path.resolve(ROOT,name);
   if(!file.startsWith(ROOT+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.statusCode=404;res.end();return;}
   res.setHeader('Content-Type',mime[path.extname(file)]||'application/octet-stream');
@@ -98,7 +98,7 @@ try{
   assert.equal(await updateWorker(),'activated');
   await reloadApp(page);
   const after=await snapshot();
-  assert.equal(after.version,4);
+  assert.equal(after.version,5);
   for(const field of ['learned','casa','essere','completions','xp','bank'])assert.deepEqual(after[field],before[field],`Migration lost ${field}`);
   assert.equal(after.session?.id,before.session.id);
   assert.deepEqual(after.session?.course,before.session.course);
@@ -121,19 +121,31 @@ try{
   failInstall=false;
   workerSource=actualWorker;
  });
- await check('All six grammar levels open from the installed cache with the network offline',async()=>{
+ await check('New course packs and downloaded audio remain usable offline, including byte-range playback',async()=>{
+  const count=await page.evaluate(async()=>{const cache=await caches.open((await caches.keys()).find(k=>k.startsWith('parola-v')));let count=0;for(const level of ['Foundations','A1','A2','B1','B2','C1','C2']){if(!(await cache.match('./data/course-v2/'+level+'.json')))throw Error('Missing '+level);count++;}return count;});
+  assert.equal(count,7);
+  const asset=await page.evaluate(async()=>{const {loadCourseAudio,downloadUnitAudio}=await import('./js/learning/course-v2-media.js');const manifest=await loadCourseAudio(),asset=manifest.assets[0];if(!asset)throw Error('Missing bundled audio');await downloadUnitAudio(manifest,asset.unitId);return asset;});
+  workerSource=actualWorker.replace(currentVersion,currentVersion+'-successful-test');
+  assert.equal(await updateWorker(),'activated');
+  assert((await page.evaluate(()=>caches.keys())).includes('parola-course-audio-v2'),'A later shell update must preserve optional downloads');
+  await context.setOffline(true);
+  const range=await page.evaluate(async src=>{const r=await fetch(src,{headers:{Range:'bytes=0-63'}});return {status:r.status,bytes:(await r.arrayBuffer()).byteLength,range:r.headers.get('content-range')};},asset.src);
+  assert.equal(range.status,206);assert.equal(range.bytes,64);assert.match(range.range,/^bytes 0-63\//);
+  await context.setOffline(false);
+ });
+ await check('All seven new course stages open from the installed cache offline',async()=>{
   await context.setOffline(true);
   await reloadApp(page);
   await gotoRoute(page,'/course');
-  assert(await page.locator('.course-unit').count()>=5);
+  assert(await page.locator('.course-unit').count()>=3);
   const first=await page.evaluate(async()=>{
    const {grammarCourse}=await import('./js/learning/grammar-course.js');
    return Object.fromEntries(grammarCourse.levels.map(l=>[l.level,l.units[0].lessons[0].id]));
   });
-  assert.deepEqual(Object.keys(first),['A1','A2','B1','B2','C1','C2']);
+  assert.deepEqual(Object.keys(first),['Foundations','A1','A2','B1','B2','C1','C2']);
   for(const [level,id] of Object.entries(first)){
    await gotoRoute(page,'/learn/grammar/'+id);
-   assert.equal(await page.locator('[data-phase="teach"]').count(),1,`${level} ${id} offline`);
+   assert.equal(await page.locator('[data-course-lesson]').count(),1,`${level} ${id} offline`);
   }
  });
  await check('Offline grammar feedback survives reload without duplicate XP or attempts',async()=>{
@@ -178,8 +190,19 @@ try{
   assert.deepEqual(after,before);
   assert.equal(await page.locator('[data-grammar-input]').inputValue(),'Una bozza da conservare');
  });
+ await check('New-course feedback and drafts also survive an offline reload',async()=>{
+  const id=await page.evaluate(async()=>{const {grammarCourse}=await import('./js/learning/grammar-course.js'),{createCourseSession}=await import('./js/learning/course-v2-engine.js'),{store}=await import('./js/store.js');const l=grammarCourse.lessons.find(l=>l.steps.some(s=>s.kind==='question'&&s.format==='type'));const session=createCourseSession(l);session.courseV2.stepIndex=l.steps.findIndex(s=>s.kind==='question'&&s.format==='type');store.saveLearningSession(session);await store.saveNow();return l.id;});
+  await gotoRoute(page,'/learn/grammar/'+id);
+  await page.locator('[data-course-input]').fill('La bozza offline');
+  await page.evaluate(async()=>{const {store}=await import('./js/store.js');await store.saveNow();});
+  await reloadApp(page);assert.equal(await page.locator('[data-course-input]').inputValue(),'La bozza offline');
+  const answer=await page.evaluate(async()=>{const {store}=await import('./js/store.js'),{grammarLesson}=await import('./js/learning/grammar-course.js'),{currentCourseStep}=await import('./js/learning/course-v2-engine.js');const s=store.learning.session;return currentCourseStep(grammarLesson(s.entryId),s).step.answer;});
+  await page.locator('[data-course-input]').fill(answer);await page.locator('[data-check-course]').click();
+  const before=await snapshot();await reloadApp(page);const after=await snapshot();
+  assert.equal(after.xp,before.xp);assert.deepEqual(after.session.courseV2.result,before.session.courseV2.result);assert.equal(await page.locator('[data-feedback-state="correct"]').count(),1);
+ });
  assert.deepEqual(errors,[]);
- console.log('5 grammar offline/update/migration checks passed.');
+ console.log('7 grammar offline/update/migration checks passed.');
 }finally{
  await browser.close();
  await new Promise(resolve=>server.close(resolve));

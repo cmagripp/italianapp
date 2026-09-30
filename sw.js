@@ -1,7 +1,7 @@
 // Service worker: offline cache for the app shell (HTML, CSS, every JS module) and the dictionary data.
 // Bump VERSION when a file is added to SHELL or the data schema changes (old caches are dropped on activate).
-// Ordinary data updates need no bump: /data/ is served from the cache and refreshed in the background.
-const VERSION = 'parola-v11-everyday-grammar';
+// Every shell or course-data change needs a version bump so installation stays atomic.
+const VERSION = 'parola-v12-taught-course';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
@@ -11,11 +11,13 @@ const SHELL = [
   './js/views/addWord.js', './js/views/browse.js', './js/views/entry.js', './js/views/games.js', './js/views/grammar.js', './js/views/home.js', './js/views/learn.js', './js/views/learnVerb.js', './js/views/learnWord.js', './js/views/list.js', './js/views/lists.js', './js/views/play.js', './js/views/profile.js', './js/views/reference.js', './js/views/referenceEntry.js', './js/views/review.js', './js/views/scope.js', './js/views/search.js', './js/views/walkthrough.js', './js/views/words.js',
   './js/games/crossword.js', './js/games/engine.js', './js/games/flashcards.js', './js/games/hangman.js', './js/games/index.js', './js/games/matching.js', './js/games/questions.js', './js/games/sentence.js', './js/games/speed.js',
   './js/learning/model.js', './js/learning/curriculum.js', './js/learning/content.js', './js/learning/questions.js', './js/learning/diagnose.js', './js/learning/integration.js',
+  './js/views/coursePlacement.js', './js/learning/course-v2-placement.js', './js/views/learnCourse.js', './js/learning/course-v2-engine.js', './js/learning/course-v2-state.js', './js/learning/course-v2-activities.js', './js/learning/course-v2-media.js',
   './js/views/learnGrammar.js', './js/views/courseSession.js',
-  './js/learning/grammar-lexicon.js', './js/learning/grammar-state.js', './js/learning/grammar-course.js', './js/learning/grammar-journey.js',
+  './js/learning/grammar-lexicon.js','./js/learning/course-v2-glosses.js', './js/learning/grammar-state.js', './js/learning/grammar-course.js', './js/learning/grammar-journey.js',
   './js/views/course.js', './js/views/learnAdaptive.js', './js/views/learnJourney.js',
   './js/learning/journey.js', './js/learning/lesson-content.js', './js/learning/lesson-questions.js', './js/learning/word-questions.js', './js/learning/sentence-lookup.js', './js/learning/sentence-panel.js', './js/learning/lesson-activities.js', './js/learning/activity-panel.js', './js/learning/lesson-overview.js', './js/learning/progressive-content.js',
   './data/grammar-course/A1.json', './data/grammar-course/A2.json', './data/grammar-course/B1.json', './data/grammar-course/B2.json', './data/grammar-course/C1.json', './data/grammar-course/C2.json',
+  './data/course-v2/Foundations.json', './data/course-v2/A1.json', './data/course-v2/A2.json', './data/course-v2/B1.json', './data/course-v2/B2.json', './data/course-v2/C1.json', './data/course-v2/C2.json', './data/course-v2/audio.json',
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',
 ];
 // Activate only when the complete shell is cached. A missing module must leave the
@@ -24,29 +26,38 @@ const SHELL = [
 // the previous build's copies under the new VERSION for ten minutes after a deploy) while an unchanged file still comes
 // back as a 304 instead of a full re-download ('reload' would fetch the 3.4 MB dictionary a second time on first install)
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'no-cache' })))).then(() => self.skipWaiting())); });
-self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
-// store only successful responses (a 404 or 5xx must never be served offline later)
-function put(req, res) {
-  if (res && res.ok) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)).catch(() => null); }
-  return res;
+self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== 'parola-course-audio-v2').map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+// A versioned shell is one compatible release. Updates replace it only after
+// install has fetched every module and course pack successfully.
+const shellURLs=new Set(SHELL.map(path=>new URL(path,self.location.href).href));
+async function audioResponse(req) {
+  const cache=await caches.open('parola-course-audio-v2');
+  const hit=await cache.match(req.url);
+  if(!hit)return fetch(req);
+  const range=req.headers.get('range');
+  if(!range)return hit;
+  const bytes=await hit.arrayBuffer(),match=/^bytes=(\d*)-(\d*)$/.exec(range);
+  if(!match)return hit;
+  const start=match[1]?Number(match[1]):Math.max(0,bytes.byteLength-Number(match[2]));
+  const end=match[1]?(match[2]?Math.min(Number(match[2]),bytes.byteLength-1):bytes.byteLength-1):bytes.byteLength-1;
+  if(start>end||start>=bytes.byteLength)return new Response(null,{status:416,headers:{'Content-Range':`bytes */${bytes.byteLength}`}});
+  const headers=new Headers(hit.headers);headers.set('Content-Range',`bytes ${start}-${end}/${bytes.byteLength}`);headers.set('Content-Length',String(end-start+1));headers.set('Accept-Ranges','bytes');
+  return new Response(bytes.slice(start,end+1),{status:206,headers});
 }
-self.addEventListener('fetch', (e) => {
-  const req = e.request;
-  if (req.method !== 'GET' || !req.url.startsWith(self.location.origin)) return;
-  // network first for JS/HTML/CSS (so updates arrive on the next launch); data: cache first, refreshed in the background.
-  // Every network fetch revalidates with the origin (cache: 'no-cache'): a plain fetch would honour the browser HTTP cache
-  // (max-age=600 on GitHub Pages), so a relaunch shortly after a deploy could mix modules of two builds — the ones fetched
-  // over ten minutes ago from the new build, the rest stale from disk — and a screen would fail to import for the whole
-  // session. A conditional request costs one 304 round trip per file and the data refresh sees a data-only deploy at once.
-  const isData = req.url.includes('/data/');
-  if (isData) {
-    e.respondWith(caches.match(req).then(hit => {
-      const refresh = fetch(req, { cache: 'no-cache' }).then(res => put(req, res));
-      if (hit) { e.waitUntil(refresh.catch(() => null)); return hit; }
-      return refresh;
+self.addEventListener('fetch',e=>{
+  const req=e.request;
+  if(req.method!=='GET'||!req.url.startsWith(self.location.origin))return;
+  if(req.url.includes('/audio/course-v2/')){e.respondWith(audioResponse(req));return;}
+  const url=new URL(req.url);url.search='';url.hash='';
+  if(shellURLs.has(url.href)){
+    e.respondWith(caches.open(VERSION).then(async cache=>{
+      const hit=await cache.match(url.href);
+      if(hit)return hit;
+      const response=await fetch(req,{cache:'no-cache'});
+      if(response.ok)await cache.put(url.href,response.clone());
+      return response;
     }));
-  } else {
-    // offline: the cached copy; index.html only stands in for page navigations, never for a module or asset
-    e.respondWith(fetch(req, { cache: 'no-cache' }).then(res => put(req, res)).catch(() => caches.match(req).then(hit => hit || (req.mode === 'navigate' ? caches.match('./index.html') : Response.error()))));
+    return;
   }
+  e.respondWith(fetch(req).catch(()=>caches.open(VERSION).then(cache=>req.mode==='navigate'?cache.match('./index.html'):Response.error())));
 });

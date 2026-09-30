@@ -56,7 +56,7 @@ export async function loadPlaywright() {
   const entry = fs.existsSync(path.join(dir, 'index.mjs')) ? path.join(dir, 'index.mjs') : resolved;
   const mod = await import(pathToFileURL(entry).href);
   const pw = mod.chromium ? mod : (mod.default || mod);
-  return { chromium: pw.chromium, devices: pw.devices, from: dir };
+  return { chromium: pw.chromium, webkit: pw.webkit, devices: pw.devices, from: dir };
 }
 
 export async function launchBrowser(chromium) {

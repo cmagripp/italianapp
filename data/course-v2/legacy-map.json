@@ -1,0 +1,1226 @@
+{
+  "version": 2,
+  "legacyRegistryVersion": 1,
+  "learningSchemaVersion": 5,
+  "defaultEntry": "Foundations",
+  "unitCount": 78,
+  "lessonCount": 241,
+  "mapping": [
+    {
+      "legacyLessonId": "a1-sounds-spelling",
+      "title": "Read key letter patterns",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-f-keep-c-hard",
+        "v2-a1-vowels-stress",
+        "v2-a1-written-accents",
+        "v2-a1-silent-h",
+        "v2-a1-double-consonants",
+        "v2-a1-question-intonation",
+        "v2-a1-g-and-gh",
+        "v2-a1-sc-and-sch",
+        "v2-a1-gn-and-gli"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-first-sentence",
+      "title": "Say who and what",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-essere-singular",
+        "v2-a1-are-singular"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-essere",
+      "title": "Say who you are",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-essere-singular",
+        "v2-a1-essere-polite",
+        "v2-a1-essere-plural"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-avere",
+      "title": "Say what you have",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-avere-singular",
+        "v2-a1-avere-plural"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-noun-gender",
+      "title": "Recognize noun gender",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-singular-gender"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-indefinite-articles",
+      "title": "Introduce one thing",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-one-thing",
+        "v2-a1-special-articles"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-definite-articles",
+      "title": "Name known things",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-singular-gender",
+        "v2-a1-special-articles",
+        "v2-a1-plural-articles"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-plurals",
+      "title": "Make common plurals",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-noun-plurals",
+        "v2-a1-plural-articles",
+        "v2-a1-plural-spelling"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-adjective-agreement",
+      "title": "Describe a noun",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-adjective-agreement"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-present-are",
+      "title": "Use -are verbs now",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-are-singular",
+        "v2-a1-are-plural"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-present-ere",
+      "title": "Use -ere verbs now",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-present-ere"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-present-ire",
+      "title": "Use -ire verbs now",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-present-ire",
+        "v2-a1-present-isc"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-common-irregular-present",
+      "title": "Use common irregular presents",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-andare",
+        "v2-a1-fare",
+        "v2-a1-venire"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-questions-negation",
+      "title": "Ask and negate",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-present-questions",
+        "v2-a1-present-negation"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-c-e-ci-sono",
+      "title": "Say what is there",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-there-is"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-possessives",
+      "title": "Say whose it is",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-my-possessives",
+        "v2-a1-family-possessives"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-demonstratives",
+      "title": "Point to this or that",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-demonstratives"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-simple-prepositions",
+      "title": "Choose a basic preposition",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-a-in-places",
+        "v2-a1-da-con"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-articulated-prepositions",
+      "title": "Combine a preposition and article",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-a-in-articles"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-quantity-time",
+      "title": "Say how much and when",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-tens-prices",
+        "v2-a1-days-clock",
+        "v2-a1-many-few"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-modal-requests",
+      "title": "Ask to do something",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-potere-requests",
+        "v2-a1-want-need"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-tu-commands",
+      "title": "Give a simple tu instruction",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-familiar-commands"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-piacere",
+      "title": "Say what you like",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a1-piacere"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a1-first-past",
+      "title": "Report one completed event",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a1-past-are",
+        "v2-a1-past-ere-ire",
+        "v2-a1-past-essere",
+        "v2-a1-first-past-message"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-passato-regular",
+      "title": "Build regular completed past",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-past-regular",
+        "v2-a2-past-auxiliary-person"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-passato-essere",
+      "title": "Use essere in the past",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-essere-travel",
+        "v2-a2-essere-plural"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-irregular-participles",
+      "title": "Recall common participles",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-past-irregular"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-choose-auxiliary",
+      "title": "Choose the past auxiliary",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-auxiliary-choice"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-imperfetto",
+      "title": "Describe past habits and states",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-imperfect-are",
+        "v2-a2-imperfect-ere-ire",
+        "v2-a2-imperfect-states"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-past-contrast",
+      "title": "Contrast background and event",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-habit-versus-event",
+        "v2-a2-story-contrast",
+        "v2-a2-short-story"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-progressive-now",
+      "title": "Focus on an action now",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-progressive-present",
+        "v2-a2-simple-versus-progressive"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-progressive-past",
+      "title": "Focus on an action underway then",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-progressive-past"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-reflexive-present",
+      "title": "Describe your own routine",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-reflexive-me-you",
+        "v2-a2-reflexive-he-we",
+        "v2-a2-reflexive-evening"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-reflexive-past",
+      "title": "Tell a reflexive past event",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-reflexive-past"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-direct-object-pronouns",
+      "title": "Replace the thing seen",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-direct-singular",
+        "v2-a2-direct-plural",
+        "v2-a2-direct-reference"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-indirect-object-pronouns",
+      "title": "Say to whom",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-indirect-me-you",
+        "v2-a2-indirect-him-her",
+        "v2-a2-indirect-groups"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-pronoun-placement",
+      "title": "Place a pronoun with an infinitive",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-pronoun-placement"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-future-regular",
+      "title": "Make a future plan",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-future-are",
+        "v2-a2-future-ere-ire",
+        "v2-a2-near-plan"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-future-irregular",
+      "title": "Use common irregular futures",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-future-irregular"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-conditional-politeness",
+      "title": "Ask more politely",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-conditional-request",
+        "v2-a2-conditional-plan",
+        "v2-a2-formal-request"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-comparatives",
+      "title": "Compare two things",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-compare-more-less",
+        "v2-a2-compare-activities"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-superlatives",
+      "title": "Pick the highest degree",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-relative-superlative",
+        "v2-a2-absolute-superlative"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-quantity-patterns",
+      "title": "Use approximate amounts",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-quantity"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-polite-commands",
+      "title": "Address one person politely",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-lei-commands"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-negative-commands",
+      "title": "Tell someone not to do it",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-tu-commands",
+        "v2-a2-voi-commands",
+        "v2-a2-negative-commands"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-da-place-time",
+      "title": "Use da for source, person, and duration",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-da-origin",
+        "v2-a2-da-duration",
+        "v2-a2-del-dal",
+        "v2-a2-preposition-contractions"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-linking-ideas",
+      "title": "Connect cause and sequence",
+      "decision": "split-and-reteach",
+      "newLessons": [
+        "v2-a2-link-reason-sequence",
+        "v2-a2-real-if"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "a2-relative-che",
+      "title": "Add one detail with che",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-a2-relative-che"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-background-event",
+      "title": "Background meets event",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-story-background-event"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-earlier-past",
+      "title": "Before another past event",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-earlier-past"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-past-habits",
+      "title": "Repeated life in the past",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-past-habits"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-double-pronouns",
+      "title": "Give it to someone",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-double-pronouns"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-ci-place",
+      "title": "Ci for a place",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-ci-place"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-ne-quantity",
+      "title": "Ne for some or of it",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-ne-quantity"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-che-cui",
+      "title": "Che and cui",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-che-cui"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-relative-prepositions",
+      "title": "The right preposition before cui",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-relative-prepositions"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-opinion-doubt",
+      "title": "I think, I doubt",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-opinion-doubt"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-wishes-feelings",
+      "title": "Wishes and reactions",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-wishes-feelings"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-impersonal-judgment",
+      "title": "It is important that",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-impersonal-judgment"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-real-condition",
+      "title": "If it happens",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-real-condition"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-hypothetical-present",
+      "title": "If I had more time",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-unreal-present"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-reporting-information",
+      "title": "Say what someone said",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-reporting-information"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-indirect-questions",
+      "title": "Ask what someone knows",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-indirect-questions"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-impersonal-si",
+      "title": "People in general",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-impersonal-si"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-passive-present",
+      "title": "What receives the action",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-passive-present"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-cause-purpose",
+      "title": "Because or in order to",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-cause-purpose"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-consequence-concession",
+      "title": "Result and surprise",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-consequence-concession"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b1-before-after",
+      "title": "Before and after",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b1-before-after"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-past-subjunctive",
+      "title": "Earlier than a present judgment",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-past-subjunctive"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-imperfect-subjunctive",
+      "title": "Contemporary with a past viewpoint",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-imperfect-subjunctive"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-pluperfect-subjunctive",
+      "title": "Earlier than a past viewpoint",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-pluperfect-subjunctive"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-tense-relations",
+      "title": "Choose the time relationship",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-tense-relations"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-past-conditional",
+      "title": "Would have done",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-past-conditional"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-unreal-past",
+      "title": "If it had happened",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-unreal-past"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-mixed-condition",
+      "title": "Past cause, present effect",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-mixed-condition"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-reported-past",
+      "title": "He said he was leaving",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-reported-past"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-reported-questions",
+      "title": "Retell a question",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-reported-questions"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-reported-commands",
+      "title": "Pass on an instruction",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-reported-commands"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-passive-tenses",
+      "title": "Passive across time",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-passive-tenses"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-si-passivante",
+      "title": "Things are sold here",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-si-passivante"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-complex-relatives",
+      "title": "Clarify which noun you mean",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-complex-relatives"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-infinitive-clauses",
+      "title": "Shorter clauses with an infinitive",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-infinitive-clauses"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-gerund-clauses",
+      "title": "While doing or by doing",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-gerund-clauses"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-concession-contrast",
+      "title": "Despite the obstacle",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-concession-contrast"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-argument-links",
+      "title": "Guide a reader through a claim",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-argument-links"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-cleft-focus",
+      "title": "It was Marta who called",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-cleft-focus"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-dislocation",
+      "title": "Return to a known topic",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-dislocation"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-passato-remoto",
+      "title": "A completed story event",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-passato-remoto"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "b2-remote-pluperfect",
+      "title": "Before a remote past event",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-b2-remote-pluperfect"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-subjunctive-perspective",
+      "title": "Facts, opinion and the subjunctive",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u1-subjunctive-perspective"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-past-subjunctive-time",
+      "title": "Time within past evaluations",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u2-past-subjunctive-time"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-future-perfect-conjecture",
+      "title": "Future forms as conjecture",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u1-future-perfect-conjecture"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-concessive-relations",
+      "title": "Concession with sebbene and pur",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u4-concessive-relations"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-causal-purpose-shades",
+      "title": "Cause and purpose",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u4-causal-purpose-shades"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-relative-scope",
+      "title": "Precise relative links",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u5-relative-scope"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-infinitive-control",
+      "title": "Infinitive subjects and sequence",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u6-infinitive-control"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-participle-gerund",
+      "title": "Earlier action in reduced clauses",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u6-participle-gerund"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-topic-focus",
+      "title": "Known topic and pronoun resumption",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u5-topic-focus"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-clefts-inversion",
+      "title": "Cleft focus and contrast",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u9-clefts-inversion"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-conditional-politeness",
+      "title": "Conditional requests and reported claims",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u10-conditional-politeness"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-impersonal-register",
+      "title": "Impersonal and passive si",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u10-impersonal-register"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-reference",
+      "title": "Clear anaphoric reference",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u11-reference"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-connectives",
+      "title": "Contrast and consequence",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u11-connectives"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-sequence-tense",
+      "title": "Time in reported speech",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u2-sequence-tense"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-nominalization",
+      "title": "Actions as nouns",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u12-nominalization"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-reduced-formal-clauses",
+      "title": "Compact formal clauses",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u12-reduced-formal-clauses"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-circumlocution",
+      "title": "Obligation and inevitability",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u7-circumlocution"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-comparative-degree",
+      "title": "Proportional comparisons",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u7-comparative-degree"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c1-reformulation",
+      "title": "Correction without contradiction",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c1-u9-reformulation"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-mood-evidence",
+      "title": "Evidence and speaker stance",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u1-mood-evidence"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-aspect-perspective",
+      "title": "Event boundary and viewpoint",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u1-aspect-perspective"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-modal-inference",
+      "title": "Degrees of inference",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u9-modal-inference"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-counterfactual-past",
+      "title": "Unreal past conditions",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u2-counterfactual-past"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-mixed-conditions",
+      "title": "Past cause, present result",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u2-mixed-conditions"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-implicit-hypotheses",
+      "title": "Conditions without se",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u11-implicit-hypotheses"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-pronoun-scope",
+      "title": "Resolve competing antecedents",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u3-pronoun-scope"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-relative-precision",
+      "title": "Possession in relative clauses",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u9-relative-precision"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-negation-scope",
+      "title": "Quantifier scope under negation",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u3-negation-scope"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-ellipsis",
+      "title": "Parallel ellipsis",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u4-ellipsis"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-presupposition",
+      "title": "Implications of aspect verbs",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u4-presupposition"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-literary-tenses",
+      "title": "Narrative past and present relevance",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u5-literary-tenses"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-historical-syntax",
+      "title": "Marked order in literary narration",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u8-historical-syntax"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-contemporary-variation",
+      "title": "Spoken dislocation in context",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u6-contemporary-variation"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-register-shifts",
+      "title": "Match request to audience",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u6-register-shifts"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-cohesion-editing",
+      "title": "Repair a false logical link",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u7-cohesion-editing"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-condense-expand",
+      "title": "Compress without hiding an agent",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u11-condense-expand"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-parallelism",
+      "title": "Parallel clauses in edited prose",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u7-parallelism"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-interpretation",
+      "title": "Read stance across two sentences",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u8-interpretation"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    },
+    {
+      "legacyLessonId": "c2-production",
+      "title": "Choose a precise final wording",
+      "decision": "rewrite-with-preparation",
+      "newLessons": [
+        "v2-c2-u12-production"
+      ],
+      "progressPolicy": "Keep the original lesson session, evidence and due reviews. New targets require their own checks; no automatic completion credit."
+    }
+  ]
+}

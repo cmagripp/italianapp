@@ -1,3 +1,4 @@
+import { deleteCourseRecordings } from './learning/course-v2-media.js';
 // Persistent per-user storage: profiles, item progress (SRS), lists, custom words, settings and stats.
 // Primary storage is IndexedDB (large quota, survives Safari homescreen installs); localStorage is the fallback.
 import { schedule as srsSchedule } from './srs.js';
@@ -248,6 +249,7 @@ class Store extends EventTarget {
     this._persistIndex();
     if (wasCurrent || !this.current) await this.switchProfile(this.profiles[0].id);
     await kvDel('profile:' + id);
+    await deleteCourseRecordings(id+'|').catch(()=>{});
     try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ }
     try { localStorage.removeItem('it.sync.' + id); } catch { /* ignore */ } // the deleted user's cloud tokens must not stay on the device
     this.emit('change');
@@ -312,7 +314,7 @@ class Store extends EventTarget {
       const points = stored?.xp || 0;
       this.current.stats.learningXP = learningXP(result.learning);
       const day = this._day();
-      if (input.countStats !== false) {
+      if (input.countStats !== false && stored.outcome !== 'ungraded') {
         if (stored.outcome !== 'skipped') {
           if (stored.ok) day.correct = (day.correct || 0) + 1;
           else day.wrong = (day.wrong || 0) + 1;
@@ -335,7 +337,7 @@ class Store extends EventTarget {
   setLearningPreference(key, value) {
     if (this.learning.version > LEARNING_VERSION) return;
     if (!['stage', 'expansions', 'courseLevel'].includes(key)) return;
-    if (key === 'courseLevel' && !LEVELS.includes(value)) return;
+    if (key === 'courseLevel' && !['Foundations',...LEVELS].includes(value)) return;
     this.learning.preferences = { ...this.learning.preferences, [key]: value, updatedAt: Date.now() };
     this.current.learning = normalizeLearning(this.learning);
     this.save();
@@ -581,6 +583,7 @@ class Store extends EventTarget {
   }
   async resetProgress() {
     const p = this.current;
+    await deleteCourseRecordings(p.id+'|').catch(()=>{});
     p.learning = resetLearning(p.learning, Date.now(), 'reset:' + uid());
     p.items = {}; p.stats = newProfile(p.name).stats; p.recent = [];
     this._dirty = true; await this.saveNow(); this.emit('change');

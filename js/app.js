@@ -167,6 +167,7 @@ function applyEnToggle() {
 // routes
 route('home', () => import('./views/home.js'));
 route('learn', () => import('./views/learn.js'));
+route('course/placement', () => import('./views/coursePlacement.js'));
 route('course', () => import('./views/course.js'));
 route('learn/practice', () => import('./views/learnAdaptive.js'));
 route('learn/grammar/:id', () => import('./views/learnGrammar.js'));

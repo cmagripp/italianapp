@@ -28,6 +28,12 @@ jobs:
           node tools/check-modules.mjs
           node tools/check-shell.mjs
           node tools/test-conjugator.mjs
+          node tools/test-course-v2-content.mjs --recovery
+          node tools/test-course-v2-engine.mjs
+          node tools/test-course-v2-durability.mjs
+          node tools/test-course-v2-assets.mjs
+          node tools/test-course-v2-lexicon.mjs
+          node tools/test-course-v2-editorial.mjs
           node tools/test-grammar-course.mjs
           node tools/test-grammar-durability.mjs
           node tools/test-grammar-lexicon.mjs
@@ -56,7 +62,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [grammar-course-e2e, grammar-offline-e2e, completion-menu-e2e, practice-controls-e2e, review-layout-e2e, short-words-e2e, adaptive-e2e, journey-e2e, lesson-actions-e2e, lesson-experience-e2e, lesson-activities-e2e, lesson-overview-e2e, noun-forms-e2e, game-learning-e2e, offline-e2e, e2e]
+        suite: [course-v2-e2e, grammar-course-e2e, grammar-offline-e2e, completion-menu-e2e, practice-controls-e2e, review-layout-e2e, short-words-e2e, adaptive-e2e, journey-e2e, lesson-actions-e2e, lesson-experience-e2e, lesson-activities-e2e, lesson-overview-e2e, noun-forms-e2e, game-learning-e2e, offline-e2e, e2e]
     env:
       PLAYWRIGHT_DIR: /tmp/parola-tools
     steps:
@@ -70,6 +76,11 @@ jobs:
           "$PLAYWRIGHT_DIR/node_modules/.bin/playwright" install --with-deps chromium
       - name: Verify browser behavior
         run: node tests/${{ matrix.suite }}.mjs
+      - name: Verify the course on WebKit
+        if: matrix.suite == 'course-v2-e2e'
+        run: |
+          "$PLAYWRIGHT_DIR/node_modules/.bin/playwright" install --with-deps webkit
+          COURSE_BROWSER=webkit node tests/course-v2-e2e.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

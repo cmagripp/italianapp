@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "passages": [
+    {
+      "key": "pascal",
+      "lessonId": "v2-c1-u8-narrative-stance",
+      "unitId": "v2-c1-u8",
+      "level": "C1",
+      "start": 30.0,
+      "end": 136.5,
+      "voice": "Riccardo Fasol",
+      "source": "https://librivox.org/il-fu-mattia-pascal-by-luigi-pirandello/",
+      "originalAudio": "https://archive.org/download/mattia_pascal_1012_librivox/mattiapascal_01_pirandello.mp3",
+      "textSource": "https://it.wikisource.org/wiki/Il_fu_Mattia_Pascal/1",
+      "title": "A narrator introduces his strange case",
+      "it": "Una delle poche cose, anzi forse la sola ch’io sapessi di certo era questa: che mi chiamavo Mattia Pascal. E me ne approfittavo. Ogni qual volta qualcuno de’ miei amici o conoscenti dimostrava d’aver perduto il senno fino al punto di venire da me per qualche consiglio o suggerimento, mi stringevo nelle spalle, socchiudevo gli occhi e gli rispondevo:\n— Io mi chiamo Mattia Pascal.\n— Grazie, caro. Questo lo so.\n— E ti par poco?\nNon pareva molto, per dir la verità, neanche a me. Ma ignoravo allora che cosa volesse dire il non sapere neppur questo, il non poter più rispondere, cioè, come prima, all’occorrenza:\n— Io mi chiamo Mattia Pascal.\nQualcuno vorrà bene compiangermi (costa così poco), immaginando l’atroce cordoglio d’un disgraziato, al quale avvenga di scoprire tutt’a un tratto che... sì, niente, insomma: né padre, né madre, né come fu o come non fu; e vorrà pur bene indignarsi (costa anche meno) della corruzione dei costumi, e de’ vizi, e della tristezza dei tempi, che di tanto male possono esser cagione a un povero innocente.\nEbbene, si accomodi. Ma è mio dovere avvertirlo che non si tratta propriamente di questo. Potrei qui esporre, di fatti, in un albero genealogico, l’origine e la discendenza della mia famiglia e dimostrare come qualmente non solo ho conosciuto mio padre e mia madre, ma e gli antenati miei e le loro azioni, in un lungo decorso di tempo, non tutte veramente lodevoli.\nE allora?\nEcco: il mio caso è assai più strano e diverso; tanto diverso e strano che mi faccio a narrarlo.",
+      "en": "One of the few things—perhaps the only thing—I knew for certain was that my name was Mattia Pascal. And I made use of it. Whenever a friend or acquaintance was foolish enough to ask me for advice, I shrugged, narrowed my eyes and replied, “My name is Mattia Pascal.” “Thanks, dear fellow. I know that.” “And you think that is little?” To tell the truth, it did not seem much to me either. But I did not yet know what it meant not even to know that, no longer to be able to answer, when necessary, “My name is Mattia Pascal.” Someone may pity me—it costs so little—imagining the terrible grief of a wretch who suddenly discovers he knows neither his father nor his mother nor how it all happened; and that reader may feel indignant—it costs even less—at corrupt morals, vices and troubled times that could cause an innocent person such harm. Well, let them. But I must warn them that this is not quite what happened. I could set out my family tree and show that I knew both my parents and my ancestors, whose deeds over many years were not all praiseworthy. What, then? My case is much stranger and quite different—so strange and different that I am setting out to tell it."
+    },
+    {
+      "key": "pinocchio",
+      "lessonId": "v2-c2-u5-literary-narrator",
+      "unitId": "v2-c2-u5",
+      "level": "C2",
+      "start": 40.3,
+      "end": 175.5,
+      "voice": "Simona Pagliari",
+      "source": "https://librivox.org/le-avventure-di-pinocchio-by-c-collodi/",
+      "originalAudio": "https://archive.org/download/avventure_pinocchio_librivox/avventurepinocchio_01_collodi.mp3",
+      "textSource": "https://it.wikisource.org/wiki/Le_avventure_di_Pinocchio/Capitolo_1",
+      "title": "A narrator interrupts a familiar opening",
+      "it": "— C’era una volta...\n— Un re! — diranno subito i miei piccoli lettori.\n— No, ragazzi, avete sbagliato. C’era una volta un pezzo di legno.\nNon era un legno di lusso, ma un semplice pezzo da catasta, di quelli che d’inverno si mettono nelle stufe e nei caminetti per accendere il fuoco e per riscaldare le stanze.\nNon so come andasse, ma il fatto gli è che un bel giorno questo pezzo di legno capitò nella bottega di un vecchio falegname, il quale aveva nome mastr’Antonio, se non che tutti lo chiamavano maestro Ciliegia, per via della punta del suo naso, che era sempre lustra e paonazza, come una ciliegia matura.\nAppena maestro Ciliegia ebbe visto quel pezzo di legno, si rallegrò tutto; e dandosi una fregatina di mani per la contentezza, borbottò a mezza voce:\n— Questo legno è capitato a tempo; voglio servirmene per fare una gamba di tavolino.\nDetto fatto, prese subito l’ascia arrotata per cominciare a levargli la scorza e a digrossarlo; ma quando fu lì per lasciare andare la prima asciata, rimase col braccio sospeso in aria, perché sentì una vocina sottile sottile, che disse raccomandandosi:\n— Non mi picchiar tanto forte!\nFiguratevi come rimase quel buon vecchio di maestro Ciliegia!\nGirò gli occhi smarriti intorno alla stanza per vedere di dove mai poteva essere uscita quella vocina, e non vide nessuno! Guardò sotto il banco, e nessuno: guardò dentro un armadio che stava sempre chiuso, e nessuno; guardò nel corbello dei trucioli e della segatura, e nessuno; aprì l’uscio di bottega per dare un’occhiata anche sulla strada, e nessuno. O dunque?\n— Ho capito — disse allora ridendo e grattandosi la parrucca — si vede che quella vocina me la son figurata io. Rimettiamoci a lavorare.",
+      "en": "“Once upon a time…” “A king!” my young readers will immediately say. “No, children, you are mistaken. Once upon a time there was a piece of wood.” It was ordinary firewood, the kind used in winter to light stoves and fireplaces and warm rooms. Somehow it arrived one day in an old carpenter’s workshop. His name was Antonio, but everyone called him Master Cherry because the tip of his nose was shiny and purplish-red, like a ripe cherry. Delighted to see the wood, he rubbed his hands and muttered, “This has arrived just in time. I want to use it to make a table leg.” He picked up his sharpened axe to remove the bark and roughly shape it. Just before the first blow, his arm froze in midair: a tiny voice pleaded, “Don’t hit me so hard!” Imagine the old man’s surprise! He looked around to see where the voice had come from and saw nobody. He looked under the bench, inside a normally closed cupboard, in the basket of shavings and sawdust, and even out in the street—nobody. “I see,” he said, laughing and scratching his wig. “I must have imagined that little voice. Let’s get back to work.”"
+    }
+  ]
+}

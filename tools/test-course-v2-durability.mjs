@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createLearning,normalizeLearning,recordAttempt,mergeLearning,resetLearning,setCompletionRecord} from '../js/learning/model.js';
+import {courseSkill} from '../js/learning/course-v2-state.js';
+import {placementQuestions,placementRecommendation,assessPlacement} from '../js/learning/course-v2-placement.js';
+const time=1700000000000,target={id:'v2-durable.agreement',facets:['singular','plural'],minIndependent:3,requiresProduction:true,modality:'language'};
+const event=(n,facet,mode='recognition')=>({id:'v2:'+n,at:time+n*1000,index:n,sessionId:'v2:lesson',deviceId:'device1',sequence:n,entryId:'g:v2-durable',objectiveId:target.id,kind:'grammar',policy:'grammar-v2',contentVersion:2,skill:facet,facet,requiredFacets:target.facets,minIndependent:3,requiresProduction:true,modality:'language',mode,responseMode:mode,variantId:'q'+n,contextId:'context'+n,exposureGroup:'family'+n,outcome:'correct',ok:true,grammarPhase:'independent',firstAttempt:true,assistance:[],xp:2});
+let a=createLearning(time);const add=(l,e)=>recordAttempt(l,{...e,epochId:l.epoch.id}).learning;
+a=add(a,event(1,'singular','production'));a=add(a,event(2,'plural'));assert(!courseSkill(Object.values(a.events),time,target).ready);
+a=add(a,event(4,'plural'));assert(courseSkill(Object.values(a.events),time,target).ready);
+let b=add(createLearning(time),{...event(6,'singular'),sessionId:'device2:review',deviceId:'device2',at:time+86400000,outcome:'incorrect',ok:false,errorTags:['agreement']});
+const left=mergeLearning(a,b),right=mergeLearning(b,a);assert.deepEqual(left,right);assert(!courseSkill(Object.values(left.events),time+86400000,target).ready);assert(courseSkill(Object.values(left.events),time+86400000,target).enrolled);
+const draft={id:'saved-v2',entryId:'g:v2-durable',mode:'lesson',objectiveIds:[target.id],updatedAt:time+1,courseV2:{version:2,phase:'step',draft:'È una casa',optionOrder:[2,0,1],portfolios:{writing:{draft:'Un testo.',criteria:[1],recording:{key:'private-local-blob'}}},flags:[{stepId:'q1',answer:'sono'}]}};
+let saved=normalizeLearning({...left,sessions:{'g:v2-durable|lesson':draft},session:draft});saved=setCompletionRecord(saved,{entryId:'v:credere',caseId:'present',checked:true,id:'manual',at:time+1});
+const normalized=normalizeLearning(JSON.parse(JSON.stringify({...saved,version:4})));
+assert.equal(normalized.version,5);assert.deepEqual(normalized.sessions['g:v2-durable|lesson'].courseV2,draft.courseV2);assert.deepEqual(normalized.completions,saved.completions);assert.deepEqual(normalized.events,saved.events);
+const finish={...event(10,'course-completion'),id:'receipt',objectiveId:'v2-durable.course-finish',skill:'course-completion',outcome:'ungraded',ok:false,xp:0,completedTargets:[target.id]};
+const withReceipt=add(saved,finish);assert.equal(withReceipt.events.receipt.lessonFinished,true);assert.deepEqual(withReceipt.events.receipt.completedTargets,[target.id]);
+const reset=resetLearning(withReceipt,time+2*86400000,'reset');const merged=mergeLearning(reset,withReceipt);assert.deepEqual(merged.events,{});assert.deepEqual(merged.sessions,{});assert.deepEqual(merged.completions,{});
+const six=Array.from({length:6},()=>({correct:true,assisted:false}));assert.deepEqual(placementRecommendation('A1',six),{continueAt:'A2'});assert.equal(placementRecommendation('A1',six.map((a,i)=>({...a,correct:i===0}))).level,'Foundations');assert(!placementRecommendation('B2',six.map((a,i)=>({...a,assisted:i===3}))).continueAt);assert(!placementRecommendation('B2',six.slice(0,3),{stopped:true}).continueAt);assert.equal(assessPlacement({kind:'question',format:'choice',answer:'È',options:['È','E']},'E').correct,false);
+const levels=['A1','A2','B1','B2','C1','C2'];
+const lessons=levels.flatMap(level=>JSON.parse(fs.readFileSync(new URL(`../data/course-v2/${level}.json`,import.meta.url))).units.flatMap(u=>u.lessons.map(l=>({...l,level}))));
+assert.deepEqual(placementQuestions([], 'B2'),[],'An unavailable set must not dereference a missing group');
+for(const [i,level] of levels.entries()){
+ const queue=placementQuestions(lessons,level);assert.equal(queue.length,6,`${level}: placement must offer a full conservative sample`);
+ const answers=queue.map(item=>{const q=lessons.find(l=>l.id===item.lessonId).steps.find(q=>q.id===item.questionId);return assessPlacement(q,q.answer);});
+ assert(answers.every(a=>a.correct),level);
+ const result=placementRecommendation(level,answers);
+ assert.equal(result.continueAt||result.level,levels[i+1]||'C2',`${level}: a complete successful set must allow the next stage`);
+}
+console.log('V2 durability: facets, cross-device merge, v4 migration, completion receipt, portfolios, reset, and conservative placement passed.');

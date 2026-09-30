@@ -1,3 +1,4 @@
+import { render as renderCourse } from './learnCourse.js';
 import { html, raw, icon, speak, speakBtn, keyboardViewportHeight } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
@@ -17,6 +18,7 @@ export async function render(root,params,query={}) {
   await loadGrammarCourse();
   const lesson=grammarLesson(params.id);
   if(!lesson){root.innerHTML=html`<div class="empty"><p>This lesson is unavailable.</p><a class="btn primary" href="#/course">Your course</a></div>`;return;}
+  if(lesson.contentVersion===2)return renderCourse(root,lesson,query);
   const owner=store.current.id, mode=query.mode==='review'?'review':'lesson';
   const prior=store.learning.sessions[`g:${lesson.id}|${mode}`];
   let session=compatibleGrammarSession(lesson,prior) && (prior.grammar.phase!=='complete'||query.recap==='1') && (!query.objective || prior.objectiveIds.includes(query.objective) && grammarObjective(lesson,prior)?.id===query.objective)

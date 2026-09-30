@@ -3,7 +3,7 @@ import { html, raw, icon, speak } from '../ui.js';
 import { data } from '../data.js';
 import { createSentenceLookup, tokenizeItalianSentence } from './sentence-lookup.js';
 
-export function createSentencePanel(root, { context = () => ({}), onReveal = () => {} } = {}) {
+export function createSentencePanel(root, { context = () => ({}), onReveal = () => {}, gloss = () => null } = {}) {
   let lookup, origin, disposed = false;
   const dialog = document.createElement('dialog');
   dialog.className = 'journey-word-dialog';
@@ -34,7 +34,13 @@ export function createSentencePanel(root, { context = () => ({}), onReveal = () 
       const entries=[...data.byId.values()];
       lookup=createSentenceLookup({vocab:entries.filter(e=>e.kind!=='verb'),verbs:entries.filter(e=>e.kind==='verb')});
     }
-    const result = lookup(button.dataset.lookupWord, { ...ctx, sentence:sentence?.textContent || ctx.sentence || '' });
+    const result = lookup(button.dataset.lookupWord, { ...ctx, sentence:sentence?.textContent || ctx.sentence || '', translation:ctx.translation || ctx.sentence?.en || sentence?.dataset.english || '' });
+    const local=gloss(result.token,ctx);
+    if(local){
+      const match=result.candidates.find(candidate=>candidate.pos===local.pos) || result.candidates[0];
+      const contextual=match?{...match,meaning:local.meaning,note:local.note || match.note}:local;
+      result.candidates=[contextual,...result.candidates.filter(candidate=>candidate!==match&&candidate.meaning!==local.meaning)];result.status='found';
+    }
     onReveal(result);
     const candidates = result.candidates || [];
     dialog.innerHTML = html`<header class="journey-word-heading"><div><span class="journey-kicker">Word by word</span><h2 id="journey-word-title" lang="it">${result.token}</h2></div><button type="button" class="journey-word-close" data-word-close aria-label="Close word meaning" autofocus>${raw(icon('x',{size:21}))}</button></header>
@@ -59,7 +65,7 @@ export function createSentencePanel(root, { context = () => ({}), onReveal = () 
         if(node.parentElement.closest('button,.blank')) continue;
         const fragment=document.createDocumentFragment();
         for(const token of tokenizeItalianSentence(node.textContent)) {
-          if(token.type!=='word') {fragment.append(document.createTextNode(token.text));continue;}
+          if(token.type!=='word'||node.textContent[token.start-1]==='_'||node.textContent[token.end]==='_') {fragment.append(document.createTextNode(token.text));continue;}
           const button=document.createElement('button');button.type='button';button.className='journey-word';
           button.dataset.lookupWord=token.text;button.textContent=token.text;
           button.setAttribute('aria-label',`Meaning of ${token.text}`);button.setAttribute('aria-haspopup','dialog');
