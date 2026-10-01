@@ -388,3 +388,52 @@ html.paused .me-avatar::before { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .sez .seg::before, .sez .seg button, .sez-row, .sez .review-pane { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
 }
+
+/* ==========================================================================
+   HOME · LEVEL RIBBON  (js/views/homeLevels.js — the slim row that replaces the Home orbit pane)
+   One glass row, ~96 px tall: six 44 px ring buttons A1 → C2 (a 2.5 px progress arc in the level colour on a hairline
+   track, the letters in mono inside; the current level gets a gold halo, a filled core and solid letters), then a mono
+   caption ("Beginner · 12 / 400 learned") with a quiet "Browse A1" link at the right. bindLevelRibbon().update()
+   patches the arcs in place (they transition) and springs the ring just chosen. Six rings fit a 375 px screen with
+   ≥ 10 px between them; the row spreads out to the pane's edges on wider phones.
+   ========================================================================== */
+.lvl-ribbon { padding: 12px 12px 12px; }
+.lvl-ribbon-row { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.lvl-ring {
+  position: relative; flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; margin: 0;
+  border: 0; border-radius: 50%; background: none; color: inherit; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-base);
+}
+.lvl-ring svg { grid-area: 1 / 1; width: 40px; height: 40px; display: block; overflow: visible; shape-rendering: geometricPrecision; }
+.lvl-ring-track { fill: none; stroke: var(--hairline); stroke-width: 2.5; }
+.lvl-ring-core { fill: var(--c); opacity: 0; transition: opacity var(--t-base); }
+.lvl-ring-arc {
+  fill: none; stroke: var(--c); stroke-width: 2.5; stroke-linecap: round; opacity: .72;
+  transition: stroke-dasharray .6s var(--ease-out), opacity var(--t-base);
+  animation: lvlArcIn .9s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms);
+}
+.lvl-ring-arc.empty { opacity: 0; }
+@keyframes lvlArcIn { from { stroke-dasharray: 0 9999; } }
+.lvl-ring-lab { grid-area: 1 / 1; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: .04em; line-height: 1; color: var(--ink-3); pointer-events: none; transition: color var(--t-base); }
+.lvl-ring:active { transform: scale(.92); }
+.lvl-ring.cur { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--gold) 70%, transparent), 0 0 18px -2px var(--gold); }
+.lvl-ring.cur .lvl-ring-core { opacity: 1; }
+.lvl-ring.cur .lvl-ring-arc { opacity: 1; filter: drop-shadow(0 0 4px var(--c)); }
+.lvl-ring.cur .lvl-ring-lab { color: var(--on-lvl); font-weight: 600; }
+.lvl-ring.spring { animation: lvlRingSpring var(--t-slow) var(--ease-spring); }
+@keyframes lvlRingSpring { from { transform: scale(.8); } to { transform: scale(1); } }
+/* the caption keeps the counts whole: a long level name wraps the line (one extra line, still under the 110 px cap) */
+.lvl-ribbon-cap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 20px; margin-top: 6px; font-size: 10px; letter-spacing: .08em; }
+.lvl-ribbon-caption { flex: 1 1 auto; min-width: 0; color: var(--ink-3); line-height: 1.5; }
+.lvl-ribbon-caption .lvl-ribbon-count { white-space: nowrap; }
+/* a 40 px tap box on a 16 px line: the box overhangs into the pane's bottom padding and the gap above (the ring row sits on top) */
+.lvl-ribbon-browse {
+  flex: none; display: inline-flex; align-items: center; min-height: 40px; margin: -10px 0; padding: 0 2px; white-space: nowrap;
+  color: var(--ink-2); text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px;
+  transition: color var(--t-fast);
+}
+.lvl-ribbon-browse:hover, .lvl-ribbon-browse:focus-visible, .lvl-ribbon-browse:active { color: var(--gold-text); }
+@media (prefers-reduced-motion: reduce) {
+  .lvl-ring-arc, .lvl-ring.spring { animation: none !important; }
+  .lvl-ring, .lvl-ring-arc, .lvl-ring-core, .lvl-ring-lab, .lvl-ribbon-browse { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
+}

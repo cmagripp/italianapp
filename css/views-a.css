@@ -37,7 +37,7 @@ a.poster { color: #fff; }
 
 .home-ticker { margin: 0 calc(-1 * var(--gutter)) 24px; padding: 2px 0; }
 
-/* TONIGHT pane */
+/* TODAY pane (the .tonight hooks are kept) */
 .tonight { position: relative; }
 .tonight .sec-head { margin-bottom: 14px; }
 .tonight-days { color: var(--ink-3); flex: none; padding-bottom: 6px; }
@@ -52,31 +52,33 @@ a.poster { color: #fff; }
 .week-days .today { color: var(--gold-text); font-weight: 600; }
 .tonight-hint { text-align: center; color: var(--ink-3); margin-top: 10px; }
 
-/* Orbit */
-.orbit-pane { text-align: center; }
-.orbit-pane .orbit { width: min(100%, 290px); margin-bottom: 8px; }
-.orbit-pane .orbit .center .xp { font-size: 36px; }
-.orbit-caption { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 14px; }
-.orbit-caption .lvl-name { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.1; letter-spacing: -.01em; }
-.orbit-caption .mono { color: var(--ink-3); }
-.orbit-levels { display: flex; gap: 6px; }
-.orbit-levels .lvl { flex: 1; min-width: 0; padding: 0; cursor: pointer; transition: transform var(--t-fast) var(--ease-out), background var(--t-base), color var(--t-base), box-shadow var(--t-base); }
-.orbit-levels .lvl:active { transform: scale(.94); }
-.orbit-hint { font-size: 10px; color: var(--ink-3); margin-top: 12px; }
+/* Levels: the ribbon itself is js/views/homeLevels.js + css/views-c.css; .home-levels is only its slot */
 
-/* Word & verb of the night: equal-height cards, the mono footer line pinned to the bottom */
+/* Word & verb of the day: equal-height half-width cards (grid stretch). Inside, the Learn-card layout (learnhub.css
+   .lc): the top row (kicker, level chip), then one block centred in the remaining height — the headword over the
+   English line with the speaker at the right centred on that pair — then the tag row and one mono detail line. */
 .night { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch; }
-.night-card { position: relative; display: flex; flex-direction: column; padding: 14px 14px 16px; cursor: pointer; }
-.night-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-height: 40px; }
-.night-top .kicker { padding-top: 4px; line-height: 1.3; }
-.night-open { color: var(--ink-2); }
-.night-hw { margin-top: 6px; line-height: 1; }
+.night-card { position: relative; display: flex; flex-direction: column; padding: 14px; cursor: pointer; }
+.night-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
+.night-top .kicker { font-size: 10px; letter-spacing: .12em; line-height: 1.2; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.night-top .lvl { height: 22px; min-width: 32px; font-size: 10px; }
+/* the block: headword / English | speaker. The speaker spans both rows and centres on them; it runs 6px into the
+   padding so the text column keeps its width. The block is centred in the card's remaining height. */
+.night-main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; align-items: start; align-content: center; column-gap: 6px; margin-top: 10px; }
+.night-hw { grid-column: 1; grid-row: 1; min-width: 0; line-height: 1; }
 .night-hw .article { display: block; font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 15px; color: var(--ink-2); margin-bottom: 2px; }
-.night-hw .word { display: block; color: var(--ink); font-family: var(--font-display); font-weight: 600; font-size: var(--hw, 28px); line-height: 1.05; letter-spacing: -.02em; font-variation-settings: "opsz" 144; overflow-wrap: anywhere; padding: 5px 0; margin: -5px 0; }
-.night-card .hw-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.night-card .tags { --sep: 18px; margin-top: 12px; font-size: 10px; letter-spacing: .08em; }
-.night-extra { margin-top: auto; padding-top: 12px; color: var(--ink-3); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.night-extra[data-night-number] { margin-top: 0; font-size: 12px; line-height: 1.4; letter-spacing: .01em; text-transform: none; white-space: normal; overflow-wrap: anywhere; }
+/* the headword link keeps a ≥ 40px box at every size: its padding grows as the type shrinks, the negative margin hides it */
+.night-hw .word { --hw-pad: max(5px, calc((40px - var(--hw, 28px) * 1.05) / 2)); display: block; color: var(--ink); font-family: var(--font-display); font-weight: 600; font-size: var(--hw, 28px); line-height: 1.05; letter-spacing: -.02em; font-variation-settings: "opsz" 144; overflow-wrap: anywhere; padding: var(--hw-pad) 0; margin: calc(-1 * var(--hw-pad)) 0; }
+.night-en { grid-column: 1; grid-row: 2; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 14px; line-height: 18px; color: var(--ink-2); overflow-wrap: anywhere; }
+.night-main .speak { grid-column: 2; grid-row: 1 / 3; align-self: center; margin-right: -6px; }
+.night-card .tags { --sep: 18px; margin-top: 10px; font-size: 10px; letter-spacing: .08em; }
+.night-card .tags > :first-child::before { content: none; } /* no level chip first any more: no leading dot */
+.night-extra { margin-top: 8px; color: var(--ink-3); font-size: 10px; letter-spacing: .1em; line-height: 1.4; text-transform: uppercase; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+@media (max-width: 409px) { .night-top .kicker { font-size: 9px; letter-spacing: .06em; } } /* "Word of the day" beside the chip on a 375px phone */
+
+/* Play: the posters' drop shadow (--shadow-2: 24px down, 60px blur) was cut off by the reel's 20px bottom padding —
+   a faint band under the reel. The padding now outlasts the shadow; the negative margin gives the room back. */
+.home-games .reel { padding-bottom: 72px; margin-bottom: -52px; }
 .home-foot { margin-top: 8px; color: var(--ink-3); }
 
 /* ==========================================================================
