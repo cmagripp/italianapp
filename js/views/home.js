@@ -153,16 +153,16 @@ export async function render(root) {
         <div class="tonight-hint mono">${continueHint}</div>
       </section>
 
-      <section class="levels">
-        ${raw(secHead('Levels', 'Livelli', { href: '#/browse/' + lvl, more: 'Browse ' + lvl }))}
-        <div class="home-levels" data-levels>${raw(levelRibbonHTML({ current: lvl, rings: rings() }))}</div>
-      </section>
-
       <section class="night" data-night>${raw(dayCard(wotd, 'word'))}${raw(dayCard(votd, 'verb'))}</section>
 
       <section class="home-games">
         ${raw(secHead('Play', 'Oggi si gioca', { href: '#/games', more: 'All games' }))}
         <div class="reel" data-reel>${raw(reelGames.map(g => posterHTML(g, { href: '#/games?pick=' + g.id })).join(''))}</div>
+      </section>
+
+      <section class="levels">
+        ${raw(secHead('Levels', 'Livelli', { href: '#/browse/' + lvl, more: 'Browse ' + lvl }))}
+        <div class="home-levels" data-levels>${raw(levelRibbonHTML({ current: lvl, rings: rings() }))}</div>
       </section>
       <p class="center kicker home-foot">${fmtNum(data.vocab.length)} words · ${fmtNum(data.verbs.length)} verbs · A1–C2</p>
     </div>`;

@@ -4,7 +4,7 @@
 // to a precached file or to this file gives a new one (old caches are dropped on activate). Run it after any change to
 // the shell, the data or this file; tools/check-shell.mjs fails while the stamp is stale, and the deploy job stamps
 // before publishing. Edit the readable prefix by hand only to label a release.
-const VERSION = 'parola-v15-c43a7652040d';
+const VERSION = 'parola-v15-d018a89d29ff';
 // Downloaded lesson audio: kept across updates. Must equal AUDIO_CACHE in js/learning/course-v2-media.js (check-shell checks).
 const AUDIO_CACHE = 'parola-course-audio-v2';
 const SHELL = [
