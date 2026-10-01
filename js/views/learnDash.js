@@ -4,6 +4,7 @@
 // Everything here is presentation: the model carries every href, count and label; ctx wires the two menus.
 import { html, raw, icon, levelBadge } from '../ui.js';
 import { dial, mount, sheen, reducedMotion } from '../fx.js';
+import { readPref, writePref, MODE_KEY } from './learnData.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const pct = (a, b) => (b ? Math.max(0, Math.min(100, Math.round((a / b) * 100))) : 0);
@@ -47,20 +48,21 @@ function tile({ href, iconName, kicker = '', figure = '', name, nameCls = '', su
 function nextTiles(next = {}, stage = {}, scope = {}) {
   const g = next.grammar, v = next.verb, w = next.words || { entries: [] }, r = next.review || {};
   const esc = (s) => html`${s}`;
+  // the sub-line leads with the level so it survives the ellipsis on a 375px tile
   const grammar = g
-    ? tile({ href: g.href, iconName: 'book', kicker: 'Grammar', figure: `<b class="num">${g.minutes || 0}</b><span class="unit">min</span>`, name: esc(g.title), sub: [g.unit, g.minutes ? `${g.minutes} min` : ''].filter(Boolean).join(' · '), level: g.level })
-    : tile({ href: stage.href || '#/course', iconName: 'book', kicker: 'Grammar', name: esc('Tappa completa'), nameCls: 'it', sub: 'choose the next stage' });
+    ? tile({ href: g.href, iconName: 'book', kicker: 'Grammar', figure: `<b class="num">${g.minutes || 0}</b><span class="unit">min</span>`, name: esc(g.title), sub: [g.level, g.unit, g.minutes ? `${g.minutes} min` : ''].filter(Boolean).join(' · '), level: g.level, cls: 'grammar-next' })
+    : tile({ href: stage.href || '#/course', iconName: 'book', kicker: 'Grammar', name: esc('Tappa completa'), nameCls: 'it', sub: [stage.level, 'choose the next stage'].filter(Boolean).join(' · '), cls: 'grammar-next' });
   const verb = v
     ? tile({ href: v.href, iconName: 'dial', kicker: 'Verb', figure: isLevel(v.level) ? levelBadge(v.level) : '', name: esc(v.name), sub: [v.chapterLabel, v.en].filter(Boolean).join(' · '), level: v.level })
     : tile({ href: scope.href || '#/scope', iconName: 'dial', kicker: 'Verb', name: esc('Nessun verbo'), nameCls: 'it', sub: 'widen the scope' });
   const entries = (w.entries || []).slice(0, 3);
   const wordLevel = entries.find(e => isLevel(e.level))?.level || null;
   const words = entries.length
-    ? tile({ href: w.href, iconName: 'sparkle', kicker: 'Words', figure: ring(pct(w.done || 0, w.goal || 0), `${w.done || 0}<i>/${w.goal || 0}</i>`, wordLevel ? lvlVar(wordLevel) : 'var(--gold)'), name: entries.map(e => html`<span>${e.headword}</span>`).join('<i>·</i>'), nameCls: 'words', sub: `${w.done || 0} of ${w.goal || 0} today`, level: wordLevel })
-    : tile({ href: w.href || scope.href || '#/scope', iconName: 'sparkle', kicker: 'Words', name: esc('Nessuna parola'), nameCls: 'it', sub: 'widen the scope' });
+    ? tile({ href: w.href, iconName: 'sparkle', kicker: 'Words', figure: ring(pct(w.done || 0, w.goal || 0), `${w.done || 0}<i>/${w.goal || 0}</i>`, wordLevel ? lvlVar(wordLevel) : 'var(--gold)'), name: entries.map(e => html`<span>${e.headword}</span>`).join(''), nameCls: 'words', sub: `${w.done || 0} of ${w.goal || 0} today`, level: wordLevel, cls: 'vocabulary-heading' })
+    : tile({ href: w.href || scope.href || '#/scope', iconName: 'sparkle', kicker: 'Words', name: esc('Nessuna parola'), nameCls: 'it', sub: 'widen the scope', cls: 'vocabulary-heading' });
   const due = r.due || 0;
   // the due ring fills against a nominal 20-card session: a full ring says "worth sitting down for"
-  const review = tile({ href: due ? r.href : (r.aheadHref || r.href), iconName: 'refresh', kicker: 'Review', figure: ring(due ? pct(due, 20) : 0, `${due}`, due ? 'var(--gold)' : 'var(--ink-4)'), name: esc(due ? 'Ripasso' : 'Tutto fresco'), nameCls: due ? '' : 'it', sub: due ? plural(due, 'item') + ' due' : (r.nextDueLabel || 'review ahead') });
+  const review = tile({ href: due ? r.href : (r.aheadHref || r.href), iconName: 'refresh', kicker: 'Review', figure: ring(due ? pct(due, 20) : 0, `${due}`, due ? 'var(--gold)' : 'var(--ink-4)'), name: esc(due ? 'Ripasso' : 'Tutto fresco'), nameCls: due ? '' : 'it', sub: due ? plural(due, 'item') + ' due' : (r.nextDueLabel || 'review ahead'), cls: 'review-pane' });
   return grammar + verb + words + review;
 }
 
@@ -88,32 +90,45 @@ export function renderDash(container, model = {}, ctx = {}) {
   const modes = (model.modes || []).filter(Boolean);
   const scope = model.scope || {};
   const store = ctx.store;
-  const saved = store?.learning?.preferences?.learnMode;
+  const saved = readPref(store, MODE_KEY, null);
   let idx = modes.findIndex(m => m.fresh);
   if (idx < 0) idx = modes.findIndex(m => m.key === saved);
   if (idx < 0) idx = modes.findIndex(m => m.key === 'together');
   if (idx < 0) idx = 0;
   const mode0 = modes[idx] || { title: 'Impariamo', sub: '', href: '#/learn/session', label: 'Insieme', key: 'together' };
   const inProgress = model.inProgress || [];
+  // something already begun takes the primary button (Resume); the dial then drives a quieter Start button
+  const resume = inProgress[0] || null;
+  const resumeLabel = resume ? (resume.kind === 'session' ? 'Resume session' : 'Resume') : '';
   const stageLine = `${stage.name || ''}${stage.lessonsTotal ? ` · ${stage.lessonsDone || 0} of ${plural(stage.lessonsTotal, 'lesson')}` : ''}`;
 
   container.innerHTML = html`<div class="dash">
-    <section class="dash-hero glass" data-hero>
+    <section class="dash-hero glass course-preview" data-hero>
       <div class="dash-hero-top">
         <span class="kicker">Il tuo percorso · your path</span>
-        <div class="dash-stage">${isLevel(stage.level) ? raw(levelBadge(stage.level)) : ''}<span class="dash-stage-text">${stageLine}</span>${stage.href ? raw(html`<a class="dash-change" href="${stage.href}">Change</a>`) : ''}</div>
+        <div class="dash-stage course-summary"><span class="dash-stage-main">${stage.level ? raw(levelBadge(stage.level)) : ''}<span class="dash-stage-text">${stageLine}</span></span>${stage.href ? raw(html`<button type="button" class="dash-change" data-href="${stage.href}">Change</button>`) : ''}</div>
       </div>
       <div class="dial-wrap dash-dial-wrap"><div class="dial dash-dial" data-dial aria-label="Learning mode"></div></div>
       <div class="dash-mode" data-mode-text>
         <h2 class="dash-title" data-title>${mode0.title}</h2>
         <p class="dash-sub" data-sub>${mode0.sub || ''}</p>
       </div>
-      <a class="btn primary block dash-start" data-start href="${mode0.href}">Start<span class="dash-mode-tag" data-start-tag>${mode0.label}</span>${ic('arrow', { size: 20 })}</a>
+      ${resume
+        ? raw(html`<a class="btn primary block dash-start dash-resume" data-resume href="${resume.href}">${resumeLabel} ${resume.kind === 'session' ? '' : raw(html`<span class="dash-mode-tag">${resume.title}</span>`)}${ic('arrow', { size: 20 })}</a>`)
+        : raw(html`<a class="btn primary block dash-start" data-start href="${mode0.href}">Start <span class="dash-mode-tag" data-start-tag>${mode0.label}</span>${ic('arrow', { size: 20 })}</a>`)}
       <div class="dash-hero-foot">
-        <span class="dash-hint mono">${modes.length > 1 ? 'turn the dial to preview a mode' : ''}</span>
+        ${resume
+          ? raw(html`<a class="btn ghost xs dash-start-alt" data-start href="${mode0.href}">Start <span class="dash-mode-tag" data-start-tag>${mode0.label}</span></a>`)
+          : raw(html`<span class="dash-hint mono">${modes.length > 1 ? 'dial to preview' : ''}</span>`)}
         <button type="button" class="btn ghost xs dash-session" data-session-menu aria-haspopup="menu" aria-expanded="false">Start a session${ic('chevronDown', { size: 14 })}</button>
       </div>
     </section>
+
+    <div class="dash-scope glass-flat">
+      <span class="dash-scope-main"><span class="kicker">Vocabulary scope</span><span class="dash-scope-val mono"><span class="dash-scope-label">${scope.label || 'All words'}</span><i>·</i><span>${scope.learned ?? 0}/${scope.total ?? 0}</span></span></span>
+      <button type="button" class="icon-btn dash-scope-menu" data-scope-menu aria-haspopup="menu" aria-expanded="false" aria-label="Change the vocabulary scope">${ic('chevronDown', { size: 20 })}</button>
+      <a class="icon-btn dash-scope-open" href="${scope.href || '#/scope'}" aria-label="Scope details">${ic('arrow', { size: 20 })}</a>
+    </div>
 
     <section class="dash-progress">
       <div class="sec-head"><div><span class="kicker">In progress</span><span class="title">In corso</span></div>${inProgress.length ? raw(html`<span class="mono sec-side">${plural(inProgress.length, 'thread')}</span>`) : ''}</div>
@@ -130,15 +145,9 @@ export function renderDash(container, model = {}, ctx = {}) {
       ${raw(stageStrip(stage))}
     </section>`) : ''}
 
-    <div class="dash-scope glass-flat">
-      <span class="dash-scope-main"><span class="kicker">Vocabulary scope</span><span class="dash-scope-val mono"><span class="dash-scope-label">${scope.label || 'All words'}</span><i>·</i><span>${scope.learned ?? 0}/${scope.total ?? 0}</span></span></span>
-      <button type="button" class="icon-btn dash-scope-menu" data-scope-menu aria-haspopup="menu" aria-expanded="false" aria-label="Change the vocabulary scope">${ic('chevronDown', { size: 20 })}</button>
-      <a class="icon-btn dash-scope-open" href="${scope.href || '#/scope'}" aria-label="Scope details">${ic('arrow', { size: 20 })}</a>
-    </div>
-
     ${(model.lab || []).length ? raw(html`<section class="dash-lab">
       <div class="sec-head"><div><span class="kicker">Verb lab</span><span class="title">Laboratorio</span></div></div>
-      <div class="dash-tiles">${raw(labTiles(model.lab))}</div>
+      <div class="dash-tiles verb-lab">${raw(labTiles(model.lab))}</div>
     </section>`) : ''}
   </div>`;
 
@@ -154,15 +163,19 @@ export function renderDash(container, model = {}, ctx = {}) {
     titleEl.textContent = m.title || m.label || '';
     subEl.textContent = m.sub || '';
     startTag.textContent = m.label || '';
-    startBtn.href = m.href || '#/learn/session';
     startBtn.dataset.mode = m.key || '';
     hero.dataset.mode = m.key || '';
+    // with a saved session the dial's "together" stop is that same session: one link is enough, so the quiet
+    // Start loses its href as well as its box (a hidden duplicate link would still be counted by assistive tech)
+    const dup = !!resume && (m.href || '') === (resume.href || '');
+    startBtn.hidden = dup;
+    if (dup) startBtn.removeAttribute('href'); else startBtn.setAttribute('href', m.href || '#/learn/session');
     modeText.classList.remove('swap'); void modeText.offsetWidth; modeText.classList.add('swap');
     clearTimeout(swapTimer); swapTimer = setTimeout(() => modeText.classList.remove('swap'), reducedMotion() ? 150 : 450);
-    if (save && store && typeof store.setLearningPreference === 'function' && m.key) { try { store.setLearningPreference('learnMode', m.key); } catch { /* preferences are a convenience, never a blocker */ } }
+    if (save && m.key) { try { writePref(store, MODE_KEY, m.key); } catch { /* a convenience, never a blocker */ } }
   }
   const dialApi = modes.length
-    ? dial(root.querySelector('[data-dial]'), { items: modes.map(m => ({ key: m.key, label: m.label, sub: m.key })), index: idx, onChange: (i) => showMode(i, { save: true }) })
+    ? dial(root.querySelector('[data-dial]'), { items: modes.map(m => ({ key: m.key, label: m.label, sub: m.key })), index: idx, step: 28, radius: 232, onChange: (i) => showMode(i, { save: true }) })
     : null;
   if (!modes.length) root.querySelector('.dash-dial-wrap').remove();
   showMode(idx);
@@ -174,6 +187,8 @@ export function renderDash(container, model = {}, ctx = {}) {
   if (sessionBtn && typeof ctx.bindSessionMenu === 'function') ctx.bindSessionMenu(sessionBtn);
 
   const onClick = (e) => {
+    const go = e.target.closest('button[data-href]');
+    if (go) { location.hash = go.dataset.href; return; }
     if (e.target.closest('[data-to-hero]')) {
       hero.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
       sheen(startBtn);

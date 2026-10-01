@@ -259,15 +259,15 @@ html.paused .me-avatar::before { animation-play-state: paused; }
    ========================================================================== */
 .sez { padding-top: 2px; }
 .sez-jumps { margin-bottom: 14px; }
-.sez-block { margin-bottom: 32px; scroll-margin-top: calc(var(--top-h) + var(--sat) + 12px); }
+.sez-block { margin-bottom: 32px; scroll-margin-top: 4px; } /* html's scroll-padding-top already clears the top bar */
 .sez-block:last-child { margin-bottom: 0; }
 .sez-block > .sec-head { margin-bottom: 12px; }
 .sez-block > .sec-head .title { font-size: 28px; letter-spacing: -.015em; font-variation-settings: "opsz" 72; }
 
 /* Corso: the resume / up-next card and the next-grammar row */
-.sez-course-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.sez-course-top .kicker { color: var(--gold-text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sez-course-top .sez-stage { color: var(--ink-3); white-space: nowrap; flex: none; }
+.sez-course-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
+.sez-course-top .kicker { color: var(--gold-text); }
+.sez-course-top .sez-stage { color: var(--ink-3); white-space: nowrap; margin-left: auto; }
 .sez-course h2 { font-family: var(--font-display); font-weight: 600; font-size: 30px; line-height: 1.08; letter-spacing: -.02em; font-variation-settings: "opsz" 72; margin: 10px 0 6px; overflow-wrap: anywhere; }
 .sez-course p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
 .sez-course .tags { margin-top: 12px; }

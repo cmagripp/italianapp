@@ -197,16 +197,19 @@ a.poster { color: #fff; }
   background: radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--lvl-current) 16%, transparent), transparent 60%), radial-gradient(70% 60% at 0% 100%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 70%); }
 .dash-hero > * { position: relative; }
 .dash-hero-top .kicker { display: block; }
-.dash-stage { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-top: 8px; min-height: 24px; }
-.dash-stage .lvl { height: 22px; min-width: 32px; }
-.dash-stage-text { font-family: var(--font-display); font-weight: 500; font-size: 15px; letter-spacing: -.005em; color: var(--ink-2); min-width: 0; overflow-wrap: anywhere; }
-/* a quiet text link with a real 40px hit box that does not grow the line */
-.dash-change { display: inline-flex; align-items: center; min-height: 40px; margin: -10px 0; padding: 0 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--gold-text); }
+/* the stage line: badge + text flow as one sentence (wrapping as text), Change stays at the right. The hook class
+   .course-summary is shared with the course page (grammar-course.css): its padding/margin are reset here. */
+.dash-stage.course-summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 2px 12px; margin: 8px 0 0; padding: 0; min-height: 24px; }
+.dash-stage-main { flex: 1; min-width: 0; line-height: 24px; }
+.dash-stage .lvl { height: 22px; min-width: 32px; margin-right: 8px; vertical-align: middle; }
+.dash-stage-text { font-family: var(--font-display); font-weight: 500; font-size: 15px; letter-spacing: -.005em; color: var(--ink-2); overflow-wrap: anywhere; vertical-align: middle; }
+/* a quiet text button with a real 40px hit box that does not grow the line */
+.dash-change { flex: none; display: inline-flex; align-items: center; min-height: 40px; height: 40px; margin: -8px 0; padding: 0 2px; background: none; border: 0; box-shadow: none; border-radius: 8px; cursor: pointer; line-height: 1; white-space: nowrap; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--gold-text); }
 .dash-dial-wrap { margin: 6px -18px 0; }
 .dash-dial { height: 118px; }
-.dash-dial .dial-arc { opacity: .55; }
+.dash-dial .dial-arc { opacity: .32; }
 .dash-dial .dial-item { min-height: 60px; padding: 6px 14px; }
-.dash-dial .dial-label { font-size: 26px; font-variation-settings: "opsz" 48; letter-spacing: -.015em; }
+.dash-dial .dial-label { font-size: 24px; font-variation-settings: "opsz" 48; letter-spacing: -.015em; }
 .dash-dial .dial-sub { font-size: 10px; }
 .dash-dial .dial-item.on .dial-label { text-shadow: 0 0 24px color-mix(in srgb, var(--gold) 60%, transparent); }
 .dash-mode { text-align: center; margin: -6px 0 16px; min-height: 68px; }
@@ -214,10 +217,16 @@ a.poster { color: #fff; }
 @keyframes dashSwap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .dash-title { margin: 0; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.08; letter-spacing: -.015em; font-variation-settings: "opsz" 72; overflow-wrap: anywhere; }
 .dash-sub { margin: 6px auto 0; max-width: 32ch; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.dash .dash-hero { margin: 0 0 24px; } /* .course-preview (course.css) sets its own margins */
 .dash-start { gap: 10px; }
-.dash-start .dash-mode-tag { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: var(--r-pill); background: rgba(0,0,0,.14); font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 15px; letter-spacing: 0; line-height: 1; }
+/* the tag inside Start/Resume ellipsises (a long lesson title must never push the arrow out of the pill) */
+.dash-start .dash-mode-tag { display: inline-block; flex: 0 1 auto; min-width: 0; max-width: 62%; height: 26px; padding: 0 10px; border-radius: var(--r-pill); background: rgba(0,0,0,.14); font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 15px; letter-spacing: 0; line-height: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
+.dash-start .ic { flex: none; }
 .dash-hero-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; min-height: 40px; }
 .dash-hint { font-size: 10px; color: var(--ink-3); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dash-start-alt { flex: 1; min-width: 0; justify-content: center; gap: 6px; padding: 0 10px; color: var(--ink); border-color: var(--glass-border); }
+.dash-start-alt .dash-mode-tag { height: 24px; padding: 0 8px; font-size: 14px; background: color-mix(in srgb, var(--gold) 16%, transparent); color: var(--gold-text); }
+.dash-start-alt[hidden] { display: none; }
 .dash-session { flex: none; gap: 4px; padding: 0 10px 0 12px; border-color: transparent; color: var(--ink-2); font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
 .dash-session .ic { width: 14px; height: 14px; color: var(--ink-3); transition: transform var(--t-base) var(--ease-out); }
 .dash-session[aria-expanded="true"] .ic { transform: rotate(180deg); }
@@ -274,11 +283,17 @@ a.poster { color: #fff; }
 .dt-fig .lvl { height: 22px; min-width: 32px; }
 .dt-name { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.12; letter-spacing: -.012em; margin-top: 2px; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .dt-name.it { font-style: italic; font-weight: 500; color: var(--ink-2); }
-.dt-name.words { font-size: 17px; line-height: 1.25; font-weight: 500; }
-.dt-name.words i { font-style: normal; color: var(--ink-4); margin: 0 5px; font-weight: 400; }
+/* the three headwords stack, one per line, never broken mid-word */
+.dt-name.words { display: flex; flex-direction: column; gap: 1px; font-size: 17px; line-height: 1.25; font-weight: 500; overflow-wrap: normal; }
+.dt-name.words span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dt-foot { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: auto; padding-top: 6px; min-height: 28px; }
 .dt-sub { font-size: 9px; letter-spacing: .1em; color: var(--ink-3); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dt-chev { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; margin-right: -4px; color: var(--ink-3); }
+/* hook classes shared with the course page / old hub (grammar-course.css, views-a §learn hub): their box rules are reset */
+.dash-tile.grammar-next, .dash-tile.vocabulary-heading, .dash-tile.review-pane { display: flex; flex-direction: column; justify-content: flex-start; gap: 6px; padding: 12px 12px 10px 14px; margin: 0; }
+.dash-tile.review-pane .ring { width: 40px; height: 40px; }
+.dash-tile.review-pane .ring::after { inset: 4px; }
+.dash-tile.review-pane .ring span { font-size: 10px; font-variation-settings: normal; }
 .dash-tile.lab { min-height: 124px; }
 .dash-tile.lab .dt-name { font-size: 18px; }
 
@@ -299,7 +314,7 @@ a.poster { color: #fff; }
 .ds-chev { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; color: var(--ink-3); }
 
 /* ---------- slim scope row ---------- */
-.dash-scope { display: flex; align-items: center; gap: 6px; min-height: 60px; padding: 8px 8px 8px 16px; border-radius: var(--r-m); }
+.dash-scope { display: flex; align-items: center; gap: 6px; min-height: 60px; margin-top: -8px; padding: 8px 8px 8px 16px; border-radius: var(--r-m); }
 .dash-scope-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .dash-scope-main .kicker { font-size: 10px; }
 .dash-scope-val { display: flex; align-items: center; gap: 0; min-width: 0; font-size: 12px; letter-spacing: .06em; text-transform: none; color: var(--ink); font-variant-numeric: tabular-nums; }

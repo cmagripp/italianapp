@@ -106,12 +106,13 @@ const secHead = (kicker, title, href, more) => html`<div class="sec-head"><div><
 // ---------- blocks ----------
 function corsoHTML(model) {
   const stage = model.stage || {}, prog = (model.inProgress || [])[0] || null, gram = model.next?.grammar || null;
-  const stageLine = [stage.level, Number.isFinite(stage.lessonsDone) && Number.isFinite(stage.lessonsTotal) ? `${stage.lessonsDone} / ${stage.lessonsTotal} lessons` : ''].filter(Boolean).join(' · ');
-  let kicker, title, sub, meta = '', href, cta, pct = null;
+  const stageLine = [stage.level, Number.isFinite(stage.lessonsDone) && Number.isFinite(stage.lessonsTotal) ? `${stage.lessonsDone}/${stage.lessonsTotal}` : ''].filter(Boolean).join(' · ');
+  let kicker, title, sub, meta = '', href, cta, pct = null, pctLine = '';
   if (prog) {
-    kicker = ['Resume', prog.kind, prog.updatedAt ? relTime(prog.updatedAt) : ''].filter(Boolean).join(' · ');
+    kicker = ['Resume', prog.kind].filter(Boolean).join(' · ');
     title = prog.title; sub = prog.sub || 'Continue from where you stopped.'; href = prog.href; cta = 'Resume lesson';
     if (Number.isFinite(prog.pct)) pct = Math.max(0, Math.min(100, Math.round(prog.pct)));
+    pctLine = [pct != null ? `${pct}% done` : '', prog.updatedAt ? relTime(prog.updatedAt) : '', stage.currentUnitTitle || ''].filter(Boolean).join(' · ');
   } else if (gram) {
     kicker = 'Up next · grammar'; title = gram.title; sub = gram.sub || gram.outcome || stage.currentUnitTitle || ''; href = gram.href; cta = 'Start lesson';
     meta = html`<div class="tags">${gram.level ? raw(levelBadge(gram.level)) : ''}${gram.unit ? raw(html`<span>${gram.unit}</span>`) : ''}${gram.minutes ? raw(html`<span>${gram.minutes} min</span>`) : ''}</div>`;
@@ -129,7 +130,8 @@ function corsoHTML(model) {
       <h2>${title}</h2>
       ${sub ? raw(html`<p>${sub}</p>`) : ''}
       ${raw(meta)}
-      ${pct != null ? raw(html`${raw(progressBar(pct, 100, 'thin'))}<div class="sez-pct mono">${pct}% done${stage.currentUnitTitle ? ' · ' + stage.currentUnitTitle : ''}</div>`) : ''}
+      ${pct != null ? raw(progressBar(pct, 100, 'thin')) : ''}
+      ${pctLine ? raw(html`<div class="sez-pct mono">${pctLine}</div>`) : ''}
       <div class="sez-course-actions">
         <a class="btn primary block" href="${href}">${cta}${ic('arrow', { size: 20 })}</a>
         <button type="button" class="btn secondary block" data-session-menu aria-haspopup="menu" aria-expanded="false">Start a session${ic('chevronDown', { size: 18 })}</button>
