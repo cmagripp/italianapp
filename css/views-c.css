@@ -251,3 +251,58 @@ html.paused .me-avatar::before { animation-play-state: paused; }
   .me-hero { padding: 24px 24px 20px; }
   .me .heat, .heat-days { grid-template-columns: repeat(7, minmax(0, 44px)); }
 }
+
+/* ==========================================================================
+   7. LEARN · SEZIONI (js/views/learnSections.js)
+   Jump chips over four equal blocks: Corso · Vocabolario · Ripasso · Laboratorio. The decks, the review ring and the
+   lab tiles reuse the LEARN HUB rules in views-a.css; only the section shell and the course card live here.
+   ========================================================================== */
+.sez { padding-top: 2px; }
+.sez-jumps { margin-bottom: 14px; }
+.sez-block { margin-bottom: 32px; scroll-margin-top: calc(var(--top-h) + var(--sat) + 12px); }
+.sez-block:last-child { margin-bottom: 0; }
+.sez-block > .sec-head { margin-bottom: 12px; }
+.sez-block > .sec-head .title { font-size: 28px; letter-spacing: -.015em; font-variation-settings: "opsz" 72; }
+
+/* Corso: the resume / up-next card and the next-grammar row */
+.sez-course-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sez-course-top .kicker { color: var(--gold-text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sez-course-top .sez-stage { color: var(--ink-3); white-space: nowrap; flex: none; }
+.sez-course h2 { font-family: var(--font-display); font-weight: 600; font-size: 30px; line-height: 1.08; letter-spacing: -.02em; font-variation-settings: "opsz" 72; margin: 10px 0 6px; overflow-wrap: anywhere; }
+.sez-course p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+.sez-course .tags { margin-top: 12px; }
+.sez-course .bar { margin-top: 16px; }
+.sez-pct { margin-top: 8px; color: var(--ink-3); }
+.sez-course-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.sez-course-actions .btn .ic-chevronDown { transition: transform var(--t-base) var(--ease-out); }
+.sez-course-actions .btn[aria-expanded="true"] .ic-chevronDown { transform: rotate(180deg); }
+.sez-row { display: flex; align-items: center; gap: 12px; min-height: 64px; margin-top: 12px; padding: 12px 12px 12px 16px; color: var(--ink); border-radius: var(--r-m); transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
+.sez-row:active { transform: scale(.985); background: var(--glass-strong); }
+.sez-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.sez-row-main .kicker { display: block; margin-bottom: 2px; }
+.sez-row-title { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.15; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.sez-row-sub { color: var(--ink-3); }
+.sez-row .lvl { flex: none; }
+.sez-row .ic-chevronRight { color: var(--ink-3); flex: none; }
+
+/* Vocabolario: scope row (styles in views-a.css), then the two decks with a small Italian title and a mono counter */
+.sez .scope-line { margin-bottom: 20px; }
+.sez .scope-line .btn.sm { flex: none; }
+.sez-deck { margin-bottom: 20px; }
+.sez-deck:last-child { margin-bottom: 0; }
+.sez-deck-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.sez-deck-head .title { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.1; letter-spacing: -.01em; }
+.sez-deck-head .title .itx .tr { font-family: var(--font-text); font-weight: 500; font-size: 13px; }
+.sez-deck-head .side { color: var(--ink-3); white-space: nowrap; flex: none; padding-bottom: 3px; }
+
+/* Laboratorio: always a 2 × 2 of tiles, the icon in gold (shared rule in views-a.css) */
+.sez .lab-grid { grid-template-columns: 1fr 1fr; }
+.sez .lab-grid .tile { min-height: 116px; }
+
+@media (max-width: 359px) {
+  .sez-course h2 { font-size: 26px; }
+  .sez-block > .sec-head .title { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sez-row, .sez-course-actions .btn .ic-chevronDown { transition-duration: 120ms !important; }
+}

@@ -182,3 +182,149 @@ a.poster { color: #fff; }
   .deck.live > .deck-card, .deck.live > .deck-card > *, .src-row, .orbit-levels .lvl { transition-duration: 120ms !important; }
   .deck.live > .deck-card.leaving { transition: none; }
 }
+
+/* ==========================================================================
+   LEARN · PANORAMICA DASHBOARD (js/views/learnDash.js)
+   Path hero (stage line, mode dial, one Start button) · in-progress reel · 2×2 "up next" tiles · stage strip ·
+   slim scope row · verb-lab tiles. Tokens and the dial/ring/reel/sec-head come from css/app.css.
+   ========================================================================== */
+.dash > * { margin-bottom: 24px; }
+.dash > :last-child { margin-bottom: 0; }
+
+/* ---------- hero ---------- */
+.dash-hero { position: relative; overflow: hidden; padding: 18px 18px 14px; border-radius: var(--r-l); }
+.dash-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--lvl-current) 16%, transparent), transparent 60%), radial-gradient(70% 60% at 0% 100%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 70%); }
+.dash-hero > * { position: relative; }
+.dash-hero-top .kicker { display: block; }
+.dash-stage { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-top: 8px; min-height: 24px; }
+.dash-stage .lvl { height: 22px; min-width: 32px; }
+.dash-stage-text { font-family: var(--font-display); font-weight: 500; font-size: 15px; letter-spacing: -.005em; color: var(--ink-2); min-width: 0; overflow-wrap: anywhere; }
+/* a quiet text link with a real 40px hit box that does not grow the line */
+.dash-change { display: inline-flex; align-items: center; min-height: 40px; margin: -10px 0; padding: 0 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--gold-text); }
+.dash-dial-wrap { margin: 6px -18px 0; }
+.dash-dial { height: 118px; }
+.dash-dial .dial-arc { opacity: .55; }
+.dash-dial .dial-item { min-height: 60px; padding: 6px 14px; }
+.dash-dial .dial-label { font-size: 26px; font-variation-settings: "opsz" 48; letter-spacing: -.015em; }
+.dash-dial .dial-sub { font-size: 10px; }
+.dash-dial .dial-item.on .dial-label { text-shadow: 0 0 24px color-mix(in srgb, var(--gold) 60%, transparent); }
+.dash-mode { text-align: center; margin: -6px 0 16px; min-height: 68px; }
+.dash-mode.swap { animation: dashSwap var(--t-slow) var(--ease-out) both; }
+@keyframes dashSwap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.dash-title { margin: 0; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.08; letter-spacing: -.015em; font-variation-settings: "opsz" 72; overflow-wrap: anywhere; }
+.dash-sub { margin: 6px auto 0; max-width: 32ch; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.dash-start { gap: 10px; }
+.dash-start .dash-mode-tag { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: var(--r-pill); background: rgba(0,0,0,.14); font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 15px; letter-spacing: 0; line-height: 1; }
+.dash-hero-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; min-height: 40px; }
+.dash-hint { font-size: 10px; color: var(--ink-3); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dash-session { flex: none; gap: 4px; padding: 0 10px 0 12px; border-color: transparent; color: var(--ink-2); font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+.dash-session .ic { width: 14px; height: 14px; color: var(--ink-3); transition: transform var(--t-base) var(--ease-out); }
+.dash-session[aria-expanded="true"] .ic { transform: rotate(180deg); }
+
+/* ---------- small ring (cards and tiles) ---------- */
+.dash-ring { width: 40px; height: 40px; background: conic-gradient(var(--rc, var(--gold)) calc(var(--p, 0) * 1%), var(--hairline) 0); box-shadow: 0 0 18px -8px var(--rc, var(--gold)); }
+.dash-ring::after { inset: 4px; background: color-mix(in srgb, var(--bg-1) 92%, var(--rc, var(--gold))); }
+.dash-ring span { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0; color: var(--ink); font-variant-numeric: tabular-nums; }
+.dash-ring span i { font-style: normal; color: var(--ink-3); font-weight: 500; }
+
+/* ---------- in-progress reel ---------- */
+.dash-reel { gap: 10px; padding-top: 4px; padding-bottom: 8px; }
+.dash-card { position: relative; flex: none; width: 236px; display: flex; flex-direction: column; gap: 6px; padding: 14px 14px 12px; border-radius: var(--r-m); color: var(--ink); text-align: left; scroll-snap-align: start; overflow: hidden;
+  transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
+.dash-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(100% 80% at 100% 0%, color-mix(in srgb, var(--rc, var(--gold)) 12%, transparent), transparent 60%); }
+.dash-card:active { transform: scale(.975); background: var(--glass-strong); }
+.dash-card > * { position: relative; }
+.dc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; }
+.dc-kind { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.dc-kind .kicker { font-size: 10px; white-space: nowrap; }
+.dc-ico { width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center; flex: none; color: var(--rc, var(--gold)); background: color-mix(in srgb, var(--rc, var(--gold)) 14%, transparent); border: 1px solid color-mix(in srgb, var(--rc, var(--gold)) 36%, transparent); }
+.dc-ico .ic { width: 15px; height: 15px; }
+.dc-title { font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.12; letter-spacing: -.012em; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.dc-title.it { font-style: italic; font-weight: 500; }
+.dc-sub { font-size: 10px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dc-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 10px; }
+.dc-bar { flex: 1; height: 3px; border-radius: 2px; background: var(--hairline); overflow: hidden; }
+.dc-bar i { display: block; height: 100%; border-radius: 2px; background: var(--rc, var(--gold)); box-shadow: 0 0 8px var(--rc, var(--gold)); }
+.dc-resume { display: inline-flex; align-items: center; gap: 4px; flex: none; min-height: 32px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--gold-text); }
+.dc-resume .ic { width: 14px; height: 14px; }
+/* the invitation (empty state): one card, the sentence in italic serif, a chevron up pointing at the hero */
+.dash-invite { width: min(100%, 330px); --rc: var(--gold); cursor: pointer; border-style: dashed; }
+.dash-invite .dc-sub { font-family: var(--font-text); font-size: 13px; line-height: 1.4; color: var(--ink-2); white-space: normal; letter-spacing: 0; text-transform: none; }
+.dash-invite .dc-up { width: 40px; height: 40px; display: inline-grid; place-items: center; color: var(--gold-text); animation: dashNudge 2.4s var(--ease-in-out) infinite; }
+@keyframes dashNudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.dash-invite .dc-foot { justify-content: flex-end; }
+
+/* ---------- tiles (up next, verb lab) ---------- */
+.dash-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dash-tile { position: relative; display: flex; flex-direction: column; gap: 6px; min-height: 148px; padding: 12px 12px 10px 14px; color: var(--ink); overflow: hidden;
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--r-m); box-shadow: inset 0 1px 0 var(--glass-highlight);
+  transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
+.dash-tile::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(110% 80% at 100% 0%, color-mix(in srgb, var(--lc, var(--lvl-current)) 12%, transparent), transparent 60%); }
+.dash-tile.has-lvl::before { content: ""; position: absolute; left: 18px; right: 18px; top: 0; height: 2px; border-radius: 0 0 2px 2px; pointer-events: none; z-index: 1; background: linear-gradient(90deg, transparent, var(--lc), transparent); opacity: .9; }
+.dash-tile:active { transform: scale(.97); background: var(--glass-strong); }
+.dash-tile > * { position: relative; }
+.dt-top { display: flex; align-items: center; gap: 8px; min-height: 40px; }
+.dt-ico { width: 32px; height: 32px; border-radius: 50%; display: inline-grid; place-items: center; flex: none; color: var(--lc, var(--gold)); background: color-mix(in srgb, var(--lc, var(--gold)) 14%, transparent); border: 1px solid color-mix(in srgb, var(--lc, var(--gold)) 36%, transparent); box-shadow: 0 0 20px -10px var(--lc, var(--gold)); }
+.dt-ico .ic { width: 17px; height: 17px; }
+.dt-kicker { font-size: 9px; letter-spacing: .12em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.dt-fig { margin-left: auto; flex: none; display: inline-flex; align-items: baseline; gap: 2px; }
+.dt-fig .num { font-family: var(--font-display); font-weight: 600; font-size: 26px; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-variation-settings: "opsz" 48; font-variant-numeric: tabular-nums; }
+.dt-fig .unit { font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.dt-fig .lvl { height: 22px; min-width: 32px; }
+.dt-name { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.12; letter-spacing: -.012em; margin-top: 2px; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.dt-name.it { font-style: italic; font-weight: 500; color: var(--ink-2); }
+.dt-name.words { font-size: 17px; line-height: 1.25; font-weight: 500; }
+.dt-name.words i { font-style: normal; color: var(--ink-4); margin: 0 5px; font-weight: 400; }
+.dt-foot { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: auto; padding-top: 6px; min-height: 28px; }
+.dt-sub { font-size: 9px; letter-spacing: .1em; color: var(--ink-3); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dt-chev { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; margin-right: -4px; color: var(--ink-3); }
+.dash-tile.lab { min-height: 124px; }
+.dash-tile.lab .dt-name { font-size: 18px; }
+
+/* ---------- stage strip ---------- */
+.dash-strip { display: flex; flex-direction: column; gap: 12px; padding: 14px 12px 12px 16px; border-radius: var(--r-m); color: var(--ink); transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
+.dash-strip:active { transform: scale(.985); background: var(--glass-strong); }
+.dash-units { display: flex; gap: 4px; height: 12px; align-items: center; }
+.dash-units i { position: relative; flex: 1; height: 6px; border-radius: 3px; background: var(--hairline); overflow: hidden; transition: height var(--t-base) var(--ease-out); }
+.dash-units i::after { content: ""; position: absolute; inset: 0; width: calc(var(--f, 0) * 1%); border-radius: inherit; background: var(--lvl-current); }
+.dash-units i.cur { height: 10px; background: color-mix(in srgb, var(--gold) 18%, var(--hairline)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent); }
+.dash-units i.cur::after { background: var(--gold); box-shadow: 0 0 10px var(--gold); min-width: 4px; }
+.dash-units i.done::after { width: 100%; }
+.ds-foot { display: flex; align-items: center; gap: 10px; min-height: 40px; }
+.ds-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ds-main .kicker { font-size: 10px; }
+.ds-title { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.15; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ds-count { flex: none; font-size: 11px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ds-chev { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; color: var(--ink-3); }
+
+/* ---------- slim scope row ---------- */
+.dash-scope { display: flex; align-items: center; gap: 6px; min-height: 60px; padding: 8px 8px 8px 16px; border-radius: var(--r-m); }
+.dash-scope-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.dash-scope-main .kicker { font-size: 10px; }
+.dash-scope-val { display: flex; align-items: center; gap: 0; min-width: 0; font-size: 12px; letter-spacing: .06em; text-transform: none; color: var(--ink); font-variant-numeric: tabular-nums; }
+.dash-scope-val .dash-scope-label { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dash-scope-val i { font-style: normal; color: var(--ink-4); margin: 0 7px; flex: none; }
+.dash-scope-val > span:last-child { flex: none; color: var(--ink-2); }
+.dash-scope .icon-btn { flex: none; color: var(--ink-2); }
+.dash-scope-menu[aria-expanded="true"] .ic { transform: rotate(180deg); }
+.dash-scope-menu .ic { transition: transform var(--t-base) var(--ease-out); }
+.dash-scope-open { color: var(--gold-text) !important; }
+
+/* ---------- responsive & motion ---------- */
+@media (max-width: 359px) {
+  .dash-title { font-size: 26px; }
+  .dash-tile { min-height: 136px; }
+  .dash-tiles { gap: 10px; }
+  .dt-name { font-size: 17px; }
+}
+@media (min-width: 560px) {
+  .dash-tiles { grid-template-columns: repeat(4, 1fr); }
+}
+html.paused .dash-invite .dc-up { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .dash-mode.swap { animation-duration: 120ms !important; animation-name: fadeOnly !important; }
+  .dash-invite .dc-up { animation: none !important; }
+  .dash-card, .dash-tile, .dash-strip, .dash-units i, .dash-session .ic, .dash-scope-menu .ic { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
+  @keyframes fadeOnly { from { opacity: 0; } to { opacity: 1; } }
+}
