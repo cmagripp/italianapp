@@ -32,6 +32,35 @@ const texts = x => Array.isArray(x) ? x : x ? [x] : [];
 const phaseName = step => ['teach','repair'].includes(step.type) ? 'Learn'
   : step.type === 'question' ? step.phase === 'independent' && step.format === 'type' ? 'Recall' : 'Practise' : null;
 
+function correctAnswerSpeech(question, given, entry, target) {
+  const unaccented = value => normalize(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const accepted = question.answer.find(answer => unaccented(answer) === unaccented(given)) || question.answer[0];
+  const isolated = question.meta?.answerLanguage === 'en' ? nameOf(entry) : accepted;
+  const sentence = question.context?.it;
+  if (typeof sentence !== 'string' || !sentence.trim()) return isolated;
+  if (question.meta?.answerLanguage === 'en') return sentence;
+
+  // The scene retains the exact answer span that was removed from the prompt.
+  // Only substitute a different accepted form when that span occurs once as a
+  // whole expression; another occurrence could belong to a different clause.
+  const contexts = [...(Array.isArray(target?.contexts) ? target.contexts : []),
+    ...(Array.isArray(target?.legacyAuthoredContexts) ? target.legacyAuthoredContexts : [])];
+  const authored = contexts.find(context => context.id === question.meta?.contextId && context.it === sentence);
+  const source = String(authored?.answer || question.answer[0] || '').trim();
+  if (!source || normalize(source) === normalize(accepted)) return sentence;
+  const pattern = new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'giu');
+  const wordPart = /[\p{L}\p{N}'’]/u;
+  const spans = [...sentence.matchAll(pattern)].filter(match => {
+    const start = match.index, end = start + match[0].length;
+    return (start === 0 || !wordPart.test(sentence[start - 1]))
+      && (end === sentence.length || !wordPart.test(sentence[end]));
+  });
+  if (spans.length !== 1) return sentence;
+  const match = spans[0], replacement = /^\p{Lu}/u.test(match[0])
+    ? accepted.replace(/^\p{L}/u, char => char.toLocaleUpperCase('it')) : accepted;
+  return sentence.slice(0,match.index) + replacement + sentence.slice(match.index + match[0].length);
+}
+
 function promptHTML(source) {
   const template = document.createElement('template');
   template.innerHTML = typeof source === 'string' ? source : '';
@@ -152,7 +181,8 @@ export async function render(root, params = {}, query = {}) {
   const safeSnapshot = source => {
     if (!source || typeof source!=='object' || source.version!==1 || source.entryId!==entry.id || source.contentVersion!==plan.version
       || !['teach','question','repair','recap','complete','blocked'].includes(source.type)) return null;
-    const snapshot = { version:1, entryId:entry.id, contentVersion:plan.version, type:source.type,...(source.verbFlowVersion===2?{verbFlowVersion:2}:{}) };
+    const snapshot = { version:1, entryId:entry.id, contentVersion:plan.version, type:source.type,...(source.verbFlowVersion===2?{verbFlowVersion:2}:{}),
+      ...(source.scenePolicy==='expanded-v1'?{scenePolicy:'expanded-v1'}:{}) };
     for (const key of ['chapterId','groupId','cardId','targetId','questionId','repairTag','wordSlotId']) snapshot[key]=typeof source[key]==='string'?source[key].slice(0,300):'';
     snapshot.variant=Number.isInteger(source.variant)&&source.variant>=0&&source.variant<1000000?source.variant:0;
     snapshot.phase=['guided','independent','repair'].includes(source.phase)?source.phase:'guided';
@@ -315,13 +345,14 @@ export async function render(root, params = {}, query = {}) {
     if (step.type === 'question') {
       question = buildJourneyQuestion(entry, step.chapter, step.target, {
         variant: step.variant || 0, format: step.format || 'type', phase: step.phase, repairTag: step.repairTag,
+        scenePolicy: step.scenePolicy,
       });
       if (question && ui.questionId !== step.questionId) {
         ui.questionId = step.questionId; ui.draft = ''; ui.given = ''; ui.result = null; ui.activity=null;
         ui.hint = false; ui.forms = false; ui.assistance = [];
         for (const answer of question.meta?.exposureForms || question.answer || []) {
           const last = ui.exposures[normalize(answer)];
-          if (typeof last === 'number' && (session.index || 0) - last < 2) ui.assistance.push('visible-form');
+          if (typeof last === 'number' && (session.index || 0) - last < (entry.kind==='verb'?1:2)) ui.assistance.push('visible-form');
         }
         expose(question.meta?.promptExposureForms);
         for (const choice of question.choices || []) expose(choice.value ?? choice.label);
@@ -441,7 +472,7 @@ export async function render(root, params = {}, query = {}) {
     const snapshot = safeSnapshot({version:1,entryId:entry.id,contentVersion:plan.version,...(plan.flowVersion===2?{verbFlowVersion:2}:{}),
       type:step.type,chapterId:step.chapter?.id,groupId:step.group?.id,cardId:step.card?.id,targetId:step.target?.id,wordSlotId:step.target?.wordSlotId,
       phase:step.phase,questionId:step.questionId,variant:step.type==='repair'?session.journey.lastAttempt?.variant:step.variant,
-      format:step.format,repairTag:step.repairTag,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
+      format:step.format,repairTag:step.repairTag,scenePolicy:step.scenePolicy,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
       given:ui.given||ui.draft,result:ui.result,activity:ui.activity,pendingCount:pending.length,index:session.index||0,
       scrollTop:root.querySelector('.journey-main')?.scrollTop||0});
     if (!snapshot) return;
@@ -452,7 +483,7 @@ export async function render(root, params = {}, query = {}) {
   }
   function snapshotQuestion(snapshot) {
     return snapshot.target ? buildJourneyQuestion(entry,snapshot.chapter,snapshot.target,{
-      variant:snapshot.variant,format:snapshot.format,phase:snapshot.phase,repairTag:snapshot.repairTag,
+      variant:snapshot.variant,format:snapshot.format,phase:snapshot.phase,repairTag:snapshot.repairTag,scenePolicy:snapshot.scenePolicy,
     }) : null;
   }
   function exposeHistory(snapshot) {
@@ -646,7 +677,7 @@ export async function render(root, params = {}, query = {}) {
     const result=snapshot?snapshot.result:ui.result;
     if(!snapshot)revealTeaching(card);
     if (!displayStep.helpSuggested) return html`<h1 data-focus tabindex="-1">Let’s work on this part</h1>${result?.feedback ? raw(html`<p>${result.feedback}</p>`) : ''}${raw(cardHTML(card, { title: false, displayStep }))}`;
-    const model = buildJourneyQuestion(entry, displayStep.chapter, displayStep.target, { variant: snapshot?snapshot.variant:session.journey.lastAttempt?.variant || 0, format: 'type', phase: 'independent' });
+    const model = buildJourneyQuestion(entry, displayStep.chapter, displayStep.target, { variant: snapshot?snapshot.variant:session.journey.lastAttempt?.variant || 0, format: 'type', phase: 'independent', scenePolicy:displayStep.scenePolicy });
     if (!model) return cardHTML(card,{displayStep});
     if(!snapshot)expose(model.answer);
     const answer = model.answer[0], compound = model.meta?.diagnostic?.compound;
@@ -863,13 +894,10 @@ export async function render(root, params = {}, query = {}) {
       if(revealed)for(const pair of question.pairs||[])expose(pair.answers);
       expose(question.meta?.feedbackExposureForms);
       for (const c of question.choices || []) expose(c.value ?? c.label);
+      const spoken = result.ok && !silent && recorded.added !== false && !step.target?.supplementalOnly
+        ? correctAnswerSpeech(question,given,entry,step.target) : '';
       save(); draw();
-      if (!silent && result.ok && recorded.added !== false && !step.target?.supplementalOnly) {
-        const unaccented = value => normalize(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-        const answer = question.meta?.answerLanguage === 'en' ? nameOf(entry)
-          : question.answer.find(a=>unaccented(a)===unaccented(given)) || question.answer[0];
-        speak(answer);
-      }
+      if (spoken) speak(spoken);
     } finally { submitting = false; }
   }
   function showOverview() {
@@ -913,6 +941,15 @@ export async function render(root, params = {}, query = {}) {
     stopSpeech();updateRoute();save();draw(true);
     root.querySelector('.journey-main').scrollTop=contentScroll;
   }
+  function flipMatchedPair(pair) {
+    if (!pair?.correct || reducedMotion()) return;
+    for (const tile of root.querySelectorAll('.journey-pair-tile.is-matched')) {
+      if (tile.dataset.pairLeft !== pair.leftId && tile.dataset.pairRight !== pair.rightId) continue;
+      tile.querySelector('.journey-pair-flip')?.animate([
+        {transform:'rotateY(0deg)'}, {transform:'rotateY(180deg)'},
+      ], {duration:320,easing:'cubic-bezier(.2,.8,.2,1)'});
+    }
+  }
   const click = ev => {
     const b = ev.target.closest('button'); if (!b || b.disabled || !root.contains(b)) return;
     if(b.hasAttribute('data-overview')) {showOverview();return;}
@@ -932,6 +969,7 @@ export async function render(root, params = {}, query = {}) {
     if(activityMove && step.type==='question' && !step.awaitingContinue && question && ['letters','pairs'].includes(question.type)) {
       const result=activityAction({...question,id:step.questionId},ui.activity,activityMove);
       if(!result)return;
+      if(result.speech)speak(result.pair?.correct?`${result.speech} ${result.pair.given}`:result.speech,{force:true});
       if(result.pair) {
         const grade=gradePairActivity(question,{targetId:result.pair.targetId,given:result.pair.given});
         const event=journeyPairAttempt(plan,session,question,grade,{targetId:result.pair.targetId,attempt:result.pair.attempt,now:Date.now()});
@@ -939,12 +977,12 @@ export async function render(root, params = {}, query = {}) {
         const recorded=store.recordLearningAttempt(event);
         session=recordJourneyPairAttempt(plan,session,recorded.event||event,{...recorded,...grade});
         expose([result.pair.given,result.pair.expected]);
-        if(grade.ok&&recorded.added!==false)speak(result.pair.given);
+        if(grade.ok&&recorded.added!==false&&!result.speech)speak(result.pair.given);
       }
       ui.activity=result.state;save();
       if(result.answer!==undefined) {submit(result.answer);return;}
-      if(result.complete) {submit(question.answer[0],false,{silent:true});return;}
-      draw();focusActivity(root,result.focus);
+      if(result.complete) {submit(question.answer[0],false,{silent:true}).then(()=>flipMatchedPair(result.pair));return;}
+      draw();flipMatchedPair(result.pair);focusActivity(root,result.focus);
       if(result.pair) {
         const panel=root.querySelector('.journey-main'), status=root.querySelector('[data-activity-status]');
         if(panel&&status) {

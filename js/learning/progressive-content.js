@@ -64,12 +64,14 @@ function englishSimple(subject,person,spec,past,formal){
   const predicate=/^be(?: |$)/.test(base)?base.replace(/^be\b/,person===0?'am':person===2&&!formal?'is':'are'):person===2&&!formal?spec.en[1]:base;
   return `${subject} ${predicate}`;
 }
-function authoredContexts(entry,{chapter='present',progressive=false,section='practice'}={}){
+function authoredContexts(entry,{chapter='present',progressive=false,section='practice',legacySelection=false}={}){
   const spec=progressiveSpec(entry);if(!spec||progressive&&spec.policy==='simple')return [];
   const past=chapter==='background',family=progressive?'progressive':'simple',exact=spec[progressive?'progressiveExamples':'simpleExamples'];
   const make=(scene,index)=>({...scene,answers:scene.answers||[scene.answer],role:scene.role||'ordinary',
     id:`${entry.id}:${chapter}:v2:${family}:scene-${index}`,source:'verb-specific-v2',reviewed:true,contextPolicy:'distinct-scene'});
-  const selected=index=>section==='all'||(section==='mixed'?index>=2:index<2);
+  // Frames 2–3 are held for the chapter's final review. Extra authored frames
+  // (when present) enlarge practice without showing those review situations.
+  const selected=index=>section==='all'||(section==='mixed'?legacySelection?index>=2&&index<(spec.legacyFrameCount??spec.frames?.length??exact?.length):index===2||index===3:legacySelection?index<2:index<2||index>=4);
   if(exact){
     return exact.flatMap((scene,index)=>{
       if(scene.section ? section!=='all'&&scene.section!==section : !selected(index))return [];
@@ -90,29 +92,49 @@ function authoredContexts(entry,{chapter='present',progressive=false,section='pr
   let c;try{c=conjugate(entry.inf,{aux:entry.aux,isc:entry.isc});}catch{return [];}
   const people=spec.persons||[0,1,2,3,4,5],roles=people.map(person=>({person,role:'ordinary'}));
   if(spec.formal!==false&&people.includes(2))roles.push({person:2,role:'formal'});
-  return spec.frames.flatMap(([itSuffix,enSuffix],index)=>!selected(index)?[]:roles.flatMap(({person,role})=>{
+  const frames=legacySelection&&spec.legacyFrames?spec.legacyFrames:spec.frames;
+  return frames.flatMap(([itSuffix,enSuffix],index)=>!selected(index)?[]:roles.flatMap(({person,role})=>{
     const formal=role==='formal',subject=formal?['Signora Rossi, Lei','Ms Rossi, you']:spec.subjects?.[person]||SUBJECTS[person];
+    const frameSpec=!legacySelection&&entry.inf==='dire'&&index===0?{...spec,en:['tell','tells','told','telling']}:spec;
     const answers=progressive?progressiveForms(entry,person,{chapter}):clean(c.tenses[past?'imperfetto':'presente']?.[person]);
     if(!answers.length)return [];
     const it=sentence(subject[0],answers[0],itSuffix);
-    const en=englishPossessive(sentence(progressive?englishProgressive(subject[1],person,spec.en[3],past,formal):englishSimple(subject[1],person,spec,past,formal),enSuffix),person,formal);
+    const en=englishPossessive(sentence(progressive?englishProgressive(subject[1],person,frameSpec.en[3],past,formal):englishSimple(subject[1],person,frameSpec,past,formal),enSuffix),person,formal);
     return [make({it,en,answer:answers[0],answers,person,role,subjectLabel:!formal&&spec.subjects?.[person]?(subject[0]||'impersonal'):null},`${index}-${person}-${role}`)];
   }));
 }
 export const progressiveContexts = (entry,options={})=>authoredContexts(entry,{...options,progressive:true});
 export const simpleVerbContexts = (entry,options={})=>authoredContexts(entry,{...options,progressive:false});
-function contextTarget(entry,chapter,suffix,contexts,{progressive=false,person=null,role='ordinary',finalReview=false,dependsOn=[]}={}){
-  const answers=contexts.map(c=>c.answers),tense=progressive?(chapter==='background'?'imperfettoProgressivo':PROGRESSIVE_TENSE):(chapter==='background'?'imperfetto':'presente');
+// A target spanning several people should switch the situation as well as the
+// person on consecutive questions. Keep the authored array separately so an
+// already-open lesson can reconstruct its original question sequence.
+export function variedContextOrder(contexts){
+  const buckets=new Map();
+  for(const context of contexts){
+    const scene=String(context.id||'').replace(/(?::-person-\d+|-\d+-(?:ordinary|formal)|:formal)$/,'');
+    if(!buckets.has(scene))buckets.set(scene,[]);
+    buckets.get(scene).push(context);
+  }
+  if(buckets.size<2)return contexts;
+  const groups=[...buckets.values()],ordered=[];
+  for(let round=0;ordered.length<contexts.length;round++)for(let group=0;group<groups.length;group++){
+    const bucket=groups[group];if(round>=bucket.length)continue;
+    ordered.push(bucket[(round+group)%bucket.length]);
+  }
+  return ordered;
+}
+function contextTarget(entry,chapter,suffix,contexts,{progressive=false,person=null,role='ordinary',finalReview=false,dependsOn=[],legacyContexts=contexts}={}){
+  const legacyAuthoredContexts=legacyContexts,ordered=variedContextOrder(contexts),answers=ordered.map(c=>c.answers),tense=progressive?(chapter==='background'?'imperfettoProgressivo':PROGRESSIVE_TENSE):(chapter==='background'?'imperfetto':'presente');
   return {id:key(entry,`v2-${suffix}`,chapter),skill:progressive?'progressive':'context',tense,person,role,required:true,
     available:contexts.length>0,progressive,authoredContexts:true,contextPolicy:'distinct-scene',flowVersion:2,finalReview,dependsOn,
-    guidedFormat:person%2?'letters':'mc',evidenceScope:'construction',contexts,contextIds:contexts.map(c=>c.id),
+    guidedFormat:person%2?'letters':'mc',evidenceScope:'construction',contexts:ordered,legacyAuthoredContexts,contextIds:ordered.map(c=>c.id),
     explanation:progressiveSpec(entry)?.note||'',answerForms:[...new Set(answers.flat())],answerFormsByVariant:answers,
-    exposureFormsByVariant:answers,personsByVariant:contexts.map(c=>c.person),independentVariantCount:new Set(contexts.map(c=>c.id)).size};
+    exposureFormsByVariant:answers,personsByVariant:ordered.map(c=>c.person),independentVariantCount:new Set(ordered.map(c=>c.id)).size};
 }
 export function buildProgressiveGroup(entry,{chapter='present'}={}){
   const info=progressiveInfo(entry,{chapter}),past=chapter==='background';
   if(!entry?.id||!info.reviewed)return null;
-  const contexts=progressiveContexts(entry,{chapter}),simple=simpleVerbContexts(entry,{chapter});
+  const contexts=progressiveContexts(entry,{chapter}),legacyContexts=progressiveContexts(entry,{chapter,legacySelection:true}),simple=simpleVerbContexts(entry,{chapter});
   const group={id:'progressive',stage:'progressive',title:info.supported?(past?'Happening then':'Happening now'):'Choosing the natural form',cards:[],targets:[]};
   if(!info.supported){
     group.cards.push(card('simple-usage',`${entry.inf} · natural usage`,past?`For ${entry.inf} in the sense “${info.sense}”, use the simple imperfetto for the past state or situation. A different sense can behave differently.`:info.limitation,asExamples(simple.slice(0,2)),[],[
@@ -132,13 +154,13 @@ export function buildProgressiveGroup(entry,{chapter='present'}={}){
     ]));
   for(const person of info.persons){
     const scenes=contexts.filter(c=>c.person===person&&c.role!=='formal');
-    if(scenes.length)group.targets.push(contextTarget(entry,chapter,`progressive-form-${person}`,scenes,{progressive:true,person}));
+    if(scenes.length)group.targets.push(contextTarget(entry,chapter,`progressive-form-${person}`,scenes,{progressive:true,person,legacyContexts:legacyContexts.filter(c=>c.person===person&&c.role!=='formal')}));
   }
   const formal=contexts.filter(c=>c.role==='formal');
-  if(formal.length)group.targets.push(contextTarget(entry,chapter,'progressive-formal',formal,{progressive:true,person:2,role:'formal'}));
+  if(formal.length)group.targets.push(contextTarget(entry,chapter,'progressive-formal',formal,{progressive:true,person:2,role:'formal',legacyContexts:legacyContexts.filter(c=>c.role==='formal')}));
   group.targets.push(
-    {id:key(entry,'v2-progressive-gerund',chapter),skill:'progressiveFact',flowVersion:2,tense:past?'imperfettoProgressivo':PROGRESSIVE_TENSE,required:false,supplementalOnly:true,available:true,fact:info.gerund,question:`Gerundio · ${entry.inf}`,distractors:[entry.inf],answerForms:[info.gerund],independentVariantCount:0},
-    {id:key(entry,'v2-progressive-focus',chapter),skill:'progressiveFact',flowVersion:2,tense:past?'imperfettoProgressivo':PROGRESSIVE_TENSE,required:false,supplementalOnly:true,available:true,fact:'An action underway',question:`${past?'Stavo':'Sto'} + gerundio focuses on…`,distractors:['A routine','A completed event'],answerForms:['An action underway'],independentVariantCount:0}
+    {id:key(entry,'v2-progressive-gerund',chapter),skill:'progressiveFact',flowVersion:2,tense:past?'imperfettoProgressivo':PROGRESSIVE_TENSE,required:false,supplementalOnly:true,available:true,fact:info.gerund,question:`Gerundio · ${entry.inf}`,distractors:[entry.inf],answerLanguage:'it',answerForms:[info.gerund],independentVariantCount:0},
+    {id:key(entry,'v2-progressive-focus',chapter),skill:'progressiveFact',flowVersion:2,tense:past?'imperfettoProgressivo':PROGRESSIVE_TENSE,required:false,supplementalOnly:true,available:true,fact:'An action underway',question:`${past?'Stavo':'Sto'} + gerundio focuses on…`,distractors:['A routine','A completed event'],answerLanguage:'en',answerForms:['An action underway'],independentVariantCount:0}
   );
   return group;
 }
@@ -146,13 +168,14 @@ function specSubject(entry,person){return progressiveSpec(entry)?.subjects?.[per
 export function buildVerbMixedGroup(entry,{chapter='present',groups=[],fallbackSimple=[]}={}){
   const info=progressiveInfo(entry,{chapter});if(!info.reviewed)return null;
   const simple=simpleVerbContexts(entry,{chapter,section:'mixed'}),progressive=progressiveContexts(entry,{chapter,section:'mixed'});
+  const oldSimple=simpleVerbContexts(entry,{chapter,section:'mixed',legacySelection:true}),oldProgressive=progressiveContexts(entry,{chapter,section:'mixed',legacySelection:true});
   const group={id:'mixed-review',stage:'mixed',finalReview:true,title:info.supported?'Use both forms':'Use it in context',cards:[],targets:[]};
   group.cards.push(card('mixed-intro',info.supported?'Now use both forms':'Put it into practice',info.supported?
     `Practise ${entry.inf} in fresh situations. Alternate the ${chapter==='background'?'simple imperfetto':'simple present'} and stare + gerundio. The small label tells you which viewpoint to use.`:
     `Use ${entry.inf} naturally in new situations. ${info.limitation}`,[],[],['If a form needs more practice, we will work on it here before continuing.']));
   const dependencies=progressive=>groups.filter(g=>(g.id==='progressive')===progressive).flatMap(g=>g.targets||[]).filter(t=>t.required!==false&&t.available!==false).map(t=>t.id);
   const simpleScenes=simple.length?simple:fallbackSimple;
-  if(simpleScenes.length)group.targets.push(contextTarget(entry,chapter,'mixed-simple',simpleScenes,{finalReview:true,dependsOn:dependencies(false)}));
-  if(progressive.length)group.targets.push(contextTarget(entry,chapter,'mixed-progressive',progressive,{progressive:true,finalReview:true,dependsOn:dependencies(true)}));
+  if(simpleScenes.length)group.targets.push(contextTarget(entry,chapter,'mixed-simple',simpleScenes,{finalReview:true,dependsOn:dependencies(false),legacyContexts:oldSimple.length?oldSimple:fallbackSimple}));
+  if(progressive.length)group.targets.push(contextTarget(entry,chapter,'mixed-progressive',progressive,{progressive:true,finalReview:true,dependsOn:dependencies(true),legacyContexts:oldProgressive}));
   return group;
 }

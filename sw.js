@@ -1,7 +1,7 @@
 // Service worker: offline cache for the app shell (HTML, CSS, every JS module) and the dictionary data.
 // Bump VERSION when a file is added to SHELL or the data schema changes (old caches are dropped on activate).
 // Every shell or course-data change needs a version bump so installation stays atomic.
-const VERSION = 'parola-v13-verb-flow';
+const VERSION = 'parola-v14-verb-practice';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',

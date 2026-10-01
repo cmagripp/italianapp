@@ -253,10 +253,15 @@ try {
     assert(lessonEvents.some(e => e.tense === 'imperfetto' && e.mode === 'production' && e.ok && !e.assistance.length), 'imperfetto is a required core case');
     assert(!lessonEvents.some(e => e.chapterId === 'mixed'), 'mixed practice stays optional');
     assert(!p.chapters.some(c => c.remembered), 'same-session practice is not later retention');
-    const interludes = traversal.seen.filter(s => s.type === 'question' && s.supplemental && s.phase === 'guided' && !s.answered);
-    for (const format of ['mc', 'letters', 'pairs']) assert(interludes.some(s => s.format === format), format + ' provides variety during later practice, beyond the introductory activities');
+    const prompts = traversal.seen.filter(s => s.type === 'question' && !s.answered);
+    const formats = Object.fromEntries(['mc', 'pairs', 'letters', 'type'].map(format => [format, prompts.filter(s => s.format === format).length]));
+    for (const [format, count] of Object.entries(formats)) assert(count > 0, `${format} appears during the complete lesson`);
+    const unaidedPrompts = prompts.filter(s => s.phase === 'independent' && s.format === 'type');
+    assert(unaidedPrompts.length >= 2 * 6 * 5, 'each core case checks all six people with repeated unaided retrieval');
+    const supplemental = prompts.filter(s => s.supplemental);
+    assert(supplemental.length < unaidedPrompts.length, 'spacing activities do not dominate unaided checks');
     await screenshot('verb-complete-phone');
-    return { answers: lessonEvents.length, transitions: traversal.seen.length, interludes: Object.fromEntries(['mc', 'letters', 'pairs'].map(format => [format, interludes.filter(s => s.format === format).length])) };
+    return { answers: lessonEvents.length, transitions: traversal.seen.length, formats, supplemental: supplemental.length };
   });
   await check('A built-in noun finishes a short recognition introduction without inventing independent mastery', async () => {
     await gotoRoute(page, entryRoute('word', 'w:casa|noun'));

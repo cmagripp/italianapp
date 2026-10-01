@@ -430,6 +430,7 @@
       "had",
       ""
     ],
+    "legacyFrameCount": 4,
     "frames": [
       [
         "una sorella",
@@ -446,6 +447,14 @@
       [
         "un cane",
         "a dog"
+      ],
+      [
+        "un appuntamento",
+        "an appointment"
+      ],
+      [
+        "le chiavi di casa",
+        "the house keys"
       ]
     ]
   },
@@ -2962,6 +2971,24 @@
       "replying to"
     ],
     "frames": [
+      [
+        "a Sara",
+        "Sara"
+      ],
+      [
+        "a un’email",
+        "an email"
+      ],
+      [
+        "a una domanda",
+        "a question"
+      ],
+      [
+        "al collega",
+        "the colleague"
+      ]
+    ],
+    "legacyFrames": [
       [
         "Sara",
         "Sara"

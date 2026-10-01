@@ -55,6 +55,8 @@ jobs:
           node tools/build-verb-progressive.mjs --check
           node tools/test-progressive-content.mjs
           node tools/test-verb-flow-v2.mjs
+          node tools/test-verb-pacing.mjs
+          node tools/test-verb-scene-variety.mjs
           node tools/test-journey-integration.mjs
           node tools/check-shell.mjs
       - uses: actions/configure-pages@v5

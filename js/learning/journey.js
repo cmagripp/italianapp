@@ -13,7 +13,7 @@ const targets = chapter => groups(chapter).flatMap(group => group.targets || [])
 const allTargets = plan => (plan.chapters || []).flatMap(targets);
 const available = target => !!target && target.available !== false;
 const required = target => available(target) && (target.required !== false || target.completionRequired) && !target.supplementalOnly;
-const taughtTargets = group => (group?.targets || []).filter(target => available(target) && !target.supplementalOnly);
+const taughtTargets = group => (group?.targets || []).filter(target => available(target) && !target.supplementalOnly && !target.coveredByContextualForms);
 const chapterFor = (plan, session) => plan.chapters?.find(chapter => chapter.id === session.journey?.chapterId);
 const targetFor = (plan, id) => allTargets(plan).find(target => target.id === id);
 const groupFor = (chapter, id) => groups(chapter).find(group => group.targets?.some(target => target.id === id));
@@ -43,10 +43,12 @@ function compatible(plan, session) {
   if (j.current !== null && (!record(j.current) || !text(j.current.targetId) || !text(j.current.questionId)
     || !['guided', 'independent', 'repair'].includes(j.current.phase) || !['type', 'mc', 'match', 'letters', 'pairs'].includes(j.current.format)
     || !integer(j.current.variant) || typeof j.current.supplemental !== 'boolean'
-    || !(j.current.repairTag == null || typeof j.current.repairTag === 'string'))) return false;
+    || !(j.current.repairTag == null || typeof j.current.repairTag === 'string')
+    || !(j.current.scenePolicy === undefined || j.current.scenePolicy === 'expanded-v1'))) return false;
   if (j.lastAttempt !== null && (!record(j.lastAttempt) || !text(j.lastAttempt.id) || !text(j.lastAttempt.targetId)
     || typeof j.lastAttempt.ok !== 'boolean' || !['correct', 'incorrect', 'revealed', 'skipped'].includes(j.lastAttempt.outcome)
-    || !stringList(j.lastAttempt.errorTags) || !(j.lastAttempt.variant === undefined || integer(j.lastAttempt.variant)))) return false;
+    || !stringList(j.lastAttempt.errorTags) || !(j.lastAttempt.variant === undefined || integer(j.lastAttempt.variant))
+    || !(j.lastAttempt.scenePolicy === undefined || j.lastAttempt.scenePolicy === 'expanded-v1'))) return false;
   if (j.repairReturn !== null && (!record(j.repairReturn) || !phases.has(j.repairReturn.phase) || typeof j.repairReturn.supplemental !== 'boolean')) return false;
   if (j.blocked !== undefined && typeof j.blocked !== 'boolean' && typeof j.blocked !== 'string') return false;
   if (j.limitedTargets !== undefined && !mapOf(j.limitedTargets, value => typeof value === 'boolean')) return false;
@@ -128,12 +130,12 @@ function answersFor(session, target, phase = 'independent') {
   return (Array.isArray(candidates) ? candidates : [candidates]).filter(Boolean).map(norm);
 }
 
-function exposed(session, target, phase = 'independent') {
+function exposed(session, target, phase = 'independent', gap = 2) {
   const j = session.journey;
-  if (typeof j.lastAnswered[target.id] === 'number' && session.index - j.lastAnswered[target.id] < 2) return true;
+  if (typeof j.lastAnswered[target.id] === 'number' && session.index - j.lastAnswered[target.id] < gap) return true;
   return answersFor(session, target, phase).some(form => {
     const at = session.ui?.exposures?.[form];
-    return typeof at === 'number' && session.index - at < 2;
+    return typeof at === 'number' && session.index - at < gap;
   });
 }
 
@@ -149,6 +151,7 @@ function setQuestion(plan, session, target, phase, { supplemental = false, repai
     const matchable = taught.filter(t => !t.guidedOnly && ['conjugation', 'address', 'progressive'].includes(t.skill) && Number.isInteger(t.person));
     if (plan.kind === 'verb' && position === 1 && variant === 0 && matchable.length >= 3 && matchable.some(t => t.id === target.id)) format = 'pairs';
     else if (!target.guidedOnly && ((position + variant) % 3 === 2 || (matchable.length < 3 && position === 1))) format = 'letters';
+    else if (plan.kind === 'verb' && position === 0 && !target.guidedOnly) format = 'mc';
     else if (format === 'match') format = 'mc';
   }
   // Change how the small step is answered after recurring difficulty. Both
@@ -158,7 +161,9 @@ function setQuestion(plan, session, target, phase, { supplemental = false, repai
   if (format === 'pairs' && groupFor(chapterFor(plan, session), target.id)?.targets?.some(t => Object.hasOwn(j.skipped, t.id))) format = 'mc';
   if (format === 'match') format = 'mc';
   j.current = { targetId: target.id, phase, format,
-    variant, questionId: `${session.id}:journey:${j.serial}`, supplemental, repairTag };
+    variant, questionId: `${session.id}:journey:${j.serial}`, supplemental, repairTag,
+    ...(plan.kind === 'verb' && (phase !== 'repair' || j.lastAttempt?.scenePolicy === 'expanded-v1')
+      ? { scenePolicy: 'expanded-v1' } : {}) };
   j.awaitingContinue = false;
   session.activeObjectiveId = target.id;
 }
@@ -240,6 +245,7 @@ function reviewTargetAllowed(plan, session, learning, chapter, target, now) {
 function schedule(plan, session, learning, now) {
   const j = session.journey, chapter = chapterFor(plan, session);
   const reviewAllowed = target => reviewTargetAllowed(plan,session,learning,chapter,target,now);
+  const exposureGap = plan.kind === 'verb' ? 1 : 2;
   j.blocked = false;
   j.queue = j.queue.filter(id => available(targetFor(plan, id)) && reviewAllowed(targetFor(plan,id)) && !Object.hasOwn(j.skipped, id));
   const pairFailure = Object.values(j.pairRepairs || {}).find(failure => targets(chapter).some(t => t.id === failure.targetId)
@@ -263,7 +269,7 @@ function schedule(plan, session, learning, now) {
   const limited = target => (target.independentVariantCount ?? target.variantCount) === 1 || j.limitedTargets?.[target.id];
   const possible = j.queue.filter(id => !limited(targetFor(plan, id)));
   if (!possible.length && j.phase !== 'practice') { j.blocked = 'limited-variants'; j.current = null; return session; }
-  if (session.mode !== 'review' && ['practice', 'checkpoint'].includes(j.phase) && (j.writtenRun || 0) >= 2) {
+  if (plan.kind !== 'verb' && session.mode !== 'review' && ['practice', 'checkpoint'].includes(j.phase) && (j.writtenRun || 0) >= 2) {
     const candidates = targets(chapter).filter(target => inCurrentSection(chapter,session,target) && available(target) && !target.supplementalOnly && !target.guidedOnly
       && !Object.hasOwn(j.skipped, target.id) && groups(chapter).indexOf(groupFor(chapter, target.id)) <= j.groupIndex);
     // Prefer a different taught form, keeping the next independent item cold.
@@ -280,17 +286,22 @@ function schedule(plan, session, learning, now) {
       return session;
     }
   }
-  const next = j.queue.findIndex(id => !limited(targetFor(plan, id)) && !exposed(session, targetFor(plan, id)));
+  const next = j.queue.findIndex(id => !limited(targetFor(plan, id)) && !exposed(session, targetFor(plan, id), 'independent', exposureGap));
   if (next >= 0) { setQuestion(plan, session, targetFor(plan, j.queue.splice(next, 1)[0]), 'independent'); return session; }
+  // The group practice pass can leave exposed forms for the later checkpoint.
+  // Advancing to the next teaching group gives a real gap without repeatedly
+  // cycling through support prompts on already-taught material.
+  if (plan.kind === 'verb' && j.phase === 'practice') return finishPass(plan, session, learning, now);
   // A focused review can use a different person or skill as a brief contrast.
   // These are supported activities, not extra completion requirements.
   const alternatives = targets(chapter).filter(target => inCurrentSection(chapter,session,target) && available(target) && reviewAllowed(target) && !j.queue.includes(target.id)
-    && !Object.hasOwn(j.skipped, target.id) && !exposed(session, target, 'guided')
+    && !Object.hasOwn(j.skipped, target.id) && !exposed(session, target, 'guided', exposureGap)
     && !j.queue.some(id => answersFor(session, target, 'guided').some(answer => answersFor(session, targetFor(plan, id)).includes(answer)))
     && (session.mode === 'review' || groups(chapter).indexOf(groupFor(chapter, target.id)) <= j.groupIndex));
   alternatives.sort((a, b) => Number(!!b.supplementalOnly) - Number(!!a.supplementalOnly)
     || (j.lastAnswered[a.id] ?? -1) - (j.lastAnswered[b.id] ?? -1));
-  if (alternatives.length) { setQuestion(plan, session, alternatives[0], 'guided', { supplemental: true }); return session; }
+  if (alternatives.length) { setQuestion(plan, session, alternatives[0], 'guided', { supplemental: true,
+    activityFormat: plan.kind === 'verb' ? alternatives[0].supplementalOnly ? 'mc' : 'letters' : null }); return session; }
   // A final choice can expose every queued form. Use two other already-taught
   // people as short supported contrasts while keeping the first target cold.
   // Their queue positions remain intact, and support never gains mastery.
@@ -299,10 +310,11 @@ function schedule(plan, session, learning, now) {
   const contrasts = targets(chapter).filter(target => inCurrentSection(chapter,session,target) && available(target) && reviewAllowed(target) && target.id !== waiting.id
     && !Object.hasOwn(j.skipped, target.id)
     && (session.mode === 'review' || groups(chapter).indexOf(groupFor(chapter, target.id)) <= j.groupIndex)
-    && (j.lastAnswered[target.id] === undefined || session.index - j.lastAnswered[target.id] >= 2)
+    && (j.lastAnswered[target.id] === undefined || session.index - j.lastAnswered[target.id] >= exposureGap)
     && !answersFor(session, target, 'guided').some(answer => waitingAnswers.includes(answer)));
   contrasts.sort((a, b) => (j.lastAnswered[a.id] ?? -1) - (j.lastAnswered[b.id] ?? -1));
-  if (contrasts.length) { setQuestion(plan, session, contrasts[0], 'guided', { supplemental: true }); return session; }
+  if (contrasts.length) { setQuestion(plan, session, contrasts[0], 'guided', { supplemental: true,
+    activityFormat: plan.kind === 'verb' ? contrasts[0].supplementalOnly ? 'mc' : 'letters' : null }); return session; }
   // Early groups may defer their checks to the chapter checkpoint after all
   // forms have been taught. At the checkpoint a lack of safe content is an
   // explicit pause/skip decision, never an automatic completion or retry cap.
@@ -395,6 +407,7 @@ export function currentJourneyStep(plan, session, learning = null, now = Date.no
   if(target&&j.wordShort){const slot=wordSlots(plan).find(s=>s.id===j.wordShort.slotId);target={...target,shortWord:true,wordSlotId:j.wordShort.slotId,wordPairTargets:(slot?.pairTargetIds||[]).map(id=>targetFor(plan,id)).filter(Boolean)};}
   const group = target ? groupFor(chapter, target.id) : groups(chapter)[j.groupIndex];
   const base = { chapter, group, target, awaitingContinue: j.awaitingContinue, phase: j.current?.phase || j.phase,
+    scenePolicy: j.current?.scenePolicy,
     ...(j.current || {}), helpSuggested: !!target && (j.failures[target.id] || 0) >= 2 };
   if (j.phase === 'complete') return { ...base, type: 'complete' };
   if (!chapter) return { ...base, type: 'unavailable', reason: 'chapter-unavailable' };
@@ -453,6 +466,17 @@ export function advanceJourney(plan, oldSession, learning, { now = Date.now() } 
         j.phase = j.repairReturn?.phase || 'checkpoint';
         if (j.phase !== 'guided' && !j.repairReturn?.supplemental) j.queue.push(current.targetId);
         j.repairReturn = null;
+      } else if (plan.kind === 'verb' && j.phase === 'guided' && current.format === 'pairs' && !current.supplemental) {
+        // One successful board has already asked for three forms. Keep one
+        // letter activity in the first matching group for format variety,
+        // then let later boards replace their separate guided questions.
+        const group = groupFor(chapter, current.targetId);
+        const matching = g => taughtTargets(g).filter(t => !t.guidedOnly
+          && ['conjugation', 'address', 'progressive'].includes(t.skill) && Number.isInteger(t.person));
+        const firstMatchingGroup = groups(chapter).find(g => matching(g).length >= 3);
+        const letterTargetId = group === firstMatchingGroup ? matching(group)[2]?.id : null;
+        const matched = new Set(j.pairMatches?.[current.questionId] || []);
+        j.queue = j.queue.filter(id => id === letterTargetId || !matched.has(id) || j.pairRepairs?.[id]);
       } else if (!current.supplemental && ((j.phase === 'review' && !reviewed(learning, targetFor(plan, current.targetId), session, now))
         || (j.phase === 'checkpoint' && !readyForRun(learning, targetFor(plan, current.targetId), session, now)))) j.queue.push(current.targetId);
       schedule(plan, session, learning, now);
@@ -546,7 +570,8 @@ export function recordJourneyAttempt(plan, oldSession, event, result) {
   if (event.sessionId !== oldSession.id || event.entryId !== plan.entryId || event.objectiveId !== oldSession.journey.current.targetId || event.policy !== 'journey-v1') return oldSession;
   const session = applySessionAttempt(oldSession, event, result), j = session.journey;
   j.awaitingContinue = true;
-  j.lastAttempt = { id: event.id, targetId: event.objectiveId, variant: j.current.variant, ok: event.ok, outcome: event.outcome, errorTags: event.errorTags || [] };
+  j.lastAttempt = { id: event.id, targetId: event.objectiveId, variant: j.current.variant, ok: event.ok, outcome: event.outcome, errorTags: event.errorTags || [],
+    ...(j.current.scenePolicy ? { scenePolicy: j.current.scenePolicy } : {}) };
   j.lastAnswered[event.objectiveId] = session.index;
   if(j.wordShort&&event.wordPolicy==='word-short-v1'&&event.wordSlotId===j.wordShort.slotId&&event.ok)j.wordShort.completed[event.wordSlotId]=event.id;
   // An answer copied from support has not tried this variant independently.

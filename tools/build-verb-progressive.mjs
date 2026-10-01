@@ -16,8 +16,10 @@ for(const [batch,levels] of Object.entries(batches)){
     assert(record.sense?.trim()&&record.note?.trim(),record.inf+' explanation');
     if(record.frames){
       assert(record.frames.length>=4,record.inf+' needs four situations');
+      if(record.legacyFrameCount!==undefined)assert(Number.isInteger(record.legacyFrameCount)&&record.legacyFrameCount>=4&&record.legacyFrameCount<=record.frames.length,record.inf+' legacy frame count');
       assert(new Set(record.frames.map(f=>f[0])).size===record.frames.length,record.inf+' repeated Italian frames');
       assert(record.frames.every(f=>Array.isArray(f)&&f.length===2&&f.every(x=>typeof x==='string')),record.inf+' frames');
+      if(record.legacyFrames)assert(record.legacyFrames.length===(record.legacyFrameCount??record.frames.length)&&record.legacyFrames.every(f=>Array.isArray(f)&&f.length===2&&f.every(x=>typeof x==='string')),record.inf+' legacy frames');
       assert(Array.isArray(record.en)&&record.en.length===4,record.inf+' English predicates');
       assert(record.en.slice(0,3).every(x=>typeof x==='string'&&x.trim()),record.inf+' English finite predicates');
       if(record.policy!=='simple')assert(record.en[3]?.trim(),record.inf+' progressive predicate');

@@ -171,8 +171,16 @@ test('non-noun word types receive no noun morphology or verb questions',()=>{
 test('nonrevealing spacers stay supported and omit the word/verb answer',()=>{
  for(const e of [wd('casa'),wd('bene','adv'),vb('piovere')]){const ch=chapter(e,e.inf?'present':'meaning');for(const t of targets(ch).filter(t=>t.supplementalOnly)){const question=buildJourneyQuestion(e,ch,t);assert.equal(question.meta.mode,'recognition');assert.ok(!question.prompt.includes(t.skill==='progressiveFact'?question.answer[0]:e.inf||e.it));assert.equal(t.required,false);}}
 });
-test('variant-specific answers and persons match the actual next contextual question',()=>{
- const e=vb('credere'),ch=chapter(e,'past'),t=target(e,'past','context');for(let v=0;v<t.independentVariantCount;v++){const question=buildJourneyQuestion(e,ch,t,{variant:v});assert.deepEqual(t.answerFormsByVariant[v%t.answerFormsByVariant.length],question.answer);assert.equal(t.personsByVariant[v%t.personsByVariant.length],question.meta.person);}
+test('variant-specific answers and persons match expanded contexts while saved variants retain their scenes',()=>{
+ const e=vb('credere'),ch=chapter(e,'past'),t=target(e,'past','context');for(let v=0;v<t.independentVariantCount;v++){
+  const question=buildJourneyQuestion(e,ch,t,{variant:v,scenePolicy:'expanded-v1'});
+  assert.deepEqual(t.answerFormsByVariant[v%t.answerFormsByVariant.length],question.answer);
+  assert.equal(t.personsByVariant[v%t.personsByVariant.length],question.meta.person);
+ }
+ for(const variant of [0,1,2,3,7,15]){
+  const old=buildJourneyQuestion(e,ch,t,{variant,scenePolicy:undefined}),scene=t.legacyAuthoredContexts[variant%t.legacyAuthoredContexts.length];
+  assert.equal(old.meta.contextId,scene.id);assert.deepEqual(old.answer,scene.answers);
+ }
 });
 test('English you cues disambiguate informal singular and plural',()=>{
  const e=vb('capire');for(const p of [1,4]){const ch=chapter(e,'present'),t=target(e,'present','conjugation',p),count=lessonContexts(e,'present').filter(c=>c.person===p&&c.role==='ordinary').length;
@@ -253,7 +261,7 @@ test('sense-specific past forms stay separate and unsupported compounds are expl
 });
 
 test('all 8,128 catalog entries produce answerable available targets without missing forms',()=>{
- let count=0;for(const e of [...verbs,...words]){const p=buildLesson(e);const ids=new Set();for(const ch of p.chapters)for(const t of targets(ch)){assert.ok(!ids.has(t.id));ids.add(t.id);if(t.available===false)continue;const question=buildJourneyQuestion(e,ch,t,{phase:t.guidedOnly?'guided':'independent'});assert.ok(question,`${e.id}/${ch.id}/${t.skill}`);assert.ok(question.answer.length);assert.ok(!question.prompt.includes('undefined'));assert.ok(question.answer.every(a=>gradeQuestion(question,a).ok),`${e.id}/${t.id}`);assert.equal(question.meta.targetId,t.id);count++;}}
+ let count=0;for(const e of [...verbs,...words]){const p=buildLesson(e);const ids=new Set();for(const ch of p.chapters)for(const t of targets(ch)){assert.ok(!ids.has(t.id));ids.add(t.id);if(t.available===false)continue;const question=buildJourneyQuestion(e,ch,t,{phase:t.guidedOnly?'guided':'independent',...(e.inf?{scenePolicy:'expanded-v1'}:{})});assert.ok(question,`${e.id}/${ch.id}/${t.skill}`);assert.ok(question.answer.length);assert.ok(!question.prompt.includes('undefined'));assert.ok(question.answer.every(a=>gradeQuestion(question,a).ok),`${e.id}/${t.id}`);assert.equal(question.meta.targetId,t.id);count++;}}
  assert.ok(count>200000);console.log(`Catalog: ${verbs.length} verbs, ${words.length} words, ${count} available targets checked.`);
 });
 console.log(`Passed ${tests} taught-lesson content checks.`);

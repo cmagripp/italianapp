@@ -249,6 +249,18 @@ try {
       await shot(`${label}-visible-continue`);
     });
   }
+  await check('A form copied immediately after teaching remains assisted in verb practice', async () => {
+    await fresh(); await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
+    assert.match(await page.locator('[data-form-card]').first().innerText(), /credo/);
+    const before = await evidence();
+    const q = await reachJourneyActivity(page, 'mc');
+    assert(q.answer.includes('credo'));
+    assert((await session()).ui.assistance.includes('visible-form'), 'the form was visible at this same lesson step');
+    assert.deepEqual(await evidence(), before);
+    await solveJourneyQuestion(page, q);
+    const event = await page.evaluate(async () => Object.values((await import('./js/store.js')).store.learning.events).at(-1));
+    assert(event.ok && event.assistance.includes('visible-form'));
+  });
   await check('The anchored conjugation dropdown preserves the draft, help and accessible dismissal', async () => {
     await fresh();
     await gotoRoute(page, '/learn/verb/v:credere?mode=review&objective=' + encodeURIComponent('v:credere::lesson::present::form-0'));
