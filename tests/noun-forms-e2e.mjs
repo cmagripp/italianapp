@@ -183,7 +183,9 @@ try {
       assert.equal(await card.count(), 1);
       const number = card.locator('[data-night-number]');
       assert.equal(await number.isVisible(), true);
-      assert.equal(await number.innerText(), fixture.note ? fixture.note.split('.')[0] + '.' : 'Plural: ' + fixture.forms.at(-1));
+      // the day card keeps one short detail line: the plural with its article, or a short usage note (the full sentence is on the entry page)
+      const short = fixture.note === singularNote ? 'usually singular' : fixture.note === pluralNote ? 'usually plural' : fixture.note === missingNote ? 'plural not recorded' : 'pl. ' + fixture.forms.at(-1);
+      assert.equal((await number.innerText()).trim().toLowerCase(), short.toLowerCase());
       assert.equal(await number.locator('[data-say]').count(), 0);
       await noBogusForms();
     }));

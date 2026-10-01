@@ -60,13 +60,17 @@ function dayCard(e, kind) {
     detail = `p.p. ${primary(c.nonFinite.participioPassato)} · aux. ${e.aux === 'both' ? 'avere / essere' : e.aux}`;
   } else {
     tags = html`<span>${IT_POS[e.pos] || e.pos}</span>${isNoun ? raw(html`<span>${e.g === 'mf' ? 'm · f' : e.g}</span>`) : ''}`;
-    detail = [e.cat && CATS[e.cat] ? CATS[e.cat].name : '', isNoun ? numberNote(e) : ''].filter(Boolean).join(' · ');
+    // the number note keeps its own hook: the noun-forms suite checks that the plural or the usage guidance is shown
+    const topic = e.cat && CATS[e.cat] ? html`${CATS[e.cat].name}` : '';
+    const number = isNoun ? html`<span data-night-number>${numberNote(e)}</span>` : '';
+    const joined = [topic, number].filter(Boolean).join(' · ');
+    detail = joined ? raw(joined) : '';
   }
   const size = fit(word);
   return html`<article class="night-card glass float ${kind === 'verb' ? 'delay' : ''}" style="--glow:${kind === 'verb' ? 'var(--gold)' : 'var(--amalfi)'}" data-href="${href}">
     <div class="night-top"><span class="kicker">${kind === 'verb' ? 'Verb of the day' : 'Word of the day'}</span>${raw(levelBadge(e.level || 'A1'))}</div>
     <div class="night-main">
-      <div class="night-hw">${art ? raw(html`<span class="article">${art}</span>`) : ''}<a class="word" href="${href}" style="--hw:${size}px" data-hw="${size}">${word}</a></div>
+      <div class="night-hw">${art ? raw(html`<span class="article">${art}</span>`) : ''}<a class="word" href="${href}" style="--hw:${size}px" data-hw="${size}" aria-label="Open ${word}">${word}</a></div>
       <div class="night-en">${e.en || ''}</div>
       ${raw(speakBtn(say, 'sm'))}
     </div>
