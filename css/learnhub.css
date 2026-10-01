@@ -1,1 +1,82 @@
 /* Learn hub: shared card reel and section styles (see js/views/learnCards.js). */
+
+/* ---------- learn cards (.lc) ----------
+   The Play-page poster (app.css §12: 200×280, radius 24, scroll-snap, fx.reel tilt) restyled as flat glass on the theme
+   tokens. --lc is the card colour (a level token or an accent): it paints the wash, the top hairline, the ring and the
+   kicker. Standalone (.lc outside a reel) the card fills its container, for "In corso". */
+/* .reel pads 50% − 100px, but that 50% is the parent's width while the reel itself is a gutter wider on each side:
+   add the gutter back so the first and last card rest exactly on the centre line */
+.lc-reel { margin-top: -4px; padding-left: calc(50% - 100px + var(--gutter)); padding-right: calc(50% - 100px + var(--gutter)); }
+.poster.lc {
+  --lc: var(--lvl-current); --ts: 28px;
+  display: grid; grid-template-rows: auto 1fr auto; gap: 8px; align-items: start; justify-content: stretch;
+  padding: 16px 16px 16px; text-align: left; isolation: isolate; cursor: pointer;
+  background: var(--glass-strong); border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-1), inset 0 1px 0 var(--glass-highlight);
+  text-shadow: none; font-family: var(--font-text);
+}
+:root .poster.lc { color: var(--ink); } /* beats `:root[data-theme="light"] .poster { color: #fff }` */
+.poster.lc::before { /* level wash + the top hairline */
+  background: linear-gradient(var(--lc), var(--lc)) 0 0 / 100% 2px no-repeat,
+    radial-gradient(120% 70% at 18% 0%, color-mix(in srgb, var(--lc) 26%, transparent), transparent 62%),
+    linear-gradient(180deg, color-mix(in srgb, var(--lc) 8%, transparent), transparent 55%);
+}
+.poster.lc::after { border: 1px solid color-mix(in srgb, var(--lc) 22%, var(--glass-border)); }
+.poster.lc > * { position: relative; z-index: 1; min-width: 0; }
+.poster.lc:focus-visible { outline: 2px solid var(--lc); outline-offset: 2px; }
+
+/* standalone: a full-width glass card, no tilt */
+.poster.lc { width: auto; height: auto; min-height: 176px; transform: none; opacity: 1; }
+/* in a reel: exactly the Play-page poster geometry and motion */
+.reel > .poster.lc { width: 200px; height: 280px; transform: scale(.92) rotateY(var(--ry, 0deg)); opacity: .6; }
+.reel > .poster.lc.active { transform: scale(1) rotateY(0deg); opacity: 1; box-shadow: var(--shadow-2), 0 0 44px -18px var(--lc), inset 0 1px 0 var(--glass-highlight); }
+.reel > .poster.lc:active { transform: scale(.97) rotateY(0deg); }
+
+/* top row: kicker left, level chip right */
+.lc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
+.lc-kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; line-height: 1.2;
+  color: color-mix(in srgb, var(--lc) 72%, var(--ink)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.lc-top .lvl { --lvl-c: var(--lc); height: 22px; min-width: 32px; font-size: 10px; }
+
+/* middle: icon / ring left, speaker right */
+.lc-mid { display: flex; align-items: center; justify-content: space-between; gap: 8px; align-self: center; min-height: 40px; }
+.lc-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; color: var(--lc);
+  background: color-mix(in srgb, var(--lc) 14%, var(--glass)); border: 1px solid color-mix(in srgb, var(--lc) 30%, transparent); }
+.lc-icon .ic { width: 18px; height: 18px; }
+.lc-ring { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; color: var(--lc); }
+.lc-ring .lc-ring-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.lc-ring circle { fill: none; stroke-width: 3; }
+.lc-ring .t { stroke: color-mix(in srgb, var(--lc) 22%, var(--glass-border)); }
+.lc-ring .f { stroke: var(--lc); stroke-linecap: round; }
+.lc-ring .ic { width: 16px; height: 16px; }
+.lc-pct { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0; font-weight: 600; color: var(--ink); line-height: 1; }
+.lc-say { margin-right: -4px; }
+.lc-say .ic { width: 16px; height: 16px; }
+
+/* body: headline (2 lines), English (1 line), detail (1 line) — fixed heights so every card lines up */
+.lc-body { display: grid; gap: 3px; align-self: end; }
+.lc-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  font-family: var(--font-display); font-weight: 600; font-size: var(--ts, 28px); line-height: 1.18; letter-spacing: -.02em;
+  font-variation-settings: "opsz" 72; overflow-wrap: anywhere; min-height: calc(var(--ts, 28px) * 1.18); color: var(--ink); }
+.lc-en { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: var(--es, 14px); line-height: 18px; color: var(--ink-2); min-height: 18px; }
+.lc-detail { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 500; line-height: 1.4; color: var(--ink-3); min-height: 14px; margin-top: 2px; }
+.lc-word .lc-title, .lc-verb .lc-title { font-variation-settings: "opsz" 144; letter-spacing: -.025em; }
+.lc-word .lc-title { font-weight: 500; }
+
+/* standalone card: the middle row sits beside the body, the headline may run wider */
+.poster.lc:not(.reel > *) { grid-template-rows: auto auto; grid-template-columns: 1fr auto; column-gap: 12px; }
+.poster.lc:not(.reel > *) .lc-top { grid-column: 1 / -1; }
+.poster.lc:not(.reel > *) .lc-mid { grid-column: 2; grid-row: 2; flex-direction: column; align-self: end; align-items: flex-end; }
+.poster.lc:not(.reel > *) .lc-mid:empty { display: none; }
+.poster.lc:not(.reel > *) .lc-body { grid-column: 1; grid-row: 2; }
+.poster.lc:not(.reel > *) .lc-say { margin-right: 0; }
+
+/* reduced motion: no tilt, no scale animation — the active card simply brightens */
+@media (prefers-reduced-motion: reduce) {
+  .reel > .poster.lc { transform: none; transition: opacity 120ms ease-out; opacity: .7; }
+  .reel > .poster.lc.active { transform: none; }
+}
+.lc-still > .poster.lc { transform: none; opacity: .7; }
+.lc-still > .poster.lc.active { opacity: 1; }

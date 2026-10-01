@@ -7,29 +7,36 @@
    ========================================================================== */
 
 /* ---------- 1. CONTROLS (shared by Profile, Scope and the Learn hub's view switch) ---------- */
-/* Dial-like segmented control: a glass track with tick marks and a gold knob that springs between the segments. */
-.me .seg, .scope .seg, .learn .mode-seg {
+/* Dial-like segmented control: a glass track with tick marks and a gold knob that springs between the segments.
+   The Learn hub's switch (.learn-seg) lives in the top bar's title slot (app.js setTitleNode), so it is sized to sit
+   between the back button and EN on a 375px phone: a 44px track holding 40px buttons. */
+.me .seg, .scope .seg, .learn-seg {
   position: relative; height: 48px; padding: 4px; gap: 0; border-radius: 16px; isolation: isolate;
   background: var(--glass); border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 -1px 0 rgba(0,0,0,.12);
 }
-.me .seg::after, .scope .seg::after, .learn .mode-seg::after {
+.me .seg::after, .scope .seg::after, .learn-seg::after {
   content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 3px; pointer-events: none; opacity: .5;
   background: repeating-linear-gradient(90deg, var(--ink-4) 0 1px, transparent 1px 9px);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
 }
-.me .seg::before, .scope .seg::before, .learn .mode-seg::before {
+.me .seg::before, .scope .seg::before, .learn-seg::before {
   content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: var(--kw, 0px); border-radius: 12px; z-index: 0;
   background: linear-gradient(135deg, var(--gold), var(--gold-2)); box-shadow: 0 8px 18px -8px var(--gold), inset 0 1px 0 rgba(255,255,255,.5);
   transform: translateX(var(--kx, 4px)); transition: transform var(--t-slow) var(--ease-spring), width var(--t-slow) var(--ease-spring);
 }
-.me .seg.no-anim::before, .scope .seg.no-anim::before, .learn .mode-seg.no-anim::before { transition: none; }
-.me .seg button, .scope .seg button, .learn .mode-seg button {
+.me .seg.no-anim::before, .scope .seg.no-anim::before, .learn-seg.no-anim::before { transition: none; }
+.me .seg button, .scope .seg button, .learn-seg button {
   position: relative; z-index: 1; flex: 1 1 auto; min-width: 0; height: 40px; padding: 0 12px; border-radius: 12px;
   background: transparent; box-shadow: none; letter-spacing: .08em; overflow: hidden; text-overflow: ellipsis;
 }
-.me .seg button.on, .scope .seg button.on, .learn .mode-seg button.on { background: transparent; box-shadow: none; color: var(--on-gold); }
-.learn .mode-seg { margin-bottom: 18px; }
+.me .seg button.on, .scope .seg button.on, .learn-seg button.on { background: transparent; box-shadow: none; color: var(--on-gold); }
+/* in the top bar: the title slot centres the switch; the track shrinks to 44px so the 40px buttons keep their hit box */
+#topTitle.has-node { display: flex; align-items: center; justify-content: center; overflow: visible; min-width: 0; }
+.learn-seg { height: 44px; padding: 2px; border-radius: 14px; width: min(100%, 250px); flex: 0 1 auto; }
+.learn-seg::before { top: 2px; bottom: 2px; border-radius: 12px; }
+.learn-seg::after { bottom: 1px; height: 2px; }
+.learn-seg button { padding: 0 10px; font-size: 10px; letter-spacing: .1em; }
 .learn .learn-body { transition: min-height var(--t-slow) var(--ease-out); }
 
 /* Switch with a 40px hit area: the button is transparent, the pill is drawn by ::before, the knob by ::after. */
@@ -254,55 +261,101 @@ html.paused .me-avatar::before { animation-play-state: paused; }
 
 /* ==========================================================================
    7. LEARN · SEZIONI (js/views/learnSections.js)
-   Jump chips over four equal blocks: Corso · Vocabolario · Ripasso · Laboratorio. The decks, the review ring and the
-   lab tiles reuse the LEARN HUB rules in views-a.css; only the section shell and the course card live here.
+   A sticky four-segment indicator (same dial family as the Panoramica / Sezioni switch) over four equal blocks:
+   Corso · Vocabolario · Ripasso · Laboratorio. The verb / word / lab reels are the shared learn cards (learnhub.css);
+   the review ring reuses the LEARN HUB rules in views-a.css. The indicator, the course card and the review pane live here.
    ========================================================================== */
 .sez { padding-top: 2px; }
-.sez-jumps { margin-bottom: 14px; }
-.sez-block { margin-bottom: 32px; scroll-margin-top: 4px; } /* html's scroll-padding-top already clears the top bar */
+.sez-block { margin-bottom: 32px; scroll-margin-top: 66px; } /* html's scroll-padding-top clears the top bar; this clears the sticky indicator */
 .sez-block:last-child { margin-bottom: 0; }
 .sez-block > .sec-head { margin-bottom: 12px; }
 .sez-block > .sec-head .title { font-size: 28px; letter-spacing: -.015em; font-variation-settings: "opsz" 72; }
 
-/* Corso: the resume / up-next card and the next-grammar row */
+/* Dial-like segmented controls inside the sections (the sticky indicator and the lesson-length toggle): the glass track,
+   the tick marks and the gold knob that springs between the segments, as on the view switch above. */
+.sez .seg {
+  position: relative; display: flex; gap: 0; padding: 4px; border-radius: 16px; isolation: isolate;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 -1px 0 rgba(0,0,0,.12);
+}
+.sez .seg::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 3px; pointer-events: none; opacity: .5;
+  background: repeating-linear-gradient(90deg, var(--ink-4) 0 1px, transparent 1px 9px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.sez .seg::before {
+  content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: var(--kw, 0px); border-radius: 12px; z-index: 0;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2)); box-shadow: 0 8px 18px -8px var(--gold), inset 0 1px 0 rgba(255,255,255,.5);
+  transform: translateX(var(--kx, 4px)); transition: transform var(--t-slow) var(--ease-spring), width var(--t-slow) var(--ease-spring);
+}
+.sez .seg.no-anim::before { transition: none; }
+.sez .seg button {
+  position: relative; z-index: 1; flex: 1 1 0; min-width: 0; height: 40px; padding: 0 10px; border-radius: 12px;
+  background: transparent; box-shadow: none; color: var(--ink-2); font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color var(--t-base);
+}
+.sez .seg button.on { background: transparent; box-shadow: none; color: var(--on-gold); }
+
+/* the indicator: sticky under the top bar, four equal segments with an icon over a small label */
+.sez-nav {
+  position: sticky; top: calc(var(--top-h) + var(--sat) + 4px); z-index: 10; height: 62px; margin-bottom: 16px;
+  background-color: color-mix(in srgb, var(--bg-0) 72%, transparent); background-image: linear-gradient(var(--glass), var(--glass));
+  -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%);
+}
+.sez-nav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; height: 52px; padding: 0 4px; }
+.sez-nav button .ic { width: 18px; height: 18px; flex: none; }
+.sez-nav button span { display: block; max-width: 100%; font-size: 9px; letter-spacing: .04em; line-height: 1; overflow: hidden; text-overflow: ellipsis; }
+.sez-nav button.on .ic { filter: drop-shadow(0 1px 0 rgba(255,255,255,.3)); }
+
+/* Corso: the resume / up-next card, the lesson-length toggle beside Start, then the other open thread as a row */
 .sez-course-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
 .sez-course-top .kicker { color: var(--gold-text); }
 .sez-course-top .sez-stage { color: var(--ink-3); white-space: nowrap; margin-left: auto; }
 .sez-course h2 { font-family: var(--font-display); font-weight: 600; font-size: 30px; line-height: 1.08; letter-spacing: -.02em; font-variation-settings: "opsz" 72; margin: 10px 0 6px; overflow-wrap: anywhere; }
 .sez-course p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
-.sez-course .tags { margin-top: 12px; }
 .sez-course .bar { margin-top: 16px; }
 .sez-pct { margin-top: 8px; color: var(--ink-3); }
-.sez-course-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
-.sez-course-actions .btn .ic-chevronDown { transition: transform var(--t-base) var(--ease-out); }
-.sez-course-actions .btn[aria-expanded="true"] .ic-chevronDown { transform: rotate(180deg); }
+.sez-course-actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+.sez-course-actions .sez-seg { flex: 1 1 auto; min-width: 0; height: 48px; }
+.sez-course-actions .sez-seg button { padding: 0 8px; }
+.sez-course-actions .sez-start { flex: none; min-width: 112px; padding: 0 20px; }
+.sez-course-actions .sez-start.block { flex: 1 1 auto; }
 .sez-row { display: flex; align-items: center; gap: 12px; min-height: 64px; margin-top: 12px; padding: 12px 12px 12px 16px; color: var(--ink); border-radius: var(--r-m); transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
 .sez-row:active { transform: scale(.985); background: var(--glass-strong); }
 .sez-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .sez-row-main .kicker { display: block; margin-bottom: 2px; }
 .sez-row-title { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.15; letter-spacing: -.01em; overflow-wrap: anywhere; }
 .sez-row-sub { color: var(--ink-3); }
-.sez-row .lvl { flex: none; }
 .sez-row .ic-chevronRight { color: var(--ink-3); flex: none; }
 
-/* Vocabolario: scope row (styles in views-a.css), then the two decks with a small Italian title and a mono counter */
-.sez .scope-line { margin-bottom: 20px; }
-.sez .scope-line .btn.sm { flex: none; }
+/* Vocabolario: a quiet mono scope link in the header, then the two reels with a small Italian title and a mono counter */
+.sec-head .sez-scope-link { color: var(--ink-3); gap: 6px; letter-spacing: .1em; }
+.sec-head .sez-scope-link .sez-scope-val { color: var(--ink-2); }
+.sec-head .sez-scope-link .sez-scope-dot { color: var(--ink-4); }
+.sec-head .sez-scope-link .sez-scope-act { color: var(--gold-text); }
 .sez-deck { margin-bottom: 20px; }
 .sez-deck:last-child { margin-bottom: 0; }
 .sez-deck-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .sez-deck-head .title { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.1; letter-spacing: -.01em; }
 .sez-deck-head .title .itx .tr { font-family: var(--font-text); font-weight: 500; font-size: 13px; }
 .sez-deck-head .side { color: var(--ink-3); white-space: nowrap; flex: none; padding-bottom: 3px; }
+.sez-reel { min-height: 120px; }
+.sez-empty { padding: 28px 12px; }
+.sez .session-link { margin-top: 2px; }
 
-/* Laboratorio: always a 2 × 2 of tiles, the icon in gold (shared rule in views-a.css) */
-.sez .lab-grid { grid-template-columns: 1fr 1fr; }
-.sez .lab-grid .tile { min-height: 116px; }
+/* Ripasso: the whole pane is the link; the mono line at the bottom names where it goes */
+.sez .review-pane { display: block; color: var(--ink); transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
+.sez .review-pane:active { transform: scale(.985); background: var(--glass-strong); }
+.sez .review-pane .review-body { margin-bottom: 14px; }
+.sez .review-pane .review-num { display: block; }
+.sez .review-pane .review-text .small { display: block; }
+.sez .review-pane .review-cta { display: inline-flex; align-items: center; min-height: 24px; color: var(--gold-text); }
 
 @media (max-width: 359px) {
   .sez-course h2 { font-size: 26px; }
   .sez-block > .sec-head .title { font-size: 24px; }
+  .sez-course-actions .sez-start { min-width: 96px; padding: 0 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sez-row, .sez-course-actions .btn .ic-chevronDown { transition-duration: 120ms !important; }
+  .sez .seg::before, .sez .seg button, .sez-row, .sez .review-pane { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }
 }
