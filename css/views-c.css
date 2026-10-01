@@ -6,29 +6,31 @@
              6 reduced motion & responsive
    ========================================================================== */
 
-/* ---------- 1. CONTROLS (shared by Profile and Scope) ---------- */
+/* ---------- 1. CONTROLS (shared by Profile, Scope and the Learn hub's view switch) ---------- */
 /* Dial-like segmented control: a glass track with tick marks and a gold knob that springs between the segments. */
-.me .seg, .scope .seg {
+.me .seg, .scope .seg, .learn .mode-seg {
   position: relative; height: 48px; padding: 4px; gap: 0; border-radius: 16px; isolation: isolate;
   background: var(--glass); border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 -1px 0 rgba(0,0,0,.12);
 }
-.me .seg::after, .scope .seg::after {
+.me .seg::after, .scope .seg::after, .learn .mode-seg::after {
   content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 3px; pointer-events: none; opacity: .5;
   background: repeating-linear-gradient(90deg, var(--ink-4) 0 1px, transparent 1px 9px);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
 }
-.me .seg::before, .scope .seg::before {
+.me .seg::before, .scope .seg::before, .learn .mode-seg::before {
   content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: var(--kw, 0px); border-radius: 12px; z-index: 0;
   background: linear-gradient(135deg, var(--gold), var(--gold-2)); box-shadow: 0 8px 18px -8px var(--gold), inset 0 1px 0 rgba(255,255,255,.5);
   transform: translateX(var(--kx, 4px)); transition: transform var(--t-slow) var(--ease-spring), width var(--t-slow) var(--ease-spring);
 }
-.me .seg.no-anim::before, .scope .seg.no-anim::before { transition: none; }
-.me .seg button, .scope .seg button {
+.me .seg.no-anim::before, .scope .seg.no-anim::before, .learn .mode-seg.no-anim::before { transition: none; }
+.me .seg button, .scope .seg button, .learn .mode-seg button {
   position: relative; z-index: 1; flex: 1 1 auto; min-width: 0; height: 40px; padding: 0 12px; border-radius: 12px;
   background: transparent; box-shadow: none; letter-spacing: .08em; overflow: hidden; text-overflow: ellipsis;
 }
-.me .seg button.on, .scope .seg button.on { background: transparent; box-shadow: none; color: var(--on-gold); }
+.me .seg button.on, .scope .seg button.on, .learn .mode-seg button.on { background: transparent; box-shadow: none; color: var(--on-gold); }
+.learn .mode-seg { margin-bottom: 18px; }
+.learn .learn-body { transition: min-height var(--t-slow) var(--ease-out); }
 
 /* Switch with a 40px hit area: the button is transparent, the pill is drawn by ::before, the knob by ::after. */
 .me .switch { width: 64px; height: 40px; background: transparent; border: 0; box-shadow: none; border-radius: 12px; }

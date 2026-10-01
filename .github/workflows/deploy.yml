@@ -63,10 +63,10 @@ jobs:
           node tools/test-verb-pacing.mjs
           node tools/test-verb-scene-variety.mjs
           node tools/test-journey-integration.mjs
+          node tools/stamp-sw.mjs
           node tools/check-shell.mjs
       # Copies only the deployable files into dist/ (no docs, tests, tools, dev, .github or scratch files) and exits
       # non-zero on failure, so a broken assembly stops the job before anything is uploaded.
-      # tools/build-site.mjs is added separately; until it is on main this step fails and nothing deploys.
       - name: Assemble the deployable site
         run: node tools/build-site.mjs
       - uses: actions/configure-pages@v5
