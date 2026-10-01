@@ -32,6 +32,8 @@ If the ordinary simple usage cannot fit conjugated-form + complement (special le
 
 Exact scenes may specify `section:"practice"` or `section:"mixed"`; each scoped practiced person needs two distinct practice scenes. Optional `past:{it,en,answer}` supplies a separately authored past version.
 
-The four frames support different contexts for teaching/practice (first two) and mixed review (last two). The compiler may inflect these reviewed bounded frames for allowed persons and present/imperfetto; separate scenario IDs are retained. Include two extra frames when readily natural to supply repair reserves. In simpleExample-only records aim for four complete examples (two initial, two review).
+Frames 0–1 support first practice; frames 2–3 are held for mixed review. Frames 4 onward add practice variety without consuming the held-out pair. The compiler inflects these reviewed bounded frames for allowed persons and present/imperfetto. Time-neutral frames may also supply past, future and conditional scenes when the recorded construction and auxiliary make that safe; exact-clitic scenes require their own authored versions. Separate scenario IDs are retained. In simpleExample-only records aim for four complete examples (two initial, two review).
+
+When adding frames to a record that already shipped, record its former length as `legacyFrameCount`. Saved questions continue to use the former practice/review split and numeric variant mapping; newly scheduled questions can use the added frames.
 
 Do not alter dictionary source data, conjugator, runtime modules, or other authors' files while authoring. List uncertain inflections or source-data issues separately for integration. Cite primary Italian sources for exceptional usage in an optional `sources` array. Cross-review happens after authoring; do not label automated checks as native-speaker certification.

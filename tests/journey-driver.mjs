@@ -12,7 +12,7 @@ export async function journeyQuestion(page) {
     const { buildJourneyQuestion } = await import('./js/learning/lesson-questions.js');
     const session = store.learning.session, entry = getEntry(session.entryId);
     const step = currentJourneyStep(buildLesson(entry), session, store.learning, Date.now());
-    return buildJourneyQuestion(entry, step.chapter, step.target, { variant: step.variant, format: step.format, phase: step.phase, repairTag: step.repairTag });
+    return buildJourneyQuestion(entry, step.chapter, step.target, { variant: step.variant, format: step.format, phase: step.phase, repairTag: step.repairTag, scenePolicy: step.scenePolicy });
   });
 }
 
@@ -36,7 +36,7 @@ export async function solveJourneyQuestion(page, question, { expected = q => q.a
   if (question.type === 'pairs') {
     for (const pair of question.pairs) {
       const left = page.locator(attr('data-pair-left', pair.id));
-      if (!await left.count() || !await left.isVisible()) continue;
+      if (!await left.count() || !await left.isVisible() || !await left.isEnabled()) continue;
       const answer = expected(pair.question || { answer: pair.answers, meta: pair.meta });
       assert(pair.answers.includes(answer), `Matching target accepts separately checked answer ${answer}`);
       const candidates = question.rightTiles.filter(tile => pair.answers.includes(tile.text));

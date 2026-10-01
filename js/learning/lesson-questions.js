@@ -13,7 +13,9 @@ const unique=xs=>[...new Set(xs.filter(Boolean))];
 const text=(a,b='')=>`<div class="big md">${esc(a)}</div><div class="sub">${esc(b)}</div>`;
 function seeded(n){let x=(Number(n)||0)+17;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296;};}
 function choices(q,wrong,recognition,rng){const keys=new Set(q.answer.map(x=>x.toLocaleLowerCase('it')));const pool=unique(wrong).filter(x=>!keys.has(x.toLocaleLowerCase('it'))).slice(0,3);q.type=recognition&&pool.length?'mc':'type';q.choices=q.type==='mc'?[{label:q.answer[0],value:q.answer[0],correct:true},...pool.map(label=>({label,value:label,correct:false}))]:[];for(let i=q.choices.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[q.choices[i],q.choices[j]]=[q.choices[j],q.choices[i]];}return q;}
-export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='type',phase='independent',repairTag=null}={}){
+export function buildJourneyQuestion(entry,chapter,target,options={}){
+ const {variant=0,format='type',phase='independent',repairTag=null,scenePolicy}=options;
+ const expandedScenes=scenePolicy==='expanded-v1';
  if(!entry?.id||!chapter?.id||!target?.id||target.available===false)return null;
  if(target.shortWord)return buildShortWordQuestion(entry,target,{variant,format,phase,pool:data.vocab||[],pairTargets:target.wordPairTargets||[],chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION});
  entry=lessonEntry(entry);
@@ -26,16 +28,18 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  const o={id:target.id,entryId:entry.id,kind,skill:target.skill,tense:target.tense||null,stage:'future',label:target.skill,explanation:''};
  let q;
  const source=target.sourceChapter||chapter.id;
- const contexts=kind==='verb'&&['conjugation','context','address'].includes(target.skill)?(target.contexts||lessonContexts(entry,source)).filter(c=>target.skill==='context'||c.person===target.person&&c.role===(target.role||'ordinary')):[];
+ const selectedContexts=expandedScenes?target.contexts:target.legacyAuthoredContexts??target.contexts;
+ const contexts=kind==='verb'&&['conjugation','context','address'].includes(target.skill)?(selectedContexts??lessonContexts(entry,source,{expanded:expandedScenes})).filter(c=>target.skill==='context'||c.person===target.person&&c.role===(target.role||'ordinary')):[];
  const smallRepair=phase==='repair'&&['auxiliary','auxiliaryPerson','participle','agreement','clitic'].includes(repairTag);
  if(target.progressive){
   const formsFor=target.flowVersion===2?progressiveForms:legacyForms, infoFor=target.flowVersion===2?progressiveInfo:legacyInfo;
-  const info=infoFor(entry,{chapter:source}),person=target.contexts?.[v%target.contexts.length]?.person??target.person??0;
+  const situations=expandedScenes?target.contexts||[]:target.legacyAuthoredContexts??target.contexts??[];
+  const info=infoFor(entry,{chapter:source}),person=situations[v%situations.length]?.person??target.person??0;
   if(target.skill==='progressiveUsage'){
    q={prompt:text(target.usageQuestion),answer:target.usageAnswers,tip:target.explanation,lesson:target.explanation,say:'',meta:{supportOnly:true,answerLanguage:'en',diagnostic:{kind:'component',component:'progressiveUsage'},variantId:`${target.id}:usage`,contextId:`${target.id}:usage`}};
    choices(q,target.usageDistractors||[],true,rng);
   }else{
-   const situations=target.contexts||[],context=situations[v%situations.length],englishCue=situations.length&&Math.floor(v/situations.length)%2===1;
+   const context=situations[v%situations.length],englishCue=situations.length&&Math.floor(v/situations.length)%2===1;
    const answers=context?.answers||formsFor(entry,person,{chapter:source});if(!answers.length)return null;
    const tenseCue=source==='background'?'stare (imperfetto) + gerundio':'stare (present) + gerundio';
    const who=context?.subjectLabel||((context?.role||target.role)==='formal'?'Lei · formal':person===1?'tu · informal':person===4?'voi · plural':info.weather?'impersonal weather use':PERSONS[person]);
@@ -60,7 +64,7 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   const answer=target.fact||(target.skill==='timeMeaning'?time:'An impersonal weather construction');
   const prompt=target.question||(target.skill==='timeMeaning'?'Which meaning are we practising in this chapter?':target.skill==='subjectUse'?(target.fact?'In the meaning taught here, what is the grammatical subject?':'In its everyday weather use, what kind of subject does the verb have?'):target.skill==='wordFunction'?'Recall the role of the word type taught in this lesson.':'Which pattern matters for the word type taught in this lesson?');
   const wrong=target.skill==='timeMeaning'?['A completed event','A future event','Past habits or background','A wish, polite request or hypothetical result','Now or a routine']:target.skill==='subjectUse'?['A person called Lei','A group addressed as voi']:target.skill==='wordFunction'?['An action conjugated for six people.','A number used only for counting.','A noun’s definite article.']:['Always conjugate it in the past.','Always attach a masculine plural ending.'];
-  q={prompt:text(prompt),answer:[answer],choices:[],say:'',tip:answer,lesson:answer,example:'',meta:{diagnostic:{kind:'component',component:target.skill},variantId:`${target.id}:fact`,contextId:`${target.id}:fact`,supportOnly:true}};
+  q={prompt:text(prompt),answer:[answer],choices:[],say:'',tip:answer,lesson:answer,example:'',meta:{diagnostic:{kind:'component',component:target.skill},variantId:`${target.id}:fact`,contextId:`${target.id}:fact`,supportOnly:true,answerLanguage:target.answerLanguage||'en'}};
   choices(q,target.distractors||wrong,true,rng);
  }else if(kind==='verb'&&contexts.length&&format!=='match'&&!smallRepair){
   const context=contexts[v%contexts.length],englishCue=Math.floor(v/contexts.length)%2===1;
@@ -133,7 +137,7 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
  if(format==='type'&&!q.meta?.supportOnly){q.type='type';q.choices=[];}
  if(q.type==='mc')q.prompt=q.prompt.replace(/Write the whole/gi,'Choose the whole').replace(/write the whole/gi,'choose the whole').replace(/Write only/gi,'Choose only').replace(/Write this/gi,'Choose this').replace(/Supply only/gi,'Choose').replace(/Give the/gi,'Choose the').replace(/Answer in English/gi,'Choose the English meaning');
  const recognition=supported||!!q.meta?.scaffold||!!q.meta?.supportOnly;
- q.meta={...q.meta,...(target.contextPolicy?{contextPolicy:target.contextPolicy}:{}),entryId:entry.id,objectiveId:target.id,targetId:target.id,chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION,kind,skill:q.meta?.skill||target.skill,tense:target.tense||null,person:q.meta?.person??target.person??null,role:q.meta?.role||target.role||'ordinary',mode:recognition?'recognition':'production',evidenceMode:recognition?'recognition':'production',activityKind:format==='match'?'matching':phase,evidenceScope:q.meta?.evidenceScope||target.evidenceScope||target.skill};
+ q.meta={...q.meta,...(target.contextPolicy?{contextPolicy:target.contextPolicy}:{}),...(scenePolicy?{scenePolicy}:{}),entryId:entry.id,objectiveId:target.id,targetId:target.id,chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION,kind,skill:q.meta?.skill||target.skill,tense:target.tense||null,person:q.meta?.person??target.person??null,role:q.meta?.role||target.role||'ordinary',mode:recognition?'recognition':'production',evidenceMode:recognition?'recognition':'production',activityKind:format==='match'?'matching':phase,evidenceScope:q.meta?.evidenceScope||target.evidenceScope||target.skill};
  if(kind==='verb'&&target.authoredContexts&&!q.meta.scaffold&&Number.isInteger(q.meta.person)){
   const counterparts=target.progressive?lessonForms(entry,source==='background'?'imperfetto':'presente',q.meta.person):progressiveForms(entry,q.meta.person,{chapter:source});
   q.meta.diagnostic={...q.meta.diagnostic,counterpartForms:counterparts,viewpointMessage:target.progressive?
@@ -171,7 +175,7 @@ export function buildJourneyQuestion(entry,chapter,target,{variant=0,format='typ
   const eligible=(group?.targets||[]).filter(t=>t.available!==false&&!t.supplementalOnly&&!t.guidedOnly&&['conjugation','address','progressive'].includes(t.skill)&&Number.isInteger(t.person));
   if(kind==='verb'&&eligible.length>=3&&eligible.some(t=>t.id===target.id)){
    const start=eligible.findIndex(t=>t.id===target.id),selected=[...eligible.slice(start),...eligible.slice(0,start)].slice(0,3);
-   const pairs=selected.map(t=>({targetId:t.id,label:t.role==='formal'?`Lei · formal${TENSE_BY_KEY[t.tense]?.compound?` (${v%2?'man':'woman'})`:''}`:t.role==='formalPlural'?'Loro · formal plural':t.person===1?'tu · informal':t.person===4?'voi · plural':PERSONS[t.person],question:buildJourneyQuestion(entry,chapter,t,{variant:v,format:'match',phase:'guided'})}));
+   const pairs=selected.map(t=>({targetId:t.id,label:t.role==='formal'?`Lei · formal${TENSE_BY_KEY[t.tense]?.compound?` (${v%2?'man':'woman'})`:''}`:t.role==='formalPlural'?'Loro · formal plural':t.person===1?'tu · informal':t.person===4?'voi · plural':PERSONS[t.person],question:buildJourneyQuestion(entry,chapter,t,{variant:v,format:'match',phase:'guided',...(Object.hasOwn(options,'scenePolicy')?{scenePolicy}:{})})}));
    return createPairActivity(q,pairs,{seed:v});
   }
  }

@@ -16,6 +16,7 @@ for(const [batch,levels] of Object.entries(batches)){
     assert(record.sense?.trim()&&record.note?.trim(),record.inf+' explanation');
     if(record.frames){
       assert(record.frames.length>=4,record.inf+' needs four situations');
+      if(record.legacyFrameCount!==undefined)assert(Number.isInteger(record.legacyFrameCount)&&record.legacyFrameCount>=4&&record.legacyFrameCount<=record.frames.length,record.inf+' legacy frame count');
       assert(new Set(record.frames.map(f=>f[0])).size===record.frames.length,record.inf+' repeated Italian frames');
       assert(record.frames.every(f=>Array.isArray(f)&&f.length===2&&f.every(x=>typeof x==='string')),record.inf+' frames');
       assert(Array.isArray(record.en)&&record.en.length===4,record.inf+' English predicates');

@@ -287,6 +287,10 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
   const variations = new Set(), persons = new Set(), previousVariants = new Map();
   const previousProduction = new Map(), advanced = new Set(), failed = new Set();
   const checks = [], delayed = [];
+  // A verb chapter already has separately taught forms and contextual checks.
+  // One intervening activity is enough to space its two unaided recalls;
+  // adjacent answers, copied forms, and duplicate scenes remain ineligible.
+  const evidenceGap = journey && last.kind === 'verb' ? 2 : 3;
   let readySession = null, previousIndependent = null;
 
   for (const e of events) {
@@ -298,11 +302,11 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
     const pos = positions.get(e.id);
     const previous = previousVariants.get(key);
     const repeatIsSpaced = !previous || (previous.sessionId === e.sessionId
-      ? pos - positions.get(previous.id) >= 3
+      ? pos - positions.get(previous.id) >= evidenceGap
       : e.at - previous.at >= REPEAT_DELAY);
     const qualifying = independent(e);
     const priorProduction = previousProduction.get(e.sessionId);
-    const spaced = (!!priorProduction && pos - positions.get(priorProduction.id) >= 3)
+    const spaced = (!!priorProduction && pos - positions.get(priorProduction.id) >= evidenceGap)
       || (journey && previousIndependent && previousIndependent.sessionId !== e.sessionId && e.at - previousIndependent.at >= REPEAT_DELAY);
     const eligible = qualifying && e.ok && repeatIsSpaced && (!journey || !previousIndependent || spaced);
     if (qualifying) { checks.push(e.ok); result.productionAttempts++; previousProduction.set(e.sessionId, e); previousIndependent = e; }

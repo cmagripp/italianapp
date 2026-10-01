@@ -28,6 +28,12 @@ function pairData(model) {
   return {pairs:order.map(id=>pairs.find(pair=>pair.id===id)),right};
 }
 const accepts = (pair,given) => !!pair && pair.answers.some(answer=>norm(answer)===norm(given));
+const pairSpeech = (model,pair) => {
+  if (model?.meta?.shortWord || !pair) return '';
+  const subject=pair.label.split('·')[0].replace(/\s*\([^)]*\)/g,'').trim();
+  if (!/^(?:io|tu|lui|lei|noi|voi|loro)(?:\s*\/\s*(?:lui|lei|loro))*$/iu.test(subject)) return '';
+  return subject.replace(/\s*\/\s*/g,', ');
+};
 
 // Only retain state that refers to this exercise's actual tile identities.
 // Repeated letters and homographic verb forms remain independent physical tiles.
@@ -96,11 +102,11 @@ export function activityHTML(model, source = {}, {readOnly=false,review=false} =
     }
     const labelTile=pair=>{
       const matched=usedLeft.has(pair.id),wrong=state.feedback&&!state.feedback.correct&&state.feedback.leftId===pair.id;
-      return `<button type="button" class="journey-pair-tile m journey-pair-label ${state.leftId===pair.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-left="${esc(pair.id)}" aria-pressed="${state.leftId===pair.id}" ${readOnly||matched?'disabled':''} ${matched&&!review?'hidden':''}><span>${esc(pair.label)}</span></button>`;
+      return `<button type="button" class="journey-pair-tile m journey-pair-label ${state.leftId===pair.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-left="${esc(pair.id)}" aria-label="${esc(pair.label)}${matched?', matched':''}" aria-pressed="${state.leftId===pair.id}" ${readOnly||matched?'disabled':''}><span class="journey-pair-flip"><span class="journey-pair-face journey-pair-front" aria-hidden="true">${esc(pair.label)}</span><span class="journey-pair-face journey-pair-back" aria-hidden="true"><span class="journey-pair-check">✓</span><span class="journey-pair-back-label">Matched</span></span></span></button>`;
     };
     const formTile=tile=>{
       const matched=usedRight.has(tile.id),wrong=state.feedback&&!state.feedback.correct&&state.feedback.rightId===tile.id;
-      return `<button type="button" class="journey-pair-tile m journey-pair-form ${state.rightId===tile.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-right="${esc(tile.id)}" lang="it" aria-pressed="${state.rightId===tile.id}" ${readOnly||matched?'disabled':''} ${matched&&!review?'hidden':''}><span>${esc(tile.text)}</span></button>`;
+      return `<button type="button" class="journey-pair-tile m journey-pair-form ${state.rightId===tile.id?'is-selected':''} ${wrong?'is-wrong':''} ${matched?'is-matched':''}" data-pair-right="${esc(tile.id)}" lang="it" aria-label="${esc(tile.text)}${matched?', matched':''}" aria-pressed="${state.rightId===tile.id}" ${readOnly||matched?'disabled':''}><span class="journey-pair-flip"><span class="journey-pair-face journey-pair-front" aria-hidden="true">${esc(tile.text)}</span><span class="journey-pair-face journey-pair-back" aria-hidden="true"><span class="journey-pair-check">✓</span><span class="journey-pair-back-label">Matched</span></span></span></button>`;
     };
     const isWord=model.meta?.shortWord===true;
     const message=state.complete?'All pairs matched.':state.feedback?`${state.feedback.correct?'Matched':'Use'}: ${state.feedback.label} → ${state.feedback.expected}${state.feedback.correct?'.':'. Try again.'}`:state.leftId?'Now choose its form.':state.rightId?isWord?'Now choose the matching label.':'Now choose the matching person.':isWord?'Choose a label and its matching form.':'Choose a person and its matching form.';
@@ -143,10 +149,12 @@ export function activityAction(model, source, action) {
   if(model?.type==='pairs'){
     if(state.complete)return null;
     const {pairs,right}=pairData(model),usedLeft=new Set(state.matches.map(m=>m.leftId)),usedRight=new Set(state.matches.map(m=>m.rightId));
-    let focus;
+    let focus,speech='';
     if(action.type==='pair-left'){
-      if(!pairs.some(pair=>pair.id===action.id)||usedLeft.has(action.id))return null;
+      const selected=pairs.find(pair=>pair.id===action.id);
+      if(!selected||usedLeft.has(action.id))return null;
       state.leftId=state.leftId===action.id?null:action.id;
+      speech=pairSpeech(model,selected);
       focus={kind:'right',id:state.rightId||right.find(tile=>!usedRight.has(tile.id))?.id};
     } else if(action.type==='pair-right'){
       if(!right.some(tile=>tile.id===action.id)||usedRight.has(action.id))return null;
@@ -154,14 +162,14 @@ export function activityAction(model, source, action) {
       focus={kind:'left',id:state.leftId||pairs.find(pair=>!usedLeft.has(pair.id))?.id};
     } else return null;
     state.feedback=null;
-    if(!state.leftId||!state.rightId)return {state,complete:false,focus};
+    if(!state.leftId||!state.rightId)return {state,complete:false,focus,speech};
     const pair=pairs.find(p=>p.id===state.leftId),tile=right.find(t=>t.id===state.rightId),correct=accepts(pair,tile.text),attempt=state.attempts[pair.id]||0;
     state.attempts[pair.id]=attempt+1;
     state.feedback={leftId:pair.id,rightId:tile.id,correct,given:tile.text,expected:pair.canonical,label:pair.label};
     if(correct){state.matches.push({leftId:pair.id,rightId:tile.id});usedLeft.add(pair.id);usedRight.add(tile.id);}
     state.leftId=null;state.rightId=null;state.complete=state.matches.length===pairs.length;
     focus=state.complete?{kind:'status'}:{kind:'left',id:correct?pairs.find(p=>!usedLeft.has(p.id))?.id:pair.id};
-    return {state,complete:state.complete,focus,pair:{leftId:pair.id,rightId:tile.id,targetId:pair.targetId,given:tile.text,correct,expected:pair.canonical,attempt}};
+    return {state,complete:state.complete,focus,speech,pair:{leftId:pair.id,rightId:tile.id,targetId:pair.targetId,given:tile.text,correct,expected:pair.canonical,attempt}};
   }
   return null;
 }

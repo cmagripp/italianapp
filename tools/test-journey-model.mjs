@@ -170,12 +170,15 @@ test('a ready person failed during a supported contrast reopens the chapter requ
 test('assisted checkpoint successes stay in the checkpoint until independent repair or skip', () => {
   const h = harness(); h.until(s => s.type === 'question' && h.session.journey.phase === 'checkpoint');
   const id = h.step().target.id;
+  const beforeHint = journeyTargetState(h.learning, id).independentCorrect;
   h.answer({ assistance: ['hint'] }); h.next();
   assert.notEqual(h.step().type, 'recap'); assert.equal(journeyTargetState(h.learning, id).ready, false);
+  assert.equal(journeyTargetState(h.learning, id).independentCorrect, beforeHint, 'the hint grants no independent evidence');
   h.until(s => s.type === 'question' && !s.awaitingContinue && s.target.id === id && s.phase === 'independent');
-  h.answer(); h.next(); assert.equal(journeyTargetState(h.learning, id).ready, false);
-  h.until(s => s.type === 'question' && !s.awaitingContinue && s.target.id === id && s.phase === 'independent');
-  h.answer(); assert.equal(journeyTargetState(h.learning, id).ready, true);
+  h.answer();
+  const ready = journeyTargetState(h.learning, id);
+  assert.equal(ready.independentCorrect, 2); assert.equal(ready.variantCount, 2);
+  assert.equal(ready.spacedSuccess, true); assert.equal(ready.ready, true);
 });
 
 test('repeated mistakes offer help without an automatic retry cap', () => {
@@ -352,7 +355,7 @@ test('limited custom content blocks explicitly rather than loops, auto-skips, or
 test('supplemental same-word activities permit spacing without becoming lesson requirements', () => {
   const main = target('word', null, { skill: 'recall' });
   const supplements = [target('gender', null, { skill: 'fact', required: false, supplementalOnly: true }), target('number', null, { skill: 'fact', required: false, supplementalOnly: true })];
-  const p = { ...plan, chapters: [{ id: 'single', title: 'Word', groups: [{ id: 'one', cards: [{ id: 'facts' }], targets: [main, ...supplements] }] }] };
+  const p = { ...plan, kind: 'word', chapters: [{ id: 'single', title: 'Word', groups: [{ id: 'one', cards: [{ id: 'facts' }], targets: [main, ...supplements] }] }] };
   const h = harness(p); h.until(s => s.type === 'recap');
   assert.equal(journeyProgress(p, h.session, h.learning).chapters[0].total, 1);
   assert.equal(journeyTargetState(h.learning, main).ready, true);
@@ -364,7 +367,7 @@ test('answer exposure rotates ordinary and formal targets sharing a surface form
   h.session.ui = { exposures: { 'form-lei': 0 } };
   h.session = deferJourneyTarget(plan, h.session, h.learning, { now: START + 1 });
   assert.equal(h.step().phase, 'guided'); assert.notEqual(h.step().target.id, mainTargets[2].id); assert.notEqual(h.step().target.id, mainTargets[3].id);
-  h.answer(); h.next(); h.answer(); h.next();
+  h.answer(); h.next();
   assert.equal(h.step().target.id, mainTargets[3].id); assert.equal(h.step().phase, 'independent');
 });
 
@@ -372,7 +375,7 @@ test('answer exposure rotates ordinary and formal targets sharing a surface form
 test('bare noun exposure defers phrase recall while article-only checks remain independent', () => {
   const t = target('phrase', null, { skill: 'recall', answerForms: ['la casa'], answerFormsByVariant: [['la casa']], exposureFormsByVariant: [['la casa', 'casa']] });
   const supports = [target('fact-a', null, { required: false, supplementalOnly: true }), target('fact-b', null, { required: false, supplementalOnly: true })];
-  const p = { ...plan, chapters: [{ id: 'word', title: 'Word', groups: [{ id: 'word', cards: [], targets: [t, ...supports] }] }] };
+  const p = { ...plan, kind: 'word', chapters: [{ id: 'word', title: 'Word', groups: [{ id: 'word', cards: [], targets: [t, ...supports] }] }] };
   const h = harness(p, { mode: 'review', targetId: t.id }); h.session.ui = { exposures: { casa: 0 } };
   h.session = deferJourneyTarget(p, h.session, h.learning);
   assert.equal(h.step().phase, 'guided'); assert.equal(h.step().target.supplementalOnly, true);
@@ -521,7 +524,7 @@ for (const [file, property, value, chapterId] of [['verbs', 'inf', 'credere'], [
       h.next();
     } else if (s.type === 'question' && !s.awaitingContinue) {
       const q = buildJourneyQuestion(entry, s.chapter, s.target, s); assert.ok(q, `${value}/${s.target.id} missing question`);
-      const assistance = (q.meta.exposureForms || q.answer).some(a => typeof h.session.ui?.exposures?.[norm(a)] === 'number' && h.session.index - h.session.ui.exposures[norm(a)] < 2) ? ['visible-form'] : [];
+      const assistance = (q.meta.exposureForms || q.answer).some(a => typeof h.session.ui?.exposures?.[norm(a)] === 'number' && h.session.index - h.session.ui.exposures[norm(a)] < (p.kind === 'verb' ? 1 : 2)) ? ['visible-form'] : [];
       expose(q.meta.promptExposureForms || []); expose((q.choices || []).map(c => c.value ?? c.label));
       if (q.type === 'pairs') {
         expose(q.pairs.flatMap(pair => pair.answers));

@@ -14,9 +14,9 @@ fs.mkdirSync(SHOTS_DIR, { recursive: true });
 let context, page, board, boardStart, boardSpeech;
 const selector = (key, id) => `[${key}=${JSON.stringify(id)}]`;
 const forms = ['credo', 'credi', 'crede', 'crediamo', 'credete', 'credono'];
-async function fresh(width = 375, theme = 'light') {
+async function fresh(width = 375, theme = 'light', motion = 'reduce') {
   await context?.close();
-  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height: width === 375 ? 667 : 844 }, reducedMotion: 'reduce' }));
+  context = await browser.newContext(contextOptions(devices['iPhone 13'], { viewport: { width, height: width === 375 ? 667 : width === 440 ? 956 : 844 }, reducedMotion: motion }));
   await context.addInitScript(() => Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
     getVoices: () => [], cancel: () => {
       const operations = JSON.parse(sessionStorage.getItem('activity-audio-operations') || '[]');
@@ -47,6 +47,37 @@ async function state() {
   });
 }
 async function spoken() { return page.evaluate(() => JSON.parse(sessionStorage.getItem('activity-speech') || '[]')); }
+async function reformatCurrent(format) {
+  await page.evaluate(async format => {
+    const { store } = await import('./js/store.js');
+    const session = structuredClone(store.learning.session);
+    session.journey.current.format = format;
+    session.journey.current.questionId += `:${format}`;
+    session.ui.questionId = null; session.ui.activity = null; session.ui.draft = ''; session.ui.given = ''; session.ui.result = null;
+    store.saveLearningSession(session); await store.saveNow();
+  }, format);
+  await reloadApp(page);
+}
+async function boardGeometry() {
+  return page.evaluate(() => {
+    const board = document.querySelector('.journey-pair-board'), base = board.getBoundingClientRect();
+    const rect = element => {
+      const r = element.getBoundingClientRect();
+      return [r.x - base.x, r.y - base.y, r.width, r.height].map(value => Math.round(value * 10) / 10);
+    };
+    return { board: [base.width, base.height].map(value => Math.round(value * 10) / 10),
+      tiles: [...board.querySelectorAll('[data-pair-left], [data-pair-right]')].map(tile => ({
+        id: tile.dataset.pairLeft || tile.dataset.pairRight, side: tile.dataset.pairLeft ? 'left' : 'right',
+        rect: rect(tile), visible: tile.checkVisibility(), matched: tile.classList.contains('is-matched'),
+        disabled: tile.disabled, flipped: getComputedStyle(tile.querySelector('.journey-pair-flip')).transform !== 'none',
+      })) };
+  });
+}
+function sameBoardGeometry(before, after) {
+  assert.deepEqual(after.board, before.board, 'matching board keeps its dimensions');
+  assert.deepEqual(after.tiles.map(t => [t.side,t.id,t.rect]), before.tiles.map(t => [t.side,t.id,t.rect]), 'every tile stays in the same grid cell at the same size');
+  assert(after.tiles.every(t => t.visible), 'every matched and unmatched card stays visible');
+}
 function sameEvidence(a, b) {
   const sorted = events => [...events].sort((x, y) => x.id.localeCompare(y.id));
   assert.deepEqual(sorted(a.events), sorted(b.events)); assert.equal(a.xp, b.xp);
@@ -75,7 +106,7 @@ async function assertPhone() {
   assert.equal(layout.x, 0); assert.equal(layout.y, 0); assert(layout.pageWidth <= layout.width + 1); assert.deepEqual(layout.clipped, []); assert(layout.panel.height > 100);
 }
 async function preservePartial() {
-  const before = await state();
+  const before = await state(), calls = await spoken();
   await reloadApp(page);
   let after = await state();
   assert.equal(after.session.ui.questionId, before.session.ui.questionId);
@@ -89,6 +120,7 @@ async function preservePartial() {
   assert.equal(await page.locator('[data-activity] button:not([disabled])').count(), 0, 'history cannot play the board again');
   await page.locator('[data-lesson-current]').first().click();
   after = await state(); assert.deepEqual(after.session.ui.activity, before.session.ui.activity); sameEvidence(before, after);
+  assert.deepEqual(await spoken(), calls, 'reload, pause, history and resume do not replay speech');
 }
 async function putLetters(q, spelling, count = Infinity, doubleLast = false) {
   const used = new Set(), letters = [...spelling].filter(char => /[\p{L}\p{N}]/u.test(char));
@@ -101,10 +133,22 @@ async function putLetters(q, spelling, count = Infinity, doubleLast = false) {
 
 try {
   await check('A wrong pair diagnoses the selected person and leaves both tiles available', async () => {
-    await fresh(); await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
+    await fresh();
+    const spokenLabels = await page.evaluate(async () => {
+      const { activityAction } = await import('./js/learning/activity-panel.js');
+      const model = label => ({id:'person-speech',type:'pairs',pairs:[{id:'first',label,answers:['credo'],canonical:'credo'}],rightTiles:[{id:'form',text:'credo'}]});
+      return ['io','Lei · formal (woman)','Singular'].map(label => activityAction(model(label),null,{type:'pair-left',id:'first'}).speech);
+    });
+    assert.deepEqual(spokenLabels, ['io','Lei',''], 'Italian pronouns are spoken without English qualifiers; non-person labels stay quiet');
+    await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
     board = await reachJourneyActivity(page, 'pairs', { expected }); boardStart = await state(); boardSpeech = await spoken();
     assert.equal(board.pairs.length, 3);
     for (const pair of board.pairs) assert.equal(pair.canonical, forms[pair.meta.person]);
+    const tuPerson = board.pairs.find(p => p.meta.person === 1); assert(tuPerson);
+    await page.locator(selector('data-pair-left', tuPerson.id)).click();
+    assert.deepEqual(await spoken(), [...boardSpeech, 'tu'], 'tapping the Italian person speaks the pronoun without its English qualifier');
+    await page.locator(selector('data-pair-left', tuPerson.id)).click();
+    boardSpeech = await spoken(); assert.equal(boardSpeech.at(-1), 'tu'); sameEvidence(boardStart, await state());
     const lui = board.pairs.find(p => p.meta.person === 2 && p.meta.role !== 'formal'), tu = board.rightTiles.find(t => t.text === 'credi');
     assert(lui && tu); await choosePair(board, lui, tu, true);
     const after = await state(), event = after.events.at(-1);
@@ -115,7 +159,7 @@ try {
     assert.equal(after.session.ui.activity.matches.length, 0);
     assert(await page.locator(selector('data-pair-left', lui.id)).isVisible()); assert(await page.locator(selector('data-pair-right', tu.id)).isVisible());
     assert.match(await page.locator('[data-activity-status]').innerText(), /lui.*crede/i);
-    assert.deepEqual(await spoken(), boardSpeech, 'wrong matches stay quiet');
+    assert.deepEqual(await spoken(), [...boardSpeech, 'lui, lei'], 'wrong matching only speaks the tapped Italian person');
     await assertPhone(); await shot('wrong-person-pair');
   });
   await check('A saved wrong-pair event repairs a stale cursor and reserves the next attempt identity', async () => {
@@ -128,16 +172,17 @@ try {
     assert.equal(after.session.ui.activity.attempts[target.id], 1);
     assert.equal(after.session.ui.activity.matches.length, 0);
   });
-  await check('Correct pairs disappear and a partial board survives reload, pause and read-only Back', async () => {
-    const lui = board.pairs.find(p => p.meta.person === 2 && p.meta.role !== 'formal'), right = board.rightTiles.find(t => t.text === 'crede'), before = await state();
+  await check('Correct pairs flip in place and a partial board survives reload, pause and read-only Back', async () => {
+    const lui = board.pairs.find(p => p.meta.person === 2 && p.meta.role !== 'formal'), right = board.rightTiles.find(t => t.text === 'crede'), before = await state(), speechBefore = await spoken(), positions = await boardGeometry();
     await choosePair(board, lui, right, true); const after = await state();
     assert.equal(after.events.length, before.events.length + 1); assert.equal(after.xp, before.xp);
     assert(after.events.find(e => !before.events.some(b => b.id === e.id)).id.endsWith(':1'), 'the correct retry uses attempt 1, not the already persisted wrong attempt 0');
     assert.equal(after.session.ui.activity.matches.length, 1);
-    assert.equal(await page.locator(selector('data-pair-left', lui.id)).isVisible(), false);
-    assert.equal(await page.locator(selector('data-pair-right', right.id)).isVisible(), false);
-    assert.deepEqual(await spoken(), [...boardSpeech, 'crede'], 'a correct pair speaks once despite a repeated click');
-    await preservePartial(); await shot('partial-pair-board');
+    const flipped = await boardGeometry(); sameBoardGeometry(positions, flipped);
+    for (const tile of flipped.tiles.filter(t => t.id === lui.id || t.id === right.id)) assert(tile.matched && tile.disabled && tile.flipped, 'matched cards show their back while retaining their place');
+    assert.equal(await page.locator(selector('data-pair-right', right.id)).locator('.journey-pair-back').innerText(), '✓\nMATCHED', 'the turned card conceals the answer while keeping its footprint');
+    assert.deepEqual(await spoken(), [...speechBefore, 'lui, lei', 'crede'], 'a correct pair speaks its person and form once despite a repeated click');
+    await preservePartial(); sameBoardGeometry(positions, await boardGeometry()); await shot('partial-pair-board');
   });
   await check('A board awards one supported completion and preserves its actual wrong target for repair', async () => {
     const before = await state(); await solveJourneyQuestion(page, board, { expected, double: true });
@@ -146,7 +191,7 @@ try {
     assert.equal(after.xp, boardStart.xp + 1); assert.equal(after.session.ui.activity.complete, true);
     assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
     assert(added.every(e => e.mode === 'recognition' && e.assistance.length));
-    const calls = await spoken(); assert.equal(calls.length, boardSpeech.length + 3, 'each pair speaks once; the board aggregate stays quiet');
+    const calls = await spoken(); assert.equal(calls.length, boardSpeech.length + 7, 'each person and correct form speaks once; the board aggregate stays quiet');
     const lastAudio = await page.evaluate(() => JSON.parse(sessionStorage.getItem('activity-audio-operations') || '[]').at(-1));
     assert.equal(lastAudio, 'say:' + calls.at(-1), 'board completion must not cancel the final pair pronunciation');
     await reloadApp(page); sameEvidence(after, await state()); assert.deepEqual(await spoken(), calls);
@@ -172,8 +217,9 @@ try {
     assert.equal(after.events.length, before.events.length + 1); assert.equal(after.xp, before.xp + 1);
     assert.equal(event.ok, true); assert.equal(event.mode, 'recognition'); assert(event.assistance.includes('letter-bank')); assert.equal(q.meta.activityKind, 'letters');
     assert.equal(await page.locator('[data-activity-letter]:not([disabled])').count(), 0);
-    assert.deepEqual(await spoken(), [...calls, q.answer[0]], 'the completed canonical form is spoken once');
-    await reloadApp(page); sameEvidence(after, await state()); assert.deepEqual(await spoken(), [...calls, q.answer[0]]); await shot('letter-feedback');
+    const expectedAudio = q.context?.it || q.answer[0];
+    assert.deepEqual(await spoken(), [...calls, expectedAudio], 'the completed answer is spoken once in its full Italian context when present');
+    await reloadApp(page); sameEvidence(after, await state()); assert.deepEqual(await spoken(), [...calls, expectedAudio]); await shot('letter-feedback');
   });
   await check('Identical subjunctive forms accept any equivalent tile rather than a hidden identity', async () => {
     await fresh(390, 'dark');
@@ -185,8 +231,37 @@ try {
     await choosePair(q, first, foreign);
     const event = (await state()).events.at(-1); assert.equal(event.ok, true); assert.equal(event.objectiveId, first.targetId);
     assert.equal((await state()).events.length, before.events.length + 1);
-    assert.equal(await page.locator(selector('data-pair-left', first.id)).isVisible(), false);
+    assert(await page.locator(selector('data-pair-left', first.id)).isVisible());
+    assert(await page.locator(selector('data-pair-left', first.id)).isDisabled());
     await solveJourneyQuestion(page, q); assert.equal((await state()).session.ui.result.ok, true); await shot('equivalent-pair-forms');
+  });
+  for (const format of ['mc', 'type', 'letters']) {
+    await check(`A correct ${format} answer speaks the whole authored Italian sentence`, async () => {
+      await fresh(); await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
+      let q = await reachJourneyActivity(page, candidate => candidate.type === 'mc' && !!candidate.context?.it, { limit: 100 });
+      if (format !== 'mc') { await reformatCurrent(format); q = await journeyQuestion(page); }
+      assert.equal(q.type, format); assert(q.context?.it && q.context.it !== q.answer[0] && q.context.it.includes(q.answer[0]));
+      const before = await spoken(); await solveJourneyQuestion(page, q);
+      assert.equal((await state()).session.ui.result.ok, true);
+      assert.deepEqual(await spoken(), [...before, q.context.it]);
+      await reloadApp(page); assert.deepEqual(await spoken(), [...before, q.context.it], 'feedback redraw does not replay the sentence');
+    });
+  }
+  await check('Selecting a form first and then its person gives an audible subject and a one-time flip', async () => {
+    await fresh(375, 'light', 'no-preference'); await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
+    const q = await reachJourneyActivity(page, 'pairs', { expected });
+    const pair = q.pairs.find(p => p.meta.person === 1), tile = q.rightTiles.find(t => pair.answers.includes(t.text));
+    assert(pair && tile); await page.locator(selector('data-pair-right', tile.id)).click();
+    const before = await spoken();
+    const animations = await page.locator(selector('data-pair-left', pair.id)).evaluate(button => {
+      button.click();
+      return [...document.querySelectorAll('.journey-pair-tile.is-matched .journey-pair-flip')].reduce((count, flip) => count + flip.getAnimations().length, 0);
+    });
+    assert(animations >= 2, 'the newly matched cards perform a front-to-back flip');
+    assert.deepEqual(await spoken(), [...before, 'tu credi'], 'reverse-order tap includes the person and its form in one utterance');
+    assert(await page.locator(selector('data-pair-left', pair.id)).isVisible());
+    await reloadApp(page); assert.deepEqual(await spoken(), [...before, 'tu credi']);
+    assert.equal(await page.locator('.journey-pair-flip').evaluateAll(flips => flips.reduce((count, flip) => count + flip.getAnimations().length, 0)), 0, 'resume shows the back without replaying the flip');
   });
   await check('Verb letter banks retain repeated letters and accents and still lead to writing', async () => {
     await fresh(); await gotoRoute(page, '/learn/verb/v:credere?chapter=future');
@@ -229,14 +304,19 @@ try {
     await page.waitForFunction(() => document.querySelector('[data-journey]')?.dataset.phase === 'feedback');
     sameEvidence(after, await state());
   });
-  for (const width of [375, 390]) for (const theme of ['light', 'dark']) {
+  for (const width of [375, 440]) for (const theme of ['light', 'dark']) {
     await check(`${width}px ${theme}: matching and letter banks fit the lesson and support keyboard actions`, async () => {
       await fresh(width, theme); await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
       const q = await reachJourneyActivity(page, 'pairs', { expected }); await assertPhone(); await shot(`${width}-${theme}-pairs`);
+      const startingTiles = await boardGeometry();
       const first = q.pairs[0], correct = q.rightTiles.find(t => first.answers.includes(t.text));
       await page.locator(selector('data-pair-left', first.id)).focus(); await page.keyboard.press('Enter');
       await page.locator(selector('data-pair-right', correct.id)).focus(); await page.keyboard.press('Enter');
       assert.equal((await state()).session.ui.activity.matches.length, 1);
+      sameBoardGeometry(startingTiles, await boardGeometry());
+      const calls = await spoken(); await reloadApp(page);
+      sameBoardGeometry(startingTiles, await boardGeometry()); assert.deepEqual(await spoken(), calls);
+      await shot(`${width}-${theme}-partial-pairs`);
       await solveJourneyQuestion(page, q, { expected }); await page.locator('[data-continue]').click();
       const letters = await reachJourneyActivity(page, 'letters', { expected }); await assertPhone(); await shot(`${width}-${theme}-letters`);
       const tile = letters.tiles.find(t => t.text === letters.answer[0][0]);

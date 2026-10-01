@@ -235,27 +235,26 @@ test('a recovered wrong pair remains wrong and a later correct try has a distinc
   assert.equal(h.learning.events[event.id].xp + h.learning.events[fresh.id].xp, 0);
 });
 
-test('supported variety continues through practice without consuming independent variants or mastery', () => {
-  const h = harness(), interludes = new Set(); let checks = 0, turns = 0;
+test('varied supported activities accompany recall without consuming independent variants or mastery', () => {
+  const h = harness(), supportedFormats = new Set(); let checks = 0, turns = 0;
   while (h.step().type !== 'recap' && turns++ < 300) {
     const s = h.step();
     if (s.type === 'question' && !s.awaitingContinue) {
       const q = h.question(), count = h.session.journey.variants[s.targetId]?.independent || 0;
       const evidence = journeyTargetState(h.learning, s.targetId).independentCorrect;
-      const interlude = s.supplemental && h.session.journey.varietyRound > 0 && ['mc', 'letters', 'pairs'].includes(s.format);
-      if (interlude) interludes.add(q.type);
+      const supported = s.phase !== 'independent' && ['mc', 'letters', 'pairs'].includes(q.type);
+      if (supported) supportedFormats.add(q.type);
       if (s.phase === 'independent') { assert.equal(q.type, 'type'); checks++; }
       if (q.type === 'pairs') for (const pair of q.pairs) h.pair(q, pair.targetId, pair.canonical);
       h.answer(q);
-      if (interlude) {
+      if (supported) {
         assert.equal(h.session.journey.variants[s.targetId].independent, count);
         assert.equal(journeyTargetState(h.learning, s.targetId).independentCorrect, evidence);
       }
     } else h.next();
   }
   assert.equal(h.step().type, 'recap'); assert.ok(checks >= 16);
-  assert.ok(interludes.has('mc')); assert.ok(interludes.has('letters'));
-  assert.ok(h.session.journey.varietyRound >= 3);
+  for (const format of ['mc', 'letters', 'pairs']) assert.ok(supportedFormats.has(format), `lesson includes ${format}`);
   const states = h.step().progress.chapters.find(c => c.id === 'present').targets;
   assert.ok(states.every(state => state.ready && (state.supportedCompletion ? state.independentCorrect === 0 : state.independentCorrect >= 2)));
 });

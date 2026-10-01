@@ -35,7 +35,7 @@ function runLesson(inf,{chapterId='present',injectError=false,skipProgressive=fa
    assert(q.answer.includes(expected[q.meta.person]),'Independently checked travel construction');
    assert(!/mangi|parlando/.test(q.context?.it||''),'No unrelated verb fallback');
   }
-  const assistance=(q.meta.exposureForms||q.answer).some(a=>session.ui?.exposures[norm(a)]!==undefined&&session.index-session.ui.exposures[norm(a)]<2)?['visible-form']:[];
+  const assistance=(q.meta.exposureForms||q.answer).some(a=>session.ui?.exposures[norm(a)]!==undefined&&session.index-session.ui.exposures[norm(a)]<1)?['visible-form']:[];
   expose(q.meta.promptExposureForms);expose(q.choices.map(c=>c.value??c.label));
   if(q.type==='pairs')for(const pair of q.pairs){const grade=gradePairActivity(q,{targetId:pair.targetId,given:pair.canonical});const event=journeyPairAttempt(plan,session,q,grade,{targetId:pair.targetId,now:serial+10});session=recordJourneyPairAttempt(plan,session,event,save(event));expose(pair.answers);}
   const fail=injectError&&!didError&&step.group?.finalReview&&step.target.progressive&&step.phase==='independent';
