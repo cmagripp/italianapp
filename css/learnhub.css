@@ -1,16 +1,19 @@
 /* Learn hub: shared card reel and section styles (see js/views/learnCards.js). */
 
 /* ---------- learn cards (.lc) ----------
-   The Play-page poster (app.css §12: 200×280, radius 24, scroll-snap, fx.reel tilt) restyled as flat glass on the theme
-   tokens. --lc is the card colour (a level token or an accent): it paints the wash, the top hairline, the ring and the
-   kicker. Standalone (.lc outside a reel) the card fills its container, for "In corso". */
+   The Play-page poster (app.css §12: radius 24, scroll-snap, fx.reel tilt) restyled as flat glass on the theme tokens,
+   200×184 in a reel. --lc is the card colour (a level token or an accent): it paints the wash, the top hairline, the
+   ring and the kicker. Standalone (.lc outside a reel) the card fills its container, for "In corso".
+   Inside: the top row (kicker, level chip), then one block centred in the rest of the card — the headline over the
+   English line and the detail line, with the icon / ring at its left or the speaker at its right, each centred on the
+   headline + English pair. */
 /* .reel pads 50% − 100px, but that 50% is the parent's width while the reel itself is a gutter wider on each side:
    add the gutter back so the first and last card rest exactly on the centre line */
 .lc-reel { margin-top: -4px; padding-left: calc(50% - 100px + var(--gutter)); padding-right: calc(50% - 100px + var(--gutter)); }
 .poster.lc {
   --lc: var(--lvl-current); --ts: 28px;
-  display: grid; grid-template-rows: auto 1fr auto; gap: 8px; align-items: start; justify-content: stretch;
-  padding: 16px 16px 16px; text-align: left; isolation: isolate; cursor: pointer;
+  display: grid; grid-template-rows: auto 1fr; row-gap: 6px; align-items: start; justify-content: stretch;
+  padding: 16px; text-align: left; isolation: isolate; cursor: pointer;
   background: var(--glass-strong); border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-1), inset 0 1px 0 var(--glass-highlight);
   text-shadow: none; font-family: var(--font-text);
@@ -25,10 +28,10 @@
 .poster.lc > * { position: relative; z-index: 1; min-width: 0; }
 .poster.lc:focus-visible { outline: 2px solid var(--lc); outline-offset: 2px; }
 
-/* standalone: a full-width glass card, no tilt */
-.poster.lc { width: auto; height: auto; min-height: 176px; transform: none; opacity: 1; }
-/* in a reel: exactly the Play-page poster geometry and motion */
-.reel > .poster.lc { width: 200px; height: 280px; transform: scale(.92) rotateY(var(--ry, 0deg)); opacity: .6; }
+/* standalone: a full-width glass card, no tilt, as tall as its content (the dashboard sets its own minimum) */
+.poster.lc { width: auto; height: auto; min-height: 0; transform: none; opacity: 1; }
+/* in a reel: the Play-page poster geometry and motion, two thirds of its height */
+.reel > .poster.lc { width: 200px; height: 184px; transform: scale(.92) rotateY(var(--ry, 0deg)); opacity: .6; }
 .reel > .poster.lc.active { transform: scale(1) rotateY(0deg); opacity: 1; box-shadow: var(--shadow-2), 0 0 44px -18px var(--lc), inset 0 1px 0 var(--glass-highlight); }
 .reel > .poster.lc:active { transform: scale(.97) rotateY(0deg); }
 
@@ -38,8 +41,23 @@
   color: color-mix(in srgb, var(--lc) 72%, var(--ink)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .lc-top .lvl { --lvl-c: var(--lc); height: 22px; min-width: 32px; font-size: 10px; }
 
-/* middle: icon / ring left, speaker right */
-.lc-mid { display: flex; align-items: center; justify-content: space-between; gap: 8px; align-self: center; min-height: 40px; }
+/* the block: lead | headline / English / detail | speaker. The lead and the speaker span the headline + English rows
+   and centre on them; the gaps beside them are their own margins, so a card without one has no gap either. The block
+   is centred in the card's remaining height: a one-line headline leaves even air above and below. */
+.lc-main { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: auto auto auto; align-items: start; align-self: center; }
+.lc-title { grid-column: 2; grid-row: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  font-family: var(--font-display); font-weight: 600; font-size: var(--ts, 28px); line-height: 1.18; letter-spacing: -.02em;
+  font-variation-settings: "opsz" 72; overflow-wrap: anywhere; min-height: calc(var(--ts, 28px) * 1.18); color: var(--ink); }
+.lc-en { grid-column: 2; grid-row: 2; display: block; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: var(--es, 14px); line-height: 18px; color: var(--ink-2); min-height: 18px; }
+.lc-detail { grid-column: 2; grid-row: 3; display: block; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 500; line-height: 1.4; color: var(--ink-3); min-height: 14px; }
+.lc-en:empty, .lc-detail:empty { display: none; } /* an empty line takes no room: the block stays tight */
+.lc-word .lc-title, .lc-verb .lc-title { font-variation-settings: "opsz" 144; letter-spacing: -.025em; }
+.lc-word .lc-title { font-weight: 500; }
+
+/* lead: icon circle or progress ring (36px), left of the text, centred on headline + English */
+.lc-lead { grid-column: 1; grid-row: 1 / 3; align-self: center; margin-right: 8px; }
 .lc-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; color: var(--lc);
   background: color-mix(in srgb, var(--lc) 14%, var(--glass)); border: 1px solid color-mix(in srgb, var(--lc) 30%, transparent); }
 .lc-icon .ic { width: 18px; height: 18px; }
@@ -50,28 +68,16 @@
 .lc-ring .f { stroke: var(--lc); stroke-linecap: round; }
 .lc-ring .ic { width: 16px; height: 16px; }
 .lc-pct { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0; font-weight: 600; color: var(--ink); line-height: 1; }
-.lc-say { margin-right: -4px; }
+/* speaker: the 40px circle right of the text, centred on headline + English; it runs 8px into the padding so the
+   glyph lines up with the chip above while the text column keeps 124px */
+.lc-say { grid-column: 3; grid-row: 1 / 3; align-self: center; margin-left: 8px; margin-right: -8px; }
 .lc-say .ic { width: 16px; height: 16px; }
 
-/* body: headline (2 lines), English (1 line), detail (1 line) — fixed heights so every card lines up */
-.lc-body { display: grid; gap: 3px; align-self: end; }
-.lc-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  font-family: var(--font-display); font-weight: 600; font-size: var(--ts, 28px); line-height: 1.18; letter-spacing: -.02em;
-  font-variation-settings: "opsz" 72; overflow-wrap: anywhere; min-height: calc(var(--ts, 28px) * 1.18); color: var(--ink); }
-.lc-en { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-display); font-style: italic; font-weight: 500;
-  font-size: var(--es, 14px); line-height: 18px; color: var(--ink-2); min-height: 18px; }
-.lc-detail { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em;
-  text-transform: uppercase; font-weight: 500; line-height: 1.4; color: var(--ink-3); min-height: 14px; margin-top: 2px; }
-.lc-word .lc-title, .lc-verb .lc-title { font-variation-settings: "opsz" 144; letter-spacing: -.025em; }
-.lc-word .lc-title { font-weight: 500; }
-
-/* standalone card: the middle row sits beside the body, the headline may run wider */
-.poster.lc:not(.reel > *) { grid-template-rows: auto auto; grid-template-columns: 1fr auto; column-gap: 12px; }
-.poster.lc:not(.reel > *) .lc-top { grid-column: 1 / -1; }
-.poster.lc:not(.reel > *) .lc-mid { grid-column: 2; grid-row: 2; flex-direction: column; align-self: end; align-items: flex-end; }
-.poster.lc:not(.reel > *) .lc-mid:empty { display: none; }
-.poster.lc:not(.reel > *) .lc-body { grid-column: 1; grid-row: 2; }
-.poster.lc:not(.reel > *) .lc-say { margin-right: 0; }
+/* standalone card: the same rows, the ring (and speaker) at the right of the block, the headline may run wider */
+.poster.lc:not(.reel > *) .lc-main { grid-template-columns: minmax(0, 1fr) auto auto; }
+.poster.lc:not(.reel > *) .lc-title, .poster.lc:not(.reel > *) .lc-en, .poster.lc:not(.reel > *) .lc-detail { grid-column: 1; }
+.poster.lc:not(.reel > *) .lc-lead { grid-column: 2; margin: 0 0 0 12px; }
+.poster.lc:not(.reel > *) .lc-say { grid-column: 3; margin: 0 0 0 8px; }
 
 /* reduced motion: no tilt, no scale animation — the active card simply brightens */
 @media (prefers-reduced-motion: reduce) {
