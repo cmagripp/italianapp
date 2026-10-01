@@ -1,7 +1,12 @@
-// Service worker: offline cache for the app shell (HTML, CSS, every JS module) and the dictionary data.
-// Bump VERSION when a file is added to SHELL or the data schema changes (old caches are dropped on activate).
-// Every shell or course-data change needs a version bump so installation stays atomic.
-const VERSION = 'parola-v14-verb-practice';
+// Service worker: offline cache for the app shell (HTML, CSS, every JS module), the dictionary data and the course packs.
+// VERSION is stamped, never bumped by hand: `node tools/stamp-sw.mjs` rewrites it as '<prefix>-<hash>', where the hash
+// covers every SHELL file and this worker's own code, so the same content always gives the same VERSION and any change
+// to a precached file or to this file gives a new one (old caches are dropped on activate). Run it after any change to
+// the shell, the data or this file; tools/check-shell.mjs fails while the stamp is stale, and the deploy job stamps
+// before publishing. Edit the readable prefix by hand only to label a release.
+const VERSION = 'parola-v15-ac897ee7b59f';
+// Downloaded lesson audio: kept across updates. Must equal AUDIO_CACHE in js/learning/course-v2-media.js (check-shell checks).
+const AUDIO_CACHE = 'parola-course-audio-v2';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
@@ -26,12 +31,27 @@ const SHELL = [
 // the previous build's copies under the new VERSION for ten minutes after a deploy) while an unchanged file still comes
 // back as a 304 instead of a full re-download ('reload' would fetch the 3.4 MB dictionary a second time on first install)
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'no-cache' })))).then(() => self.skipWaiting())); });
-self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== 'parola-course-audio-v2').map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+// Pruning the audio cache runs after claim and outside waitUntil, so it never holds fetches behind activation.
+self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== AUDIO_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()).then(() => { pruneAudio(); })); });
 // A versioned shell is one compatible release. Updates replace it only after
 // install has fetched every module and course pack successfully.
 const shellURLs=new Set(SHELL.map(path=>new URL(path,self.location.href).href));
+// Audio clips are named after a digest of what they say (tools/build-course-audio.py), so a re-voiced clip gets a new
+// URL and a cached clip always says what the catalogue installed with this shell says. A clip that catalogue no longer
+// lists can neither play nor be removed from the lesson menu, so it is deleted here. Best effort: a missing or unreadable
+// catalogue leaves every download in place, and clips the catalogue lists are never touched.
+async function pruneAudio() {
+  try {
+    const catalogue=await (await caches.open(VERSION)).match('./data/course-v2/audio.json');
+    const assets=catalogue&&(await catalogue.json()).assets;
+    if(!Array.isArray(assets)||!assets.length)return;
+    const keep=new Set(assets.map(asset=>new URL(asset.src,self.location.href).href));
+    const cache=await caches.open(AUDIO_CACHE);
+    await Promise.all((await cache.keys()).filter(req=>!keep.has(req.url)).map(req=>cache.delete(req)));
+  } catch { /* keep the downloads */ }
+}
 async function audioResponse(req) {
-  const cache=await caches.open('parola-course-audio-v2');
+  const cache=await caches.open(AUDIO_CACHE);
   const hit=await cache.match(req.url);
   if(!hit)return fetch(req);
   const range=req.headers.get('range');

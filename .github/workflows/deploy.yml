@@ -14,9 +14,14 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# Job graph: build (deterministic checks, assemble dist/, upload the Pages artifact) -> browser (the 19 Playwright
+# suites from browser.yml, in parallel) -> deploy. deploy needs both, so nothing is published unless every check and
+# every browser suite passed. The workflow-level "pages" group serializes whole runs in push order, so an older run
+# can never deploy after a newer one; a newer push waiting in the queue replaces any older one still waiting.
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -59,13 +64,25 @@ jobs:
           node tools/test-verb-scene-variety.mjs
           node tools/test-journey-integration.mjs
           node tools/check-shell.mjs
+      # Copies only the deployable files into dist/ (no docs, tests, tools, dev, .github or scratch files) and exits
+      # non-zero on failure, so a broken assembly stops the job before anything is uploaded.
+      # tools/build-site.mjs is added separately; until it is on main this step fails and nothing deploys.
+      - name: Assemble the deployable site
+        run: node tools/build-site.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
-  deploy:
+          path: dist
+  # Same suites, same isolated Playwright install as pull requests (check.yml); starts once build has passed.
+  browser:
     needs: build
+    permissions:
+      contents: read
+    uses: ./.github/workflows/browser.yml
+  deploy:
+    needs: [build, browser]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
