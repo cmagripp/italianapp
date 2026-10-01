@@ -297,15 +297,15 @@ html.paused .me-avatar::before { animation-play-state: paused; }
 .sez .seg button.on { background: transparent; box-shadow: none; color: var(--on-gold); }
 
 /* the indicator: sticky under the top bar, four equal segments with an icon over a small label */
-.sez-nav {
+.sez .sez-nav {
   position: sticky; top: calc(var(--top-h) + var(--sat) + 4px); z-index: 10; height: 62px; margin-bottom: 16px;
   background-color: color-mix(in srgb, var(--bg-0) 72%, transparent); background-image: linear-gradient(var(--glass), var(--glass));
   -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%);
 }
-.sez-nav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; height: 52px; padding: 0 4px; }
-.sez-nav button .ic { width: 18px; height: 18px; flex: none; }
-.sez-nav button span { display: block; max-width: 100%; font-size: 9px; letter-spacing: .04em; line-height: 1; overflow: hidden; text-overflow: ellipsis; }
-.sez-nav button.on .ic { filter: drop-shadow(0 1px 0 rgba(255,255,255,.3)); }
+.sez .sez-nav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; height: 52px; padding: 0 3px; }
+.sez .sez-nav button .ic { width: 18px; height: 18px; flex: none; }
+.sez .sez-nav button span { display: block; max-width: 100%; font-size: 9px; letter-spacing: .03em; line-height: 1; overflow: hidden; text-overflow: ellipsis; }
+.sez .sez-nav button.on .ic { filter: drop-shadow(0 1px 0 rgba(255,255,255,.3)); }
 
 /* Corso: the resume / up-next card, the lesson-length toggle beside Start, then the other open thread as a row */
 .sez-course-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
@@ -317,7 +317,7 @@ html.paused .me-avatar::before { animation-play-state: paused; }
 .sez-pct { margin-top: 8px; color: var(--ink-3); }
 .sez-course-actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
 .sez-course-actions .sez-seg { flex: 1 1 auto; min-width: 0; height: 48px; }
-.sez-course-actions .sez-seg button { padding: 0 8px; }
+.sez-course-actions .sez-seg button { flex: 1 1 auto; padding: 0 8px; }
 .sez-course-actions .sez-start { flex: none; min-width: 112px; padding: 0 20px; }
 .sez-course-actions .sez-start.block { flex: 1 1 auto; }
 .sez-row { display: flex; align-items: center; gap: 12px; min-height: 64px; margin-top: 12px; padding: 12px 12px 12px 16px; color: var(--ink); border-radius: var(--r-m); transition: transform var(--t-fast) var(--ease-out), background var(--t-fast); }
@@ -329,7 +329,7 @@ html.paused .me-avatar::before { animation-play-state: paused; }
 .sez-row .ic-chevronRight { color: var(--ink-3); flex: none; }
 
 /* Vocabolario: a quiet mono scope link in the header, then the two reels with a small Italian title and a mono counter */
-.sec-head .sez-scope-link { color: var(--ink-3); gap: 6px; letter-spacing: .1em; }
+.sec-head .sez-scope-link { color: var(--ink-3); letter-spacing: .1em; white-space: pre; }
 .sec-head .sez-scope-link .sez-scope-val { color: var(--ink-2); }
 .sec-head .sez-scope-link .sez-scope-dot { color: var(--ink-4); }
 .sec-head .sez-scope-link .sez-scope-act { color: var(--gold-text); }
@@ -355,6 +355,10 @@ html.paused .me-avatar::before { animation-play-state: paused; }
   .sez-course h2 { font-size: 26px; }
   .sez-block > .sec-head .title { font-size: 24px; }
   .sez-course-actions .sez-start { min-width: 96px; padding: 0 14px; }
+}
+@media (max-width: 399px) {
+  .sez-course-actions .sez-seg button { padding: 0 6px; font-size: 10px; letter-spacing: .05em; }
+  .sez-course-actions .sez-start { min-width: 104px; padding: 0 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sez .seg::before, .sez .seg button, .sez-row, .sez .review-pane { transition-duration: 120ms !important; transition-timing-function: ease-out !important; }

@@ -66,7 +66,7 @@ function entryCard(e) {
     kicker = [isNoun ? gender : pos, topic].filter(Boolean).join(' · ') || pos;
     tags = [pos, gender, topic].filter(Boolean);
   }
-  return { key: e.id, kicker, title: art ? `${art} ${word}` : word, en: firstEn(e.en), detail: isVerb ? 'Learn this verb' : 'Learn this word', level: e.level || 'A1', href, say, tags };
+  return { key: e.id, kicker, title: art ? withArticle(e, plural) : word, en: firstEn(e.en), detail: isVerb ? 'Learn this verb' : 'Learn this word', level: e.level || 'A1', href, say, tags };
 }
 
 const BLOCKS = [
@@ -138,7 +138,7 @@ function vocabolarioHTML(model, store) {
   const verbSide = Number.isFinite(s.dailyVerbs) ? `${day.newVerbs || 0} / ${s.dailyVerbs} today` : '';
   const wordSide = Number.isFinite(next.words?.goal) ? `${next.words.done || 0} / ${next.words.goal} today` : '';
   return html`<section class="sez-block" id="sez-vocabolario">
-    ${raw(secHead('Vocabulary', 'Vocabolario', scopeHref, html`<span class="sez-scope-val">${scopeShort}</span><span class="sez-scope-dot">·</span><span class="sez-scope-act">change</span>`, 'more sez-scope-link'))}
+    ${raw(secHead('Vocabulary', 'Vocabolario', scopeHref, html`<span class="sez-scope-val">${scopeShort}</span><span class="sez-scope-dot"> · </span><span class="sez-scope-act">change</span>`, 'more sez-scope-link'))}
     <div class="sez-deck" data-deck-wrap="verb">
       <div class="sez-deck-head"><span class="title">${raw(tr('Verbi', 'Verbs'))}</span>${verbSide ? raw(html`<span class="mono side">${verbSide}</span>`) : ''}</div>
       ${verbs.length ? raw(html`<div class="sez-reel" data-reel="verb"></div>`) : raw(emptyReel('No new verbs left in this scope.', scopeHref))}
@@ -219,8 +219,10 @@ export function renderSections(container, model = {}, ctx = {}) {
     const line = nav.getBoundingClientRect().bottom + 24;
     const doc = document.documentElement;
     const atEnd = window.innerHeight + window.scrollY >= doc.scrollHeight - 2;
+    const last = blocks[blocks.length - 1];
     let id = blocks[0]?.id;
-    if (atEnd) id = blocks[blocks.length - 1]?.id;
+    // the last block can rarely reach the line: once the page end is reached it wins when it sits in the upper half
+    if (atEnd && last && last.getBoundingClientRect().top < window.innerHeight / 2) id = last.id;
     else for (const b of blocks) if (b.getBoundingClientRect().top <= line) id = b.id;
     if (id) setOn(id);
   };

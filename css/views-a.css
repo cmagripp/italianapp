@@ -203,16 +203,19 @@ a.poster { color: #fff; }
 .dash-stage.course-summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 8px 0 0; padding: 0; min-height: 24px; }
 .dash-stage-main { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; line-height: 24px; }
 .dash-stage .lvl { height: 22px; min-width: 32px; }
-.dash-stage-text { flex: 1; min-width: 0; font-family: var(--font-display); font-weight: 500; font-size: 14px; letter-spacing: -.01em; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.dash-stage-text { flex: 1; min-width: 0; font-family: var(--font-display); font-weight: 500; font-size: 14px; letter-spacing: -.012em; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
 /* a quiet text button with a real 40px hit box that does not grow the line */
 .dash-change { flex: none; display: inline-flex; align-items: center; min-height: 40px; height: 40px; margin: -8px 0; padding: 0 2px; background: none; border: 0; box-shadow: none; border-radius: 8px; cursor: pointer; line-height: 1; white-space: nowrap; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--gold-text); }
 /* the dial: a little more air than the reference tense dial, the arc's tick ring lifted clear of the neighbour labels,
    and a glass pill under the selected stop */
 .dash-dial-wrap { margin: 10px -18px 0; }
-.dash-dial { height: 138px; }
-.dash-dial .dial-arc { top: 0; opacity: .4; }
+.dash-dial { height: 144px; }
+/* the tick ring is concentric with the stops' own path (pivot 250px under the selected stop, see learnDash.js): with
+   the mask in px it runs at radius 301-312px, ~10px above the labels' corners everywhere, just under the notch */
+.dash-dial .dial-arc { top: 0; width: 640px; height: 640px; margin-left: -320px; opacity: .45;
+  -webkit-mask-image: radial-gradient(circle, transparent 300px, #000 301px, #000 312px, transparent 313px); mask-image: radial-gradient(circle, transparent 300px, #000 301px, #000 312px, transparent 313px); }
 .dash-dial .dial-notch { top: 0; height: 14px; }
-.dash-dial .dial-item { top: 36px; min-height: 60px; padding: 6px 14px; border-radius: 16px; border: 1px solid transparent; transition: transform var(--t-slow) var(--ease-spring), opacity var(--t-base), color var(--t-base), background var(--t-base), border-color var(--t-base); }
+.dash-dial .dial-item { top: 40px; min-height: 60px; padding: 6px 14px; border-radius: 16px; border: 1px solid transparent; transition: transform var(--t-slow) var(--ease-spring), opacity var(--t-base), color var(--t-base), background var(--t-base), border-color var(--t-base); }
 .dash-dial .dial-label { font-size: 22px; font-variation-settings: "opsz" 48; letter-spacing: -.015em; }
 .dash-dial .dial-sub { font-size: 10px; }
 .dash-dial .dial-item.on { color: var(--gold-text); background: color-mix(in srgb, var(--gold) 13%, transparent); border-color: color-mix(in srgb, var(--gold) 38%, transparent); box-shadow: 0 10px 24px -14px var(--gold), inset 0 1px 0 rgba(255,255,255,.18); }
@@ -253,9 +256,10 @@ a.poster { color: #fff; }
 .dash-next .sec-head, .dash-lab .sec-head { margin-bottom: 4px; }
 
 /* ---------- responsive & motion ---------- */
+@media (max-width: 400px) { .dash-stage-text { font-size: 13px; letter-spacing: -.018em; } .dash-stage.course-summary { gap: 8px; } }
 @media (max-width: 359px) {
   .dash-title { font-size: 26px; }
-  .dash-stage-text { font-size: 13px; }
+  .dash-stage-text { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dash-mode.swap { animation-duration: 120ms !important; animation-name: fadeOnly !important; }
