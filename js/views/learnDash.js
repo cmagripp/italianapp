@@ -175,7 +175,7 @@ export function renderDash(container, model = {}, ctx = {}) {
     if (save && m.key) { try { writePref(store, MODE_KEY, m.key); } catch { /* a convenience, never a blocker */ } }
   }
   const dialApi = modes.length
-    ? dial(root.querySelector('[data-dial]'), { items: modes.map(m => ({ key: m.key, label: m.label, sub: m.key })), index: idx, step: 28, radius: 232, onChange: (i) => showMode(i, { save: true }) })
+    ? dial(root.querySelector('[data-dial]'), { items: modes.map(m => ({ key: m.key, label: m.label, sub: m.key })), index: idx, step: 28, radius: 250, onChange: (i) => showMode(i, { save: true }) })
     : null;
   if (!modes.length) root.querySelector('.dash-dial-wrap').remove();
   showMode(idx);

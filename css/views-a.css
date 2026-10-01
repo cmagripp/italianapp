@@ -208,8 +208,9 @@ a.poster { color: #fff; }
 .dash-dial-wrap { margin: 6px -18px 0; }
 .dash-dial { height: 118px; }
 .dash-dial .dial-arc { opacity: .32; }
-.dash-dial .dial-item { min-height: 60px; padding: 6px 14px; }
-.dash-dial .dial-label { font-size: 24px; font-variation-settings: "opsz" 48; letter-spacing: -.015em; }
+/* four stops on a 250px arc: the neighbours (scaled .8) clear the selected label by a few px on a 375px phone */
+.dash-dial .dial-item { min-height: 60px; padding: 6px 8px; }
+.dash-dial .dial-label { font-size: 22px; font-variation-settings: "opsz" 48; letter-spacing: -.015em; }
 .dash-dial .dial-sub { font-size: 10px; }
 .dash-dial .dial-item.on .dial-label { text-shadow: 0 0 24px color-mix(in srgb, var(--gold) 60%, transparent); }
 .dash-mode { text-align: center; margin: -6px 0 16px; min-height: 68px; }
@@ -223,7 +224,7 @@ a.poster { color: #fff; }
 .dash-start .dash-mode-tag { display: inline-block; flex: 0 1 auto; min-width: 0; max-width: 62%; height: 26px; padding: 0 10px; border-radius: var(--r-pill); background: rgba(0,0,0,.14); font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 15px; letter-spacing: 0; line-height: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
 .dash-start .ic { flex: none; }
 .dash-hero-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; min-height: 40px; }
-.dash-hint { font-size: 10px; color: var(--ink-3); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dash-hint { font-size: 10px; line-height: 1.35; color: var(--ink-3); min-width: 0; max-width: 12ch; } /* may wrap to two lines beside the session button at 375px */
 .dash-start-alt { flex: 1; min-width: 0; justify-content: center; gap: 6px; padding: 0 10px; color: var(--ink); border-color: var(--glass-border); }
 .dash-start-alt .dash-mode-tag { height: 24px; padding: 0 8px; font-size: 14px; background: color-mix(in srgb, var(--gold) 16%, transparent); color: var(--gold-text); }
 .dash-start-alt[hidden] { display: none; }
