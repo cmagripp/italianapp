@@ -138,19 +138,19 @@ export async function render(root, params, query) {
   const verbs = GAMES.filter(g => g.kind === 'verb');
   const reelHTML = (games) => html`<div class="reel" data-reel>${raw(games.map(g => posterHTML(g)).join(''))}</div>`;
 
+  // The hero mirrors the Today card on Home: an in-pane section head with a mono count at the right, one line of
+  // copy, one full-width primary button (text only) and a mono hint line that carries the second way in.
+  const count = learnedAll ? `${learnedAll} learned` : `${GAMES.length} games`;
+  const primary = learnedAll ? { href: '#/game/quiz?src=learned', label: 'Quiz my learned items' } : { href: '#/game/quiz?src=scope', label: 'Quiz my scope' };
+  const second = learnedV ? { href: '#/game/conj-drill?src=learned-verbs&tenses=presente,passatoProssimo', label: 'drill my verbs' } : { href: '#/game/flashcards?src=scope', label: 'flashcards on my scope' };
   root.innerHTML = html`
     <div class="games-hub">
-      <div class="play-hero glass pad-l">
-        <div class="play-hero-top">
-          <div><span class="kicker">Play with what you know</span><div class="play-hero-title">${raw(tr('Gioca', 'Play'))}, ${raw(tr('impara', 'learn'))}.</div></div>
-          <span class="play-hero-ico">${ic('play', { size: 26 })}</span>
-        </div>
-        <p class="small muted">Every game runs on your learned verbs and words, your word bank, any list, or a whole level.</p>
-        <div class="play-hero-ctas">
-          <a class="btn sm ${learnedAll ? 'primary' : 'secondary'}" href="${learnedAll ? '#/game/quiz?src=learned' : '#/game/quiz?src=scope'}">${ic('sparkle', { size: 16 })}${learnedAll ? 'Quiz my learned items' : 'Quiz my scope'}</a>
-          ${learnedV ? raw(html`<a class="btn sm secondary" href="#/game/conj-drill?src=learned-verbs&tenses=presente,passatoProssimo">${ic('edit', { size: 16 })}Drill my verbs</a>`) : raw(html`<a class="btn sm secondary" href="#/game/flashcards?src=scope">${ic('flip', { size: 16 })}Flashcards on my scope</a>`)}
-        </div>
-      </div>
+      <section class="play-hero glass pad-l">
+        <div class="sec-head in-pane"><div><span class="kicker">Play with what you know</span><span class="title">${raw(tr('Gioca, impara.', 'Play, learn.'))}</span></div><span class="play-hero-count mono">${count}</span></div>
+        <p class="small muted play-hero-desc">Every game runs on your learned verbs and words, your word bank, any list, or a whole level.</p>
+        <a class="btn primary block" href="${primary.href}" data-play-primary>${primary.label}</a>
+        <div class="play-hero-hint mono">or <a href="${second.href}">${second.label}</a></div>
+      </section>
 
       <section class="games-section">
         ${raw(secHead('Vocabulary', 'Words in play'))}

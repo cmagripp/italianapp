@@ -132,12 +132,13 @@ a.poster { color: #fff; }
 /* ==========================================================================
    GAMES HUB
    ========================================================================== */
-.play-hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
-.play-hero-title { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.1; letter-spacing: -.015em; margin-top: 4px; font-variation-settings: "opsz" 72; }
-.play-hero-title .itx .tr { font-style: normal; font-family: var(--font-text); font-size: 14px; font-weight: 500; }
-.play-hero-ico { width: 48px; height: 48px; border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center; color: var(--on-gold); background: linear-gradient(135deg, var(--gold), var(--gold-2)); box-shadow: 0 10px 28px -10px var(--gold); }
-.play-hero p { margin-bottom: 14px; }
-.play-hero-ctas { display: flex; flex-wrap: wrap; gap: 8px; }
+/* the hero follows the Today card on Home: in-pane head + mono count, a line of copy, a block button, a mono hint */
+.play-hero { position: relative; }
+.play-hero .sec-head { margin-bottom: 10px; }
+.play-hero-count { color: var(--ink-3); flex: none; padding-bottom: 6px; }
+.play-hero-desc { margin-bottom: 16px; }
+.play-hero-hint { text-align: center; color: var(--ink-3); margin-top: 10px; }
+.play-hero-hint a { display: inline-flex; align-items: center; min-height: 40px; margin: -12px 0; padding: 0 2px; color: var(--gold-text); }
 .games-section .reel { margin-top: -4px; }
 .games-foot { color: var(--ink-3); }
 
