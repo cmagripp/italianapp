@@ -28,7 +28,9 @@ export function back(fallback = '#/home') {
   if (navDepth > 0 && history.length > 1) history.back();
   else navigate(fallback);
 }
-export function setTitle(t) { $('#topTitle').textContent = t || 'Parola'; document.title = t ? `${t} · Parola` : 'Parola — Italian words & verbs'; }
+export function setTitle(t) { const el = $('#topTitle'); el.classList.remove('has-node'); el.textContent = t || 'Parola'; document.title = t ? `${t} · Parola` : 'Parola — Italian words & verbs'; }
+// A screen may place its own control in the title slot (the Learn hub puts its view toggle there); the next setTitle restores the text title.
+export function setTitleNode(node, t) { const el = $('#topTitle'); el.textContent = ''; el.appendChild(node); el.classList.add('has-node'); document.title = t ? `${t} · Parola` : 'Parola — Italian words & verbs'; }
 export function setChrome({ tabs = true, back: showBack = null } = {}) {
   document.body.classList.toggle('no-tabs', !tabs);
   const b = $('#backBtn');
