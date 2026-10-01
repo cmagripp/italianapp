@@ -247,6 +247,28 @@ try {
       await reloadApp(page); assert.deepEqual(await spoken(), [...before, q.context.it], 'feedback redraw does not replay the sentence');
     });
   }
+  await check('An accepted feminine past form is spoken in the full sentence the learner made', async () => {
+    await fresh(); await gotoRoute(page, '/learn/verb/v:andare?chapter=past');
+    let q = await reachJourneyActivity(page, candidate => candidate.context?.it === 'Io sono andato al mercato.'
+      && candidate.answer.includes('sono andata'), { limit: 120 });
+    if (q.type !== 'type') { await reformatCurrent('type'); q = await journeyQuestion(page); }
+    assert.equal(q.type, 'type'); assert.equal(q.context.it, 'Io sono andato al mercato.');
+    assert(q.answer.includes('sono andata'));
+    const before = await spoken();
+    await page.locator('[data-answer]').fill('sono andata'); await page.locator('[data-check]').click();
+    assert.equal((await state()).session.ui.result.ok, true);
+    assert.deepEqual(await spoken(), [...before, 'Io sono andata al mercato.']);
+    await reloadApp(page);
+    assert.deepEqual(await spoken(), [...before, 'Io sono andata al mercato.'], 'saved feedback does not replay audio');
+  });
+  await check('A correct isolated form still speaks the form itself', async () => {
+    await fresh(); await gotoRoute(page, '/learn/verb/v:andare?chapter=past');
+    const q = await reachJourneyActivity(page, candidate => !candidate.context?.it && candidate.type === 'type'
+      && candidate.meta?.answerLanguage !== 'en' && candidate.answer?.[0], { limit: 100 });
+    const before = await spoken(); await solveJourneyQuestion(page, q);
+    assert.equal((await state()).session.ui.result.ok, true);
+    assert.deepEqual(await spoken(), [...before, q.answer[0]]);
+  });
   await check('Selecting a form first and then its person gives an audible subject and a one-time flip', async () => {
     await fresh(375, 'light', 'no-preference'); await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
     const q = await reachJourneyActivity(page, 'pairs', { expected });

@@ -32,6 +32,35 @@ const texts = x => Array.isArray(x) ? x : x ? [x] : [];
 const phaseName = step => ['teach','repair'].includes(step.type) ? 'Learn'
   : step.type === 'question' ? step.phase === 'independent' && step.format === 'type' ? 'Recall' : 'Practise' : null;
 
+function correctAnswerSpeech(question, given, entry, target) {
+  const unaccented = value => normalize(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const accepted = question.answer.find(answer => unaccented(answer) === unaccented(given)) || question.answer[0];
+  const isolated = question.meta?.answerLanguage === 'en' ? nameOf(entry) : accepted;
+  const sentence = question.context?.it;
+  if (typeof sentence !== 'string' || !sentence.trim()) return isolated;
+  if (question.meta?.answerLanguage === 'en') return sentence;
+
+  // The scene retains the exact answer span that was removed from the prompt.
+  // Only substitute a different accepted form when that span occurs once as a
+  // whole expression; another occurrence could belong to a different clause.
+  const contexts = [...(Array.isArray(target?.contexts) ? target.contexts : []),
+    ...(Array.isArray(target?.legacyAuthoredContexts) ? target.legacyAuthoredContexts : [])];
+  const authored = contexts.find(context => context.id === question.meta?.contextId && context.it === sentence);
+  const source = String(authored?.answer || question.answer[0] || '').trim();
+  if (!source || normalize(source) === normalize(accepted)) return sentence;
+  const pattern = new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'giu');
+  const wordPart = /[\p{L}\p{N}'’]/u;
+  const spans = [...sentence.matchAll(pattern)].filter(match => {
+    const start = match.index, end = start + match[0].length;
+    return (start === 0 || !wordPart.test(sentence[start - 1]))
+      && (end === sentence.length || !wordPart.test(sentence[end]));
+  });
+  if (spans.length !== 1) return sentence;
+  const match = spans[0], replacement = /^\p{Lu}/u.test(match[0])
+    ? accepted.replace(/^\p{L}/u, char => char.toLocaleUpperCase('it')) : accepted;
+  return sentence.slice(0,match.index) + replacement + sentence.slice(match.index + match[0].length);
+}
+
 function promptHTML(source) {
   const template = document.createElement('template');
   template.innerHTML = typeof source === 'string' ? source : '';
@@ -865,13 +894,10 @@ export async function render(root, params = {}, query = {}) {
       if(revealed)for(const pair of question.pairs||[])expose(pair.answers);
       expose(question.meta?.feedbackExposureForms);
       for (const c of question.choices || []) expose(c.value ?? c.label);
+      const spoken = result.ok && !silent && recorded.added !== false && !step.target?.supplementalOnly
+        ? correctAnswerSpeech(question,given,entry,step.target) : '';
       save(); draw();
-      if (!silent && result.ok && recorded.added !== false && !step.target?.supplementalOnly) {
-        const unaccented = value => normalize(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-        const answer = question.meta?.answerLanguage === 'en' ? nameOf(entry)
-          : question.answer.find(a=>unaccented(a)===unaccented(given)) || question.answer[0];
-        speak(question.context?.it || answer);
-      }
+      if (spoken) speak(spoken);
     } finally { submitting = false; }
   }
   function showOverview() {

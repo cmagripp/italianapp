@@ -147,7 +147,9 @@ function finiteFrameEnglish(e,ch,spec,index,enTail){
  let base=spec.en[0],past=spec.en[2],tail=enTail;
  if(e.inf==='dire'&&index===0){base='tell';past='told';}
  if(e.inf==='sapere'&&ch==='past'){base='find out';past='found out';}
- if(e.inf==='conoscere'&&ch==='past'){
+ // With these first-encounter and developing-familiarity frames, the finite
+ // forms describe meeting Marco or getting to know a place in every time view.
+ if(e.inf==='conoscere'){
   base=index===0?'meet':'get to know';past=index===0?'met':'got to know';
  }
  if(e.inf==='ritenere'){

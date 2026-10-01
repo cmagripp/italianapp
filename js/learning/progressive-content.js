@@ -92,7 +92,8 @@ function authoredContexts(entry,{chapter='present',progressive=false,section='pr
   let c;try{c=conjugate(entry.inf,{aux:entry.aux,isc:entry.isc});}catch{return [];}
   const people=spec.persons||[0,1,2,3,4,5],roles=people.map(person=>({person,role:'ordinary'}));
   if(spec.formal!==false&&people.includes(2))roles.push({person:2,role:'formal'});
-  return spec.frames.flatMap(([itSuffix,enSuffix],index)=>!selected(index)?[]:roles.flatMap(({person,role})=>{
+  const frames=legacySelection&&spec.legacyFrames?spec.legacyFrames:spec.frames;
+  return frames.flatMap(([itSuffix,enSuffix],index)=>!selected(index)?[]:roles.flatMap(({person,role})=>{
     const formal=role==='formal',subject=formal?['Signora Rossi, Lei','Ms Rossi, you']:spec.subjects?.[person]||SUBJECTS[person];
     const frameSpec=!legacySelection&&entry.inf==='dire'&&index===0?{...spec,en:['tell','tells','told','telling']}:spec;
     const answers=progressive?progressiveForms(entry,person,{chapter}):clean(c.tenses[past?'imperfetto':'presente']?.[person]);

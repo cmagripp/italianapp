@@ -36,4 +36,6 @@ Frames 0–1 support first practice; frames 2–3 are held for mixed review. Fra
 
 When adding frames to a record that already shipped, record its former length as `legacyFrameCount`. Saved questions continue to use the former practice/review split and numeric variant mapping; newly scheduled questions can use the added frames.
 
+When correcting a shipped frame, keep the former pairs in `legacyFrames` in their original order. New questions use the corrected `frames`; saved questions with the earlier scene policy can still reconstruct their original wording until the learner continues.
+
 Do not alter dictionary source data, conjugator, runtime modules, or other authors' files while authoring. List uncertain inflections or source-data issues separately for integration. Cite primary Italian sources for exceptional usage in an optional `sources` array. Cross-review happens after authoring; do not label automated checks as native-speaker certification.

@@ -86,8 +86,42 @@ const newQuestion=(e,ch,t,variant)=>buildJourneyQuestion(e,ch,t,{variant,scenePo
  assert(reviewed('sapere','past').some(c=>c.it.includes('saputo la risposta')&&c.en.includes('found out the answer')));
  assert(reviewed('conoscere','past').some(c=>c.it.includes('conosciuto Marco')&&c.en.includes('met Marco')));
  assert(reviewed('conoscere','past').some(c=>c.it.includes('conosciuto questa città')&&c.en.includes('got to know this city')));
+ for(const [chapter,modal]of [['future','will'],['condizionale','would']]){
+  const scenes=reviewed('conoscere',chapter);
+  assert(scenes.some(c=>c.role==='ordinary'&&c.it.includes('Marco')&&c.en.includes(`${modal} meet Marco`)),chapter);
+  assert(scenes.some(c=>c.role==='ordinary'&&c.it.includes('questa città')&&c.en.includes(`${modal} get to know this city`)),chapter);
+  assert(scenes.some(c=>c.role==='formal'&&c.it.includes('Marco')&&c.en.includes(`${modal} you meet Marco`)),chapter);
+  assert(scenes.every(c=>!new RegExp(`\\b${modal} know\\b`).test(c.en)),chapter);
+  const original=lessonContexts(entry('conoscere'),chapter,{expanded:false});
+  assert.deepEqual(lessonContexts(entry('conoscere'),chapter).slice(0,original.length),original,'legacy contexts unchanged');
+ }
  assert(reviewed('volere','condizionale').some(c=>c.it.includes('vorrei un caffè')&&c.en.includes('would like a coffee')));
  assert(reviewed('ritenere','past').some(c=>c.it.includes('ritenuto la proposta valida')&&c.en.includes('considered the proposal valid')));
+ for(const ch of ['past','future','condizionale']){
+  const scenes=reviewed('rispondere',ch);
+  assert(scenes.length&&scenes.every(c=>/\b(?:a Sara|a un’email|a una domanda|al collega)[?.]?$/.test(c.it)),ch);
+ }
+ const reply=entry('rispondere'),replyChapter=chapter(buildLesson(reply),'present'),replyTarget=target(replyChapter,'form-0');
+ assert(newQuestion(reply,replyChapter,replyTarget,0).context.it.includes('rispondo a Sara'));
+ assert(buildJourneyQuestion(reply,replyChapter,replyTarget,{variant:0,scenePolicy:undefined}).context.it.includes('rispondo Sara'));
+ assert(progressiveContexts(reply).some(c=>c.it.includes('sto rispondendo a Sara')));
+ assert(progressiveContexts(reply,{legacySelection:true}).some(c=>c.it.includes('sto rispondendo Sara')));
+ for(const [inf,firstCurrent,firstLegacy,oldProgressive,otherCurrent,finiteTail] of [
+  ['accontentarsi','mi accontento di un panino','mi accontento un panino','mi sto accontentando un panino','di una soluzione provvisoria',/\b(?:di un panino|di una soluzione provvisoria|di un posto in fondo|di una risposta breve)[?.]$/],
+  ['arrovellarsi','mi arrovello su un indizio poco chiaro','mi arrovello un indizio poco chiaro','mi sto arrovellando un indizio poco chiaro','su un problema di logica',/\b(?:su un indizio poco chiaro|su un problema di logica|sulle ragioni del rifiuto|su una scelta difficile)[?.]$/]
+ ]){
+  const e=entry(inf),present=chapter(buildLesson(e),'present'),form=target(present,'form-0');
+  assert(newQuestion(e,present,form,0).context.it.includes(firstCurrent),inf);
+  assert(buildJourneyQuestion(e,present,form,{variant:0,scenePolicy:undefined}).context.it.includes(firstLegacy),inf);
+  assert(simpleVerbContexts(e).some(c=>c.it.includes(otherCurrent)),inf);
+  assert(progressiveContexts(e).some(c=>c.it.includes(otherCurrent)),inf);
+  assert(progressiveContexts(e,{legacySelection:true}).some(c=>c.it.includes(oldProgressive)),inf);
+  for(const ch of ['past','future','condizionale']){
+   const scenes=reviewed(inf,ch);
+   assert(scenes.length&&scenes.some(c=>c.it.includes(otherCurrent)),`${inf}/${ch}`);
+   assert(scenes.every(c=>finiteTail.test(c.it)),`${inf}/${ch}: bare complement`);
+  }
+ }
  const oldMixed=simpleVerbContexts(entry('avere'),{section:'mixed',legacySelection:true});
  assert.equal(oldMixed.length,14);
  const newMixed=simpleVerbContexts(entry('avere'),{section:'mixed'});
