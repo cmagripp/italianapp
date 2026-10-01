@@ -38,12 +38,11 @@ function ringHTML(r, i, current) {
     </button>`;
 }
 
-// the ribbon's contents: the row of rings, then the caption line with the Browse link
+// the ribbon's contents: the row of rings, then the caption line (the Browse link lives in the section head)
 function innerHTML(cur, rs) {
   return html`<div class="lvl-ribbon-row">${raw(rs.map((r, i) => ringHTML(r, i, cur)).join(''))}</div>
     <div class="lvl-ribbon-cap mono">
       <span class="lvl-ribbon-caption" data-ribbon-caption>${raw(captionHTML(cur, rs))}</span>
-      <a class="lvl-ribbon-browse" href="#/browse/${cur}" data-ribbon-browse>Browse ${cur}</a>
     </div>`;
 }
 
@@ -99,7 +98,6 @@ export function bindLevelRibbon(el, { onSelect = null, current = null, rings = n
   }
   function patchCaption(rs) {
     const cap = root.querySelector('[data-ribbon-caption]'); if (cap) cap.innerHTML = captionHTML(cur, rs);
-    const more = root.querySelector('[data-ribbon-browse]'); if (more) { more.href = '#/browse/' + cur; more.textContent = 'Browse ' + cur; }
   }
   function update({ current: next = cur, rings: rs = lastRings } = {}) {
     rs = rs && rs.length ? rs : lastRings;

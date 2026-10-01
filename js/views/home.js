@@ -36,7 +36,7 @@ function recentlyLearned(n = 14) {
 // a short number note for the detail line (the full sentence is on the entry page)
 function numberNote(e) {
   const note = nounNumberNote(e);
-  if (!note) return 'Plural: ' + withArticle(e, true);
+  if (!note) return 'pl. ' + withArticle(e, true);
   if (/singular/i.test(note)) return 'usually singular';
   if (/plural not/i.test(note)) return 'plural not recorded';
   return 'usually plural';

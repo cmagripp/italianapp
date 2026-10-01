@@ -181,7 +181,7 @@ a.poster { color: #fff; }
   .lab-grid { grid-template-columns: repeat(4, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .deck.live > .deck-card, .deck.live > .deck-card > *, .src-row, .orbit-levels .lvl { transition-duration: 120ms !important; }
+  .deck.live > .deck-card, .deck.live > .deck-card > *, .src-row { transition-duration: 120ms !important; }
   .deck.live > .deck-card.leaving { transition: none; }
 }
 
