@@ -37,7 +37,8 @@
 
 /* top row: kicker left, level chip right */
 .lc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
-.lc-kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; line-height: 1.2;
+/* --ks / --kl: the kicker's size and tracking step down with its length (learnCards.js) so a long one still fits the row */
+.lc-kicker { font-family: var(--font-mono); font-size: var(--ks, 10px); letter-spacing: var(--kl, .14em); text-transform: uppercase; font-weight: 600; line-height: 1.2;
   color: color-mix(in srgb, var(--lc) 72%, var(--ink)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .lc-top .lvl { --lvl-c: var(--lc); height: 22px; min-width: 32px; font-size: 10px; }
 
@@ -58,7 +59,7 @@
 
 /* lead: icon circle or progress ring (36px), left of the text, centred on headline + English */
 .lc-lead { grid-column: 1; grid-row: 1 / 3; align-self: center; margin-right: 8px; }
-.lc-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; color: var(--lc);
+.lc-icon { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 36px; height: 36px; border-radius: 50%; color: var(--lc);
   background: color-mix(in srgb, var(--lc) 14%, var(--glass)); border: 1px solid color-mix(in srgb, var(--lc) 30%, transparent); }
 .lc-icon .ic { width: 18px; height: 18px; }
 .lc-ring { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; color: var(--lc); }

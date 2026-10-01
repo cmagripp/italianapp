@@ -32,7 +32,7 @@ const kebab = (k) => k.replace(/[A-Z]/g, m => '-' + m.toLowerCase()).replace(/[^
 // The poster's text column is 168px wide, 124px when an icon, ring or speaker sits beside the headline. The headline
 // shrinks with its text so two lines hold it and no word is split: the longest word must fit one line and the whole
 // title two (a wrap wastes ~10% of a line). Fraunces runs ~0.42–0.54em per character, so the estimate is conservative
-// and the reel re-measures (fitTitles) once the cards are in the DOM and again when the web fonts land.
+// and the reel re-measures (fitText) once the cards are in the DOM and again when the web fonts land.
 const SIZES = [28, 25, 22, 19, 17];
 const LINE = 1.18;
 const FULL_W = 168, NARROW_W = 124;
@@ -44,23 +44,47 @@ function titleSize(t, width, em) {
   const max = Math.min(width / (longest * em), (1.8 * width) / (s.length * em));
   return SIZES.find(z => z <= max) ?? SIZES[SIZES.length - 1];
 }
-// the English line is one line (ellipsis after): it steps down from 14px to 11px; italic Fraunces runs ~0.43em a character
-const enSize = (t, width) => { const n = String(t ?? '').trim().length; if (!n) return 14; const max = width / (n * 0.43); return [14, 13, 12, 11].find(z => z <= max) ?? 11; };
+// the English line is one line (ellipsis after): it steps down from 14px to 10px; italic Fraunces runs ~0.43em a character
+const EN_SIZES = [14, 13, 12, 11, 10];
+const enSize = (t, width) => { const n = String(t ?? '').trim().length; if (!n) return EN_SIZES[0]; const max = width / (n * 0.43); return EN_SIZES.find(z => z <= max) ?? EN_SIZES[EN_SIZES.length - 1]; };
+// the kicker (mono, 0.6em advance) shares the top row with the level chip: 128px beside a chip, 168px without one.
+// It loses tracking before size, down to a last 8px / 0 step for the longest verb kickers ("-ire · aux. avere / essere"):
+// [font-size px, letter-spacing em]
+const KICKER_STEPS = [[10, 0.14], [9.5, 0.1], [9, 0.06], [8.5, 0.04], [8.5, 0.02], [8, 0]];
+const kickerStep = (t, width) => { const n = String(t ?? '').length; const i = KICKER_STEPS.findIndex(([s, ls]) => n * s * (0.6 + ls) <= width); return i < 0 ? KICKER_STEPS.length - 1 : i; };
+const kickerVars = (i) => `--ks:${KICKER_STEPS[i][0]}px;--kl:${KICKER_STEPS[i][1]}em`;
 
 // Measured fit: with the cards laid out, every headline is set back to its estimated size and stepped down while it
-// runs past two lines or breaks a word in two (lines > words). Runs on render and once the web fonts are ready, so a
-// fallback font never leaves a wrong size behind.
-function fitTitles(container) {
-  for (const t of container.querySelectorAll('.lc-title')) {
-    const card = t.closest('.lc'); if (!card || !t.clientHeight) continue;
-    if (!card.dataset.ts0) card.dataset.ts0 = card.style.getPropertyValue('--ts') || `${SIZES[0]}px`;
-    const top = parseFloat(card.dataset.ts0) || SIZES[0];
+// runs past two lines or breaks a word in two (lines > words); the English line and the kicker step down while they
+// overflow their single line. Runs on render and once the web fonts are ready, so a fallback font never leaves a wrong
+// size behind. The starting sizes are kept per card so the second pass can grow a size back.
+const TOPS = new WeakMap();
+function fitText(container) {
+  for (const card of container.querySelectorAll('.lc')) {
+    const t = card.querySelector('.lc-title'); if (!t || !t.clientHeight) continue;
+    let top = TOPS.get(card);
+    if (!top) {
+      const ks = parseFloat(card.style.getPropertyValue('--ks')), kl = parseFloat(card.style.getPropertyValue('--kl'));
+      top = { ts: parseFloat(card.style.getPropertyValue('--ts')) || SIZES[0], es: parseFloat(card.style.getPropertyValue('--es')) || EN_SIZES[0], ki: Math.max(0, KICKER_STEPS.findIndex(([s, ls]) => s === ks && ls === kl)) };
+      TOPS.set(card, top);
+    }
     const words = (t.textContent.match(/\S+/g) || []).length || 1;
     for (const z of SIZES) {
-      if (z > top) continue;
+      if (z > top.ts) continue;
       card.style.setProperty('--ts', `${z}px`);
       const lines = Math.round(t.scrollHeight / (z * LINE));
       if (lines <= 2 && lines <= words) break;
+    }
+    const en = card.querySelector('.lc-en');
+    if (en && en.clientWidth) for (const z of EN_SIZES) {
+      if (z > top.es) continue;
+      card.style.setProperty('--es', `${z}px`);
+      if (en.scrollWidth + 1 <= en.clientWidth) break;
+    }
+    const k = card.querySelector('.lc-kicker');
+    if (k && k.clientWidth) for (let i = top.ki; i < KICKER_STEPS.length; i++) {
+      card.style.setProperty('--ks', `${KICKER_STEPS[i][0]}px`); card.style.setProperty('--kl', `${KICKER_STEPS[i][1]}em`);
+      if (k.scrollWidth + 1 <= k.clientWidth) break;
     }
   }
 }
@@ -90,7 +114,7 @@ export function learnCardHTML(card = {}, { kind = 'next' } = {}) {
   const sayBtn = say ? `<span class="speak sm lc-say" role="button" tabindex="0" data-say="${esc(say)}" aria-label="Listen: ${esc(say)}">${icon('speaker')}</span>` : '';
   const width = lead || sayBtn ? NARROW_W : FULL_W;
 
-  const attrs = [`class="poster lc lc-${k}${level ? ` lc-lvl-${level}` : ''}"`, `style="--lc:${esc(accent)};--ts:${titleSize(title, width, EM[k])}px;--es:${enSize(en, width)}px"`];
+  const attrs = [`class="poster lc lc-${k}${level ? ` lc-lvl-${level}` : ''}"`, `style="--lc:${esc(accent)};--ts:${titleSize(title, width, EM[k])}px;--es:${enSize(en, width)}px;${kickerVars(kickerStep(card.kicker, level ? 128 : FULL_W))}"`];
   if (card.key != null) attrs.push(`data-key="${esc(card.key)}"`);
   attrs.push(`data-kind="${k}"`);
   if (level) attrs.push(`data-level="${level}"`);
@@ -120,10 +144,10 @@ export function learnReel(container, cards = [], { kind = 'next', ariaLabel = ''
   if (reducedMotion()) container.classList.add('lc-still');
   container.setAttribute('role', 'group');
   if (ariaLabel) container.setAttribute('aria-label', ariaLabel);
-  const render = () => { container.innerHTML = list.map(c => learnCardHTML(c, { kind: k })).join(''); fitTitles(container); };
+  const render = () => { container.innerHTML = list.map(c => learnCardHTML(c, { kind: k })).join(''); fitText(container); };
   render();
   // the first measure runs on whatever font is in place; the web fonts (when they arrive) get a second one
-  try { document.fonts?.ready?.then(() => { if (container.isConnected) fitTitles(container); }); } catch { /* no Font Loading API */ }
+  try { document.fonts?.ready?.then(() => { if (container.isConnected) fitText(container); }); } catch { /* no Font Loading API */ }
   const api = reel(container);
 
   const onClick = (ev) => {
