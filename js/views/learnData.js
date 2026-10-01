@@ -128,13 +128,16 @@ export function learnModel(store, now = Date.now()) {
   const reviewModel = { due, nextDueLabel: nextDue < Infinity ? relTime(nextDue) : null, href: '#/review', aheadHref: '#/review?mode=extra' };
 
   // ---- modes (the hero's four stops) ----
-  const fresh = MODE_OF_KIND[inProgress[0]?.kind] || 'together';
+  // fresh = the stop of the item already begun (the button then resumes it); recommended = the course's next step for a
+  // learner with nothing in progress: the next grammar lesson when the stage still has one, else a mixed session
+  const fresh = MODE_OF_KIND[inProgress[0]?.kind] || null;
+  const recommended = grammar ? 'grammar' : 'together';
   const modes = [
     { key: 'together', label: 'Insieme', title: queueLive ? 'Resume your session' : 'Everyday Italian', sub: queueLive ? 'Continue your saved session, one part at a time.' : 'Grammar, one verb tense, and up to three words', href: queueLive ? '#/learn/session' : '#/learn/session?start=together' },
     { key: 'grammar', label: 'Grammatica', title: grammar?.title || 'This level is complete', sub: grammar ? (next.outcome || `${next.level} · ${next.minutes} min`) : 'Revisit a lesson or choose your next level.', href: grammar?.href || '#/course' },
     { key: 'verbs', label: 'Verbi', title: verb?.name || 'No new verbs left in this scope', sub: verb ? `${String(verb.en).split(';')[0].trim()} · ${verb.chapterLabel}` : 'Widen the scope to meet more verbs.', href: verb?.href || '#/scope' },
     { key: 'words', label: 'Parole', title: wordEntries.length ? wordEntries.map(w => w.headword).join(' · ') : 'No new words left in this scope', sub: wordEntries.length ? 'A short vocabulary session' : 'Widen the scope to meet more words.', href: wordEntries.length ? words.href : '#/scope' },
-  ].map(m => ({ ...m, fresh: m.key === fresh }));
+  ].map(m => ({ ...m, fresh: m.key === fresh, recommended: m.key === recommended }));
 
   // ---- scope + verb lab ----
   const scope = { label: describeScope(store.scope, store), learned: scopeAll.filter(e => store.isLearned(e.id)).length, total: scopeAll.length, href: '#/scope' };

@@ -81,6 +81,7 @@ export function renderDash(container, model = {}, ctx = {}) {
   const saved = readPref(store, MODE_KEY, null);
   let idx = modes.findIndex(m => m.fresh);
   if (idx < 0) idx = modes.findIndex(m => m.key === saved);
+  if (idx < 0) idx = modes.findIndex(m => m.recommended);
   if (idx < 0) idx = modes.findIndex(m => m.key === 'together');
   if (idx < 0) idx = 0;
   const mode0 = modes[idx] || { title: 'Impariamo', sub: '', href: '#/learn/session', label: 'Insieme', key: 'together' };
