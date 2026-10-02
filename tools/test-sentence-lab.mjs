@@ -399,7 +399,7 @@ const FIXTURE_PACK = {
           reactions: [{ when: '*', it: 'Perfetto!', en: 'Perfect!' }] },
         { speaker: 'partner', it: 'A dopo!', en: 'See you later!' } ] },
       { id: `${L}.5`, kind: 'cloze', prompt: 'Your word', template: 'Oggi mangio ____.', en: 'Today I eat ____.',
-        blanks: [{ accept: ['la pasta', 'il pane', 'la pizza'], options: ['la pasta', 'il pane', 'la casa'], bank: ['la pizza', 'il libro'], free: true,
+        blanks: [{ accept: ['la pasta', 'il pane', 'la pizza'], options: ['la pasta', 'il pane', 'la casa'], bank: ['la pizza', 'il libro', 'riso'], free: true,
           slot: { pos: 'noun', number: 'sg', article: 'definite', category: ['food'] }, explanation: 'Something you can eat, with its article.' }] },
       { id: `${L}.6`, kind: 'build', prompt: 'Say it yourself', tense: 'presente', roles: [
         { role: 'subject', items: [{ it: 'Io', person: 0 }, { it: 'Mia sorella', en: 'My sister', person: 2, g: 'f' }, { it: 'Noi', person: 3 }] },
@@ -535,18 +535,47 @@ test('cloze: a free blank with a slot accepts a dictionary word in the slot form
   assert.equal(r4.revealed, true); assert.equal(r4.blanks[0].filled, 'la pasta', 'the first accepted value is revealed');
 });
 
-test('cloze: an authored option or bank entry outside accept is a wrong choice, never a free entry', () => {
+test('cloze: an authored option outside accept is a wrong choice, never a free entry', () => {
   const wrongOption = answerLab(fixtureLesson, atActivity(5), ['la casa'], makeCtx()).result;
   assert.equal(wrongOption.outcome, 'incorrect', '"la casa" is a dictionary noun the slot would take, but it is an authored wrong option');
   assert.equal(wrongOption.explanation, 'Something you can eat, with its article.'); assert.equal(wrongOption.blanks[0].entryId, null);
-  const wrongBank = answerLab(fixtureLesson, atActivity(5), ['Il libro'], makeCtx()).result;
-  assert.equal(wrongBank.outcome, 'incorrect'); assert.equal(wrongBank.misses, 1);
   const rightBank = answerLab(fixtureLesson, atActivity(5), ['la pizza'], makeCtx()).result;
   assert.equal(rightBank.outcome, 'correct');
   const dialogue = answerLab(fixtureLesson, atActivity(4), ['ho sete'], makeCtx()).result;
-  assert.equal(dialogue.outcome, 'incorrect', 'a bank entry outside accept in a dialogue turn is wrong too'); assert.equal(dialogue.reaction, null);
+  assert.equal(dialogue.outcome, 'incorrect', 'a bank entry the slot cannot resolve is wrong'); assert.equal(dialogue.reaction, null);
   const free = answerLab(fixtureLesson, atActivity(4), ['contento'], makeCtx()).result;
   assert.equal(free.outcome, 'accepted'); assert.equal(free.sentence, 'Bene grazie, ma sono contento.');
+});
+
+test('cloze: a bank hint outside accept is a free entry only when the slot changes its form', () => {
+  // already in its final form: a wrong choice, graded as authored
+  const finalForm = answerLab(fixtureLesson, atActivity(5), ['Il libro'], makeCtx()).result;
+  assert.equal(finalForm.outcome, 'incorrect'); assert.equal(finalForm.misses, 1); assert.equal(finalForm.explanation, 'Something you can eat, with its article.'); assert.equal(finalForm.blanks[0].entryId, null);
+  // a bare noun hint given its article by the slot: accepted with the resolved form
+  const bareNoun = answerLab(fixtureLesson, atActivity(5), ['riso'], makeCtx()).result;
+  assert.equal(bareNoun.outcome, 'accepted'); assert.equal(bareNoun.blanks[0].filled, 'il riso'); assert.equal(bareNoun.blanks[0].entryId, 'w:riso|noun'); assert.equal(bareNoun.sentence, 'Oggi mangio il riso.');
+  // infinitive hints on a verb blank conjugate; a conjugated bank entry that is not accepted stays wrong; options stay authored
+  const verbs = { id: 'sl-presente-97-verbs', tense: 'presente', activities: [{ id: 'sl-presente-97-verbs.1', kind: 'cloze', prompt: 'p', template: 'La sera ____ un film.', en: 'In the evening I ____ a film.',
+    blanks: [{ accept: ['guardo'], options: ['guardo', 'guarda', 'guardi'], bank: ['vedere', 'dormire', 'vedo', 'guardo'], free: true, slot: { pos: 'verb', person: 0, tense: 'presente' }, explanation: 'io takes -o: guardo.' }] }] };
+  const fresh = () => createLabSession(verbs, { now: 1 });
+  const vedere = answerLab(verbs, fresh(), ['vedere'], makeCtx()).result;
+  assert.equal(vedere.outcome, 'accepted'); assert.equal(vedere.blanks[0].filled, 'vedo'); assert.equal(vedere.blanks[0].entryId, 'v:vedere'); assert.equal(vedere.sentence, 'La sera vedo un film.');
+  const dormire = answerLab(verbs, fresh(), ['Dormire'], makeCtx()).result;
+  assert.equal(dormire.outcome, 'accepted'); assert.equal(dormire.blanks[0].filled, 'dormo');
+  const vedo = answerLab(verbs, fresh(), ['vedo'], makeCtx()).result;
+  assert.equal(vedo.outcome, 'incorrect', 'a bank entry already in its final form is a wrong choice'); assert.equal(vedo.explanation, 'io takes -o: guardo.');
+  assert.equal(answerLab(verbs, fresh(), ['guardo'], makeCtx()).result.outcome, 'correct', 'a bank entry in accept is right');
+  assert.equal(answerLab(verbs, fresh(), ['guarda'], makeCtx()).result.outcome, 'incorrect', 'an option outside accept is graded as authored');
+  assert.equal(answerLab(verbs, fresh(), ['guardare'], makeCtx()).result.outcome, 'correct', 'a typed infinitive that conjugates to an accepted form is right');
+  const typed = answerLab(verbs, fresh(), ['leggo'], makeCtx()).result;
+  assert.equal(typed.outcome, 'accepted', 'a value outside every list is a plain free entry'); assert.equal(typed.blanks[0].filled, 'leggo');
+  // an adjective hint agreed by the slot counts as changed; the same hint for a speaker it already fits does not
+  const adj = { id: 'sl-presente-96-adj', tense: 'presente', activities: [{ id: 'sl-presente-96-adj.1', kind: 'cloze', prompt: 'p', template: 'Oggi sono ____.', en: 'Today I am ____.',
+    blanks: [{ accept: ['felice'], options: ['felice', 'triste'], bank: ['contento'], free: true, slot: { pos: 'adj', agree: 'speaker' }, explanation: 'How do you feel?' }] }] };
+  const agreed = answerLab(adj, createLabSession(adj, { now: 1 }), ['contento'], makeCtx('f')).result;
+  assert.equal(agreed.outcome, 'accepted'); assert.equal(agreed.blanks[0].filled, 'contenta');
+  assert.equal(answerLab(adj, createLabSession(adj, { now: 1 }), ['contento'], makeCtx('m')).result.outcome, 'incorrect');
+  assert.equal(answerLab(adj, createLabSession(adj, { now: 1 }), ['triste'], makeCtx('f')).result.outcome, 'incorrect', 'an option is never resolved');
 });
 
 test('build notes: alternatives, fixed verb roles, the activity tense in a misto lesson, required roles, subject gender', () => {

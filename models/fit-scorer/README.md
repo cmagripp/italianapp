@@ -107,7 +107,11 @@ Results, PLL in nats (higher is better), standard variant, accents stripped:
 
 The int8 model keeps the fp32 order in both cases (stanco > felice > verde > tavolo; il pane > un caffè > la macchina)
 and the WASM backend reproduces the native numbers exactly. Per-candidate latency on a 4-core x86 container: 30 to 130 ms
-native, 80 to 220 ms on single-thread WASM; session load 0.3 s native, 0.7 s WASM. Phone timings are not measured yet.
+native, 80 to 220 ms on single-thread WASM; session load 0.3 s native, 0.7 s WASM. In headless Chromium on the same
+container through `js/learning/fit-scorer.js` (the browser proof of 2 October 2026, same PLLs to the hundredth): install
+from a local server 0.8 s, worker start and session load including its warm-up run 1.2 s, the four one-piece candidates
+above 410 ms, one new word against memoised options 85 ms, the three two-piece candidates 350 ms, a cold `scoreFit` that
+includes the load 1.7 s. Phone timings are not measured yet.
 
 ## Browser runtime (onnxruntime-web 1.30.0, MIT)
 

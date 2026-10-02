@@ -166,27 +166,30 @@ function gradeBlank(blank, value, ctx) {
   const accept = Array.isArray(blank?.accept) ? blank.accept : [];
   const wrap = blank?.slot?.wrap;
   const key = normalizeLab(text), wrappedKey = typeof wrap === 'string' && text ? normalizeLab(wrapWith(wrap, text)) : null;
+  const equals = list => !!text && (Array.isArray(list) ? list : []).some(a => { const n = normalizeLab(a); return n === key || n === wrappedKey; });
   const hit = text ? accept.find(a => { const n = normalizeLab(a); return n === key || n === wrappedKey; }) : undefined;
   if (hit !== undefined) return { outcome: 'correct', given: text, filled: hit, entryId: null, explanation: '' };
-  // An authored option or bank entry that is not accepted is a wrong choice, never a free entry (it may well be a
-  // dictionary word of the slot's kind). Only values outside the authored lists are resolved through the dictionary.
-  const authored = [...(Array.isArray(blank?.options) ? blank.options : []), ...(Array.isArray(blank?.bank) ? blank.bank : [])];
-  if (text && authored.some(o => { const n = normalizeLab(o); return n === key || n === wrappedKey; })) {
-    return { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: blank?.explanation || 'Not quite. Try again.' };
+  const authoredMiss = { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: blank?.explanation || (text ? 'Not quite. Try again.' : 'Fill the blank.') };
+  // An authored option outside accept is a wrong choice, graded as authored even when it is a dictionary word the slot
+  // would take. A bank entry outside accept is a hint: on a free blank it goes through the slot first, and counts as a
+  // free entry only when the slot changes its form (an infinitive conjugated, a bare noun given its article, an adjective
+  // agreed); one already in its final form, or one the slot cannot resolve, is a wrong choice too.
+  if (equals(blank?.options)) return authoredMiss;
+  const fromBank = equals(blank?.bank);
+  if (!(blank?.free === true && blank.slot && text)) return authoredMiss;
+  const unwrapped = unwrap(text, wrap);
+  const resolution = resolveFreeEntry(unwrapped, blank.slot, ctx);
+  if (resolution.status === 'ok' || resolution.status === 'learn') {
+    // A typed alternative form ("debbo" for a blank that accepts "devo") resolves to the primary form: when that is an
+    // accepted value the blank is right, not merely accepted.
+    const resolvedKey = normalizeLab(resolution.display), formKey = normalizeLab(resolution.form);
+    const same = accept.find(a => { const n = normalizeLab(a); return n === resolvedKey || n === formKey; });
+    if (same !== undefined) return { outcome: 'correct', given: text, filled: same, entryId: resolution.entryId, form: resolution.form, explanation: '' };
+    if (fromBank && (formKey === normalizeLab(unwrapped) || resolvedKey === key)) return authoredMiss;
+    return { outcome: 'accepted', given: text, filled: resolution.display, entryId: resolution.entryId, form: resolution.form, en: resolution.en, status: resolution.status, explanation: '' };
   }
-  if (blank?.free === true && blank.slot && text) {
-    const resolution = resolveFreeEntry(unwrap(text, wrap), blank.slot, ctx);
-    if (resolution.status === 'ok' || resolution.status === 'learn') {
-      // A typed alternative form ("debbo" for a blank that accepts "devo") resolves to the primary form: when that is an
-      // accepted value the blank is right, not merely accepted.
-      const resolvedKey = normalizeLab(resolution.display), formKey = normalizeLab(resolution.form);
-      const same = accept.find(a => { const n = normalizeLab(a); return n === resolvedKey || n === formKey; });
-      if (same !== undefined) return { outcome: 'correct', given: text, filled: same, entryId: resolution.entryId, form: resolution.form, explanation: '' };
-      return { outcome: 'accepted', given: text, filled: resolution.display, entryId: resolution.entryId, form: resolution.form, en: resolution.en, status: resolution.status, explanation: '' };
-    }
-    return { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: freeEntryExplanation(resolution, blank), resolution };
-  }
-  return { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: blank?.explanation || (text ? 'Not quite. Try again.' : 'Fill the blank.') };
+  if (fromBank) return authoredMiss;
+  return { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: freeEntryExplanation(resolution, blank), resolution };
 }
 
 // Shared by cloze activities and dialogue turns: grade every blank, then finish or count a miss (reveal after MAX_TRIES).
