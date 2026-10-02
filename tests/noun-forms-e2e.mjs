@@ -204,6 +204,43 @@ try {
     });
   }
 
+  // The taught word lesson's forms card: singular and plural with their articles,
+  // the gender note, and one line naming the article rule when it is not simply
+  // il/i or la/le. A singular-use or plural-only noun shows its number note instead.
+  const genderNote = g => g === 'f' ? 'This noun is feminine.' : 'This noun is masculine.';
+  const lessonFixtures = [
+    { word: 'casa', labels: ['Singular', 'Plural'], forms: ['la casa', 'le case'], notes: [genderNote('f')], rule: null },
+    { word: 'caffè', labels: ['Singular', 'Plural'], forms: ['il caffè', 'i caffè'], notes: [genderNote('m')], rule: null },
+    { word: 'calcio', labels: ['Singular'], forms: ['il calcio'], notes: [singularNote, genderNote('m')], rule: null },
+    { word: 'latte', labels: ['Singular'], forms: ['il latte'], notes: [singularNote, genderNote('m')], rule: null },
+    { word: 'occhiali', labels: ['Normally plural'], forms: ['gli occhiali'], notes: [pluralNote, genderNote('m')], rule: 'This noun takes gli in the plural: gli occhiali.' },
+    { word: 'albero', labels: ['Singular', 'Plural'], forms: ["l'albero", 'gli alberi'], notes: [genderNote('m')], rule: "Before a vowel sound the singular article is l': l'albero. The plural takes gli: gli alberi." },
+    { word: 'zaino', labels: ['Singular', 'Plural'], forms: ['lo zaino', 'gli zaini'], notes: [genderNote('m')], rule: 'Before s + consonant, z, gn, ps, x, y or i + vowel the masculine article is lo: lo zaino. The plural takes gli: gli zaini.' },
+    { word: 'uovo', labels: ['Singular', 'Plural'], forms: ["l'uovo", 'le uova'], notes: [genderNote('m')], rule: "Before a vowel sound the singular article is l': l'uovo. This masculine noun has a feminine plural with le: le uova." },
+  ];
+  for (const fixture of lessonFixtures) {
+    await check(`${fixture.word}: the word lesson’s forms card teaches the article, singular and plural${fixture.rule ? ' and names the article rule' : ''}`, async () => {
+      await gotoRoute(page, route('learn/word', fixture.word));
+      const journey = page.locator('[data-journey]');
+      await journey.waitFor();
+      assert.equal(await journey.getAttribute('data-phase'), 'teach');
+      assert.equal(await journey.getAttribute('data-chapter'), 'meaning');
+      await page.locator('[data-continue]').click();
+      await page.locator('[data-journey][data-chapter="forms"][data-phase="teach"]').waitFor();
+      assert.deepEqual(await page.locator('.journey-form-row .journey-form-person').allTextContents(), fixture.labels, 'form labels');
+      assert.deepEqual(await page.locator('.journey-form-row .journey-form-value').allTextContents(), fixture.forms, 'forms carry their articles');
+      assert.deepEqual(await page.locator('.journey-form-row').evaluateAll(rows => rows.map(row => row.dataset.formSay)), fixture.forms, 'each row speaks the form with its article');
+      const remember = await page.locator('.journey-insight p').allTextContents();
+      for (const note of fixture.notes) assert(remember.includes(note), `${note} in ${JSON.stringify(remember)}`);
+      const rules = remember.filter(p => /article is|takes gli|feminine plural with le/.test(p));
+      if (fixture.rule) assert.deepEqual(rules, [fixture.rule], 'one line names the article rule');
+      else assert.deepEqual(rules, [], 'a regular il/i or la/le noun names no special rule');
+      assert.equal(await page.locator('[data-journey]').evaluate(el => /\bundefined\b|\b(?:i|gli|le)\s+[—-](?:\s|$)/.test(el.innerText)), false, 'no invalid form printed');
+      if (fixture.word === 'albero') await shot('lesson-forms-card-albero', '.journey-teaching');
+      return { forms: fixture.forms, remember };
+    });
+  }
+
   const layoutDetails = [];
   for (const width of [375, 390]) for (const theme of ['light', 'dark']) {
     await check(`${width}px ${theme}: home, entry fan/grid, reference and flashcards have no horizontal overflow`, async () => {

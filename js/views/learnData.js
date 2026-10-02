@@ -8,6 +8,7 @@ import { practiceHref, lessonSessions, lessonPlan, reviewItems, eligibleSkills }
 import { grammarCourse, grammarLesson, grammarProgress, grammarHref, courseLevel, nextGrammarLesson, grammarSessions, relatedVocabulary } from '../learning/grammar-course.js';
 import { courseSessionProgress } from '../learning/course-v2-engine.js';
 import { journeyChapterCompletions, journeyCaseProgress } from '../learning/journey.js';
+import { labLessonTotal, loadSentenceLab } from '../learning/sentence-lab-data.js';
 
 export const LEARN_VIEW_KEY = 'learnView';
 export const MODE_KEY = 'learnMode';
@@ -142,7 +143,12 @@ export function learnModel(store, now = Date.now()) {
   // ---- scope + verb lab ----
   const scope = { label: describeScope(store.scope, store), learned: scopeAll.filter(e => store.isLearned(e.id)).length, total: scopeAll.length, href: '#/scope' };
   const learnedVerbs = store.learnedIds('v:').length;
+  // the sentence workshop: its packs load lazily, so the lesson total is printed once the learner has used it and they are in
+  const frasi = typeof store.labRecord === 'function' ? store.labRecord('frasi') : (store.current?.lab?.frasi || { done: {} });
+  const frasiDone = Object.keys(frasi.done || {}).length, frasiTotal = labLessonTotal();
+  if (frasiDone && !frasiTotal) loadSentenceLab().catch(() => { /* the card still opens the workshop, which reports the error */ });
   const lab = [
+    { key: 'frasi', title: 'Officina delle frasi', sub: frasiDone ? (frasiTotal ? `${frasiDone} / ${frasiTotal} lessons` : `${frasiDone} lesson${frasiDone === 1 ? '' : 's'} done`) : 'Build sentences', href: '#/lab/frasi', icon: 'edit' },
     { key: 'conj-drill', title: 'Conjugation drill', sub: learnedVerbs ? `${learnedVerbs} learned verb${learnedVerbs === 1 ? '' : 's'}` : 'verbs in your scope', href: learnedVerbs ? '#/game/conj-drill?src=learned-verbs&tenses=presente,passatoProssimo' : '#/game/conj-drill?src=scope&tenses=presente', icon: 'edit' },
     { key: 'verb-quiz', title: 'Verb mix', sub: 'current scope', href: '#/game/verb-quiz?src=scope', icon: 'sparkle' },
     { key: 'all-verbs', title: 'All verbs', sub: `${data.verbs.length} with full tables`, href: '#/browse?kind=verb', icon: 'book' },

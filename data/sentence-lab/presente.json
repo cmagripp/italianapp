@@ -33,7 +33,7 @@
           "examples": [
             { "it": "Io sono Marco.", "en": "I am Marco.", "roles": [["Io", "subject"], ["sono", "verb"], ["Marco.", "object"]] },
             { "it": "Sono di Milano.", "en": "I am from Milan.", "roles": [["Sono", "verb"], ["di", "object"], ["Milano.", "object"]] },
-            { "it": "Sono italiana.", "en": "I am Italian.", "roles": [["Sono", "verb"], ["italiana.", "object"]] },
+            { "it": "Sono italiana.", "en": "I am Italian. (a woman speaking)", "roles": [["Sono", "verb"], ["italiana.", "object"]] },
             { "it": "Ho ventotto anni.", "en": "I am twenty-eight years old.", "roles": [["Ho", "verb"], ["ventotto", "object"], ["anni.", "object"]] }
           ],
           "tip": "Age takes avere, not essere: ho ventotto anni is literally 'I have twenty-eight years'. Italiano ends in -o for a man and -a for a woman."
@@ -82,12 +82,12 @@
           "en": "I am from Rome and I am ____.",
           "blanks": [
             {
-              "accept": ["italiano", "italiana"],
+              "accept": ["italiano", "italiana", "inglese", "americano", "americana", "spagnolo", "francese"],
               "options": ["italiano", "italiana", "inglese"],
               "bank": ["americano", "americana", "spagnolo", "francese"],
               "free": true,
               "slot": { "pos": "adj", "agree": "speaker", "category": ["people"], "wrap": null },
-              "explanation": "Rome is in Italy, so italiano for a man and italiana for a woman."
+              "explanation": "A nationality is an adjective and agrees with you: italiano for a man, italiana for a woman. Inglese and francese have one form for both."
             }
           ],
           "hint": "Type any nationality you like; it must agree with you."
@@ -117,7 +117,7 @@
               "en": "I am ____ and I am twenty-eight years old.",
               "blanks": [
                 {
-                  "accept": ["italiano", "italiana", "inglese", "americano", "americana"],
+                  "accept": ["italiano", "italiana", "inglese", "americano", "americana", "spagnolo", "francese", "tedesco"],
                   "options": ["italiano", "italiana", "inglese", "americano", "americana"],
                   "bank": ["spagnolo", "francese", "tedesco"],
                   "free": true,
@@ -140,7 +140,7 @@
               "en": "I am ____.",
               "blanks": [
                 {
-                  "accept": ["studente", "studentessa", "insegnante"],
+                  "accept": ["studente", "studentessa", "insegnante", "medico", "cameriere", "cameriera"],
                   "options": ["studente", "studentessa", "insegnante"],
                   "bank": ["medico", "cameriere", "cameriera"],
                   "free": true,
@@ -181,9 +181,8 @@
               "items": [
                 { "it": "Io", "en": "I", "person": 0 },
                 { "it": "Tu", "en": "you", "person": 1 },
-                { "it": "Mia sorella", "en": "my sister", "person": 2 },
-                { "it": "Noi", "en": "we", "person": 3 },
-                { "it": "Marco e Anna", "en": "Marco and Anna", "person": 5 }
+                { "it": "Mia sorella", "en": "my sister", "person": 2, "gender": "f" },
+                { "it": "Mio fratello", "en": "my brother", "person": 2, "gender": "m" }
               ]
             },
             {
@@ -258,7 +257,7 @@
           "prompt": "Build the sentence",
           "en": "I eat pasta in the evening.",
           "answer": "Io mangio la pasta la sera.",
-          "accepted": ["Mangio la pasta la sera."],
+          "accepted": ["Mangio la pasta la sera.", "La sera mangio la pasta.", "La sera io mangio la pasta."],
           "tokens": ["Io", "mangio", "la", "pasta", "la", "sera."],
           "distractors": [],
           "explanation": "Who, verb, what, then when: io mangio la pasta la sera.",
@@ -284,12 +283,12 @@
           "en": "Marco ____ pizza.",
           "blanks": [
             {
-              "accept": ["mangia"],
+              "accept": ["mangia", "prende", "compra", "preferisce"],
               "options": ["mangia", "mangio", "mangi"],
               "bank": ["prende", "compra", "preferisce"],
               "free": true,
               "slot": { "pos": "verb", "person": 2, "tense": "presente", "wrap": null },
-              "explanation": "Marco is lui, so an -are verb ends in -a: mangia."
+              "explanation": "Marco is lui, so an -are verb ends in -a (mangia, compra) and an -ere or -ire verb in -e (prende, preferisce)."
             }
           ],
           "hint": "Type any verb that fits: it will be conjugated for Marco."
@@ -300,7 +299,7 @@
           "prompt": "Build the sentence",
           "en": "My brother sleeps a lot on Sundays.",
           "answer": "Mio fratello dorme molto la domenica.",
-          "accepted": [],
+          "accepted": ["La domenica mio fratello dorme molto."],
           "tokens": ["Mio", "fratello", "dorme", "molto", "la", "domenica."],
           "distractors": [],
           "explanation": "Mio fratello is lui: dormire becomes dorme.",
@@ -340,10 +339,10 @@
               "en": "Yes, in the evening I cook pasta and read a book.",
               "blanks": [
                 { "accept": ["cucino"], "options": ["cucino", "cucini", "cucina"], "bank": [], "free": false, "slot": null, "explanation": "Io takes -o: cucino." },
-                { "accept": ["leggo"], "options": ["leggo", "leggi", "legge"], "bank": ["scrivo"], "free": false, "slot": null, "explanation": "Io takes -o: leggo." }
+                { "accept": ["leggo"], "options": ["leggo", "leggi", "legge"], "bank": ["leggiamo"], "free": false, "slot": null, "explanation": "Io takes -o: leggo." }
               ],
               "reactions": [
-                { "when": ["cucino"], "it": "La pasta, che buono! Io invece ordino sempre una pizza.", "en": "Pasta, how nice! I always order a pizza instead." },
+                { "when": ["cucino"], "it": "La pasta, che buona! Io invece ordino sempre una pizza.", "en": "Pasta, how nice! I always order a pizza instead." },
                 { "when": "*", "it": "Che bella serata.", "en": "What a nice evening." }
               ]
             },
@@ -495,7 +494,7 @@
           "en": "I really like ____.",
           "blanks": [
             {
-              "accept": ["la pizza", "il mare", "la musica"],
+              "accept": ["la pizza", "il mare", "la musica", "il gelato", "lo sport", "il cinema"],
               "options": ["la pizza", "il mare", "la musica"],
               "bank": ["il gelato", "lo sport", "il cinema"],
               "free": true,
@@ -530,7 +529,7 @@
               "en": "I like ____.",
               "blanks": [
                 {
-                  "accept": ["la pizza", "il gelato", "la pasta"],
+                  "accept": ["la pizza", "il gelato", "la pasta", "il pesce", "la carne", "il pane"],
                   "options": ["la pizza", "il gelato", "la pasta"],
                   "bank": ["il pesce", "la carne", "il pane"],
                   "free": true,
@@ -590,22 +589,19 @@
           "kind": "build",
           "prompt": "Say it yourself",
           "tense": "presente",
-          "hint": "Who likes or misses one thing? The verb agrees with the thing, which is singular here.",
+          "hint": "Who likes or misses one thing? The verb agrees with the thing, which is singular here, so it stays piace or manca.",
           "roles": [
             {
-              "role": "subject",
-              "items": [
-                { "it": "Mi", "en": "I", "person": 2 },
-                { "it": "Ti", "en": "you", "person": 2 },
-                { "it": "A Marco", "en": "Marco", "person": 2 },
-                { "it": "A mia sorella", "en": "my sister", "person": 2 }
-              ]
-            },
-            {
               "role": "verb",
+              "fixed": true,
+              "label": "who likes or misses",
               "items": [
-                { "inf": "piacere", "en": "like", "aux": "essere" },
-                { "inf": "mancare", "en": "miss", "aux": "essere" }
+                { "it": "Mi piace", "en": "I like" },
+                { "it": "Ti piace", "en": "you like" },
+                { "it": "A Marco piace", "en": "Marco likes" },
+                { "it": "A mia sorella piace", "en": "my sister likes" },
+                { "it": "Mi manca", "en": "I miss" },
+                { "it": "A Marco manca", "en": "Marco misses" }
               ]
             },
             {
@@ -688,7 +684,7 @@
           "en": "In the morning I work in the office and in the evening I eat at home.",
           "blanks": [
             { "accept": ["in"], "options": ["in", "a", "al"], "bank": ["alla"], "free": false, "slot": null, "explanation": "Ufficio takes in: in ufficio." },
-            { "accept": ["a"], "options": ["a", "in", "al"], "bank": ["alla"], "free": false, "slot": null, "explanation": "Casa takes a: a casa." }
+            { "accept": ["a"], "options": ["a", "al", "alla"], "bank": ["nella"], "free": false, "slot": null, "explanation": "Casa takes a plain a: a casa." }
           ],
           "hint": "In ufficio, a casa."
         },
@@ -700,12 +696,12 @@
           "en": "I study Italian ____.",
           "blanks": [
             {
-              "accept": ["la sera", "la mattina", "il lunedì", "stasera"],
+              "accept": ["la sera", "la mattina", "il lunedì", "stasera", "oggi", "domani", "sempre"],
               "options": ["la sera", "la mattina", "il lunedì", "stasera"],
               "bank": ["oggi", "domani", "sempre"],
               "free": true,
               "slot": { "pos": "adv", "category": ["time"], "wrap": null },
-              "explanation": "A time phrase closes the sentence: la sera, la mattina, il lunedì, stasera."
+              "explanation": "A time word or phrase closes the sentence: la sera, il lunedì, stasera, oggi, domani."
             }
           ],
           "hint": "Type a time word like oggi or domani if you prefer."
@@ -756,7 +752,7 @@
               "en": "I am at home ____.",
               "blanks": [
                 {
-                  "accept": ["la sera", "il sabato", "stasera", "la domenica"],
+                  "accept": ["la sera", "il sabato", "stasera", "la domenica", "domani", "oggi"],
                   "options": ["la sera", "il sabato", "stasera", "la domenica"],
                   "bank": ["domani", "oggi"],
                   "free": true,
@@ -895,8 +891,8 @@
           "template": "____ abiti? A Roma. ____ parte il treno? Alle otto.",
           "en": "____ do you live? In Rome. ____ does the train leave? At eight.",
           "blanks": [
-            { "accept": ["dove"], "options": ["dove", "quando", "chi"], "bank": ["che cosa"], "free": false, "slot": null, "explanation": "The answer is a place, so the question is dove." },
-            { "accept": ["quando"], "options": ["quando", "dove", "che cosa"], "bank": ["chi"], "free": false, "slot": null, "explanation": "The answer is a time, so the question is quando." }
+            { "accept": ["Dove"], "options": ["Dove", "Quando", "Chi"], "bank": ["Che cosa"], "free": false, "slot": null, "explanation": "The answer is a place, so the question is dove." },
+            { "accept": ["Quando"], "options": ["Quando", "Dove", "Che cosa"], "bank": ["Chi"], "free": false, "slot": null, "explanation": "The answer is a time, so the question is quando." }
           ],
           "hint": "Read the answer: a place or a time?"
         },
@@ -907,8 +903,8 @@
           "template": "____ è quella ragazza? È mia sorella. ____ mangi stasera? Una pizza.",
           "en": "____ is that girl? She is my sister. ____ are you eating tonight? A pizza.",
           "blanks": [
-            { "accept": ["chi"], "options": ["chi", "dove", "che cosa"], "bank": ["quando"], "free": false, "slot": null, "explanation": "The answer is a person, so the question is chi." },
-            { "accept": ["che cosa"], "options": ["che cosa", "chi", "quando"], "bank": ["dove"], "free": false, "slot": null, "explanation": "The answer is a thing, so the question is che cosa." }
+            { "accept": ["Chi"], "options": ["Chi", "Dove", "Che cosa"], "bank": ["Quando"], "free": false, "slot": null, "explanation": "The answer is a person, so the question is chi." },
+            { "accept": ["Che cosa"], "options": ["Che cosa", "Chi", "Quando"], "bank": ["Dove"], "free": false, "slot": null, "explanation": "The answer is a thing, so the question is che cosa." }
           ],
           "hint": "A person or a thing?"
         },
@@ -918,7 +914,7 @@
           "prompt": "Build the question",
           "en": "Are you going to the cinema tonight?",
           "answer": "Vai al cinema stasera?",
-          "accepted": [],
+          "accepted": ["Stasera vai al cinema?"],
           "tokens": ["Vai", "al", "cinema", "stasera?"],
           "distractors": ["Dove", "vado"],
           "explanation": "A yes/no question has no question word: the statement order stays, only the voice rises.",
@@ -977,10 +973,10 @@
               "template": "____ nove. Va bene?",
               "en": "At nine. Is that okay?",
               "blanks": [
-                { "accept": ["alle"], "options": ["alle", "a", "al"], "bank": ["in"], "free": false, "slot": null, "explanation": "Clock times take alle: alle nove." }
+                { "accept": ["Alle"], "options": ["Alle", "A", "Al"], "bank": ["In"], "free": false, "slot": null, "explanation": "Clock times take alle: alle nove." }
               ],
               "reactions": [
-                { "when": ["alle"], "it": "Perfetto, alle nove.", "en": "Perfect, at nine." },
+                { "when": ["Alle"], "it": "Perfetto, alle nove.", "en": "Perfect, at nine." },
                 { "when": "*", "it": "Perfetto.", "en": "Perfect." }
               ]
             },
@@ -994,7 +990,7 @@
           "template": "Lavori il sabato? ____, il sabato non lavoro.",
           "en": "Do you work on Saturdays? ____, on Saturdays I don't work.",
           "blanks": [
-            { "accept": ["no"], "options": ["no", "sì"], "bank": [], "free": false, "slot": null, "explanation": "Non lavoro means the answer is no." }
+            { "accept": ["No"], "options": ["No", "Sì"], "bank": [], "free": false, "slot": null, "explanation": "Non lavoro means the answer is no." }
           ],
           "hint": "Read the second half of the answer."
         },
@@ -1080,7 +1076,7 @@
           ],
           "examples": [
             { "it": "Sto bene, grazie.", "en": "I'm fine, thanks.", "roles": [["Sto", "verb"], ["bene,", "object"], ["grazie.", "extra"]] },
-            { "it": "Sono stanca.", "en": "I am tired.", "roles": [["Sono", "verb"], ["stanca.", "object"]] },
+            { "it": "Sono stanca.", "en": "I am tired. (a woman speaking)", "roles": [["Sono", "verb"], ["stanca.", "object"]] },
             { "it": "Ho fame.", "en": "I am hungry.", "roles": [["Ho", "verb"], ["fame.", "object"]] },
             { "it": "Ho sonno, vado a casa.", "en": "I'm sleepy, I'm going home.", "roles": [["Ho", "verb"], ["sonno,", "object"], ["vado", "verb"], ["a", "extra"], ["casa.", "extra"]] }
           ],
@@ -1134,7 +1130,7 @@
               "en": "Fine thanks, but ____.",
               "blanks": [
                 {
-                  "accept": ["sono stanco", "sono stanca", "ho fame", "ho sonno"],
+                  "accept": ["sono stanco", "sono stanca", "ho fame", "ho sonno", "ho sete"],
                   "options": ["sono stanco", "sono stanca", "ho fame", "ho sonno"],
                   "bank": ["sono stanca", "ho sete"],
                   "free": true,
@@ -1156,7 +1152,7 @@
               "template": "Sì, volentieri! ____ insieme.",
               "en": "Yes, I'd love to! Let's go together.",
               "blanks": [
-                { "accept": ["andiamo"], "options": ["andiamo", "vado", "vai"], "bank": ["mangiamo"], "free": false, "slot": null, "explanation": "Andiamo, the noi form, also means let's go." }
+                { "accept": ["andiamo"], "options": ["andiamo", "vado", "vai"], "bank": ["andate"], "free": false, "slot": null, "explanation": "Andiamo, the noi form, also means let's go." }
               ],
               "reactions": [
                 { "when": ["andiamo"], "it": "Perfetto!", "en": "Perfect!" },
@@ -1169,7 +1165,7 @@
               "template": "Sì, ____ fame! Una pizza?",
               "en": "Yes, I'm hungry! A pizza?",
               "blanks": [
-                { "accept": ["ho"], "options": ["ho", "sono", "hai"], "bank": ["abbiamo"], "free": false, "slot": null, "explanation": "Fame goes with avere: ho fame." }
+                { "accept": ["ho"], "options": ["ho", "sono", "hai"], "bank": ["è"], "free": false, "slot": null, "explanation": "Fame goes with avere: ho fame." }
               ],
               "reactions": [
                 { "when": ["ho"], "it": "Pizza! Ottima idea.", "en": "Pizza! Great idea." },
@@ -1182,7 +1178,7 @@
               "template": "A stasera, ____!",
               "en": "See you tonight, ____!",
               "blanks": [
-                { "accept": ["ciao", "a dopo", "a presto"], "options": ["ciao", "a dopo", "a presto"], "bank": ["arrivederci", "buonanotte"], "free": false, "slot": null, "explanation": "Ciao, a dopo or a presto all close a friendly chat." }
+                { "accept": ["ciao", "a dopo", "a presto"], "options": ["ciao", "a dopo", "a presto"], "bank": ["buonanotte"], "free": false, "slot": null, "explanation": "Ciao, a dopo or a presto all close a friendly chat; buonanotte is for when the day is over, not before meeting tonight." }
               ],
               "reactions": [
                 { "when": ["ciao"], "it": "Ciao!", "en": "Bye!" },
@@ -1211,12 +1207,12 @@
           "en": "Today I am ____ because it's Saturday.",
           "blanks": [
             {
-              "accept": ["contento", "contenta", "felice"],
+              "accept": ["contento", "contenta", "felice", "libero", "libera"],
               "options": ["contento", "contenta", "felice"],
-              "bank": ["stanco", "stanca", "libero", "libera"],
+              "bank": ["libero", "libera"],
               "free": true,
               "slot": { "pos": "adj", "agree": "speaker", "category": ["emotions"], "wrap": null },
-              "explanation": "Contento agrees with you: contento for a man, contenta for a woman. Felice is the same for both."
+              "explanation": "The adjective agrees with you: contento or libero for a man, contenta or libera for a woman. Felice is the same for both."
             }
           ],
           "hint": "Type any adjective that describes how you feel."

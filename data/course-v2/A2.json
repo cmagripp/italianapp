@@ -14165,19 +14165,15 @@
               "stage": "independent",
               "reserve": true,
               "contextKey": "v2-a2-someone-something.reserve-14",
-              "format": "choice",
-              "prompt": "Choose the expression that fits this situation.",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
               "context": "Cerco ___ per la festa: una torta?",
               "translation": "I am looking for something for the party: a cake?",
               "answer": "qualcosa",
-              "options": [
-                "qualcosa",
-                "qualcuno",
-                "qualche"
-              ],
               "speak": "Cerco qualcosa per la festa: una torta?",
               "explanation": "A cake is a thing, so qualcosa.",
-              "hint": "The example given is a thing."
+              "hint": "The example given is a thing.",
+              "strict": true
             },
             {
               "id": "v2-a2-someone-something.s15",
@@ -14187,19 +14183,22 @@
               "stage": "independent",
               "reserve": true,
               "contextKey": "v2-a2-someone-something.reserve-15",
-              "format": "choice",
-              "prompt": "Choose the expression that fits this situation.",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
               "context": "Resto a Roma ___ giorno.",
               "translation": "I am staying in Rome a few days.",
               "answer": "qualche",
-              "options": [
-                "qualche",
-                "alcuni",
-                "qualcosa"
-              ],
               "speak": "Resto a Roma qualche giorno.",
               "explanation": "Giorno is singular, so a few days is qualche giorno.",
-              "hint": "Match the singular noun."
+              "hint": "Match the singular noun.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "alcuni",
+                  "tag": "plural-after-qualche",
+                  "explanation": "Giorno is singular, so the word is qualche; alcuni goes with a plural noun: alcuni giorni."
+                }
+              ]
             },
             {
               "id": "v2-a2-someone-something.s16",
@@ -14498,19 +14497,18 @@
               "stage": "independent",
               "reserve": true,
               "contextKey": "v2-a2-nobody-nothing.reserve-12",
-              "format": "choice",
-              "prompt": "Choose the expression that fits this situation.",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
               "context": "Luca non dice ___.",
               "translation": "Luca says nothing.",
               "answer": "niente",
-              "options": [
-                "niente",
-                "nessuno",
-                "qualcosa"
+              "accepted": [
+                "nulla"
               ],
               "speak": "Luca non dice niente.",
               "explanation": "A thing after the verb: niente, with non before dice.",
-              "hint": "Nothing is a thing."
+              "hint": "Nothing is a thing.",
+              "strict": true
             },
             {
               "id": "v2-a2-nobody-nothing.s13",
@@ -14542,19 +14540,22 @@
               "stage": "independent",
               "reserve": true,
               "contextKey": "v2-a2-nobody-nothing.reserve-14",
-              "format": "choice",
-              "prompt": "Choose the expression that fits this situation.",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
               "context": "___ mi chiama la domenica.",
               "translation": "Nobody calls me on Sunday.",
               "answer": "Nessuno",
-              "options": [
-                "Nessuno",
-                "Non nessuno",
-                "Niente"
-              ],
               "speak": "Nessuno mi chiama la domenica.",
               "explanation": "Nessuno is first, so there is no non.",
-              "hint": "The subject is the negative word."
+              "hint": "The subject is the negative word.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "Non nessuno",
+                  "tag": "extra-non",
+                  "explanation": "When nessuno opens the sentence, there is no non: Nessuno mi chiama."
+                }
+              ]
             },
             {
               "id": "v2-a2-nobody-nothing.s15",
@@ -14868,13 +14869,14 @@
               "format": "type",
               "prompt": "Complete the Italian sentence with the taught form.",
               "context": "Hai fame? ___ mangiamo adesso.",
-              "translation": "Are you hungry? Then let’s eat now. Use the everyday word for so or then.",
+              "translation": "Are you hungry? Then let’s eat now. Use a word for so or then.",
               "answer": "Allora",
               "accepted": [
-                "Dunque"
+                "Dunque",
+                "Quindi"
               ],
               "speak": "Hai fame? Allora mangiamo adesso.",
-              "explanation": "Eating now follows from the hunger: allora.",
+              "explanation": "Eating now follows from the hunger: allora, or the more formal dunque.",
               "hint": "The conclusion follows from the question.",
               "strict": true
             },
@@ -14886,19 +14888,19 @@
               "stage": "independent",
               "reserve": true,
               "contextKey": "v2-a2-everyday-links.reserve-12",
-              "format": "choice",
-              "prompt": "Choose the expression that fits this situation.",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
               "context": "Non c’è pane. ___ vado al mercato.",
-              "translation": "There is no bread. So I am going to the market.",
+              "translation": "There is no bread. So I am going to the market. Use a word for so or then.",
               "answer": "Allora",
-              "options": [
-                "Allora",
-                "Però",
-                "Invece"
+              "accepted": [
+                "Dunque",
+                "Quindi"
               ],
               "speak": "Non c’è pane. Allora vado al mercato.",
-              "explanation": "Going to the market follows from the missing bread: allora.",
-              "hint": "The second sentence is a consequence."
+              "explanation": "Going to the market follows from the missing bread: allora, or the more formal dunque.",
+              "hint": "The second sentence is a consequence.",
+              "strict": true
             },
             {
               "id": "v2-a2-everyday-links.s13",
@@ -14930,19 +14932,15 @@
               "stage": "independent",
               "reserve": true,
               "contextKey": "v2-a2-everyday-links.reserve-14",
-              "format": "choice",
-              "prompt": "Choose the expression that fits this situation.",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
               "context": "Luca mangia la pizza; Anna ___ mangia la pasta.",
-              "translation": "Luca eats pizza; Anna, instead, eats pasta.",
+              "translation": "Luca eats pizza; Anna, instead, eats pasta. Use the word for instead.",
               "answer": "invece",
-              "options": [
-                "invece",
-                "infatti",
-                "allora"
-              ],
               "speak": "Luca mangia la pizza; Anna invece mangia la pasta.",
               "explanation": "Invece sets Anna against Luca.",
-              "hint": "Two people, two different choices."
+              "hint": "Two people, two different choices.",
+              "strict": true
             },
             {
               "id": "v2-a2-everyday-links.s15",

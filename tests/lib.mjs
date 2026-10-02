@@ -102,6 +102,7 @@ export const STATIC_ROUTES = [
   '/entry/v:essere', '/entry/v:andarsene', '/entry/w:casa|noun',
   '/learn/verb/v:mangiare', '/learn/word/w:casa|noun', '/review',
   '/reference', '/reference/v:essere', '/reference/w:casa|noun', '/grammar/articles',
+  '/lab/frasi', '/lab/frasi/sl-presente-01-chi-sono',
 ];
 // Fallback only: the live list is read from js/games/index.js in the browser (discoverGameIds).
 export const FALLBACK_GAME_IDS = ['flashcards', 'quiz', 'typing', 'matching', 'hangman', 'crossword', 'cloze', 'scramble', 'sentence', 'gender', 'plurals', 'dictation', 'reverse', 'speed', 'conj-drill', 'conj-choice', 'tense-detective', 'aux', 'participles', 'patterns', 'verb-quiz'];

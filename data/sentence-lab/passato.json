@@ -44,7 +44,7 @@
           "prompt": "Build the sentence",
           "en": "Yesterday I ate pizza.",
           "answer": "Ieri ho mangiato la pizza.",
-          "accepted": [],
+          "accepted": ["Ho mangiato la pizza ieri."],
           "tokens": ["Ieri", "ho", "mangiato", "la", "pizza."],
           "distractors": ["mangiare", "sono"],
           "explanation": "Mangiare takes avere (ho, not sono), and after ho comes the participle mangiato, never the infinitive.",
@@ -247,7 +247,7 @@
           "id": "sl-passato-02-sono-andato.1",
           "kind": "model",
           "prompt": "Who + is + gone",
-          "body": "Verbs of movement and change (andare, arrivare, uscire, tornare, essere) take essere. The participle then agrees with the subject: andato, andata, andati, andate.",
+          "body": "Verbs of movement and change (andare, arrivare, uscire, tornare), and essere itself, take essere. The participle then agrees with the subject: andato, andata, andati, andate.",
           "pattern": [
             { "role": "subject", "label": "who" },
             { "role": "verb", "label": "is gone" },
@@ -373,7 +373,7 @@
           "prompt": "Build the sentence",
           "en": "My friends went out last night.",
           "answer": "I miei amici sono usciti ieri sera.",
-          "accepted": [],
+          "accepted": ["Ieri sera i miei amici sono usciti."],
           "tokens": ["I", "miei", "amici", "sono", "usciti", "ieri", "sera."],
           "distractors": ["uscito"],
           "explanation": "I miei amici is masculine plural: sono usciti."
@@ -419,17 +419,17 @@
                 { "inf": "andare", "en": "went", "aux": "essere" },
                 { "inf": "tornare", "en": "came back", "aux": "essere" },
                 { "inf": "arrivare", "en": "arrived", "aux": "essere" },
-                { "inf": "uscire", "en": "went out", "aux": "essere", "isc": false }
+                { "inf": "restare", "en": "stayed", "aux": "essere" }
               ]
             },
             {
               "role": "object",
               "items": [
                 { "it": "a casa", "en": "home" },
-                { "it": "al mare", "en": "to the seaside" },
-                { "it": "al cinema", "en": "to the cinema" },
+                { "it": "al mare", "en": "at the seaside" },
+                { "it": "al cinema", "en": "at the cinema" },
                 { "it": "alla stazione", "en": "at the station" },
-                { "it": "alla festa", "en": "to the party" },
+                { "it": "alla festa", "en": "at the party" },
                 { "it": "con gli amici", "en": "with friends" }
               ]
             },
@@ -444,7 +444,7 @@
               ]
             }
           ],
-          "examples": ["Io sono andato al mare ieri.", "Mia sorella è tornata a casa tardi.", "Le ragazze sono uscite con gli amici ieri sera."]
+          "examples": ["Io sono andato al mare ieri.", "Mia sorella è tornata a casa tardi.", "Le ragazze sono restate a casa ieri sera."]
         }
       ]
     },
@@ -589,7 +589,7 @@
           "prompt": "Build the sentence",
           "en": "Two days ago I bought a book.",
           "answer": "Due giorni fa ho comprato un libro.",
-          "accepted": [],
+          "accepted": ["Ho comprato un libro due giorni fa."],
           "tokens": ["Due", "giorni", "fa", "ho", "comprato", "un", "libro."],
           "distractors": ["sono"],
           "explanation": "Due giorni fa: the amount of time first, then fa. Comprare takes avere, not sono."
@@ -625,7 +625,7 @@
           "prompt": "The marker at the end",
           "en": "I saw Anna yesterday.",
           "answer": "Ho visto Anna ieri.",
-          "accepted": [],
+          "accepted": ["Ieri ho visto Anna."],
           "tokens": ["Ho", "visto", "Anna", "ieri."],
           "distractors": ["vista"],
           "explanation": "The time marker can also close the sentence: ho visto Anna ieri. With avere the participle stays visto."
@@ -717,7 +717,7 @@
             { "it": "Da bambino avevo un cane.", "en": "As a child I had a dog. (a man speaking)", "roles": [["Da bambino", "extra"], ["avevo", "verb"], ["un cane.", "object"]] },
             { "it": "Mentre dormivo, è arrivato Marco.", "en": "While I was sleeping, Marco arrived.", "roles": [["Mentre dormivo,", "extra"], ["è arrivato", "verb"], ["Marco.", "subject"]] }
           ],
-          "tip": "Imperfetto endings: -avo, -evo, -ivo (io); -ava, -eva, -iva (lui, lei); -avamo (noi); -avano (loro). Essere is irregular: ero, eri, era, eravamo, eravate, erano."
+          "tip": "Imperfetto endings: -avo, -evo, -ivo (io); -ava, -eva, -iva (lui, lei); -avamo, -evamo, -ivamo (noi); -avano, -evano, -ivano (loro). Essere is irregular: ero, eri, era, eravamo, eravate, erano."
         },
         {
           "id": "sl-passato-04-era-cosi.2",
@@ -728,8 +728,8 @@
           "blanks": [
             {
               "accept": ["faceva"],
-              "options": ["faceva", "ha fatto", "fa"],
-              "bank": [],
+              "options": ["faceva", "fa", "facevi"],
+              "bank": ["fatto"],
               "free": false,
               "slot": null,
               "explanation": "Non c'era il sole sets the scene, so the cold goes in the imperfetto too: faceva freddo."
@@ -912,15 +912,15 @@
               "role": "extra",
               "optional": true,
               "items": [
-                { "it": "da bambino", "en": "as a boy" },
-                { "it": "da bambina", "en": "as a girl" },
+                { "it": "a quel tempo", "en": "at that time" },
+                { "it": "ogni estate", "en": "every summer" },
                 { "it": "ogni giorno", "en": "every day" },
                 { "it": "la sera", "en": "in the evening" },
                 { "it": "a casa", "en": "at home" }
               ]
             }
           ],
-          "examples": ["Io avevo un cane da bambino.", "Mio nonno leggeva molti libri la sera.", "I bambini guardavano la televisione ogni giorno."]
+          "examples": ["Io avevo un cane a quel tempo.", "Mio nonno leggeva molti libri la sera.", "I bambini guardavano la televisione ogni giorno."]
         }
       ]
     },
@@ -932,7 +932,7 @@
       "tense": "misto",
       "grammarRefs": ["v2-a2-story-contrast", "v2-a2-short-story", "v2-a2-read-small-story"],
       "vocab": [
-        { "it": "giornata", "en": "day (as it unfolds)", "pos": "noun" },
+        { "it": "giornata", "en": "day (as a whole)", "pos": "noun" },
         { "it": "ristorante", "en": "restaurant", "pos": "noun" },
         { "it": "insieme", "en": "together", "pos": "adv" },
         { "it": "prima", "en": "first; before", "pos": "adv" },
@@ -1121,7 +1121,7 @@
           "prompt": "Build the sentence",
           "en": "Last night we ate together at the restaurant.",
           "answer": "Ieri sera abbiamo mangiato insieme al ristorante.",
-          "accepted": [],
+          "accepted": ["Abbiamo mangiato insieme al ristorante ieri sera."],
           "tokens": ["Ieri", "sera", "abbiamo", "mangiato", "insieme", "al", "ristorante."],
           "distractors": ["siamo"],
           "explanation": "Mangiare takes avere: abbiamo mangiato, not siamo."
@@ -1131,15 +1131,15 @@
           "kind": "cloze",
           "prompt": "Say it about yourself",
           "template": "Due giorni fa ____ i miei nonni.",
-          "en": "Two days ago I visited my grandparents.",
+          "en": "Two days ago I saw my grandparents.",
           "blanks": [
             {
-              "accept": ["ho visitato", "ho chiamato"],
-              "options": ["ho visitato", "ho chiamato", "visitavo", "sono visitato"],
+              "accept": ["ho visto", "ho chiamato"],
+              "options": ["ho visto", "ho chiamato", "vedevo", "sono visto"],
               "bank": [],
               "free": false,
               "slot": null,
-              "explanation": "A single completed event takes the passato prossimo with avere: ho visitato, not visitavo (a habit) or sono visitato (wrong auxiliary)."
+              "explanation": "A single completed event takes the passato prossimo with avere: ho visto (vedere has the irregular participle visto), not vedevo (a habit) or sono visto (wrong auxiliary)."
             }
           ]
         },
@@ -1166,7 +1166,7 @@
                 { "inf": "mangiare", "en": "ate" },
                 { "inf": "cenare", "en": "had dinner" },
                 { "inf": "andare", "en": "went", "aux": "essere" },
-                { "inf": "uscire", "en": "went out", "aux": "essere", "isc": false },
+                { "inf": "restare", "en": "stayed", "aux": "essere" },
                 { "inf": "tornare", "en": "came back", "aux": "essere" }
               ]
             },
@@ -1192,7 +1192,7 @@
               ]
             }
           ],
-          "examples": ["Io ho cenato al ristorante ieri sera.", "I miei genitori sono tornati a casa la settimana scorsa.", "Noi siamo usciti con gli amici sabato."]
+          "examples": ["Io ho cenato al ristorante ieri sera.", "I miei genitori sono tornati a casa la settimana scorsa.", "Noi siamo restati a casa sabato."]
         }
       ]
     }

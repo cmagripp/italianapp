@@ -33,7 +33,7 @@ for(const l of lessons)for(const s of l.steps){
 const actualIds=new Set(lessons.flatMap(l=>l.steps.filter(s=>s.kind==='passage'&&s.mode==='listen').map(s=>s.audioId)));
 assert.equal(assets.size,actualIds.size,'Audio manifest contains unused assets');
 const legacy=levels.slice(1).flatMap(level=>read(`data/grammar-course/${level}.json`).units.flatMap(u=>u.lessons));
-const map=read('data/course-v2/legacy-map.json');assert.equal(map.unitCount,78);assert.equal(map.lessonCount,lessons.length);assert.equal(map.mapping.length,legacy.length);
+const map=read('data/course-v2/legacy-map.json');assert.equal(map.unitCount,82);assert.equal(map.lessonCount,lessons.length);assert.equal(map.mapping.length,legacy.length);
 const newIds=new Set(lessons.map(l=>l.id));for(const old of legacy){const row=map.mapping.find(r=>r.legacyLessonId===old.id);assert(row?.decision&&row.progressPolicy,`${old.id}: no migration decision`);for(const id of row.newLessons)assert(newIds.has(id),`${old.id}: missing mapped lesson ${id}`);}
 const oldIds=new Set(legacy.map(l=>l.id));for(const l of lessons)for(const id of l.legacyLessonIds||[])assert(oldIds.has(id),`${l.id}: unknown legacy source ${id}`);
 console.log(`${assets.size} attributed audio clips (${(bytes/1024/1024).toFixed(1)} MiB), ${listening} validated listening checks, ${legacy.length} preserved legacy lesson decisions.`);

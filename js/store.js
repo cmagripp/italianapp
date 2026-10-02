@@ -103,6 +103,45 @@ export const DEFAULT_SETTINGS = {
   haptics: true,
 };
 
+// ---------- laboratorio records (the sentence workshop, docs/SENTENCE-LAB-CONTRACT.md §6) ----------
+// profile.lab = { frasi: { done: { [lessonId]: at }, sentences: [{ it, en, lessonId, at }] } }: saved with the profile,
+// merged on sync (newest `at` per lesson wins, sentences unioned by it+at), cleared by resetProgress, in every backup.
+const LAB_SENTENCES_MAX = 200;
+const LAB_BAD_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+const freshLabRecord = () => ({ done: {}, sentences: [] });
+const freshLab = () => ({ frasi: freshLabRecord() });
+// newest LAB_SENTENCES_MAX sentences, one per text+time, oldest first
+function labSentences(list) {
+  const seen = new Set(), out = [];
+  for (const s of [...list].sort((a, b) => a.at - b.at)) { const key = `${s.it}|${s.at}`; if (seen.has(key)) continue; seen.add(key); out.push(s); }
+  return out.slice(-LAB_SENTENCES_MAX);
+}
+function normalizeLabRecord(raw) {
+  const r = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+  const done = {};
+  for (const [id, at] of Object.entries(r.done && typeof r.done === 'object' ? r.done : {})) { const t = Number(at); if (id && !LAB_BAD_KEYS.has(id) && Number.isFinite(t) && t > 0) done[id] = t; }
+  const sentences = (Array.isArray(r.sentences) ? r.sentences : [])
+    .filter(s => s && typeof s === 'object' && typeof s.it === 'string' && s.it.trim())
+    .map(s => ({ it: s.it.trim(), en: typeof s.en === 'string' ? s.en.trim() : '', lessonId: typeof s.lessonId === 'string' ? s.lessonId : null, at: Math.max(0, Number(s.at) || 0) }));
+  return { done, sentences: labSentences(sentences) };
+}
+function normalizeLab(raw) {
+  const lab = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+  const out = {};
+  for (const key of new Set(['frasi', ...Object.keys(lab)])) if (!LAB_BAD_KEYS.has(key)) out[key] = normalizeLabRecord(lab[key]);
+  return out;
+}
+function mergeLab(local, remote) {
+  const a = normalizeLab(local), b = normalizeLab(remote), out = {};
+  for (const key of new Set([...Object.keys(a), ...Object.keys(b)])) {
+    const x = a[key] || freshLabRecord(), y = b[key] || freshLabRecord();
+    const done = { ...x.done };
+    for (const [id, at] of Object.entries(y.done)) done[id] = Math.max(done[id] || 0, at);
+    out[key] = { done, sentences: labSentences([...x.sentences, ...y.sentences]) };
+  }
+  return out;
+}
+
 function newProfile(name, avatar) {
   const now = Date.now();
   return {
@@ -116,6 +155,7 @@ function newProfile(name, avatar) {
     stats: { xp: 0, streak: 0, bestStreak: 0, lastActive: null, days: {}, games: {}, verbsLearned: 0, wordsLearned: 0 },
     scope: { mode: 'level', levels: ['A1'], cats: [], lists: [] },
     recent: [],
+    lab: freshLab(),
   };
 }
 // Fill in whatever a stored, older or imported profile lacks (custom, lists.bank, name, stats.days, a valid level…):
@@ -139,6 +179,7 @@ function normalize(p) {
     }
   }
   p.customDeleted ||= {};
+  p.lab = normalizeLab(p.lab);
   p.version = Math.max(2, Number(p.version) || 1);
   return p;
 }
@@ -538,6 +579,32 @@ class Store extends EventTarget {
   get scope() { return this.current.scope; }
   setScope(patch) { Object.assign(this.current.scope, patch); this.save(); this.emit('scope'); }
 
+  // ---------- laboratorio (sentence workshop) ----------
+  get lab() { return this.current.lab ||= freshLab(); }
+  // { done: { [lessonId]: at }, sentences: [{ it, en, lessonId, at }] } for one lab key ('frasi'); created when missing
+  labRecord(key = 'frasi') { if (!key || LAB_BAD_KEYS.has(key)) key = 'frasi'; const lab = this.lab; if (!lab[key]) lab[key] = freshLabRecord(); return lab[key]; }
+  // First completion of a lesson is worth 15 XP; later completions keep the first timestamp. -> { first, at }
+  completeLabLesson(key, lessonId) {
+    if (!lessonId || LAB_BAD_KEYS.has(lessonId)) return { first: false, at: null };
+    const record = this.labRecord(key);
+    if (record.done[lessonId]) return { first: false, at: record.done[lessonId] };
+    const at = Date.now();
+    record.done[lessonId] = at;
+    this.addXP(15, false);
+    this.save();
+    return { first: true, at };
+  }
+  // "Le mie frasi": the learner's own composed sentences, newest LAB_SENTENCES_MAX kept. -> the saved record or null
+  saveLabSentence(key, { it, en = '', lessonId = null } = {}) {
+    const text = String(it ?? '').trim();
+    if (!text) return null;
+    const record = this.labRecord(key);
+    const entry = { it: text, en: String(en ?? '').trim(), lessonId: typeof lessonId === 'string' ? lessonId : null, at: Date.now() };
+    record.sentences = labSentences([...record.sentences, entry]);
+    this.save();
+    return entry;
+  }
+
   // ---------- export / import ----------
   exportJSON() { return JSON.stringify({ app: 'italiano', exported: new Date().toISOString(), profile: this.current }, null, 0); }
   async importJSON(text, { merge = false, silent = false } = {}) {
@@ -556,6 +623,9 @@ class Store extends EventTarget {
       const remoteLegacyXP = epochOrder < 0 ? 0 : Math.max(0, (p.stats?.xp || 0) - (p.stats?.learningXP || 0));
       cur.learning = mergeLearning(cur.learning, p.learning);
       if (epochOrder >= 0) for (const [id, it] of Object.entries(p.items)) { const c = cur.items[id]; if (!c || (it.last || 0) > (c.last || 0)) cur.items[id] = it; }
+      // the lab records follow the legacy progress: a newer remote reset generation replaces them, an older one is ignored
+      if (epochOrder > 0) cur.lab = freshLab();
+      if (epochOrder >= 0) cur.lab = mergeLab(cur.lab, p.lab);
       for (const [id, l] of Object.entries(p.lists)) { if (!cur.lists[id]) cur.lists[id] = { ...l, items: Array.isArray(l.items) ? l.items : [] }; else cur.lists[id].items = [...new Set([...(cur.lists[id].items || []), ...(l.items || [])])]; }
       for (const [id, w] of Object.entries(p.custom || {})) { const c = cur.custom[id]; if (!c || (w.modified || w.created || 0) > (c.modified || c.created || 0)) cur.custom[id] = w; }
       for (const [id, at] of Object.entries(p.customDeleted || {})) if (id.startsWith('c:')) cur.customDeleted[id] = Math.max(cur.customDeleted[id] || 0, Number(at) || 0);
@@ -585,7 +655,7 @@ class Store extends EventTarget {
     const p = this.current;
     await deleteCourseRecordings(p.id+'|').catch(()=>{});
     p.learning = resetLearning(p.learning, Date.now(), 'reset:' + uid());
-    p.items = {}; p.stats = newProfile(p.name).stats; p.recent = [];
+    p.items = {}; p.stats = newProfile(p.name).stats; p.recent = []; p.lab = freshLab();
     this._dirty = true; await this.saveNow(); this.emit('change');
   }
 }

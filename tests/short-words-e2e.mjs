@@ -26,13 +26,18 @@ async function state(){return page.evaluate(async()=>{
  });}
 const sorted=events=>[...events].sort((a,b)=>a.id.localeCompare(b.id));
 function unchanged(a,b){assert.deepEqual(sorted(a.events),sorted(b.events));assert.equal(a.xp,b.xp);}
+// Separately checked casa answers. A choice screen answers with the article
+// (le case); an article-board row pairs the article label with the bare form.
 function expected(q){
- if(q.meta?.entryId==='w:casa|noun'){
-  const known={meaning:['house','home'],recall:['casa','la casa'],article:['la','la casa'],plural:['case','le case']};
-  if(known[q.meta.skill]){assert(q.answer.some(a=>known[q.meta.skill].includes(a)),`known casa ${q.meta.skill}: ${q.answer}`);return q.answer.find(a=>known[q.meta.skill].includes(a));}
+ if(q.meta?.entryId==='w:casa|noun'&&!q.meta.decoy){
+  const row=/:word-pair:/.test(q.meta.contextId||'');
+  const known=row?{article:['casa'],plural:['case']}:{meaning:['house','home'],recall:['casa','la casa'],article:['la'],plural:['le case']};
+  if(known[q.meta.skill]){assert(q.answer.some(a=>known[q.meta.skill].includes(a)),`known casa ${row?'board row':'screen'} ${q.meta.skill}: ${q.answer}`);return q.answer.find(a=>known[q.meta.skill].includes(a));}
  }
  return q.answer[0];
 }
+const DEFINITE=['il','lo','la',"l'",'i','gli','le'];
+const describe=q=>({type:q.type,skill:q.meta.skill,answer:q.answer,choices:(q.choices||[]).map(c=>c.label),rows:(q.pairs||[]).map(p=>({label:p.label,form:p.canonical,decoy:!!p.decoy,entryId:p.meta?.entryId})),tiles:(q.rightTiles||[]).map(t=>t.text)});
 async function nextQuestion(limit=35){
  for(let n=0;n<limit;n++){const s=await state();if(s.phase==='question')return journeyQuestion(page);assert(!['complete','unavailable','paused'].includes(s.phase));await advanceJourneyPage(page);}
  throw Error('Short teaching did not reach an activity');
@@ -44,7 +49,7 @@ async function finish({limit=65}={}){
   assert(!['unavailable','paused','blocked'].includes(s.phase),'a short word lesson remains answerable');
   if(s.phase==='question'){
    const q=await journeyQuestion(page);assert(['mc','pairs'].includes(q.type),'default short words use choice/matching, without required writing');assert.equal(q.meta.mode,'recognition');assert.equal(await page.locator('[data-answer]').count(),0);
-   questions.push({type:q.type,skill:q.meta.skill,answer:q.answer,slotId:s.session.journey.wordShort?.slotId});await solveJourneyQuestion(page,q,{expected});
+   questions.push({...describe(q),slotId:s.session.journey.wordShort?.slotId});await solveJourneyQuestion(page,q,{expected});
   }else{if(s.phase==='teach')teaching.push(await page.locator('.journey-main').innerText());await advanceJourneyPage(page);}
  }
  throw Error('A short word lesson did not finish within the bounded correct-answer traversal');
@@ -60,6 +65,92 @@ try{
   const done=await finish();assert.equal(done.progress.complete,true);assert.equal(done.learned,true);assert(done.questions.length>=6&&done.questions.length<=8);assert(done.questions.some(q=>q.type==='pairs'));assert(done.questions.some(q=>q.type==='mc'));
   const teaching=done.teaching.join(' ');assert.match(teaching,/la casa/);assert.match(teaching,/le case/);honestRecognition(done);assert.doesNotMatch(await page.locator('[data-journey]').innerText(),/mastered|remembered|independent answers/i);
   const before=await state();await reloadApp(page);unchanged(before,await state());await shot('noun-complete');return{activityPages:done.questions.length,eventCount:done.events.length};
+ });
+ await check('Every noun type drills its article, singular and plural in the planned order with a real article board',async()=>{
+  await fresh();
+  const same=['meaning','recall','article','plural','pairs','recall'];
+  const fixtures=[
+   {id:'w:casa|noun',order:same,article:'la',plural:'le case',own:[['la','casa'],['le','case']],decoyArticles:['il','lo',"l'",'i','gli'],decoyGender:'m',teaching:[/la casa/,/le case/,/This noun is feminine\./]},
+   {id:'w:caffè|noun',order:same,article:'il',plural:'i caffè',own:[['il','caffè'],['i','caffè']],decoyArticles:['la',"l'",'le'],decoyGender:'f',teaching:[/il caffè/,/i caffè/,/This noun is masculine\./]},
+   {id:'w:albero|noun',order:same,article:"l'",plural:'gli alberi',own:[["l'",'albero'],['gli','alberi']],decoyArticles:['la','le'],decoyGender:'f',teaching:[/l'albero/,/gli alberi/,/Before a vowel sound the singular article is l': l'albero\. The plural takes gli: gli alberi\./]},
+   {id:'w:zaino|noun',order:same,article:'lo',plural:'gli zaini',own:[['lo','zaino'],['gli','zaini']],decoyArticles:['la',"l'",'le'],decoyGender:'f',teaching:[/lo zaino/,/gli zaini/,/the masculine article is lo: lo zaino\. The plural takes gli: gli zaini\./]},
+   {id:'w:occhiali|noun',order:['article','meaning','recall','pairs','meaning','recall'],article:'gli',own:[['gli','occhiali']],decoyArticles:['la',"l'",'le'],decoyGender:'f',teaching:[/gli occhiali/,/normally used in the plural/]},
+   {id:'w:calcio|noun',order:['meaning','recall','article','number','recall','meaning'],article:'il',number:'Normally singular: il calcio',teaching:[/il calcio/,/Normally singular in this meaning/,/This noun is masculine\./]},
+  ];
+  const summary=[];
+  for(const f of fixtures){
+   await gotoRoute(page,route(f.id));const done=await finish();assert(done.progress.complete,f.id);assert(done.learned,f.id);honestRecognition(done);
+   assert.deepEqual(done.questions.map(q=>q.type==='pairs'?'pairs':q.skill),f.order,`${f.id} slot order`);
+   assert.deepEqual([...new Set(done.questions.map(q=>q.slotId))].length,6,`${f.id} answers six distinct slots`);
+   const article=done.questions.find(q=>q.skill==='article'&&q.type==='mc');assert.deepEqual(article.answer,[f.article],`${f.id} article`);assert(article.choices.every(c=>DEFINITE.includes(c)),`${f.id} article choices are definite articles: ${article.choices}`);
+   const plural=done.questions.find(q=>q.skill==='plural');
+   if(f.plural){
+    assert.deepEqual(plural.answer,[f.plural],`${f.id} plural answers with its article`);
+    const bare=f.plural.replace(/^(?:il |lo |la |l'|i |gli |le )/,'');assert(!plural.choices.includes(bare),`${f.id} never offers the bare plural`);
+    assert(plural.choices.every(c=>/^(?:il |lo |la |l'|i |gli |le )/.test(c)),`${f.id} wrong plural options carry an article: ${plural.choices}`);
+   }else assert.equal(plural,undefined,`${f.id} has no plural screen`);
+   if(f.number){const number=done.questions.find(q=>q.skill==='number');assert.deepEqual(number.answer,[f.number]);assert(number.choices.some(c=>/^Normally plural: i calci$/.test(c)),`an invented plural is a wrong option: ${number.choices}`);assert(!done.questions.some(q=>q.type==='pairs'));}
+   const board=done.questions.find(q=>q.type==='pairs');
+   if(f.own){
+    assert.deepEqual(board.rows.filter(r=>!r.decoy).map(r=>[r.label,r.form]),f.own,`${f.id} own rows`);
+    const decoys=board.rows.filter(r=>r.decoy);assert.equal(decoys.length,2,`${f.id} two decoys`);assert.equal(board.rows.length,f.own.length+2);assert.equal(board.tiles.length,board.rows.length);
+    assert(decoys.every(r=>f.decoyArticles.includes(r.label)),`${f.id} decoys take the other gender’s articles: ${JSON.stringify(decoys)}`);
+    const labels=board.rows.map(r=>r.label);assert.equal(new Set(labels).size,labels.length,`${f.id} unique articles`);
+    assert.equal(new Set(decoys.map(r=>r.form).concat(f.own[0][1])).size,decoys.length+1,`${f.id} decoy forms differ from the noun and each other`);
+    const decoyEntries=await page.evaluate(async ids=>{const{getEntry}=await import('./js/data.js');return ids.map(id=>{const e=getEntry(id);return e&&{g:e.g,level:e.level,pos:e.pos};});},decoys.map(r=>r.entryId));
+    const level=await page.evaluate(async id=>(await import('./js/data.js')).getEntry(id).level,f.id);
+    assert(decoyEntries.every(e=>e&&e.pos==='noun'&&e.g===f.decoyGender&&e.level===level),`${f.id} decoys are same-level nouns of the other gender: ${JSON.stringify(decoyEntries)}`);
+    if(f.id==='w:caffè|noun')assert.equal(board.tiles.filter(t=>t==='caffè').length,2,'an invariable noun shows the same form twice');
+    // The noun’s own rows record article and plural evidence; decoy rows record nothing.
+    const pairEvents=done.events.filter(e=>e.entryId===f.id&&e.id.includes(':pair:'));
+    assert.deepEqual(pairEvents.map(e=>e.skill).sort(),f.own.length===2?['article','plural']:['article'],`${f.id} board evidence`);
+    assert(pairEvents.every(e=>e.entryId===f.id&&e.ok&&e.xp===0&&e.wordPolicy!=='word-short-v1'),`${f.id} rows are zero-XP supported evidence`);
+   }
+   const slotEvents=done.events.filter(e=>e.entryId===f.id&&e.wordPolicy==='word-short-v1'&&e.ok);
+   assert.deepEqual([...new Set(slotEvents.map(e=>e.wordSlotId))].sort(),done.questions.map(q=>q.slotId).sort(),`${f.id} every slot has its evidence`);
+   const teaching=done.teaching.join(' ');for(const pattern of f.teaching)assert.match(teaching,pattern,f.id);
+   if(f.id==='w:casa|noun'||f.id==='w:caffè|noun')assert.doesNotMatch(teaching,/article is/,'a regular noun names no special article rule');
+   summary.push({id:f.id,order:f.order.join(' › '),rows:board?.rows.map(r=>`${r.label} → ${r.form}${r.decoy?' (decoy)':''}`)});
+  }
+  return summary;
+ });
+ await check('Decoy rows on the article board are matched in the activity only and survive a reload',async()=>{
+  await fresh();await gotoRoute(page,route('w:casa|noun'));let q;
+  for(let i=0;i<25;i++){q=await nextQuestion();if(q.type==='pairs')break;await solveJourneyQuestion(page,q,{expected});await page.locator('[data-continue]').click();}
+  assert.equal(q.type,'pairs');const decoy=q.pairs.find(p=>p.decoy),own=q.pairs.find(p=>!p.decoy);const before=await state();
+  const tileOf=pair=>q.rightTiles.find(t=>pair.answers.includes(t.text)),left=pair=>page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`),right=tile=>page.locator(`[data-pair-right=${JSON.stringify(tile.id)}]`);
+  assert.equal(await left(decoy).locator('.journey-pair-front').innerText(),decoy.label,'the left tile shows the decoy’s article');
+  // A miss on a decoy records nothing: no event, no XP, no failure for the noun.
+  await left(decoy).click();await right(tileOf(own)).click();let s=await state();
+  assert.equal(s.events.length,before.events.length,'a missed decoy records no event');assert.equal(s.xp,before.xp);assert.deepEqual(s.session.journey.failures,before.session.journey.failures);
+  assert.match(await page.locator('[data-activity-status]').innerText(),/Try again/);
+  // A matched decoy is part of the activity, not of the evidence.
+  await left(decoy).click();await right(tileOf(decoy)).click();s=await state();
+  assert.equal(s.events.length,before.events.length,'a matched decoy records no event');assert.equal(s.xp,before.xp);assert.equal(s.session.journey.pairMatches?.[s.step.questionId],undefined,'decoys never enter the board’s evidence matches');
+  assert.equal(await left(decoy).isDisabled(),true);assert.match(await left(decoy).getAttribute('class'),/is-matched/);assert.equal(await page.locator('.journey-activity-progress').innerText(),'1 of 4 pairs matched');
+  await reloadApp(page);unchanged(s,await state());
+  assert.equal(await left(decoy).isDisabled(),true,'the saved activity keeps the decoy matched');assert.equal(await page.locator('.journey-activity-progress').innerText(),'1 of 4 pairs matched');
+  await shot('decoy-matched');
+  // The board completes once every row is matched; only the noun’s own rows are recorded.
+  await solveJourneyQuestion(page,q,{expected});const done=await state();assert.equal(done.step.awaitingContinue,true);
+  const pairEvents=done.events.filter(e=>e.id.includes(':pair:'));assert.deepEqual(pairEvents.map(e=>[e.skill,e.ok,e.xp]).sort(),[['article',true,0],['plural',true,0]]);
+  assert.deepEqual(done.session.journey.pairMatches[done.step.questionId].sort(),q.pairs.filter(p=>!p.decoy).map(p=>p.targetId).sort());
+  assert.equal(done.events.find(e=>e.id===done.step.questionId)?.ok,true,'the board’s aggregate event is recorded');
+  await page.locator('[data-continue]').click();const end=await finish();assert(end.progress.complete);assert(end.learned);honestRecognition(end);
+ });
+ await check('430px dark: the plural screen and the article board fit the phone',async()=>{
+  await fresh(430,'dark',932);await gotoRoute(page,route('w:casa|noun'));let q;
+  for(let i=0;i<12;i++){q=await nextQuestion();if(q.meta.skill==='plural')break;await solveJourneyQuestion(page,q,{expected});await page.locator('[data-continue]').click();}
+  assert.equal(q.meta.skill,'plural');assert.deepEqual(q.answer,['le case']);assert.equal(await page.locator('[data-choice]').count(),4);
+  assert.deepEqual(await page.locator('.journey-choice-label').allTextContents(),q.choices.map(c=>c.label));
+  const fit=async name=>{const box=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,x:scrollX,wide:[...document.querySelectorAll('.journey-choice,[data-pair-left],[data-pair-right],.journey-prompt')].filter(el=>el.getBoundingClientRect().right>innerWidth+1||el.getBoundingClientRect().left<0).length}));assert(box.scroll<=box.width+1,name+' fits the phone');assert.equal(box.x,0);assert.equal(box.wide,0,name+': no clipped tiles');};
+  await fit('plural');await shot('430-dark-plural-with-article');
+  await solveJourneyQuestion(page,q,{expected});await page.locator('[data-continue]').click();
+  q=await nextQuestion();assert.equal(q.type,'pairs');assert.equal(await page.locator('[data-pair-left]').count(),4);assert.equal(await page.locator('[data-pair-right]').count(),4);
+  assert.deepEqual((await page.locator('[data-pair-left]').allTextContents()).map(t=>t.replace(/Matched$/,'').trim()).sort(),q.pairs.map(p=>p.label).sort());
+  const tiles=await page.locator('[data-pair-left],[data-pair-right]').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {text:el.textContent.trim(),inView:r.top>=0&&r.bottom<=innerHeight&&r.width>0};}));
+  assert.equal(tiles.length,8);await fit('board');await shot('430-dark-article-board');
+  return {inView:tiles.filter(t=>t.inView).length,tiles:tiles.map(t=>t.text)};
  });
  await check('A wrong choice repairs the same word and a copied correction is not independent proof',async()=>{
   await fresh();await gotoRoute(page,route('w:casa|noun'));let q=await nextQuestion();assert.equal(q.type,'mc');const before=await state();
@@ -78,7 +169,8 @@ try{
  await check('A partial matching board survives pause, reload and Back without duplicate awards',async()=>{
   await fresh();await gotoRoute(page,route('w:casa|noun'));let q;
   for(let i=0;i<25;i++){q=await nextQuestion();if(q.type==='pairs')break;await solveJourneyQuestion(page,q,{expected});await page.locator('[data-continue]').click();}
-  assert.equal(q.type,'pairs');assert.deepEqual(q.pairs.map(p=>p.canonical).sort(),['la casa','le case'],'real article+noun forms, not sentence fragments');await shot('matching-two-rows');const pair=q.pairs[0],right=q.rightTiles.find(t=>pair.answers.includes(t.text));
+  assert.equal(q.type,'pairs');assert.deepEqual(q.pairs.filter(p=>!p.decoy).map(p=>[p.label,p.canonical]),[['la','casa'],['le','case']],'the noun’s own rows pair each article with its bare form');
+  assert.equal(q.pairs.filter(p=>p.decoy).length,2,'two decoy nouns are mixed in');assert.equal(await page.locator('[data-pair-left]').count(),4);await shot('matching-article-board');const pair=q.pairs[0],right=q.rightTiles.find(t=>pair.answers.includes(t.text));
   await page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`).click();await page.locator(`[data-pair-right=${JSON.stringify(right.id)}]`).click();const partial=await state();
   assert.equal(await page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`).isVisible(),true);assert.equal(await page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`).isDisabled(),true);assert.match(await page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`).getAttribute('class'),/is-matched/);await page.locator('[data-pause]').click();await reloadApp(page);await page.locator('[data-resume]').click();unchanged(partial,await state());
   assert.equal(await page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`).isVisible(),true);assert.equal(await page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`).isDisabled(),true);assert.match(await page.locator(`[data-pair-left=${JSON.stringify(pair.id)}]`).getAttribute('class'),/is-matched/);const current=await state();await page.locator('[data-lesson-back]').click();assert.equal(await page.locator('[data-journey]').getAttribute('data-history'),'true');await page.locator('[data-lesson-current]').first().click();unchanged(current,await state());

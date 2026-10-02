@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createLearning,recordAttempt} from '../js/learning/model.js';
 import {createCourseSession,currentCourseStep,submitCourseAnswer,advanceCourse,courseSessionProgress} from '../js/learning/course-v2-engine.js';
-const levels=['Foundations','A1','A2','B1','B2','C1','C2'],unitCounts=[3,12,14,12,13,12,12];
+const levels=['Foundations','A1','A2','B1','B2','C1','C2'],unitCounts=[3,14,15,13,13,12,12];
 const available=process.argv.includes('--available'),errors=[],lessons=[],ids=new Set(),stepIds=new Set();
 const ok=(condition,message)=>{if(!condition)errors.push(message);};
 const norm=s=>String(s||'').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g,"'").replace(/[.!?,;:]+$/g,'').trim().replace(/\s+/g,' ');

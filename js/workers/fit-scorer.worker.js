@@ -194,7 +194,8 @@ export async function loadScorer() {
     const out = await session.run({ input_ids: new ort.Tensor('int64', input, dims), attention_mask: new ort.Tensor('int64', mask, dims) });
     return out.logits;
   };
-  return { score: (template, candidates) => scoreCandidates(runBatch, tok, template, candidates), loadMs: now() - t0, tok };
+  const memo = new Map();
+  return { score: (template, candidates) => scoreCandidates(runBatch, tok, template, candidates, memo), loadMs: now() - t0, tok };
 }
 
 const inWorker = typeof WorkerGlobalScope !== 'undefined' && typeof self !== 'undefined' && self instanceof WorkerGlobalScope && typeof self.postMessage === 'function';
@@ -204,10 +205,17 @@ if (inWorker) {
     (scorer) => { self.postMessage({ type: 'ready', loadMs: scorer.loadMs }); return scorer; },
     (e) => { loading = null; throw e; },                 // the next request tries again
   );
+  const cancelled = new Set();
   let queue = Promise.resolve();
   self.onmessage = (event) => {
     const msg = event.data;
-    if (!msg || typeof msg !== 'object' || msg.id === undefined) return;
-    queue = queue.then(() => handleRequest(msg, ready)).then((reply) => self.postMessage(reply));
+    if (!msg || typeof msg !== 'object') return;
+    if (msg.cancel !== undefined) { if (cancelled.size > 1000) cancelled.clear(); cancelled.add(msg.cancel); return; }
+    if (msg.id === undefined) return;
+    queue = queue.then(async () => {
+      if (cancelled.delete(msg.id)) return;              // the page gave up before its turn: not scored, no reply
+      self.postMessage(await handleRequest(msg, ready));
+      cancelled.delete(msg.id);                          // a cancel that raced the reply
+    });
   };
 }
