@@ -195,9 +195,9 @@
             {
               "role": "verb",
               "items": [
-                { "inf": "mangiare", "en": "eat" },
-                { "inf": "comprare", "en": "buy" },
-                { "inf": "vedere", "en": "see" },
+                { "inf": "mangiare", "en": "ate" },
+                { "inf": "comprare", "en": "bought" },
+                { "inf": "vedere", "en": "saw" },
                 { "inf": "leggere", "en": "read" }
               ]
             },
@@ -416,10 +416,10 @@
             {
               "role": "verb",
               "items": [
-                { "inf": "andare", "en": "go", "aux": "essere" },
-                { "inf": "tornare", "en": "come back", "aux": "essere" },
-                { "inf": "arrivare", "en": "arrive", "aux": "essere" },
-                { "inf": "uscire", "en": "go out", "aux": "essere", "isc": false }
+                { "inf": "andare", "en": "went", "aux": "essere" },
+                { "inf": "tornare", "en": "came back", "aux": "essere" },
+                { "inf": "arrivare", "en": "arrived", "aux": "essere" },
+                { "inf": "uscire", "en": "went out", "aux": "essere", "isc": false }
               ]
             },
             {
@@ -521,10 +521,10 @@
           "blanks": [
             {
               "accept": ["anni"],
-              "options": ["anni", "anno", "giorni"],
-              "bank": ["mese", "settimana"],
-              "free": true,
-              "slot": { "pos": "noun", "number": "pl", "article": "none", "category": ["time"] },
+              "options": ["anni", "anno", "giorno"],
+              "bank": [],
+              "free": false,
+              "slot": null,
               "explanation": "After due the noun is plural: due anni. Fa comes last: due anni fa = two years ago."
             }
           ],
@@ -650,10 +650,10 @@
             {
               "role": "verb",
               "items": [
-                { "inf": "mangiare", "en": "eat" },
-                { "inf": "comprare", "en": "buy" },
-                { "inf": "vedere", "en": "see" },
-                { "inf": "visitare", "en": "visit" }
+                { "inf": "mangiare", "en": "ate" },
+                { "inf": "comprare", "en": "bought" },
+                { "inf": "vedere", "en": "saw" },
+                { "inf": "visitare", "en": "visited" }
               ]
             },
             {
@@ -844,7 +844,7 @@
           "blanks": [
             {
               "accept": ["dormivo"],
-              "options": ["dormivo", "ho dormito", "dormo"],
+              "options": ["dormivo", "ho dormito", "avevo dormito"],
               "bank": ["dormire", "leggere", "studiare"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "imperfetto" },
@@ -891,9 +891,9 @@
             {
               "role": "verb",
               "items": [
-                { "inf": "avere", "en": "have" },
-                { "inf": "mangiare", "en": "eat" },
-                { "inf": "guardare", "en": "watch" },
+                { "inf": "avere", "en": "had" },
+                { "inf": "mangiare", "en": "ate" },
+                { "inf": "guardare", "en": "watched" },
                 { "inf": "leggere", "en": "read" }
               ]
             },
@@ -912,8 +912,8 @@
               "role": "extra",
               "optional": true,
               "items": [
-                { "it": "da bambino", "en": "as a child (a boy)" },
-                { "it": "da bambina", "en": "as a child (a girl)" },
+                { "it": "da bambino", "en": "as a boy" },
+                { "it": "da bambina", "en": "as a girl" },
                 { "it": "ogni giorno", "en": "every day" },
                 { "it": "la sera", "en": "in the evening" },
                 { "it": "a casa", "en": "at home" }
@@ -1136,10 +1136,10 @@
             {
               "accept": ["ho visitato", "ho chiamato"],
               "options": ["ho visitato", "ho chiamato", "visitavo", "sono visitato"],
-              "bank": ["visitare", "chiamare", "vedere"],
-              "free": true,
-              "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-              "explanation": "A single completed event takes the passato prossimo: ho visitato. With avere the participle does not agree with i miei nonni."
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "A single completed event takes the passato prossimo with avere: ho visitato, not visitavo (a habit) or sono visitato (wrong auxiliary)."
             }
           ]
         },
@@ -1163,18 +1163,18 @@
             {
               "role": "verb",
               "items": [
-                { "inf": "mangiare", "en": "eat" },
-                { "inf": "cenare", "en": "have dinner" },
-                { "inf": "andare", "en": "go", "aux": "essere" },
-                { "inf": "uscire", "en": "go out", "aux": "essere", "isc": false },
-                { "inf": "tornare", "en": "come back", "aux": "essere" }
+                { "inf": "mangiare", "en": "ate" },
+                { "inf": "cenare", "en": "had dinner" },
+                { "inf": "andare", "en": "went", "aux": "essere" },
+                { "inf": "uscire", "en": "went out", "aux": "essere", "isc": false },
+                { "inf": "tornare", "en": "came back", "aux": "essere" }
               ]
             },
             {
               "role": "object",
               "items": [
                 { "it": "al ristorante", "en": "at the restaurant" },
-                { "it": "a casa", "en": "home" },
+                { "it": "a casa", "en": "at home" },
                 { "it": "con gli amici", "en": "with friends" },
                 { "it": "al cinema", "en": "to the cinema" },
                 { "it": "in centro", "en": "in the centre" },

@@ -73,16 +73,19 @@ function revisedQuestions(sourceId, edits={}) {
 }
 // A compact authored item still contains two distinct model explanations, four
 // contextual checks, and a practical application; only JSON ceremony is generated.
+// A check is [context, translation, answer, options|null, explanation, hint, facet?,
+// accepted?, errors?]; errors are reviewed [answer, tag, explanation] diagnoses for a
+// typed check, so a predictable slip is graded and repaired instead of left ungraded.
 function fresh(level, spec) {
   const {id,title,outcome,takeaway,prerequisites=[],words,models,checks,application,passage,facets=['use'],related=[],legacyLessonIds=[],modality='language',passageBeforeGuided=false}=spec;
   if(models.length<2||checks.length<4||!words.length) throw Error(`incomplete authored lesson ${id}`);
   const tid=targetId(id);
   const cards=models.map((m,i)=>step(id,`teach-${i+1}`,'teach',{title:m[0],body:m[1],examples:[{it:m[2],en:m[3]}],introduces:[tid]}));
   const qs=checks.map((q,i)=>{
-    const [context,translation,answer,options,explanation,hint,facet='use',accepted]=q;
+    const [context,translation,answer,options,explanation,hint,facet='use',accepted,errors]=q;
     const format=Array.isArray(options)?'choice':'type';
     const speak=context.replace('___',answer);
-    return step(id,`check-${i+1}`,'question',{target:tid,facet,stage:i===0?'guided':'independent',contextKey:`${id}.scene-${i+1}`,format,prompt:modality==='listening'?'Listen again, then complete the point you heard.':i===0?'Complete the modelled Italian sentence.':'Complete this new Italian sentence.',context,...(translation?{translation}:{}),answer,...(options?{options}:{}),...(accepted?.length?{accepted}:{}),explanation,hint,speak,...(modality==='reading'&&passage?{passageId:`${id}.passage`}:{}),...(modality==='listening'&&passage?{audioId:`${id}.passage`}:{})});
+    return step(id,`check-${i+1}`,'question',{target:tid,facet,stage:i===0?'guided':'independent',contextKey:`${id}.scene-${i+1}`,format,prompt:modality==='listening'?'Listen again, then complete the point you heard.':i===0?'Complete the modelled Italian sentence.':'Complete this new Italian sentence.',context,...(translation?{translation}:{}),answer,...(options?{options}:{}),...(accepted?.length?{accepted}:{}),...(errors?.length?{errors:errors.map(([answer,tag,explanation])=>({answer,tag,explanation}))}:{}),explanation,hint,speak,...(modality==='reading'&&passage?{passageId:`${id}.passage`}:{}),...(modality==='listening'&&passage?{audioId:`${id}.passage`}:{})});
   });
   const pass=passage?step(id,'passage','passage',{title:passage.title,it:passage.it,en:passage.en,mode:passage.mode||'read',...(passage.mode==='listen'?{audioId:`${id}.passage`}:{}),task:passage.task}):null;
   const app=step(id,'apply','portfolio',{title:application[0],prompt:application[1],mode:application[4]||'write',model:application[2],rubric:application[3],...(application[5]?{partnerPrompt:application[5]}:{})});
@@ -224,6 +227,82 @@ listeningLesson('B1',{
 });
 lessons.B1['v2-b1-capstone-service'].prerequisites=['v2-b1-listen-practical-update'];
 
+// B1.13: agreement after a preceding object clitic, the everyone/everything set,
+// and reason-first versus result-first links. Each facet has its own typed check
+// where production matters, and the no-agreement contrast sits inside each facet.
+fresh('B1',{
+ id:'v2-b1-object-agreement',title:'Agree with lo, la, li and le',
+ outcome:'I can make the past participle agree with lo, la, li or le placed before avere, and leave it unchanged when the object follows the verb.',
+ takeaway:'Before ho, hai, ha, abbiamo, avete and hanno, lo and la become l’ and the participle takes the ending of that object: l’ho vista, li ho visti, le ho comprate. When the object follows the verb as a noun, the participle stays in -o: Ho visto Anna.',
+ prerequisites:['v2-a2-direct-singular','v2-a2-direct-plural','v2-b1-ne-quantity'],
+ related:[{entryId:'w:lo|pron'},{entryId:'w:la|pron'},{entryId:'w:li|pron'},{entryId:'w:le|pron'}],
+ facets:['singular','plural'],
+ words:[['lo','him or it (masculine direct object)'],['la','her or it (feminine direct object)'],['li','them (masculine direct object)'],['le','them (feminine direct object)'],['la chiave','key'],['il biglietto','ticket'],['la valigia','suitcase'],['invitare','to invite']],
+ models:[
+  ['Agree with a preceding lo or la','When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la.','Hai visto Marta? Sì, l’ho vista ieri.','Did you see Marta? Yes, I saw her yesterday.'],
+  ['Agree with li and le','Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho.','I biglietti? Li ho presi stamattina. Le chiavi? Le ho trovate.','The tickets? I got them this morning. The keys? I found them.'],
+  ['No pronoun before the verb, no agreement','When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.','Ho visto Marta ieri. Ho comprato le chiavi.','I saw Marta yesterday. I bought the keys.']
+ ],
+ checks:[
+  ['Hai visto Marta? Sì, l’ho ___ stamattina.','Did you see Marta? Yes, I saw her this morning.','vista',['vista','visto','viste'],'L’ stands for la, that is Marta, so the participle ends in -a.','Marta is feminine singular: agree the participle with la.','singular'],
+  ['Il film? L’ho ___ sabato scorso.','The film? I saw it last Saturday.','visto',null,'Here l’ stands for lo, il film, so the participle keeps -o.','Il film is masculine singular.','singular',null,[['vista','agreement-gender','Il film is masculine: after l’ standing for lo, the participle ends in -o.'],['visti','agreement-number','One film: the ending is the singular -o.']]],
+  ['Le chiavi? Le ho ___ nella borsa.','The keys? I found them in the bag.','trovate',['trovate','trovato','trovati'],'Le refers to le chiavi, feminine plural, so the participle ends in -e.','Which ending matches le chiavi?','plural'],
+  ['La lettera? ___ scritta ieri sera.','The letter? I wrote it last night.','L’ho',['L’ho','La ho','Le ho'],'La, standing for la lettera, becomes l’ before ho, and scritta agrees with it.','Before ho, la loses its vowel.','singular'],
+  ['I regali? Li ho già ___.','The presents? I have already bought them.','comprati',null,'Li refers to i regali, masculine plural, so the participle ends in -i.','Agree the participle with li.','plural',null,[['comprato','agreement-number','Li is plural: the participle takes -i.'],['comprate','agreement-gender','I regali is masculine: use -i, not -e.']]],
+  ['Ieri ho ___ Giulia al mercato.','Yesterday I saw Giulia at the market.','visto',['visto','vista','viste'],'Giulia follows the verb as a noun; with no pronoun before ho, the participle stays visto.','Is there an object pronoun before ho?','singular'],
+  ['Abbiamo ___ le valigie in macchina.','We put the suitcases in the car.','messo',['messo','messe','messi'],'Le valigie follows the verb, so nothing agrees: messo.','Look for a pronoun before abbiamo.','plural']
+ ],
+ application:['Report what you have dealt with','Write a short message to a flatmate or colleague about three things you have dealt with. Name each item first, then refer to it with lo, la, li or le before the verb; add one sentence where the object follows the verb.','La spesa l’ho fatta stamattina. Le bollette le ho pagate ieri. I documenti per il corso? Li ho già spediti alla segreteria. Ho anche comprato il pane.',['Each pronoun refers to an item named just before it.','The participle ending matches the gender and number of that pronoun.','Where a noun follows the verb, the participle stays in -o.']],
+ passage:{title:'Before the dinner',it:'Ciao Sara, sono Paolo. La torta per stasera l’ho già fatta: è in frigo. I biglietti per il concerto? Li ho presi ieri, sono nel portafoglio. Ho pensato anche ad Anna: l’ho invitata stamattina e ha detto di sì. Ho comprato il pane e il vino. Ci vediamo alle otto!',en:'Hi Sara, it’s Paolo. The cake for tonight, I’ve already made it: it’s in the fridge. The tickets for the concert? I got them yesterday; they’re in my wallet. I thought of Anna too: I invited her this morning and she said yes. I bought the bread and the wine. See you at eight!',mode:'listen',task:'Listen for the participle endings: which change after lo, la, li or le, and which stay in -o because the noun follows the verb?'}
+});
+fresh('B1',{
+ id:'v2-b1-everyone-everything',title:'Everyone, everything, everywhere',
+ outcome:'I can use ognuno, ciascuno, tutti, tutto, ovunque and dappertutto with the right verb agreement.',
+ takeaway:'Ognuno, ognuna and ciascuno take a singular verb; tutti and tutte take a plural verb; tutto means everything and is singular; ovunque and dappertutto both mean everywhere.',
+ prerequisites:['v2-b1-object-agreement','v2-a2-essere-plural'],
+ related:[{entryId:'w:ognuno|pron'},{entryId:'w:ciascuno|pron'},{entryId:'w:tutti|pron'},{entryId:'w:tutto|det'},{entryId:'w:ovunque|adv'},{entryId:'w:dappertutto|adv'}],
+ facets:['each-versus-all','everything-everywhere'],
+ words:[['ognuno','each one; everyone, one at a time'],['ognuna','each one (of women or feminine things)'],['ciascuno','each one'],['tutti','everyone; all of them'],['tutto','everything'],['ovunque','everywhere; wherever'],['dappertutto','everywhere'],['il posto','seat; place']],
+ models:[
+  ['One at a time: ognuno, ciascuno','Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular.','Ognuno ha il suo posto. Ognuna di noi porta un dolce.','Everyone has their own seat. Each of us brings a dessert.'],
+  ['All together: tutti, tutte','Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too.','Tutti sono arrivati in orario. Tutte hanno portato qualcosa.','Everyone arrived on time. All of them brought something.'],
+  ['Everything and everywhere','Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.','Tutto è pronto. Ho cercato le chiavi dappertutto.','Everything is ready. I looked for the keys everywhere.']
+ ],
+ checks:[
+  ['Ognuno ___ il suo posto.','Everyone has their own seat.','ha',['ha','hanno','avete'],'Ognuno is singular, one person at a time, so the verb is ha.','Ognuno means each one.','each-versus-all'],
+  ['___ sono arrivati in orario.','Everyone arrived on time.','Tutti',['Tutti','Ognuno','Tutto'],'A plural verb, sono arrivati, needs the plural tutti.','Look at the verb: sono arrivati is plural.','each-versus-all'],
+  ['Ciascuno ___ pagato il suo biglietto.','Each one paid for their own ticket.','ha',null,'Ciascuno, like ognuno, takes a singular verb.','Each person pays separately.','each-versus-all',null,[['hanno','agreement-number','Ciascuno is singular, so the verb is ha, not hanno.']]],
+  ['Ho cercato il telefono ___, ma non l’ho trovato.','I looked for the phone everywhere, but I did not find it.','dappertutto',['dappertutto','ognuno','tutto'],'Dappertutto, like ovunque, means everywhere; ognuno and tutto are not place words.','You need a place word.','everything-everywhere'],
+  ['Alla fine ___ è andato bene.','In the end everything went well.','tutto',null,'Tutto means everything and takes a singular verb.','One word for everything.','everything-everywhere',null,[['tutti','meaning','Tutti means everyone; for everything use tutto.']]],
+  ['Alla riunione ___ ha avuto cinque minuti per parlare.','At the meeting everyone had five minutes to speak.','ognuno',['ognuno','tutti','tutte'],'Ha avuto is singular, so the subject is ognuno: each person in turn.','Match the subject to the singular verb.','each-versus-all']
+ ],
+ application:['Organize a group outing','Write three or four sentences of instructions for a group trip: say what each person brings, what everyone must do together, and confirm that everything is ready.','Ognuno porta la sua valigia e il suo biglietto. Tutti devono essere davanti alla scuola alle sei e mezza. Ho controllato dappertutto e tutto è pronto.',['Ognuno or ciascuno has a singular verb and possessive.','Tutti or tutte has a plural verb.','Tutto, ovunque or dappertutto is used with its own meaning, not for people.']]
+});
+fresh('B1',{
+ id:'v2-b1-cause-links',title:'Give the reason first',
+ outcome:'I can open a sentence with siccome, poiché or dato che, give a reason with perché after the main clause, and state a consequence with perciò or quindi.',
+ takeaway:'Siccome, poiché and dato che open a sentence with its reason; perché gives the reason after the main clause; perciò and quindi introduce the consequence.',
+ prerequisites:['v2-b1-everyone-everything','v2-b1-cause-purpose','v2-b1-consequence-concession'],
+ related:[{entryId:'w:siccome|conj'},{entryId:'w:poiché|conj'},{entryId:'w:dato_che|conj'},{entryId:'w:perché|conj'},{entryId:'w:perciò|conj'},{entryId:'w:quindi|conj'}],
+ facets:['reason-position','consequence'],
+ words:[['siccome','since; as'],['poiché','since; because'],['dato che','given that; since'],['perché','because'],['perciò','therefore; so'],['quindi','so; therefore'],['lo sciopero','strike (work stoppage)'],['rimanere','to stay; to remain']],
+ models:[
+  ['Reason first: siccome, poiché, dato che','When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way.','Siccome pioveva, sono rimasto a casa.','Since it was raining, I stayed at home.'],
+  ['Result first: perché','When the result comes first, the reason follows it with perché.','Sono rimasto a casa perché pioveva.','I stayed at home because it was raining.'],
+  ['Fact, then consequence: perciò, quindi','State the fact as its own clause, then introduce what follows from it with perciò or quindi.','Pioveva, perciò sono rimasto a casa.','It was raining, so I stayed at home.']
+ ],
+ checks:[
+  ['___ pioveva, siamo rimasti a casa.','Since it was raining, we stayed at home.','Siccome',['Siccome','Perché','Perciò'],'The reason opens the sentence, so siccome fits; perché cannot start a reason-first statement.','The reason comes before the result.','reason-position'],
+  ['Non sono venuto ___ avevo la febbre.','I did not come because I had a fever.','perché',['perché','siccome','perciò'],'After the main clause, the reason takes perché.','The result is stated first.','reason-position'],
+  ['___ il treno era in ritardo, abbiamo preso un taxi.','Since the train was late, we took a taxi.','Siccome',null,'The reason opens the sentence: siccome, poiché and dato che all work here.','Open with a reason-first link, not perché.','reason-position',['Poiché','Dato che'],[['Perché','link-position','Perché gives a reason after the main clause; to open the sentence use siccome, poiché or dato che.']]],
+  ['Lo sciopero continua, ___ domani lavoro da casa.','The strike continues, so tomorrow I will work from home.','perciò',['perciò','siccome','poiché'],'Perciò introduces the consequence of the strike.','What follows is a result, not a reason.','consequence'],
+  ['Avevo dimenticato le chiavi, ___ ho aspettato Marta davanti alla porta.','I had forgotten the keys, so I waited for Marta in front of the door.','quindi',null,'Quindi, like perciò, introduces the consequence of the forgotten keys.','Introduce the result.','consequence',['perciò','per questo','così','dunque'],[['perché','link-direction','Perché would make the waiting the reason for forgetting the keys; the waiting is the consequence, so use quindi or perciò.']]],
+  ['___ non avevamo prenotato, non siamo entrati.','Since we had not booked, we did not get in.','Dato che',['Dato che','Perché','Quindi'],'Dato che opens the sentence with its reason; perché cannot stand here.','The sentence starts with the reason.','reason-position']
+ ],
+ application:['Explain a change of plan','Write a short message explaining why you are changing a plan. Open one sentence with siccome, poiché or dato che, use perché after a main clause in another, and give a consequence with perciò or quindi.','Siccome domani c’è lo sciopero dei treni, non vengo in ufficio. Lavoro da casa perché ho tutto il materiale sul computer. La riunione delle dieci però è importante, quindi la seguo online.',['A reason-first sentence opens with siccome, poiché or dato che, never with perché.','Perché follows the main clause it explains.','Perciò or quindi introduces a consequence that follows from the stated fact.']],
+ passage:{title:'Why the meeting moved',it:'Ciao a tutti,\nsiccome domani c’è lo sciopero dei treni, molti colleghi non riescono ad arrivare in ufficio. Perciò la riunione non si terrà in sala, ma online alle dieci. Dato che il collegamento è nuovo, vi mando il link stasera. Luca non parteciperà perché è in ferie; quindi parlerò io del suo progetto.\nA domani,\nMarta',en:'Hi everyone,\nsince there is a train strike tomorrow, many colleagues cannot get to the office. So the meeting will not be held in the meeting room but online at ten. Given that the link is new, I will send it to you this evening. Luca will not take part because he is on holiday; so I will present his project.\nSee you tomorrow,\nMarta',mode:'read',task:'Find each reason and the consequence attached to it; notice which links open a sentence and which follow the main clause.'}
+});
+
 // Each practical B1 unit also has a connected written input for its response task.
 addContextPassage('B1','story-outcome','read','A note after a delay','Ieri ho preso l’autobus per andare al cinema. Dopo dieci minuti il mezzo si è fermato nel traffico. Per questo sono arrivata tardi e ho perso l’inizio del film. Ho scritto a Elena per avvisarla; alla fine ci siamo incontrate davanti all’uscita.','Yesterday I took the bus to the cinema. After ten minutes it stopped in traffic. For this reason I arrived late and missed the start of the film. I wrote Elena to let her know; in the end we met outside the exit.','Read the problem, response and final outcome.');
 addContextPassage('B1','earlier-explanation','read','Why the visit failed','Quando Luca è arrivato al museo, la biglietteria era già chiusa. Aveva controllato l’orario del museo, ma non quello della biglietteria. Per questo non ha potuto entrare. Ha spiegato il problema a Sara e hanno deciso di tornare il giorno dopo.','When Luca arrived at the museum, the ticket office had already closed. He had checked the museum hours but not the ticket-office hours. Therefore he could not enter. He explained the problem to Sara and they decided to return the next day.','Find the earlier mistake and the later response.');
@@ -287,6 +366,12 @@ addReserve('B1','read-rules','In biblioteca non ___ al telefono.','In the librar
 addReserve('B1','capstone-account','Quando sono arrivata, la riunione ___ già cominciata.','When I arrived, the meeting had already begun.','era',['è','avrebbe']);
 addReserve('B1','capstone-service','Se il modulo manca, ___ domani.','If the form is missing, I will return tomorrow.','tornerò',['tornassi','tornato']);
 addReserve('B1','capstone-relay','Secondo l’avviso, nelle gallerie si possono fare fotografie senza ___.','','flash',['biglietto','telefono']);
+addReserve('B1','object-agreement','La torta? L’ho ___ io stamattina.','The cake? I made it myself this morning.','fatta',['fatto','fatte'],'singular');
+addReserve('B1','object-agreement','Hai comprato le arance? Sì, le ho ___ al mercato.','Did you buy the oranges? Yes, I bought them at the market.','comprate',['comprato','comprati'],'plural');
+addReserve('B1','everyone-everything','Alla festa ___ ha portato un dolce.','At the party everyone brought a dessert.','ognuno',['tutti','tutto'],'each-versus-all');
+addReserve('B1','everyone-everything','Ho guardato ___, ma le chiavi non ci sono.','I looked everywhere, but the keys are not there.','dappertutto',['ognuno','tutti'],'everything-everywhere');
+addReserve('B1','cause-links','Siamo arrivati tardi ___ c’era traffico.','We arrived late because there was traffic.','perché',['siccome','perciò'],'reason-position');
+addReserve('B1','cause-links','Non avevo il biglietto, ___ non sono salito sul treno.','I did not have the ticket, so I did not get on the train.','quindi',['siccome','poiché'],'consequence');
 
 finish('B1',[
   makeUnit('B1','v2-b1-connected-story','Tell what happened','Build a connected account with scene, event, sequence and outcome.',['v2-b1-story-background-event','v2-b1-story-sequence','v2-b1-story-outcome']),
@@ -300,6 +385,7 @@ finish('B1',[
   makeUnit('B1','v2-b1-hopes-doubts','Hopes and doubts','Build and use a limited, explicitly introduced present subjunctive toolkit.',['v2-b1-subjunctive-bridge','v2-b1-opinion-doubt','v2-b1-wishes-feelings','v2-b1-impersonal-judgment']),
   makeUnit('B1','v2-b1-relay-message','Relay a message','Report statements, embed questions and preserve a speaker’s meaning.',['v2-b1-reporting-information','v2-b1-indirect-questions','v2-b1-relay-voicemail']),
   makeUnit('B1','v2-b1-rules-writeback','Read rules and write back','Understand general rules and simple passive service notices.',['v2-b1-impersonal-si','v2-b1-passive-present','v2-b1-read-rules']),
+  makeUnit('B1','v2-b1-u13','Agree and connect','Agree the participle with a preceding object pronoun, refer to everyone and everything, and link reasons to their consequences.',['v2-b1-object-agreement','v2-b1-everyone-everything','v2-b1-cause-links']),
   makeUnit('B1','v2-b1-integration','Everyday independence checkpoint','Apply connected narration, listening, problem solving and mediation in practical situations.',['v2-b1-capstone-account','v2-b1-listen-practical-update','v2-b1-capstone-service','v2-b1-capstone-relay'])
 ],[{title:'Council of Europe CEFR Companion Volume',url:'https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4'},{title:'Profilo della lingua italiana',url:'https://www.unistrapg.it/profilo_lingua_italiana/site/index.html'}]);
 

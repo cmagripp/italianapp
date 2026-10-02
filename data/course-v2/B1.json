@@ -8677,6 +8677,1248 @@
       ]
     },
     {
+      "id": "v2-b1-u13",
+      "title": "Agree and connect",
+      "description": "Agree the participle with a preceding object pronoun, refer to everyone and everything, and link reasons to their consequences.",
+      "lessons": [
+        {
+          "id": "v2-b1-object-agreement",
+          "title": "Agree with lo, la, li and le",
+          "outcome": "I can make the past participle agree with lo, la, li or le placed before avere, and leave it unchanged when the object follows the verb.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-a2-direct-singular",
+            "v2-a2-direct-plural",
+            "v2-b1-ne-quantity"
+          ],
+          "related": [
+            {
+              "entryId": "w:lo|pron"
+            },
+            {
+              "entryId": "w:la|pron"
+            },
+            {
+              "entryId": "w:li|pron"
+            },
+            {
+              "entryId": "w:le|pron"
+            }
+          ],
+          "takeaway": "Before ho, hai, ha, abbiamo, avete and hanno, lo and la become l’ and the participle takes the ending of that object: l’ho vista, li ho visti, le ho comprate. When the object follows the verb as a noun, the participle stays in -o: Ho visto Anna.",
+          "targets": [
+            {
+              "id": "v2-b1-object-agreement.core",
+              "label": "Agree with lo, la, li and le",
+              "explanation": "When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la. Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho. When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.",
+              "facets": [
+                "singular",
+                "plural"
+              ],
+              "minIndependent": 3,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try agree with lo, la, li and le again",
+                "body": "When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la. Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho. When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.",
+                "examples": [
+                  {
+                    "it": "Hai visto Marta? Sì, l’ho vista ieri.",
+                    "en": "Did you see Marta? Yes, I saw her yesterday."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-b1-object-agreement.words",
+              "kind": "words",
+              "title": "Words for the task",
+              "body": "Use these meanings as you work through the examples.",
+              "words": [
+                {
+                  "it": "lo",
+                  "en": "him or it (masculine direct object)"
+                },
+                {
+                  "it": "la",
+                  "en": "her or it (feminine direct object)"
+                },
+                {
+                  "it": "li",
+                  "en": "them (masculine direct object)"
+                },
+                {
+                  "it": "le",
+                  "en": "them (feminine direct object)"
+                },
+                {
+                  "it": "la chiave",
+                  "en": "key"
+                },
+                {
+                  "it": "il biglietto",
+                  "en": "ticket"
+                },
+                {
+                  "it": "la valigia",
+                  "en": "suitcase"
+                },
+                {
+                  "it": "invitare",
+                  "en": "to invite"
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.teach-1",
+              "kind": "teach",
+              "title": "Agree with a preceding lo or la",
+              "body": "When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la.",
+              "examples": [
+                {
+                  "it": "Hai visto Marta? Sì, l’ho vista ieri.",
+                  "en": "Did you see Marta? Yes, I saw her yesterday."
+                }
+              ],
+              "introduces": [
+                "v2-b1-object-agreement.core"
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.teach-2",
+              "kind": "teach",
+              "title": "Agree with li and le",
+              "body": "Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho.",
+              "examples": [
+                {
+                  "it": "I biglietti? Li ho presi stamattina. Le chiavi? Le ho trovate.",
+                  "en": "The tickets? I got them this morning. The keys? I found them."
+                }
+              ],
+              "introduces": [
+                "v2-b1-object-agreement.core"
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.teach-3",
+              "kind": "teach",
+              "title": "No pronoun before the verb, no agreement",
+              "body": "When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.",
+              "examples": [
+                {
+                  "it": "Ho visto Marta ieri. Ho comprato le chiavi.",
+                  "en": "I saw Marta yesterday. I bought the keys."
+                }
+              ],
+              "introduces": [
+                "v2-b1-object-agreement.core"
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.check-1",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "singular",
+              "stage": "guided",
+              "contextKey": "v2-b1-object-agreement.scene-1",
+              "format": "choice",
+              "prompt": "Complete the modelled Italian sentence.",
+              "context": "Hai visto Marta? Sì, l’ho ___ stamattina.",
+              "translation": "Did you see Marta? Yes, I saw her this morning.",
+              "answer": "vista",
+              "options": [
+                "vista",
+                "visto",
+                "viste"
+              ],
+              "explanation": "L’ stands for la, that is Marta, so the participle ends in -a.",
+              "hint": "Marta is feminine singular: agree the participle with la.",
+              "speak": "Hai visto Marta? Sì, l’ho vista stamattina."
+            },
+            {
+              "id": "v2-b1-object-agreement.passage",
+              "kind": "passage",
+              "title": "Before the dinner",
+              "it": "Ciao Sara, sono Paolo. La torta per stasera l’ho già fatta: è in frigo. I biglietti per il concerto? Li ho presi ieri, sono nel portafoglio. Ho pensato anche ad Anna: l’ho invitata stamattina e ha detto di sì. Ho comprato il pane e il vino. Ci vediamo alle otto!",
+              "en": "Hi Sara, it’s Paolo. The cake for tonight, I’ve already made it: it’s in the fridge. The tickets for the concert? I got them yesterday; they’re in my wallet. I thought of Anna too: I invited her this morning and she said yes. I bought the bread and the wine. See you at eight!",
+              "mode": "listen",
+              "audioId": "v2-b1-object-agreement.passage",
+              "task": "Listen for the participle endings: which change after lo, la, li or le, and which stay in -o because the noun follows the verb?"
+            },
+            {
+              "id": "v2-b1-object-agreement.check-2",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "singular",
+              "stage": "independent",
+              "contextKey": "v2-b1-object-agreement.scene-2",
+              "format": "type",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Il film? L’ho ___ sabato scorso.",
+              "translation": "The film? I saw it last Saturday.",
+              "answer": "visto",
+              "errors": [
+                {
+                  "answer": "vista",
+                  "tag": "agreement-gender",
+                  "explanation": "Il film is masculine: after l’ standing for lo, the participle ends in -o."
+                },
+                {
+                  "answer": "visti",
+                  "tag": "agreement-number",
+                  "explanation": "One film: the ending is the singular -o."
+                }
+              ],
+              "explanation": "Here l’ stands for lo, il film, so the participle keeps -o.",
+              "hint": "Il film is masculine singular.",
+              "speak": "Il film? L’ho visto sabato scorso."
+            },
+            {
+              "id": "v2-b1-object-agreement.contrast-1",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Here l’ stands for lo, il film, so the participle keeps -o.",
+              "examples": [
+                {
+                  "it": "Il film? L’ho visto sabato scorso.",
+                  "en": "The film? I saw it last Saturday."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.check-3",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "plural",
+              "stage": "independent",
+              "contextKey": "v2-b1-object-agreement.scene-3",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Le chiavi? Le ho ___ nella borsa.",
+              "translation": "The keys? I found them in the bag.",
+              "answer": "trovate",
+              "options": [
+                "trovate",
+                "trovato",
+                "trovati"
+              ],
+              "explanation": "Le refers to le chiavi, feminine plural, so the participle ends in -e.",
+              "hint": "Which ending matches le chiavi?",
+              "speak": "Le chiavi? Le ho trovate nella borsa."
+            },
+            {
+              "id": "v2-b1-object-agreement.contrast-2",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Le refers to le chiavi, feminine plural, so the participle ends in -e.",
+              "examples": [
+                {
+                  "it": "Le chiavi? Le ho trovate nella borsa.",
+                  "en": "The keys? I found them in the bag."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.check-4",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "singular",
+              "stage": "independent",
+              "contextKey": "v2-b1-object-agreement.scene-4",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "La lettera? ___ scritta ieri sera.",
+              "translation": "The letter? I wrote it last night.",
+              "answer": "L’ho",
+              "options": [
+                "L’ho",
+                "La ho",
+                "Le ho"
+              ],
+              "explanation": "La, standing for la lettera, becomes l’ before ho, and scritta agrees with it.",
+              "hint": "Before ho, la loses its vowel.",
+              "speak": "La lettera? L’ho scritta ieri sera."
+            },
+            {
+              "id": "v2-b1-object-agreement.contrast-3",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "La, standing for la lettera, becomes l’ before ho, and scritta agrees with it.",
+              "examples": [
+                {
+                  "it": "La lettera? L’ho scritta ieri sera.",
+                  "en": "The letter? I wrote it last night."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.check-5",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "plural",
+              "stage": "independent",
+              "contextKey": "v2-b1-object-agreement.scene-5",
+              "format": "type",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "I regali? Li ho già ___.",
+              "translation": "The presents? I have already bought them.",
+              "answer": "comprati",
+              "errors": [
+                {
+                  "answer": "comprato",
+                  "tag": "agreement-number",
+                  "explanation": "Li is plural: the participle takes -i."
+                },
+                {
+                  "answer": "comprate",
+                  "tag": "agreement-gender",
+                  "explanation": "I regali is masculine: use -i, not -e."
+                }
+              ],
+              "explanation": "Li refers to i regali, masculine plural, so the participle ends in -i.",
+              "hint": "Agree the participle with li.",
+              "speak": "I regali? Li ho già comprati."
+            },
+            {
+              "id": "v2-b1-object-agreement.contrast-4",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Li refers to i regali, masculine plural, so the participle ends in -i.",
+              "examples": [
+                {
+                  "it": "I regali? Li ho già comprati.",
+                  "en": "The presents? I have already bought them."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.check-6",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "singular",
+              "stage": "independent",
+              "contextKey": "v2-b1-object-agreement.scene-6",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Ieri ho ___ Giulia al mercato.",
+              "translation": "Yesterday I saw Giulia at the market.",
+              "answer": "visto",
+              "options": [
+                "visto",
+                "vista",
+                "viste"
+              ],
+              "explanation": "Giulia follows the verb as a noun; with no pronoun before ho, the participle stays visto.",
+              "hint": "Is there an object pronoun before ho?",
+              "speak": "Ieri ho visto Giulia al mercato."
+            },
+            {
+              "id": "v2-b1-object-agreement.contrast-5",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Giulia follows the verb as a noun; with no pronoun before ho, the participle stays visto.",
+              "examples": [
+                {
+                  "it": "Ieri ho visto Giulia al mercato.",
+                  "en": "Yesterday I saw Giulia at the market."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.check-7",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "plural",
+              "stage": "independent",
+              "contextKey": "v2-b1-object-agreement.scene-7",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Abbiamo ___ le valigie in macchina.",
+              "translation": "We put the suitcases in the car.",
+              "answer": "messo",
+              "options": [
+                "messo",
+                "messe",
+                "messi"
+              ],
+              "explanation": "Le valigie follows the verb, so nothing agrees: messo.",
+              "hint": "Look for a pronoun before abbiamo.",
+              "speak": "Abbiamo messo le valigie in macchina."
+            },
+            {
+              "id": "v2-b1-object-agreement.apply",
+              "kind": "portfolio",
+              "title": "Report what you have dealt with",
+              "prompt": "Write a short message to a flatmate or colleague about three things you have dealt with. Name each item first, then refer to it with lo, la, li or le before the verb; add one sentence where the object follows the verb.",
+              "mode": "write",
+              "model": "La spesa l’ho fatta stamattina. Le bollette le ho pagate ieri. I documenti per il corso? Li ho già spediti alla segreteria. Ho anche comprato il pane.",
+              "rubric": [
+                "Each pronoun refers to an item named just before it.",
+                "The participle ending matches the gender and number of that pronoun.",
+                "Where a noun follows the verb, the participle stays in -o."
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.recap",
+              "kind": "teach",
+              "title": "Keep this contrast",
+              "body": "Before ho, hai, ha, abbiamo, avete and hanno, lo and la become l’ and the participle takes the ending of that object: l’ho vista, li ho visti, le ho comprate. When the object follows the verb as a noun, the participle stays in -o: Ho visto Anna.",
+              "examples": [
+                {
+                  "it": "I biglietti? Li ho presi stamattina. Le chiavi? Le ho trovate.",
+                  "en": "The tickets? I got them this morning. The keys? I found them."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-object-agreement.reserve-1",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "singular",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-b1-object-agreement.reserve-1",
+              "format": "choice",
+              "prompt": "Complete this fresh situation with the taught form or meaning.",
+              "context": "La torta? L’ho ___ io stamattina.",
+              "translation": "The cake? I made it myself this morning.",
+              "answer": "fatta",
+              "options": [
+                "fatta",
+                "fatto",
+                "fatte"
+              ],
+              "explanation": "When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la. Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho. When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.",
+              "hint": "When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la. Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho. When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.",
+              "speak": "La torta? L’ho fatta io stamattina."
+            },
+            {
+              "id": "v2-b1-object-agreement.reserve-2",
+              "kind": "question",
+              "target": "v2-b1-object-agreement.core",
+              "facet": "plural",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-b1-object-agreement.reserve-2",
+              "format": "choice",
+              "prompt": "Complete this fresh situation with the taught form or meaning.",
+              "context": "Hai comprato le arance? Sì, le ho ___ al mercato.",
+              "translation": "Did you buy the oranges? Yes, I bought them at the market.",
+              "answer": "comprate",
+              "options": [
+                "comprate",
+                "comprato",
+                "comprati"
+              ],
+              "explanation": "When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la. Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho. When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.",
+              "hint": "When lo or la stands before ho, hai, ha, abbiamo, avete or hanno, it becomes l’ and the past participle takes the ending of that object: -o for lo, -a for la. Li gives -i and le gives -e. These plural pronouns keep their vowel: li ho, le ho. When the object follows the verb as a noun, nothing stands before ho and the participle keeps its basic -o form.",
+              "speak": "Hai comprato le arance? Sì, le ho comprate al mercato."
+            }
+          ]
+        },
+        {
+          "id": "v2-b1-everyone-everything",
+          "title": "Everyone, everything, everywhere",
+          "outcome": "I can use ognuno, ciascuno, tutti, tutto, ovunque and dappertutto with the right verb agreement.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-b1-object-agreement",
+            "v2-a2-essere-plural"
+          ],
+          "related": [
+            {
+              "entryId": "w:ognuno|pron"
+            },
+            {
+              "entryId": "w:ciascuno|pron"
+            },
+            {
+              "entryId": "w:tutti|pron"
+            },
+            {
+              "entryId": "w:tutto|det"
+            },
+            {
+              "entryId": "w:ovunque|adv"
+            },
+            {
+              "entryId": "w:dappertutto|adv"
+            }
+          ],
+          "takeaway": "Ognuno, ognuna and ciascuno take a singular verb; tutti and tutte take a plural verb; tutto means everything and is singular; ovunque and dappertutto both mean everywhere.",
+          "targets": [
+            {
+              "id": "v2-b1-everyone-everything.core",
+              "label": "Everyone, everything, everywhere",
+              "explanation": "Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular. Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too. Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.",
+              "facets": [
+                "each-versus-all",
+                "everything-everywhere"
+              ],
+              "minIndependent": 3,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try everyone, everything, everywhere again",
+                "body": "Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular. Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too. Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.",
+                "examples": [
+                  {
+                    "it": "Ognuno ha il suo posto. Ognuna di noi porta un dolce.",
+                    "en": "Everyone has their own seat. Each of us brings a dessert."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-b1-everyone-everything.words",
+              "kind": "words",
+              "title": "Words for the task",
+              "body": "Use these meanings as you work through the examples.",
+              "words": [
+                {
+                  "it": "ognuno",
+                  "en": "each one; everyone, one at a time"
+                },
+                {
+                  "it": "ognuna",
+                  "en": "each one (of women or feminine things)"
+                },
+                {
+                  "it": "ciascuno",
+                  "en": "each one"
+                },
+                {
+                  "it": "tutti",
+                  "en": "everyone; all of them"
+                },
+                {
+                  "it": "tutto",
+                  "en": "everything"
+                },
+                {
+                  "it": "ovunque",
+                  "en": "everywhere; wherever"
+                },
+                {
+                  "it": "dappertutto",
+                  "en": "everywhere"
+                },
+                {
+                  "it": "il posto",
+                  "en": "seat; place"
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.teach-1",
+              "kind": "teach",
+              "title": "One at a time: ognuno, ciascuno",
+              "body": "Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular.",
+              "examples": [
+                {
+                  "it": "Ognuno ha il suo posto. Ognuna di noi porta un dolce.",
+                  "en": "Everyone has their own seat. Each of us brings a dessert."
+                }
+              ],
+              "introduces": [
+                "v2-b1-everyone-everything.core"
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.teach-2",
+              "kind": "teach",
+              "title": "All together: tutti, tutte",
+              "body": "Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too.",
+              "examples": [
+                {
+                  "it": "Tutti sono arrivati in orario. Tutte hanno portato qualcosa.",
+                  "en": "Everyone arrived on time. All of them brought something."
+                }
+              ],
+              "introduces": [
+                "v2-b1-everyone-everything.core"
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.teach-3",
+              "kind": "teach",
+              "title": "Everything and everywhere",
+              "body": "Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.",
+              "examples": [
+                {
+                  "it": "Tutto è pronto. Ho cercato le chiavi dappertutto.",
+                  "en": "Everything is ready. I looked for the keys everywhere."
+                }
+              ],
+              "introduces": [
+                "v2-b1-everyone-everything.core"
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.check-1",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "each-versus-all",
+              "stage": "guided",
+              "contextKey": "v2-b1-everyone-everything.scene-1",
+              "format": "choice",
+              "prompt": "Complete the modelled Italian sentence.",
+              "context": "Ognuno ___ il suo posto.",
+              "translation": "Everyone has their own seat.",
+              "answer": "ha",
+              "options": [
+                "ha",
+                "hanno",
+                "avete"
+              ],
+              "explanation": "Ognuno is singular, one person at a time, so the verb is ha.",
+              "hint": "Ognuno means each one.",
+              "speak": "Ognuno ha il suo posto."
+            },
+            {
+              "id": "v2-b1-everyone-everything.check-2",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "each-versus-all",
+              "stage": "independent",
+              "contextKey": "v2-b1-everyone-everything.scene-2",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "___ sono arrivati in orario.",
+              "translation": "Everyone arrived on time.",
+              "answer": "Tutti",
+              "options": [
+                "Tutti",
+                "Ognuno",
+                "Tutto"
+              ],
+              "explanation": "A plural verb, sono arrivati, needs the plural tutti.",
+              "hint": "Look at the verb: sono arrivati is plural.",
+              "speak": "Tutti sono arrivati in orario."
+            },
+            {
+              "id": "v2-b1-everyone-everything.contrast-1",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "A plural verb, sono arrivati, needs the plural tutti.",
+              "examples": [
+                {
+                  "it": "Tutti sono arrivati in orario.",
+                  "en": "Everyone arrived on time."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.check-3",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "each-versus-all",
+              "stage": "independent",
+              "contextKey": "v2-b1-everyone-everything.scene-3",
+              "format": "type",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Ciascuno ___ pagato il suo biglietto.",
+              "translation": "Each one paid for their own ticket.",
+              "answer": "ha",
+              "errors": [
+                {
+                  "answer": "hanno",
+                  "tag": "agreement-number",
+                  "explanation": "Ciascuno is singular, so the verb is ha, not hanno."
+                }
+              ],
+              "explanation": "Ciascuno, like ognuno, takes a singular verb.",
+              "hint": "Each person pays separately.",
+              "speak": "Ciascuno ha pagato il suo biglietto."
+            },
+            {
+              "id": "v2-b1-everyone-everything.contrast-2",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Ciascuno, like ognuno, takes a singular verb.",
+              "examples": [
+                {
+                  "it": "Ciascuno ha pagato il suo biglietto.",
+                  "en": "Each one paid for their own ticket."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.check-4",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "everything-everywhere",
+              "stage": "independent",
+              "contextKey": "v2-b1-everyone-everything.scene-4",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Ho cercato il telefono ___, ma non l’ho trovato.",
+              "translation": "I looked for the phone everywhere, but I did not find it.",
+              "answer": "dappertutto",
+              "options": [
+                "dappertutto",
+                "ognuno",
+                "tutto"
+              ],
+              "explanation": "Dappertutto, like ovunque, means everywhere; ognuno and tutto are not place words.",
+              "hint": "You need a place word.",
+              "speak": "Ho cercato il telefono dappertutto, ma non l’ho trovato."
+            },
+            {
+              "id": "v2-b1-everyone-everything.contrast-3",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Dappertutto, like ovunque, means everywhere; ognuno and tutto are not place words.",
+              "examples": [
+                {
+                  "it": "Ho cercato il telefono dappertutto, ma non l’ho trovato.",
+                  "en": "I looked for the phone everywhere, but I did not find it."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.check-5",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "everything-everywhere",
+              "stage": "independent",
+              "contextKey": "v2-b1-everyone-everything.scene-5",
+              "format": "type",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Alla fine ___ è andato bene.",
+              "translation": "In the end everything went well.",
+              "answer": "tutto",
+              "errors": [
+                {
+                  "answer": "tutti",
+                  "tag": "meaning",
+                  "explanation": "Tutti means everyone; for everything use tutto."
+                }
+              ],
+              "explanation": "Tutto means everything and takes a singular verb.",
+              "hint": "One word for everything.",
+              "speak": "Alla fine tutto è andato bene."
+            },
+            {
+              "id": "v2-b1-everyone-everything.contrast-4",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Tutto means everything and takes a singular verb.",
+              "examples": [
+                {
+                  "it": "Alla fine tutto è andato bene.",
+                  "en": "In the end everything went well."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.check-6",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "each-versus-all",
+              "stage": "independent",
+              "contextKey": "v2-b1-everyone-everything.scene-6",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Alla riunione ___ ha avuto cinque minuti per parlare.",
+              "translation": "At the meeting everyone had five minutes to speak.",
+              "answer": "ognuno",
+              "options": [
+                "ognuno",
+                "tutti",
+                "tutte"
+              ],
+              "explanation": "Ha avuto is singular, so the subject is ognuno: each person in turn.",
+              "hint": "Match the subject to the singular verb.",
+              "speak": "Alla riunione ognuno ha avuto cinque minuti per parlare."
+            },
+            {
+              "id": "v2-b1-everyone-everything.apply",
+              "kind": "portfolio",
+              "title": "Organize a group outing",
+              "prompt": "Write three or four sentences of instructions for a group trip: say what each person brings, what everyone must do together, and confirm that everything is ready.",
+              "mode": "write",
+              "model": "Ognuno porta la sua valigia e il suo biglietto. Tutti devono essere davanti alla scuola alle sei e mezza. Ho controllato dappertutto e tutto è pronto.",
+              "rubric": [
+                "Ognuno or ciascuno has a singular verb and possessive.",
+                "Tutti or tutte has a plural verb.",
+                "Tutto, ovunque or dappertutto is used with its own meaning, not for people."
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.recap",
+              "kind": "teach",
+              "title": "Keep this contrast",
+              "body": "Ognuno, ognuna and ciascuno take a singular verb; tutti and tutte take a plural verb; tutto means everything and is singular; ovunque and dappertutto both mean everywhere.",
+              "examples": [
+                {
+                  "it": "Tutti sono arrivati in orario. Tutte hanno portato qualcosa.",
+                  "en": "Everyone arrived on time. All of them brought something."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-everyone-everything.reserve-1",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "each-versus-all",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-b1-everyone-everything.reserve-1",
+              "format": "choice",
+              "prompt": "Complete this fresh situation with the taught form or meaning.",
+              "context": "Alla festa ___ ha portato un dolce.",
+              "translation": "At the party everyone brought a dessert.",
+              "answer": "ognuno",
+              "options": [
+                "ognuno",
+                "tutti",
+                "tutto"
+              ],
+              "explanation": "Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular. Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too. Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.",
+              "hint": "Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular. Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too. Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.",
+              "speak": "Alla festa ognuno ha portato un dolce."
+            },
+            {
+              "id": "v2-b1-everyone-everything.reserve-2",
+              "kind": "question",
+              "target": "v2-b1-everyone-everything.core",
+              "facet": "everything-everywhere",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-b1-everyone-everything.reserve-2",
+              "format": "choice",
+              "prompt": "Complete this fresh situation with the taught form or meaning.",
+              "context": "Ho guardato ___, ma le chiavi non ci sono.",
+              "translation": "I looked everywhere, but the keys are not there.",
+              "answer": "dappertutto",
+              "options": [
+                "dappertutto",
+                "ognuno",
+                "tutti"
+              ],
+              "explanation": "Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular. Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too. Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.",
+              "hint": "Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular. Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too. Tutto means everything and takes a singular verb; ovunque and dappertutto both mean everywhere and usually follow the verb.",
+              "speak": "Ho guardato dappertutto, ma le chiavi non ci sono."
+            }
+          ]
+        },
+        {
+          "id": "v2-b1-cause-links",
+          "title": "Give the reason first",
+          "outcome": "I can open a sentence with siccome, poiché or dato che, give a reason with perché after the main clause, and state a consequence with perciò or quindi.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-b1-everyone-everything",
+            "v2-b1-cause-purpose",
+            "v2-b1-consequence-concession"
+          ],
+          "related": [
+            {
+              "entryId": "w:siccome|conj"
+            },
+            {
+              "entryId": "w:poiché|conj"
+            },
+            {
+              "entryId": "w:dato_che|conj"
+            },
+            {
+              "entryId": "w:perché|conj"
+            },
+            {
+              "entryId": "w:perciò|conj"
+            },
+            {
+              "entryId": "w:quindi|conj"
+            }
+          ],
+          "takeaway": "Siccome, poiché and dato che open a sentence with its reason; perché gives the reason after the main clause; perciò and quindi introduce the consequence.",
+          "targets": [
+            {
+              "id": "v2-b1-cause-links.core",
+              "label": "Give the reason first",
+              "explanation": "When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way. When the result comes first, the reason follows it with perché. State the fact as its own clause, then introduce what follows from it with perciò or quindi.",
+              "facets": [
+                "reason-position",
+                "consequence"
+              ],
+              "minIndependent": 3,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try give the reason first again",
+                "body": "When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way. When the result comes first, the reason follows it with perché. State the fact as its own clause, then introduce what follows from it with perciò or quindi.",
+                "examples": [
+                  {
+                    "it": "Siccome pioveva, sono rimasto a casa.",
+                    "en": "Since it was raining, I stayed at home."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-b1-cause-links.words",
+              "kind": "words",
+              "title": "Words for the task",
+              "body": "Use these meanings as you work through the examples.",
+              "words": [
+                {
+                  "it": "siccome",
+                  "en": "since; as"
+                },
+                {
+                  "it": "poiché",
+                  "en": "since; because"
+                },
+                {
+                  "it": "dato che",
+                  "en": "given that; since"
+                },
+                {
+                  "it": "perché",
+                  "en": "because"
+                },
+                {
+                  "it": "perciò",
+                  "en": "therefore; so"
+                },
+                {
+                  "it": "quindi",
+                  "en": "so; therefore"
+                },
+                {
+                  "it": "lo sciopero",
+                  "en": "strike (work stoppage)"
+                },
+                {
+                  "it": "rimanere",
+                  "en": "to stay; to remain"
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.teach-1",
+              "kind": "teach",
+              "title": "Reason first: siccome, poiché, dato che",
+              "body": "When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way.",
+              "examples": [
+                {
+                  "it": "Siccome pioveva, sono rimasto a casa.",
+                  "en": "Since it was raining, I stayed at home."
+                }
+              ],
+              "introduces": [
+                "v2-b1-cause-links.core"
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.teach-2",
+              "kind": "teach",
+              "title": "Result first: perché",
+              "body": "When the result comes first, the reason follows it with perché.",
+              "examples": [
+                {
+                  "it": "Sono rimasto a casa perché pioveva.",
+                  "en": "I stayed at home because it was raining."
+                }
+              ],
+              "introduces": [
+                "v2-b1-cause-links.core"
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.teach-3",
+              "kind": "teach",
+              "title": "Fact, then consequence: perciò, quindi",
+              "body": "State the fact as its own clause, then introduce what follows from it with perciò or quindi.",
+              "examples": [
+                {
+                  "it": "Pioveva, perciò sono rimasto a casa.",
+                  "en": "It was raining, so I stayed at home."
+                }
+              ],
+              "introduces": [
+                "v2-b1-cause-links.core"
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.check-1",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "reason-position",
+              "stage": "guided",
+              "contextKey": "v2-b1-cause-links.scene-1",
+              "format": "choice",
+              "prompt": "Complete the modelled Italian sentence.",
+              "context": "___ pioveva, siamo rimasti a casa.",
+              "translation": "Since it was raining, we stayed at home.",
+              "answer": "Siccome",
+              "options": [
+                "Siccome",
+                "Perché",
+                "Perciò"
+              ],
+              "explanation": "The reason opens the sentence, so siccome fits; perché cannot start a reason-first statement.",
+              "hint": "The reason comes before the result.",
+              "speak": "Siccome pioveva, siamo rimasti a casa."
+            },
+            {
+              "id": "v2-b1-cause-links.passage",
+              "kind": "passage",
+              "title": "Why the meeting moved",
+              "it": "Ciao a tutti,\nsiccome domani c’è lo sciopero dei treni, molti colleghi non riescono ad arrivare in ufficio. Perciò la riunione non si terrà in sala, ma online alle dieci. Dato che il collegamento è nuovo, vi mando il link stasera. Luca non parteciperà perché è in ferie; quindi parlerò io del suo progetto.\nA domani,\nMarta",
+              "en": "Hi everyone,\nsince there is a train strike tomorrow, many colleagues cannot get to the office. So the meeting will not be held in the meeting room but online at ten. Given that the link is new, I will send it to you this evening. Luca will not take part because he is on holiday; so I will present his project.\nSee you tomorrow,\nMarta",
+              "mode": "read",
+              "task": "Find each reason and the consequence attached to it; notice which links open a sentence and which follow the main clause."
+            },
+            {
+              "id": "v2-b1-cause-links.check-2",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "reason-position",
+              "stage": "independent",
+              "contextKey": "v2-b1-cause-links.scene-2",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Non sono venuto ___ avevo la febbre.",
+              "translation": "I did not come because I had a fever.",
+              "answer": "perché",
+              "options": [
+                "perché",
+                "siccome",
+                "perciò"
+              ],
+              "explanation": "After the main clause, the reason takes perché.",
+              "hint": "The result is stated first.",
+              "speak": "Non sono venuto perché avevo la febbre."
+            },
+            {
+              "id": "v2-b1-cause-links.contrast-1",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "After the main clause, the reason takes perché.",
+              "examples": [
+                {
+                  "it": "Non sono venuto perché avevo la febbre.",
+                  "en": "I did not come because I had a fever."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.check-3",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "reason-position",
+              "stage": "independent",
+              "contextKey": "v2-b1-cause-links.scene-3",
+              "format": "type",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "___ il treno era in ritardo, abbiamo preso un taxi.",
+              "translation": "Since the train was late, we took a taxi.",
+              "answer": "Siccome",
+              "accepted": [
+                "Poiché",
+                "Dato che"
+              ],
+              "errors": [
+                {
+                  "answer": "Perché",
+                  "tag": "link-position",
+                  "explanation": "Perché gives a reason after the main clause; to open the sentence use siccome, poiché or dato che."
+                }
+              ],
+              "explanation": "The reason opens the sentence: siccome, poiché and dato che all work here.",
+              "hint": "Open with a reason-first link, not perché.",
+              "speak": "Siccome il treno era in ritardo, abbiamo preso un taxi."
+            },
+            {
+              "id": "v2-b1-cause-links.contrast-2",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "The reason opens the sentence: siccome, poiché and dato che all work here.",
+              "examples": [
+                {
+                  "it": "Siccome il treno era in ritardo, abbiamo preso un taxi.",
+                  "en": "Since the train was late, we took a taxi."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.check-4",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "consequence",
+              "stage": "independent",
+              "contextKey": "v2-b1-cause-links.scene-4",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Lo sciopero continua, ___ domani lavoro da casa.",
+              "translation": "The strike continues, so tomorrow I will work from home.",
+              "answer": "perciò",
+              "options": [
+                "perciò",
+                "siccome",
+                "poiché"
+              ],
+              "explanation": "Perciò introduces the consequence of the strike.",
+              "hint": "What follows is a result, not a reason.",
+              "speak": "Lo sciopero continua, perciò domani lavoro da casa."
+            },
+            {
+              "id": "v2-b1-cause-links.contrast-3",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Perciò introduces the consequence of the strike.",
+              "examples": [
+                {
+                  "it": "Lo sciopero continua, perciò domani lavoro da casa.",
+                  "en": "The strike continues, so tomorrow I will work from home."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.check-5",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "consequence",
+              "stage": "independent",
+              "contextKey": "v2-b1-cause-links.scene-5",
+              "format": "type",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "Avevo dimenticato le chiavi, ___ ho aspettato Marta davanti alla porta.",
+              "translation": "I had forgotten the keys, so I waited for Marta in front of the door.",
+              "answer": "quindi",
+              "accepted": [
+                "perciò",
+                "per questo",
+                "così",
+                "dunque"
+              ],
+              "errors": [
+                {
+                  "answer": "perché",
+                  "tag": "link-direction",
+                  "explanation": "Perché would make the waiting the reason for forgetting the keys; the waiting is the consequence, so use quindi or perciò."
+                }
+              ],
+              "explanation": "Quindi, like perciò, introduces the consequence of the forgotten keys.",
+              "hint": "Introduce the result.",
+              "speak": "Avevo dimenticato le chiavi, quindi ho aspettato Marta davanti alla porta."
+            },
+            {
+              "id": "v2-b1-cause-links.contrast-4",
+              "kind": "teach",
+              "title": "Notice why it fits",
+              "body": "Quindi, like perciò, introduces the consequence of the forgotten keys.",
+              "examples": [
+                {
+                  "it": "Avevo dimenticato le chiavi, quindi ho aspettato Marta davanti alla porta.",
+                  "en": "I had forgotten the keys, so I waited for Marta in front of the door."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.check-6",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "reason-position",
+              "stage": "independent",
+              "contextKey": "v2-b1-cause-links.scene-6",
+              "format": "choice",
+              "prompt": "Complete this new Italian sentence.",
+              "context": "___ non avevamo prenotato, non siamo entrati.",
+              "translation": "Since we had not booked, we did not get in.",
+              "answer": "Dato che",
+              "options": [
+                "Dato che",
+                "Perché",
+                "Quindi"
+              ],
+              "explanation": "Dato che opens the sentence with its reason; perché cannot stand here.",
+              "hint": "The sentence starts with the reason.",
+              "speak": "Dato che non avevamo prenotato, non siamo entrati."
+            },
+            {
+              "id": "v2-b1-cause-links.apply",
+              "kind": "portfolio",
+              "title": "Explain a change of plan",
+              "prompt": "Write a short message explaining why you are changing a plan. Open one sentence with siccome, poiché or dato che, use perché after a main clause in another, and give a consequence with perciò or quindi.",
+              "mode": "write",
+              "model": "Siccome domani c’è lo sciopero dei treni, non vengo in ufficio. Lavoro da casa perché ho tutto il materiale sul computer. La riunione delle dieci però è importante, quindi la seguo online.",
+              "rubric": [
+                "A reason-first sentence opens with siccome, poiché or dato che, never with perché.",
+                "Perché follows the main clause it explains.",
+                "Perciò or quindi introduces a consequence that follows from the stated fact."
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.recap",
+              "kind": "teach",
+              "title": "Keep this contrast",
+              "body": "Siccome, poiché and dato che open a sentence with its reason; perché gives the reason after the main clause; perciò and quindi introduce the consequence.",
+              "examples": [
+                {
+                  "it": "Sono rimasto a casa perché pioveva.",
+                  "en": "I stayed at home because it was raining."
+                }
+              ]
+            },
+            {
+              "id": "v2-b1-cause-links.reserve-1",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "reason-position",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-b1-cause-links.reserve-1",
+              "format": "choice",
+              "prompt": "Complete this fresh situation with the taught form or meaning.",
+              "context": "Siamo arrivati tardi ___ c’era traffico.",
+              "translation": "We arrived late because there was traffic.",
+              "answer": "perché",
+              "options": [
+                "perché",
+                "siccome",
+                "perciò"
+              ],
+              "explanation": "When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way. When the result comes first, the reason follows it with perché. State the fact as its own clause, then introduce what follows from it with perciò or quindi.",
+              "hint": "When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way. When the result comes first, the reason follows it with perché. State the fact as its own clause, then introduce what follows from it with perciò or quindi.",
+              "speak": "Siamo arrivati tardi perché c’era traffico."
+            },
+            {
+              "id": "v2-b1-cause-links.reserve-2",
+              "kind": "question",
+              "target": "v2-b1-cause-links.core",
+              "facet": "consequence",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-b1-cause-links.reserve-2",
+              "format": "choice",
+              "prompt": "Complete this fresh situation with the taught form or meaning.",
+              "context": "Non avevo il biglietto, ___ non sono salito sul treno.",
+              "translation": "I did not have the ticket, so I did not get on the train.",
+              "answer": "quindi",
+              "options": [
+                "quindi",
+                "siccome",
+                "poiché"
+              ],
+              "explanation": "When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way. When the result comes first, the reason follows it with perché. State the fact as its own clause, then introduce what follows from it with perciò or quindi.",
+              "hint": "When the reason opens the sentence, use siccome, poiché or dato che, then give the result in the main clause. Perché does not open a statement this way. When the result comes first, the reason follows it with perché. State the fact as its own clause, then introduce what follows from it with perciò or quindi.",
+              "speak": "Non avevo il biglietto, quindi non sono salito sul treno."
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "v2-b1-integration",
       "title": "Everyday independence checkpoint",
       "description": "Apply connected narration, listening, problem solving and mediation in practical situations.",

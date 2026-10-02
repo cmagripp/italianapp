@@ -1,0 +1,1142 @@
+{
+  "version": 1,
+  "stage": "strutture",
+  "order": 4,
+  "title": "Strutture",
+  "subtitle": "Replace, ask, join and compare",
+  "lessons": [
+    {
+      "id": "sl-strutture-01-lo-conosco",
+      "title": "Lo conosco",
+      "outcome": "Replace a known person or thing with lo, la, li, le, and use mi, ti, ci, vi inside the sentence.",
+      "minutes": 7,
+      "tense": "presente",
+      "grammarRefs": ["v2-a2-direct-singular", "v2-a2-direct-plural", "v2-a2-pronoun-placement"],
+      "vocab": [
+        { "it": "lo", "en": "him; it", "pos": "pron" },
+        { "it": "la", "en": "her; it", "pos": "pron" },
+        { "it": "li", "en": "them (masculine)", "pos": "pron" },
+        { "it": "le", "en": "them (feminine)", "pos": "pron" },
+        { "it": "chiave", "en": "key", "pos": "noun" },
+        { "it": "regalo", "en": "present; gift", "pos": "noun" }
+      ],
+      "activities": [
+        {
+          "id": "sl-strutture-01-lo-conosco.1",
+          "kind": "model",
+          "prompt": "Who + pronoun + verb",
+          "body": "When you both know what you are talking about, a short pronoun replaces it and goes right before the verb: lo (him, it), la (her, it), li (them, masculine), le (them, feminine). For the people in the conversation: mi, ti, ci, vi.",
+          "pattern": [
+            { "role": "subject", "label": "who" },
+            { "role": "object", "label": "lo / la / li / le" },
+            { "role": "verb", "label": "verb" },
+            { "role": "extra", "label": "the rest" }
+          ],
+          "examples": [
+            { "it": "Marco? Lo conosco bene.", "en": "Marco? I know him well.", "roles": [["Marco?", "extra"], ["Lo", "object"], ["conosco", "verb"], ["bene.", "extra"]] },
+            { "it": "La pizza? La mangio stasera.", "en": "The pizza? I'm eating it tonight.", "roles": [["La", "extra"], ["pizza?", "extra"], ["La", "object"], ["mangio", "verb"], ["stasera.", "extra"]] },
+            { "it": "I libri? Li leggo in treno.", "en": "The books? I read them on the train.", "roles": [["I", "extra"], ["libri?", "extra"], ["Li", "object"], ["leggo", "verb"], ["in", "extra"], ["treno.", "extra"]] },
+            { "it": "Le chiavi? Le vedo, sono qui.", "en": "The keys? I see them, they're here.", "roles": [["Le", "extra"], ["chiavi?", "extra"], ["Le", "object"], ["vedo,", "verb"], ["sono", "verb"], ["qui.", "extra"]] },
+            { "it": "Mi chiami domani?", "en": "Will you call me tomorrow?", "roles": [["Mi", "object"], ["chiami", "verb"], ["domani?", "extra"]] },
+            { "it": "Voglio vederlo domani.", "en": "I want to see him tomorrow.", "roles": [["Voglio", "verb"], ["vederlo", "verb"], ["domani.", "extra"]] }
+          ],
+          "tip": "Before a vowel or h, lo and la become l': l'aspetto, l'ho visto. After volere, dovere or potere, the pronoun can attach to the end of the infinitive instead: vederlo, chiamarla."
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "The present? I'm buying it tomorrow.",
+          "answer": "Il regalo? Lo compro domani.",
+          "accepted": [],
+          "tokens": ["Il", "regalo?", "Lo", "compro", "domani."],
+          "distractors": ["La", "compra"],
+          "explanation": "Il regalo is masculine singular, so it becomes lo, placed right before compro.",
+          "hint": "Name the thing first, then replace it."
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.3",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Le chiavi? Non ____ trovo!",
+          "en": "The keys? I can't find them!",
+          "blanks": [
+            { "accept": ["le"], "options": ["lo", "la", "li", "le"], "bank": ["mi", "ti"], "free": false, "slot": null, "explanation": "Le chiavi is feminine plural: le." }
+          ],
+          "hint": "Look at the gender and number of le chiavi."
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.4",
+          "kind": "cloze",
+          "prompt": "Two things, two pronouns",
+          "template": "Il caffè ____ prendo al bar, la pizza ____ mangio a casa.",
+          "en": "Coffee I have at the bar, pizza I eat at home.",
+          "blanks": [
+            { "accept": ["lo"], "options": ["lo", "la", "li"], "bank": ["le"], "free": false, "slot": null, "explanation": "Il caffè is masculine singular: lo." },
+            { "accept": ["la"], "options": ["lo", "la", "le"], "bank": ["li"], "free": false, "slot": null, "explanation": "La pizza is feminine singular: la." }
+          ],
+          "hint": "Each pronoun matches the thing just named."
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.5",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "I have to call her before dinner.",
+          "answer": "Devo chiamarla prima di cena.",
+          "accepted": [],
+          "tokens": ["Devo", "chiamarla", "prima", "di", "cena."],
+          "distractors": ["la", "chiamarlo"],
+          "explanation": "After dovere, the pronoun attaches to the end of the infinitive: chiamarla (her).",
+          "hint": "The pronoun hides at the end of a verb."
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.6",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Il film? Lo ____ stasera.",
+          "en": "The film? I'm watching it tonight.",
+          "blanks": [
+            { "accept": ["guardo", "vedo"], "options": ["guardo", "vedo", "guardi"], "bank": ["guarda", "vediamo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io takes -o: guardo or vedo." }
+          ],
+          "hint": "Who is doing it? Io."
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.7",
+          "kind": "dialogue",
+          "prompt": "Al telefono",
+          "partner": "Giulia",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Hai visto Marco oggi?", "en": "Hi! Have you seen Marco today?" },
+            {
+              "speaker": "you",
+              "template": "No, ma ____ chiamo stasera.",
+              "en": "No, but I'll call ____ tonight.",
+              "blanks": [
+                { "accept": ["lo"], "options": ["lo", "la", "li"], "bank": ["le", "mi"], "free": false, "slot": null, "explanation": "Marco is one man: lo." }
+              ],
+              "reactions": [
+                { "when": ["lo"], "it": "Perfetto! Allora ci vediamo tutti sabato.", "en": "Perfect! Then we'll all see each other on Saturday." },
+                { "when": "*", "it": "Va bene, ci sentiamo dopo.", "en": "All right, we'll talk later." }
+              ]
+            },
+            { "speaker": "partner", "it": "Sabato c'è la festa di Anna. Vieni?", "en": "On Saturday there's Anna's party. Are you coming?" },
+            {
+              "speaker": "you",
+              "template": "Certo! Mi ____ davanti al bar?",
+              "en": "Sure! Will you ____ in front of the bar?",
+              "blanks": [
+                { "accept": ["aspetti", "chiami"], "options": ["aspetti", "chiami", "aspetto"], "bank": ["aspettate", "cerco"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "Tu takes -i: aspetti (wait for me), chiami (call me)." }
+              ],
+              "reactions": [
+                { "when": ["aspetti"], "it": "Certo, ti aspetto alle otto.", "en": "Of course, I'll wait for you at eight." },
+                { "when": ["chiami"], "it": "Sì, ti chiamo quando arrivo.", "en": "Yes, I'll call you when I arrive." },
+                { "when": "*", "it": "Va bene, allora ci vediamo lì alle otto.", "en": "All right, then see you there at eight." }
+              ]
+            },
+            { "speaker": "partner", "it": "A sabato!", "en": "See you Saturday!" }
+          ]
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.8",
+          "kind": "cloze",
+          "prompt": "Before a vowel",
+          "template": "Anna? ____ qui da dieci minuti.",
+          "en": "Anna? I've been waiting for her here for ten minutes.",
+          "blanks": [
+            { "accept": ["l'aspetto"], "options": ["l'aspetto", "la aspetto", "lo aspetto"], "bank": ["li aspetto"], "free": false, "slot": null, "explanation": "Before a vowel, la becomes l': l'aspetto." }
+          ],
+          "hint": "Aspetto starts with a vowel."
+        },
+        {
+          "id": "sl-strutture-01-lo-conosco.9",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "hint": "Pick who, then a pronoun + verb, then when or where.",
+          "tense": "presente",
+          "roles": [
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Anche io", "person": 0 }] },
+            {
+              "role": "verb",
+              "fixed": true,
+              "items": [
+                { "it": "lo compro", "en": "buy it" },
+                { "it": "la chiamo", "en": "call her" },
+                { "it": "li aspetto", "en": "wait for them" },
+                { "it": "le leggo", "en": "read them" },
+                { "it": "ti ascolto", "en": "listen to you" },
+                { "it": "vi invito", "en": "invite you all" }
+              ]
+            },
+            {
+              "role": "object",
+              "items": [
+                { "it": "domani", "en": "tomorrow" },
+                { "it": "stasera", "en": "tonight" },
+                { "it": "al bar", "en": "at the bar" },
+                { "it": "dopo cena", "en": "after dinner" },
+                { "it": "la mattina", "en": "in the morning" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "volentieri", "en": "gladly" },
+                { "it": "con piacere", "en": "with pleasure" },
+                { "it": "di sicuro", "en": "for sure" }
+              ]
+            }
+          ],
+          "examples": ["Io la chiamo stasera.", "Anche io li aspetto al bar volentieri."]
+        }
+      ]
+    },
+    {
+      "id": "sl-strutture-02-chi-che-cosa-perche",
+      "title": "Chi, che cosa, perché",
+      "outcome": "Ask with chi, che cosa, dove, quando, come, quanto and perché, and answer a perché question with perché.",
+      "minutes": 7,
+      "tense": "presente",
+      "grammarRefs": ["v2-a2-link-reason-sequence", "v2-b1-indirect-questions"],
+      "vocab": [
+        { "it": "chi", "en": "who", "pos": "pron" },
+        { "it": "che cosa", "en": "what", "pos": "pron" },
+        { "it": "perché", "en": "why; because", "pos": "conj" },
+        { "it": "quale", "en": "which", "pos": "pron" },
+        { "it": "quanto", "en": "how much; how many", "pos": "adv" }
+      ],
+      "activities": [
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.1",
+          "kind": "model",
+          "prompt": "Question word + verb + the rest",
+          "body": "A question word opens the question and the verb comes right after it. Perché means why in the question and because in the answer.",
+          "pattern": [
+            { "role": "link", "label": "question word" },
+            { "role": "verb", "label": "verb" },
+            { "role": "extra", "label": "the rest" }
+          ],
+          "examples": [
+            { "it": "Chi è quella ragazza?", "en": "Who is that girl?", "roles": [["Chi", "link"], ["è", "verb"], ["quella", "extra"], ["ragazza?", "extra"]] },
+            { "it": "Che cosa fai stasera?", "en": "What are you doing tonight?", "roles": [["Che", "link"], ["cosa", "link"], ["fai", "verb"], ["stasera?", "extra"]] },
+            { "it": "Dove abita tuo fratello?", "en": "Where does your brother live?", "roles": [["Dove", "link"], ["abita", "verb"], ["tuo", "subject"], ["fratello?", "subject"]] },
+            { "it": "Quando parte il treno?", "en": "When does the train leave?", "roles": [["Quando", "link"], ["parte", "verb"], ["il", "subject"], ["treno?", "subject"]] },
+            { "it": "Quanto costa questo libro?", "en": "How much does this book cost?", "roles": [["Quanto", "link"], ["costa", "verb"], ["questo", "subject"], ["libro?", "subject"]] },
+            { "it": "Perché studi l'italiano? Perché mi piace.", "en": "Why do you study Italian? Because I like it.", "roles": [["Perché", "link"], ["studi", "verb"], ["l'italiano?", "object"], ["Perché", "link"], ["mi", "object"], ["piace.", "verb"]] }
+          ],
+          "tip": "Che cosa, cosa and che all mean what: Che cosa fai? Cosa fai? Che fai? Quale agrees in number (quale libro, quali libri) and quanto agrees like an adjective before a noun (quanti anni, quante ore)."
+        },
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.2",
+          "kind": "order",
+          "prompt": "Build the question",
+          "en": "Who is coming to the party tonight?",
+          "answer": "Chi viene alla festa stasera?",
+          "accepted": [],
+          "tokens": ["Chi", "viene", "alla", "festa", "stasera?"],
+          "distractors": ["Che", "vengono"],
+          "explanation": "Chi takes a singular verb: chi viene.",
+          "hint": "Start with the question word."
+        },
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.3",
+          "kind": "cloze",
+          "prompt": "Question and answer",
+          "template": "____ abiti? Abito a Bologna, ____ lavoro lì.",
+          "en": "Where do you live? I live in Bologna, because I work there.",
+          "blanks": [
+            { "accept": ["Dove"], "options": ["Dove", "Quando", "Chi"], "bank": ["Come"], "free": false, "slot": null, "explanation": "To ask about a place: dove." },
+            { "accept": ["perché"], "options": ["perché", "quando", "chi"], "bank": ["dove"], "free": false, "slot": null, "explanation": "The reason follows the main idea: perché (because)." }
+          ],
+          "hint": "The answer names a city."
+        },
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.4",
+          "kind": "cloze",
+          "prompt": "Finish the question",
+          "template": "Che cosa ____ domenica? Vado al mare.",
+          "en": "What are you doing on Sunday? I'm going to the seaside.",
+          "blanks": [
+            { "accept": ["fai"], "options": ["fai", "faccio", "fa"], "bank": ["fate", "facciamo"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "The answer says vado, so the question is to tu: fai." }
+          ],
+          "hint": "Who answers? Io, so the question is to tu."
+        },
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.5",
+          "kind": "order",
+          "prompt": "Build the exchange",
+          "en": "Why are you tired? Because I work too much.",
+          "answer": "Perché sei stanco? Perché lavoro troppo.",
+          "accepted": [],
+          "tokens": ["Perché", "sei", "stanco?", "Perché", "lavoro", "troppo."],
+          "distractors": ["siamo", "dove"],
+          "explanation": "Perché opens both the question (why) and the answer (because).",
+          "hint": "The same word starts both sentences."
+        },
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.6",
+          "kind": "dialogue",
+          "prompt": "Un invito",
+          "partner": "Luca",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Sabato faccio una festa a casa mia.", "en": "Hi! On Saturday I'm having a party at my place." },
+            {
+              "speaker": "you",
+              "template": "Che bello! ____ comincia?",
+              "en": "Great! ____ does it start?",
+              "blanks": [
+                { "accept": ["A che ora", "Quando"], "options": ["A che ora", "Quando", "Dove"], "bank": ["Chi", "Perché"], "free": false, "slot": null, "explanation": "To ask about the time: a che ora or quando." }
+              ],
+              "reactions": [
+                { "when": ["A che ora"], "it": "Alle nove, ma puoi arrivare anche prima.", "en": "At nine, but you can come earlier too." },
+                { "when": ["Quando"], "it": "Sabato sera, verso le nove.", "en": "Saturday evening, around nine." },
+                { "when": "*", "it": "Alle nove, a casa mia.", "en": "At nine, at my place." }
+              ]
+            },
+            { "speaker": "partner", "it": "Viene anche Sara con il suo ragazzo.", "en": "Sara is coming too, with her boyfriend." },
+            {
+              "speaker": "you",
+              "template": "Davvero? ____ è il suo ragazzo?",
+              "en": "Really? ____ is her boyfriend?",
+              "blanks": [
+                { "accept": ["Chi"], "options": ["Chi", "Che cosa", "Dove"], "bank": ["Quando", "Come"], "free": false, "slot": null, "explanation": "Asking about a person: chi." }
+              ],
+              "reactions": [
+                { "when": ["Chi"], "it": "Si chiama Paolo, è di Napoli. Lo conosci?", "en": "His name is Paolo, he's from Naples. Do you know him?" },
+                { "when": "*", "it": "Si chiama Paolo. Lo conosci?", "en": "His name is Paolo. Do you know him?" }
+              ]
+            },
+            { "speaker": "partner", "it": "Allora vieni? Porta qualcosa da bere!", "en": "So, are you coming? Bring something to drink!" },
+            {
+              "speaker": "you",
+              "template": "Certo che vengo! Perché non invitiamo anche ____?",
+              "en": "Of course I'm coming! Why don't we invite ____ too?",
+              "blanks": [
+                { "accept": ["Marco", "Anna", "Giulia"], "options": ["Marco", "Anna", "Giulia"], "bank": [], "free": false, "slot": null, "explanation": "Any name works: the question is perché non + verb." }
+              ],
+              "reactions": [
+                { "when": ["Marco"], "it": "Buona idea, lo chiamo subito.", "en": "Good idea, I'll call him right away." },
+                { "when": ["Anna", "Giulia"], "it": "Buona idea, la chiamo subito.", "en": "Good idea, I'll call her right away." },
+                { "when": "*", "it": "Buona idea!", "en": "Good idea!" }
+              ]
+            },
+            { "speaker": "partner", "it": "Perfetto, a sabato!", "en": "Perfect, see you Saturday!" }
+          ]
+        },
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.7",
+          "kind": "cloze",
+          "prompt": "Which and how many",
+          "template": "____ libro preferisci? Questo. E ____ anni hai? Trenta.",
+          "en": "Which book do you prefer? This one. And how old are you? Thirty.",
+          "blanks": [
+            { "accept": ["Quale"], "options": ["Quale", "Quali", "Quanto"], "bank": ["Chi"], "free": false, "slot": null, "explanation": "One book: quale (singular)." },
+            { "accept": ["quanti"], "options": ["quanti", "quante", "quanto"], "bank": ["quali"], "free": false, "slot": null, "explanation": "Gli anni are masculine plural: quanti anni." }
+          ],
+          "hint": "Both words agree with the noun that follows."
+        },
+        {
+          "id": "sl-strutture-02-chi-che-cosa-perche.8",
+          "kind": "build",
+          "prompt": "Say why yourself",
+          "hint": "Pick who, a verb, what, then the reason with perché.",
+          "tense": "presente",
+          "roles": [
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mio fratello", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "person": 5 }] },
+            { "role": "verb", "items": [{ "inf": "studiare", "en": "study" }, { "inf": "imparare", "en": "learn" }, { "inf": "guardare", "en": "watch" }, { "inf": "leggere", "en": "read" }] },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["school", "arts", "tech"], "article": "definite" },
+              "items": [
+                { "it": "l'italiano", "en": "Italian" },
+                { "it": "il francese", "en": "French" },
+                { "it": "i film italiani", "en": "Italian films" },
+                { "it": "il giornale", "en": "the newspaper" },
+                { "it": "questo libro", "en": "this book" }
+              ]
+            },
+            {
+              "role": "extra",
+              "items": [
+                { "it": "perché è utile", "en": "because it's useful" },
+                { "it": "perché è interessante", "en": "because it's interesting" },
+                { "it": "perché è importante", "en": "because it's important" },
+                { "it": "perché costa poco", "en": "because it costs little" },
+                { "it": "perché è bello", "en": "because it's nice" }
+              ]
+            }
+          ],
+          "examples": ["Io studio l'italiano perché è utile.", "Noi leggiamo il giornale perché è interessante."]
+        }
+      ]
+    },
+    {
+      "id": "sl-strutture-03-quindi-allora-pero",
+      "title": "Quindi, allora, però",
+      "outcome": "Join two ideas with quindi, allora, però, invece, anche, infatti, perché and poiché.",
+      "minutes": 7,
+      "tense": "presente",
+      "grammarRefs": ["v2-a2-link-reason-sequence", "v2-b1-cause-purpose", "v2-b1-consequence-concession"],
+      "vocab": [
+        { "it": "quindi", "en": "so; therefore", "pos": "conj" },
+        { "it": "allora", "en": "then; so", "pos": "adv" },
+        { "it": "però", "en": "but; however", "pos": "conj" },
+        { "it": "invece", "en": "instead; on the other hand", "pos": "adv" },
+        { "it": "infatti", "en": "in fact; indeed", "pos": "conj" },
+        { "it": "poiché", "en": "since; because", "pos": "conj" }
+      ],
+      "activities": [
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.1",
+          "kind": "model",
+          "prompt": "Idea + connector + idea",
+          "body": "One short word joins two ideas and says how they are linked: quindi and allora give the result, però and invece a contrast, perché and poiché the reason, infatti a confirmation, and anche adds something.",
+          "pattern": [
+            { "role": "extra", "label": "first idea" },
+            { "role": "link", "label": "connector" },
+            { "role": "extra", "label": "second idea" }
+          ],
+          "examples": [
+            { "it": "Piove, quindi resto a casa.", "en": "It's raining, so I'm staying at home.", "roles": [["Piove,", "verb"], ["quindi", "link"], ["resto", "verb"], ["a", "extra"], ["casa.", "extra"]] },
+            { "it": "Sei stanco? Allora riposati un po'.", "en": "Are you tired? Then rest a little.", "roles": [["Sei", "verb"], ["stanco?", "extra"], ["Allora", "link"], ["riposati", "verb"], ["un", "extra"], ["po'.", "extra"]] },
+            { "it": "Mi piace il mare, però preferisco la montagna.", "en": "I like the sea, but I prefer the mountains.", "roles": [["Mi", "object"], ["piace", "verb"], ["il", "subject"], ["mare,", "subject"], ["però", "link"], ["preferisco", "verb"], ["la", "object"], ["montagna.", "object"]] },
+            { "it": "Lui beve il caffè, io invece prendo il tè.", "en": "He drinks coffee; I have tea instead.", "roles": [["Lui", "subject"], ["beve", "verb"], ["il", "object"], ["caffè,", "object"], ["io", "subject"], ["invece", "link"], ["prendo", "verb"], ["il", "object"], ["tè.", "object"]] },
+            { "it": "Non esco perché sono stanco.", "en": "I'm not going out because I'm tired.", "roles": [["Non", "extra"], ["esco", "verb"], ["perché", "link"], ["sono", "verb"], ["stanco.", "extra"]] },
+            { "it": "Poiché è tardi, andiamo a casa.", "en": "Since it's late, let's go home.", "roles": [["Poiché", "link"], ["è", "verb"], ["tardi,", "extra"], ["andiamo", "verb"], ["a", "extra"], ["casa.", "extra"]] },
+            { "it": "Fa freddo, infatti nevica.", "en": "It's cold; in fact, it's snowing.", "roles": [["Fa", "verb"], ["freddo,", "extra"], ["infatti", "link"], ["nevica.", "verb"]] }
+          ],
+          "tip": "Perché gives the reason after the main idea; poiché can open the sentence. Allora often opens a reply: Allora, andiamo? Anche goes right before the word it adds: anche io, anche stasera."
+        },
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Today it's raining, so I'm taking the umbrella.",
+          "answer": "Oggi piove, quindi prendo l'ombrello.",
+          "accepted": [],
+          "tokens": ["Oggi", "piove,", "quindi", "prendo", "l'ombrello."],
+          "distractors": ["però", "prende"],
+          "explanation": "The rain is the reason and the umbrella is the result: quindi.",
+          "hint": "Which word gives a result?"
+        },
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.3",
+          "kind": "cloze",
+          "prompt": "Result or contrast?",
+          "template": "Ho fame, ____ mangio un panino. Non ho sete, ____ bevo un po' d'acqua.",
+          "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+          "blanks": [
+            { "accept": ["quindi", "allora"], "options": ["quindi", "allora", "però"], "bank": ["invece", "poiché"], "free": false, "slot": null, "explanation": "Hunger leads to the sandwich: quindi or allora." },
+            { "accept": ["però"], "options": ["però", "quindi", "infatti"], "bank": ["anche"], "free": false, "slot": null, "explanation": "No thirst, yet some water: a contrast, però." }
+          ],
+          "hint": "Does the second idea follow from the first, or go against it?"
+        },
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.4",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Sono stanco, quindi stasera ____ a casa.",
+          "en": "I'm tired, so tonight I'm staying at home.",
+          "blanks": [
+            { "accept": ["resto", "rimango", "mangio", "dormo"], "options": ["resto", "rimango", "mangio", "dormo", "resta"], "bank": ["restiamo", "dormi"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io takes -o: resto, rimango." }
+          ],
+          "hint": "Who is tired? Io."
+        },
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.5",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Since it's late, we're going back home.",
+          "answer": "Poiché è tardi, torniamo a casa.",
+          "accepted": [],
+          "tokens": ["Poiché", "è", "tardi,", "torniamo", "a", "casa."],
+          "distractors": ["Perché", "tornano"],
+          "explanation": "Poiché can open the sentence; perché normally follows the main idea.",
+          "hint": "Which reason word can start a sentence?"
+        },
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.6",
+          "kind": "dialogue",
+          "prompt": "Al bar",
+          "partner": "Anna",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Prendi un caffè con me?", "en": "Hi! Will you have a coffee with me?" },
+            {
+              "speaker": "you",
+              "template": "Volentieri, ____ ho solo dieci minuti.",
+              "en": "Gladly, ____ I only have ten minutes.",
+              "blanks": [
+                { "accept": ["però", "ma"], "options": ["però", "ma", "quindi"], "bank": ["infatti", "invece"], "free": false, "slot": null, "explanation": "A contrast: però or ma." }
+              ],
+              "reactions": [
+                { "when": ["però", "ma"], "it": "Va bene, allora facciamo in fretta!", "en": "All right, then let's be quick!" },
+                { "when": "*", "it": "Va bene, allora un caffè veloce.", "en": "All right, then a quick coffee." }
+              ]
+            },
+            { "speaker": "partner", "it": "Perché hai così poco tempo?", "en": "Why do you have so little time?" },
+            {
+              "speaker": "you",
+              "template": "Perché alle tre ho ____.",
+              "en": "Because at three I have ____.",
+              "blanks": [
+                { "accept": ["una lezione", "un appuntamento", "una riunione", "un esame", "un treno"], "options": ["una lezione", "un appuntamento", "una riunione", "un esame", "un treno"], "bank": [], "free": true, "slot": { "pos": "noun", "number": "sg", "article": "indefinite" }, "explanation": "Perché + the reason: ho una lezione." }
+              ],
+              "reactions": [
+                { "when": ["una lezione", "un esame"], "it": "Studi ancora? Che cosa studi?", "en": "Are you still studying? What do you study?" },
+                { "when": ["un appuntamento"], "it": "Capisco, allora un caffè veloce.", "en": "I see, then a quick coffee." },
+                { "when": ["una riunione"], "it": "Al lavoro? Allora andiamo subito al bar.", "en": "At work? Then let's go to the bar right away." },
+                { "when": "*", "it": "Capisco. Allora solo un caffè veloce.", "en": "I see. Then just a quick coffee." }
+              ]
+            },
+            { "speaker": "partner", "it": "Lo prendi con lo zucchero?", "en": "Do you take it with sugar?" },
+            {
+              "speaker": "you",
+              "template": "No, lo prendo amaro, ____ non mi piace lo zucchero.",
+              "en": "No, I take it without sugar, ____ I don't like sugar.",
+              "blanks": [
+                { "accept": ["perché"], "options": ["perché", "quindi", "però"], "bank": ["invece"], "free": false, "slot": null, "explanation": "The reason follows: perché." }
+              ],
+              "reactions": [
+                { "when": ["perché"], "it": "Anche io! Allora due caffè amari.", "en": "Me too! Then two black coffees." },
+                { "when": "*", "it": "Va bene, due caffè.", "en": "All right, two coffees." }
+              ]
+            },
+            { "speaker": "partner", "it": "Due caffè, per favore!", "en": "Two coffees, please!" }
+          ]
+        },
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.7",
+          "kind": "cloze",
+          "prompt": "Instead and also",
+          "template": "Marco studia medicina, sua sorella ____ studia legge. Io studio il tedesco e ____ il francese.",
+          "en": "Marco studies medicine; his sister, instead, studies law. I study German and also French.",
+          "blanks": [
+            { "accept": ["invece"], "options": ["invece", "anche", "quindi"], "bank": ["poiché"], "free": false, "slot": null, "explanation": "A contrast between two people: invece." },
+            { "accept": ["anche"], "options": ["anche", "invece", "però"], "bank": ["quindi"], "free": false, "slot": null, "explanation": "Adding one more thing: anche." }
+          ],
+          "hint": "One word contrasts, the other adds."
+        },
+        {
+          "id": "sl-strutture-03-quindi-allora-pero.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "hint": "Who, what they do, what, then a connector.",
+          "tense": "presente",
+          "roles": [
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mio fratello", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "person": 5 }] },
+            { "role": "verb", "items": [{ "inf": "mangiare", "en": "eat" }, { "inf": "guardare", "en": "watch" }, { "inf": "leggere", "en": "read" }, { "inf": "cucinare", "en": "cook" }] },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["food", "arts"], "article": "definite" },
+              "items": [
+                { "it": "la pasta", "en": "pasta" },
+                { "it": "un film", "en": "a film" },
+                { "it": "il giornale", "en": "the newspaper" },
+                { "it": "la pizza", "en": "pizza" }
+              ]
+            },
+            {
+              "role": "extra",
+              "items": [
+                { "it": "perché è tardi", "en": "because it's late" },
+                { "it": "perché piove", "en": "because it's raining" },
+                { "it": "perché fa caldo", "en": "because it's hot" },
+                { "it": "però solo la domenica", "en": "but only on Sundays" },
+                { "it": "anche stasera", "en": "tonight too" }
+              ]
+            }
+          ],
+          "examples": ["Io guardo un film perché piove.", "Noi cuciniamo la pasta anche stasera."]
+        }
+      ]
+    },
+    {
+      "id": "sl-strutture-04-la-mia-giornata",
+      "title": "La mia giornata",
+      "outcome": "Tell your daily routine with reflexive verbs in the present, and say when you got up with the passato prossimo.",
+      "minutes": 8,
+      "tense": "presente",
+      "grammarRefs": ["v2-a2-reflexive-me-you", "v2-a2-reflexive-he-we", "v2-a2-reflexive-past"],
+      "vocab": [
+        { "it": "sveglia", "en": "alarm clock", "pos": "noun" },
+        { "it": "doccia", "en": "shower", "pos": "noun" },
+        { "it": "colazione", "en": "breakfast", "pos": "noun" },
+        { "it": "presto", "en": "early", "pos": "adv" },
+        { "it": "tardi", "en": "late", "pos": "adv" }
+      ],
+      "activities": [
+        {
+          "id": "sl-strutture-04-la-mia-giornata.1",
+          "kind": "model",
+          "prompt": "Pronoun + verb + when",
+          "body": "A reflexive verb comes with a pronoun that matches the subject: mi, ti, si, ci, vi, si. The pronoun goes before the verb. In the passato prossimo the verb takes essere and the participle agrees with the subject.",
+          "pattern": [
+            { "role": "subject", "label": "who" },
+            { "role": "object", "label": "mi / ti / si" },
+            { "role": "verb", "label": "verb" },
+            { "role": "extra", "label": "when" }
+          ],
+          "examples": [
+            { "it": "Mi sveglio alle sette.", "en": "I wake up at seven.", "roles": [["Mi", "object"], ["sveglio", "verb"], ["alle", "extra"], ["sette.", "extra"]] },
+            { "it": "Ti alzi presto la mattina?", "en": "Do you get up early in the morning?", "roles": [["Ti", "object"], ["alzi", "verb"], ["presto", "extra"], ["la", "extra"], ["mattina?", "extra"]] },
+            { "it": "Marco si lava e si veste in dieci minuti.", "en": "Marco washes and gets dressed in ten minutes.", "roles": [["Marco", "subject"], ["si", "object"], ["lava", "verb"], ["e", "link"], ["si", "object"], ["veste", "verb"], ["in", "extra"], ["dieci", "extra"], ["minuti.", "extra"]] },
+            { "it": "Ci vediamo alle otto davanti al bar.", "en": "We'll see each other at eight in front of the bar.", "roles": [["Ci", "object"], ["vediamo", "verb"], ["alle", "extra"], ["otto", "extra"], ["davanti", "extra"], ["al", "extra"], ["bar.", "extra"]] },
+            { "it": "Ieri mi sono alzato tardi.", "en": "Yesterday I got up late.", "roles": [["Ieri", "extra"], ["mi", "object"], ["sono", "verb"], ["alzato", "verb"], ["tardi.", "extra"]] },
+            { "it": "Vi divertite al mare?", "en": "Are you having fun at the seaside?", "roles": [["Vi", "object"], ["divertite", "verb"], ["al", "extra"], ["mare?", "extra"]] }
+          ],
+          "tip": "The infinitive ends in -si: alzarsi, svegliarsi. In the passato prossimo use essere and make the participle agree: mi sono alzato (a man), mi sono alzata (a woman), ci siamo alzati."
+        },
+        {
+          "id": "sl-strutture-04-la-mia-giornata.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "In the morning I wake up at seven.",
+          "answer": "La mattina mi sveglio alle sette.",
+          "accepted": [],
+          "tokens": ["La", "mattina", "mi", "sveglio", "alle", "sette."],
+          "distractors": ["si", "svegli"],
+          "explanation": "Io takes mi + sveglio.",
+          "hint": "The pronoun matches io."
+        },
+        {
+          "id": "sl-strutture-04-la-mia-giornata.3",
+          "kind": "cloze",
+          "prompt": "Her morning",
+          "template": "Mia sorella si ____ presto, poi si ____ in fretta.",
+          "en": "My sister gets up early, then she gets dressed in a hurry.",
+          "blanks": [
+            { "accept": ["alza", "sveglia"], "options": ["alza", "sveglia", "alzo"], "bank": ["alzi"], "free": false, "slot": null, "explanation": "Mia sorella is lei: si alza." },
+            { "accept": ["veste", "lava"], "options": ["veste", "lava", "vesti"], "bank": ["vesto"], "free": false, "slot": null, "explanation": "Lei: si veste." }
+          ],
+          "hint": "Lei takes the -a / -e ending."
+        },
+        {
+          "id": "sl-strutture-04-la-mia-giornata.4",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "La sera ____ verso le undici.",
+          "en": "In the evening I ____ around eleven.",
+          "blanks": [
+            { "accept": ["mi addormento", "mi rilasso", "mi riposo"], "options": ["mi addormento", "mi rilasso", "mi riposo", "mi addormenta", "ti addormenti"], "bank": ["si addormenta"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
+          ],
+          "hint": "Pronoun and ending both match io."
+        },
+        {
+          "id": "sl-strutture-04-la-mia-giornata.5",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Yesterday Anna got up very late.",
+          "answer": "Ieri Anna si è alzata molto tardi.",
+          "accepted": [],
+          "tokens": ["Ieri", "Anna", "si", "è", "alzata", "molto", "tardi."],
+          "distractors": ["ha", "alzato"],
+          "explanation": "Reflexive verbs take essere, and the participle agrees with Anna: alzata.",
+          "hint": "Which auxiliary do reflexive verbs take?"
+        },
+        {
+          "id": "sl-strutture-04-la-mia-giornata.6",
+          "kind": "dialogue",
+          "prompt": "Una giornata",
+          "partner": "Paolo",
+          "turns": [
+            { "speaker": "partner", "it": "A che ora ti svegli di solito?", "en": "What time do you usually wake up?" },
+            {
+              "speaker": "you",
+              "template": "Di solito ____ alle sette.",
+              "en": "Usually I ____ at seven.",
+              "blanks": [
+                { "accept": ["mi sveglio", "mi alzo", "mi lavo"], "options": ["mi sveglio", "mi alzo", "mi lavo", "ti svegli"], "bank": ["si sveglia"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi sveglio, mi alzo." }
+              ],
+              "reactions": [
+                { "when": ["mi sveglio"], "it": "Presto! E poi che cosa fai?", "en": "Early! And then what do you do?" },
+                { "when": ["mi alzo"], "it": "Alle sette? Io mi alzo alle otto. E poi?", "en": "At seven? I get up at eight. And then?" },
+                { "when": "*", "it": "Capisco. E poi che cosa fai?", "en": "I see. And then what do you do?" }
+              ]
+            },
+            { "speaker": "partner", "it": "Fai colazione a casa o al bar?", "en": "Do you have breakfast at home or at the bar?" },
+            {
+              "speaker": "you",
+              "template": "Faccio colazione ____, poi mi lavo e mi vesto.",
+              "en": "I have breakfast ____, then I wash and get dressed.",
+              "blanks": [
+                { "accept": ["a casa", "al bar"], "options": ["a casa", "al bar"], "bank": [], "free": false, "slot": null, "explanation": "Either answer works: a casa or al bar." }
+              ],
+              "reactions": [
+                { "when": ["a casa"], "it": "Anche io, un caffè veloce e poi esco.", "en": "Me too, a quick coffee and then I go out." },
+                { "when": ["al bar"], "it": "Che bello, con un cornetto?", "en": "How nice, with a croissant?" },
+                { "when": "*", "it": "Bene. E la sera?", "en": "Good. And in the evening?" }
+              ]
+            },
+            { "speaker": "partner", "it": "E la sera, a che ora vai a letto?", "en": "And in the evening, what time do you go to bed?" },
+            {
+              "speaker": "you",
+              "template": "Vado a letto alle undici, ma ____ subito.",
+              "en": "I go to bed at eleven, but I ____ right away.",
+              "blanks": [
+                { "accept": ["mi addormento", "mi sveglio"], "options": ["mi addormento", "mi sveglio", "mi addormenta"], "bank": ["ti addormenti"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
+              ],
+              "reactions": [
+                { "when": ["mi addormento"], "it": "Che fortuna! Io non dormo mai bene.", "en": "Lucky you! I never sleep well." },
+                { "when": "*", "it": "Davvero? Io invece dormo male.", "en": "Really? I, instead, sleep badly." }
+              ]
+            },
+            { "speaker": "partner", "it": "Allora ci vediamo domani alle otto!", "en": "Then see you tomorrow at eight!" },
+            {
+              "speaker": "you",
+              "template": "Va bene, ____!",
+              "en": "All right, ____!",
+              "blanks": [
+                { "accept": ["ci vediamo", "a domani", "ci sentiamo"], "options": ["ci vediamo", "a domani", "ci sentiamo"], "bank": ["mi vedo"], "free": false, "slot": null, "explanation": "Ci vediamo: we'll see each other." }
+              ],
+              "reactions": [
+                { "when": ["ci vediamo", "a domani"], "it": "A domani, buonanotte!", "en": "See you tomorrow, good night!" },
+                { "when": "*", "it": "Buonanotte!", "en": "Good night!" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sl-strutture-04-la-mia-giornata.7",
+          "kind": "cloze",
+          "prompt": "Essere or avere?",
+          "template": "Stamattina Marco e Luca ____ alzati presto e ____ fatto colazione insieme.",
+          "en": "This morning Marco and Luca got up early and had breakfast together.",
+          "blanks": [
+            { "accept": ["si sono"], "options": ["si sono", "sono", "si hanno"], "bank": ["ci siamo"], "free": false, "slot": null, "explanation": "Alzarsi takes essere: si sono alzati." },
+            { "accept": ["hanno"], "options": ["hanno", "sono", "si sono"], "bank": ["avete"], "free": false, "slot": null, "explanation": "Fare takes avere: hanno fatto." }
+          ],
+          "hint": "Reflexive verbs take essere; fare takes avere."
+        },
+        {
+          "id": "sl-strutture-04-la-mia-giornata.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "hint": "Who, a reflexive verb, when, and where if you like.",
+          "tense": "presente",
+          "roles": [
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mia madre", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I bambini", "person": 5 }] },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "alzarsi", "en": "get up", "aux": "essere" },
+                { "inf": "svegliarsi", "en": "wake up", "aux": "essere" },
+                { "inf": "lavarsi", "en": "wash", "aux": "essere" },
+                { "inf": "vestirsi", "en": "get dressed", "aux": "essere", "isc": false },
+                { "inf": "riposarsi", "en": "rest", "aux": "essere" },
+                { "inf": "divertirsi", "en": "have fun", "aux": "essere", "isc": false }
+              ]
+            },
+            {
+              "role": "object",
+              "items": [
+                { "it": "alle sette", "en": "at seven" },
+                { "it": "alle otto", "en": "at eight" },
+                { "it": "presto", "en": "early" },
+                { "it": "tardi", "en": "late" },
+                { "it": "subito", "en": "right away" },
+                { "it": "molto", "en": "a lot" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "la mattina", "en": "in the morning" },
+                { "it": "la sera", "en": "in the evening" },
+                { "it": "la domenica", "en": "on Sundays" },
+                { "it": "al mare", "en": "at the seaside" },
+                { "it": "a casa", "en": "at home" }
+              ]
+            }
+          ],
+          "examples": ["Io mi alzo alle sette la mattina.", "I bambini si divertono molto al mare."]
+        }
+      ]
+    },
+    {
+      "id": "sl-strutture-05-piu-o-meno",
+      "title": "Più o meno",
+      "outcome": "Compare people and things with più … di, meno … di, come and il più …, with the adjective agreeing.",
+      "minutes": 7,
+      "tense": "presente",
+      "grammarRefs": ["v2-a2-compare-more-less", "v2-a2-compare-activities", "v2-a2-relative-superlative"],
+      "vocab": [
+        { "it": "più", "en": "more", "pos": "adv" },
+        { "it": "meno", "en": "less", "pos": "adv" },
+        { "it": "veloce", "en": "fast", "pos": "adj" },
+        { "it": "economico", "en": "cheap", "pos": "adj" },
+        { "it": "comodo", "en": "comfortable", "pos": "adj" }
+      ],
+      "activities": [
+        {
+          "id": "sl-strutture-05-piu-o-meno.1",
+          "kind": "model",
+          "prompt": "What + is + più / meno + adjective + di + what",
+          "body": "To compare, put più (more) or meno (less) before the adjective and di before the second term. Come says as … as. Il più / la più + adjective makes the superlative. The adjective agrees with the thing you describe.",
+          "pattern": [
+            { "role": "subject", "label": "what" },
+            { "role": "verb", "label": "is" },
+            { "role": "link", "label": "più / meno" },
+            { "role": "object", "label": "adjective" },
+            { "role": "extra", "label": "di + what" }
+          ],
+          "examples": [
+            { "it": "Il treno è più veloce dell'autobus.", "en": "The train is faster than the bus.", "roles": [["Il", "subject"], ["treno", "subject"], ["è", "verb"], ["più", "link"], ["veloce", "object"], ["dell'autobus.", "extra"]] },
+            { "it": "La bici è meno cara della macchina.", "en": "The bike is less expensive than the car.", "roles": [["La", "subject"], ["bici", "subject"], ["è", "verb"], ["meno", "link"], ["cara", "object"], ["della", "extra"], ["macchina.", "extra"]] },
+            { "it": "Marco è alto come Luca.", "en": "Marco is as tall as Luca.", "roles": [["Marco", "subject"], ["è", "verb"], ["alto", "object"], ["come", "link"], ["Luca.", "extra"]] },
+            { "it": "Queste scarpe sono più comode di quelle.", "en": "These shoes are more comfortable than those.", "roles": [["Queste", "subject"], ["scarpe", "subject"], ["sono", "verb"], ["più", "link"], ["comode", "object"], ["di", "extra"], ["quelle.", "extra"]] },
+            { "it": "Anna è la più giovane della famiglia.", "en": "Anna is the youngest in the family.", "roles": [["Anna", "subject"], ["è", "verb"], ["la", "link"], ["più", "link"], ["giovane", "object"], ["della", "extra"], ["famiglia.", "extra"]] },
+            { "it": "Questo caffè è il migliore della città.", "en": "This coffee is the best in the city.", "roles": [["Questo", "subject"], ["caffè", "subject"], ["è", "verb"], ["il", "link"], ["migliore", "object"], ["della", "extra"], ["città.", "extra"]] }
+          ],
+          "tip": "Di joins the article: di + il = del, di + la = della, di + l' = dell'. Buono has its own comparative, migliore (better), and the superlative is il migliore (the best)."
+        },
+        {
+          "id": "sl-strutture-05-piu-o-meno.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "The train is faster than the car.",
+          "answer": "Il treno è più veloce della macchina.",
+          "accepted": [],
+          "tokens": ["Il", "treno", "è", "più", "veloce", "della", "macchina."],
+          "distractors": ["che", "veloci"],
+          "explanation": "Di + la = della; veloce agrees with il treno (singular).",
+          "hint": "Più + adjective + di."
+        },
+        {
+          "id": "sl-strutture-05-piu-o-meno.3",
+          "kind": "cloze",
+          "prompt": "Make it agree",
+          "template": "Queste scarpe sono più ____ di quelle, ma anche più ____.",
+          "en": "These shoes are more comfortable than those, but also more expensive.",
+          "blanks": [
+            { "accept": ["comode"], "options": ["comode", "comodo", "comoda"], "bank": ["comodi"], "free": false, "slot": null, "explanation": "Le scarpe is feminine plural: comode." },
+            { "accept": ["care"], "options": ["care", "caro", "cara"], "bank": ["cari"], "free": false, "slot": null, "explanation": "Feminine plural: care." }
+          ],
+          "hint": "Le scarpe: feminine, plural."
+        },
+        {
+          "id": "sl-strutture-05-piu-o-meno.4",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Mio fratello è più ____ di me.",
+          "en": "My brother is more ____ than me.",
+          "blanks": [
+            { "accept": ["alto", "giovane", "simpatico", "bravo"], "options": ["alto", "giovane", "simpatico", "bravo", "alta"], "bank": ["alti", "giovani"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Mio fratello is masculine singular: alto, giovane, simpatico." }
+          ],
+          "hint": "Any adjective that fits a man."
+        },
+        {
+          "id": "sl-strutture-05-piu-o-meno.5",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Anna is the youngest in the family.",
+          "answer": "Anna è la più giovane della famiglia.",
+          "accepted": [],
+          "tokens": ["Anna", "è", "la", "più", "giovane", "della", "famiglia."],
+          "distractors": ["il", "giovani"],
+          "explanation": "Anna is feminine: la più giovane; di + la famiglia = della famiglia.",
+          "hint": "Article + più + adjective."
+        },
+        {
+          "id": "sl-strutture-05-piu-o-meno.6",
+          "kind": "dialogue",
+          "prompt": "Treno o macchina?",
+          "partner": "Sara",
+          "turns": [
+            { "speaker": "partner", "it": "Domenica andiamo a Firenze. Prendiamo il treno o la macchina?", "en": "On Sunday we're going to Florence. Shall we take the train or the car?" },
+            {
+              "speaker": "you",
+              "template": "Il treno! È più ____ della macchina.",
+              "en": "The train! It's more ____ than the car.",
+              "blanks": [
+                { "accept": ["veloce", "comodo", "economico"], "options": ["veloce", "comodo", "economico", "veloci"], "bank": ["comoda", "economica"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Il treno is masculine singular: veloce, comodo, economico." }
+              ],
+              "reactions": [
+                { "when": ["veloce"], "it": "È vero, in un'ora siamo lì.", "en": "True, in an hour we're there." },
+                { "when": ["economico"], "it": "Sì, e il biglietto costa meno del parcheggio.", "en": "Yes, and the ticket costs less than the parking." },
+                { "when": ["comodo"], "it": "Giusto, e possiamo leggere in viaggio.", "en": "Right, and we can read on the way." },
+                { "when": "*", "it": "Hai ragione, prendiamo il treno.", "en": "You're right, let's take the train." }
+              ]
+            },
+            { "speaker": "partner", "it": "E dove mangiamo? Conosco una pizzeria piccola ma molto buona.", "en": "And where do we eat? I know a small but very good pizzeria." },
+            {
+              "speaker": "you",
+              "template": "Perfetto! Una pizzeria è meno ____ di un ristorante.",
+              "en": "Perfect! A pizzeria is less ____ than a restaurant.",
+              "blanks": [
+                { "accept": ["cara", "costosa"], "options": ["cara", "costosa", "caro", "care"], "bank": ["costoso", "cari"], "free": true, "slot": { "pos": "adj", "agree": "f-sg" }, "explanation": "Una pizzeria is feminine singular: cara, costosa." }
+              ],
+              "reactions": [
+                { "when": ["cara", "costosa"], "it": "Esatto, e si mangia bene.", "en": "Exactly, and the food is good." },
+                { "when": "*", "it": "Vero. Allora è deciso!", "en": "True. Then it's settled!" }
+              ]
+            },
+            { "speaker": "partner", "it": "Allora treno alle nove e pranzo in pizzeria. È il piano migliore!", "en": "So, train at nine and lunch at the pizzeria. It's the best plan!" },
+            {
+              "speaker": "you",
+              "template": "Sì! Firenze è ____ città d'Italia.",
+              "en": "Yes! Florence is ____ city in Italy.",
+              "blanks": [
+                { "accept": ["la più bella", "la più interessante"], "options": ["la più bella", "il più bello", "la più bello", "la più interessante"], "bank": ["più bella"], "free": false, "slot": null, "explanation": "Città is feminine: la più bella." }
+              ],
+              "reactions": [
+                { "when": ["la più bella"], "it": "Sono d'accordo! Non vedo l'ora.", "en": "I agree! I can't wait." },
+                { "when": "*", "it": "Allora a domenica!", "en": "Then see you Sunday!" }
+              ]
+            },
+            { "speaker": "partner", "it": "A domenica alle nove!", "en": "See you Sunday at nine!" }
+          ]
+        },
+        {
+          "id": "sl-strutture-05-piu-o-meno.7",
+          "kind": "cloze",
+          "prompt": "As good as, the best",
+          "template": "Questo caffè è buono ____ quello del bar. Anzi, è il ____ della città!",
+          "en": "This coffee is as good as the one from the bar. Actually, it's the best in the city!",
+          "blanks": [
+            { "accept": ["come"], "options": ["come", "di", "più"], "bank": ["che"], "free": false, "slot": null, "explanation": "As … as: buono come." },
+            { "accept": ["migliore", "più buono"], "options": ["migliore", "più buono", "migliori"], "bank": ["buoni"], "free": false, "slot": null, "explanation": "The best: il migliore (or il più buono)." }
+          ],
+          "hint": "Equal first, then the top."
+        },
+        {
+          "id": "sl-strutture-05-piu-o-meno.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "hint": "Everything here is masculine singular, so the adjective keeps its -o or -e.",
+          "tense": "presente",
+          "roles": [
+            { "role": "subject", "items": [{ "it": "Il treno", "person": 2 }, { "it": "Questo libro", "person": 2 }, { "it": "Mio fratello", "person": 2 }, { "it": "Il mio telefono", "person": 2 }] },
+            { "role": "verb", "items": [{ "inf": "essere", "en": "be", "aux": "essere" }, { "inf": "sembrare", "en": "seem", "aux": "essere" }] },
+            {
+              "role": "object",
+              "items": [
+                { "it": "più veloce", "en": "faster" },
+                { "it": "meno caro", "en": "less expensive" },
+                { "it": "più grande", "en": "bigger" },
+                { "it": "più bello", "en": "nicer" },
+                { "it": "più comodo", "en": "more comfortable" },
+                { "it": "più interessante", "en": "more interesting" }
+              ]
+            },
+            {
+              "role": "extra",
+              "items": [
+                { "it": "di me", "en": "than me" },
+                { "it": "del tuo", "en": "than yours" },
+                { "it": "dell'autobus", "en": "than the bus" },
+                { "it": "della macchina", "en": "than the car" },
+                { "it": "di Luca", "en": "than Luca" },
+                { "it": "di prima", "en": "than before" }
+              ]
+            }
+          ],
+          "examples": ["Il treno è più veloce della macchina.", "Il mio telefono sembra più grande del tuo."]
+        }
+      ]
+    },
+    {
+      "id": "sl-strutture-06-una-vera-chiacchierata",
+      "title": "Una vera chiacchierata",
+      "outcome": "Hold a longer conversation: replace with a pronoun, ask, join ideas, tell your day and compare.",
+      "minutes": 9,
+      "tense": "misto",
+      "grammarRefs": ["v2-a2-direct-reference", "v2-a2-link-reason-sequence", "v2-a2-reflexive-past", "v2-a2-compare-more-less"],
+      "vocab": [
+        { "it": "fine settimana", "en": "weekend", "pos": "noun" },
+        { "it": "davvero", "en": "really", "pos": "adv" },
+        { "it": "insieme", "en": "together", "pos": "adv" },
+        { "it": "purtroppo", "en": "unfortunately", "pos": "adv" },
+        { "it": "commedia", "en": "comedy", "pos": "noun" }
+      ],
+      "activities": [
+        {
+          "id": "sl-strutture-06-una-vera-chiacchierata.1",
+          "kind": "model",
+          "prompt": "All together now",
+          "body": "A real chat mixes everything: a pronoun instead of a repeated noun, a question word, a connector, a reflexive verb and a comparison, in the present and in the past.",
+          "pattern": [
+            { "role": "subject", "label": "who" },
+            { "role": "object", "label": "pronoun" },
+            { "role": "verb", "label": "verb" },
+            { "role": "link", "label": "connector" },
+            { "role": "extra", "label": "the rest" }
+          ],
+          "examples": [
+            { "it": "Ieri mi sono svegliato tardi, quindi ho perso il treno.", "en": "Yesterday I woke up late, so I missed the train.", "roles": [["Ieri", "extra"], ["mi", "object"], ["sono", "verb"], ["svegliato", "verb"], ["tardi,", "extra"], ["quindi", "link"], ["ho", "verb"], ["perso", "verb"], ["il", "object"], ["treno.", "object"]] },
+            { "it": "Il film? L'ho visto, però non mi è piaciuto.", "en": "The film? I saw it, but I didn't like it.", "roles": [["Il", "extra"], ["film?", "extra"], ["L'ho", "object"], ["visto,", "verb"], ["però", "link"], ["non", "extra"], ["mi", "object"], ["è", "verb"], ["piaciuto.", "verb"]] },
+            { "it": "Perché non vieni? Perché domani mi alzo presto.", "en": "Why aren't you coming? Because tomorrow I'm getting up early.", "roles": [["Perché", "link"], ["non", "extra"], ["vieni?", "verb"], ["Perché", "link"], ["domani", "extra"], ["mi", "object"], ["alzo", "verb"], ["presto.", "extra"]] },
+            { "it": "Questa pizza è più buona di quella di ieri.", "en": "This pizza is better than yesterday's.", "roles": [["Questa", "subject"], ["pizza", "subject"], ["è", "verb"], ["più", "link"], ["buona", "object"], ["di", "extra"], ["quella", "extra"], ["di", "extra"], ["ieri.", "extra"]] }
+          ],
+          "tip": "L'ho visto: before ho, lo becomes l'. With la the participle agrees: la pizza? L'ho mangiata."
+        },
+        {
+          "id": "sl-strutture-06-una-vera-chiacchierata.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "The film? I saw it last night.",
+          "answer": "Il film? L'ho visto ieri sera.",
+          "accepted": [],
+          "tokens": ["Il", "film?", "L'ho", "visto", "ieri", "sera."],
+          "distractors": ["Lo", "vista"],
+          "explanation": "Before ho, lo becomes l': l'ho visto. Il film is masculine: visto.",
+          "hint": "The pronoun and ho join into one word."
+        },
+        {
+          "id": "sl-strutture-06-una-vera-chiacchierata.3",
+          "kind": "cloze",
+          "prompt": "A bad start",
+          "template": "Stamattina ____ sono alzata presto, ____ ho perso l'autobus.",
+          "en": "This morning I (f) got up early, but I missed the bus.",
+          "blanks": [
+            { "accept": ["mi"], "options": ["mi", "si", "ti"], "bank": ["ci"], "free": false, "slot": null, "explanation": "Io: mi sono alzata." },
+            { "accept": ["però", "ma"], "options": ["però", "ma", "quindi"], "bank": ["perché"], "free": false, "slot": null, "explanation": "Up early, yet late: a contrast, però or ma." }
+          ],
+          "hint": "A reflexive in the past, then a contrast."
+        },
+        {
+          "id": "sl-strutture-06-una-vera-chiacchierata.4",
+          "kind": "dialogue",
+          "prompt": "Una vera chiacchierata",
+          "partner": "Giulia",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Non ti vedo da un mese. Come stai?", "en": "Hi! I haven't seen you for a month. How are you?" },
+            {
+              "speaker": "you",
+              "template": "Bene, grazie! Ma ____.",
+              "en": "Fine, thanks! But ____.",
+              "blanks": [
+                { "accept": ["sono stanco", "sono stanca", "ho sonno", "ho fame", "sono felice"], "options": ["sono stanco", "sono stanca", "ho sonno", "ho fame", "sono felice"], "bank": ["sono stanchi"], "free": true, "slot": { "pos": "adj", "agree": "speaker", "wrap": "sono {}" }, "explanation": "Sono + an adjective that agrees with you, or ho + sonno / fame." }
+              ],
+              "reactions": [
+                { "when": ["sono stanco", "sono stanca"], "it": "Perché? Che cosa hai fatto ieri?", "en": "Why? What did you do yesterday?" },
+                { "when": ["ho sonno"], "it": "Hai sonno? Hai dormito poco?", "en": "Sleepy? Did you sleep little?" },
+                { "when": "*", "it": "Capisco. Che cosa hai fatto ieri?", "en": "I see. What did you do yesterday?" }
+              ]
+            },
+            { "speaker": "partner", "it": "Dai, racconta! Com'è andata la giornata?", "en": "Come on, tell me! How did your day go?" },
+            {
+              "speaker": "you",
+              "template": "Ieri ____ alle sei e ho lavorato tutto il giorno.",
+              "en": "Yesterday I ____ at six and worked all day.",
+              "blanks": [
+                { "accept": ["mi sono alzato", "mi sono alzata", "mi sono svegliato", "mi sono svegliata"], "options": ["mi sono alzato", "mi sono alzata", "mi sono svegliato", "mi sono svegliata"], "bank": ["mi alzo", "ho alzato"], "free": false, "slot": null, "explanation": "A reflexive in the past: mi sono + a participle that agrees with you." }
+              ],
+              "reactions": [
+                { "when": ["mi sono alzato", "mi sono alzata"], "it": "Alle sei? Io mi alzo sempre alle otto.", "en": "At six? I always get up at eight." },
+                { "when": "*", "it": "Che giornata lunga!", "en": "What a long day!" }
+              ]
+            },
+            { "speaker": "partner", "it": "E stasera? Vieni al cinema con noi?", "en": "And tonight? Are you coming to the cinema with us?" },
+            {
+              "speaker": "you",
+              "template": "Volentieri! ____ film vedete?",
+              "en": "Gladly! ____ film are you seeing?",
+              "blanks": [
+                { "accept": ["Quale", "Che"], "options": ["Quale", "Che", "Chi"], "bank": ["Quali", "Dove"], "free": false, "slot": null, "explanation": "Which film: quale (or che) film." }
+              ],
+              "reactions": [
+                { "when": ["Quale", "Che"], "it": "Una commedia italiana, nuova.", "en": "An Italian comedy, a new one." },
+                { "when": "*", "it": "Una commedia italiana.", "en": "An Italian comedy." }
+              ]
+            },
+            { "speaker": "partner", "it": "Per me è più divertente di quella dell'anno scorso.", "en": "For me it's funnier than last year's." },
+            {
+              "speaker": "you",
+              "template": "Perfetto, allora ____ con voi.",
+              "en": "Perfect, then I'll ____ with you.",
+              "blanks": [
+                { "accept": ["vengo", "lo vedo", "la vedo", "lo guardo"], "options": ["vengo", "lo vedo", "la vedo", "lo guardo", "li vedo"], "bank": ["vedo lo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: vengo; or a pronoun + verb: lo vedo (il film), la vedo (la commedia)." }
+              ],
+              "reactions": [
+                { "when": ["vengo"], "it": "Benissimo! Ci vediamo alle otto davanti al cinema.", "en": "Great! See you at eight in front of the cinema." },
+                { "when": ["lo vedo", "la vedo", "lo guardo"], "it": "Bene! Allora ci vediamo alle otto davanti al cinema.", "en": "Good! Then see you at eight in front of the cinema." },
+                { "when": "*", "it": "Perfetto! Alle otto davanti al cinema.", "en": "Perfect! At eight in front of the cinema." }
+              ]
+            },
+            { "speaker": "partner", "it": "Il cinema è lontano. Prendiamo l'autobus o andiamo a piedi?", "en": "The cinema is far. Shall we take the bus or walk?" },
+            {
+              "speaker": "you",
+              "template": "A piedi! È più ____ e non costa niente.",
+              "en": "On foot! It's more ____ and it costs nothing.",
+              "blanks": [
+                { "accept": ["bello", "sano", "comodo", "veloce"], "options": ["bello", "sano", "comodo", "veloce", "bella"], "bank": ["meglio"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Più + a masculine singular adjective: bello, sano, comodo." }
+              ],
+              "reactions": [
+                { "when": ["bello", "sano"], "it": "Hai ragione, e stasera non piove. A stasera!", "en": "You're right, and tonight it isn't raining. See you tonight!" },
+                { "when": "*", "it": "D'accordo, allora andiamo a piedi. A stasera!", "en": "All right, then we'll walk. See you tonight!" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sl-strutture-06-una-vera-chiacchierata.5",
+          "kind": "cloze",
+          "prompt": "Compare and recommend",
+          "template": "Il nuovo film ____ più divertente del vecchio? Sì, ____ consiglio!",
+          "en": "Is the new film funnier than the old one? Yes, I recommend it!",
+          "blanks": [
+            { "accept": ["è"], "options": ["è", "sono", "sei"], "bank": ["ha"], "free": false, "slot": null, "explanation": "Il film is singular: è." },
+            { "accept": ["lo", "te lo"], "options": ["lo", "te lo", "la", "li"], "bank": ["ti"], "free": false, "slot": null, "explanation": "Il film is masculine singular: lo consiglio (te lo consiglio: I recommend it to you)." }
+          ],
+          "hint": "Singular verb, then the pronoun for il film."
+        },
+        {
+          "id": "sl-strutture-06-una-vera-chiacchierata.6",
+          "kind": "order",
+          "prompt": "Build the exchange",
+          "en": "Why aren't you coming? Because I'm getting up early tomorrow.",
+          "answer": "Perché non vieni? Perché mi alzo presto domani.",
+          "accepted": [],
+          "tokens": ["Perché", "non", "vieni?", "Perché", "mi", "alzo", "presto", "domani."],
+          "distractors": ["ti"],
+          "explanation": "Perché asks and answers; io takes mi alzo.",
+          "hint": "Eight words, and the pronoun matches io."
+        },
+        {
+          "id": "sl-strutture-06-una-vera-chiacchierata.7",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "hint": "Tell what someone did: who, verb, what, then when or why.",
+          "tense": "passatoProssimo",
+          "roles": [
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mia sorella", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "person": 5 }] },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "mangiare", "en": "eat", "aux": "avere" },
+                { "inf": "guardare", "en": "watch", "aux": "avere" },
+                { "inf": "comprare", "en": "buy", "aux": "avere" },
+                { "inf": "leggere", "en": "read", "aux": "avere" },
+                { "inf": "chiamare", "en": "call", "aux": "avere" }
+              ]
+            },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["food", "daily", "arts"], "article": "definite" },
+              "items": [
+                { "it": "la pizza", "en": "pizza" },
+                { "it": "un film", "en": "a film" },
+                { "it": "il giornale", "en": "the newspaper" },
+                { "it": "un regalo", "en": "a present" },
+                { "it": "gli amici", "en": "our friends" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "ieri sera", "en": "last night" },
+                { "it": "la settimana scorsa", "en": "last week" },
+                { "it": "dopo cena", "en": "after dinner" },
+                { "it": "perché era tardi", "en": "because it was late" },
+                { "it": "insieme", "en": "together" }
+              ]
+            }
+          ],
+          "examples": ["Io ho mangiato la pizza ieri sera.", "Noi abbiamo guardato un film dopo cena."]
+        }
+      ]
+    }
+  ]
+}
