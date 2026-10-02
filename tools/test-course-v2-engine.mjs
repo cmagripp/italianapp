@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { courseSkill } from '../js/learning/course-v2-state.js';
+import { createLearning, recordAttempt, skillState } from '../js/learning/model.js';
 import { createCourseSession, compatibleCourseSession, currentCourseStep, advanceCourse,
   submitCourseAnswer, deferCourseTarget, resumeCourseTargets, courseBack, courseReturnLive,
-  courseSessionProgress, assessCourseAnswer, markCourseAssistance, recordCoursePairMismatch } from '../js/learning/course-v2-engine.js';
+  courseSessionProgress, assessCourseAnswer, markCourseAssistance, recordCoursePairMismatch,
+  recordCoursePairMatch } from '../js/learning/course-v2-engine.js';
 
 const t=Date.now();
 const target={id:'v2-test.core',label:'Test',facets:['form'],minIndependent:2,requiresProduction:true,
@@ -149,3 +151,108 @@ const failedQ={...q('polite-first','independent','choice','Buongiorno'),target:c
 const reserveQ={...failedQ,id:'polite-reserve',contextKey:'office',reserve:true};
 const cl={id:'v2-contrast',targets:[contrast],steps:[{id:'model',kind:'teach',introduces:[contrast.id]},failedQ,reserveQ]};
 const cs=createCourseSession(cl);const empty={events:{}};advanceCourse(cl,cs,empty);submitCourseAnswer(cl,cs,'No');advanceCourse(cl,cs,empty);assert.equal(cs.courseV2.phase,'repair');advanceCourse(cl,cs,empty);assert.equal(currentCourseStep(cl,cs).step.id,'polite-first');assert.equal(currentCourseStep(cl,cs).step.stage,'guided');assert(!cs.courseV2.usedQuestions.includes('polite-reserve'));
+
+// Synthesised vocabulary boards ("Le parole di oggi"): each row is supported
+// recognition of a dictionary word, credited per board and never a grammar target.
+const CONTENT=1,clone=value=>JSON.parse(JSON.stringify(value));
+const pair=(entryId,skill,left,right,extra={})=>({left,right,entryId,skill,
+  objectiveId:`${entryId}::lesson::${skill==='meaning'||skill==='recall'?'meaning':'forms'}::${skill}`,
+  contentVersion:CONTENT,say:skill==='meaning'?left:right,...extra});
+const board=(id,boardName,prompt,pairs)=>({id:`v2-words.words-check.${boardName}.1`,kind:'words-check',synthesized:true,format:'match',
+  board:boardName,round:1,title:'Le parole di oggi',prompt,pairs,entryIds:[...new Set(pairs.map(p=>p.entryId))]});
+const meaningBoard=board('meaning','meaning','Match each word to its meaning',[pair('w:casa|noun','meaning','la casa','house'),
+  pair('w:libro|noun','meaning','il libro','book'),pair('w:pane|noun','meaning','il pane','bread')]);
+const formsBoard=board('forms','forms','Match the article to its noun',[pair('w:casa|noun','article','la','casa',{form:'singular'}),
+  pair('w:casa|noun','plural','le','case',{form:'plural'}),pair('w:libro|noun','article','il','libro',{form:'singular'}),
+  pair('w:libro|noun','plural','i','libri',{form:'plural'})]);
+const wt={...target,id:'v2-words.core'};
+const wl={id:'v2-words',title:'Words',targets:[wt],steps:[
+  {id:'words',kind:'words',title:'Words',words:[{it:'la casa',en:'house'},{it:'il libro',en:'book'},{it:'il pane',en:'bread'}]},
+  meaningBoard,formsBoard,
+  {id:'teach',kind:'teach',title:'Model',body:'Use è.',examples:[{it:'È qui.',en:'It is here.'}],introduces:[wt.id]},
+  {...q('guided','guided','choice','È qui.'),target:wt.id},{...q('one','independent','type','È qui.'),target:wt.id},
+  {id:'recap',kind:'teach',title:'Recap',body:'You can use è.',examples:[{it:'È qui.',en:'It is here.'}],introduces:[wt.id]},
+]};
+const wordRow=(session,step,p,at,patch={})=>({id:`${session.id}:v2:${session.index}:${step.id}:${p.entryId}:${p.skill}`,sessionId:session.id,index:session.index,at,
+  policy:'journey-v1',wordPolicy:'word-lesson-match-v1',courseLessonId:'v2-words',wordSlotId:`${step.id}:${p.skill}`,
+  entryId:p.entryId,kind:'word',objectiveId:p.objectiveId,targetId:p.objectiveId,contentVersion:CONTENT,
+  chapterId:p.skill==='meaning'||p.skill==='recall'?'meaning':'forms',skill:p.skill,role:null,
+  activityKind:'guided',mode:'recognition',variantId:step.id,contextId:'v2-words',
+  ok:true,outcome:'correct',assistance:['matching'],firstAttempt:true,errorTags:[],components:[],xp:0,countStats:false,...patch});
+const wlearn={events:{}};
+const ws=createCourseSession(wl,{now:t});
+assert.equal(ws.courseV2.planVersion,3,'plan version 3 carries synthesised steps');
+assert.ok(compatibleCourseSession(wl,ws));
+assert.equal(compatibleCourseSession(wl,{...clone(ws),courseV2:{...clone(ws.courseV2),planVersion:2}}),false,'an older plan starts the lesson afresh');
+assert.equal(currentCourseStep(wl,ws).step.id,'words');
+assert.deepEqual(recordCoursePairMatch(wl,ws,{left:0,right:0,now:t}),{session:ws,events:[],complete:false},'a words step has no board');
+advanceCourse(wl,ws,wlearn);
+let wv=currentCourseStep(wl,ws);
+assert.equal(wv.kind,'words-check');assert.equal(wv.phase,'step');assert.equal(wv.target,null);assert.equal(wv.index,1);assert.equal(wv.viewOnly,false);assert.equal(wv.step,meaningBoard);
+assert.deepEqual(assessCourseAnswer(wv.step,[0,1,2]),{outcome:'ungraded',ok:false,answer:null,explanation:''},'a board is not a question');
+assert.deepEqual(submitCourseAnswer(wl,ws,[0,1,2],{now:t}),{session:ws,result:null});
+assert.equal(advanceCourse(wl,ws,wlearn),ws);assert.equal(currentCourseStep(wl,ws).step.id,meaningBoard.id,'an unfinished board cannot be skipped');
+assert.deepEqual(recordCoursePairMatch(wl,ws,{left:0,right:9,now:t}).events,[],'indexes must be rows');
+const miss=recordCoursePairMatch(wl,ws,{left:0,right:1,now:t+1});
+assert.equal(miss.session,ws);assert.equal(miss.complete,false);
+assert.deepEqual(miss.events,[wordRow(ws,meaningBoard,meaningBoard.pairs[0],t+1,{id:`${ws.id}:v2:1:${meaningBoard.id}:w:casa|noun:meaning:miss:1`,ok:false,outcome:'incorrect',errorTags:['matching-mismatch']})]);
+assert.equal(ws.courseV2.pairErrors,1);assert.deepEqual(ws.courseV2.pairMisses,{0:1});assert.equal(ws.courseV2.left,null);
+assert.equal(ws.courseV2.pairMessage,'Look at the meanings and try another pair.');assert.deepEqual(ws.courseV2.matched,[]);assert.equal(ws.courseV2.result,null);
+const again=recordCoursePairMatch(wl,ws,{left:0,right:2,now:t+2});
+assert.equal(again.events[0].id,`${ws.id}:v2:1:${meaningBoard.id}:w:casa|noun:meaning:miss:2`);assert.equal(again.events[0].firstAttempt,false);assert.deepEqual(ws.courseV2.pairMisses,{0:2});
+const m0=recordCoursePairMatch(wl,ws,{left:0,right:0,now:t+3});
+assert.deepEqual(m0,{session:ws,events:[wordRow(ws,meaningBoard,meaningBoard.pairs[0],t+3,{firstAttempt:false})],complete:false});
+assert.deepEqual(ws.courseV2.matched,[0]);assert.equal(ws.courseV2.pairMessage,'');assert.equal(ws.updatedAt,t+3);
+assert.deepEqual(recordCoursePairMatch(wl,ws,{left:0,right:0,now:t+4}).events,[],'a matched row is inert');
+assert.deepEqual(recordCoursePairMatch(wl,ws,{left:1,right:0,now:t+4}).events,[],'a matched right side is inert');
+const m1=recordCoursePairMatch(wl,ws,{left:1,right:1,now:t+5});
+assert.deepEqual(m1.events,[wordRow(ws,meaningBoard,meaningBoard.pairs[1],t+5)]);assert.equal(m1.complete,false);assert.equal(ws.courseV2.result,null);
+const m2=recordCoursePairMatch(wl,ws,{left:2,right:2,now:t+6});
+assert.deepEqual(m2.events,[wordRow(ws,meaningBoard,meaningBoard.pairs[2],t+6)]);assert.equal(m2.complete,true);
+assert.deepEqual(ws.courseV2.result,{outcome:'ungraded',ok:true,board:'meaning',credited:['w:libro|noun','w:pane|noun'],missed:['w:casa|noun']});
+assert.deepEqual(currentCourseStep(wl,ws).result,ws.courseV2.result);
+assert.deepEqual(recordCoursePairMatch(wl,ws,{left:1,right:2,now:t+7}),{session:ws,events:[],complete:false},'a finished board records nothing more');
+// The emitted rows are accepted as supported recognition that never certifies a word target.
+let wordLearning=createLearning(t);
+for(const e of [...miss.events,...again.events,...m0.events,...m1.events,...m2.events]) {
+  const r=recordAttempt(wordLearning,{...e,epochId:wordLearning.epoch.id,deviceId:'engine',sequence:Object.keys(wordLearning.events).length+1});
+  assert.equal(r.added,true,e.id);wordLearning=r.learning;
+  const stored=wordLearning.events[e.id];
+  assert.equal(stored.mode,'recognition');assert.equal(stored.activityKind,'guided');assert.equal(stored.xp,0);
+  assert.equal(stored.wordPolicy,'word-lesson-match-v1');assert.equal(stored.wordSlotId,e.wordSlotId);assert.equal(stored.courseLessonId,'v2-words');
+  assert.equal(skillState(wordLearning,e.objectiveId).ready,false);assert.equal(skillState(wordLearning,e.objectiveId).independentCorrect,0);
+}
+// Continue goes straight to the next main step: no repair, no target, the board id is kept.
+advanceCourse(wl,ws,wlearn);
+wv=currentCourseStep(wl,ws);
+assert.equal(wv.step.id,formsBoard.id);assert.equal(ws.courseV2.phase,'step');assert.equal(ws.index,2);
+assert.ok(ws.courseV2.completedStepIds.includes(meaningBoard.id));
+assert.equal(ws.courseV2.result,null);assert.deepEqual(ws.courseV2.matched,[]);assert.deepEqual(ws.courseV2.pairMisses,{});assert.equal(ws.courseV2.pairErrors,0);
+// Back shows the finished board read-only with its misses; taps and Continue wait for the live board.
+courseBack(wl,ws);
+const past=currentCourseStep(wl,ws);
+assert.equal(past.viewOnly,true);assert.equal(past.kind,'words-check');assert.equal(past.step.id,meaningBoard.id);
+assert.deepEqual(past.result,{outcome:'ungraded',ok:true,board:'meaning',credited:['w:libro|noun','w:pane|noun'],missed:['w:casa|noun']});
+assert.deepEqual(ws.courseV2.history.at(-1).pairMisses,{0:2});assert.deepEqual(ws.courseV2.history.at(-1).matched,[0,1,2]);assert.equal(ws.courseV2.history.at(-1).pairErrors,2);
+assert.deepEqual(recordCoursePairMatch(wl,ws,{left:0,right:0,now:t+8}).events,[]);
+assert.equal(advanceCourse(wl,ws,wlearn),ws);assert.equal(ws.courseV2.historyCursor,ws.courseV2.history.length-1);
+courseReturnLive(wl,ws);
+assert.equal(currentCourseStep(wl,ws).step.id,formsBoard.id);assert.equal(currentCourseStep(wl,ws).viewOnly,false);assert.deepEqual(ws.courseV2.matched,[]);
+// A clean forms board: per-skill ids under the forms chapter, every word credited.
+const formEvents=[];
+formsBoard.pairs.forEach((_,i)=>{const r=recordCoursePairMatch(wl,ws,{left:i,right:i,now:t+10+i});formEvents.push(...r.events);assert.equal(r.complete,i===formsBoard.pairs.length-1);});
+assert.deepEqual(formEvents,formsBoard.pairs.map((p,i)=>wordRow(ws,formsBoard,p,t+10+i)));
+assert.deepEqual(formEvents.map(e=>e.id),[`${ws.id}:v2:2:${formsBoard.id}:w:casa|noun:article`,`${ws.id}:v2:2:${formsBoard.id}:w:casa|noun:plural`,
+  `${ws.id}:v2:2:${formsBoard.id}:w:libro|noun:article`,`${ws.id}:v2:2:${formsBoard.id}:w:libro|noun:plural`]);
+assert.ok(formEvents.every(e=>e.chapterId==='forms'));
+assert.deepEqual(ws.courseV2.result,{outcome:'ungraded',ok:true,board:'forms',credited:['w:casa|noun','w:libro|noun'],missed:[]});
+assert.equal(deferCourseTarget(wl,ws,wlearn),ws,'a board has no target to defer');
+advanceCourse(wl,ws,wlearn);
+assert.equal(currentCourseStep(wl,ws).step.id,'teach');assert.deepEqual(ws.courseV2.completedStepIds,['words',meaningBoard.id,formsBoard.id]);
+assert.ok(compatibleCourseSession(wl,clone(ws)),'saved history with pair misses stays resumable');
+assert.equal(courseSessionProgress(wl,ws,wlearn).phase,'step');
+// Question match steps keep their existing grammar path.
+const qm=createCourseSession(ml,{now:t});
+assert.deepEqual(recordCoursePairMatch(ml,qm,{left:0,right:0,now:t}),{session:qm,events:[],complete:false});
+assert.deepEqual(qm.courseV2.matched,[]);assert.equal(recordCoursePairMismatch(ml,qm,{left:0,right:1,now:t}).event.policy,'grammar-v2');
+console.log('course-v2 vocabulary boards: passed');

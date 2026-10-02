@@ -14,10 +14,10 @@ const snapshot=session=>{
     activeTargetId:c.activeTargetId,activeFacet:c.activeFacet,draft:c.draft,tokens:c.tokens,
     matched:c.matched,assistance:c.assistance,result:c.result,optionOrder:c.optionOrder,
     tokenOrder:c.tokenOrder,rightOrder:c.rightOrder,left:c.left,pairMessage:c.pairMessage,
-    hintLevel:c.hintLevel||0,pairErrors:c.pairErrors});
+    hintLevel:c.hintLevel||0,pairErrors:c.pairErrors,pairMisses:c.pairMisses||{}});
 };
 const clearAnswer=c=>{c.hintLevel=0;c.draft='';c.tokens=[];c.matched=[];c.assistance=[];c.result=null;
-  c.optionOrder=[];c.tokenOrder=[];c.rightOrder=[];c.left=null;c.pairMessage='';c.pairErrors=0;};
+  c.optionOrder=[];c.tokenOrder=[];c.rightOrder=[];c.left=null;c.pairMessage='';c.pairErrors=0;c.pairMisses={};};
 const saveHistory=session=>{const c=session.courseV2;c.history.push(snapshot(session));c.history=c.history.slice(-120);c.historyCursor=null;};
 const eventsFor=(learning,lesson,targetId)=>Object.values(learning?.events || {}).filter(e=>e.policy==='grammar-v2'
   && e.entryId===`g:${lesson.id}` && e.objectiveId===targetId);
@@ -60,7 +60,8 @@ function stepView(lesson,c) {
   if(c.phase==='step') {
     const step=lesson.steps[c.stepIndex];
     if(!step)return {kind:'complete',phase:'complete',step:null,target:null};
-    return {kind:step.kind,phase:'step',step,target:targetFor(lesson,step.target),index:c.stepIndex,viewOnly:false};
+    // Synthesised vocabulary boards belong to dictionary words, not to a grammar target.
+    return {kind:step.kind,phase:'step',step,target:step.kind==='words-check'?null:targetFor(lesson,step.target),index:c.stepIndex,viewOnly:false};
   }
   if(c.phase==='guided' || c.phase==='recheck')return questionView(lesson,c);
   if(c.phase==='repair') {
@@ -166,7 +167,7 @@ function nextMainStep(lesson,session,learning) {
 
 export function createCourseSession(lesson,{mode='lesson',objective=null,now=Date.now(),learning=null}={}) {
   const id=`course-v2:${now}:${Math.random().toString(36).slice(2)}`;
-  const c={version:2,planVersion:2,stepIndex:0,phase:'step',history:[],historyCursor:null,
+  const c={version:2,planVersion:3,stepIndex:0,phase:'step',history:[],historyCursor:null,
     draft:'',tokens:[],matched:[],assistance:[],result:null,portfolios:{},
     usedQuestions:[],usedGroups:[],completedStepIds:[],deferred:[],repairCount:{},activeQuestionId:null,activeTargetId:null,
     activeFacet:null,returnStepIndex:null,audioPlayed:[],transcripts:[],paused:false,
@@ -191,7 +192,7 @@ export function compatibleCourseSession(lesson,session) {
     && (!['guided','recheck'].includes(s.phase) || !!questionFor(lesson,s.activeQuestionId));
   return session?.entryId===`g:${lesson.id}` && Array.isArray(session.objectiveIds)
     && session.objectiveIds.length===lesson.targets.length && session.objectiveIds.every((id,i)=>id===lesson.targets[i].id)
-    && c?.version===2 && c.planVersion===2 && valid(c) && Array.isArray(c.history) && c.history.every(s=>valid(s,true))
+    && c?.version===2 && c.planVersion===3 && valid(c) && Array.isArray(c.history) && c.history.every(s=>valid(s,true))
     && (c.historyCursor===null || Number.isInteger(c.historyCursor)&&c.historyCursor>=0&&c.historyCursor<c.history.length);
 }
 
@@ -279,6 +280,40 @@ export function recordCoursePairMismatch(lesson,session,{left,right,now=Date.now
   return {session,event};
 }
 
+// A synthesised vocabulary board grades each row as supported recognition of a
+// dictionary word. Question boards keep their grammar path and return nothing.
+export function recordCoursePairMatch(lesson,session,{left,right,now=Date.now()}={}) {
+  const c=session.courseV2,view=currentCourseStep(lesson,session),none={session,events:[],complete:false};
+  if(view?.viewOnly || view?.kind!=='words-check' || c.result)return none;
+  const step=view.step,pairs=step.pairs || [];
+  if(!Number.isInteger(left) || !Number.isInteger(right) || !pairs[left] || !pairs[right]
+    || c.matched.includes(left) || c.matched.includes(right))return none;
+  const ok=left===right,pair=pairs[left],firstAttempt=!c.pairMisses?.[left];
+  c.left=null;
+  if(ok){c.matched=[...c.matched,left];c.pairMessage='';}
+  else {
+    c.pairErrors=(c.pairErrors || 0)+1;
+    c.pairMisses={...(c.pairMisses || {}),[left]:(c.pairMisses?.[left] || 0)+1};
+    c.pairMessage=step.hint || 'Look at the meanings and try another pair.';
+  }
+  const event={id:`${session.id}:v2:${session.index}:${step.id}:${pair.entryId}:${pair.skill}${ok?'':':miss:'+c.pairErrors}`,
+    sessionId:session.id,index:session.index,at:now,
+    policy:'journey-v1',wordPolicy:'word-lesson-match-v1',courseLessonId:lesson.id,wordSlotId:`${step.id}:${pair.skill}`,
+    entryId:pair.entryId,kind:'word',objectiveId:pair.objectiveId,targetId:pair.objectiveId,contentVersion:pair.contentVersion,
+    chapterId:pair.skill==='meaning' || pair.skill==='recall'?'meaning':'forms',skill:pair.skill,role:null,
+    activityKind:'guided',mode:'recognition',variantId:step.id,contextId:lesson.id,
+    ok,outcome:ok?'correct':'incorrect',assistance:['matching'],firstAttempt,
+    errorTags:ok?[]:['matching-mismatch'],components:[],xp:0,countStats:false};
+  const complete=ok && c.matched.length===pairs.length;
+  if(complete) {
+    const ids=[...new Set(pairs.map(p=>p.entryId))];
+    const missed=ids.filter(id=>pairs.some((p,i)=>p.entryId===id && c.pairMisses?.[i]));
+    c.result={outcome:'ungraded',ok:true,board:step.board,credited:ids.filter(id=>!missed.includes(id)),missed};
+  }
+  session.updatedAt=now;
+  return {session,events:[event],complete};
+}
+
 export function courseSessionProgress(lesson,session,learning,now=Date.now()) {
   const targets=lesson.targets.map(target=>({...courseSkill(eventsFor(learning,lesson,target.id),now,target),target,label:target.label}));
   const ready=targets.filter(s=>s.ready).length;
@@ -302,7 +337,7 @@ export function advanceCourse(lesson,session,learning) {
   const c=session.courseV2;
   if(c.historyCursor!==null || ['complete','paused','exhausted'].includes(c.phase))return session;
   const view=currentCourseStep(lesson,session);
-  if(view.kind==='question' && !c.result)return session;
+  if((view.kind==='question' || view.kind==='words-check') && !c.result)return session;
   if(c.phase==='step' && view.step?.id)c.completedStepIds=[...new Set([...(c.completedStepIds || []),view.step.id])];
   saveHistory(session);
   session.index++;

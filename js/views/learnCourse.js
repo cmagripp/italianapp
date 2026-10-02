@@ -1,12 +1,13 @@
 import { html, raw, icon, speak, speakBtn, toast, keyboardViewportHeight } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
+import { getEntry, headword, shortEn } from '../data.js';
 import { dropdown, setScene } from '../fx.js';
 import { feedbackHTML } from '../games/engine.js';
 import { createSentencePanel } from '../learning/sentence-panel.js';
 import { grammarCourse, grammarLesson, grammarHref, grammarProgress, relatedVocabulary } from '../learning/grammar-course.js';
-import { createCourseSession, compatibleCourseSession, currentCourseStep, advanceCourse, submitCourseAnswer, deferCourseTarget, courseSessionProgress, courseBack, courseReturnLive, resumeCourseTargets, recordCoursePairMismatch } from '../learning/course-v2-engine.js';
-import { courseButton as button, courseExamples, courseWords, courseTeaching, courseQuestion, coursePortfolio } from '../learning/course-v2-activities.js';
+import { createCourseSession, compatibleCourseSession, currentCourseStep, advanceCourse, submitCourseAnswer, deferCourseTarget, courseSessionProgress, courseBack, courseReturnLive, resumeCourseTargets, recordCoursePairMismatch, recordCoursePairMatch } from '../learning/course-v2-engine.js';
+import { courseButton as button, courseExamples, courseWords, courseWordsCheck, courseTeaching, courseQuestion, coursePortfolio } from '../learning/course-v2-activities.js';
 import { loadCourseAudio, courseAudioAsset, downloadUnitAudio, removeUnitAudio, saveCourseRecording, getCourseRecording, deleteCourseRecordings } from '../learning/course-v2-media.js';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
@@ -43,7 +44,7 @@ export async function render(root,lesson,query={}) {
   root.addEventListener('focusin',fit);root.addEventListener('focusout',fit);fit();
   const info=document.createElement('button');info.className='journey-info-toggle icon-btn';info.type='button';info.setAttribute('aria-label','Lesson reference and options');info.setAttribute('aria-haspopup','menu');info.setAttribute('aria-expanded','false');info.innerHTML='<span aria-hidden="true" style="font-family:Georgia,serif;font-style:italic;font-size:21px">i</span>';
   document.querySelector('#enToggle').before(info);
-  info.addEventListener('click',()=>dropdown(info,[{value:'outline',label:'Course outline',sub:lesson.unitTitle},{value:'download',label:'Save unit audio offline',sub:'Download recordings for this unit'},{value:'remove-audio',label:'Remove downloaded unit audio',sub:'Your lesson progress stays saved'},...(g().result?[{value:'flag',label:'Flag this answer for my review',sub:'Save locally with your lesson work'}]:[]),{value:'export',label:'Export this lesson’s work',sub:'Written drafts, reflections and answer flags'}],{align:'end',width:300,onSelect:async value=>{
+  info.addEventListener('click',()=>dropdown(info,[{value:'outline',label:'Course outline',sub:lesson.unitTitle},{value:'download',label:'Save unit audio offline',sub:'Download recordings for this unit'},{value:'remove-audio',label:'Remove downloaded unit audio',sub:'Your lesson progress stays saved'},...(g().result&&liveStep()?.kind==='question'?[{value:'flag',label:'Flag this answer for my review',sub:'Save locally with your lesson work'}]:[]),{value:'export',label:'Export this lesson’s work',sub:'Written drafts, reflections and answer flags'}],{align:'end',width:300,onSelect:async value=>{
     save();
     if(value==='outline')location.hash='#/course';
     else if(value==='download'){try{const count=await downloadUnitAudio(manifest,lesson.unitId,(n,total)=>toast(`Saving audio ${n} / ${total}`));toast(count?'Unit audio saved.':'This unit uses device speech; no audio pack is needed.');}catch(error){toast(error.message,{ms:4000});}}
@@ -93,7 +94,7 @@ export async function render(root,lesson,query={}) {
       content=html`<section class="grammar-finish"><span class="kicker">Your place is saved</span><h1>${lesson.title}</h1><p>Resume whenever you’re ready.</p>${raw(button('Resume lesson','data-resume','primary'))}<a class="btn secondary block" href="#/course">Your course</a><a class="btn ghost block" href="#/learn">Back to Learn</a></section>`;
     } else if(['complete','paused'].includes(phase)||view?.kind==='complete'){
       const p=grammarProgress(lesson,store.learning),related=relatedVocabulary(lesson,store),next=grammarCourse.lessons[grammarCourse.lessons.findIndex(l=>l.id===lesson.id)+1];
-      content=html`<section class="grammar-finish"><div class="journey-recap-mark">${raw(icon('check',{size:28}))}</div><span class="kicker">${mode==='review'?'Review saved':p.complete?'Lesson complete':'Your work is saved'}</span><h1 tabindex="-1" data-focus>${lesson.title}</h1><p>${lesson.takeaway}</p>${!p.complete&&mode==='lesson'?raw('<p>Some skills still need practice. You can return to them at any time.</p>'):''}${raw(targetSummary())}${related.length?raw(html`<h2>Build on this lesson</h2><div class="grammar-related">${raw(related.map(x=>html`<a class="glass-flat grammar-related-card" href="${vocabHref(x)}"><span class="kicker">${x.entry.kind==='verb'?x.caseId || 'Verb':'Word'}</span><strong>${x.entry.inf || x.entry.it}</strong><span>${x.entry.en}</span><small>Learn ${x.entry.kind==='verb'?'this verb':'this word'} ${raw(icon('arrow',{size:16}))}</small></a>`).join(''))}</div>`):''}</section>`;
+      content=html`<section class="grammar-finish"><div class="journey-recap-mark">${raw(icon('check',{size:28}))}</div><span class="kicker">${mode==='review'?'Review saved':p.complete?'Lesson complete':'Your work is saved'}</span><h1 tabindex="-1" data-focus>${lesson.title}</h1><p>${lesson.takeaway}</p>${!p.complete&&mode==='lesson'?raw('<p>Some skills still need practice. You can return to them at any time.</p>'):''}${raw(targetSummary())}${raw(wordSummary())}${related.length?raw(html`<h2>Build on this lesson</h2><div class="grammar-related">${raw(related.map(x=>html`<a class="glass-flat grammar-related-card" href="${vocabHref(x)}"><span class="kicker">${x.entry.kind==='verb'?x.caseId || 'Verb':'Word'}</span><strong>${x.entry.inf || x.entry.it}</strong><span>${x.entry.en}</span><small>Learn ${x.entry.kind==='verb'?'this verb':'this word'} ${raw(icon('arrow',{size:16}))}</small></a>`).join(''))}</div>`):''}</section>`;
       footer=html`${!p.complete&&mode==='lesson'?raw(button('Return to unfinished skills','data-retry-targets')):''}${query.courseSession?raw('<a class="btn primary block" href="#/learn/session">Continue your session</a>'):mode==='review'?raw('<a class="btn primary block" href="#/review">Back to Review</a>'):next?raw(html`<a class="btn primary block" href="${grammarHref(next)}">Next lesson · ${next.title}</a>`):raw('<a class="btn primary block" href="#/course">Your course</a>')}<a class="btn ghost block" href="#/learn">Back to Learn</a>`;
     } else if(view?.kind==='exhausted'||phase==='exhausted'){
       content=html`<section class="grammar-teach"><span class="kicker">Let this settle</span><h1 tabindex="-1" data-focus>Come back with a fresh start</h1><p class="grammar-body">You’ve worked through the available examples for this skill. Your answers and unfinished skills are saved for a later practice session.</p>${raw(targetSummary())}</section>`;
@@ -110,6 +111,9 @@ export async function render(root,lesson,query={}) {
     } else if(step?.kind==='portfolio') {
       const work=portfolio(step);loadRecording(step);
       content=coursePortfolio(step,work,{past,recording:recorder?.state==='recording',recordingURL,recordingMessage});footer=button(work.draft?.trim()||work.criteria?.length||work.recording?'Save my practice':'Continue without a response','data-course-next');
+    } else if(step?.kind==='words-check') {
+      content=courseWordsCheck(step,state,{past,learnedIds:(state.result?.credited || []).filter(id=>store.isLearned(id))});
+      if(state.result)footer=button('Continue','data-course-next','primary');
     } else if(step?.kind==='question') {
       const result=state.result;
       content=courseQuestion({...step,extraHint:view.target?.repair?.body||view.target?.explanation},state,{past,guided:step.stage==='guided'||view.guided,audio:step.audioId?audioHTML(step.audioId):'',source:step.passageId?readingHTML(lesson.steps.find(s=>s.id===step.passageId)):''});
@@ -124,11 +128,33 @@ export async function render(root,lesson,query={}) {
     if(returnLesson&&(g().paused||['complete','paused'].includes(phase)))footer=html`<a class="btn primary block" href="${grammarHref(returnLesson)}">Return to ${returnLesson.title}</a><a class="btn ghost block" href="#/course">Your course</a>`;
     if(past){content=html`<div class="grammar-history-note">Earlier in this lesson · read only</div>${raw(content)}`;footer=button('Return to your place','data-return-live','primary');feedback=false;}
     const pct=phase==='complete'?100:Math.min(99,Math.max(0,progress.percent??Math.round((g().stepIndex||0)/lesson.steps.length*100)));
-    const stage=step?.kind==='question'?'Practise':step?.kind==='portfolio'?'Use it':phase==='repair'?'A closer look':['complete','paused'].includes(phase)?'Saved':'Learn';
+    const stage=step?.kind==='question'?'Practise':step?.kind==='words-check'?'Words':step?.kind==='portfolio'?'Use it':phase==='repair'?'A closer look':['complete','paused'].includes(phase)?'Saved':'Learn';
     root.innerHTML=html`<div class="grammar-shell course-v2-shell" data-course-lesson="${lesson.id}" data-phase="${g().paused?'paused':phase}" data-step="${step?.id||''}" data-history="${past}"><header class="grammar-header"><button type="button" class="btn ghost" data-course-back ${!g().history?.length?raw('disabled'):''}>${raw(icon('chevron',{size:16}))} Back</button><span class="kicker">${lesson.level} · ${g().paused?'Paused':stage}</span><button type="button" class="btn ghost" data-pause>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header><main class="grammar-scroll">${raw(content)}</main>${footer?raw(html`<footer class="grammar-footer ${feedback?'has-feedback':''}">${raw(footer)}</footer>`):''}</div>`;
     panel.decorate();save();if(focus)root.querySelector('[data-focus]')?.focus({preventScroll:true});
   }
   function targetSummary(){return html`<ul class="course-targets">${raw(grammarProgress(lesson,store.learning).skills.map(target=>html`<li><span>${target.label}</span><small>${target.remembered?'Remembered':target.ready?'Checked in practice':'Keep practising'}</small></li>`).join(''))}</ul>`;}
+  function wordSummary(){
+    const words=(lesson.wordEntryIds || []).map(getEntry).filter(Boolean);
+    return words.length?html`<h2>Words from this lesson</h2><ul class="course-words-summary">${raw(words.map(entry=>{const learned=store.isLearned(entry.id);return html`<li class="${learned?'is-learned':''}"><a href="${vocabHref({entry})}"><span lang="it">${headword(entry)}</span><small>${shortEn(entry.en)}</small></a>${learned?raw(html`<span class="check-mark" role="img" aria-label="Learned">${raw(icon('check',{size:18}))}</span>`):''}</li>`;}).join(''))}</ul>`:'';
+  }
+  // A completed board credits the words whose rows all matched; the journey evidence
+  // (every row of the word across this session's boards, no mismatch) decides completion.
+  function creditWords(result){
+    const learned=(result?.credited || []).filter(id=>store.completionState(id).complete&&!store.getItem(id)?.learned);
+    for(const id of learned)store.markLearned(id,'word');
+    if(learned.length)toast(`${learned.length} ${learned.length===1?'parola imparata':'parole imparate'} · ${learned.length} ${learned.length===1?'word':'words'} learned`);
+    return learned;
+  }
+  function matchWords(left,right){
+    const step=liveStep();if(step?.kind!=='words-check'||g().result||g().paused||g().historyCursor!==null)return;
+    const match=recordCoursePairMatch(lesson,session,{left,right});
+    session=match.session;g().left=null;
+    for(const event of match.events || [])store.recordLearningAttempt(event);
+    if(left===right){const say=step.pairs[left]?.say;if(say)speak(say);}
+    else g().pairMessage ||= 'Look at the meanings and try another pair.';
+    if(match.complete)creditWords(g().result);
+    save();draw();
+  }
   function submit(value,{reveal=false}={}){
     if(g().result||g().paused||g().historyCursor!==null)return;
     const q=liveStep();if(q?.kind!=='question')return;
@@ -202,6 +228,12 @@ export async function render(root,lesson,query={}) {
     if(b.hasAttribute('data-portfolio-model')){portfolio(step).modelViewed=!portfolio(step).modelViewed;save();draw();return;}
     if(b.hasAttribute('data-record')){toggleRecording();return;}
     if(b.hasAttribute('data-flag')){g().flags ||= [];if(!g().flags.some(flag=>flag.stepId===step?.id&&flag.answer===g().result?.given))g().flags.push({stepId:step?.id,answer:g().result?.given||'',at:Date.now()});save();toast('Saved in this lesson’s work. Nothing was sent.');return;}
+    if(step?.kind==='words-check'){
+      if(g().result)return;
+      if(b.hasAttribute('data-pair-left')){g().left=Number(b.dataset.pairLeft);save();draw();}
+      else if(b.hasAttribute('data-pair-right')&&Number.isInteger(g().left))matchWords(g().left,Number(b.dataset.pairRight));
+      return;
+    }
     if(step?.kind!=='question'||g().result)return;
     if(b.hasAttribute('data-choice'))submit(step.options[Number(b.dataset.choice)]);
     else if(b.hasAttribute('data-check-course'))check();

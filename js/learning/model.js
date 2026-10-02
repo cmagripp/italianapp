@@ -15,6 +15,8 @@ const unique = (xs) => [...new Set(xs)];
 const strings = (xs) => unique(Array.isArray(xs) ? xs.filter(x => typeof x === 'string' && x && !BAD_KEYS.has(x)) : []);
 const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const unsupported = domain => finite(domain?.version) > LEARNING_VERSION;
+// Short word lessons and course vocabulary boards never produce unaided production evidence.
+const SUPPORTED_WORD_POLICIES = new Set(['word-short-v1', 'word-lesson-match-v1']);
 
 // Also used for session UI state. Never preserve functions, DOM nodes, prototypes,
 // undefined values or cycles from an accidental caller-supplied question object.
@@ -74,7 +76,7 @@ function normalizeEvent(raw, epochId) {
     objectiveId: raw.objectiveId, entryId: text(raw.entryId), kind: raw.kind === 'verb' ? 'verb' : 'word',
     skill: text(raw.skill, 'recall'), tense: text(raw.tense) || null,
     person: typeof raw.person === 'number' && Number.isInteger(raw.person) ? raw.person : text(raw.person) || null,
-    mode: raw.mode === 'production' && raw.wordPolicy !== 'word-short-v1' ? 'production' : 'recognition',
+    mode: raw.mode === 'production' && !SUPPORTED_WORD_POLICIES.has(raw.wordPolicy) ? 'production' : 'recognition',
     variantId: text(raw.variantId), contextId: text(raw.contextId),
     ok: outcome === 'correct' && raw.ok === true, outcome,
     assistance: strings(raw.assistance).filter(x => x !== 'none'), firstAttempt: raw.firstAttempt === true,
@@ -100,9 +102,11 @@ function normalizeEvent(raw, epochId) {
       chapterId: text(raw.chapterId), contentVersion: Math.max(1, Math.floor(finite(raw.contentVersion, 1))),
       role: text(raw.role) || null,
       ...(raw.contextPolicy==='distinct-scene'||/::v2-/.test(text(raw.targetId,raw.objectiveId))?{contextPolicy:'distinct-scene'}:{}),
-      activityKind: raw.wordPolicy==='word-short-v1' ? raw.activityKind==='repair'?'repair':'guided' : ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
+      activityKind: raw.wordPolicy==='word-short-v1' ? raw.activityKind==='repair'?'repair':'guided' : raw.wordPolicy==='word-lesson-match-v1' ? 'guided' : ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
       ...(Number.isInteger(raw.availableVariants) && raw.availableVariants >= 0 ? { availableVariants: raw.availableVariants } : {}),
       ...(raw.wordPolicy === 'word-short-v1' ? { wordPolicy: 'word-short-v1', wordSlotId: text(raw.wordSlotId) } : {}),
+      // A course lesson's vocabulary board is supported recognition of a dictionary word.
+      ...(raw.wordPolicy === 'word-lesson-match-v1' ? { wordPolicy: 'word-lesson-match-v1', wordSlotId: text(raw.wordSlotId), courseLessonId: text(raw.courseLessonId) } : {}),
     } : {}),
   };
 }
@@ -353,7 +357,7 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
       else result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
     } else if (needsRepair) {
       result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
-    } else if ((eligible || e.wordPolicy === 'word-short-v1') && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
+    } else if ((eligible || SUPPORTED_WORD_POLICIES.has(e.wordPolicy)) && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
       && (!result.srs.due || e.at >= result.srs.due || (!result.srs.reps && !result.srs.lapses))) {
       result.srs = schedule(result.srs, eligible ? 4 : 3, e.at); advanced.add(e.sessionId);
     } else if (!result.srs.due) result.srs.due = e.at + SHORT_REVIEW;

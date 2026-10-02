@@ -755,13 +755,30 @@ export function journeyCaseProgress(plan, learning, session = null, now = Date.n
 
 // Completion of the short word lesson can be recovered from synced events even
 // though its device-local cursor is intentionally omitted from cloud snapshots.
+// A course lesson's vocabulary boards credit the same word only with the short
+// lesson's own coverage: every distinct available slot target (meaning and recall
+// always, article and plural when available) matched in one session, with no
+// mismatch on that word in that session. The boards ask only those four skills,
+// so an adjective's agreement targets stay with its own lesson and are not required.
+const COURSE_BOARD_SKILLS = ['meaning','recall','article','plural'];
+const courseMatchTargets = plan => [...new Set(wordSlots(plan).map(slot => slot.targetId))]
+  .filter(id => { const target = targetFor(plan, id); return available(target) && COURSE_BOARD_SKILLS.includes(target?.skill); });
 export function journeyWordCompletion(plan, learning) {
   const override = completionRecord(learning,plan.entryId,'word');
   if (override?.checked) return {complete:true,completedAt:override.at,source:override.source};
-  const slots = wordSlots(plan), sessions = new Map();
+  const slots = wordSlots(plan), sessions = new Map(), boards = new Map(), missed = new Set();
+  const matchTargets = courseMatchTargets(plan);
   for (const event of Object.values(learning?.events || {})) {
-    if (event.entryId !== plan.entryId || !event.ok || event.wordPolicy !== 'word-short-v1' || event.contentVersion !== plan.version
+    if (event.entryId !== plan.entryId || event.contentVersion !== plan.version
       || event.epochId !== learning.epoch?.id || override && event.at <= override.at) continue;
+    if (event.wordPolicy === 'word-lesson-match-v1') {
+      if (!event.ok) { missed.add(event.sessionId); continue; }
+      if (!matchTargets.includes(event.objectiveId)) continue;
+      if (!boards.has(event.sessionId)) boards.set(event.sessionId,new Map());
+      boards.get(event.sessionId).set(event.objectiveId,Math.max(event.at,boards.get(event.sessionId).get(event.objectiveId) || 0));
+      continue;
+    }
+    if (!event.ok || event.wordPolicy !== 'word-short-v1') continue;
     const slot = slots.find(slot=>slot.id===event.wordSlotId && slot.targetId===event.objectiveId);
     if (!slot) continue;
     if (!sessions.has(event.sessionId)) sessions.set(event.sessionId,new Map());
@@ -769,6 +786,8 @@ export function journeyWordCompletion(plan, learning) {
   }
   for (const found of sessions.values()) if (slots.length && slots.every(slot=>found.has(slot.id)))
     return {complete:true,completedAt:Math.max(...found.values()),source:'lesson'};
+  for (const [sessionId,found] of boards) if (matchTargets.length && !missed.has(sessionId) && matchTargets.every(id=>found.has(id)))
+    return {complete:true,completedAt:Math.max(...found.values()),source:'course'};
   return {complete:false,completedAt:null,source:null};
 }
 

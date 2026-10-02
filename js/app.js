@@ -1,11 +1,11 @@
 // App shell: boot, router, top bar, floating dock, global translation toggle, scene transitions, aurora backdrop.
 import { store } from './store.js';
-import { loadData, registerCustom } from './data.js';
+import { loadData, registerCustom, data } from './data.js';
 import { $, $$, toast, esc, closeSheets, stopSpeech } from './ui.js';
 import { icon } from './icons.js';
 import { mountAurora, setScene, SCENES, reducedMotion, closeDropdown } from './fx.js';
 import { startAutoSync, isEnabled as syncEnabled } from './sync.js';
-import { loadGrammarCourse } from './learning/grammar-course.js';
+import { loadGrammarCourse, grammarCourse, attachLessonVocabulary } from './learning/grammar-course.js';
 
 const routes = [];
 let currentCleanup = null;
@@ -210,6 +210,8 @@ async function boot() {
   try {
     await dataReady;
     await grammarReady;
+    // the lesson vocabulary boards need both the course and the dictionary; a synthesis fault must never block boot
+    if (grammarCourse.ready) { try { attachLessonVocabulary({ vocab: data.vocab, verbs: data.verbs }); } catch (err) { console.warn(err); } }
     registerCustom(store.current.custom);
   } catch (err) {
     $('#view').innerHTML = `<div class="empty"><p>Could not load the dictionary.</p><p class="tiny muted">${esc(err.message)}</p><button class="btn primary" onclick="location.reload()">Retry</button></div>`;

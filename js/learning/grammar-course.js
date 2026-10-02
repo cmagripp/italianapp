@@ -1,18 +1,35 @@
-import { LEVELS, getEntry } from '../data.js';
+import { LEVELS, getEntry, data } from '../data.js';
 import { skillState } from './model.js';
 import { courseSkill } from './course-v2-state.js';
+import { resolveLessonWords, wordsCheckSteps, lessonWordIds } from './course-words.js';
 
 export const COURSE_LEVELS = ['Foundations',...LEVELS];
 export const grammarCourse = { levels:[], lessons:[], legacyLessons:[], allLessons:[], byId:new Map(), ready:false };
-const flatten=levels=>levels.flatMap(level=>level.units.flatMap(unit=>unit.lessons.map(lesson=>({...lesson,level:level.level,unitId:unit.id,unitTitle:unit.title,contentVersion:level.version || 1}))));
-let pending;
-export function installGrammarCourse(levels, legacyLevels=[]) {
+// Each installed lesson owns its steps array (the raw pack stays untouched by the vocabulary attachment below).
+const flatten=levels=>levels.flatMap(level=>level.units.flatMap(unit=>unit.lessons.map(lesson=>({...lesson,...(Array.isArray(lesson.steps)?{steps:lesson.steps.filter(s=>!s?.synthesized)}:{}),level:level.level,unitId:unit.id,unitTitle:unit.title,contentVersion:level.version || 1}))));
+let pending,vocabularyAttached=false;
+export function installGrammarCourse(levels, legacyLevels=[], dictionary=null) {
   grammarCourse.levels=levels;
   grammarCourse.lessons=flatten(levels);
   grammarCourse.legacyLessons=flatten(legacyLevels);
   grammarCourse.allLessons=[...grammarCourse.legacyLessons,...grammarCourse.lessons];
   grammarCourse.byId=new Map(grammarCourse.allLessons.map(lesson=>[lesson.id,lesson]));
   grammarCourse.ready=true;
+  vocabularyAttached=false;
+  if(dictionary)attachLessonVocabulary(dictionary);
+  return grammarCourse;
+}
+// Once per install: the "Le parole di oggi" boards go right after each v2 lesson's opening words step.
+// lesson.steps is spliced in place, so grammarCourse.lessons and byId keep sharing the same lesson objects.
+export function attachLessonVocabulary({vocab=[],verbs=[]}={}) {
+  if(vocabularyAttached || !grammarCourse.ready || !Array.isArray(vocab) || !vocab.length)return grammarCourse;
+  for(const lesson of grammarCourse.lessons){
+    if(lesson.contentVersion!==2 || !Array.isArray(lesson.steps))continue;
+    const at=lesson.steps.findIndex(s=>s?.kind==='words');
+    if(at>=0)lesson.steps.splice(at+1,0,...wordsCheckSteps(lesson,resolveLessonWords(lesson,{vocab,verbs})));
+    lesson.wordEntryIds=lessonWordIds(lesson);
+  }
+  vocabularyAttached=true;
   return grammarCourse;
 }
 export function loadGrammarCourse() {
@@ -26,7 +43,10 @@ export function loadGrammarCourse() {
     Promise.all(LEVELS.map(level=>pack('grammar-course',level))),
   ]).then(([levels,legacy])=>installGrammarCourse(levels,legacy)).catch(error=>{pending=null;throw error;});
 }
-export const grammarLesson=id=>grammarCourse.byId.get(String(id).replace(/^g:/,''));
+export function grammarLesson(id) {
+  if(!vocabularyAttached && grammarCourse.ready && data.vocab.length)attachLessonVocabulary({vocab:data.vocab,verbs:data.verbs});
+  return grammarCourse.byId.get(String(id).replace(/^g:/,''));
+}
 export const grammarEntry=lesson=>({id:`g:${lesson.id}`,kind:'grammar',it:lesson.title,en:lesson.outcome,level:lesson.level});
 export const grammarHref=(lesson,mode='lesson',objective=null)=>`#/learn/grammar/${encodeURIComponent(typeof lesson==='string'?lesson:lesson.id)}${mode==='review'?`?mode=review${objective?'&objective='+encodeURIComponent(objective):''}`:''}`;
 export const courseLevel=store=>COURSE_LEVELS.includes(store.learning.preferences.courseLevel)?store.learning.preferences.courseLevel:grammarCourse.levels.some(l=>l.level==='Foundations')?'Foundations':store.settings.level || 'A1';

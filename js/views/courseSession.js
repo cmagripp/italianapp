@@ -7,6 +7,7 @@ import { lessonPlan } from '../learning/integration.js';
 import { journeyChapterCompletions } from '../learning/journey.js';
 const casesFor=entry=>journeyChapterCompletions(lessonPlan(entry),store.learning);
 import { grammarCourse, loadGrammarCourse, grammarLesson, grammarProgress, grammarHref, courseLevel, nextGrammarLesson, relatedVocabulary } from '../learning/grammar-course.js';
+import { lessonWordIds } from '../learning/course-words.js';
 
 export function sessionItemComplete(item) {
   if(item.kind==='grammar'){const lesson=grammarLesson(item.id);return lesson?grammarProgress(lesson,store.learning).complete:false;}
@@ -27,8 +28,9 @@ export function buildCourseSession(mode='together') {
     for(const x of candidates){const cases=casesFor(x.entry);const c=x.caseId?cases.find(c=>c.id===x.caseId&&c.available&&!c.ready):cases.find(c=>!c.optional&&c.available&&!c.ready);if(c){items.push({kind:'verb',id:x.entry.id,title:x.entry.inf,caseId:c.id,caseTitle:c.label || c.title || c.id,fromGrammar:x.caseId?lesson?.id:null});break;}}
   }
   if(['together','words'].includes(mode)){
+    const drilled=(lesson?lessonWordIds(lesson):[]).map(getEntry).filter(e=>e?.kind==='word'&&!store.isLearned(e.id));
     const related=relatedVocabulary(lesson,store,{kind:'word',unfinished:true}).map(x=>x.entry),scoped=itemsForScope(store.scope,store,{kind:'word'}).filter(e=>!store.isLearned(e.id));
-    const seen=new Set();for(const entry of [...related,...scoped]){if(seen.has(entry.id))continue;seen.add(entry.id);items.push({kind:'word',id:entry.id,title:entry.it});if(seen.size===3)break;}
+    const seen=new Set();for(const entry of [...drilled,...related,...scoped]){if(seen.has(entry.id))continue;seen.add(entry.id);items.push({kind:'word',id:entry.id,title:entry.it});if(seen.size===3)break;}
   }
   return {id:'course:'+Date.now()+':'+Math.random().toString(36).slice(2),entryId:'course:everyday',mode:'course',createdAt:Date.now(),updatedAt:Date.now(),index:0,objectiveIds:[],course:{version:1,level:courseLevel(store),mode,items,skipped:[],finished:false}};
 }

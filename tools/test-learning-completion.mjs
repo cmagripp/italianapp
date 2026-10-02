@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import {data} from '../js/data.js';
 import {createLearning,normalizeLearning,mergeLearning,resetLearning,recordAttempt,skillState,completionRecord,setCompletionRecord,LEARNING_VERSION} from '../js/learning/model.js';
 import {lessonPlan,lessonObjectives,eligibleSkills,reviewItems,reviewableTenses,recommendLesson} from '../js/learning/integration.js';
-import {journeyCaseProgress,journeyChapterCompletions,createJourneySession,chooseJourneyChapter,currentJourneyStep,advanceJourney} from '../js/learning/journey.js';
+import {journeyCaseProgress,journeyChapterCompletions,createJourneySession,chooseJourneyChapter,currentJourneyStep,advanceJourney,journeyWordCompletion} from '../js/learning/journey.js';
 class Storage { values=new Map();getItem(k){return this.values.get(k)??null;}setItem(k,v){this.values.set(k,String(v));}removeItem(k){this.values.delete(k);} }
 globalThis.localStorage=new Storage();globalThis.window=new EventTarget();globalThis.document=new EventTarget();
 Object.defineProperty(globalThis,'navigator',{configurable:true,value:{onLine:false,storage:{persist:async()=>true}}});
@@ -78,6 +78,49 @@ try {
   fresh();store.setCompletion(word,{checked:false});const plan=lessonPlan(word);
   for(const slot of plan.wordLesson.slots)evidence({id:slot.targetId,skill:'meaning'},{entryId:word.id,kind:'word',sessionId:'new-word',wordPolicy:'word-short-v1',wordSlotId:slot.id,mode:'recognition',activityKind:'guided'});
   assert.equal(store.completionState(word).complete,true);assert.ok(eligibleSkills(store,now).length);assert.ok(Object.values(store.learning.events).every(e=>!skillState(store.learning,e.objectiveId).ready));
+ });
+ // A course lesson's vocabulary boards: one row event per word skill, as the course engine emits them.
+ const boardRows=()=>lessonObjectives(word).filter(t=>['meaning','recall','article','plural'].includes(t.skill));
+ const boardRow=(target,sessionId,patch={})=>{const boardId=`v2-casa.words-check.${target.chapterId}.1`;
+  return evidence(target,{entryId:word.id,kind:'word',sessionId,policy:'journey-v1',wordPolicy:'word-lesson-match-v1',wordSlotId:`${boardId}:${target.skill}`,courseLessonId:'v2-casa',
+   chapterId:target.chapterId,mode:'recognition',activityKind:'guided',variantId:boardId,contextId:'v2-casa',assistance:['matching'],xp:0,countStats:false,...patch});};
+ await test('matching every vocabulary board row in one course session completes the word as supported recognition',()=>{
+  fresh();assert.deepEqual(boardRows().map(t=>t.skill),['meaning','recall','article','plural']);
+  for(const t of boardRows().slice(0,3))boardRow(t,'course-v2:1');
+  assert.equal(store.completionState(word).complete,false,'the plural row is still missing');
+  boardRow(boardRows()[3],'course-v2:1');
+  const state=journeyWordCompletion(lessonPlan(word),store.learning);assert.equal(state.complete,true);assert.equal(state.source,'course');assert.equal(state.completedAt,now);
+  assert.equal(store.completionState(word).complete,true);assert.equal(store.completionState(word).source,'course');
+  assert.ok(Object.values(store.learning.events).every(e=>e.mode==='recognition'&&e.activityKind==='guided'&&e.xp===0&&!skillState(store.learning,e.objectiveId).ready));
+  // The learned flag and its single reward come from the credit step, gated on completionState (isLearned follows the flag until then).
+  assert.equal(store.current.stats.xp,0);assert.equal(store.getItem(word.id),null);assert.equal(store.isLearned(word.id),false);
+  store.markLearned(word.id,'word');assert.equal(store.getItem(word.id).learned,true);assert.equal(store.isLearned(word.id),true);assert.equal(store.current.stats.xp,10);assert.equal(store.current.stats.wordsLearned,1);
+  store.markLearned(word.id,'word');assert.equal(store.current.stats.xp,10);assert.ok(eligibleSkills(store,now+DAY).some(s=>s.entryId===word.id));
+  assert.deepEqual(Object.values(store.learning.completions),[],'no manual or legacy record is written for board evidence');
+ });
+ await test('a mismatch on that word in the session leaves it uncredited until a clean session',()=>{
+  fresh();for(const t of boardRows())boardRow(t,'course-v2:2');
+  boardRow(boardRows()[0],'course-v2:2',{ok:false,outcome:'incorrect',errorTags:['matching-mismatch'],firstAttempt:true});
+  assert.equal(journeyWordCompletion(lessonPlan(word),store.learning).complete,false);assert.equal(store.completionState(word).complete,false);assert.equal(store.isLearned(word.id),false);
+  for(const t of boardRows())boardRow(t,'course-v2:3');
+  assert.equal(store.completionState(word).complete,true);assert.equal(journeyWordCompletion(lessonPlan(word),store.learning).source,'course');
+ });
+ await test('board rows split across two sessions, an older epoch or an uncheck do not complete the word',()=>{
+  fresh();for(const t of boardRows().slice(0,2))boardRow(t,'course-v2:4');for(const t of boardRows().slice(2))boardRow(t,'course-v2:5');
+  assert.equal(store.completionState(word).complete,false);
+  fresh();for(const t of boardRows())boardRow(t,'course-v2:6');assert.equal(store.completionState(word).complete,true);
+  store.setCompletion(word,{checked:false});assert.equal(store.completionState(word).complete,false);assert.equal(store.isLearned(word.id),false);
+  now+=10;for(const t of boardRows())boardRow(t,'course-v2:7');assert.equal(store.completionState(word).complete,true,'a fresh drill after the uncheck restores it');assert.equal(store.isLearned(word.id),true);
+  store.current.learning=resetLearning(store.learning,++now,'reset-boards');assert.equal(store.completionState(word).complete,false);assert.equal(store.isLearned(word.id),false);
+ });
+ await test('board credit needs every short-lesson target: an adjective is not learned from meaning and recall alone',()=>{
+  fresh();const adj=data.vocab.find(e=>e.pos==='adj'&&e.forms?.length===4),targets=lessonObjectives(adj);
+  const slotTargets=[...new Set(lessonPlan(adj).wordLesson.slots.map(s=>s.targetId))].map(id=>targets.find(t=>t.id===id));
+  assert.deepEqual(slotTargets.map(t=>t.skill),['meaning','recall','agreement','agreement']);
+  for(const t of slotTargets.slice(0,2))boardRow(t,'course-v2:8',{entryId:adj.id,wordSlotId:`v2-adj.words-check.meaning.1:${t.skill}`,courseLessonId:'v2-adj'});
+  assert.equal(store.completionState(adj).complete,false);
+  for(const t of slotTargets.slice(2))boardRow(t,'course-v2:8',{entryId:adj.id,wordSlotId:`v2-adj.words-check.forms.1:${t.skill}`,courseLessonId:'v2-adj'});
+  assert.equal(store.completionState(adj).complete,true);
  });
  await test('independent device edits merge per case and false tombstones survive stale backups',()=>{
   fresh();store.setCompletion(verb,{caseId:'present',checked:true});const a=copy(store.learning);now+=10;store.setCompletion(verb,{caseId:'present',checked:false});const b=copy(store.learning);
