@@ -66,12 +66,18 @@ if (record.loading || record.busy) trip(record.loading ? 'load' : 'pick');
 
 // A graceful unload (navigation, reload, tab closed) runs pagehide, a memory kill does not: clearing the flags here keeps
 // an impatient reload during the download from counting as a crash. A page restored from the back-forward cache
-// (pageshow with persisted) re-arms them if the work is still in flight.
+// (pageshow with persisted) re-arms them if the work is still in flight. The same for visibility: a page iOS freezes
+// and later evicts while the app is in the background never crashed in front of the learner, so the flags are cleared
+// while hidden and re-armed when the page is visible again. The in-memory record keeps the true flags throughout.
 function listen() {
   if (listening || typeof globalThis.addEventListener !== 'function') return;
   listening = true;
-  globalThis.addEventListener('pagehide', () => { if (record.loading || record.busy) save({ ...record, loading: false, busy: false }); });
-  globalThis.addEventListener('pageshow', event => { if (event?.persisted && (record.loading || record.busy)) save(); });
+  const working = () => record.loading || record.busy;
+  const disarm = () => { if (working()) save({ ...record, loading: false, busy: false }); };
+  const rearm = () => { if (working()) save(); };
+  globalThis.addEventListener('pagehide', disarm);
+  globalThis.addEventListener('pageshow', event => { if (event?.persisted) rearm(); });
+  globalThis.document?.addEventListener?.('visibilitychange', () => (globalThis.document.visibilityState === 'hidden' ? disarm : rearm)());
 }
 
 // WebGPU presence and a memory hint, synchronously and without touching the network. The adapter itself is requested
@@ -138,7 +144,7 @@ async function load(onProgress, options) {
   const report = r => { try { onProgress?.({ text: String(r?.text ?? ''), progress: Math.min(1, Math.max(0, Number(r?.progress) || 0)) }); } catch { /* a view's callback cannot break the load */ } };
   let created;
   try {
-    const runtime = await (options.importRuntime || importRuntime)();
+    const runtime = await (options?.importRuntime || importRuntime)();
     created = await runtime.CreateMLCEngine(ASSISTANT_MODEL, { initProgressCallback: report, logLevel: 'ERROR' }, { context_window_size: CONTEXT_WINDOW });
   } catch (error) {
     // A thrown load error (offline, unsupported shaders, a device lost that the runtime caught) is a failure, not a crash:

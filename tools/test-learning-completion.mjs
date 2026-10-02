@@ -113,14 +113,23 @@ try {
   now+=10;for(const t of boardRows())boardRow(t,'course-v2:7');assert.equal(store.completionState(word).complete,true,'a fresh drill after the uncheck restores it');assert.equal(store.isLearned(word.id),true);
   store.current.learning=resetLearning(store.learning,++now,'reset-boards');assert.equal(store.completionState(word).complete,false);assert.equal(store.isLearned(word.id),false);
  });
- await test('board credit needs every short-lesson target: an adjective is not learned from meaning and recall alone',()=>{
+ await test('board credit covers the four board skills: a noun needs its article and plural rows, a singular-use noun its article row, an adjective only meaning and recall',()=>{
   fresh();const adj=data.vocab.find(e=>e.pos==='adj'&&e.forms?.length===4),targets=lessonObjectives(adj);
   const slotTargets=[...new Set(lessonPlan(adj).wordLesson.slots.map(s=>s.targetId))].map(id=>targets.find(t=>t.id===id));
   assert.deepEqual(slotTargets.map(t=>t.skill),['meaning','recall','agreement','agreement']);
+  // The boards never ask agreement, so an adjective's agreement stays with its own lesson.
   for(const t of slotTargets.slice(0,2))boardRow(t,'course-v2:8',{entryId:adj.id,wordSlotId:`v2-adj.words-check.meaning.1:${t.skill}`,courseLessonId:'v2-adj'});
-  assert.equal(store.completionState(adj).complete,false);
-  for(const t of slotTargets.slice(2))boardRow(t,'course-v2:8',{entryId:adj.id,wordSlotId:`v2-adj.words-check.forms.1:${t.skill}`,courseLessonId:'v2-adj'});
   assert.equal(store.completionState(adj).complete,true);
+  // A noun's slots name meaning, recall, article and plural: all four rows are required (the plural row is the board slot's second target).
+  assert.deepEqual([...new Set(lessonPlan(word).wordLesson.slots.map(s=>lessonObjectives(word).find(t=>t.id===s.targetId).skill))],['meaning','recall','article','plural']);
+  // A singular-use noun has a number screen instead of a plural; the boards cannot ask it, so article is its last required row.
+  const calcio=data.vocab.find(e=>e.it==='calcio'&&e.pos==='noun'),calcioTargets=lessonObjectives(calcio);
+  const calcioSlots=[...new Set(lessonPlan(calcio).wordLesson.slots.map(s=>s.targetId))].map(id=>calcioTargets.find(t=>t.id===id));
+  assert.deepEqual(calcioSlots.map(t=>t.skill),['meaning','recall','article','number']);
+  for(const t of calcioSlots.slice(0,2))boardRow(t,'course-v2:9',{entryId:calcio.id,wordSlotId:`v2-calcio.words-check.meaning.1:${t.skill}`,courseLessonId:'v2-calcio'});
+  assert.equal(store.completionState(calcio).complete,false,'the article row is still missing');
+  boardRow(calcioSlots[2],'course-v2:9',{entryId:calcio.id,wordSlotId:'v2-calcio.words-check.forms.1:article',courseLessonId:'v2-calcio'});
+  assert.equal(store.completionState(calcio).complete,true);
  });
  await test('independent device edits merge per case and false tombstones survive stale backups',()=>{
   fresh();store.setCompletion(verb,{caseId:'present',checked:true});const a=copy(store.learning);now+=10;store.setCompletion(verb,{caseId:'present',checked:false});const b=copy(store.learning);

@@ -7,6 +7,9 @@
 const VERSION = 'parola-v15-9e7e3ea77155';
 // Downloaded lesson audio: kept across updates. Must equal AUDIO_CACHE in js/learning/course-v2-media.js (check-shell checks).
 const AUDIO_CACHE = 'parola-course-audio-v2';
+// Downloaded fit scorer (sentence workshop layer 2: the model, the ONNX runtime and its worker, js/learning/fit-scorer.js):
+// kept across updates too. Must equal FIT_CACHE in js/learning/fit-scorer.js and js/workers/fit-scorer.worker.js (check-shell checks).
+const FIT_CACHE = 'parola-fit-scorer-v1';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
@@ -32,7 +35,7 @@ const SHELL = [
 // back as a 304 instead of a full re-download ('reload' would fetch the 3.4 MB dictionary a second time on first install)
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'no-cache' })))).then(() => self.skipWaiting())); });
 // Pruning the audio cache runs after claim and outside waitUntil, so it never holds fetches behind activation.
-self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== AUDIO_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()).then(() => { pruneAudio(); })); });
+self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== AUDIO_CACHE && k !== FIT_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()).then(() => { pruneAudio(); })); });
 // A versioned shell is one compatible release. Updates replace it only after
 // install has fetched every module and course pack successfully.
 const shellURLs=new Set(SHELL.map(path=>new URL(path,self.location.href).href));
@@ -64,10 +67,24 @@ async function audioResponse(req) {
   const headers=new Headers(hit.headers);headers.set('Content-Range',`bytes ${start}-${end}/${bytes.byteLength}`);headers.set('Content-Length',String(end-start+1));headers.set('Accept-Ranges','bytes');
   return new Response(bytes.slice(start,end+1),{status:206,headers});
 }
+// Fit scorer files, downloaded on demand by js/learning/fit-scorer.js into FIT_CACHE (never precached). The model and the
+// runtime are immutable per cache version and come from that cache, from the network only when it does not have them.
+// The worker script is app code: it is refreshed from the network (and the cached copy replaced) whenever the network
+// answers and served from the cache only when it does not, so online an update never runs an old worker against new page code.
+const FIT_PREFIXES=['./models/','./vendor/ort/','./js/workers/'].map(p=>new URL(p,self.location.href).href);
+async function fitResponse(req) {
+  const cache=await caches.open(FIT_CACHE);
+  if(req.url.includes('/js/workers/')){
+    try{const response=await fetch(req,{cache:'no-cache'});if(response.ok)await cache.put(req.url,response.clone());return response;}
+    catch{return (await cache.match(req.url))||Response.error();}
+  }
+  return (await cache.match(req.url))||fetch(req);
+}
 self.addEventListener('fetch',e=>{
   const req=e.request;
   if(req.method!=='GET'||!req.url.startsWith(self.location.origin))return;
   if(req.url.includes('/audio/course-v2/')){e.respondWith(audioResponse(req));return;}
+  if(FIT_PREFIXES.some(p=>req.url.startsWith(p))){e.respondWith(fitResponse(req));return;}
   const url=new URL(req.url);url.search='';url.hash='';
   if(shellURLs.has(url.href)){
     e.respondWith(caches.open(VERSION).then(async cache=>{

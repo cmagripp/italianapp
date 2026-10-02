@@ -92,7 +92,7 @@ export function compatibleLabSession(lesson, session) {
   const activities = Array.isArray(lesson.activities) ? lesson.activities : [];
   if (!Number.isInteger(session.index) || session.index < 0 || !['activity', 'complete'].includes(session.phase)) return false;
   if (!Array.isArray(session.done) || !Array.isArray(session.sentences) || !Array.isArray(session.history)) return false;
-  if (session.phase === 'complete') return session.index >= activities.length || session.index === activities.length;
+  if (session.phase === 'complete') return session.index >= activities.length;
   const activity = activities[session.index];
   return !!activity && !!session.state && session.state.kind === activity.kind
     && (activity.kind !== 'dialogue' || (Number.isInteger(session.state.turnIndex) && session.state.turnIndex >= 0 && session.state.turnIndex <= activity.turns.length));

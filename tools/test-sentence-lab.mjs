@@ -116,7 +116,7 @@ function composableExample(activity, tense, example) {
   return false;
 }
 
-function validateActivity(a, lesson, stageSeen, ok) {
+function validateActivity(a, lesson, ok) {
   const where = a.id || `${lesson.id}.?`;
   if (a.kind === 'model') {
     ok(isStr(a.body), `${where}: body missing`);
@@ -214,7 +214,6 @@ function validateActivity(a, lesson, stageSeen, ok) {
     }
     const examples = Array.isArray(a.examples) ? a.examples : [];
     ok(Array.isArray(a.examples) && examples.length >= 1 && examples.every(isStr), `${where}: examples must be 1+ sentences`);
-    if (!stageSeen.errorsBefore(ok)) return;
     for (const ex of examples.filter(isStr)) {
       const result = composableExample(a, tense, ex);
       ok(result !== false, `${where}: example "${ex}" cannot be composed from the role items in ${key}`);
@@ -260,7 +259,6 @@ function validatePack(pack, stage, errs, ids = new Set()) {
     ok(activities[0]?.kind === 'model', `${id}: the first activity must be a model`);
     ok(activities[activities.length - 1]?.kind === 'build', `${id}: the last activity must be a build`);
     for (const kind of ['order', 'cloze', 'dialogue']) ok(activities.some(a => a?.kind === kind), `${id}: no ${kind} activity`);
-    const stageSeen = { errorsBefore: () => true };
     activities.forEach((a, i) => {
       if (!ok(a && typeof a === 'object', `${id}: activity ${i + 1} must be an object`)) return;
       const aid = String(a.id);
@@ -269,7 +267,7 @@ function validatePack(pack, stage, errs, ids = new Set()) {
       ok(LAB_KINDS.includes(a.kind), `${aid}: kind ${JSON.stringify(a.kind)} is not one of ${LAB_KINDS.join('|')}`);
       ok(isStr(a.prompt), `${aid}: prompt missing`);
       if (a.hint != null) ok(typeof a.hint === 'string', `${aid}: hint must be a string`);
-      if (LAB_KINDS.includes(a.kind)) validateActivity(a, lesson, stageSeen, ok);
+      if (LAB_KINDS.includes(a.kind)) validateActivity(a, lesson, ok);
     });
   }
 }

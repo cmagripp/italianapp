@@ -123,6 +123,21 @@ test('overlapping compound alternatives cannot consume the only form a remaining
   for (const pair of q.pairs) for (const tile of q.rightTiles) if (gradePairActivity(q, { targetId: pair.targetId, given: tile.text }).ok) assert.equal(finish(q.pairs.filter(p => p !== pair), q.rightTiles.filter(t => t !== tile)), true);
 });
 
+test('word article boards hold up to four rows, keep decoy rows flagged and take their own prompt', () => {
+  const base = { id: 'base', type: 'mc', answer: ['la'], meta: { shortWord: true } };
+  const row = (targetId, label, answer, decoy = false) => ({ targetId, label, decoy, question: { answer: [answer], meta: { skill: decoy ? 'article' : label === 'le' ? 'plural' : 'article' } } });
+  const rows = [row('article', 'la', 'casa'), row('plural', 'le', 'case'), row('article::decoy::0', 'il', 'libro', true), row('article::decoy::1', 'i', 'gatti', true)];
+  const board = createPairActivity(base, rows, { seed: 3, prompt: '<div class="big md">Match each article to its noun</div>' });
+  assert.equal(board.type, 'pairs'); assert.equal(board.pairs.length, 4); assert.equal(board.rightTiles.length, 4);
+  assert.deepEqual(board.pairs.map(p => [p.id, p.label, p.canonical, !!p.decoy]), [['article', 'la', 'casa', false], ['plural', 'le', 'case', false], ['article::decoy::0', 'il', 'libro', true], ['article::decoy::1', 'i', 'gatti', true]]);
+  assert.ok(!('decoy' in board.pairs[0])); assert.equal(board.prompt, '<div class="big md">Match each article to its noun</div>');
+  assert.equal(createPairActivity(base, rows).prompt, '<div class="big md">Match the pairs</div>');
+  assert.equal(createPairActivity(base, [...rows, row('article::decoy::2', 'gli', 'alberi', true)]), base, 'five rows fall back to the choice');
+  const invariable = createPairActivity(base, [row('article', 'il', 'caffè'), row('plural', 'i', 'caffè'), row('article::decoy::0', 'la', 'casa', true)]);
+  assert.equal(invariable.type, 'pairs'); assert.deepEqual(invariable.rightTiles.map(t => t.text).sort(), ['caffè', 'caffè', 'casa']);
+  assert.equal(gradePairActivity(invariable, { targetId: 'plural', given: 'caffè' }).ok, true);
+});
+
 test('an unsafe overlap pattern falls back instead of producing an unsolvable board', () => {
   const base = { id: 'base', type: 'type', answer: ['a'], meta: {} };
   const pairs = [['a', 'b'], ['b', 'c'], ['a', 'c']].map((answer, i) => ({ targetId: `target-${i}`, label: String(i), question: { answer, meta: {} } }));

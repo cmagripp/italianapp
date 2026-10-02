@@ -339,9 +339,10 @@ await test('disableAssistant during a load abandons it: the engine is unloaded a
   assert.deepEqual({ enabled: stored().enabled, loading: stored().loading }, { enabled: false, loading: false });
 });
 
-await test('a graceful pagehide clears the loading flag, a back-forward restore re-arms it, so a reload is not a crash', async () => {
+await test('a graceful pagehide or a hidden page clears the loading flag, a restore re-arms it, so a reload is not a crash', async () => {
   const target = new EventTarget();
   globalThis.addEventListener = target.addEventListener.bind(target);
+  globalThis.document = Object.assign(new EventTarget(), { visibilityState: 'visible' });
   try {
     let release;
     const runtime = fakeRuntime({ onCreate: () => new Promise(resolve => { release = resolve; }) });
@@ -356,13 +357,29 @@ await test('a graceful pagehide clears the loading flag, a back-forward restore 
     assert.equal(stored().loading, true);
     target.dispatchEvent(Object.assign(new Event('pageshow'), { persisted: false }));
     assert.equal(stored().loading, true, 'a fresh pageshow changes nothing');
+    globalThis.document.visibilityState = 'hidden'; globalThis.document.dispatchEvent(new Event('visibilitychange'));
+    assert.equal(stored().loading, false, 'a page frozen in the background and evicted never crashed in front of the learner');
+    globalThis.document.visibilityState = 'visible'; globalThis.document.dispatchEvent(new Event('visibilitychange'));
+    assert.equal(stored().loading, true);
     release();
     assert.equal((await loading).loaded, true);
     assert.equal(stored().loading, false);
     target.dispatchEvent(new Event('pagehide'));
+    globalThis.document.visibilityState = 'hidden'; globalThis.document.dispatchEvent(new Event('visibilitychange'));
     assert.equal(stored().loading, false);
     assert.equal((await fresh(stored())).assistantState().breaker.trips, 0);
-  } finally { delete globalThis.addEventListener; }
+    // the busy flag follows the same rule while an answer is being generated
+    runtime.engine.chat.completions.create = () => new Promise(() => {});
+    const pending = api.assistantPick({ question: 'Pick.', candidates, maxMs: 40 });
+    await tick();
+    assert.equal(stored().busy, true);
+    globalThis.document.dispatchEvent(new Event('visibilitychange'));
+    assert.equal(stored().busy, false);
+    globalThis.document.visibilityState = 'visible'; globalThis.document.dispatchEvent(new Event('visibilitychange'));
+    assert.equal(stored().busy, true);
+    assert.equal(await pending, null);
+    assert.equal(stored().busy, false);
+  } finally { delete globalThis.addEventListener; delete globalThis.document; }
 });
 
 await test('blocked storage: the module still works in memory and nothing throws', async () => {
