@@ -171,6 +171,11 @@ function gradeBlank(blank, value, ctx) {
   if (blank?.free === true && blank.slot && text) {
     const resolution = resolveFreeEntry(unwrap(text, wrap), blank.slot, ctx);
     if (resolution.status === 'ok' || resolution.status === 'learn') {
+      // A typed alternative form ("debbo" for a blank that accepts "devo") resolves to the primary form: when that is an
+      // accepted value the blank is right, not merely accepted.
+      const resolvedKey = normalizeLab(resolution.display), formKey = normalizeLab(resolution.form);
+      const same = accept.find(a => { const n = normalizeLab(a); return n === resolvedKey || n === formKey; });
+      if (same !== undefined) return { outcome: 'correct', given: text, filled: same, entryId: resolution.entryId, form: resolution.form, explanation: '' };
       return { outcome: 'accepted', given: text, filled: resolution.display, entryId: resolution.entryId, form: resolution.form, en: resolution.en, status: resolution.status, explanation: '' };
     }
     return { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: freeEntryExplanation(resolution, blank), resolution };
@@ -250,8 +255,9 @@ function answerDialogue(activity, state, value, ctx) {
   return recordAttempt(state, turnResult);
 }
 
+// The build conjugates in the activity's own tense (a "misto" lesson still carries a tense on its build), never the lesson's.
 function answerBuild(lesson, activity, state, value, ctx, session, now) {
-  const composed = composeBuild({ ...activity, tense: activity.tense || lesson?.tense }, value, ctx);
+  const composed = composeBuild(activity, value, ctx);
   if (!composed.ok) return recordAttempt(state, { ok: false, outcome: 'incorrect', answer: null, explanation: composed.reason, sentence: null, en: null, misses: state.misses, revealed: false });
   session.sentences = [...session.sentences, { it: composed.it, en: composed.en, lessonId: lesson?.id ?? null, at: now }];
   return finish(state, { ok: true, outcome: 'accepted', answer: composed.it, explanation: '', sentence: composed.it, en: composed.en, parts: composed.parts, misses: state.misses, revealed: false });

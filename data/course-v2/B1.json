@@ -8766,8 +8766,8 @@
                   "en": "suitcase"
                 },
                 {
-                  "it": "invitare",
-                  "en": "to invite"
+                  "it": "vedere",
+                  "en": "to see"
                 }
               ]
             },
@@ -8841,8 +8841,8 @@
               "id": "v2-b1-object-agreement.passage",
               "kind": "passage",
               "title": "Before the dinner",
-              "it": "Ciao Sara, sono Paolo. La torta per stasera l’ho già fatta: è in frigo. I biglietti per il concerto? Li ho presi ieri, sono nel portafoglio. Ho pensato anche ad Anna: l’ho invitata stamattina e ha detto di sì. Ho comprato il pane e il vino. Ci vediamo alle otto!",
-              "en": "Hi Sara, it’s Paolo. The cake for tonight, I’ve already made it: it’s in the fridge. The tickets for the concert? I got them yesterday; they’re in my wallet. I thought of Anna too: I invited her this morning and she said yes. I bought the bread and the wine. See you at eight!",
+              "it": "Ciao Sara, sono Paolo. La torta per stasera l’ho già fatta: è in frigo. I biglietti per il concerto? Li ho presi ieri, sono nel portafoglio. Anna viene con noi: l’ho vista stamattina al bar e mi ha detto di sì. Ho comprato il pane e il vino. Ci vediamo alle otto!",
+              "en": "Hi Sara, it’s Paolo. The cake for tonight, I’ve already made it: it’s in the fridge. The tickets for the concert? I got them yesterday; they’re in my wallet. Anna is coming with us: I saw her this morning at the café and she said yes. I bought the bread and the wine. See you at eight!",
               "mode": "listen",
               "audioId": "v2-b1-object-agreement.passage",
               "task": "Listen for the participle endings: which change after lo, la, li or le, and which stay in -o because the noun follows the verb?"
