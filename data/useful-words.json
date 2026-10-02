@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "groups": [
+    {
+      "id": "questions",
+      "title": "Question words",
+      "it": "Le domande",
+      "entries": [
+        { "entryId": "w:chi|pron", "note": "Chi è? Who is it? Invariable: chi for one person or many." },
+        { "entryId": "w:che_cosa|pron", "note": "Che cosa fai? The full form of 'what'; cosa and che are the shorter everyday forms." },
+        { "entryId": "w:cosa|pron", "note": "Cosa vuoi? The most common spoken 'what'." },
+        { "entryId": "w:che|pron", "note": "Che ore sono? What time is it? Also 'that / which' linking clauses: il libro che leggo." },
+        { "entryId": "w:dove|adv", "note": "Dove abiti? Where do you live? Dov'è before è: Dov'è la stazione?" },
+        { "entryId": "w:quando|conj", "note": "Quando parti? When are you leaving? Also joins clauses: quando arrivo, ti chiamo." },
+        { "entryId": "w:perché|conj", "note": "Perché? Why? The answer starts the same way: perché = because." },
+        { "entryId": "w:come|adv", "note": "Come stai? How are you? Com'è before è: Com'è il tempo?" },
+        { "entryId": "w:quanto|adv", "note": "Quanto costa? How much? Before a noun it agrees: quanti anni, quante persone." },
+        { "entryId": "w:quale|pron", "note": "Quale preferisci? Which one? Plural quali; qual è (no apostrophe) before è." }
+      ]
+    },
+    {
+      "id": "connectors",
+      "title": "Connectors",
+      "it": "I connettivi",
+      "entries": [
+        { "entryId": "w:e|conj", "note": "pane e burro. Becomes 'ed' before a vowel in careful speech: tu ed io." },
+        { "entryId": "w:o|conj", "note": "tè o caffè? Or. 'Oppure' is the emphatic twin." },
+        { "entryId": "w:ma|conj", "note": "Vorrei, ma non posso. The everyday 'but'." },
+        { "entryId": "w:però|conj", "note": "but, however; it can also close the sentence: È caro, però." },
+        { "entryId": "w:invece|adv", "note": "instead, on the other hand: Io resto, lui invece parte. 'Invece di' + noun or infinitive = instead of." },
+        { "entryId": "w:anche|adv", "note": "also, too; it sits before the word it stresses: anche io, anche oggi." },
+        { "entryId": "w:se|conj", "note": "if: Se piove, resto a casa. No accent (sé = himself)." },
+        { "entryId": "w:mentre|conj", "note": "while: Mentre mangio, guardo la TV. Also 'whereas'." },
+        { "entryId": "w:poi|adv", "note": "then, afterwards: Prima mangio, poi esco." },
+        { "entryId": "w:prima|adv", "note": "before, first, earlier: Prima di uscire, chiudi la porta ('prima di' + infinitive)." },
+        { "entryId": "w:dopo|adv", "note": "after, later: Ci vediamo dopo. 'Dopo di' only before a pronoun: dopo di te." },
+        { "entryId": "w:allora|adv", "note": "so, then, well: Allora, cosa facciamo? Also 'at that time'." },
+        { "entryId": "w:quindi|conj", "note": "so, therefore: Piove, quindi resto a casa. The neutral consequence word." },
+        { "entryId": "w:dunque|conj", "note": "so, therefore, well then; a little more formal or reflective than quindi." },
+        { "entryId": "w:perciò|conj", "note": "therefore, that's why: Era tardi, perciò sono andato a letto." },
+        { "entryId": "w:poiché|conj", "note": "since, because (written and formal); it opens the sentence: Poiché piove, restiamo." },
+        { "entryId": "w:siccome|conj", "note": "since, as: Siccome piove, resto a casa. Always at the start, never as an answer to perché." },
+        { "entryId": "w:infatti|conj", "note": "in fact, indeed; it confirms what was just said: È stanco, infatti è andato a letto presto." }
+      ]
+    },
+    {
+      "id": "indefinites",
+      "title": "Indefinites",
+      "it": "Gli indefiniti",
+      "entries": [
+        { "entryId": "w:qualcosa|pron", "note": "something, anything: Vuoi qualcosa? 'Qualcosa di' + adjective: qualcosa di buono." },
+        { "entryId": "w:qualcuno|pron", "note": "someone, anyone: C'è qualcuno? Also 'some people'." },
+        { "entryId": "w:qualche|det", "note": "some, a few; always with a singular noun: qualche amico = a few friends." },
+        { "entryId": "w:da_qualche_parte|expr", "note": "somewhere: L'ho messo da qualche parte." },
+        { "entryId": "w:ogni|det", "note": "every, each; invariable, singular noun: ogni giorno, ogni settimana." },
+        { "entryId": "w:tutto|det", "note": "all, everything, whole: tutto il giorno, ho capito tutto." },
+        { "entryId": "w:tutti|pron", "note": "everyone, all: Tutti lo sanno. Before a noun: tutti i giorni, tutte le sere." },
+        { "entryId": "w:niente|pron", "note": "nothing: Non ho capito niente (non + verb + niente). On its own: Niente!" },
+        { "entryId": "w:nulla|pron", "note": "nothing; the same as niente, a touch more formal: Non c'è nulla da fare." },
+        { "entryId": "w:nessuno|pron", "note": "nobody, none: Non c'è nessuno. Before a noun it agrees: nessun problema, nessuna idea." },
+        { "entryId": "w:ognuno|pron", "note": "everyone, each one: Ognuno ha i suoi gusti (singular verb)." },
+        { "entryId": "w:ovunque|adv", "note": "everywhere, wherever: Ti seguo ovunque." },
+        { "entryId": "w:dappertutto|adv", "note": "everywhere, all over: Ho cercato dappertutto." }
+      ]
+    },
+    {
+      "id": "pronouns",
+      "title": "Pronouns",
+      "it": "I pronomi",
+      "entries": [
+        { "entryId": "w:mi|pron", "note": "me, to me, myself: Mi vedi? Mi piace. Mi alzo." },
+        { "entryId": "w:ti|pron", "note": "you, to you, yourself: Ti chiamo. Ti piace? Ti svegli?" },
+        { "entryId": "w:lo|pron", "note": "him, it (masculine object): Lo conosco. Also a whole idea: non lo so." },
+        { "entryId": "w:la|pron", "note": "her, it (feminine object): La vedo domani. Formal 'you': La ringrazio." },
+        { "entryId": "w:li|pron", "note": "them (masculine object): Li compro. The elided l' is only for singular lo and la." },
+        { "entryId": "w:le|pron", "note": "them (feminine object): Le aspetto. Also 'to her': Le scrivo." },
+        { "entryId": "w:gli|pron", "note": "to him (and, in speech, to them): Gli parlo domani." },
+        { "entryId": "w:ci|pron", "note": "us, to us, ourselves: Ci vede. Also 'there': Ci vado domani; c'è = there is." },
+        { "entryId": "w:vi|pron", "note": "you (plural), to you, yourselves: Vi aspetto alle otto." },
+        { "entryId": "w:ne|pron", "note": "of it, of them, some: Ne voglio due. Quanti ne hai?" },
+        { "entryId": "w:si|pron", "note": "himself, herself, themselves, each other: Si alza presto. Si amano. Impersonal: qui si parla italiano." }
+      ]
+    },
+    {
+      "id": "time-place",
+      "title": "Time and place",
+      "it": "Tempo e luogo",
+      "entries": [
+        { "entryId": "w:oggi|adv", "note": "today: Oggi è lunedì." },
+        { "entryId": "w:ieri|adv", "note": "yesterday: Ieri ho lavorato. L'altro ieri = the day before yesterday." },
+        { "entryId": "w:domani|adv", "note": "tomorrow: A domani! Dopodomani = the day after tomorrow." },
+        { "entryId": "w:adesso|adv", "note": "now, right now: Adesso capisco." },
+        { "entryId": "w:ora|adv", "note": "now, like adesso: Ora devo andare. Per ora = for now." },
+        { "entryId": "w:sempre|adv", "note": "always, still: Mangio sempre a casa. Sei sempre qui?" },
+        { "entryId": "w:mai|adv", "note": "never (with non), ever: Non bevo mai caffè. Sei mai stato a Roma?" },
+        { "entryId": "w:spesso|adv", "note": "often: Vado spesso al cinema." },
+        { "entryId": "w:già|adv", "note": "already: Ho già mangiato. It sits between the auxiliary and the participle." },
+        { "entryId": "w:ancora|adv", "note": "still, yet, again, more: È ancora qui. Non ancora. Ancora un po'." },
+        { "entryId": "w:subito|adv", "note": "right away, immediately: Arrivo subito." },
+        { "entryId": "w:qui|adv", "note": "here: Vieni qui. Qua is the same word in everyday speech." },
+        { "entryId": "w:lì|adv", "note": "there: Mettilo lì." },
+        { "entryId": "w:là|adv", "note": "there, over there: È là in fondo. Di là = in the other room." },
+        { "entryId": "w:sopra|prep", "note": "on, above, over: sopra il tavolo. As an adverb: di sopra = upstairs." },
+        { "entryId": "w:sotto|prep", "note": "under, below: sotto il letto. Di sotto = downstairs." },
+        { "entryId": "w:vicino|adj", "note": "near, nearby: La stazione è vicina. Vicino a = next to: vicino a casa." },
+        { "entryId": "w:lontano|adj", "note": "far, far away: È lontano da qui. Lontano da = far from." }
+      ]
+    },
+    {
+      "id": "quantity",
+      "title": "Quantity",
+      "it": "La quantità",
+      "entries": [
+        { "entryId": "w:molto|adv", "note": "very, a lot, much: molto bello, mangio molto. Before a noun it agrees: molti amici." },
+        { "entryId": "w:poco|adv", "note": "little, not much: Dormo poco. Before a noun: pochi soldi, poca acqua." },
+        { "entryId": "w:tanto|adv", "note": "so much, a lot: Ti voglio tanto bene. Tanto... quanto = as much as." },
+        { "entryId": "w:troppo|adv", "note": "too, too much: troppo caro, mangio troppo." },
+        { "entryId": "w:abbastanza|adv", "note": "enough, quite, fairly: abbastanza bene, non abbastanza tempo." },
+        { "entryId": "w:un_po'|adv", "note": "a bit, a little: un po' di pane, aspetta un po'." },
+        { "entryId": "w:più|adv", "note": "more, most: più grande, il più bello. Non... più = not any more." },
+        { "entryId": "w:meno|adv", "note": "less, fewer, minus: meno caro, meno di dieci." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,945 @@
+{
+  "version": 1,
+  "stage": "futuro",
+  "order": 3,
+  "title": "Futuro",
+  "subtitle": "Say what will happen and what you plan to do",
+  "lessons": [
+    {
+      "id": "sl-futuro-01-domani",
+      "title": "Domani",
+      "outcome": "Say what you will do tomorrow, next week and next year with the futuro semplice.",
+      "minutes": 7,
+      "tense": "futuro",
+      "grammarRefs": ["v2-a2-future-are", "v2-a2-future-ere-ire", "v2-a2-future-irregular"],
+      "vocab": [
+        { "it": "domani", "en": "tomorrow", "pos": "adv" },
+        { "it": "prossimo", "en": "next", "pos": "adj" },
+        { "it": "settimana", "en": "week", "pos": "noun" },
+        { "it": "mare", "en": "sea; seaside", "pos": "noun" },
+        { "it": "festa", "en": "party", "pos": "noun" },
+        { "it": "presto", "en": "early; soon", "pos": "adv" }
+      ],
+      "activities": [
+        {
+          "id": "sl-futuro-01-domani.1",
+          "kind": "model",
+          "prompt": "Who + will do + what + when",
+          "body": "To talk about tomorrow, next week or next year, Italian changes the verb ending instead of adding a word like will: mangio becomes mangerò, vado becomes andrò.",
+          "pattern": [
+            { "role": "subject", "label": "who" },
+            { "role": "verb", "label": "will do" },
+            { "role": "object", "label": "what" },
+            { "role": "extra", "label": "when" }
+          ],
+          "examples": [
+            { "it": "Domani mangerò una pizza.", "en": "Tomorrow I will eat a pizza.", "roles": [["Domani", "extra"], ["mangerò", "verb"], ["una pizza.", "object"]] },
+            { "it": "La settimana prossima andrai a Roma.", "en": "Next week you will go to Rome.", "roles": [["La settimana prossima", "extra"], ["andrai", "verb"], ["a Roma.", "object"]] },
+            { "it": "L'anno prossimo saremo in Italia.", "en": "Next year we will be in Italy.", "roles": [["L'anno prossimo", "extra"], ["saremo", "verb"], ["in Italia.", "object"]] },
+            { "it": "Marco farà una festa sabato.", "en": "Marco will have a party on Saturday.", "roles": [["Marco", "subject"], ["farà", "verb"], ["una festa", "object"], ["sabato.", "extra"]] }
+          ],
+          "tip": "Regular -are and -ere verbs take -erò, -erai, -erà, -eremo, -erete, -eranno (mangerò, prenderò); -ire verbs take -irò (dormirò). Four short stems to learn by heart: sarò (essere), avrò (avere), andrò (andare), farò (fare)."
+        },
+        {
+          "id": "sl-futuro-01-domani.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Tomorrow I will eat a pizza.",
+          "answer": "Domani mangerò una pizza.",
+          "accepted": [],
+          "tokens": ["Domani", "mangerò", "una", "pizza."],
+          "distractors": ["mangio"],
+          "explanation": "Domani points to the future, so mangiare takes the future ending: mangerò, not mangio.",
+          "hint": "Start with when."
+        },
+        {
+          "id": "sl-futuro-01-domani.3",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "La settimana prossima ____ a Roma.",
+          "en": "Next week you will go to Rome.",
+          "blanks": [
+            {
+              "accept": ["andrai"],
+              "options": ["andrai", "andrò", "andremo"],
+              "bank": ["vai", "andrete"],
+              "free": false,
+              "slot": null,
+              "explanation": "tu takes andrai: the future of andare is andr- plus -ai."
+            }
+          ],
+          "hint": "The subject is tu (you)."
+        },
+        {
+          "id": "sl-futuro-01-domani.4",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Next year we will be in Italy.",
+          "answer": "L'anno prossimo saremo in Italia.",
+          "accepted": [],
+          "tokens": ["L'anno", "prossimo", "saremo", "in", "Italia."],
+          "distractors": ["siamo", "sarete"],
+          "explanation": "noi takes saremo, the future of essere. Siamo is the present.",
+          "hint": "When comes first here."
+        },
+        {
+          "id": "sl-futuro-01-domani.5",
+          "kind": "cloze",
+          "prompt": "Say what you will do",
+          "template": "Domani sera ____ un film con Anna.",
+          "en": "Tomorrow evening I will watch a film with Anna.",
+          "blanks": [
+            {
+              "accept": ["guarderò", "vedrò"],
+              "options": ["guarderò", "vedrò", "guardo", "guarderai"],
+              "bank": ["vedo", "guarderemo"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
+              "explanation": "io takes -ò in the future: guarderò (guardare) or vedrò (vedere)."
+            }
+          ],
+          "hint": "Pick a form, or type any verb in the future for io."
+        },
+        {
+          "id": "sl-futuro-01-domani.6",
+          "kind": "dialogue",
+          "prompt": "Plans for tomorrow",
+          "partner": "Sara",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Che cosa farai domani?", "en": "Hi! What will you do tomorrow?" },
+            {
+              "speaker": "you",
+              "template": "Domani ____ al mare.",
+              "en": "Tomorrow I will go to the sea.",
+              "blanks": [
+                {
+                  "accept": ["andrò"],
+                  "options": ["andrò", "andrai", "andranno"],
+                  "bank": ["andremo"],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "io takes andrò."
+                }
+              ],
+              "reactions": [
+                { "when": ["andrò"], "it": "Che bello! Con chi andrai?", "en": "How nice! Who will you go with?" },
+                { "when": "*", "it": "Capito.", "en": "Got it." }
+              ]
+            },
+            { "speaker": "partner", "it": "E la settimana prossima che cosa farai?", "en": "And what will you do next week?" },
+            {
+              "speaker": "you",
+              "template": "La settimana prossima ____ molto.",
+              "en": "Next week I will ____ a lot.",
+              "blanks": [
+                {
+                  "accept": ["lavorerò", "studierò"],
+                  "options": ["lavorerò", "studierò", "lavorerai"],
+                  "bank": ["lavorerà", "studieremo"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
+                  "explanation": "The future for io ends in -ò: lavorerò, studierò."
+                }
+              ],
+              "reactions": [
+                { "when": ["lavorerò"], "it": "Che peccato! Lavorerai anche sabato?", "en": "What a pity! Will you work on Saturday too?" },
+                { "when": ["studierò"], "it": "Hai un esame? In bocca al lupo!", "en": "Do you have an exam? Good luck!" },
+                { "when": "*", "it": "Capisco. Allora ci vediamo domenica!", "en": "I see. Then see you on Sunday!" }
+              ]
+            },
+            { "speaker": "partner", "it": "Allora buona settimana! Ciao!", "en": "Then have a good week! Bye!" }
+          ]
+        },
+        {
+          "id": "sl-futuro-01-domani.7",
+          "kind": "cloze",
+          "prompt": "Two futures, one subject",
+          "template": "Sabato Marco ____ una festa e ____ tutti gli amici.",
+          "en": "On Saturday Marco will have a party and will invite all his friends.",
+          "blanks": [
+            {
+              "accept": ["farà"],
+              "options": ["farà", "farò", "fanno"],
+              "bank": ["faremo"],
+              "free": false,
+              "slot": null,
+              "explanation": "Marco is lui: farà."
+            },
+            {
+              "accept": ["inviterà"],
+              "options": ["inviterà", "inviterai", "inviteremo"],
+              "bank": ["invita"],
+              "free": false,
+              "slot": null,
+              "explanation": "Same subject, same ending: inviterà."
+            }
+          ],
+          "hint": "Both verbs talk about Marco."
+        },
+        {
+          "id": "sl-futuro-01-domani.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "futuro",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Mia sorella", "person": 2 },
+                { "it": "Noi", "person": 3 },
+                { "it": "I miei amici", "person": 5 }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "mangiare", "en": "eat" },
+                { "inf": "comprare", "en": "buy" },
+                { "inf": "fare", "en": "make" },
+                { "inf": "vedere", "en": "see" }
+              ]
+            },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["food", "arts"], "article": "definite" },
+              "items": [
+                { "it": "una pizza", "en": "a pizza" },
+                { "it": "un gelato", "en": "an ice cream" },
+                { "it": "una torta", "en": "a cake" },
+                { "it": "un film", "en": "a film" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "domani", "en": "tomorrow" },
+                { "it": "la settimana prossima", "en": "next week" },
+                { "it": "l'anno prossimo", "en": "next year" },
+                { "it": "sabato", "en": "on Saturday" }
+              ]
+            }
+          ],
+          "examples": [
+            "Io mangerò una pizza domani.",
+            "Mia sorella farà una torta sabato.",
+            "I miei amici vedranno un film la settimana prossima."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sl-futuro-02-progetti",
+      "title": "Progetti",
+      "outcome": "Talk about plans with volere, dovere and potere plus an infinitive, with andare a, and with the present used for a fixed plan.",
+      "minutes": 7,
+      "tense": "presente",
+      "grammarRefs": ["v2-a2-near-plan", "v2-a1-want-need", "v2-a1-potere-requests"],
+      "vocab": [
+        { "it": "progetto", "en": "project; plan", "pos": "noun" },
+        { "it": "vacanza", "en": "holiday", "pos": "noun" },
+        { "it": "fine settimana", "en": "weekend", "pos": "noun" },
+        { "it": "esame", "en": "exam", "pos": "noun" },
+        { "it": "albergo", "en": "hotel", "pos": "noun" },
+        { "it": "stasera", "en": "this evening; tonight", "pos": "adv" }
+      ],
+      "activities": [
+        {
+          "id": "sl-futuro-02-progetti.1",
+          "kind": "model",
+          "prompt": "Who + wants / has to / can + do what",
+          "body": "A plan often needs two verbs: a modal (voglio, devo, posso) or andare a, then the infinitive. When the plan is already fixed, the present is enough: Domani vado al mare.",
+          "pattern": [
+            { "role": "subject", "label": "who" },
+            { "role": "verb", "label": "wants / must / can" },
+            { "role": "object", "label": "to do what" },
+            { "role": "extra", "label": "when" }
+          ],
+          "examples": [
+            { "it": "Domani voglio andare al mare.", "en": "Tomorrow I want to go to the sea.", "roles": [["Domani", "extra"], ["voglio", "verb"], ["andare al mare.", "object"]] },
+            { "it": "La settimana prossima devo lavorare.", "en": "Next week I have to work.", "roles": [["La settimana prossima", "extra"], ["devo", "verb"], ["lavorare.", "object"]] },
+            { "it": "Stasera andiamo a mangiare una pizza.", "en": "Tonight we are going to eat a pizza.", "roles": [["Stasera", "extra"], ["andiamo a", "verb"], ["mangiare una pizza.", "object"]] },
+            { "it": "Domani vado al mare.", "en": "Tomorrow I am going to the sea.", "roles": [["Domani", "extra"], ["vado", "verb"], ["al mare.", "object"]] }
+          ],
+          "tip": "Volere, dovere and potere are irregular in the present: voglio, devo, posso; vogliamo, dobbiamo, possiamo. The verb after them never changes: devo lavorare, dobbiamo lavorare."
+        },
+        {
+          "id": "sl-futuro-02-progetti.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Tomorrow I want to go to the sea.",
+          "answer": "Domani voglio andare al mare.",
+          "accepted": [],
+          "tokens": ["Domani", "voglio", "andare", "al", "mare."],
+          "distractors": ["vuole"],
+          "explanation": "io takes voglio; the second verb stays in the infinitive: andare.",
+          "hint": "When, then who wants, then what."
+        },
+        {
+          "id": "sl-futuro-02-progetti.3",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Sabato ____ studiare per l'esame.",
+          "en": "On Saturday I have to study for the exam.",
+          "blanks": [
+            {
+              "accept": ["devo"],
+              "options": ["devo", "deve", "devi"],
+              "bank": ["dobbiamo", "dovete"],
+              "free": false,
+              "slot": null,
+              "explanation": "io takes devo: I have to."
+            }
+          ],
+          "hint": "Who has to study? I do."
+        },
+        {
+          "id": "sl-futuro-02-progetti.4",
+          "kind": "cloze",
+          "prompt": "Going to do something",
+          "template": "Stasera ____ a mangiare una pizza con gli amici.",
+          "en": "Tonight we are going to eat a pizza with friends.",
+          "blanks": [
+            {
+              "accept": ["andiamo"],
+              "options": ["andiamo", "andare", "vado"],
+              "bank": ["andate"],
+              "free": false,
+              "slot": null,
+              "explanation": "noi takes andiamo; andare a plus an infinitive says what you are going to do."
+            }
+          ],
+          "hint": "The subject is noi (we)."
+        },
+        {
+          "id": "sl-futuro-02-progetti.5",
+          "kind": "dialogue",
+          "prompt": "This weekend",
+          "partner": "Luca",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Che cosa fai questo fine settimana?", "en": "Hi! What are you doing this weekend?" },
+            {
+              "speaker": "you",
+              "template": "Sabato ____ al cinema.",
+              "en": "On Saturday I am going to the cinema.",
+              "blanks": [
+                {
+                  "accept": ["vado"],
+                  "options": ["vado", "andare", "vai"],
+                  "bank": ["andiamo"],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "A fixed plan takes the present: vado. The infinitive andare needs a modal before it."
+                }
+              ],
+              "reactions": [
+                { "when": ["vado"], "it": "Bello! Che film vuoi vedere?", "en": "Nice! What film do you want to see?" },
+                { "when": "*", "it": "Va bene.", "en": "All right." }
+              ]
+            },
+            { "speaker": "partner", "it": "E domenica?", "en": "And on Sunday?" },
+            {
+              "speaker": "you",
+              "template": "Domenica devo ____.",
+              "en": "On Sunday I have to ____.",
+              "blanks": [
+                {
+                  "accept": ["lavorare", "studiare", "pulire la casa"],
+                  "options": ["lavorare", "studiare", "pulire la casa"],
+                  "bank": [],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "After devo the verb stays in the infinitive."
+                }
+              ],
+              "reactions": [
+                { "when": ["lavorare"], "it": "Di domenica? Che peccato!", "en": "On a Sunday? What a pity!" },
+                { "when": ["studiare"], "it": "Hai un esame? In bocca al lupo!", "en": "Do you have an exam? Good luck!" },
+                { "when": "*", "it": "Capisco. Allora ci vediamo la settimana prossima!", "en": "I see. Then see you next week!" }
+              ]
+            },
+            { "speaker": "partner", "it": "Va bene, buon fine settimana!", "en": "All right, have a good weekend!" }
+          ]
+        },
+        {
+          "id": "sl-futuro-02-progetti.6",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Next week we can book the hotel.",
+          "answer": "La settimana prossima possiamo prenotare l'albergo.",
+          "accepted": [],
+          "tokens": ["La", "settimana", "prossima", "possiamo", "prenotare", "l'albergo."],
+          "distractors": ["possono"],
+          "explanation": "noi takes possiamo, then the infinitive prenotare.",
+          "hint": "Start with when."
+        },
+        {
+          "id": "sl-futuro-02-progetti.7",
+          "kind": "cloze",
+          "prompt": "Wants and limits",
+          "template": "Quest'estate ____ andare in vacanza, ma non ____ spendere molto.",
+          "en": "This summer we want to go on holiday, but we can't spend much.",
+          "blanks": [
+            {
+              "accept": ["vogliamo"],
+              "options": ["vogliamo", "voglio", "vuole"],
+              "bank": ["volete"],
+              "free": false,
+              "slot": null,
+              "explanation": "noi takes vogliamo."
+            },
+            {
+              "accept": ["possiamo"],
+              "options": ["possiamo", "posso", "potete"],
+              "bank": ["possono"],
+              "free": false,
+              "slot": null,
+              "explanation": "noi takes possiamo; non possiamo means we can't."
+            }
+          ],
+          "hint": "Both verbs are about noi (we)."
+        },
+        {
+          "id": "sl-futuro-02-progetti.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "presente",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Mia madre", "person": 2 },
+                { "it": "Noi", "person": 3 },
+                { "it": "I miei amici", "person": 5 }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "volere", "en": "want to" },
+                { "inf": "dovere", "en": "have to" },
+                { "inf": "potere", "en": "can" }
+              ]
+            },
+            {
+              "role": "object",
+              "items": [
+                { "it": "andare al mare", "en": "go to the sea" },
+                { "it": "lavorare", "en": "work" },
+                { "it": "studiare l'italiano", "en": "study Italian" },
+                { "it": "visitare Roma", "en": "visit Rome" },
+                { "it": "fare una festa", "en": "have a party" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "domani", "en": "tomorrow" },
+                { "it": "sabato", "en": "on Saturday" },
+                { "it": "la settimana prossima", "en": "next week" },
+                { "it": "quest'estate", "en": "this summer" }
+              ]
+            }
+          ],
+          "examples": [
+            "Io voglio andare al mare domani.",
+            "Noi dobbiamo lavorare sabato.",
+            "Mia madre può visitare Roma la settimana prossima."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sl-futuro-03-se",
+      "title": "Se…",
+      "outcome": "Link a condition in the present to a result in the present or the future with se.",
+      "minutes": 7,
+      "tense": "futuro",
+      "grammarRefs": ["v2-a2-real-if", "v2-b1-real-condition"],
+      "vocab": [
+        { "it": "bel tempo", "en": "good weather", "pos": "expr" },
+        { "it": "sole", "en": "sun", "pos": "noun" },
+        { "it": "montagna", "en": "mountain", "pos": "noun" },
+        { "it": "insieme", "en": "together", "pos": "adv" },
+        { "it": "soldi", "en": "money", "pos": "noun" },
+        { "it": "macchina", "en": "car", "pos": "noun" }
+      ],
+      "activities": [
+        {
+          "id": "sl-futuro-03-se.1",
+          "kind": "model",
+          "prompt": "If + condition, + result",
+          "body": "Se introduces a condition. After se the verb is in the present (se piove); the result can be in the present (resto a casa) or in the future (resterò a casa).",
+          "pattern": [
+            { "role": "link", "label": "if" },
+            { "role": "extra", "label": "condition (present)" },
+            { "role": "verb", "label": "result" },
+            { "role": "object", "label": "what / where" }
+          ],
+          "examples": [
+            { "it": "Se piove, resto a casa.", "en": "If it rains, I stay at home.", "roles": [["Se", "link"], ["piove,", "extra"], ["resto", "verb"], ["a casa.", "object"]] },
+            { "it": "Se hai tempo, andremo al cinema.", "en": "If you have time, we will go to the cinema.", "roles": [["Se", "link"], ["hai tempo,", "extra"], ["andremo", "verb"], ["al cinema.", "object"]] },
+            { "it": "Se fa bel tempo, andrò al mare.", "en": "If the weather is nice, I will go to the sea.", "roles": [["Se", "link"], ["fa bel tempo,", "extra"], ["andrò", "verb"], ["al mare.", "object"]] },
+            { "it": "Se studi, passerai l'esame.", "en": "If you study, you will pass the exam.", "roles": [["Se", "link"], ["studi,", "extra"], ["passerai", "verb"], ["l'esame.", "object"]] }
+          ],
+          "tip": "Keep the present after se: se piove, se hai tempo. A comma separates the condition from the result, and the order can flip: Resto a casa se piove."
+        },
+        {
+          "id": "sl-futuro-03-se.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "If it rains, I stay at home.",
+          "answer": "Se piove, resto a casa.",
+          "accepted": [],
+          "tokens": ["Se", "piove,", "resto", "a", "casa."],
+          "distractors": ["resterai"],
+          "explanation": "The condition se piove is in the present; the result resto matches io.",
+          "hint": "Start with se."
+        },
+        {
+          "id": "sl-futuro-03-se.3",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Se hai tempo, ____ al cinema insieme.",
+          "en": "If you have time, we will go to the cinema together.",
+          "blanks": [
+            {
+              "accept": ["andremo"],
+              "options": ["andremo", "andrai", "andranno"],
+              "bank": ["andrete"],
+              "free": false,
+              "slot": null,
+              "explanation": "noi takes andremo: the result is in the future."
+            }
+          ],
+          "hint": "Insieme tells you the subject is noi."
+        },
+        {
+          "id": "sl-futuro-03-se.4",
+          "kind": "cloze",
+          "prompt": "Say what you will do",
+          "template": "Se fa bel tempo, domenica ____ al mare.",
+          "en": "If the weather is nice, on Sunday I will go to the sea.",
+          "blanks": [
+            {
+              "accept": ["andrò"],
+              "options": ["andrò", "andrai", "andranno"],
+              "bank": ["andremo"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
+              "explanation": "io takes andrò."
+            }
+          ],
+          "hint": "Or type another verb in the future for io, like resterò or tornerò."
+        },
+        {
+          "id": "sl-futuro-03-se.5",
+          "kind": "dialogue",
+          "prompt": "Sunday plans",
+          "partner": "Giulia",
+          "turns": [
+            { "speaker": "partner", "it": "Domenica andiamo in montagna?", "en": "Shall we go to the mountains on Sunday?" },
+            {
+              "speaker": "you",
+              "template": "Sì, se ____ bel tempo!",
+              "en": "Yes, if the weather is nice!",
+              "blanks": [
+                {
+                  "accept": ["fa"],
+                  "options": ["fa", "fai", "fanno"],
+                  "bank": ["fate"],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "Fa bel tempo: the weather is nice. After se, keep the present."
+                }
+              ],
+              "reactions": [
+                { "when": ["fa"], "it": "Perfetto! Speriamo nel sole.", "en": "Perfect! Let's hope for sun." },
+                { "when": "*", "it": "Va bene, vediamo.", "en": "All right, we'll see." }
+              ]
+            },
+            { "speaker": "partner", "it": "E se piove, che cosa facciamo?", "en": "And if it rains, what do we do?" },
+            {
+              "speaker": "you",
+              "template": "Se piove, ____ a casa e guardiamo un film.",
+              "en": "If it rains, we stay at home and watch a film.",
+              "blanks": [
+                {
+                  "accept": ["restiamo", "resteremo"],
+                  "options": ["restiamo", "resteremo", "resto"],
+                  "bank": ["restate"],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "noi: restiamo (present) or resteremo (future) both work after se piove."
+                }
+              ],
+              "reactions": [
+                { "when": ["restiamo", "resteremo"], "it": "Ottima idea! Porto io la pizza.", "en": "Great idea! I'll bring the pizza." },
+                { "when": "*", "it": "Va bene, decidiamo domenica.", "en": "All right, we'll decide on Sunday." }
+              ]
+            },
+            { "speaker": "partner", "it": "Allora ci sentiamo sabato sera. Ciao!", "en": "Then let's talk on Saturday evening. Bye!" }
+          ]
+        },
+        {
+          "id": "sl-futuro-03-se.6",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "If you study, you will pass the exam.",
+          "answer": "Se studi, passerai l'esame.",
+          "accepted": [],
+          "tokens": ["Se", "studi,", "passerai", "l'esame."],
+          "distractors": ["studierai", "passi"],
+          "explanation": "Present after se (studi), future for the result (passerai).",
+          "hint": "Start with se."
+        },
+        {
+          "id": "sl-futuro-03-se.7",
+          "kind": "cloze",
+          "prompt": "Condition and result",
+          "template": "Se Marco ____ i soldi, ____ una macchina nuova.",
+          "en": "If Marco has the money, he will buy a new car.",
+          "blanks": [
+            {
+              "accept": ["ha"],
+              "options": ["ha", "hai", "hanno"],
+              "bank": ["abbiamo"],
+              "free": false,
+              "slot": null,
+              "explanation": "Marco is lui: ha. After se, the present."
+            },
+            {
+              "accept": ["comprerà"],
+              "options": ["comprerà", "comprerai", "compreranno"],
+              "bank": ["compreremo"],
+              "free": false,
+              "slot": null,
+              "explanation": "The result is in the future: comprerà."
+            }
+          ],
+          "hint": "Both verbs are about Marco."
+        },
+        {
+          "id": "sl-futuro-03-se.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "futuro",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Mia sorella", "person": 2 },
+                { "it": "Noi", "person": 3 },
+                { "it": "I miei amici", "person": 5 }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "restare", "en": "stay", "aux": "essere" },
+                { "inf": "andare", "en": "go", "aux": "essere" },
+                { "inf": "tornare", "en": "go back", "aux": "essere" },
+                { "inf": "venire", "en": "come", "aux": "essere" }
+              ]
+            },
+            {
+              "role": "object",
+              "items": [
+                { "it": "a casa", "en": "home" },
+                { "it": "al mare", "en": "to the sea" },
+                { "it": "in montagna", "en": "to the mountains" },
+                { "it": "al cinema", "en": "to the cinema" },
+                { "it": "in città", "en": "to the city" }
+              ]
+            },
+            {
+              "role": "extra",
+              "items": [
+                { "it": "se piove", "en": "if it rains" },
+                { "it": "se fa bel tempo", "en": "if the weather is nice" },
+                { "it": "se hai tempo", "en": "if you have time" },
+                { "it": "se c'è il sole", "en": "if it is sunny" }
+              ]
+            }
+          ],
+          "examples": [
+            "Io resterò a casa se piove.",
+            "Noi andremo al mare se fa bel tempo.",
+            "Tu verrai in montagna se hai tempo."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sl-futuro-04-che-farai",
+      "title": "Che farai?",
+      "outcome": "Ask and answer about weekend plans, mixing the future, modal verbs and se.",
+      "minutes": 8,
+      "tense": "futuro",
+      "grammarRefs": ["v2-a2-future-irregular", "v2-a2-near-plan", "v2-b1-plan-options"],
+      "vocab": [
+        { "it": "concerto", "en": "concert", "pos": "noun" },
+        { "it": "gita", "en": "trip; outing", "pos": "noun" },
+        { "it": "programma", "en": "plan; programme", "pos": "noun" },
+        { "it": "volentieri", "en": "gladly", "pos": "adv" },
+        { "it": "lago", "en": "lake", "pos": "noun" },
+        { "it": "messaggio", "en": "message", "pos": "noun" }
+      ],
+      "activities": [
+        {
+          "id": "sl-futuro-04-che-farai.1",
+          "kind": "model",
+          "prompt": "Asking about plans",
+          "body": "Che farai? asks about the future. Answer with the future (andrò), with a modal (voglio dormire) or with the present for a fixed plan (sabato vado…), and add a condition with se.",
+          "pattern": [
+            { "role": "object", "label": "what" },
+            { "role": "verb", "label": "will do" },
+            { "role": "extra", "label": "when" }
+          ],
+          "examples": [
+            { "it": "Che farai sabato?", "en": "What will you do on Saturday?", "roles": [["Che", "object"], ["farai", "verb"], ["sabato?", "extra"]] },
+            { "it": "Sabato andrò a un concerto.", "en": "On Saturday I will go to a concert.", "roles": [["Sabato", "extra"], ["andrò", "verb"], ["a un concerto.", "object"]] },
+            { "it": "Domenica voglio dormire.", "en": "On Sunday I want to sleep.", "roles": [["Domenica", "extra"], ["voglio", "verb"], ["dormire.", "object"]] },
+            { "it": "Se hai tempo, vieni con noi?", "en": "If you have time, will you come with us?", "roles": [["Se", "link"], ["hai tempo,", "extra"], ["vieni", "verb"], ["con noi?", "object"]] }
+          ],
+          "tip": "Che farai? = Che cosa farai? = Cosa farai? All three are fine. A question keeps the same word order: just raise your voice at the end."
+        },
+        {
+          "id": "sl-futuro-04-che-farai.2",
+          "kind": "order",
+          "prompt": "Build the question",
+          "en": "What will you do this weekend?",
+          "answer": "Che cosa farai questo fine settimana?",
+          "accepted": [],
+          "tokens": ["Che", "cosa", "farai", "questo", "fine", "settimana?"],
+          "distractors": ["farà"],
+          "explanation": "You are asking tu, so the verb is farai.",
+          "hint": "Start with the question word."
+        },
+        {
+          "id": "sl-futuro-04-che-farai.3",
+          "kind": "cloze",
+          "prompt": "Say what you will do",
+          "template": "Sabato sera ____ a una festa con gli amici.",
+          "en": "On Saturday evening I will go to a party with friends.",
+          "blanks": [
+            {
+              "accept": ["andrò"],
+              "options": ["andrò", "andrai", "andranno"],
+              "bank": ["andremo"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
+              "explanation": "io takes andrò."
+            }
+          ],
+          "hint": "Or type another future verb for io."
+        },
+        {
+          "id": "sl-futuro-04-che-farai.4",
+          "kind": "dialogue",
+          "prompt": "Che farai questo fine settimana?",
+          "partner": "Marco",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Che farai questo fine settimana?", "en": "Hi! What will you do this weekend?" },
+            {
+              "speaker": "you",
+              "template": "Sabato ____ a un concerto.",
+              "en": "On Saturday I am going to a concert.",
+              "blanks": [
+                {
+                  "accept": ["andrò", "vado"],
+                  "options": ["andrò", "vado", "andrai"],
+                  "bank": ["andremo"],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "io: andrò (future) or vado (present for a fixed plan)."
+                }
+              ],
+              "reactions": [
+                { "when": ["andrò", "vado"], "it": "Che bello! Chi suona?", "en": "How nice! Who is playing?" },
+                { "when": "*", "it": "Interessante!", "en": "Interesting!" }
+              ]
+            },
+            { "speaker": "partner", "it": "E domenica? Hai programmi?", "en": "And on Sunday? Do you have plans?" },
+            {
+              "speaker": "you",
+              "template": "Domenica voglio ____.",
+              "en": "On Sunday I want to ____.",
+              "blanks": [
+                {
+                  "accept": ["dormire", "studiare", "fare una gita"],
+                  "options": ["dormire", "studiare", "fare una gita"],
+                  "bank": [],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "After voglio the verb stays in the infinitive."
+                }
+              ],
+              "reactions": [
+                { "when": ["dormire"], "it": "Hai ragione, anche io sono stanco.", "en": "You're right, I'm tired too." },
+                { "when": ["studiare"], "it": "Hai un esame lunedì?", "en": "Do you have an exam on Monday?" },
+                { "when": ["fare una gita"], "it": "Dove andrai?", "en": "Where will you go?" },
+                { "when": "*", "it": "Buona idea!", "en": "Good idea!" }
+              ]
+            },
+            { "speaker": "partner", "it": "Io domenica vado al lago. Se hai tempo, vieni con me?", "en": "On Sunday I am going to the lake. If you have time, will you come with me?" },
+            {
+              "speaker": "you",
+              "template": "Se ____ bel tempo, vengo volentieri!",
+              "en": "If the weather is nice, I will gladly come!",
+              "blanks": [
+                {
+                  "accept": ["fa", "c'è"],
+                  "options": ["fa", "c'è", "fai", "fanno"],
+                  "bank": ["fate"],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "Fa bel tempo (or c'è bel tempo): the weather is nice. Present after se."
+                }
+              ],
+              "reactions": [
+                { "when": ["fa", "c'è"], "it": "Speriamo nel sole, allora!", "en": "Let's hope for sun, then!" },
+                { "when": "*", "it": "Va bene, vediamo il tempo.", "en": "All right, we'll see what the weather does." }
+              ]
+            },
+            { "speaker": "partner", "it": "A che ora partiamo?", "en": "What time do we leave?" },
+            {
+              "speaker": "you",
+              "template": "Partiamo alle ____.",
+              "en": "We leave at ____.",
+              "blanks": [
+                {
+                  "accept": ["nove", "dieci", "undici"],
+                  "options": ["nove", "dieci", "undici"],
+                  "bank": [],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "Alle plus the hour: alle nove, alle dieci, alle undici."
+                }
+              ],
+              "reactions": [
+                { "when": ["nove"], "it": "Alle nove? Presto, ma va bene! Ti mando un messaggio sabato sera.", "en": "At nine? Early, but fine! I'll send you a message on Saturday evening." },
+                { "when": "*", "it": "Perfetto! Ti mando un messaggio sabato sera. A domenica!", "en": "Perfect! I'll send you a message on Saturday evening. See you Sunday!" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sl-futuro-04-che-farai.5",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "On Sunday we have to study for the exam.",
+          "answer": "Domenica dobbiamo studiare per l'esame.",
+          "accepted": [],
+          "tokens": ["Domenica", "dobbiamo", "studiare", "per", "l'esame."],
+          "distractors": ["devono"],
+          "explanation": "noi takes dobbiamo; studiare stays in the infinitive.",
+          "hint": "Start with when."
+        },
+        {
+          "id": "sl-futuro-04-che-farai.6",
+          "kind": "cloze",
+          "prompt": "A trip, if…",
+          "template": "Se domenica ____ bel tempo, ____ una gita al lago.",
+          "en": "If the weather is nice on Sunday, we will go on a trip to the lake.",
+          "blanks": [
+            {
+              "accept": ["fa"],
+              "options": ["fa", "fai", "fanno"],
+              "bank": ["fate"],
+              "free": false,
+              "slot": null,
+              "explanation": "Fa bel tempo, in the present after se."
+            },
+            {
+              "accept": ["faremo"],
+              "options": ["faremo", "farà", "farete"],
+              "bank": ["faranno"],
+              "free": false,
+              "slot": null,
+              "explanation": "noi: faremo una gita."
+            }
+          ],
+          "hint": "Present after se, future for the result."
+        },
+        {
+          "id": "sl-futuro-04-che-farai.7",
+          "kind": "cloze",
+          "prompt": "Next year",
+          "template": "L'anno prossimo ____ in Italia per un mese.",
+          "en": "Next year I will go to Italy for a month.",
+          "blanks": [
+            {
+              "accept": ["andrò"],
+              "options": ["andrò", "andrai", "andranno"],
+              "bank": ["andremo"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
+              "explanation": "io takes andrò."
+            }
+          ],
+          "hint": "Or type another future verb for io, like starò or tornerò."
+        },
+        {
+          "id": "sl-futuro-04-che-farai.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "futuro",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Marco", "person": 2 },
+                { "it": "Noi", "person": 3 },
+                { "it": "Voi", "person": 4 }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "fare", "en": "do" },
+                { "inf": "vedere", "en": "see" },
+                { "inf": "visitare", "en": "visit" }
+              ]
+            },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["arts", "city", "travel"], "article": "definite" },
+              "items": [
+                { "it": "una festa", "en": "a party" },
+                { "it": "un film", "en": "a film" },
+                { "it": "una gita", "en": "a trip" },
+                { "it": "un museo", "en": "a museum" },
+                { "it": "una passeggiata", "en": "a walk" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "sabato", "en": "on Saturday" },
+                { "it": "domenica", "en": "on Sunday" },
+                { "it": "questo fine settimana", "en": "this weekend" },
+                { "it": "la settimana prossima", "en": "next week" }
+              ]
+            }
+          ],
+          "examples": [
+            "Io farò una gita domenica.",
+            "Noi vedremo un film sabato.",
+            "Voi visiterete un museo questo fine settimana."
+          ]
+        }
+      ]
+    }
+  ]
+}

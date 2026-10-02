@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-09-29T21:27:32.549Z",
+  "builtAt": "2026-10-02T15:49:24.890Z",
   "vocab": {
-    "total": 6943,
+    "total": 6948,
     "byLevel": {
-      "A1": 917,
+      "A1": 922,
       "A2": 981,
       "B1": 1309,
       "B2": 1292,
@@ -19,7 +19,7 @@
       "city": 234,
       "clothing": 202,
       "colors": 151,
-      "communication": 378,
+      "communication": 382,
       "daily": 184,
       "description": 360,
       "economy": 221,
@@ -35,7 +35,7 @@
       "society": 282,
       "sports": 238,
       "tech": 236,
-      "time": 246,
+      "time": 247,
       "travel": 247,
       "work": 248,
       "science": 164
@@ -44,11 +44,11 @@
       "noun": 4613,
       "expr": 795,
       "interj": 47,
-      "adv": 228,
+      "adv": 230,
       "adj": 995,
       "prep": 73,
       "det": 28,
-      "pron": 41,
+      "pron": 44,
       "conj": 80,
       "num": 43
     }

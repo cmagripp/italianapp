@@ -105,5 +105,6 @@
 {"it":"concerto","en":"concert","pos":"noun","g":"m","pl":"concerti","level":"A1","cat":"arts","ex":"Stasera c'è un concerto in piazza.","exEn":"Tonight there is a concert in the square."},
 {"it":"foto","en":"photo","pos":"noun","g":"f","pl":"foto","level":"A1","cat":"arts","ex":"Faccio una foto al Colosseo.","exEn":"I take a photo of the Colosseum.","note":"Invariable and feminine (short for fotografia): la foto, le foto. 'fare una foto' = to take a photo."},
 {"it":"cantante","en":"singer","pos":"noun","g":"mf","pl":"cantanti","level":"A1","cat":"arts","ex":"Il mio cantante preferito è italiano.","exEn":"My favourite singer is Italian.","note":"il/la cantante."},
-{"it":"attore","en":"actor","pos":"noun","g":"m","pl":"attori","fem":"attrice","level":"A1","cat":"arts","ex":"Quell'attore è molto famoso.","exEn":"That actor is very famous.","note":"Feminine: attrice, pl. attrici."}
+{"it":"attore","en":"actor","pos":"noun","g":"m","pl":"attori","fem":"attrice","level":"A1","cat":"arts","ex":"Quell'attore è molto famoso.","exEn":"That actor is very famous.","note":"Feminine: attrice, pl. attrici."},
+{"it":"ora","en":"now","pos":"adv","level":"A1","cat":"time","ex":"Ora devo andare, ci sentiamo domani.","exEn":"I have to go now, talk tomorrow.","note":"Same as 'adesso'. 'Per ora' = for now; 'ora... ora...' = sometimes... sometimes. Not to be confused with the noun 'l'ora' = the hour, the time (che ora è?)."}
 ]
