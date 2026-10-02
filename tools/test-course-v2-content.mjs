@@ -93,7 +93,7 @@ for(const l of lessons){
  }
  assert.equal(session.courseV2.phase,'complete',`${l.id}: all-correct learner cannot finish`);
  assert(courseSessionProgress(l,session,learning).complete,`${l.id}: missing demonstrated target`);
- assert.equal(Object.keys(learning.completions).length,0,'Course must not complete dictionary cases');
+ assert.equal(Object.keys(learning.completions).length,0,'Grammar targets must not complete verb cases or words on their own');
  }catch(error){errors.push(error.message);}
 }
 if(errors.length){console.error(errors.join('\n'));process.exit(1);}

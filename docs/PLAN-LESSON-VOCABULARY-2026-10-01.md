@@ -1,6 +1,6 @@
 # Plan: vocabulary inside lessons, noun forms everywhere, and the missing function-word grammar
 
-Status: proposal for review, 1 October 2026. Nothing in this plan is implemented yet.
+Status: proposal for review, 1 October 2026. Round 1 implemented on 2 October 2026 (engine, boards, credit, checks).
 
 ## 1. What the app does today (audit findings)
 

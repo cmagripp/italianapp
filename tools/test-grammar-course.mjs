@@ -59,7 +59,7 @@ for(const lesson of grammarCourse.lessons){
 }
 console.log(`Every lesson completed using real question/advance/evidence logic; ${sequence} actual answers.`);
 assert.equal(grammarReviewSkills({learning},1701000000000).length,objectives.size);
-assert.equal(Object.keys(learning.completions).length,0,'Grammar never marks dictionary items complete');
+assert.equal(Object.keys(learning.completions).length,0,'Grammar targets must not complete verb cases or words on their own');
 const first=grammarCourse.lessons[0],objective=first.objectives[0],q=objective.questions.find(q=>q.format!=='match');
 learning=createLearning();let session=createGrammarSession(first);session.grammar.phase='question';session.grammar.guided=false;
 let e=add(session,q,first,q.answer);assert.equal(skillState(learning,objective.id).ready,false,'One answer insufficient');
