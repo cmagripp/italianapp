@@ -4,9 +4,11 @@ import fs from 'node:fs';
 import { buildShortWordQuestion } from '../js/learning/word-questions.js';
 import { gradePairActivity } from '../js/learning/lesson-activities.js';
 import { gradeQuestion } from '../js/learning/diagnose.js';
-import { hasPluralForm, isPluralOnly } from '../js/data.js';
+import { hasPluralForm, isPluralOnly, article } from '../js/data.js';
+import { nounNumberChoices, isSingularUse, buildLesson } from '../js/learning/lesson-content.js';
 const words = JSON.parse(fs.readFileSync(new URL('../data/vocab.json', import.meta.url)));
 const word = (it, pos = 'noun') => words.find(e => e.it === it && e.pos === pos);
+const DEFINITE = ['il', 'lo', 'la', "l'", 'i', 'gli', 'le'];
 const target = (entry, skill, extra = {}) => ({ id: `${entry.id}::short-test::${skill}`, skill, shortWord: true, ...extra });
 const q = (entry, skill, options = {}, extra = {}) => buildShortWordQuestion(entry, target(entry, skill, extra), options);
 let count = 0;
@@ -20,15 +22,43 @@ function valid(question) {
 }
 test('known noun checks have independently verified answers', () => {
   const e = word('casa');
-  for (const [skill, expected] of [['meaning', 'home'], ['recall', 'casa'], ['article', 'la'], ['plural', 'case']]) {
+  for (const [skill, expected] of [['meaning', 'home'], ['recall', 'casa'], ['article', 'la'], ['plural', 'le case']]) {
     const question = q(e, skill, { pool: words }); valid(question); assert.ok(question.answer.includes(expected));
   }
 });
-test('noun article checks distinguish singular and plural', () => {
+test('noun article checks ask the singular unless the target or the noun is plural', () => {
   const e = word('libro');
   assert.deepEqual(q(e, 'article', {}, { number: 'singular' }).answer, ['il']);
   assert.deepEqual(q(e, 'article', {}, { number: 'plural' }).answer, ['i']);
+  for (let variant = 0; variant < 4; variant++) { const question = q(e, 'article', { variant }); assert.deepEqual(question.answer, ['il']); assert.ok(question.prompt.includes('Singular')); assert.ok(question.choices.every(c => DEFINITE.includes(c.label))); }
   assert.deepEqual(q(word('studente'), 'article', {}, { number: 'singular' }).answer, ['lo']);
+  assert.deepEqual(q(word('albero'), 'article').answer, ["l'"]);
+});
+test('plural checks always answer with the article; wrong options are other article + noun combinations', () => {
+  for (const [it, answer, wrongPattern] of [['casa', 'le case', /^(?:il|lo|la|i|gli|le) cas[ae]$/], ['libro', 'i libri', /^(?:il|lo|la|i|gli|le) libr[oi]$/], ['albero', 'gli alberi', /^(?:l'|gli |le )alber[oi]$/], ['zaino', 'gli zaini', /^(?:il|lo|la|i|gli|le) zain[oi]$/], ['caffè', 'i caffè', /^(?:il|lo|la|i|gli|le) caffè$/]]) {
+    for (let variant = 0; variant < 3; variant++) {
+      const question = q(word(it), 'plural', { variant, pool: words }); valid(question);
+      assert.deepEqual(question.answer, [answer]); assert.equal(question.meta.diagnostic.requiresArticle, true);
+      for (const choice of question.choices.filter(c => !c.correct)) assert.match(choice.label, wrongPattern, JSON.stringify(question.choices));
+      assert.ok(!question.choices.some(c => c.label === word(it).pl), 'the bare plural is never offered');
+    }
+  }
+  const both = q(word('insegnante'), 'plural'); valid(both); assert.deepEqual(both.answer, ['gli insegnanti', 'le insegnanti']);
+  assert.ok(!both.choices.some(c => !c.correct && /^(?:gli|le) insegnanti$/.test(c.label)));
+  assert.equal(gradeQuestion(q(word('casa'), 'plural'), 'le casa').errorTags[0], 'plural');
+  assert.equal(gradeQuestion(q(word('casa'), 'plural'), 'la case').errorTags[0], 'article');
+});
+test('singular-use nouns get a number statement screen with an invented or recorded plural as the wrong option', () => {
+  for (const [it, plural, invented] of [['calcio', 'i calci', true], ['latte', 'i latti', true], ['pane', 'i pani', false]]) {
+    const e = word(it), question = q(e, 'number', { pool: words }); valid(question);
+    assert.deepEqual(question.answer, [`Normally singular: il ${it}`]); assert.equal(question.meta.answerLanguage, 'en'); assert.equal(question.meta.skill, 'number');
+    assert.ok(question.choices.some(c => !c.correct && c.label === `Normally plural: ${plural}`), JSON.stringify(question.choices));
+    assert.equal(nounNumberChoices(e).invented, invented); assert.ok(question.prompt.includes(`il ${it}`));
+    assert.equal(gradeQuestion(question, `Normally plural: ${plural}`).errorTags[0], 'number');
+    assert.equal(q(e, 'plural'), null, `${it} has no plural check`);
+  }
+  assert.equal(q(word('casa'), 'number'), null, 'a countable noun has no number screen');
+  assert.equal(q({ id: 'custom:nog', it: 'cosa', en: 'thing', pos: 'noun', pl: '-' }, 'number'), null, 'no gender, no statement');
 });
 test('gender alternatives are accepted without becoming distractors', () => {
   const e = word('insegnante'); const question = q(e, 'article', { variant: 1 }, { number: 'plural' }); valid(question);

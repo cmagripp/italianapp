@@ -25,9 +25,10 @@ function readRecord() {
     const raw = globalThis.localStorage?.getItem(STORAGE_KEY);
     const parsed = raw ? JSON.parse(raw) : null;
     if (!parsed || typeof parsed !== 'object') return emptyRecord();
+    const trips = Math.max(0, Math.floor(Number(parsed.trips) || 0));
     return {
-      enabled: parsed.enabled === true,
-      trips: Math.max(0, Math.floor(Number(parsed.trips) || 0)),
+      enabled: parsed.enabled === true && trips < MAX_TRIPS,   // a tripped breaker always reads as off
+      trips,
       loading: parsed.loading === true,
       busy: parsed.busy === true,
       lastTripAt: Number.isFinite(parsed.lastTripAt) ? Number(parsed.lastTripAt) : null,
@@ -117,14 +118,16 @@ const importRuntime = () => import(RUNTIME_URL);
 export async function enableAssistant(onProgress, options = {}) {
   try {
     if (engine) { if (!record.enabled) { record.enabled = true; save(); } return assistantState(); }
-    if (loadPromise) return await loadPromise;
-    lastError = null;
-    if (tripped()) { lastError = 'tripped'; return assistantState(); }
-    const support = assistantSupport();
-    if (!support.supported) { lastError = support.reason; return assistantState(); }
-    loadPromise = load(onProgress, options).finally(() => { loadPromise = null; });
-    return await loadPromise;
-  } catch (error) { lastError = describe(error); return assistantState(); }
+    if (!loadPromise) {
+      lastError = null;
+      if (tripped()) { lastError = 'tripped'; return assistantState(); }
+      const support = assistantSupport();
+      if (!support.supported) { lastError = support.reason; return assistantState(); }
+      loadPromise = load(onProgress, options).finally(() => { loadPromise = null; });
+    }
+    await loadPromise;
+  } catch (error) { lastError = describe(error); }
+  return assistantState();   // read after the load settled, so `loading` is false here
 }
 async function load(onProgress, options) {
   const probe = await probeAdapter();
@@ -243,8 +246,9 @@ async function pick(question, list, maxMs) {
 }
 // candidates: [{ id, text }]. Resolves { id } or null (no engine, breaker tripped, bad input, failure or timeout); never throws.
 // A single candidate is returned without consulting the model. Answers run one at a time.
-export async function assistantPick({ question, candidates, maxMs = 6000 } = {}) {
+export async function assistantPick(args) {
   try {
+    const { question, candidates, maxMs = 6000 } = args || {};   // inside the guard: a null argument must not reject
     const list = normalizeCandidates(candidates);
     const situation = String(question ?? '').replace(/\s+/g, ' ').trim().slice(0, MAX_QUESTION_CHARS);
     if (!list || !situation || !engine || tripped()) return null;

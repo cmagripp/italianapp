@@ -262,7 +262,9 @@ fresh('B1',{
  prerequisites:['v2-b1-object-agreement','v2-a2-essere-plural'],
  related:[{entryId:'w:ognuno|pron'},{entryId:'w:ciascuno|pron'},{entryId:'w:tutti|pron'},{entryId:'w:tutto|det'},{entryId:'w:ovunque|adv'},{entryId:'w:dappertutto|adv'}],
  facets:['each-versus-all','everything-everywhere'],
- words:[['ognuno','each one; everyone, one at a time'],['ognuna','each one (of women or feminine things)'],['ciascuno','each one'],['tutti','everyone; all of them'],['tutto','everything'],['ovunque','everywhere; wherever'],['dappertutto','everywhere'],['il posto','seat; place']],
+ // Gloss order matters on the vocabulary boards: a word whose first dictionary sense is
+ // already taken falls back to its lesson gloss, so the near-synonyms stay distinguishable.
+ words:[['tutti','everyone; all of them'],['ognuno','each one; everyone taken one at a time'],['ognuna','each one (of women or feminine things)'],['ciascuno','each; each one'],['tutto','everything'],['dappertutto','everywhere'],['ovunque','everywhere; wherever'],['il posto','seat; place']],
  models:[
   ['One at a time: ognuno, ciascuno','Ognuno (ognuna for a group of women) and ciascuno mean each one taken singly, so the verb and any possessive are singular.','Ognuno ha il suo posto. Ognuna di noi porta un dolce.','Everyone has their own seat. Each of us brings a dessert.'],
   ['All together: tutti, tutte','Tutti (tutte for a group of women) means everyone or all of them and takes a plural verb; with essere, the participle agrees too.','Tutti sono arrivati in orario. Tutte hanno portato qualcosa.','Everyone arrived on time. All of them brought something.'],

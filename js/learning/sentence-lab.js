@@ -25,7 +25,7 @@ const tenseLabel = key => TENSE_BY_KEY[key]?.name || key;
 
 // Grading equality: case, trailing punctuation, curly apostrophes and the space after an elided article are ignored.
 export const normalizeLab = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('it')
-  .replace(/[’‘]/g, "'").replace(/\s*'\s*/g, "'").replace(/[.!?,;:…]+$/g, '').trim().replace(/\s+/g, ' ');
+  .replace(/[’‘]/g, "'").replace(/\s*'\s*/g, "'").trim().replace(/[.!?,;:…]+$/g, '').trim().replace(/\s+/g, ' ');
 
 const BLANK = /_{2,}/g;
 export const blankCount = template => (String(template ?? '').match(BLANK) || []).length;
@@ -168,6 +168,12 @@ function gradeBlank(blank, value, ctx) {
   const key = normalizeLab(text), wrappedKey = typeof wrap === 'string' && text ? normalizeLab(wrapWith(wrap, text)) : null;
   const hit = text ? accept.find(a => { const n = normalizeLab(a); return n === key || n === wrappedKey; }) : undefined;
   if (hit !== undefined) return { outcome: 'correct', given: text, filled: hit, entryId: null, explanation: '' };
+  // An authored option or bank entry that is not accepted is a wrong choice, never a free entry (it may well be a
+  // dictionary word of the slot's kind). Only values outside the authored lists are resolved through the dictionary.
+  const authored = [...(Array.isArray(blank?.options) ? blank.options : []), ...(Array.isArray(blank?.bank) ? blank.bank : [])];
+  if (text && authored.some(o => { const n = normalizeLab(o); return n === key || n === wrappedKey; })) {
+    return { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: blank?.explanation || 'Not quite. Try again.' };
+  }
   if (blank?.free === true && blank.slot && text) {
     const resolution = resolveFreeEntry(unwrap(text, wrap), blank.slot, ctx);
     if (resolution.status === 'ok' || resolution.status === 'learn') {
@@ -515,6 +521,9 @@ const roleLabel = role => role.label || ({ subject: 'who', verb: 'the verb', obj
 const PRONOUN_EN = { io: 'I', tu: 'you', lui: 'he', lei: 'she', noi: 'we', voi: 'you', loro: 'they' };
 const subjectEn = item => String(item.en || PRONOUN_EN[normalizeLab(item.it)] || item.it || '').trim();
 
+// A verb role conjugates its items unless it is "fixed": then its items are ready-made phrases ("lo mangio") inserted as they are.
+const conjugatedRole = role => role.role === 'verb' && role.fixed !== true;
+
 function pickItem(role, value) {
   const items = Array.isArray(role.items) ? role.items : [];
   if (value === undefined || value === null || value === '') return { missing: true };
@@ -523,7 +532,7 @@ function pickItem(role, value) {
     const key = normalizeLab(value);
     const item = items.find(it => normalizeLab(it.it ?? it.inf) === key);
     if (item) return { item };
-    if (role.role === 'verb') return { item: { inf: value.trim() } };
+    if (conjugatedRole(role)) return { item: { inf: value.trim() } };
     if (role.role === 'subject') return { unknown: value };
     return { item: { it: value.trim(), en: value.trim() } };
   }
@@ -531,6 +540,9 @@ function pickItem(role, value) {
   return { unknown: String(value) };
 }
 
+// Composes the chosen items in the authored role order, conjugating the verb for the subject's person in the activity's
+// tense (the activity always carries one; the lesson tense, which may be "misto", is never used here). A role is required
+// unless it says optional: true. Returns { ok, it, en, reason, parts }.
 export function composeBuild(activity, choice = {}, ctx = {}) {
   const tense = tenseKey(activity?.tense);
   const roles = Array.isArray(activity?.roles) ? activity.roles : [];
@@ -543,11 +555,11 @@ export function composeBuild(activity, choice = {}, ctx = {}) {
   }
   const subject = picks.find(p => p.role.role === 'subject')?.item;
   const person = Number.isInteger(subject?.person) && subject.person >= 0 && subject.person <= 5 ? subject.person : null;
-  if (subject && person === null) return { ok: false, reason: `“${subject.it || ''}” does not say which person the verb takes.`, it: '', en: '' };
+  if (subject && person === null && picks.some(p => conjugatedRole(p.role))) return { ok: false, reason: `“${subject.it || ''}” does not say which person the verb takes.`, it: '', en: '' };
   const gender = subject?.g || subject?.gender || (person === 0 ? ctx?.speakerGender : null) || 'm';
   const parts = [];
   for (const { role, item } of picks) {
-    if (role.role === 'verb') {
+    if (conjugatedRole(role)) {
       const inf = String(item.inf || item.it || '').trim();
       if (person === null) return { ok: false, reason: 'Choose who first: the verb agrees with the subject.', it: '', en: '' };
       const paradigm = safeConjugate(inf, item);

@@ -9180,8 +9180,12 @@
               "body": "Use these meanings as you work through the examples.",
               "words": [
                 {
+                  "it": "tutti",
+                  "en": "everyone; all of them"
+                },
+                {
                   "it": "ognuno",
-                  "en": "each one; everyone, one at a time"
+                  "en": "each one; everyone taken one at a time"
                 },
                 {
                   "it": "ognuna",
@@ -9189,23 +9193,19 @@
                 },
                 {
                   "it": "ciascuno",
-                  "en": "each one"
-                },
-                {
-                  "it": "tutti",
-                  "en": "everyone; all of them"
+                  "en": "each; each one"
                 },
                 {
                   "it": "tutto",
                   "en": "everything"
                 },
                 {
-                  "it": "ovunque",
-                  "en": "everywhere; wherever"
-                },
-                {
                   "it": "dappertutto",
                   "en": "everywhere"
+                },
+                {
+                  "it": "ovunque",
+                  "en": "everywhere; wherever"
                 },
                 {
                   "it": "il posto",

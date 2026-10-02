@@ -57,9 +57,11 @@ function validateBlank(blank, where, ok) {
   if (!ok(blank && typeof blank === 'object' && !Array.isArray(blank), `${where}: blank must be an object`)) return;
   const accept = blank.accept == null ? [] : blank.accept;
   const hasAccept = Array.isArray(accept) && accept.length > 0;
-  ok(Array.isArray(accept) && accept.every(isStr), `${where}: accept must be a list of strings`);
+  // Every blank needs accepted values: an authored option or bank entry outside accept is a wrong choice (graded
+  // incorrect, never resolved as a free entry), so a blank without accept could not be answered from its own options.
+  ok(hasAccept && accept.every(isStr), `${where}: accept must be a non-empty list of strings`);
   ok(typeof blank.free === 'boolean', `${where}: free must be true or false`);
-  ok(hasAccept || (blank.free === true && !!blank.slot), `${where}: a blank needs a non-empty accept list, or free entry with a slot`);
+  if (blank.free === true) ok(!!blank.slot, `${where}: free entry needs a slot (typed words outside the options are resolved through it)`);
   const options = Array.isArray(blank.options) ? blank.options : [];
   ok(Array.isArray(blank.options) && options.length >= 2 && options.length <= 5 && options.every(isStr), `${where}: options must be 2 to 5 strings`);
   ok(new Set(options.map(normalizeLab)).size === options.length, `${where}: duplicate options`);
@@ -164,18 +166,21 @@ function validateActivity(a, lesson, stageSeen, ok) {
     return;
   }
   if (a.kind === 'build') {
-    if (a.tense != null) ok(LAB_TENSES.includes(a.tense) && a.tense !== 'misto', `${where}: build tense ${JSON.stringify(a.tense)} must be a conjugable tense`);
-    const tense = a.tense || lesson.tense;
-    ok(tense !== 'misto', `${where}: a build in a "misto" lesson needs its own tense`);
+    // The build conjugates in its own tense (the lesson tense may be "misto"), so every build carries a conjugable one.
+    ok(LAB_TENSES.includes(a.tense) && a.tense !== 'misto', `${where}: build needs its own conjugable tense (has ${JSON.stringify(a.tense)})`);
+    const tense = a.tense;
     const key = tenseKey(tense);
     const roles = Array.isArray(a.roles) ? a.roles : [];
     if (!ok(roles.length >= 2 && roles.every(r => r && LAB_ROLES.includes(r.role)), `${where}: roles must be 2+ entries with roles ${LAB_ROLES.join('|')}`)) return;
     ok(new Set(roles.map(r => r.role)).size === roles.length, `${where}: duplicate roles`);
     const subject = roles.find(r => r.role === 'subject'), verb = roles.find(r => r.role === 'verb');
-    ok(subject && verb, `${where}: subject and verb roles required`);
+    const fixedVerb = !!verb && verb.fixed === true;
+    ok(!!verb, `${where}: verb role required`);
+    ok(!!subject || fixedVerb, `${where}: subject role required (unless the verb role is fixed)`);
     for (const r of roles) {
       const at = `${where} role ${r.role}`;
       if (r.optional != null) ok(typeof r.optional === 'boolean', `${at}: optional must be boolean`);
+      if (r.fixed != null) ok(typeof r.fixed === 'boolean' && (r.role === 'verb' || r.fixed === false), `${at}: fixed is a boolean for the verb role only`);
       if (r.label != null) ok(isStr(r.label), `${at}: label must be a string`);
       if (r.learned != null) {
         ok(r.learned && typeof r.learned === 'object' && SLOT_POS.includes(r.learned.pos), `${at}: learned.pos must be one of ${SLOT_POS.join('|')}`);
@@ -186,13 +191,15 @@ function validateActivity(a, lesson, stageSeen, ok) {
       r.items.forEach((it, i) => {
         const here = `${at} item ${i + 1}`;
         if (!ok(it && typeof it === 'object', `${here}: must be an object`)) return;
-        if (r.role === 'subject') ok(isStr(it.it) && Number.isInteger(it.person) && it.person >= 0 && it.person <= 5, `${here}: subject items need it and person 0..5`);
-        else if (r.role === 'verb') ok(isStr(it.inf), `${here}: verb items need inf`);
+        if (r.role === 'subject') {
+          ok(isStr(it.it) && Number.isInteger(it.person) && it.person >= 0 && it.person <= 5, `${here}: subject items need it and person 0..5`);
+          for (const field of ['gender', 'g']) if (it[field] != null) ok(['m', 'f'].includes(it[field]), `${here}: ${field} must be m or f`);
+        } else if (r.role === 'verb' && !fixedVerb) ok(isStr(it.inf), `${here}: verb items need inf`);
         else ok(isStr(it.it), `${here}: items need it`);
         if (it.en != null) ok(typeof it.en === 'string', `${here}: en must be a string`);
       });
     }
-    if (subject && verb && Array.isArray(subject.items) && Array.isArray(verb.items)) {
+    if (subject && verb && !fixedVerb && Array.isArray(subject.items) && Array.isArray(verb.items)) {
       const persons = [...new Set(subject.items.map(s => s.person).filter(p => Number.isInteger(p) && p >= 0 && p <= 5))];
       for (const v of verb.items) {
         if (!isStr(v.inf)) continue;
@@ -394,7 +401,8 @@ const FIXTURE_PACK = {
           reactions: [{ when: '*', it: 'Perfetto!', en: 'Perfect!' }] },
         { speaker: 'partner', it: 'A dopo!', en: 'See you later!' } ] },
       { id: `${L}.5`, kind: 'cloze', prompt: 'Your word', template: 'Oggi mangio ____.', en: 'Today I eat ____.',
-        blanks: [{ accept: [], options: ['la pasta', 'il pane'], bank: ['la pizza'], free: true, slot: { pos: 'noun', number: 'sg', article: 'definite', category: ['food'] }, explanation: 'A food with its article.' }] },
+        blanks: [{ accept: ['la pasta', 'il pane', 'la pizza'], options: ['la pasta', 'il pane', 'la casa'], bank: ['la pizza', 'il libro'], free: true,
+          slot: { pos: 'noun', number: 'sg', article: 'definite', category: ['food'] }, explanation: 'Something you can eat, with its article.' }] },
       { id: `${L}.6`, kind: 'build', prompt: 'Say it yourself', tense: 'presente', roles: [
         { role: 'subject', items: [{ it: 'Io', person: 0 }, { it: 'Mia sorella', en: 'My sister', person: 2, g: 'f' }, { it: 'Noi', person: 3 }] },
         { role: 'verb', items: [{ inf: 'mangiare', en: 'eat' }, { inf: 'bere', en: 'drink' }] },
@@ -423,8 +431,14 @@ test('the content validator rejects broken packs', () => {
   assert.match(mutate(l => { l.activities[3].turns[1].reactions[1].when = ['ho paura']; }).join('\n'), /can never be chosen/);
   assert.match(mutate(l => { l.activities[2].blanks[0].options = ['sei', 'è']; }).join('\n'), /neither an option nor in the bank/);
   assert.match(mutate(l => { l.activities[2].template = 'Bene grazie, ma ____ ____.'; }).join('\n'), /1 blanks for 2 ____/);
-  assert.match(mutate(l => { l.activities[4].blanks[0].free = false; }).join('\n'), /needs a non-empty accept list, or free entry with a slot/);
+  assert.match(mutate(l => { l.activities[4].blanks[0].accept = []; }).join('\n'), /accept must be a non-empty list/);
+  assert.match(mutate(l => { l.activities[4].blanks[0].slot = null; }).join('\n'), /free entry needs a slot/);
   assert.match(mutate(l => { l.activities[5].roles[1].items.push({ inf: 'dirimere', en: 'settle' }); l.activities[5].tense = 'passatoProssimo'; }).join('\n'), /"dirimere" has no passatoProssimo form/);
+  assert.match(mutate(l => { delete l.activities[5].tense; }).join('\n'), /build needs its own conjugable tense/);
+  assert.match(mutate(l => { l.activities[5].tense = 'misto'; }).join('\n'), /build needs its own conjugable tense/);
+  assert.match(mutate(l => { l.activities[5].roles.shift(); }).join('\n'), /subject role required/);
+  assert.deepEqual(mutate(l => { l.activities[5].roles = [{ role: 'verb', fixed: true, items: [{ it: 'lo mangio', en: 'eat it' }] }, { role: 'extra', optional: true, items: [{ it: 'a casa', en: 'at home' }] }]; l.activities[5].examples = ['Lo mangio a casa.', 'Lo mangio.']; }), [], 'a fixed verb role needs no subject and no conjugation');
+  assert.match(mutate(l => { l.activities[5].roles[0].items[0].gender = 'x'; }).join('\n'), /gender must be m or f/);
   assert.match(mutate(l => { l.activities[5].examples = ['Io mangia la pasta.']; }).join('\n'), /cannot be composed/);
   assert.match(mutate(l => { l.vocab.push({ it: 'xyzzyq', en: 'nothing', pos: 'noun' }); }).join('\n'), /not a dictionary entry/);
   assert.match(mutate(l => { l.grammarRefs = ['v2-nope']; }).join('\n'), /not a course v2 lesson/);
@@ -508,17 +522,70 @@ test('cloze: second miss reveals the first accepted value and finishes the activ
 test('cloze: a free blank with a slot accepts a dictionary word in the slot form (article added)', () => {
   const session = atActivity(5);
   assert.equal(currentLabStep(fixtureLesson, session).activity.id, `${L}.5`);
-  const r = answerLab(fixtureLesson, session, ['pasta'], makeCtx()).result;
-  assert.equal(r.outcome, 'accepted'); assert.equal(r.ok, true); assert.equal(r.blanks[0].filled, 'la pasta'); assert.equal(r.blanks[0].entryId, 'w:pasta|noun'); assert.equal(r.blanks[0].status, 'learn');
-  assert.equal(r.sentence, 'Oggi mangio la pasta.');
-  const learned = atActivity(5, makeCtx('m', ['w:pane|noun']));
-  const r2 = answerLab(fixtureLesson, learned, ['il pane'], makeCtx('m', ['w:pane|noun'])).result;
-  assert.equal(r2.blanks[0].status, 'ok'); assert.equal(r2.blanks[0].filled, 'il pane');
+  const r = answerLab(fixtureLesson, session, ['riso'], makeCtx()).result;
+  assert.equal(r.outcome, 'accepted'); assert.equal(r.ok, true); assert.equal(r.blanks[0].filled, 'il riso'); assert.equal(r.blanks[0].entryId, 'w:riso|noun'); assert.equal(r.blanks[0].status, 'learn');
+  assert.equal(r.sentence, 'Oggi mangio il riso.');
+  const learned = atActivity(5, makeCtx('m', ['w:riso|noun']));
+  const r2 = answerLab(fixtureLesson, learned, ['il riso'], makeCtx('m', ['w:riso|noun'])).result;
+  assert.equal(r2.blanks[0].status, 'ok'); assert.equal(r2.blanks[0].filled, 'il riso', 'a typed article is dropped and the slot article applied');
+  const resolved = answerLab(fixtureLesson, atActivity(5), ['pasta'], makeCtx()).result;
+  assert.equal(resolved.outcome, 'correct', 'a typed word that resolves to an accepted value is correct'); assert.equal(resolved.blanks[0].filled, 'la pasta'); assert.equal(resolved.blanks[0].entryId, 'w:pasta|noun');
   const bad = atActivity(5);
   const r3 = answerLab(fixtureLesson, bad, ['stanco'], makeCtx()).result;
   assert.equal(r3.outcome, 'incorrect'); assert.match(r3.explanation, /adjective; this blank needs a noun/);
   const r4 = answerLab(fixtureLesson, bad, ['xyzzyq'], makeCtx()).result;
-  assert.equal(r4.revealed, true); assert.equal(r4.blanks[0].filled, 'la pasta', 'a slot-only blank reveals its first option');
+  assert.equal(r4.revealed, true); assert.equal(r4.blanks[0].filled, 'la pasta', 'the first accepted value is revealed');
+});
+
+test('cloze: an authored option or bank entry outside accept is a wrong choice, never a free entry', () => {
+  const wrongOption = answerLab(fixtureLesson, atActivity(5), ['la casa'], makeCtx()).result;
+  assert.equal(wrongOption.outcome, 'incorrect', '"la casa" is a dictionary noun the slot would take, but it is an authored wrong option');
+  assert.equal(wrongOption.explanation, 'Something you can eat, with its article.'); assert.equal(wrongOption.blanks[0].entryId, null);
+  const wrongBank = answerLab(fixtureLesson, atActivity(5), ['Il libro'], makeCtx()).result;
+  assert.equal(wrongBank.outcome, 'incorrect'); assert.equal(wrongBank.misses, 1);
+  const rightBank = answerLab(fixtureLesson, atActivity(5), ['la pizza'], makeCtx()).result;
+  assert.equal(rightBank.outcome, 'correct');
+  const dialogue = answerLab(fixtureLesson, atActivity(4), ['ho sete'], makeCtx()).result;
+  assert.equal(dialogue.outcome, 'incorrect', 'a bank entry outside accept in a dialogue turn is wrong too'); assert.equal(dialogue.reaction, null);
+  const free = answerLab(fixtureLesson, atActivity(4), ['contento'], makeCtx()).result;
+  assert.equal(free.outcome, 'accepted'); assert.equal(free.sentence, 'Bene grazie, ma sono contento.');
+});
+
+test('build notes: alternatives, fixed verb roles, the activity tense in a misto lesson, required roles, subject gender', () => {
+  const ctx = makeCtx('f');
+  // (1) a conjugator cell may hold alternatives ("devo|debbo"): the primary form is composed, any alternative is understood
+  const dovere = { tense: 'presente', roles: [{ role: 'subject', items: [{ it: 'Io', person: 0 }] }, { role: 'verb', items: [{ inf: 'dovere', en: 'must' }] }, { role: 'object', items: [{ it: 'studiare', en: 'study' }] }] };
+  assert.equal(conjugate('dovere').tenses.presente[0], 'devo|debbo');
+  assert.equal(composeBuild(dovere, { subject: 0, verb: 0, object: 0 }, ctx).it, 'Io devo studiare.');
+  assert.equal(resolveFreeEntry('debbo', { pos: 'verb', person: 0, tense: 'presente' }, ctx).form, 'devo');
+  const altLesson = { id: 'sl-presente-98-alt', tense: 'presente', activities: [{ id: 'sl-presente-98-alt.1', kind: 'cloze', prompt: 'p', template: 'Oggi ____ studiare.', en: 'Today I must study.',
+    blanks: [{ accept: ['devo'], options: ['devo', 'deve', 'dovete'], bank: [], free: true, slot: { pos: 'verb', person: 0, tense: 'presente' }, explanation: 'io takes devo.' }] }] };
+  const altSession = createLabSession(altLesson, { now: 1 });
+  const alt = answerLab(altLesson, altSession, ['debbo'], ctx).result;
+  assert.equal(alt.outcome, 'correct', 'a typed alternative of an accepted form is correct'); assert.equal(alt.blanks[0].filled, 'devo'); assert.equal(alt.sentence, 'Oggi devo studiare.');
+  assert.equal(answerLab(altLesson, createLabSession(altLesson, { now: 1 }), ['deve'], ctx).result.outcome, 'incorrect', 'a wrong option stays wrong');
+  // (2) a fixed verb role inserts its phrase as it is, with or without a subject role
+  const fixed = { tense: 'presente', roles: [{ role: 'subject', items: [{ it: 'Io', person: 0 }] }, { role: 'verb', fixed: true, items: [{ it: 'lo mangio', en: 'eat it' }, { it: 'la bevo', en: 'drink it' }] }, { role: 'extra', optional: true, items: [{ it: 'a casa', en: 'at home' }] }] };
+  assert.deepEqual(composeBuild(fixed, { subject: 0, verb: 1, extra: 0 }, ctx), { ok: true, it: 'Io la bevo a casa.', en: 'I drink it at home.', reason: '', tense: 'presente', person: 0,
+    parts: [{ role: 'subject', it: 'Io', en: 'I' }, { role: 'verb', it: 'la bevo', en: 'drink it' }, { role: 'extra', it: 'a casa', en: 'at home' }] });
+  assert.equal(composeBuild({ ...fixed, roles: fixed.roles.slice(1) }, { verb: 'lo mangio' }, ctx).it, 'Lo mangio.');
+  assert.equal(composeBuild({ ...fixed, roles: fixed.roles.slice(1) }, { verb: { it: 'lo mangio', en: 'eat it' } }, ctx).en, 'Eat it.');
+  assert.equal(composeBuild({ ...fixed, tense: 'passatoProssimo' }, { subject: 0, verb: 0 }, ctx).it, 'Io lo mangio.', 'a fixed phrase is never conjugated');
+  // (3) the build conjugates in its own tense; the lesson tense ("misto") is never used
+  const misto = { id: 'sl-passato-98-misto', tense: 'misto', activities: [{ id: 'sl-passato-98-misto.1', kind: 'build', prompt: 'p', tense: 'passatoProssimo',
+    roles: [{ role: 'subject', items: [{ it: 'Io', person: 0 }, { it: 'Mia sorella', en: 'My sister', person: 2, gender: 'f' }, { it: 'Marco', person: 2, gender: 'm' }] }, { role: 'verb', items: [{ inf: 'andare', en: 'went', aux: 'essere' }] }, { role: 'extra', items: [{ it: 'al mare', en: 'to the sea' }] }], examples: ['Io sono andata al mare.'] }] };
+  const mistoSession = createLabSession(misto, { now: 1 });
+  const went = answerLab(misto, mistoSession, { subject: 0, verb: 0, extra: 0 }, ctx).result;
+  assert.equal(went.sentence, 'Io sono andata al mare.'); assert.equal(went.en, 'I went to the sea.');
+  // (5) subject items may carry gender for the participle; past-tense verb glosses are used verbatim
+  assert.equal(composeBuild(misto.activities[0], { subject: 1, verb: 0, extra: 0 }, makeCtx('m')).it, 'Mia sorella è andata al mare.');
+  assert.equal(composeBuild(misto.activities[0], { subject: 2, verb: 0, extra: 0 }, makeCtx('f')).it, 'Marco è andato al mare.');
+  assert.equal(composeBuild(misto.activities[0], { subject: 1, verb: 0, extra: 0 }, makeCtx('m')).en, 'My sister went to the sea.');
+  // (4) a role without optional: true is required; optional: false too
+  assert.deepEqual(composeBuild(misto.activities[0], { subject: 0, verb: 0 }, ctx), { ok: false, reason: 'Choose when or where.', it: '', en: '' });
+  const explicit = { ...fixed, roles: fixed.roles.map(r => (r.role === 'extra' ? { ...r, optional: false } : r)) };
+  assert.equal(composeBuild(explicit, { subject: 0, verb: 0 }, ctx).reason, 'Choose when or where.');
+  assert.equal(composeBuild(fixed, { subject: 0, verb: 0 }, ctx).it, 'Io lo mangio.', 'optional: true may be left out');
 });
 
 test('dialogue: turns reveal one at a time, free entry fills the wrap and picks the reaction', () => {
@@ -529,7 +596,7 @@ test('dialogue: turns reveal one at a time, free entry fills the wrap and picks 
   assert.deepEqual(step.state.turns.map(t => [t.speaker, t.pending === true, t.reaction === true]), [['partner', false, false], ['you', true, false]]);
   assert.equal(step.state.turns[0].it, 'Ciao! Come stai?'); assert.equal(step.state.current.template, 'Bene grazie, ma ____.'); assert.equal(step.state.current.blanks.length, 1);
   const r = answerLab(fixtureLesson, session, ['tired'], ctx).result;
-  assert.equal(r.outcome, 'accepted'); assert.equal(r.turnIndex, 1); assert.equal(r.sentence, 'Bene grazie, ma sona stanca.'.replace('sona', 'sono')); assert.equal(r.blanks[0].entryId, 'w:stanco|adj');
+  assert.equal(r.outcome, 'correct', 'the English word resolves to an accepted value'); assert.equal(r.turnIndex, 1); assert.equal(r.sentence, 'Bene grazie, ma sono stanca.'); assert.equal(r.blanks[0].entryId, 'w:stanco|adj');
   assert.deepEqual(r.reaction, { it: 'Stanco? Hai lavorato molto?', en: 'Tired? Did you work a lot?' }); assert.equal(r.complete, false);
   step = currentLabStep(fixtureLesson, session);
   assert.equal(step.state.turnIndex, 3);
@@ -562,7 +629,7 @@ test('dialogue: a tapped option is correct and takes its own reaction; an unknow
   const unknown = answerLab(fixtureLesson, bad, ['xyzzyq'], ctx).result;
   assert.equal(unknown.outcome, 'incorrect'); assert.match(unknown.explanation, /not in the dictionary/); assert.equal(unknown.misses, 1);
   const english = answerLab(fixtureLesson, bad, ['sono tired'], ctx).result;
-  assert.equal(english.outcome, 'accepted', 'the wrap typed around an English word is stripped before resolving'); assert.equal(english.sentence, 'Bene grazie, ma sono stanco.');
+  assert.equal(english.outcome, 'correct', 'the wrap typed around an English word is stripped before resolving, and the result is an accepted value'); assert.equal(english.sentence, 'Bene grazie, ma sono stanco.');
 });
 
 test('build: composes, saves the sentence and completes the lesson', () => {
@@ -602,7 +669,7 @@ test('composeBuild: tenses, agreement, English glosses and failure reasons', () 
   const none = composeBuild(build, { subject: 0, verb: { inf: 'dirimere', en: 'settle' }, object: 0 }, makeCtx());
   assert.equal(none.ok, true);
   const noForm = composeBuild({ ...build, tense: 'passatoProssimo' }, { subject: 0, verb: { inf: 'dirimere', en: 'settled' }, object: 0 }, makeCtx());
-  assert.equal(noForm.ok, false); assert.match(noForm.reason, /"dirimere" has no Passato prossimo form for io/.source ? /dirimere.*no Passato prossimo form for io/ : /x/);
+  assert.equal(noForm.ok, false); assert.equal(noForm.reason, '“dirimere” has no Passato prossimo form for io.');
   assert.deepEqual(composeBuild(build, { verb: 0, object: 0 }, makeCtx()), { ok: false, reason: 'Choose who.', it: '', en: '' });
   assert.match(composeBuild(build, { subject: 'Tu', verb: 0, object: 0 }, makeCtx()).reason, /not one of the choices for who/);
   assert.equal(composeBuild(build, { subject: 0, verb: 0, object: 0, extra: '' }, makeCtx()).it, 'Io mangio la pasta.', 'an empty optional role is skipped');

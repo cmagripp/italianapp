@@ -143,7 +143,7 @@
           "template": "Anna? ____ qui da dieci minuti.",
           "en": "Anna? I've been waiting for her here for ten minutes.",
           "blanks": [
-            { "accept": ["l'aspetto"], "options": ["l'aspetto", "la aspetto", "lo aspetto"], "bank": ["li aspetto"], "free": false, "slot": null, "explanation": "Before a vowel, la becomes l': l'aspetto." }
+            { "accept": ["L'aspetto"], "options": ["L'aspetto", "La aspetto", "Lo aspetto"], "bank": ["Li aspetto"], "free": false, "slot": null, "explanation": "Before a vowel, la becomes l': l'aspetto." }
           ],
           "hint": "Aspetto starts with a vowel."
         },
@@ -154,7 +154,7 @@
           "hint": "Pick who, then a pronoun + verb, then when or where.",
           "tense": "presente",
           "roles": [
-            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Anche io", "person": 0 }] },
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Anche io", "en": "I also", "person": 0 }] },
             {
               "role": "verb",
               "fixed": true,
@@ -342,7 +342,7 @@
           "hint": "Pick who, a verb, what, then the reason with perché.",
           "tense": "presente",
           "roles": [
-            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mio fratello", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "person": 5 }] },
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mio fratello", "en": "My brother", "person": 2, "g": "m" }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "en": "My friends", "person": 5, "g": "m" }] },
             { "role": "verb", "items": [{ "inf": "studiare", "en": "study" }, { "inf": "imparare", "en": "learn" }, { "inf": "guardare", "en": "watch" }, { "inf": "leggere", "en": "read" }] },
             {
               "role": "object",
@@ -483,7 +483,7 @@
               ],
               "reactions": [
                 { "when": ["una lezione", "un esame"], "it": "Studi ancora? Che cosa studi?", "en": "Are you still studying? What do you study?" },
-                { "when": ["un appuntamento"], "it": "Capisco, allora un caffè veloce.", "en": "I see, then a quick coffee." },
+                { "when": ["un appuntamento", "un treno"], "it": "Capisco, allora un caffè veloce.", "en": "I see, then a quick coffee." },
                 { "when": ["una riunione"], "it": "Al lavoro? Allora andiamo subito al bar.", "en": "At work? Then let's go to the bar right away." },
                 { "when": "*", "it": "Capisco. Allora solo un caffè veloce.", "en": "I see. Then just a quick coffee." }
               ]
@@ -523,7 +523,7 @@
           "hint": "Who, what they do, what, then a connector.",
           "tense": "presente",
           "roles": [
-            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mio fratello", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "person": 5 }] },
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mio fratello", "en": "My brother", "person": 2, "g": "m" }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "en": "My friends", "person": 5, "g": "m" }] },
             { "role": "verb", "items": [{ "inf": "mangiare", "en": "eat" }, { "inf": "guardare", "en": "watch" }, { "inf": "leggere", "en": "read" }, { "inf": "cucinare", "en": "cook" }] },
             {
               "role": "object",
@@ -594,7 +594,7 @@
           "answer": "La mattina mi sveglio alle sette.",
           "accepted": [],
           "tokens": ["La", "mattina", "mi", "sveglio", "alle", "sette."],
-          "distractors": ["si", "svegli"],
+          "distractors": ["si", "ti"],
           "explanation": "Io takes mi + sveglio.",
           "hint": "The pronoun matches io."
         },
@@ -602,13 +602,13 @@
           "id": "sl-strutture-04-la-mia-giornata.3",
           "kind": "cloze",
           "prompt": "Her morning",
-          "template": "Mia sorella si ____ presto, poi si ____ in fretta.",
+          "template": "Mia sorella ____ presto, poi ____ in fretta.",
           "en": "My sister gets up early, then she gets dressed in a hurry.",
           "blanks": [
-            { "accept": ["alza", "sveglia"], "options": ["alza", "sveglia", "alzo"], "bank": ["alzi"], "free": false, "slot": null, "explanation": "Mia sorella is lei: si alza." },
-            { "accept": ["veste", "lava"], "options": ["veste", "lava", "vesti"], "bank": ["vesto"], "free": false, "slot": null, "explanation": "Lei: si veste." }
+            { "accept": ["si alza", "si sveglia"], "options": ["si alza", "si sveglia", "mi alzo"], "bank": ["ti alzi"], "free": false, "slot": null, "explanation": "Mia sorella is lei: si alza." },
+            { "accept": ["si veste", "si lava"], "options": ["si veste", "si lava", "ti vesti"], "bank": ["mi vesto"], "free": false, "slot": null, "explanation": "Lei: si veste." }
           ],
-          "hint": "Lei takes the -a / -e ending."
+          "hint": "Lei takes si and the -a / -e ending."
         },
         {
           "id": "sl-strutture-04-la-mia-giornata.4",
@@ -617,7 +617,7 @@
           "template": "La sera ____ verso le undici.",
           "en": "In the evening I ____ around eleven.",
           "blanks": [
-            { "accept": ["mi addormento", "mi rilasso", "mi riposo"], "options": ["mi addormento", "mi rilasso", "mi riposo", "mi addormenta", "ti addormenti"], "bank": ["si addormenta"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
+            { "accept": ["mi addormento", "mi rilasso", "mi riposo"], "options": ["mi addormento", "mi rilasso", "mi riposo", "si addormenta", "ti addormenti"], "bank": ["ci addormentiamo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
           ],
           "hint": "Pronoun and ending both match io."
         },
@@ -673,7 +673,7 @@
               "template": "Vado a letto alle undici, ma ____ subito.",
               "en": "I go to bed at eleven, but I ____ right away.",
               "blanks": [
-                { "accept": ["mi addormento", "mi sveglio"], "options": ["mi addormento", "mi sveglio", "mi addormenta"], "bank": ["ti addormenti"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
+                { "accept": ["mi addormento", "mi sveglio"], "options": ["mi addormento", "mi sveglio", "si addormenta"], "bank": ["ti addormenti"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
               ],
               "reactions": [
                 { "when": ["mi addormento"], "it": "Che fortuna! Io non dormo mai bene.", "en": "Lucky you! I never sleep well." },
@@ -714,7 +714,7 @@
           "hint": "Who, a reflexive verb, when, and where if you like.",
           "tense": "presente",
           "roles": [
-            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mia madre", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I bambini", "person": 5 }] },
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mia madre", "en": "My mother", "person": 2, "g": "f" }, { "it": "Noi", "person": 3 }, { "it": "I bambini", "en": "The children", "person": 5, "g": "m" }] },
             {
               "role": "verb",
               "items": [
@@ -880,7 +880,7 @@
                 { "accept": ["la più bella", "la più interessante"], "options": ["la più bella", "il più bello", "la più bello", "la più interessante"], "bank": ["più bella"], "free": false, "slot": null, "explanation": "Città is feminine: la più bella." }
               ],
               "reactions": [
-                { "when": ["la più bella"], "it": "Sono d'accordo! Non vedo l'ora.", "en": "I agree! I can't wait." },
+                { "when": ["la più bella", "la più interessante"], "it": "Sono d'accordo! Non vedo l'ora.", "en": "I agree! I can't wait." },
                 { "when": "*", "it": "Allora a domenica!", "en": "Then see you Sunday!" }
               ]
             },
@@ -906,7 +906,7 @@
           "hint": "Everything here is masculine singular, so the adjective keeps its -o or -e.",
           "tense": "presente",
           "roles": [
-            { "role": "subject", "items": [{ "it": "Il treno", "person": 2 }, { "it": "Questo libro", "person": 2 }, { "it": "Mio fratello", "person": 2 }, { "it": "Il mio telefono", "person": 2 }] },
+            { "role": "subject", "items": [{ "it": "Il treno", "en": "The train", "person": 2, "g": "m" }, { "it": "Questo libro", "en": "This book", "person": 2, "g": "m" }, { "it": "Mio fratello", "en": "My brother", "person": 2, "g": "m" }, { "it": "Il mio telefono", "en": "My phone", "person": 2, "g": "m" }] },
             { "role": "verb", "items": [{ "inf": "essere", "en": "be", "aux": "essere" }, { "inf": "sembrare", "en": "seem", "aux": "essere" }] },
             {
               "role": "object",
@@ -1023,7 +1023,7 @@
                 { "accept": ["mi sono alzato", "mi sono alzata", "mi sono svegliato", "mi sono svegliata"], "options": ["mi sono alzato", "mi sono alzata", "mi sono svegliato", "mi sono svegliata"], "bank": ["mi alzo", "ho alzato"], "free": false, "slot": null, "explanation": "A reflexive in the past: mi sono + a participle that agrees with you." }
               ],
               "reactions": [
-                { "when": ["mi sono alzato", "mi sono alzata"], "it": "Alle sei? Io mi alzo sempre alle otto.", "en": "At six? I always get up at eight." },
+                { "when": ["mi sono alzato", "mi sono alzata", "mi sono svegliato", "mi sono svegliata"], "it": "Alle sei? Io mi alzo sempre alle otto.", "en": "At six? I always get up at eight." },
                 { "when": "*", "it": "Che giornata lunga!", "en": "What a long day!" }
               ]
             },
@@ -1063,7 +1063,7 @@
                 { "accept": ["bello", "sano", "comodo", "veloce"], "options": ["bello", "sano", "comodo", "veloce", "bella"], "bank": ["meglio"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Più + a masculine singular adjective: bello, sano, comodo." }
               ],
               "reactions": [
-                { "when": ["bello", "sano"], "it": "Hai ragione, e stasera non piove. A stasera!", "en": "You're right, and tonight it isn't raining. See you tonight!" },
+                { "when": ["bello", "sano", "comodo", "veloce"], "it": "Hai ragione, e stasera non piove. A stasera!", "en": "You're right, and tonight it isn't raining. See you tonight!" },
                 { "when": "*", "it": "D'accordo, allora andiamo a piedi. A stasera!", "en": "All right, then we'll walk. See you tonight!" }
               ]
             }
@@ -1100,15 +1100,15 @@
           "hint": "Tell what someone did: who, verb, what, then when or why.",
           "tense": "passatoProssimo",
           "roles": [
-            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mia sorella", "person": 2 }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "person": 5 }] },
+            { "role": "subject", "items": [{ "it": "Io", "person": 0 }, { "it": "Tu", "person": 1 }, { "it": "Mia sorella", "en": "My sister", "person": 2, "g": "f" }, { "it": "Noi", "person": 3 }, { "it": "I miei amici", "en": "My friends", "person": 5, "g": "m" }] },
             {
               "role": "verb",
               "items": [
-                { "inf": "mangiare", "en": "eat", "aux": "avere" },
-                { "inf": "guardare", "en": "watch", "aux": "avere" },
-                { "inf": "comprare", "en": "buy", "aux": "avere" },
+                { "inf": "mangiare", "en": "ate", "aux": "avere" },
+                { "inf": "guardare", "en": "watched", "aux": "avere" },
+                { "inf": "comprare", "en": "bought", "aux": "avere" },
                 { "inf": "leggere", "en": "read", "aux": "avere" },
-                { "inf": "chiamare", "en": "call", "aux": "avere" }
+                { "inf": "chiamare", "en": "called", "aux": "avere" }
               ]
             },
             {

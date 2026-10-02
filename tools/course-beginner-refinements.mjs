@@ -111,7 +111,9 @@ export function refineBeginnerPack(pack){
  }
  if(pack.level==='A1'){
   for(const [u,lesson] of pronunciationLessons()){const unit=pack.units[u],i=unit.lessons.findIndex(l=>l.id===lesson.id);if(i<0)unit.lessons.push(lesson);else unit.lessons[i]=lesson;}
-  for(const lesson of beginnerCheckpoints()){const unit=pack.units.at(-1),i=unit.lessons.findIndex(l=>l.id===lesson.id);if(i<0)unit.lessons.push(lesson);else unit.lessons[i]=lesson;}
+  // The input checkpoints close the first completed-event unit; their recorded
+  // audio is registered under that unit, so later A1 units never adopt them.
+  for(const lesson of beginnerCheckpoints()){const unit=pack.units.find(u=>u.id==='v2-a1-u12')||pack.units.at(-1),i=unit.lessons.findIndex(l=>l.id===lesson.id);if(i<0)unit.lessons.push(lesson);else unit.lessons[i]=lesson;}
 
   const links=byId(pack,'a1-basic-links');add(links,choice(links,'join-people','addition','Anna ___ Luca sono a casa.','Anna and Luca are at home.','e',['e','ma','perché'],'E simply joins the two people.',{reserve:false}));
   matching(byId(pack,'a1-essere-singular'),'match-person',[{left:'io',right:'sono'},{left:'tu',right:'sei'},{left:'lui / lei / Lei',right:'è'}]);
