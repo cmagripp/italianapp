@@ -491,7 +491,9 @@ export function journeyAttempt(plan, session, question, grade, { assistance = []
   if (!compatible(plan, session) || !session.journey.current || session.journey.awaitingContinue) return null;
   const j = session.journey, current = j.current, target = targetFor(plan, current.targetId), chapter = chapterFor(plan, session);
   if (!target || question?.meta?.targetId && question.meta.targetId !== target.id) return null;
-  if (question.type === 'pairs' && grade.ok && !question.pairs?.every(pair => j.pairMatches?.[current.questionId]?.includes(pair.targetId))) return null;
+  // Decoy rows on a word's article board are matched in the activity only; the
+  // board is complete once every evidence-bearing row was recorded.
+  if (question.type === 'pairs' && grade.ok && !question.pairs?.filter(pair => !pair.decoy).every(pair => j.pairMatches?.[current.questionId]?.includes(pair.targetId))) return null;
   const help = [...new Set([...assistance.filter(x => typeof x === 'string'), ...(question.type === 'letters' ? ['letter-bank'] : question.type === 'pairs' ? ['matching'] : [])])];
   const independent = current.phase === 'independent' && question.type === 'type' && question.meta?.mode !== 'recognition';
   return { id: current.questionId, sessionId: session.id, index: session.index, at: now,

@@ -10,6 +10,7 @@ import { conjugate } from '../conjugator.js';
 import { mount, reducedMotion } from '../fx.js';
 import { learnReel } from './learnCards.js';
 import * as dash from './learnDash.js';
+import { loadUsefulWords, usefulDeckCard } from '../useful-words.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 
@@ -127,7 +128,8 @@ function corsoHTML(model) {
   </section>`;
 }
 
-// Vocabolario: a quiet scope link in the header, then the verb reel and the word reel.
+// Vocabolario: a quiet scope link in the header, then the verb reel and the word reel. The word reel always ends with the
+// "Parole utili" deck card (the curated function-word set), so it is drawn even when the scope has no new word left.
 function vocabolarioHTML(model, store) {
   const scope = model.scope || {}, next = model.next || {};
   const scopeHref = scope.href || '#/scope';
@@ -145,8 +147,8 @@ function vocabolarioHTML(model, store) {
     </div>
     <div class="sez-deck" data-deck-wrap="word">
       <div class="sez-deck-head"><span class="title">${raw(tr('Parole', 'Words'))}</span>${wordSide ? raw(html`<span class="mono side">${wordSide}</span>`) : ''}</div>
-      ${words.length ? raw(html`<div class="sez-reel" data-reel="word"></div>`) : raw(emptyReel('No new words left in this scope.', scopeHref))}
-      ${words.length && next.words?.href ? raw(html`<a class="btn ghost sm block session-link" href="${next.words.href}">${ic('play', { size: 16 })}Start a short word session</a>`) : ''}
+      <div class="sez-reel" data-reel="word"></div>
+      ${!words.length ? raw(emptyReel('No new words left in this scope.', scopeHref)) : next.words?.href ? raw(html`<a class="btn ghost sm block session-link" href="${next.words.href}">${ic('play', { size: 16 })}Start a short word session</a>`) : ''}
     </div>
   </section>`;
 }
@@ -275,7 +277,12 @@ export function renderSections(container, model = {}, ctx = {}) {
   const verbEl = view.querySelector('[data-reel="verb"]');
   if (verbEl) { reels.verb = learnReel(verbEl, verbs.map(entryCard), { kind: 'verb', ariaLabel: 'Next verbs' }); cleanups.push(() => reels.verb.destroy()); }
   const wordEl = view.querySelector('[data-reel="word"]');
-  if (wordEl) { reels.word = learnReel(wordEl, words.map(entryCard), { kind: 'word', ariaLabel: 'Next words' }); cleanups.push(() => reels.word.destroy()); }
+  if (wordEl) {
+    reels.word = learnReel(wordEl, [...words.map(entryCard), usefulDeckCard()], { kind: 'word', ariaLabel: 'Next words' });
+    cleanups.push(() => reels.word.destroy());
+    // the deck card's detail line gets the set's counts once the file is loaded (the deck page reports a failed load)
+    loadUsefulWords().then(set => { const d = wordEl.isConnected && wordEl.querySelector('.lc[data-key="deck:useful"] .lc-detail'); if (d) d.textContent = usefulDeckCard(set).detail; }).catch(() => { /* reported on the deck page */ });
+  }
 
   // Laboratorio: the dashboard's shared lab reel when it exports one, otherwise the same cards from model.lab
   const labEl = view.querySelector('[data-lab-reel]');

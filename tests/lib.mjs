@@ -97,7 +97,7 @@ export async function ensureServer(base = BASE) {
 // ---------- routes ----------
 export const STATIC_ROUTES = [
   '/home', '/learn', '/course', '/games', '/words', '/search', '/profile',
-  '/browse/A1', '/browse/A1/food', '/browse?kind=verb',
+  '/browse/A1', '/browse/A1/food', '/browse?kind=verb', '/browse?list=useful',
   '/lists', '/list/bank', '/scope', '/add',
   '/entry/v:essere', '/entry/v:andarsene', '/entry/w:casa|noun',
   '/learn/verb/v:mangiare', '/learn/word/w:casa|noun', '/review',

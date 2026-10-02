@@ -5,6 +5,8 @@ import { store } from '../store.js';
 import { data, LEVELS, LEVEL_INFO, CATS, search } from '../data.js';
 import { entryRow } from '../components.js';
 import { reel, mount } from '../fx.js';
+import { learnCardHTML } from './learnCards.js';
+import { loadUsefulWords, usefulDeckCard } from '../useful-words.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 
@@ -63,6 +65,10 @@ export async function render(root) {
         }).join(''))}</div>
       </div>
       <div class="section">
+        ${raw(secHead('Decks', raw(tr('Mazzi', 'Decks'))))}
+        <div class="deck-cards" data-decks>${raw(learnCardHTML(usefulDeckCard(), { kind: 'word' }))}</div>
+      </div>
+      <div class="section">
         ${raw(secHead('By topic', raw(tr('Temi', 'Topics'))))}
         <div class="topic-grid">${raw(Object.entries(CATS).map(([k, c]) => html`<a class="topic" href="#/browse/all/${k}"><span class="trow"><span class="glyph">${c.icon}</span><span class="tcount">${byCat[k] || 0}</span></span><span class="tname">${shortCat(k)}</span></a>`).join(''))}</div>
       </div>
@@ -102,6 +108,8 @@ export async function render(root) {
 
   const r = reel(root.querySelector('[data-reel]'));
   r.scrollTo(Math.max(0, LEVELS.indexOf(myLevel)), false);
+  // the deck card's detail line gets the set's counts once the file is loaded (the deck page reports a failed load)
+  loadUsefulWords().then(set => { const d = root.querySelector('[data-decks] .lc[data-key="deck:useful"] .lc-detail'); if (d && d.isConnected) d.textContent = usefulDeckCard(set).detail; }).catch(() => { /* reported on the deck page */ });
   if (memo && memo.q) { q.value = memo.q; doSearch(); }
   mount(page);
   mount(browse, { stagger: 70 });

@@ -1,12 +1,14 @@
 // Browse by level / topic / kind: level hero strip, chip filters, sticky-kicker groups, dropdown actions, paging.
-import { html, raw, toast, tr, icon, pct } from '../ui.js';
+// `#/browse?list=useful` is the "Parole utili" deck instead: the curated function-word set, grouped (renderUseful below).
+import { html, raw, toast, tr, icon, pct, levelBadge } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
-import { data, LEVELS, LEVEL_INFO, CATS, POS_NAME, fold } from '../data.js';
-import { entryRow } from '../components.js';
+import { data, LEVELS, LEVEL_INFO, CATS, POS_NAME, fold, headword } from '../data.js';
+import { entryRow, stageOf } from '../components.js';
 import { stage } from '../srs.js';
 import { dropdown, mount, setScene } from '../fx.js';
 import { shortCat } from './words.js';
+import { USEFUL_LIST, USEFUL_TITLE, USEFUL_EN, loadUsefulWords, usefulGroups, idsSource, matchingHref } from '../useful-words.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const POS_ORDER = ['noun', 'verb', 'adj', 'adv', 'expr', 'prep', 'conj', 'pron', 'num', 'det', 'interj'];
@@ -19,6 +21,7 @@ const shownMemory = new Map();
 const historyKey = () => (history.state && history.state.pid) || null;
 
 export async function render(root, params, query) {
+  if (query.list === USEFUL_LIST) return renderUseful(root);
   const level = params.level && params.level !== 'all' ? params.level : null;
   if (level && !LEVELS.includes(level)) { setTitle('Browse'); root.innerHTML = html`<div class="empty"><p>${raw(tr('Livello sconosciuto.', 'Unknown level.'))}</p><a class="btn primary" href="#/browse">Browse everything</a></div>`; return; }
   const cat = params.cat || null;
@@ -152,4 +155,55 @@ export async function render(root, params, query) {
     mount(root.firstElementChild);
   }
   draw();
+}
+
+// ---------- the "Parole utili" deck (#/browse?list=useful) ----------
+// The curated function-word set as data/useful-words.json groups it: the browse hero in the amalfi tint, one Play (the
+// Matching game on the whole set) beside the count with a menu for the other games, then every group under a sticky
+// head that carries its own Play (Matching on that group alone). A row opens the word's lesson and shows the set's
+// one-line usage note under the meaning.
+const USEFUL_GAMES = [
+  { value: 'matching', label: 'Matching', sub: 'Pair each word with its meaning' },
+  { value: 'flashcards', label: 'Flashcards', sub: 'Flip through them one by one' },
+  { value: 'quiz', label: 'Play a quiz', sub: 'Multiple choice on the set' },
+];
+// the first two senses: "him; it (direct object)" says more than entryRow's first sense alone for a clitic, and still fits one line
+const twoSenses = (en) => String(en || '').split(';').slice(0, 2).map(s => s.trim()).filter(Boolean).join('; ');
+function usefulRow(e, note) {
+  const st = stageOf(e.id), learned = store.isLearned(e.id);
+  return html`<a class="row-entry glass-flat uw-row" href="#/learn/word/${encodeURIComponent(e.id)}" data-id="${e.id}">
+    <span class="dot stage-${st}"></span>
+    <span class="re-main"><span class="re-hw">${headword(e)}</span><span class="re-sub">${twoSenses(e.en)} · ${POS_NAME[e.pos] || e.pos}</span>${note ? raw(html`<span class="re-note">${note}</span>`) : ''}</span>
+    <span class="re-side">${raw(levelBadge(e.level || 'A1'))}${learned ? raw(`<span class="check-mark" title="Learned">${icon('check', { size: 18 })}</span>`) : ''}</span>
+  </a>`;
+}
+async function renderUseful(root) {
+  setTitle(USEFUL_TITLE);
+  let set = null;
+  try { set = await loadUsefulWords(); } catch (err) { console.warn(err); }
+  const groups = usefulGroups(set);
+  const all = groups.flatMap(g => g.items.map(x => x.entry));
+  if (!all.length) { root.innerHTML = html`<div class="empty"><p>${raw(tr('Le parole utili non si caricano.', 'The useful words could not be loaded.'))}</p><a class="btn primary" href="#/words">Words</a></div>`; return; }
+  const ids = all.map(e => e.id);
+  const learned = all.filter(e => store.isLearned(e.id)).length, p = pct(learned, all.length), done = Math.floor(p / 10);
+  const hc = 'var(--amalfi)';
+  const rail = html`<div class="rail-wrap"><div class="rail">${raw([...Array(10)].map((_, i) => `<span class="${i < done ? 'done' : (i === done && learned && p < 100 ? 'cur' : '')}"></span>`).join(''))}</div><span class="rail-count">${learned} / ${all.length}</span></div>`;
+  const groupHTML = (g) => html`<section class="grp" data-key="${g.id}">
+      <div class="grp-head"><span class="kicker"><i class="gdot" style="--c:${hc}"></i>${g.title}<span class="uw-it">· ${g.it}</span></span><span class="side"><span class="kicker n">${g.items.length}</span><a class="btn xs ghost" href="${matchingHref(g.items.map(x => x.entry.id))}" data-play-group="${g.id}" aria-label="Play matching: ${g.title}">${ic('play', { size: 14 })}Play</a></span></div>
+      <div class="list">${raw(g.items.map(x => usefulRow(x.entry, x.note)).join(''))}</div>
+    </section>`;
+  root.innerHTML = html`<div class="pg pg-browse pg-useful">
+    <div class="lvl-hero glass glass-tint" style="--hc:${hc};--tint:color-mix(in srgb, ${hc} 12%, transparent)">
+      <span class="kicker"><span class="glyph">${ic('sparkle', { size: 16 })}</span><span>Deck · every level</span></span>
+      <span class="big txt">${USEFUL_TITLE}</span>
+      <span class="hname">${USEFUL_EN}</span>
+      <span class="hdesc">The small words that hold every sentence together: questions, links, pronouns, time, place and quantity.</span>
+      <div class="hmeta"><span><b>${all.length}</b> words</span><span><b>${groups.length}</b> groups</span><span><b>${p}%</b> learned</span></div>
+      ${raw(rail)}
+    </div>
+    <div class="count-row"><span class="kicker">${all.length} · ${learned} learned</span><span class="acts"><a class="btn sm primary" href="${matchingHref(ids)}" data-play>${ic('play', { size: 16 })}Play</a><button type="button" class="btn sm" data-actions aria-haspopup="menu" aria-label="More games on this deck">${ic('chevronDown', { size: 16 })}</button></span></div>
+    ${raw(groups.map(groupHTML).join(''))}
+  </div>`;
+  root.querySelector('[data-actions]').addEventListener('click', (ev) => dropdown(ev.currentTarget, USEFUL_GAMES, { align: 'end', width: 272, onSelect: (v) => { location.hash = `#/games?pick=${v}&src=${idsSource(ids)}`; } }));
+  mount(root.firstElementChild);
 }

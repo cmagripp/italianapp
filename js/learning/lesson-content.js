@@ -14,6 +14,33 @@ const id = (e, chapter, key) => `${e.id}::lesson::${chapter}::${key}`;
 const card = (key,title,body,examples=[],forms=[],notes=[]) => ({id:key,title,body,examples,forms,notes});
 const nounLabel = (e,plural=false) => e.g ? withArticle(e,plural) : plural ? e.pl : e.it;
 const target = (e,ch,key,skill,extra={}) => ({id:id(e,ch,key),skill,required:true,available:true,...extra});
+// A noun is taught as singular-use when its plural is not recorded as a form ("-")
+// or its note says the sense normally stays singular; plural-only nouns are not.
+const SINGULAR_NOTE=/\b(?:usually|normally|mostly|often|generally|typically|almost always|almost only)\s+(?:(?:in the|used in the)\s+)?singular\b/i;
+export function isSingularUse(e){ return e?.pos==='noun'&&!isPluralOnly(e)&&(isUncountable(e)||SINGULAR_NOTE.test(e.note||'')); }
+const firstArticle=(e,plural=false)=>String(article(e,plural)||'').split('/')[0];
+const attach=(a,w)=>!a?w:a.endsWith("'")?a+w:`${a} ${w}`;
+// The regular plural pattern, used only to name a deliberately wrong option on the
+// number screen; a recorded plural is always preferred to this guess.
+const regularPlural=w=>{const [head,...rest]=String(w).split(' ');const guess=/io$/.test(head)?head.slice(0,-1):/o$/.test(head)?head.slice(0,-1)+'i':/[cg]a$/.test(head)?head.slice(0,-1)+'he':/a$/.test(head)?head.slice(0,-1)+'e':/e$/.test(head)?head.slice(0,-1)+'i':head;return [guess,...rest].join(' ');};
+export function nounNumberChoices(e){
+ if(e?.pos!=='noun'||!e.g||!e.it)return null;
+ const singular=attach(firstArticle(e),e.it),pluralForm=hasPluralForm(e)?e.pl:regularPlural(e.it),plural=attach(firstArticle({...e,pl:pluralForm},true),pluralForm);
+ return {question:'Which is right for this noun?',fact:`Normally singular: ${singular}`,distractors:[`Normally plural: ${plural}`,`Singular and plural alike: ${singular}, ${plural}`],singular,plural,invented:!hasPluralForm(e)};
+}
+// One line naming the article rule whenever the noun does not simply take il/i or la/le.
+export function articleRuleNote(e){
+ if(e?.pos!=='noun'||!e.g)return '';
+ const pluralOnly=isPluralOnly(e),singular=pluralOnly?'':String(article(e)||''),plural=hasPluralForm(e)?String(article(e,true)||''):'';
+ const sg=pluralOnly?'':withArticle(e),pl=plural?withArticle(e,true):'';
+ const pluralPart=plural==='gli'?` The plural takes gli: ${pl}.`:plural==='gli/le'?` In the plural use gli or le: gli ${e.pl} / le ${e.pl}.`:plural==='le'&&e.g==='m'?` This masculine noun has a feminine plural with le: ${pl}.`:pl?` The plural is ${pl}.`:'';
+ if(singular==="l'")return `Before a vowel sound the singular article is l': ${sg}.${pluralPart}`;
+ if(singular==='lo')return `Before s + consonant, z, gn, ps, x, y or i + vowel the masculine article is lo: ${sg}.${pluralPart}`;
+ if(singular==='lo/la')return `Before s + consonant, z, gn, ps, x, y or i + vowel the masculine article is lo and the feminine la: lo ${e.it} / la ${e.it}.${pluralPart}`;
+ if(plural==='gli')return `This noun takes gli in the plural: ${pl}.`;
+ if(plural==='le'&&e.g==='m')return `This masculine noun has a feminine plural with le: ${pl}.`;
+ return '';
+}
 // These restrictions describe the dictionary sense taught in this course. They
 // do not claim that every literary or figurative use of the lemma is impossible.
 const sensePersons = { bisognare:[2], trattarsi:[2], volerci:[2,5], addirsi:[2,5], prudere:[2,5], urgere:[2,5], vigere:[2,5], rincrescere:[2,5], spettare:[2,5], verificarsi:[2,5], concernere:[2,5] };
@@ -365,7 +392,19 @@ function wordLesson(e){
  const noun=e.pos==='noun',adj=e.pos==='adj',ctx=wordContext(e);const examples=e.ex?[{it:e.ex,en:e.exEn||''}]:[];
  const meaning={id:'meaning',title:'Meaning',tense:null,groups:[{id:'meaning',title:'Meet the word',cards:[card('meaning',noun?nounLabel(e,isPluralOnly(e)):e.it,e.en,examples,[],e.note?[e.note]:[]),...(original.en!==e.en?[{...card('other-meanings','Dictionary meanings',original.en,[],[],['This lesson follows the meaning used above. Other uses remain in the reference.']),reference:true}]:[])],targets:[target(e,'meaning','meaning','meaning'),target(e,'meaning','recall','recall')]}]};
  const forms=[],targets=[],notes=[];
- if(noun){forms.push({label:isPluralOnly(e)?'Normally plural':'Singular',form:nounLabel(e,isPluralOnly(e)),gloss:e.en});if(hasPluralForm(e)&&!isPluralOnly(e)){forms.push({label:'Plural',form:nounLabel(e,true),gloss:'more than one'});targets.push(target(e,'forms','plural','plural',{available:!!e.g||e.it!==e.pl,reason:!e.g&&e.it===e.pl?'The article is needed to show this unchanged noun’s number. Add its gender to practise it.':null}));}else notes.push(nounNumberNote(e));if(e.g)targets.unshift(target(e,'forms','article','article'));notes.push(e.g==='f'?'This noun is feminine.':e.g==='m'?'This noun is masculine.':e.g==='mf'?'This noun can refer to masculine or feminine people; use the applicable article.':'Gender is not recorded for this noun.');}
+ if(noun){
+  const pluralOnly=isPluralOnly(e);
+  forms.push({label:pluralOnly?'Normally plural':'Singular',form:nounLabel(e,pluralOnly),gloss:e.en});
+  if(hasPluralForm(e)&&!pluralOnly){forms.push({label:'Plural',form:nounLabel(e,true),gloss:'more than one'});targets.push(target(e,'forms','plural','plural',{available:!!e.g||e.it!==e.pl,reason:!e.g&&e.it===e.pl?'The article is needed to show this unchanged noun’s number. Add its gender to practise it.':null}));}
+  else notes.push(nounNumberNote(e));
+  if(e.g)targets.unshift(target(e,'forms','article','article',{number:pluralOnly?'plural':'singular'}));
+  // A singular-use sense is checked on its number rather than on a plural it does
+  // not normally use. The fact target keeps the long path answerable too.
+  const number=e.g&&isSingularUse(e)?nounNumberChoices(e):null;
+  if(number)targets.push(target(e,'forms','number','number',{required:false,supplementalOnly:true,fact:number.fact,question:number.question,distractors:number.distractors,answerLanguage:'en'}));
+  notes.push(e.g==='f'?'This noun is feminine.':e.g==='m'?'This noun is masculine.':e.g==='mf'?'This noun can refer to masculine or feminine people; use the applicable article.':'Gender is not recorded for this noun.');
+  const rule=articleRuleNote(e);if(rule)notes.push(rule);
+ }
  if(adj&&e.forms?.length===4){['masculine singular','feminine singular','masculine plural','feminine plural'].forEach((label,i)=>{forms.push({label,form:e.forms[i],gloss:label});targets.push(target(e,'forms',`agreement-${i}`,'agreement',{formIndex:i,evidenceScope:'agreement'}));});}
  if(adj&&!e.forms?.length&&/invariable/i.test(e.note||'')){
   forms.push({label:'Unchanged form in this use',form:e.it,gloss:e.en});notes.push('Use the unchanged adjective form taught in this entry.');
@@ -439,23 +478,36 @@ function finalize(entry,plan){
  }
  return plan;
 }
-function briefWordLesson(plan) {
+function briefWordLesson(plan,entry) {
  const meaning=plan.chapters.find(c=>c.id==='meaning'),forms=plan.chapters.find(c=>c.id==='forms');
  const meaningTarget=meaning?.groups.flatMap(g=>g.targets).find(t=>t.skill==='meaning');
  const recall=meaning?.groups.flatMap(g=>g.targets).find(t=>t.skill==='recall');
  if(!meaningTarget||!recall)return plan;
- const formTargets=(forms?.groups.flatMap(g=>g.targets)||[]).filter(t=>t.available!==false&&['article','plural','agreement'].includes(t.skill));
- const distinctForms=new Set(formTargets.flatMap(t=>t.answerForms||[]));
- const pairTargets=formTargets.length>=2&&distinctForms.size>=2?formTargets.slice(0,3):[];
- // A matching board is one short activity; its individual rows still produce
- // supported evidence. Keep the entire ordinary lesson to six answer screens.
- const sequence=[meaningTarget,recall,...(pairTargets.length?[formTargets[0],formTargets.at(-1)]:formTargets),meaningTarget,recall];
- while(sequence.length<6)sequence.push(formTargets.length?formTargets[(sequence.length-4)%formTargets.length]:sequence.length%2?recall:meaningTarget);
+ const formTargets=(forms?.groups.flatMap(g=>g.targets)||[]).filter(t=>t.available!==false&&['article','plural','agreement','number'].includes(t.skill));
+ const bySkill=Object.fromEntries(formTargets.map(t=>[t.skill,t]));
+ let sequence,board=null;
+ if(entry?.pos==='noun'&&bySkill.article){
+  // Every noun with a gender is drilled on its article, its singular and its
+  // plural: a choice for each, then an article board that mixes in other nouns.
+  const {article,plural,number}=bySkill;
+  if(number)sequence=[meaningTarget,recall,article,number,recall,meaningTarget];
+  else if(isPluralOnly(entry)){sequence=[article,meaningTarget,recall,article,meaningTarget,recall];board={index:3,targets:[article]};}
+  else if(plural){sequence=[meaningTarget,recall,article,plural,article,recall];board={index:4,targets:[article,plural]};}
+  else {sequence=[meaningTarget,recall,article,article,recall,meaningTarget];board={index:3,targets:[article]};}
+ } else {
+  const distinctForms=new Set(formTargets.flatMap(t=>t.answerForms||[]));
+  const pairTargets=formTargets.length>=2&&distinctForms.size>=2?formTargets.slice(0,3):[];
+  // A matching board is one short activity; its individual rows still produce
+  // supported evidence. Keep the entire ordinary lesson to six answer screens.
+  sequence=[meaningTarget,recall,...(pairTargets.length?[formTargets[0],formTargets.at(-1)]:formTargets),meaningTarget,recall];
+  while(sequence.length<6)sequence.push(formTargets.length?formTargets[(sequence.length-4)%formTargets.length]:sequence.length%2?recall:meaningTarget);
+  if(pairTargets.length)board={index:2,targets:pairTargets};
+ }
  const seen={};
- const slots=sequence.slice(0,8).map((t,i)=>{const variant=seen[t.id]||0;seen[t.id]=variant+1;return {id:`${plan.entryId}::short-word::${i}`,targetId:t.id,variant,format:i===2&&pairTargets.length?'pairs':'mc',...(i===2&&pairTargets.length?{pairTargetIds:pairTargets.map(t=>t.id)}:{})};});
+ const slots=sequence.slice(0,8).map((t,i)=>{const variant=seen[t.id]||0;seen[t.id]=variant+1;const pairs=board?.index===i;return {id:`${plan.entryId}::short-word::${i}`,targetId:t.id,variant,format:pairs?'pairs':'mc',...(pairs?{pairTargetIds:board.targets.map(t=>t.id)}:{})};});
  const teaching=[{chapterId:'meaning',groupId:meaning.groups[0].id,cardId:'meaning'}];
  if(formTargets.length)teaching.push({chapterId:'forms',groupId:forms.groups[0].id,cardId:'forms'});
  plan.wordLesson={version:1,teaching,slots};
  return plan;
 }
-export function buildLesson(entry,{legacy=false}={}){if(!entry?.id)return null;const plan=finalize(entry,{version:LESSON_CONTENT_VERSION,entryId:entry.id,kind:verb(entry)?'verb':'word',...(!legacy&&verb(entry)?{flowVersion:2}:{}),title:entry.inf||entry.it,meaning:lessonEntry(entry).en||'',referenceMeanings:entry.en||'',chapters:verb(entry)?verbLesson(lessonEntry(entry),{legacy}):wordLesson(entry)});return plan.kind==='word'?briefWordLesson(plan):plan;}
+export function buildLesson(entry,{legacy=false}={}){if(!entry?.id)return null;const plan=finalize(entry,{version:LESSON_CONTENT_VERSION,entryId:entry.id,kind:verb(entry)?'verb':'word',...(!legacy&&verb(entry)?{flowVersion:2}:{}),title:entry.inf||entry.it,meaning:lessonEntry(entry).en||'',referenceMeanings:entry.en||'',chapters:verb(entry)?verbLesson(lessonEntry(entry),{legacy}):wordLesson(entry)});return plan.kind==='word'?briefWordLesson(plan,entry):plan;}

@@ -3,6 +3,7 @@
 import { article, hasPluralForm, isPluralOnly, isUncountable, nounNumberNote } from '../data.js';
 import { escapeHTML } from './questions.js';
 import { createPairActivity } from './lesson-activities.js';
+import { nounNumberChoices } from './lesson-content.js';
 
 const norm = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
 const unique = values => [...new Map(values.filter(v => typeof v === 'string' && v.trim() && !/^[-—]$/.test(v)).map(v => [norm(v), v])).values()];
@@ -12,7 +13,8 @@ const definiteArticles = ['il', 'lo', 'la', "l'", 'i', 'gli', 'le'];
 // Small, explicit fallback lexicon for custom entries and data-loading tests.
 // The normal lesson passes the catalog, which supplies same-type distractors.
 const fallback = [
-  ['noun', 'casa', 'house', 'case'], ['noun', 'libro', 'book', 'libri'], ['noun', 'sedia', 'chair', 'sedie'], ['noun', 'gatto', 'cat', 'gatti'],
+  ['noun', 'casa', 'house', 'case', 'f'], ['noun', 'libro', 'book', 'libri', 'm'], ['noun', 'sedia', 'chair', 'sedie', 'f'], ['noun', 'gatto', 'cat', 'gatti', 'm'],
+  ['noun', 'zaino', 'backpack', 'zaini', 'm'], ['noun', 'isola', 'island', 'isole', 'f'],
   ['adj', 'rosso', 'red'], ['adj', 'freddo', 'cold'], ['adj', 'veloce', 'fast'], ['adj', 'stanco', 'tired'],
   ['adv', 'sempre', 'always'], ['adv', 'mai', 'never'], ['adv', 'qui', 'here'], ['adv', 'lentamente', 'slowly'],
   ['prep', 'con', 'with'], ['prep', 'senza', 'without'], ['prep', 'sotto', 'under'], ['prep', 'dopo', 'after'],
@@ -22,7 +24,7 @@ const fallback = [
   ['num', 'due', 'two'], ['num', 'tre', 'three'], ['num', 'quattro', 'four'], ['num', 'dieci', 'ten'],
   ['interj', 'ciao', 'hello; goodbye'], ['interj', 'grazie', 'thank you'], ['interj', 'buonanotte', 'good night'], ['interj', 'complimenti', 'congratulations'],
   ['expr', 'a domani', 'see you tomorrow'], ['expr', 'buon appetito', 'enjoy your meal'], ['expr', 'per favore', 'please'], ['expr', 'in bocca al lupo', 'good luck'],
-].map(([pos, it, en, pl]) => ({ id: `fallback:${it}`, pos, it, en, pl }));
+].map(([pos, it, en, pl, g]) => ({ id: `fallback:${it}`, pos, it, en, pl, ...(g ? { g, level: 'A1' } : {}) }));
 
 function selectedMeaning(entry) {
   const meanings = String(entry.en || '').split(';').map(s => s.trim()).filter(Boolean);
@@ -72,7 +74,7 @@ function nounForms(entry, plural = false) {
   if (!word || plural && !hasPluralForm(entry)) return [];
   return unique([word, ...articles(entry, plural).map(a => attach(a, word))]);
 }
-function prompt(main, instruction) { return `<div class="big md">${escapeHTML(main)}</div><div class="sub">${escapeHTML(instruction)}</div>`; }
+function prompt(main, instruction) { return `<div class="big md">${escapeHTML(main)}</div>${instruction ? `<div class="sub">${escapeHTML(instruction)}</div>` : ''}`; }
 
 export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'guided', pool = [], chapterId = 'word-short', contentVersion = 1, format = 'mc', pairTargets = [] } = {}) {
   if (!entry?.id || !entry.it || !target?.id || target.available === false || entry.inf || entry.pos === 'verb') return null;
@@ -89,7 +91,9 @@ export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'gu
     diagnostic = { kind: 'meaning' };
   } else if (skill === 'article') {
     if (entry.pos !== 'noun' || !entry.g) return null;
-    const plural = isPluralOnly(entry) || target.number === 'plural' || target.number !== 'singular' && !!(v % 2 && hasPluralForm(entry));
+    // The singular article is the article screen; the plural article is drilled
+    // with the plural phrase and on the board. Plural-only nouns ask the plural.
+    const plural = isPluralOnly(entry) || target.number === 'plural';
     if (plural && !hasPluralForm(entry)) return null;
     const noun = plural ? entry.pl : entry.it;
     main = `… ${noun}`; instruction = `${plural ? 'Plural' : 'Singular'} · choose the definite article`;
@@ -98,14 +102,27 @@ export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'gu
     formKey = `article-${plural ? 'plural' : 'singular'}`; say = attach(answers[0], noun);
   } else if (skill === 'plural') {
     if (!hasPluralForm(entry) || isPluralOnly(entry)) return null;
-    const invariant = norm(entry.it) === norm(entry.pl), whole = invariant || target.includeArticle === true;
-    if (whole && !entry.g) return null;
+    // A noun with a gender always answers with its article ("le case"), never the
+    // bare plural; a genderless custom noun can only offer the bare form.
+    const invariant = norm(entry.it) === norm(entry.pl), whole = !!entry.g;
+    if (invariant && !whole) return null;
     answers = whole ? nounForms(entry, true).slice(1) : [entry.pl];
     main = whole ? nounForms(entry)[1] : entry.it; instruction = whole ? 'Choose the plural with its article.' : 'Choose the plural.';
-    wrongs = whole ? [...nounForms(entry).slice(1), ...definiteArticles.map(a => attach(a, entry.pl))] : [entry.it, ...candidates.filter(hasPluralForm).map(x => x.pl)];
+    wrongs = whole ? [...definiteArticles.map(a => attach(a, entry.pl)), ...articles(entry, true).map(a => attach(a, entry.it)), ...nounForms(entry).slice(1)] : [entry.it, ...candidates.filter(hasPluralForm).map(x => x.pl)];
     diagnostic = { kind: 'plural', plural: entry.pl, requiresArticle: whole, articles: articles(entry, true) }; shown = nounForms(entry);
     explanation = `${nounForms(entry)[1] || entry.it} → ${whole ? answers.join(' / ') : entry.pl}.${invariant ? ' The noun stays the same; the article shows the plural.' : ''}`;
     formKey = whole ? 'plural-with-article' : 'plural'; say = answers[0];
+  } else if (skill === 'number') {
+    // A singular-use sense: which statement is right, rather than a plural the
+    // noun does not normally use. The wrong statements name a plural phrase.
+    if (entry.pos !== 'noun' || !entry.g) return null;
+    const number = target.fact && target.distractors?.length ? { question: target.question, fact: target.fact, distractors: target.distractors } : nounNumberChoices(entry);
+    if (!number) return null;
+    const phrase = attach(articles(entry)[0], entry.it);
+    main = phrase; instruction = number.question || 'Which is right for this noun?';
+    answers = [number.fact]; wrongs = number.distractors; answerLanguage = 'en'; shown = [entry.it];
+    diagnostic = { kind: 'component', component: 'number' };
+    explanation = `${phrase} is normally singular in this meaning.`; formKey = 'number'; say = phrase;
   } else if (skill === 'agreement') {
     if (entry.pos !== 'adj') return null;
     const formIndex = Number.isInteger(target.formIndex) ? target.formIndex : 0;
@@ -147,23 +164,71 @@ export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'gu
   };
   if (format !== 'pairs') return result;
   const descriptors = pairTargets.length ? pairTargets : target.wordPairTargets || [];
+  const seedValue = hash(`${target.id}:${v}`);
+  if (entry.pos === 'noun' && entry.g) return articleBoard(entry, target, descriptors, candidates, result, seedValue) || result;
   const rows = descriptors.slice(0, 3).map(t => {
-    let forms = [], label = '';
-    if (entry.pos === 'noun' && entry.g && ['article', 'plural'].includes(t.skill)) {
-      const plural = t.skill === 'plural';
-      if (plural && (!hasPluralForm(entry) || isPluralOnly(entry)) || !plural && isPluralOnly(entry)) return null;
-      forms = nounForms(entry, plural).slice(1); label = plural ? 'Plural' : 'Singular';
-    } else if (entry.pos === 'adj' && t.skill === 'agreement' && !t.invariant) {
-      forms = unique([t.answerForm || entry.forms?.[t.formIndex]]); label = t.formLabel || labels[t.formIndex];
-    }
+    if (entry.pos !== 'adj' || t.skill !== 'agreement' || t.invariant) return null;
+    const forms = unique([t.answerForm || entry.forms?.[t.formIndex]]), label = t.formLabel || labels[t.formIndex];
     if (!forms.length || !label) return null;
     const rowQuestion = { ...result, type: 'mc', answer: forms, choices: [], say: forms[0], explanation: `${label}: ${forms.join(' / ')}.`,
-      meta: { ...result.meta, targetId: t.id, objectiveId: t.id, skill: t.skill, diagnostic: t.skill === 'plural' ? { kind: 'plural', plural: entry.pl, requiresArticle: true } : t.skill === 'article' ? { kind: 'article' } : { kind: 'adjective' },
+      meta: { ...result.meta, targetId: t.id, objectiveId: t.id, skill: t.skill, diagnostic: { kind: 'adjective' },
         variantId: `${t.id}:pair-${hash(forms.join('|')).toString(36)}`, contextId: `${entry.id}:word-pair:${label}`, answerLanguage: 'it',
         exposureForms: forms, promptExposureForms: [], feedbackExposureForms: unique([entry.it, ...forms]) } };
     return { targetId: t.id, label, question: rowQuestion };
   }).filter(Boolean);
   // A board of identical forms teaches no useful contrast. Keep the MC check.
   if (rows.length < 2 || new Set(rows.map(r => norm(r.question.answer[0]))).size < 2) return result;
-  return createPairActivity(result, rows, { seed: hash(`${target.id}:${v}`) });
+  return createPairActivity(result, rows, { seed: seedValue });
+}
+
+// The article board: left tiles are definite articles, right tiles bare nouns.
+// The noun's own singular and plural rows carry its article and plural evidence;
+// two decoy nouns of the other gender from the same level make the choice real
+// and record nothing. Articles are unique across rows, and so are the forms,
+// except that an invariable noun legitimately pairs two articles with one form.
+function articleBoard(entry, target, descriptors, candidates, result, seedValue) {
+  const usedArticles = new Set(), usedForms = new Set(), ownForms = [];
+  const rowQuestion = (t, form, label, say, meta) => ({ ...result, type: 'mc', answer: [form], choices: [], say, explanation: `${say}: ${label}.`,
+    meta: { ...result.meta, targetId: t, objectiveId: t, answerLanguage: 'it', exposureForms: unique([form, say]), promptExposureForms: [], feedbackExposureForms: unique([entry.it, form, say]), ...meta } });
+  const rows = [];
+  for (const t of descriptors.slice(0, 3)) {
+    if (!['article', 'plural'].includes(t.skill)) continue;
+    const plural = t.skill === 'plural' || isPluralOnly(entry) || t.number === 'plural';
+    if (plural && !hasPluralForm(entry) || t.skill === 'plural' && isPluralOnly(entry) || rows.some(row => row.plural === plural)) continue;
+    const form = plural ? entry.pl : entry.it, forms = articles(entry, plural);
+    if (!form || !forms.length) continue;
+    const label = forms.join(' / '), say = attach(forms[0], form), number = plural ? 'plural' : 'singular';
+    forms.forEach(a => usedArticles.add(a)); usedForms.add(norm(form)); ownForms.push(form, say);
+    rows.push({ targetId: t.id, label, plural, question: rowQuestion(t.id, form, number, say, { skill: t.skill,
+      diagnostic: t.skill === 'plural' ? { kind: 'plural', plural: entry.pl, requiresArticle: false } : { kind: 'article' },
+      variantId: `${t.id}:pair-${hash(`${label}|${form}`).toString(36)}`, contextId: `${entry.id}:word-pair:${number}` }) });
+  }
+  if (!rows.length) return null;
+  const genders = entry.g === 'mf' ? ['m', 'f'] : [entry.g === 'm' ? 'f' : 'm'];
+  const pool = candidates.filter(x => x.pos === 'noun' && genders.includes(x.g) && x.it && !isPluralOnly(x));
+  const ordered = [...pool.filter(x => x.level && x.level === entry.level), ...pool.filter(x => !x.level || x.level !== entry.level)];
+  const decoys = [];
+  for (let k = 0; k < 2; k++) {
+    let found = null;
+    for (const plural of k % 2 ? [true, false] : [false, true]) {
+      const decoy = ordered.find(x => {
+        if (decoys.some(d => d.entry.id === x.id)) return false;
+        const form = plural ? x.pl : x.it;
+        if (!form || plural && (!hasPluralForm(x) || norm(x.pl) === norm(x.it))) return false;
+        const a = String(article(x, plural) || '');
+        return !!a && !a.includes('/') && !usedArticles.has(a) && !usedForms.has(norm(form));
+      });
+      if (decoy) { found = { entry: decoy, plural }; break; }
+    }
+    if (!found) break;
+    const form = found.plural ? found.entry.pl : found.entry.it, a = String(article(found.entry, found.plural)), say = attach(a, form);
+    usedArticles.add(a); usedForms.add(norm(form)); decoys.push(found);
+    const id = `${target.id}::decoy::${k}`;
+    rows.push({ targetId: id, label: a, decoy: true, question: rowQuestion(id, form, found.plural ? 'plural' : 'singular', say, { entryId: found.entry.id, skill: 'article', decoy: true,
+      diagnostic: { kind: 'article' }, variantId: `${id}:pair-${hash(`${a}|${form}`).toString(36)}`, contextId: `${found.entry.id}:word-pair:decoy`, feedbackExposureForms: unique([form, say]) }) });
+  }
+  if (rows.length < 2) return null;
+  const mixed = decoys.length === 2 ? 'Two other nouns are mixed in.' : decoys.length === 1 ? 'Another noun is mixed in.' : '';
+  const base = { ...result, meta: { ...result.meta, promptExposureForms: [], exposureForms: unique(ownForms), feedbackExposureForms: unique([entry.it, ...ownForms]) } };
+  return createPairActivity(base, rows.map(({ targetId, label, decoy, question }) => ({ targetId, label, decoy, question })), { seed: seedValue, prompt: prompt('Match each article to its noun', mixed) });
 }

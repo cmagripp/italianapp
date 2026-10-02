@@ -116,3 +116,31 @@ Fields:
 `node tools/build-data.mjs` merges the part files (the lowest CEFR level wins for a duplicate lemma) and adds fields that must never be written in the part files:
 - `id`: `w:<slug>|<pos>` for vocabulary (slug = the lowercased lemma, spaces → `_`, e.g. `w:casa|noun`, `w:lista_della_spesa|noun`; a clash gets a `#2` suffix) and `v:<inf>` for verbs (`v:mangiare`). Progress, lists and review history are keyed on this id, so it derives from the lemma: renaming or re-spelling a lemma (or changing a word's `pos`) gives it a new id and orphans the progress stored under the old one.
 - `irregularEngine` (verbs): the conjugation engine's verdict (`true` when any form comes from its irregular tables), used by the app for the "irregular" filter; `irregular` is the author's flag, kept for the build's disagreement report.
+
+## Useful words (`data/useful-words.json`)
+
+The "Parole utili" deck: a hand-curated set of 60 to 80 function words every learner needs, grouped (question words, connectors, indefinites, object and reflexive pronouns, time and place, quantity). The app shows it grouped at `#/browse?list=useful` (reached from the deck card in the Learn hub's Parole reel and on the Words page), each row opening the word's lesson, with a Play action that runs the Matching game on the set or on one group. The file is written by hand and is not touched by the build; it only refers to the dictionary:
+
+```json
+{
+  "version": 1,
+  "groups": [
+    {
+      "id": "questions",
+      "title": "Question words",
+      "it": "Le domande",
+      "entries": [
+        { "entryId": "w:quando|conj", "note": "Quando parti? When are you leaving?" }
+      ]
+    }
+  ]
+}
+```
+
+Fields:
+- `version` (required): the file format, currently `1`.
+- `groups` (required, non-empty, in display order): each with `id` (a slug, unique in the file), `title` (English heading), `it` (Italian heading) and a non-empty `entries` list.
+- `entryId` (required): an id from the built `data/vocab.json` (`w:<slug>|<pos>`, see "Generated fields"). The deck follows the dictionary: renaming a lemma or changing its `pos` changes the id and breaks the reference, so add a missing word to `data/vocab/` first and rebuild. It is never a verb or a noun; the deck teaches function words (pronouns, adverbs, conjunctions, prepositions, determiners, expressions), so a homograph points at the function-word entry (`w:cosa|pron`, not `w:cosa|noun`; `w:ora|adv`, not `w:ora|noun`). An id is listed once across the whole file.
+- `note` (optional): one line of usage with a short Italian example, shown under the row; plain text, no markup, at most 160 characters.
+
+`node tools/test-useful-words.mjs` checks all of this (every id resolves to a function word, groups non-empty with unique ids and both titles, no id twice, 60 to 80 entries, the id list survives the games' `ids:` deep link).

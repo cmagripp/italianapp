@@ -1,0 +1,1200 @@
+{
+  "version": 1,
+  "stage": "passato",
+  "order": 2,
+  "title": "Passato",
+  "subtitle": "Say what happened",
+  "lessons": [
+    {
+      "id": "sl-passato-01-ieri-ho",
+      "title": "Ieri ho…",
+      "outcome": "Say what you did with avere and a past participle.",
+      "minutes": 6,
+      "tense": "passatoProssimo",
+      "grammarRefs": ["v2-a1-past-are", "v2-a1-past-ere-ire", "v2-a2-past-irregular"],
+      "vocab": [
+        { "it": "ieri", "en": "yesterday", "pos": "adv" },
+        { "it": "film", "en": "film", "pos": "noun" },
+        { "it": "giornale", "en": "newspaper", "pos": "noun" },
+        { "it": "regalo", "en": "present; gift", "pos": "noun" },
+        { "it": "spesa", "en": "shopping", "pos": "noun" }
+      ],
+      "activities": [
+        {
+          "id": "sl-passato-01-ieri-ho.1",
+          "kind": "model",
+          "prompt": "Who + has + done",
+          "body": "To say what you did, use the present of avere (ho, hai, ha, abbiamo, avete, hanno) and the past participle: -are → -ato, -ere → -uto, -ire → -ito.",
+          "pattern": [
+            { "role": "subject", "label": "who" },
+            { "role": "verb", "label": "has done" },
+            { "role": "object", "label": "what" }
+          ],
+          "examples": [
+            { "it": "Ieri ho mangiato la pizza.", "en": "Yesterday I ate pizza.", "roles": [["Ieri", "extra"], ["ho mangiato", "verb"], ["la pizza.", "object"]] },
+            { "it": "Hai visto il film?", "en": "Did you see the film?", "roles": [["Hai visto", "verb"], ["il film?", "object"]] },
+            { "it": "Marco ha dormito molto.", "en": "Marco slept a lot.", "roles": [["Marco", "subject"], ["ha dormito", "verb"], ["molto.", "extra"]] },
+            { "it": "Abbiamo comprato il giornale.", "en": "We bought the newspaper.", "roles": [["Abbiamo comprato", "verb"], ["il giornale.", "object"]] }
+          ],
+          "tip": "The subject pronoun is usually dropped: ho mangiato already says who. Irregular participles to know: visto (vedere), fatto (fare), letto (leggere), bevuto (bere), preso (prendere)."
+        },
+        {
+          "id": "sl-passato-01-ieri-ho.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Yesterday I ate pizza.",
+          "answer": "Ieri ho mangiato la pizza.",
+          "accepted": [],
+          "tokens": ["Ieri", "ho", "mangiato", "la", "pizza."],
+          "distractors": ["mangiata"],
+          "explanation": "With avere the participle keeps its -o ending: ho mangiato, even with la pizza.",
+          "hint": "Start with when."
+        },
+        {
+          "id": "sl-passato-01-ieri-ho.3",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Ieri sera ____ un bel film.",
+          "en": "Last night I watched a good film.",
+          "blanks": [
+            {
+              "accept": ["ho visto", "ho guardato"],
+              "options": ["ho visto", "hai visto", "ha visto", "ho guardato"],
+              "bank": ["vedere", "guardare"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+              "explanation": "Io takes ho. Vedere has the irregular participle visto; guardare is regular: guardato."
+            }
+          ],
+          "hint": "Who watched the film? You did."
+        },
+        {
+          "id": "sl-passato-01-ieri-ho.4",
+          "kind": "cloze",
+          "prompt": "Choose the participle",
+          "template": "Marco ha ____ tutto il giorno.",
+          "en": "Marco slept all day.",
+          "blanks": [
+            {
+              "accept": ["dormito"],
+              "options": ["dormito", "dormuto", "dormire"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "-ire verbs make the participle in -ito: dormire → dormito. The infinitive never follows ha."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-01-ieri-ho.5",
+          "kind": "dialogue",
+          "prompt": "After the weekend",
+          "partner": "Anna",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Cosa hai fatto ieri?", "en": "Hi! What did you do yesterday?" },
+            {
+              "speaker": "you",
+              "template": "Ieri ____.",
+              "en": "Yesterday I ____.",
+              "blanks": [
+                {
+                  "accept": ["ho visto un film", "ho lavorato tutto il giorno", "ho dormito molto", "ho fatto la spesa"],
+                  "options": ["ho visto un film", "ho lavorato tutto il giorno", "ho dormito molto", "ho fatto la spesa"],
+                  "bank": ["leggere", "studiare", "cucinare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+                  "explanation": "Talking about yourself: ho + participle. Fare has the irregular participle fatto."
+                }
+              ],
+              "reactions": [
+                { "when": ["ho visto un film"], "it": "Un film! Al cinema o a casa?", "en": "A film! At the cinema or at home?" },
+                { "when": ["ho lavorato tutto il giorno"], "it": "Tutto il giorno? Che peccato!", "en": "All day? What a pity!" },
+                { "when": ["ho dormito molto"], "it": "Bene! Io invece ho dormito poco.", "en": "Good! I slept little instead." },
+                { "when": ["ho fatto la spesa"], "it": "Anche io ho fatto la spesa!", "en": "I did the shopping too!" },
+                { "when": "*", "it": "Capisco. Io ho letto un libro.", "en": "I see. I read a book." }
+              ]
+            },
+            { "speaker": "partner", "it": "E oggi? Hai già fatto colazione?", "en": "And today? Have you had breakfast yet?" },
+            {
+              "speaker": "you",
+              "template": "Sì, ____ un cappuccino.",
+              "en": "Yes, I ____ a cappuccino.",
+              "blanks": [
+                {
+                  "accept": ["ho preso", "ho bevuto"],
+                  "options": ["ho preso", "ho bevuto", "ho prendo", "sono bevuto"],
+                  "bank": ["prendere", "bere"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+                  "explanation": "Prendere → preso and bere → bevuto are irregular participles; the auxiliary is still ho."
+                }
+              ],
+              "reactions": [
+                { "when": ["ho preso"], "it": "Un cappuccino! Buona idea.", "en": "A cappuccino! Good idea." },
+                { "when": ["ho bevuto"], "it": "Anche io ho bevuto un cappuccino.", "en": "I drank a cappuccino too." },
+                { "when": "*", "it": "Perfetto. Allora andiamo!", "en": "Perfect. Then let's go!" }
+              ]
+            },
+            { "speaker": "partner", "it": "Dai, andiamo a lavorare.", "en": "Come on, let's go to work." }
+          ]
+        },
+        {
+          "id": "sl-passato-01-ieri-ho.6",
+          "kind": "order",
+          "prompt": "Ask the question",
+          "en": "Did you see the film?",
+          "answer": "Hai visto il film?",
+          "accepted": [],
+          "tokens": ["Hai", "visto", "il", "film?"],
+          "distractors": ["Ha", "vista"],
+          "explanation": "Tu takes hai. With avere the participle visto does not change.",
+          "hint": "A question keeps the same word order."
+        },
+        {
+          "id": "sl-passato-01-ieri-ho.7",
+          "kind": "cloze",
+          "prompt": "Two subjects, two forms",
+          "template": "Noi ____ il pane e loro ____ il vino.",
+          "en": "We bought the bread and they bought the wine.",
+          "blanks": [
+            {
+              "accept": ["abbiamo comprato"],
+              "options": ["abbiamo comprato", "hanno comprato", "avete comprato"],
+              "bank": ["comprare", "prendere"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 3, "tense": "passatoProssimo" },
+              "explanation": "Noi takes abbiamo: abbiamo comprato."
+            },
+            {
+              "accept": ["hanno comprato"],
+              "options": ["hanno comprato", "abbiamo comprato", "ha comprato"],
+              "bank": ["comprare", "bere"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 5, "tense": "passatoProssimo" },
+              "explanation": "Loro takes hanno: hanno comprato."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-01-ieri-ho.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "passatoProssimo",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Mia madre", "person": 2, "gender": "f" },
+                { "it": "Noi", "person": 3 },
+                { "it": "Voi", "person": 4 },
+                { "it": "I miei amici", "person": 5, "gender": "m" }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "mangiare", "en": "eat" },
+                { "inf": "comprare", "en": "buy" },
+                { "inf": "vedere", "en": "see" },
+                { "inf": "leggere", "en": "read" }
+              ]
+            },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["food", "daily", "home", "arts"], "article": "definite" },
+              "items": [
+                { "it": "la pizza", "en": "pizza" },
+                { "it": "il pane", "en": "the bread" },
+                { "it": "un film", "en": "a film" },
+                { "it": "un libro", "en": "a book" },
+                { "it": "il giornale", "en": "the newspaper" },
+                { "it": "un regalo", "en": "a present" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "ieri", "en": "yesterday" },
+                { "it": "ieri sera", "en": "last night" },
+                { "it": "a casa", "en": "at home" },
+                { "it": "al cinema", "en": "at the cinema" }
+              ]
+            }
+          ],
+          "examples": ["Io ho mangiato la pizza ieri.", "Mia madre ha comprato il giornale.", "Noi abbiamo visto un film ieri sera."]
+        }
+      ]
+    },
+    {
+      "id": "sl-passato-02-sono-andato",
+      "title": "Sono andato",
+      "outcome": "Say where you went with essere and a participle that agrees with you.",
+      "minutes": 7,
+      "tense": "passatoProssimo",
+      "grammarRefs": ["v2-a1-past-essere", "v2-a2-essere-travel", "v2-a2-essere-plural"],
+      "vocab": [
+        { "it": "stazione", "en": "station", "pos": "noun" },
+        { "it": "festa", "en": "party", "pos": "noun" },
+        { "it": "mare", "en": "sea; seaside", "pos": "noun" },
+        { "it": "tardi", "en": "late", "pos": "adv" },
+        { "it": "presto", "en": "early; soon", "pos": "adv" }
+      ],
+      "activities": [
+        {
+          "id": "sl-passato-02-sono-andato.1",
+          "kind": "model",
+          "prompt": "Who + is + gone",
+          "body": "Verbs of movement and change (andare, arrivare, uscire, tornare, essere) take essere. The participle then agrees with the subject: andato, andata, andati, andate.",
+          "pattern": [
+            { "role": "subject", "label": "who" },
+            { "role": "verb", "label": "is gone" },
+            { "role": "extra", "label": "where / when" }
+          ],
+          "examples": [
+            { "it": "Sono andato al mare.", "en": "I went to the seaside. (a man speaking)", "roles": [["Sono andato", "verb"], ["al mare.", "extra"]] },
+            { "it": "Maria è arrivata tardi.", "en": "Maria arrived late.", "roles": [["Maria", "subject"], ["è arrivata", "verb"], ["tardi.", "extra"]] },
+            { "it": "Siamo usciti con gli amici.", "en": "We went out with friends.", "roles": [["Siamo usciti", "verb"], ["con gli amici.", "extra"]] },
+            { "it": "Le ragazze sono tornate a casa presto.", "en": "The girls came home early.", "roles": [["Le ragazze", "subject"], ["sono tornate", "verb"], ["a casa presto.", "extra"]] }
+          ],
+          "tip": "A woman says sono andata, a man sono andato. A mixed group uses -i: siamo andati. Essere itself uses stato: sono stato a Roma, sono stata a Roma."
+        },
+        {
+          "id": "sl-passato-02-sono-andato.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Maria arrived late at the station.",
+          "answer": "Maria è arrivata tardi alla stazione.",
+          "accepted": [],
+          "tokens": ["Maria", "è", "arrivata", "tardi", "alla", "stazione."],
+          "distractors": ["arrivato", "ha"],
+          "explanation": "Arrivare takes essere, never ha. Maria is feminine, so the participle ends in -a: è arrivata.",
+          "hint": "Who arrived? Start with her."
+        },
+        {
+          "id": "sl-passato-02-sono-andato.3",
+          "kind": "cloze",
+          "prompt": "Finish the sentence",
+          "template": "Ieri Marco ____ a casa presto.",
+          "en": "Yesterday Marco came home early.",
+          "blanks": [
+            {
+              "accept": ["è tornato"],
+              "options": ["è tornato", "è tornata", "ha tornato"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Tornare takes essere, and Marco is masculine: è tornato."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-02-sono-andato.4",
+          "kind": "dialogue",
+          "prompt": "Where were you?",
+          "partner": "Luca",
+          "turns": [
+            { "speaker": "partner", "it": "Ciao! Ieri sera ti ho chiamato, ma non hai risposto. Cosa hai fatto?", "en": "Hi! I called you last night, but you didn't answer. What did you do?" },
+            {
+              "speaker": "you",
+              "template": "Scusa! ____.",
+              "en": "Sorry! I ____.",
+              "blanks": [
+                {
+                  "accept": ["sono andato al cinema", "sono andata al cinema", "sono uscito con gli amici", "sono uscita con gli amici"],
+                  "options": ["sono andato al cinema", "sono andata al cinema", "sono uscito con gli amici", "sono uscita con gli amici"],
+                  "bank": ["andare", "uscire", "tornare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+                  "explanation": "A man says sono andato / sono uscito, a woman sono andata / sono uscita."
+                }
+              ],
+              "reactions": [
+                { "when": ["sono andato al cinema", "sono andata al cinema"], "it": "Al cinema! Hai visto un bel film?", "en": "At the cinema! Did you see a good film?" },
+                { "when": ["sono uscito con gli amici", "sono uscita con gli amici"], "it": "Con gli amici! E dove siete andati?", "en": "With friends! And where did you go?" },
+                { "when": "*", "it": "Capisco. E com'è andata?", "en": "I see. And how did it go?" }
+              ]
+            },
+            { "speaker": "partner", "it": "E poi? Hai fatto tardi?", "en": "And then? Were you out late?" },
+            {
+              "speaker": "you",
+              "template": "Sì, ____ a casa a mezzanotte.",
+              "en": "Yes, I ____ home at midnight.",
+              "blanks": [
+                {
+                  "accept": ["sono tornato", "sono tornata", "sono arrivato", "sono arrivata"],
+                  "options": ["sono tornato", "sono tornata", "sono arrivato", "sono arrivata"],
+                  "bank": ["tornare", "arrivare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+                  "explanation": "With essere the participle agrees with you: tornato for a man, tornata for a woman."
+                }
+              ],
+              "reactions": [
+                { "when": ["sono tornato", "sono arrivato"], "it": "A mezzanotte! Allora oggi sei stanco.", "en": "At midnight! Then you're tired today." },
+                { "when": ["sono tornata", "sono arrivata"], "it": "A mezzanotte! Allora oggi sei stanca.", "en": "At midnight! Then you're tired today." },
+                { "when": "*", "it": "A mezzanotte! Allora oggi hai sonno.", "en": "At midnight! Then you're sleepy today." }
+              ]
+            },
+            { "speaker": "partner", "it": "Dai, prendiamo un caffè.", "en": "Come on, let's get a coffee." }
+          ]
+        },
+        {
+          "id": "sl-passato-02-sono-andato.5",
+          "kind": "cloze",
+          "prompt": "Auxiliary and agreement",
+          "template": "Le ragazze ____ ____ alla festa.",
+          "en": "The girls arrived at the party.",
+          "blanks": [
+            {
+              "accept": ["sono"],
+              "options": ["sono", "hanno", "è"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Arrivare takes essere: le ragazze sono…"
+            },
+            {
+              "accept": ["arrivate"],
+              "options": ["arrivate", "arrivati", "arrivato", "arrivata"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Le ragazze is feminine plural, so the participle ends in -e: arrivate."
+            }
+          ],
+          "hint": "First the auxiliary, then the participle that matches the girls."
+        },
+        {
+          "id": "sl-passato-02-sono-andato.6",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "My friends went out last night.",
+          "answer": "I miei amici sono usciti ieri sera.",
+          "accepted": [],
+          "tokens": ["I", "miei", "amici", "sono", "usciti", "ieri", "sera."],
+          "distractors": ["uscito"],
+          "explanation": "I miei amici is masculine plural: sono usciti."
+        },
+        {
+          "id": "sl-passato-02-sono-andato.7",
+          "kind": "cloze",
+          "prompt": "Say it about yourself",
+          "template": "Sabato ____ al mare con la famiglia.",
+          "en": "On Saturday I went to the seaside with my family.",
+          "blanks": [
+            {
+              "accept": ["sono andato", "sono andata"],
+              "options": ["sono andato", "sono andata", "ho andato", "sono andati"],
+              "bank": ["andare", "tornare", "essere"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+              "explanation": "Andare takes essere. Say andato or andata depending on who you are; andati is for a group."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-02-sono-andato.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "passatoProssimo",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Mia sorella", "person": 2, "gender": "f" },
+                { "it": "Marco", "person": 2, "gender": "m" },
+                { "it": "Noi", "person": 3 },
+                { "it": "Voi", "person": 4 },
+                { "it": "Le ragazze", "person": 5, "gender": "f" }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "andare", "en": "go", "aux": "essere" },
+                { "inf": "tornare", "en": "come back", "aux": "essere" },
+                { "inf": "arrivare", "en": "arrive", "aux": "essere" },
+                { "inf": "uscire", "en": "go out", "aux": "essere", "isc": false }
+              ]
+            },
+            {
+              "role": "object",
+              "items": [
+                { "it": "a casa", "en": "home" },
+                { "it": "al mare", "en": "to the seaside" },
+                { "it": "al cinema", "en": "to the cinema" },
+                { "it": "alla stazione", "en": "at the station" },
+                { "it": "alla festa", "en": "to the party" },
+                { "it": "con gli amici", "en": "with friends" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "ieri", "en": "yesterday" },
+                { "it": "ieri sera", "en": "last night" },
+                { "it": "tardi", "en": "late" },
+                { "it": "presto", "en": "early" }
+              ]
+            }
+          ],
+          "examples": ["Io sono andato al mare ieri.", "Mia sorella è tornata a casa tardi.", "Le ragazze sono uscite con gli amici ieri sera."]
+        }
+      ]
+    },
+    {
+      "id": "sl-passato-03-quando",
+      "title": "Quando?",
+      "outcome": "Say when something happened with ieri, la settimana scorsa, due giorni fa.",
+      "minutes": 6,
+      "tense": "passatoProssimo",
+      "grammarRefs": ["v2-a1-first-past-message", "v2-a2-past-regular", "v2-a2-past-auxiliary-person"],
+      "vocab": [
+        { "it": "settimana", "en": "week", "pos": "noun" },
+        { "it": "scorso", "en": "last; past", "pos": "adj" },
+        { "it": "fa", "en": "ago", "pos": "adv" },
+        { "it": "stamattina", "en": "this morning", "pos": "adv" },
+        { "it": "anno", "en": "year", "pos": "noun" },
+        { "it": "mese", "en": "month", "pos": "noun" }
+      ],
+      "activities": [
+        {
+          "id": "sl-passato-03-quando.1",
+          "kind": "model",
+          "prompt": "When + who + did what",
+          "body": "Time markers usually open the sentence or close it: ieri, ieri sera, stamattina, la settimana scorsa, l'anno scorso, due giorni fa. Fa (ago) always comes after the amount of time.",
+          "pattern": [
+            { "role": "extra", "label": "when" },
+            { "role": "subject", "label": "who" },
+            { "role": "verb", "label": "did" },
+            { "role": "object", "label": "what" }
+          ],
+          "examples": [
+            { "it": "Ieri sera ho visto un film.", "en": "Last night I watched a film.", "roles": [["Ieri sera", "extra"], ["ho visto", "verb"], ["un film.", "object"]] },
+            { "it": "La settimana scorsa siamo andati a Firenze.", "en": "Last week we went to Florence.", "roles": [["La settimana scorsa", "extra"], ["siamo andati", "verb"], ["a Firenze.", "extra"]] },
+            { "it": "Due giorni fa ho comprato un libro.", "en": "Two days ago I bought a book.", "roles": [["Due giorni fa", "extra"], ["ho comprato", "verb"], ["un libro.", "object"]] },
+            { "it": "Anna ha lavorato a Milano l'anno scorso.", "en": "Anna worked in Milan last year.", "roles": [["Anna", "subject"], ["ha lavorato", "verb"], ["a Milano", "extra"], ["l'anno scorso.", "extra"]] }
+          ],
+          "tip": "Scorso agrees like an adjective: la settimana scorsa, l'anno scorso, il mese scorso. Stamattina is one word: this morning."
+        },
+        {
+          "id": "sl-passato-03-quando.2",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Last week we went to Florence.",
+          "answer": "La settimana scorsa siamo andati a Firenze.",
+          "accepted": [],
+          "tokens": ["La", "settimana", "scorsa", "siamo", "andati", "a", "Firenze."],
+          "distractors": ["scorso"],
+          "explanation": "Settimana is feminine: la settimana scorsa. Andare takes essere: siamo andati.",
+          "hint": "Start with when."
+        },
+        {
+          "id": "sl-passato-03-quando.3",
+          "kind": "cloze",
+          "prompt": "Pick the time marker",
+          "template": "____ ho mangiato al ristorante con Paolo.",
+          "en": "Last night I ate at the restaurant with Paolo.",
+          "blanks": [
+            {
+              "accept": ["Ieri sera"],
+              "options": ["Ieri sera", "Domani sera", "Adesso"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Ho mangiato is in the past, so the marker must be a past one: ieri sera."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-03-quando.4",
+          "kind": "cloze",
+          "prompt": "How long ago?",
+          "template": "Ho comprato questa macchina due ____ fa.",
+          "en": "I bought this car two years ago.",
+          "blanks": [
+            {
+              "accept": ["anni"],
+              "options": ["anni", "anno", "giorni"],
+              "bank": ["mese", "settimana"],
+              "free": true,
+              "slot": { "pos": "noun", "number": "pl", "article": "none", "category": ["time"] },
+              "explanation": "After due the noun is plural: due anni. Fa comes last: due anni fa = two years ago."
+            }
+          ],
+          "hint": "Two of them, so the noun is plural."
+        },
+        {
+          "id": "sl-passato-03-quando.5",
+          "kind": "dialogue",
+          "prompt": "A trip to Rome",
+          "partner": "Sara",
+          "turns": [
+            { "speaker": "partner", "it": "Hai mai visitato Roma?", "en": "Have you ever visited Rome?" },
+            {
+              "speaker": "you",
+              "template": "Sì, ____.",
+              "en": "Yes, ____.",
+              "blanks": [
+                {
+                  "accept": ["l'anno scorso", "due anni fa", "la settimana scorsa", "il mese scorso"],
+                  "options": ["l'anno scorso", "due anni fa", "la settimana scorsa", "il mese scorso"],
+                  "bank": [],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "A time marker alone can answer the question: l'anno scorso, due anni fa, il mese scorso."
+                }
+              ],
+              "reactions": [
+                { "when": ["l'anno scorso"], "it": "L'anno scorso! In estate?", "en": "Last year! In summer?" },
+                { "when": ["due anni fa"], "it": "Due anni fa? Allora è ora di tornare!", "en": "Two years ago? Then it's time to go back!" },
+                { "when": ["la settimana scorsa"], "it": "La settimana scorsa? Che bello!", "en": "Last week? How nice!" },
+                { "when": ["il mese scorso"], "it": "Il mese scorso! Con chi?", "en": "Last month! With whom?" },
+                { "when": "*", "it": "Che bello! Io non ci sono mai stata.", "en": "How nice! I've never been there." }
+              ]
+            },
+            { "speaker": "partner", "it": "E cosa hai visto?", "en": "And what did you see?" },
+            {
+              "speaker": "you",
+              "template": "A Roma ____ tanti musei e tante chiese.",
+              "en": "In Rome I ____ many museums and many churches.",
+              "blanks": [
+                {
+                  "accept": ["ho visto", "ho visitato", "abbiamo visto", "abbiamo visitato"],
+                  "options": ["ho visto", "ho visitato", "abbiamo visto", "abbiamo visitato"],
+                  "bank": ["vedere", "visitare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+                  "explanation": "Vedere → visto (irregular), visitare → visitato. Abbiamo if you went with someone."
+                }
+              ],
+              "reactions": [
+                { "when": ["ho visto", "ho visitato"], "it": "Tanti musei! Ma hai mangiato bene?", "en": "So many museums! But did you eat well?" },
+                { "when": ["abbiamo visto", "abbiamo visitato"], "it": "Avete visto tanto! E avete mangiato bene?", "en": "You saw a lot! And did you eat well?" },
+                { "when": "*", "it": "Che bello! E hai mangiato bene?", "en": "How nice! And did you eat well?" }
+              ]
+            },
+            { "speaker": "partner", "it": "Io voglio andare a Roma il mese prossimo.", "en": "I want to go to Rome next month." }
+          ]
+        },
+        {
+          "id": "sl-passato-03-quando.6",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Two days ago I bought a book.",
+          "answer": "Due giorni fa ho comprato un libro.",
+          "accepted": [],
+          "tokens": ["Due", "giorni", "fa", "ho", "comprato", "un", "libro."],
+          "distractors": ["sono"],
+          "explanation": "Due giorni fa: the amount of time first, then fa. Comprare takes avere, not sono."
+        },
+        {
+          "id": "sl-passato-03-quando.7",
+          "kind": "cloze",
+          "prompt": "This morning",
+          "template": "____ Marco ____ a Milano in treno.",
+          "en": "This morning Marco arrived in Milan by train.",
+          "blanks": [
+            {
+              "accept": ["Stamattina"],
+              "options": ["Stamattina", "Stasera", "Domani"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Stamattina = this morning, which is already past."
+            },
+            {
+              "accept": ["è arrivato"],
+              "options": ["è arrivato", "è arrivata", "ha arrivato"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Arrivare takes essere, and Marco is masculine: è arrivato."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-03-quando.8",
+          "kind": "order",
+          "prompt": "The marker at the end",
+          "en": "I saw Anna yesterday.",
+          "answer": "Ho visto Anna ieri.",
+          "accepted": [],
+          "tokens": ["Ho", "visto", "Anna", "ieri."],
+          "distractors": ["vista"],
+          "explanation": "The time marker can also close the sentence: ho visto Anna ieri. With avere the participle stays visto."
+        },
+        {
+          "id": "sl-passato-03-quando.9",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "passatoProssimo",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Anna", "person": 2, "gender": "f" },
+                { "it": "Noi", "person": 3 },
+                { "it": "Voi", "person": 4 },
+                { "it": "I miei genitori", "person": 5, "gender": "m" }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "mangiare", "en": "eat" },
+                { "inf": "comprare", "en": "buy" },
+                { "inf": "vedere", "en": "see" },
+                { "inf": "visitare", "en": "visit" }
+              ]
+            },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["food", "city", "daily", "arts"], "article": "definite" },
+              "items": [
+                { "it": "la pizza", "en": "pizza" },
+                { "it": "un libro", "en": "a book" },
+                { "it": "un museo", "en": "a museum" },
+                { "it": "un film", "en": "a film" },
+                { "it": "la città", "en": "the city" },
+                { "it": "il giornale", "en": "the newspaper" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": false,
+              "items": [
+                { "it": "ieri", "en": "yesterday" },
+                { "it": "ieri sera", "en": "last night" },
+                { "it": "stamattina", "en": "this morning" },
+                { "it": "la settimana scorsa", "en": "last week" },
+                { "it": "due giorni fa", "en": "two days ago" },
+                { "it": "l'anno scorso", "en": "last year" },
+                { "it": "il mese scorso", "en": "last month" }
+              ]
+            }
+          ],
+          "examples": ["Io ho visitato un museo la settimana scorsa.", "Anna ha comprato un libro due giorni fa.", "I miei genitori hanno visto la città l'anno scorso."]
+        }
+      ]
+    },
+    {
+      "id": "sl-passato-04-era-cosi",
+      "title": "Era così",
+      "outcome": "Set the scene in the past with the imperfetto, then report one event.",
+      "minutes": 7,
+      "tense": "imperfetto",
+      "grammarRefs": ["v2-a2-imperfect-are", "v2-a2-imperfect-ere-ire", "v2-a2-imperfect-states", "v2-a2-habit-versus-event"],
+      "vocab": [
+        { "it": "bambino", "en": "child", "pos": "noun" },
+        { "it": "sole", "en": "sun", "pos": "noun" },
+        { "it": "freddo", "en": "cold", "pos": "adj" },
+        { "it": "gente", "en": "people", "pos": "noun" },
+        { "it": "mentre", "en": "while", "pos": "conj" }
+      ],
+      "activities": [
+        {
+          "id": "sl-passato-04-era-cosi.1",
+          "kind": "model",
+          "prompt": "Background + event",
+          "body": "The imperfetto paints the background: how things were, the weather, habits (era, c'era, faceva, avevo, andavo). The one thing that happened is in the passato prossimo.",
+          "pattern": [
+            { "role": "extra", "label": "background (imperfetto)" },
+            { "role": "link", "label": "then" },
+            { "role": "verb", "label": "event (passato prossimo)" }
+          ],
+          "examples": [
+            { "it": "Era tardi e faceva freddo.", "en": "It was late and it was cold.", "roles": [["Era tardi", "extra"], ["e", "link"], ["faceva freddo.", "extra"]] },
+            { "it": "C'era molta gente in piazza.", "en": "There were a lot of people in the square.", "roles": [["C'era", "verb"], ["molta gente", "object"], ["in piazza.", "extra"]] },
+            { "it": "Da bambino avevo un cane.", "en": "As a child I had a dog. (a man speaking)", "roles": [["Da bambino", "extra"], ["avevo", "verb"], ["un cane.", "object"]] },
+            { "it": "Mentre dormivo, è arrivato Marco.", "en": "While I was sleeping, Marco arrived.", "roles": [["Mentre dormivo,", "extra"], ["è arrivato", "verb"], ["Marco.", "subject"]] }
+          ],
+          "tip": "Imperfetto endings: -avo, -evo, -ivo (io); -ava, -eva, -iva (lui, lei); -avamo (noi); -avano (loro). Essere is irregular: ero, eri, era, eravamo, eravate, erano."
+        },
+        {
+          "id": "sl-passato-04-era-cosi.2",
+          "kind": "cloze",
+          "prompt": "The weather in the background",
+          "template": "Ieri ____ freddo e pioveva.",
+          "en": "Yesterday it was cold and it was raining.",
+          "blanks": [
+            {
+              "accept": ["faceva"],
+              "options": ["faceva", "ha fatto", "fa"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Pioveva sets the scene, so the cold goes in the imperfetto too: faceva freddo."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-04-era-cosi.3",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "As a child Marco had a dog.",
+          "answer": "Da bambino Marco aveva un cane.",
+          "accepted": [],
+          "tokens": ["Da", "bambino", "Marco", "aveva", "un", "cane."],
+          "distractors": ["ha", "avuto"],
+          "explanation": "A state that lasted (he had a dog) takes the imperfetto: aveva, not ha avuto.",
+          "hint": "Start with da bambino."
+        },
+        {
+          "id": "sl-passato-04-era-cosi.4",
+          "kind": "cloze",
+          "prompt": "There was…",
+          "template": "Quando Anna è arrivata, ____ molta gente alla festa.",
+          "en": "When Anna arrived, there were a lot of people at the party.",
+          "blanks": [
+            {
+              "accept": ["c'era"],
+              "options": ["c'era", "c'è", "c'erano"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Gente is singular in Italian: c'era molta gente. The crowd is the background; the arrival is the event."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-04-era-cosi.5",
+          "kind": "dialogue",
+          "prompt": "Memories",
+          "partner": "Marco",
+          "turns": [
+            { "speaker": "partner", "it": "Com'era la tua prima scuola?", "en": "What was your first school like?" },
+            {
+              "speaker": "you",
+              "template": "____ piccola, ma bella.",
+              "en": "It ____ small, but nice.",
+              "blanks": [
+                {
+                  "accept": ["Era"],
+                  "options": ["Era", "È stata", "Aveva"],
+                  "bank": [],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "Describing how something was takes the imperfetto: era."
+                }
+              ],
+              "reactions": [
+                { "when": ["Era"], "it": "Anche la mia era piccola!", "en": "Mine was small too!" },
+                { "when": "*", "it": "Davvero? Capisco.", "en": "Really? I see." }
+              ]
+            },
+            { "speaker": "partner", "it": "E cosa facevi dopo la scuola?", "en": "And what did you do after school?" },
+            {
+              "speaker": "you",
+              "template": "Dopo la scuola ____ con gli amici.",
+              "en": "After school I ____ with my friends.",
+              "blanks": [
+                {
+                  "accept": ["giocavo", "studiavo"],
+                  "options": ["giocavo", "studiavo", "ho giocato", "gioco"],
+                  "bank": ["giocare", "studiare", "parlare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "imperfetto" },
+                  "explanation": "A habit in the past (what you used to do) takes the imperfetto: giocavo, studiavo."
+                }
+              ],
+              "reactions": [
+                { "when": ["giocavo"], "it": "Anche io giocavo sempre!", "en": "I always played too!" },
+                { "when": ["studiavo"], "it": "Dopo la scuola? Io non studiavo mai!", "en": "After school? I never studied!" },
+                { "when": "*", "it": "Davvero? Io giocavo sempre.", "en": "Really? I always played." }
+              ]
+            },
+            { "speaker": "partner", "it": "E dov'era la tua casa?", "en": "And where was your house?" },
+            {
+              "speaker": "you",
+              "template": "La mia casa ____ vicino alla scuola.",
+              "en": "My house ____ near the school.",
+              "blanks": [
+                {
+                  "accept": ["era"],
+                  "options": ["era", "è stata", "aveva"],
+                  "bank": [],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "Where something was, as a lasting state: era."
+                }
+              ],
+              "reactions": [
+                { "when": ["era"], "it": "Comodo! Io invece abitavo lontano.", "en": "Convenient! I lived far away instead." },
+                { "when": "*", "it": "Capisco. Io invece abitavo lontano.", "en": "I see. I lived far away instead." }
+              ]
+            },
+            { "speaker": "partner", "it": "Bei tempi!", "en": "Good times!" }
+          ]
+        },
+        {
+          "id": "sl-passato-04-era-cosi.6",
+          "kind": "cloze",
+          "prompt": "Background, then event",
+          "template": "Mentre ____, ____ Marco.",
+          "en": "While I was sleeping, Marco arrived.",
+          "blanks": [
+            {
+              "accept": ["dormivo"],
+              "options": ["dormivo", "ho dormito", "dormo"],
+              "bank": ["dormire", "leggere", "studiare"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "imperfetto" },
+              "explanation": "Mentre + imperfetto for the action in progress: mentre dormivo."
+            },
+            {
+              "accept": ["è arrivato"],
+              "options": ["è arrivato", "arrivava", "ha arrivato"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "The event that interrupts is in the passato prossimo: è arrivato."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-04-era-cosi.7",
+          "kind": "order",
+          "prompt": "A habit",
+          "en": "When we were little, we went to the seaside.",
+          "answer": "Quando eravamo piccoli, andavamo al mare.",
+          "accepted": [],
+          "tokens": ["Quando", "eravamo", "piccoli,", "andavamo", "al", "mare."],
+          "distractors": ["siamo", "andati"],
+          "explanation": "A repeated habit (every summer) takes the imperfetto: andavamo, not siamo andati."
+        },
+        {
+          "id": "sl-passato-04-era-cosi.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "imperfetto",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Mio nonno", "person": 2, "gender": "m" },
+                { "it": "Noi", "person": 3 },
+                { "it": "Voi", "person": 4 },
+                { "it": "I bambini", "person": 5, "gender": "m" }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "avere", "en": "have" },
+                { "inf": "mangiare", "en": "eat" },
+                { "inf": "guardare", "en": "watch" },
+                { "inf": "leggere", "en": "read" }
+              ]
+            },
+            {
+              "role": "object",
+              "learned": { "pos": "noun", "category": ["animals", "food", "home", "arts", "daily"], "article": "indefinite" },
+              "items": [
+                { "it": "un cane", "en": "a dog" },
+                { "it": "la pasta", "en": "pasta" },
+                { "it": "la televisione", "en": "television" },
+                { "it": "molti libri", "en": "many books" },
+                { "it": "un giardino", "en": "a garden" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "da bambino", "en": "as a child (a boy)" },
+                { "it": "da bambina", "en": "as a child (a girl)" },
+                { "it": "ogni giorno", "en": "every day" },
+                { "it": "la sera", "en": "in the evening" },
+                { "it": "a casa", "en": "at home" }
+              ]
+            }
+          ],
+          "examples": ["Io avevo un cane da bambino.", "Mio nonno leggeva molti libri la sera.", "I bambini guardavano la televisione ogni giorno."]
+        }
+      ]
+    },
+    {
+      "id": "sl-passato-05-raccontami",
+      "title": "Raccontami",
+      "outcome": "Tell what happened yesterday in a conversation, mixing events and background.",
+      "minutes": 7,
+      "tense": "misto",
+      "grammarRefs": ["v2-a2-story-contrast", "v2-a2-short-story", "v2-a2-read-small-story"],
+      "vocab": [
+        { "it": "giornata", "en": "day (as it unfolds)", "pos": "noun" },
+        { "it": "ristorante", "en": "restaurant", "pos": "noun" },
+        { "it": "insieme", "en": "together", "pos": "adv" },
+        { "it": "prima", "en": "first; before", "pos": "adv" },
+        { "it": "poi", "en": "then", "pos": "adv" }
+      ],
+      "activities": [
+        {
+          "id": "sl-passato-05-raccontami.1",
+          "kind": "model",
+          "prompt": "Tell what happened",
+          "body": "A story in the past says when (ieri), what happened in order (prima…, poi…), and how things were (era, c'era, faceva).",
+          "pattern": [
+            { "role": "extra", "label": "when" },
+            { "role": "verb", "label": "what happened" },
+            { "role": "link", "label": "then" },
+            { "role": "extra", "label": "how it was" }
+          ],
+          "examples": [
+            { "it": "Ieri è stata una bella giornata.", "en": "Yesterday was a lovely day.", "roles": [["Ieri", "extra"], ["è stata", "verb"], ["una bella giornata.", "object"]] },
+            { "it": "Prima ho lavorato, poi sono uscito con Anna.", "en": "First I worked, then I went out with Anna. (a man speaking)", "roles": [["Prima", "extra"], ["ho lavorato,", "verb"], ["poi", "link"], ["sono uscito", "verb"], ["con Anna.", "extra"]] },
+            { "it": "Abbiamo mangiato insieme al ristorante.", "en": "We ate together at the restaurant.", "roles": [["Abbiamo mangiato", "verb"], ["insieme", "extra"], ["al ristorante.", "extra"]] },
+            { "it": "Era tardi, ma siamo tornati a casa a piedi.", "en": "It was late, but we walked home.", "roles": [["Era tardi,", "extra"], ["ma", "link"], ["siamo tornati", "verb"], ["a casa a piedi.", "extra"]] }
+          ],
+          "tip": "Prima… poi… puts events in order. For the background (the weather, the time, how you felt) switch to the imperfetto."
+        },
+        {
+          "id": "sl-passato-05-raccontami.2",
+          "kind": "order",
+          "prompt": "First…, then…",
+          "en": "First we worked, then we went out.",
+          "answer": "Prima abbiamo lavorato, poi siamo usciti.",
+          "accepted": [],
+          "tokens": ["Prima", "abbiamo", "lavorato,", "poi", "siamo", "usciti."],
+          "distractors": ["uscito", "hanno"],
+          "explanation": "Lavorare takes avere; uscire takes essere and agrees with noi: siamo usciti.",
+          "hint": "Start with prima."
+        },
+        {
+          "id": "sl-passato-05-raccontami.3",
+          "kind": "cloze",
+          "prompt": "A lovely day",
+          "template": "Ieri ____ una bella giornata.",
+          "en": "Yesterday was a lovely day.",
+          "blanks": [
+            {
+              "accept": ["è stata", "era"],
+              "options": ["è stata", "era", "ha stato"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "Both work: è stata reports the day as a finished event, era describes it. Essere never takes ha."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-05-raccontami.4",
+          "kind": "dialogue",
+          "prompt": "Tell me everything",
+          "partner": "Giulia",
+          "turns": [
+            { "speaker": "partner", "it": "Allora, racconta! Com'è andata ieri?", "en": "So, tell me! How did it go yesterday?" },
+            {
+              "speaker": "you",
+              "template": "Bene! Ieri mattina ____ presto.",
+              "en": "Good! Yesterday morning I ____ early.",
+              "blanks": [
+                {
+                  "accept": ["mi sono alzato", "mi sono alzata", "ho lavorato", "sono uscito", "sono uscita"],
+                  "options": ["mi sono alzato", "mi sono alzata", "ho lavorato", "sono uscito", "sono uscita"],
+                  "bank": ["alzarsi", "lavorare", "uscire"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+                  "explanation": "Alzarsi and uscire take essere and agree with you (alzato / alzata); lavorare takes avere."
+                }
+              ],
+              "reactions": [
+                { "when": ["mi sono alzato"], "it": "Presto? Bravo! Io invece ho dormito molto.", "en": "Early? Well done! I slept a lot instead." },
+                { "when": ["mi sono alzata"], "it": "Presto? Brava! Io invece ho dormito molto.", "en": "Early? Well done! I slept a lot instead." },
+                { "when": ["ho lavorato"], "it": "Di mattina presto? Che giornata lunga!", "en": "Early in the morning? What a long day!" },
+                { "when": ["sono uscito", "sono uscita"], "it": "Presto! Con chi?", "en": "Early! With whom?" },
+                { "when": "*", "it": "Davvero? Io invece ho dormito molto.", "en": "Really? I slept a lot instead." }
+              ]
+            },
+            { "speaker": "partner", "it": "E dopo? Cosa hai fatto?", "en": "And afterwards? What did you do?" },
+            {
+              "speaker": "you",
+              "template": "Dopo ____ con Marco.",
+              "en": "Afterwards I ____ with Marco.",
+              "blanks": [
+                {
+                  "accept": ["ho pranzato", "sono uscito", "sono uscita", "ho parlato", "ho studiato"],
+                  "options": ["ho pranzato", "sono uscito", "sono uscita", "ho parlato", "ho studiato"],
+                  "bank": ["pranzare", "uscire", "parlare", "studiare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+                  "explanation": "Pranzare, parlare and studiare take avere; uscire takes essere and agrees with you."
+                }
+              ],
+              "reactions": [
+                { "when": ["ho pranzato"], "it": "Con Marco! Lui mangia sempre tanto.", "en": "With Marco! He always eats a lot." },
+                { "when": ["sono uscito", "sono uscita"], "it": "Con Marco! Lui è simpatico.", "en": "With Marco! He's nice." },
+                { "when": ["ho parlato"], "it": "Con Marco! Lui parla sempre tanto.", "en": "With Marco! He always talks a lot." },
+                { "when": ["ho studiato"], "it": "Avete studiato insieme? Bravi!", "en": "You studied together? Well done!" },
+                { "when": "*", "it": "Con Marco! Che bello.", "en": "With Marco! How nice." }
+              ]
+            },
+            { "speaker": "partner", "it": "E com'era il tempo?", "en": "And what was the weather like?" },
+            {
+              "speaker": "you",
+              "template": "____ caldo e c'era il sole.",
+              "en": "It ____ hot and the sun was out.",
+              "blanks": [
+                {
+                  "accept": ["Faceva"],
+                  "options": ["Faceva", "Era", "Aveva"],
+                  "bank": [],
+                  "free": false,
+                  "slot": null,
+                  "explanation": "Weather uses fare in the imperfetto: faceva caldo. C'era il sole: the sun was out."
+                }
+              ],
+              "reactions": [
+                { "when": ["Faceva"], "it": "Che bella giornata!", "en": "What a lovely day!" },
+                { "when": "*", "it": "Una giornata di sole, allora.", "en": "A sunny day, then." }
+              ]
+            },
+            { "speaker": "partner", "it": "E la sera? Cosa avete fatto?", "en": "And in the evening? What did you do?" },
+            {
+              "speaker": "you",
+              "template": "La sera ____ a casa e ____ un film.",
+              "en": "In the evening we ____ home and ____ a film.",
+              "blanks": [
+                {
+                  "accept": ["siamo tornati", "siamo tornate", "siamo rimasti", "siamo rimaste"],
+                  "options": ["siamo tornati", "siamo tornate", "siamo rimasti", "siamo rimaste"],
+                  "bank": ["tornare", "restare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 3, "tense": "passatoProssimo" },
+                  "explanation": "Noi with an essere verb: tornati for a mixed or male group, tornate for women only."
+                },
+                {
+                  "accept": ["abbiamo visto", "abbiamo guardato"],
+                  "options": ["abbiamo visto", "abbiamo guardato", "siamo visti"],
+                  "bank": ["vedere", "guardare"],
+                  "free": true,
+                  "slot": { "pos": "verb", "person": 3, "tense": "passatoProssimo" },
+                  "explanation": "Vedere → visto, guardare → guardato, both with avere: abbiamo visto."
+                }
+              ],
+              "reactions": [
+                { "when": ["siamo tornati", "siamo tornate"], "it": "A casa! Una serata tranquilla, allora.", "en": "Home! A quiet evening, then." },
+                { "when": ["siamo rimasti", "siamo rimaste"], "it": "A casa tutta la sera? Bello anche così.", "en": "At home all evening? Nice that way too." },
+                { "when": "*", "it": "Che bella giornata! La prossima volta vengo anche io.", "en": "What a lovely day! Next time I'm coming too." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-05-raccontami.5",
+          "kind": "cloze",
+          "prompt": "Event and background",
+          "template": "Quando Marco ____ a casa, ____ già tardi.",
+          "en": "When Marco got home, it was already late.",
+          "blanks": [
+            {
+              "accept": ["è arrivato", "è tornato"],
+              "options": ["è arrivato", "è tornato", "arrivava", "ha arrivato"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "The event: è arrivato or è tornato, with essere."
+            },
+            {
+              "accept": ["era"],
+              "options": ["era", "è stato", "è stata"],
+              "bank": [],
+              "free": false,
+              "slot": null,
+              "explanation": "The background (the time of day): era già tardi."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-05-raccontami.6",
+          "kind": "order",
+          "prompt": "Build the sentence",
+          "en": "Last night we ate together at the restaurant.",
+          "answer": "Ieri sera abbiamo mangiato insieme al ristorante.",
+          "accepted": [],
+          "tokens": ["Ieri", "sera", "abbiamo", "mangiato", "insieme", "al", "ristorante."],
+          "distractors": ["siamo"],
+          "explanation": "Mangiare takes avere: abbiamo mangiato, not siamo."
+        },
+        {
+          "id": "sl-passato-05-raccontami.7",
+          "kind": "cloze",
+          "prompt": "Say it about yourself",
+          "template": "Due giorni fa ____ i miei nonni.",
+          "en": "Two days ago I visited my grandparents.",
+          "blanks": [
+            {
+              "accept": ["ho visitato", "ho chiamato"],
+              "options": ["ho visitato", "ho chiamato", "visitavo", "ho visitati"],
+              "bank": ["visitare", "chiamare", "vedere"],
+              "free": true,
+              "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
+              "explanation": "A single completed event takes the passato prossimo: ho visitato. With avere the participle does not agree with i miei nonni."
+            }
+          ]
+        },
+        {
+          "id": "sl-passato-05-raccontami.8",
+          "kind": "build",
+          "prompt": "Say it yourself",
+          "tense": "passatoProssimo",
+          "roles": [
+            {
+              "role": "subject",
+              "items": [
+                { "it": "Io", "person": 0 },
+                { "it": "Tu", "person": 1 },
+                { "it": "Mio fratello", "person": 2, "gender": "m" },
+                { "it": "Noi", "person": 3 },
+                { "it": "Voi", "person": 4 },
+                { "it": "I miei genitori", "person": 5, "gender": "m" }
+              ]
+            },
+            {
+              "role": "verb",
+              "items": [
+                { "inf": "mangiare", "en": "eat" },
+                { "inf": "cenare", "en": "have dinner" },
+                { "inf": "andare", "en": "go", "aux": "essere" },
+                { "inf": "uscire", "en": "go out", "aux": "essere", "isc": false },
+                { "inf": "tornare", "en": "come back", "aux": "essere" }
+              ]
+            },
+            {
+              "role": "object",
+              "items": [
+                { "it": "al ristorante", "en": "at the restaurant" },
+                { "it": "a casa", "en": "home" },
+                { "it": "con gli amici", "en": "with friends" },
+                { "it": "al cinema", "en": "to the cinema" },
+                { "it": "in centro", "en": "in the centre" },
+                { "it": "insieme", "en": "together" }
+              ]
+            },
+            {
+              "role": "extra",
+              "optional": true,
+              "items": [
+                { "it": "ieri sera", "en": "last night" },
+                { "it": "la settimana scorsa", "en": "last week" },
+                { "it": "due giorni fa", "en": "two days ago" },
+                { "it": "sabato", "en": "on Saturday" }
+              ]
+            }
+          ],
+          "examples": ["Io ho cenato al ristorante ieri sera.", "I miei genitori sono tornati a casa la settimana scorsa.", "Noi siamo usciti con gli amici sabato."]
+        }
+      ]
+    }
+  ]
+}

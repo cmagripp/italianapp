@@ -29,10 +29,14 @@ export function createLetterActivity(question, { seed = 0 } = {}) {
     meta: { ...question.meta, mode: 'recognition', evidenceMode: 'recognition', activityKind: 'letters', supportOnly: true } };
 }
 
-export function createPairActivity(question, pairs, { seed = 0 } = {}) {
+// A board holds two to four rows: a verb's three people, a word's forms, or a
+// noun's own article rows plus two decoy nouns. A decoy row is part of the
+// activity but never of the evidence; it is flagged so the journey skips it.
+export const MAX_PAIR_ROWS = 4;
+export function createPairActivity(question, pairs, { seed = 0, prompt = '<div class="big md">Match the pairs</div>' } = {}) {
   const valid = (pairs || []).filter(pair => pair?.targetId && pair.question?.answer?.length);
-  if (valid.length < 2 || valid.length > 3 || new Set(valid.map(pair => pair.targetId)).size !== valid.length) return question;
-  const rows = valid.map(pair => ({ id: pair.targetId, targetId: pair.targetId, label: pair.label,
+  if (valid.length < 2 || valid.length > MAX_PAIR_ROWS || new Set(valid.map(pair => pair.targetId)).size !== valid.length) return question;
+  const rows = valid.map(pair => ({ id: pair.targetId, targetId: pair.targetId, label: pair.label, ...(pair.decoy ? { decoy: true } : {}),
     answers: pair.question.answer.slice(), canonical: pair.question.answer[0], question: pair.question,
     meta: { ...pair.question.meta, mode: 'recognition', evidenceMode: 'recognition', activityKind: 'pairs' } }));
   // If accepted sets overlap, all tiles in that connected group use a shared
@@ -50,8 +54,7 @@ export function createPairActivity(question, pairs, { seed = 0 } = {}) {
       for (const row of component) row.canonical = common;
     }
   }
-  return { ...question, type: 'pairs', choices: [],
-    prompt: '<div class="big md">Match the pairs</div>',
+  return { ...question, type: 'pairs', choices: [], prompt,
     pairs: rows, leftOrder: shuffled(rows.map(pair => pair.id), seed + 101),
     rightTiles: shuffled(rows.map((pair, index) => ({ id: `pair-form:${index}`, pairId: pair.id, text: pair.canonical })), seed),
     meta: { ...question.meta, mode: 'recognition', evidenceMode: 'recognition', activityKind: 'pairs', supportOnly: true } };

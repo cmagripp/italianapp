@@ -93,6 +93,8 @@
 
 .big-row .re-hw { font-size: 19px; }
 .big-row .re-side { color: var(--ink-3); }
+/* Decks: standalone learn cards (css/learnhub.css .poster.lc outside a reel), one under the other */
+.pg-words .deck-cards { display: flex; flex-direction: column; gap: 10px; }
 
 /* ---------- 4. SEARCH RESULTS ---------- */
 .res-head { display: flex; flex-direction: column; gap: 10px; margin: 0 0 12px; }
@@ -141,6 +143,14 @@
 .grp-head .n { color: var(--ink-3); flex: none; }
 .more-btn { margin-top: 4px; }
 .more-btn .mono { color: var(--ink-3); font-size: 11px; }
+/* the "Parole utili" deck (#/browse?list=useful): Play beside the count, a sticky group head carrying the Italian title and
+   its own Play (40 px, so the head's backdrop reaches lower), and rows with a one-line usage note under the meaning */
+.pg-useful .count-row .acts { display: flex; align-items: center; gap: 8px; flex: none; }
+.pg-useful .grp-head { background: linear-gradient(180deg, color-mix(in srgb, var(--bg-0) 94%, transparent) 78%, transparent); }
+.pg-useful .grp-head .uw-it { color: var(--ink-3); }
+.pg-useful .grp-head .side { display: inline-flex; align-items: center; gap: 10px; flex: none; }
+.pg-useful .grp-head .btn.xs { height: 40px; }
+.row-entry .re-note { font-size: 12.5px; line-height: 1.35; color: var(--ink-3); margin-top: 2px; white-space: normal; }
 
 /* ---------- 6. LISTS ---------- */
 .bank-pane { position: relative; display: flex; align-items: center; gap: 14px; padding: 16px 16px 16px 18px; margin-bottom: 22px; border-radius: var(--r-l); color: var(--ink); overflow: hidden;

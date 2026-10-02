@@ -671,6 +671,52 @@ const flows = [
     };
     return [await check('/browse/A1/food', { level: 'A1', cat: 'food' }, 'A1 / food'), await check('/browse?kind=verb', { kind: 'verb' }, 'verbs')].join(' · ');
   } },
+  // the "Parole utili" deck: the grouped page lists exactly the set's ids in its order, every row opens the word lesson, the
+  // Play deep link preselects the set in the Matching picker and the round reaches results on those words only; the deck
+  // card sits on the Words page and in the Learn hub's Parole reel (Sezioni view)
+  { name: 'useful-words', run: async () => {
+    const set = JSON.parse(fs.readFileSync(new URL('../data/useful-words.json', import.meta.url), 'utf8'));
+    const want = set.groups.flatMap(g => g.entries.map(e => e.entryId));
+    await gotoRoute(page, '/browse?list=useful');
+    const groups = await page.$$eval('#view .grp', els => els.map(s => s.dataset.key));
+    if (groups.join(',') !== set.groups.map(g => g.id).join(',')) throw new Error(`groups on the page: ${groups.join(', ') || 'none'}`);
+    const ids = await page.$$eval('#view .grp a[href*="#/learn/word/"]', as => as.map(a => decodeURIComponent(a.getAttribute('href').replace('#/learn/word/', ''))));
+    const foreignRows = ids.filter(id => !want.includes(id));
+    if (ids.join(',') !== want.join(',')) throw new Error(`rows differ from the set: ${ids.length} rows for ${want.length} ids${foreignRows.length ? ', not in the set: ' + foreignRows.slice(0, 3).join(', ') : ''}`);
+    const t = await viewText(page, 3000);
+    if (!new RegExp(`\\b${want.length} · \\d+ learned\\b`, 'i').test(t)) throw new Error(`the count row does not show "${want.length} · N learned": "${t.slice(0, 160)}"`);
+    const play = await page.$eval('#view [data-play]', a => a.getAttribute('href'));
+    const src = decodeURIComponent((play.match(/[?&]src=([^&]+)/) || [])[1] || '');
+    if (!/^#\/games\?pick=matching&/.test(play) || src !== 'ids:' + want.join(',')) throw new Error(`Play is not the Matching deep link on the set: ${play.slice(0, 80)}`);
+    await tap('#view [data-play]', { label: 'Play (useful words)' }); await settle(page);
+    const sheet = page.locator('[role="dialog"]').last();
+    await sheet.waitFor({ timeout: 3000 });
+    const srcLabel = (await sheet.locator('[data-src-pick]').textContent().catch(() => '')) || '';
+    if (!new RegExp(`\\b${want.length}\\b`).test(srcLabel)) throw new Error(`picker does not preselect the ${want.length} words: "${srcLabel.replace(/\s+/g, ' ').trim().slice(0, 60)}"`);
+    await tap(sheet.locator('[data-start]'), { label: 'Start (useful words)' }); await settle(page);
+    const hash = await page.evaluate(() => location.hash);
+    if (!/^#\/game\/matching\?src=ids/.test(hash)) throw new Error(`picker did not start Matching on the set: ${hash.slice(0, 60)}`);
+    const r = await playToResults({ maxSteps: 200 });
+    if (!r.ok) throw new Error(`Matching on the set did not reach results: ${r.stuck}`);
+    const missed = await page.$$eval('#view a[href*="#/entry/"]', as => as.map(a => decodeURIComponent(a.getAttribute('href').replace('#/entry/', ''))));
+    const foreign = missed.filter(id => !want.includes(id));
+    if (foreign.length) throw new Error(`results list entries outside the set: ${foreign.slice(0, 4).join(', ')}`);
+    const summary = await resultsSummary();
+    await gotoRoute(page, '/words');
+    const wordsHref = await page.$eval('#view .lc[data-key="deck:useful"]', a => a.getAttribute('href')).catch(() => null);
+    if (wordsHref !== '#/browse?list=useful') throw new Error(`no deck card on the Words page (${wordsHref})`);
+    await gotoRoute(page, '/learn');
+    const deckSel = '#view [data-reel="word"] .lc[data-key="deck:useful"]';
+    let switched = false;
+    if (!(await has(deckSel))) { // the hub opens on the dashboard: switch to Sezioni through the title menu
+      await tap('#topbar [data-learn-title]', { label: 'Learn view menu' }); await wait(300);
+      await tap('.dropdown-layer .dropdown.open [data-view="sezioni"]', { js: true }); await settle(page); switched = true;
+    }
+    const hubHref = await page.$eval(deckSel, a => a.getAttribute('href')).catch(() => null);
+    if (switched) { await tap('#topbar [data-learn-title]', { label: 'Learn view menu (back)' }); await wait(300); await tap('.dropdown-layer .dropdown.open [data-view="panoramica"]', { js: true }); await settle(page); }
+    if (hubHref !== '#/browse?list=useful') throw new Error(`no deck card in the Learn hub's Parole reel (${hubHref})`);
+    return `${groups.length} groups · ${ids.length} rows → lessons · Matching → ${summary} · deck card on Words and in Sezioni`;
+  } },
   // search: English queries, the All / Words / Verbs segment, and the no-result state with its "add a custom word" link
   { name: 'search-kinds', run: async () => {
     await gotoRoute(page, '/search');
