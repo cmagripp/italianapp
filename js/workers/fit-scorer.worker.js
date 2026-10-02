@@ -45,7 +45,7 @@ export function makeTokenizer(vocabText, { lowercase = true, stripAccents = true
 
   function basic(text) {
     // clean: drop control chars, normalise whitespace
-    text = text.replace(/[\u0000�]|[\p{Cc}\p{Cf}]/gu, (c) => (/\s/.test(c) ? ' ' : '')).replace(/\s+/g, ' ');
+    text = text.replace(/[\u0000\uFFFD]|[\p{Cc}\p{Cf}]/gu, (c) => (/\s/.test(c) ? ' ' : '')).replace(/\s+/g, ' ');
     if (lowercase) text = text.toLowerCase();
     if (stripAccents) text = text.normalize('NFD').replace(/\p{Mn}/gu, '');
     const out = [];

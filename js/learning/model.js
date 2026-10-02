@@ -76,7 +76,8 @@ function normalizeEvent(raw, epochId) {
     objectiveId: raw.objectiveId, entryId: text(raw.entryId), kind: raw.kind === 'verb' ? 'verb' : 'word',
     skill: text(raw.skill, 'recall'), tense: text(raw.tense) || null,
     person: typeof raw.person === 'number' && Number.isInteger(raw.person) ? raw.person : text(raw.person) || null,
-    mode: raw.mode === 'production' && !SUPPORTED_WORD_POLICIES.has(raw.wordPolicy) ? 'production' : 'recognition',
+    // the lesson boards and the short word screens are recognition by nature; a workshop drill may type the word (still guided, never independent)
+    mode: raw.mode === 'production' && (!SUPPORTED_WORD_POLICIES.has(raw.wordPolicy) || raw.wordPolicy === 'word-lab-drill-v1') ? 'production' : 'recognition',
     variantId: text(raw.variantId), contextId: text(raw.contextId),
     ok: outcome === 'correct' && raw.ok === true, outcome,
     assistance: strings(raw.assistance).filter(x => x !== 'none'), firstAttempt: raw.firstAttempt === true,

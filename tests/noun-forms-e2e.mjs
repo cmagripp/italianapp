@@ -100,7 +100,7 @@ try {
       }
       return { ...counts, failures };
     });
-    assert.equal(audit.nouns, 4613);
+    assert.equal(audit.nouns, 4614);
     assert.deepEqual(audit.failures, []);
     return audit;
   });
