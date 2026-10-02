@@ -63,12 +63,12 @@ function hookCards(container) {
 
 // ---------- laboratorio ----------
 const LAB_ICON = { 'conj-drill': 'edit', 'verb-quiz': 'sparkle', 'all-verbs': 'book', lists: 'list' };
-const labCards = (lab = []) => lab.map(l => ({ key: l.key, kicker: 'Verb lab', title: l.title, en: l.sub || '', detail: '', icon: l.icon || LAB_ICON[l.key] || 'sparkle', href: l.href }));
+const labCards = (lab = []) => lab.map(l => ({ key: l.key, kicker: l.key === 'frasi' ? 'Officina' : 'Verb lab', title: l.title, en: l.sub || '', detail: '', icon: l.icon || LAB_ICON[l.key] || 'sparkle', href: l.href }));
 export const labReelHTML = (lab = []) => labCards(lab).map(c => learnCardHTML(c, { kind: 'lab' })).join('');
 export function mountLabReel(container, model = {}) {
   if (!container) return { update() {}, scrollTo() {}, destroy() {} };
   container.classList.add('verb-lab');
-  return learnReel(container, labCards(model.lab || []), { kind: 'lab', ariaLabel: 'Verb lab' });
+  return learnReel(container, labCards(model.lab || []), { kind: 'lab', ariaLabel: 'Laboratorio' });
 }
 
 // ---------- render ----------
@@ -118,7 +118,7 @@ export function renderDash(container, model = {}, ctx = {}) {
     </section>
 
     ${(model.lab || []).length ? raw(html`<section class="dash-lab">
-      <div class="sec-head"><div><span class="kicker">Verb lab</span><span class="title">Laboratorio</span></div></div>
+      <div class="sec-head"><div><span class="kicker">Lab</span><span class="title">Laboratorio</span></div></div>
       <div class="dash-lab-reel" data-lab-reel></div>
     </section>`) : ''}
   </div>`;

@@ -88,5 +88,6 @@
 {"it":"aspirapolvere","en":"vacuum cleaner","pos":"noun","g":"m","pl":"aspirapolvere","level":"A2","cat":"home","ex":"Passo l'aspirapolvere due volte a settimana.","exEn":"I vacuum twice a week.","note":"Invariable. 'Passare l'aspirapolvere' = to vacuum."},
 {"it":"scopa","en":"broom","pos":"noun","g":"f","pl":"scope","level":"A2","cat":"home","ex":"Dov'è la scopa? Devo pulire il pavimento.","exEn":"Where's the broom? I have to clean the floor.","note":"Also a popular Italian card game."},
 {"it":"ferro da stiro","en":"iron (for clothes)","pos":"noun","g":"m","pl":"ferri da stiro","level":"A2","cat":"home","ex":"Attento, il ferro da stiro è ancora caldo.","exEn":"Careful, the iron is still hot."},
-{"it":"spazzatura","en":"rubbish; garbage","pos":"noun","g":"f","pl":"-","level":"A2","cat":"home","ex":"Puoi portare fuori la spazzatura?","exEn":"Can you take out the rubbish?","note":"Also 'immondizia'. 'Raccolta differenziata' = recycling."}
+{"it":"spazzatura","en":"rubbish; garbage","pos":"noun","g":"f","pl":"-","level":"A2","cat":"home","ex":"Puoi portare fuori la spazzatura?","exEn":"Can you take out the rubbish?","note":"Also 'immondizia'. 'Raccolta differenziata' = recycling."},
+{"it":"pala","en":"shovel; spade","pos":"noun","g":"f","pl":"pale","level":"A2","cat":"home","ex":"Ho preso la pala per togliere la neve dal vialetto.","exEn":"I took the shovel to clear the snow off the path.","note":"One l: la pala (shovel) is not la palla (ball). Also a blade: le pale dell'elica, una pala eolica (wind turbine)."}
 ]

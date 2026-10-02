@@ -11,9 +11,10 @@ const levels=['Foundations','A1','A2','B1','B2','C1','C2'];
 const read=path=>JSON.parse(fs.readFileSync(new URL(`../data/${path}.json`,import.meta.url)));
 const packs=levels.map(level=>read(`course-v2/${level}`)),vocab=read('vocab'),verbs=read('verbs');
 const byId=new Map([...vocab,...verbs].map(e=>[e.id,e]));
-// Coverage (resolved words + verbs over all glosses) measured on the first run: Foundations 70.6%, A1 69.4%, A2 33.9%.
+// Coverage (resolved words + verbs over all glosses) measured once conjugated forms resolve and the basic chunks are in the
+// dictionary: Foundations 85.3%, A1 91.9%, A2 88.6% (the rest are proper names, whole sentences and multi-word chunks).
 // Rounded down to a multiple of 5; a dictionary or course edit that drops below this fails the check.
-const MIN_COVERAGE={Foundations:70,A1:65,A2:30};
+const MIN_COVERAGE={Foundations:85,A1:90,A2:85};
 const errors=[],ok=(condition,message)=>{if(!condition)errors.push(message);};
 const SKILLS={meaning:['meaning'],recall:['recall'],forms:['article','plural']};
 const PROMPTS={meaning:'Match each word to its meaning',recall:'Now from the English',forms:'Match the article to its noun'};
@@ -44,6 +45,12 @@ for(const [i,pack] of packs.entries()){
   assert.deepEqual(resolveLessonWords(lesson,{vocab,verbs}).map(r=>r.entry.id),resolved.map(r=>r.entry.id),`${lesson.id}: resolution not deterministic`);
   const {steps,excluded}=wordsCheckPlan(lesson,resolved),distinctWords=new Set(resolved.filter(r=>r.entry.kind==='word').map(r=>r.entry.id));
   assert.deepEqual(wordsCheckSteps(lesson,resolved),steps,`${lesson.id}: wordsCheckSteps must be the plan's steps`);
+  // Without the conjugated-form index (the boot path) the words, and so the boards, are the same, and nothing resolves differently:
+  // the words-only records are a subset of the full ones (a verb still appears there when it displaces a word whose English does not fit).
+  const wordsOnly=resolveLessonWords(lesson,{vocab,verbs,verbForms:false});
+  assert.deepEqual(wordsOnly.filter(r=>r.entry.kind==='word').map(r=>[r.gloss.it,r.entry.id]),resolved.filter(r=>r.entry.kind==='word').map(r=>[r.gloss.it,r.entry.id]),`${lesson.id}: words differ without verb forms`);
+  ok(wordsOnly.every(r=>resolved.some(x=>x.gloss===r.gloss&&x.entry===r.entry)),`${lesson.id}: a gloss resolves differently without verb forms`);
+  assert.deepEqual(wordsCheckSteps(lesson,wordsOnly),steps,`${lesson.id}: boards differ without verb forms`);
   if(distinctWords.size<3)ok(steps.length===0,`${lesson.id}: boards with fewer than 3 resolved words`);
   else{ok(steps.some(s=>s.board==='meaning')&&steps.some(s=>s.board==='recall'),`${lesson.id}: ${distinctWords.size} words resolved but no meaning/recall board`);boards.lessons++;}
   assert.deepEqual(steps.map(s=>s.board),[...steps.map(s=>s.board)].sort((a,b)=>['meaning','recall','forms'].indexOf(a)-['meaning','recall','forms'].indexOf(b)),`${lesson.id}: boards out of order`);
@@ -108,6 +115,30 @@ assert.equal(resolvedOf('v2-a1-small-numbers')['uno'],'w:uno|num','a numeric glo
 assert.equal(resolvedOf('v2-a1-one-thing')['amica'],'w:amico|noun','feminine form resolves');
 assert.equal(resolvedOf('v2-b1-recipient-reference')['il collega / la collega'],'w:collega|noun','first alternative stands for the gloss');
 assert.equal(resolvedOf('v2-a1-are-singular')['parlare'],'v:parlare','verbs resolve');
+// Conjugated forms: paradigm cells with clitics and auxiliaries, participles with agreement, non + imperative, stare + gerund,
+// proclitics and enclitics; a phrase with any other word is not a form, and a gloss with its article names a noun.
+assert.equal(resolvedOf('v2-a2-reflexive-me-you')['mi alzo'],'v:alzarsi','reflexive present resolves');
+assert.equal(resolvedOf('v2-a2-auxiliary-choice')['ha mangiato'],'v:mangiare','compound tense resolves');
+assert.equal(resolvedOf('v2-a2-reflexive-past')['mi sono alzata'],'v:alzarsi','reflexive compound with agreement resolves');
+assert.equal(resolvedOf('v2-a1-past-essere')['arrivata'],'v:arrivare','feminine participle resolves');
+assert.equal(resolvedOf('v2-a2-negative-commands')['non parli'],'v:parlare','negative polite command resolves');
+assert.equal(resolvedOf('v2-a2-progressive-present')['sto parlando'],'v:parlare','stare + gerund resolves');
+assert.equal(resolvedOf('v2-a2-formal-request')['aiutarmi'],'v:aiutare','infinitive with enclitic resolves');
+assert.equal(resolvedOf('v2-a1-piacere')['mi piacciono'],'v:piacere','proclitic before a finite form resolves');
+assert.equal(resolvedOf('v2-f-name')['Mi chiamo…'],'v:chiamarsi','trailing punctuation is ignored');
+assert.equal(resolvedOf('v2-a2-conditional-plan')['vorrei visitare'],undefined,'modal + infinitive is not a form');
+assert.equal(resolvedOf('v2-b1-real-condition')['se piove'],undefined,'se + verb is not a form');
+assert.equal(resolvedOf('v2-b1-capstone-relay')['la conferma'],undefined,'an article keeps a noun gloss off the verbs');
+// Inflected words: adjective forms, note-only closed-class forms, feminine plurals, headwords with punctuation.
+assert.equal(resolvedOf('v2-a1-adjective-agreement')['piccole'],'w:piccolo|adj','adjective form resolves');
+assert.equal(resolvedOf('v2-a1-my-possessives')['miei'],'w:mio|det','possessive form resolves');
+assert.equal(resolvedOf('v2-a2-del-dal')['dal'],'w:dal|prep','articulated preposition resolves');
+assert.equal(resolvedOf('v2-a1-plural-spelling')['amiche'],'w:amico|noun','feminine plural from the note resolves');
+assert.equal(resolvedOf('v2-a1-tens-prices')['Quanto costa?'],'w:quanto_costa|expr','expression headword with punctuation resolves');
+// A word whose English carries nothing of the gloss yields to a verb form whose English does.
+assert.equal(resolvedOf('v2-a1-present-questions')['abiti'],'v:abitare','you live is abitare, not the noun abito');
+assert.equal(resolvedOf('v2-a2-lei-commands')['aspetti'],'v:aspettare','wait! is aspettare, not the plural of aspetto');
+assert.equal(resolvedOf('v2-f-repair')['Non capisco.'],'w:non_capisco|expr','an expression whose English fits keeps the gloss');
 const vowels=lessonOf('v2-a1-vowels-stress'),vowelSteps=wordsCheckSteps(vowels,resolveLessonWords(vowels,{vocab,verbs}));
 assert.deepEqual(vowelSteps.map(s=>s.id),['v2-a1-vowels-stress.words-check.meaning.1','v2-a1-vowels-stress.words-check.recall.1','v2-a1-vowels-stress.words-check.forms.1','v2-a1-vowels-stress.words-check.forms.2']);
 assert.deepEqual(vowelSteps[0].pairs.map(p=>[p.left,p.right]),[['la casa','house'],['la città','city'],['il caffè','coffee'],['italiano','Italian'],['perché','why']]);

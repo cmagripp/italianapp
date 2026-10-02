@@ -16,7 +16,7 @@ const strings = (xs) => unique(Array.isArray(xs) ? xs.filter(x => typeof x === '
 const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const unsupported = domain => finite(domain?.version) > LEARNING_VERSION;
 // Short word lessons and course vocabulary boards never produce unaided production evidence.
-const SUPPORTED_WORD_POLICIES = new Set(['word-short-v1', 'word-lesson-match-v1']);
+const SUPPORTED_WORD_POLICIES = new Set(['word-short-v1', 'word-lesson-match-v1', 'word-lab-drill-v1']);
 
 // Also used for session UI state. Never preserve functions, DOM nodes, prototypes,
 // undefined values or cycles from an accidental caller-supplied question object.
@@ -102,11 +102,11 @@ function normalizeEvent(raw, epochId) {
       chapterId: text(raw.chapterId), contentVersion: Math.max(1, Math.floor(finite(raw.contentVersion, 1))),
       role: text(raw.role) || null,
       ...(raw.contextPolicy==='distinct-scene'||/::v2-/.test(text(raw.targetId,raw.objectiveId))?{contextPolicy:'distinct-scene'}:{}),
-      activityKind: raw.wordPolicy==='word-short-v1' ? raw.activityKind==='repair'?'repair':'guided' : raw.wordPolicy==='word-lesson-match-v1' ? 'guided' : ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
+      activityKind: raw.wordPolicy==='word-short-v1' ? raw.activityKind==='repair'?'repair':'guided' : ['word-lesson-match-v1','word-lab-drill-v1'].includes(raw.wordPolicy) ? 'guided' : ['guided', 'independent', 'repair'].includes(raw.activityKind) ? raw.activityKind : 'guided',
       ...(Number.isInteger(raw.availableVariants) && raw.availableVariants >= 0 ? { availableVariants: raw.availableVariants } : {}),
       ...(raw.wordPolicy === 'word-short-v1' ? { wordPolicy: 'word-short-v1', wordSlotId: text(raw.wordSlotId) } : {}),
       // A course lesson's vocabulary board is supported recognition of a dictionary word.
-      ...(raw.wordPolicy === 'word-lesson-match-v1' ? { wordPolicy: 'word-lesson-match-v1', wordSlotId: text(raw.wordSlotId), courseLessonId: text(raw.courseLessonId) } : {}),
+      ...(raw.wordPolicy === 'word-lesson-match-v1' ? { wordPolicy: 'word-lesson-match-v1', wordSlotId: text(raw.wordSlotId), courseLessonId: text(raw.courseLessonId) } : raw.wordPolicy === 'word-lab-drill-v1' ? { wordPolicy: 'word-lab-drill-v1', labLessonId: text(raw.labLessonId) } : {}),
     } : {}),
   };
 }

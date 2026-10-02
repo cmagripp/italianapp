@@ -9725,7 +9725,8 @@
               "answer": "Siccome",
               "accepted": [
                 "Poiché",
-                "Dato che"
+                "Dato che",
+                "Visto che"
               ],
               "errors": [
                 {
@@ -9799,7 +9800,8 @@
                 "perciò",
                 "per questo",
                 "così",
-                "dunque"
+                "dunque",
+                "allora"
               ],
               "errors": [
                 {

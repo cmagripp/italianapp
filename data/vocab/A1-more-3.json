@@ -92,5 +92,6 @@
 {"it":"chilo","en":"kilo","pos":"noun","g":"m","pl":"chili","level":"A1","cat":"numbers","ex":"Un chilo di mele, per favore.","exEn":"A kilo of apples, please.","note":"Short for 'chilogrammo'. 'Un etto' = 100 grams."},
 {"it":"litro","en":"litre","pos":"noun","g":"m","pl":"litri","level":"A1","cat":"numbers","ex":"Compro un litro di latte.","exEn":"I'm buying a litre of milk."},
 {"it":"metro","en":"metre; underground (short form)","pos":"noun","g":"m","pl":"metri","level":"A1","cat":"numbers","ex":"Il tavolo è lungo due metri.","exEn":"The table is two metres long.","note":"'La metro' (feminine) = short for 'metropolitana'."},
-{"it":"chilometro","en":"kilometre","pos":"noun","g":"m","pl":"chilometri","level":"A1","cat":"numbers","ex":"La stazione è a due chilometri.","exEn":"The station is two kilometres away.","note":"Abbreviation: km."}
+{"it":"chilometro","en":"kilometre","pos":"noun","g":"m","pl":"chilometri","level":"A1","cat":"numbers","ex":"La stazione è a due chilometri.","exEn":"The station is two kilometres away.","note":"Abbreviation: km."},
+{"it":"un po' di","en":"a little; a bit of; some","pos":"expr","level":"A1","cat":"numbers","ex":"Vorrei un po' di pane, per favore.","exEn":"I'd like a little bread, please.","note":"Before a noun: un po' di zucchero, un po' di tempo, un po' di pazienza. On its own 'un po'' = a bit (sono un po' stanco). Short for 'un poco di'."}
 ]

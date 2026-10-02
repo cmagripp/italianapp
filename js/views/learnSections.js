@@ -176,10 +176,10 @@ function ripassoHTML(model, store) {
 }
 
 const laboratorioHTML = () => html`<section class="sez-block" id="sez-laboratorio">
-    ${raw(secHead('Verb lab', 'Laboratorio', '#/games', 'All games'))}
+    ${raw(secHead('Lab', 'Laboratorio', '#/games', 'All games'))}
     <div class="sez-reel" data-lab-reel></div>
   </section>`;
-const labCards = (model) => (model.lab || []).map(t => ({ key: t.key, kicker: 'Verb lab', title: t.title, en: '', detail: t.sub || '', icon: t.icon || 'sparkle', href: t.href }));
+const labCards = (model) => (model.lab || []).map(t => ({ key: t.key, kicker: t.key === 'frasi' ? 'Officina' : 'Verb lab', title: t.title, en: '', detail: t.sub || '', icon: t.icon || 'sparkle', href: t.href }));
 
 // ---------- indicator bar ----------
 function placeKnob(seg, animate = true) {

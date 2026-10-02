@@ -5,10 +5,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {assessCourseAnswer} from '../js/learning/course-v2-engine.js';
+import {resolveLessonWords} from '../js/learning/course-words.js';
 
 const packs=['C1','C2'].map(level=>JSON.parse(fs.readFileSync(new URL(`../data/course-v2/${level}.json`,import.meta.url))));
 const lessons=packs.flatMap(pack=>pack.units.flatMap(unit=>unit.lessons));
-const intermediate=['A2','B1','B2'].map(level=>JSON.parse(fs.readFileSync(new URL(`../data/course-v2/${level}.json`,import.meta.url))))
+const intermediate=['A1','A2','B1','B2'].map(level=>JSON.parse(fs.readFileSync(new URL(`../data/course-v2/${level}.json`,import.meta.url))))
   .flatMap(pack=>pack.units.flatMap(unit=>unit.lessons));
 const byId=new Map([...intermediate,...lessons].map(lesson=>[lesson.id,lesson]));
 const failures=[];
@@ -135,6 +136,106 @@ for(const id of ['v2-a2-conditional-request','v2-a2-conditional-plan']){
     `${q.id}: strict Vorrei cloze needs a volere cue; other polite phrases fit the meaning`);
 }
 
+// Function-word lessons (question words, articulated prepositions, object
+// clitics, indefinites, everyday and cause links): independent cross-review
+// fixtures written from each lesson's intent, not from its answer key.
+{
+  // The accented perché is the point of the ask-and-answer lesson: a straight
+  // apostrophe or a missing full stop is not an error, but the wrong accent is.
+  answer('v2-a1-ask-and-answer','s10','perché amo la musica','correct');
+  answer('v2-a1-ask-and-answer','s10','Perchè amo la musica.','incorrect');
+  answer('v2-a1-ask-and-answer','s10','Perche amo la musica.','incorrect');
+  // A typed production check must not simply copy a sentence the lesson already
+  // showed as a model; otherwise it certifies recall of the card, not production.
+  for(const id of ['v2-a1-ask-and-answer','v2-a1-di-articles','v2-a2-direct-me-you-us','v2-a2-direct-elision-negation','v2-a2-direct-attached','v2-a2-someone-something']){
+    const l=lesson(id),shown=l.steps.filter(s=>s.kind==='teach').flatMap(s=>(s.examples||[]).map(e=>e.it.toLocaleLowerCase('it')));
+    for(const q of l.steps.filter(s=>s.kind==='question'&&s.format==='type'&&s.stage==='independent'&&!s.reserve))
+      check(!shown.some(model=>model.includes(q.speak.toLocaleLowerCase('it').replace(/[.!?]+$/,''))),`${q.id}: typed production check repeats a model sentence verbatim`);
+  }
+  answer('v2-a1-ask-and-answer','s13','perché','correct');
+  answer('v2-a1-ask-and-answer','s13','Perche','incorrect');
+  // The short form of the thing question is what most speakers actually say.
+  answer('v2-a1-question-words-1','s11','Cosa','correct');
+  answer('v2-a1-question-words-1','s11','Dove','incorrect');
+  // Clock times: plural hours take alle; one o'clock and noon are the exceptions,
+  // and the facet must actually contrast the two in independent work.
+  answer('v2-a1-a-articles-system','s12','alle','correct');
+  answer('v2-a1-a-articles-system','s12','alla','incorrect');
+  answer('v2-a1-a-articles-system','s15','a mezzogiorno','correct');
+  answer('v2-a1-a-articles-system','s15','al mezzogiorno','incorrect');
+  const clock=lesson('v2-a1-a-articles-system').steps.filter(s=>s.kind==='question'&&s.stage==='independent'&&s.facet==='clock-time');
+  check(clock.some(q=>/^alle\b/.test(q.answer))&&clock.some(q=>!/^alle\b/.test(q.answer)),
+    'v2-a1-a-articles-system: clock-time facet needs both a plural hour and a singular exception');
+}
+{
+  // Elision joins l' to the verb; non precedes the clitic. Case and apostrophe
+  // style must not decide the grade, but the un-elided form is the taught slip.
+  answer('v2-a2-direct-elision-negation','s8','Non la','correct');
+  answer('v2-a2-direct-elision-negation','s8','la non','incorrect');
+  answer('v2-a2-direct-elision-negation','s9',"l'aspetto",'correct');
+  answer('v2-a2-direct-elision-negation','s9','lo aspetto','incorrect');
+  answer('v2-a2-direct-elision-negation','s12','non lo','correct');
+  // Nessuno/niente: one negative word suffices at the front; nulla is niente.
+  answer('v2-a2-nobody-nothing','s11','nessuno','correct');
+  answer('v2-a2-nobody-nothing','s11','Non nessuno','incorrect');
+  answer('v2-a2-nobody-nothing','s12','nulla','correct');
+  const ready=question('v2-a2-nobody-nothing','s8');
+  check(!ready.options?.includes('Nulla')||assessCourseAnswer(ready,'Nulla').outcome==='correct',
+    `${ready.id}: “Nulla è pronto” is as right as “Niente è pronto”`);
+  // Qualche keeps the noun singular; alcuni is the plural alternative, not a slip-free synonym.
+  answer('v2-a2-someone-something','s11','alcuni','incorrect');
+  answer('v2-a2-someone-something','s15','qualche','correct');
+  // A conclusion can be drawn with any of the taught words; a contrast word cannot.
+  answer('v2-a2-everyday-links','s11','Quindi','correct');
+  answer('v2-a2-everyday-links','s11','Però','incorrect');
+  answer('v2-a2-everyday-links','s12','Dunque','correct');
+  const rain=question('v2-a2-everyday-links','s5');
+  for(const valid of ['Quindi','Dunque'])check(!rain.options?.includes(valid)||assessCourseAnswer(rain,valid).outcome==='correct',
+    `${rain.id}: a valid conclusion word must not be offered as the wrong answer`);
+}
+{
+  // Reason-first links: visto che is as current as dato che; perché cannot open the
+  // statement; poiché may follow the main clause, so it is never a safe distractor there.
+  answer('v2-b1-cause-links','check-3','Visto che','correct');
+  answer('v2-b1-cause-links','check-3','Poiché','correct');
+  answer('v2-b1-cause-links','check-3','Perché','incorrect');
+  answer('v2-b1-cause-links','check-5','per questo','correct');
+  answer('v2-b1-cause-links','check-5','perché','incorrect');
+  const fever=question('v2-b1-cause-links','check-2');
+  check(!fever.options?.includes('poiché')||assessCourseAnswer(fever,'poiché').outcome==='correct',
+    `${fever.id}: poiché after the main clause is grammatical and must not be a wrong option`);
+  // Participle agreement: only a preceding lo/la/li/le triggers it, and each facet
+  // must also show the participle staying in -o when the object follows the verb.
+  answer('v2-b1-object-agreement','check-2','visto','correct');
+  answer('v2-b1-object-agreement','check-2','vista','incorrect');
+  answer('v2-b1-object-agreement','check-5','comprati','correct');
+  answer('v2-b1-object-agreement','check-5','comprato','incorrect');
+  for(const facet of ['singular','plural']){
+    const plain=lesson('v2-b1-object-agreement').steps.filter(s=>s.kind==='question'&&s.stage==='independent'&&!s.reserve&&s.facet===facet
+      &&/^[a-z]+o$/.test(s.answer)&&!/\b(?:l[’']|li|le)\s*(?:ho|hai|ha|abbiamo|avete|hanno)\b/i.test(s.context));
+    check(plain.length>0,`v2-b1-object-agreement: facet ${facet} needs an independent no-agreement contrast`);
+  }
+  answer('v2-b1-everyone-everything','check-3','ha','correct');
+  answer('v2-b1-everyone-everything','check-3','hanno','incorrect');
+  answer('v2-b1-everyone-everything','check-5','tutto','correct');
+  answer('v2-b1-everyone-everything','check-5','tutti','incorrect');
+}
+{
+  // The glosses of the function-word lessons feed the vocabulary boards and the
+  // Together session, so a gloss must never resolve to a homograph in another
+  // sense (dai “come on!” for da + i, the noun aspetto for l’aspetto).
+  const vocab=JSON.parse(fs.readFileSync(new URL('../data/vocab.json',import.meta.url))),verbs=JSON.parse(fs.readFileSync(new URL('../data/verbs.json',import.meta.url)));
+  const functionWordLessons=['v2-a1-question-words-1','v2-a1-question-words-2','v2-a1-ask-and-answer','v2-a1-a-articles-system','v2-a1-di-articles',
+    'v2-a2-in-su-da-articles','v2-a2-direct-me-you-us','v2-a2-direct-elision-negation','v2-a2-direct-attached','v2-a2-someone-something','v2-a2-nobody-nothing','v2-a2-everyday-links',
+    'v2-b1-object-agreement','v2-b1-everyone-everything','v2-b1-cause-links'];
+  const forbidden=new Set(['w:dai|interj','w:aspetto|noun']);
+  for(const id of functionWordLessons){
+    for(const {gloss,entry} of resolveLessonWords(lesson(id),{vocab,verbs})){
+      check(!forbidden.has(entry.id)&&entry.pos!=='interj',`${id}: gloss “${gloss.it}” resolves to ${entry.id} (${entry.en}), a different sense`);
+    }
+  }
+}
+
 // These deliberately incorrect alternatives alter condition, scope, evidence
 // or timing. Keep them distinguishable even when a rewrite admits synonyms.
 answer('v2-c2-u12-production','q1','La visita sarà rinviata anche senza pioggia.','incorrect');
@@ -163,4 +264,4 @@ for(const id of ['v2-c1-u3-claim-evidence','v2-c2-u10-source-conflict','v2-c2-u1
 }
 
 if(failures.length){console.error(failures.join('\n'));process.exit(1);}
-console.log(`Editorial fixtures passed for ${lessons.length} advanced lessons plus independent A2–B2 answer meanings.`);
+console.log(`Editorial fixtures passed for ${lessons.length} advanced lessons plus independent A1–B2 answer meanings.`);

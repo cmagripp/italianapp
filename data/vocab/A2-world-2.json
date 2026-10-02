@@ -87,5 +87,6 @@
 {"it":"subito","en":"immediately; right away","pos":"adv","level":"A2","cat":"time","ex":"Vengo subito, un secondo!","exEn":"I'm coming right away, one second!"},
 {"it":"mensile","en":"monthly","pos":"adj","forms":["mensile","mensile","mensili","mensili"],"level":"A2","cat":"time","ex":"Pago l'affitto mensile il primo del mese.","exEn":"I pay the monthly rent on the first of the month."},
 {"it":"settimanale","en":"weekly","pos":"adj","forms":["settimanale","settimanale","settimanali","settimanali"],"level":"A2","cat":"time","ex":"Facciamo una riunione settimanale ogni lunedì.","exEn":"We have a weekly meeting every Monday.","note":"As a noun: 'un settimanale' = a weekly magazine."},
-{"it":"tra poco","en":"in a little while; shortly","pos":"expr","level":"A2","cat":"time","ex":"Il film comincia tra poco, sbrigati.","exEn":"The film starts in a little while, hurry up.","note":"Also 'fra poco'."}
+{"it":"tra poco","en":"in a little while; shortly","pos":"expr","level":"A2","cat":"time","ex":"Il film comincia tra poco, sbrigati.","exEn":"The film starts in a little while, hurry up.","note":"Also 'fra poco'."},
+{"it":"da piccolo","en":"as a child; when I was little","pos":"expr","level":"A2","cat":"time","ex":"Da piccolo abitavo in campagna con i nonni.","exEn":"As a child I lived in the countryside with my grandparents.","note":"'Da' + a life stage, agreeing with the person: da piccola (a woman), da piccoli (several people), da bambino, da giovane (when I was young), da grande (when I grow up). Usually with the imperfetto."}
 ]

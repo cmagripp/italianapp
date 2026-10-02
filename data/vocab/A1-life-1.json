@@ -108,5 +108,8 @@
 {"it":"pane","en":"bread","pos":"noun","g":"m","pl":"pani","level":"A1","cat":"food","ex":"Compro il pane ogni mattina.","exEn":"I buy bread every morning.","note":"Usually singular; 'un pane' = a loaf."},
 {"it":"pasta","en":"pasta; pastry","pos":"noun","g":"f","pl":"paste","level":"A1","cat":"food","ex":"A pranzo mangiamo la pasta.","exEn":"For lunch we eat pasta.","note":"'Una pasta' (at the bar) is a small pastry."},
 {"it":"pizza","en":"pizza","pos":"noun","g":"f","pl":"pizze","level":"A1","cat":"food","ex":"Stasera mangiamo una pizza.","exEn":"Tonight we're having a pizza."},
-{"it":"riso","en":"rice","pos":"noun","g":"m","pl":"-","level":"A1","cat":"food","ex":"Il riso è pronto in venti minuti.","exEn":"The rice is ready in twenty minutes.","note":"Also 'riso' = laughter (plural 'risa')."}
+{"it":"riso","en":"rice","pos":"noun","g":"m","pl":"-","level":"A1","cat":"food","ex":"Il riso è pronto in venti minuti.","exEn":"The rice is ready in twenty minutes.","note":"Also 'riso' = laughter (plural 'risa')."},
+{"it":"come ti chiami?","en":"what's your name? (informal)","pos":"expr","level":"A1","cat":"basics","ex":"Ciao, io sono Luca. E tu, come ti chiami?","exEn":"Hi, I'm Luca. And you, what's your name?","note":"Literally 'how do you call yourself?' (chiamarsi). Formal: come si chiama? The answer is 'mi chiamo…'."},
+{"it":"di dove sei?","en":"where are you from? (informal)","pos":"expr","level":"A1","cat":"basics","ex":"Di dove sei? — Sono di Bologna.","exEn":"Where are you from? — I'm from Bologna.","note":"Formal: di dov'è? / di dove è Lei? The answer uses 'sono di' + city: sono di Torino."},
+{"it":"sono di","en":"I am from; I come from (a city or town)","pos":"expr","level":"A1","cat":"basics","ex":"Sono di Napoli, e tu?","exEn":"I'm from Naples, and you?","note":"'Essere di' + city or town gives your home town: è di Roma, siamo di Bari. For a country use 'venire da' or a nationality adjective: vengo dalla Spagna, sono spagnolo."}
 ]

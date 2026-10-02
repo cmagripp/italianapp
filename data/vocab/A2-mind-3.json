@@ -78,5 +78,6 @@
 {"it":"dipende","en":"it depends","pos":"expr","level":"A2","cat":"expressions","ex":"Vieni domani? Dipende dal tempo.","exEn":"Are you coming tomorrow? It depends on the weather.","note":"'Dipende da' + noun."},
 {"it":"per caso","en":"by any chance; by chance","pos":"expr","level":"A2","cat":"expressions","ex":"Hai per caso una penna?","exEn":"Do you have a pen, by any chance?"},
 {"it":"lascia stare","en":"forget it; leave it; never mind","pos":"expr","level":"A2","cat":"expressions","ex":"Lascia stare, lo faccio io.","exEn":"Leave it, I'll do it.","note":"Informal; formal: 'lasci stare'."},
-{"it":"vabbè","en":"okay then; whatever; fine","pos":"interj","level":"A2","cat":"expressions","ex":"Vabbè, facciamo come vuoi tu.","exEn":"Okay then, let's do it your way.","note":"Colloquial contraction of 'va bene'; often shows mild resignation."}
+{"it":"vabbè","en":"okay then; whatever; fine","pos":"interj","level":"A2","cat":"expressions","ex":"Vabbè, facciamo come vuoi tu.","exEn":"Okay then, let's do it your way.","note":"Colloquial contraction of 'va bene'; often shows mild resignation."},
+{"it":"se possibile","en":"if possible","pos":"expr","level":"A2","cat":"expressions","ex":"Vorrei una camera con vista, se possibile.","exEn":"I'd like a room with a view, if possible.","note":"Softens a request; also 'se è possibile'. 'Il più presto possibile' = as soon as possible."}
 ]

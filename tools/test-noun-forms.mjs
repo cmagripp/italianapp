@@ -12,7 +12,7 @@ function test(name, run) {
 }
 
 test('every built-in noun has an explicit usable plural or a singular-use marker', () => {
-  assert.equal(nouns.length, 4613);
+  assert.equal(nouns.length, 4614);
   assert.equal(nouns.filter(e => typeof e.pl !== 'string' || !e.pl.trim()).length, 0);
   for (const e of nouns) {
     assert.equal(hasPluralForm(e) || isUncountable(e), true, e.id);

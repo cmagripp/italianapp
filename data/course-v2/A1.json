@@ -14721,17 +14721,17 @@
               "contextKey": "v2-a1-question-words-1.independent-2",
               "format": "choice",
               "prompt": "Choose the expression that fits this situation.",
-              "context": "___ mangi stasera?",
-              "translation": "What are you eating this evening?",
+              "context": "___ leggi stasera?",
+              "translation": "What are you reading this evening?",
               "answer": "Che cosa",
               "options": [
                 "Che cosa",
                 "Chi",
                 "Quando"
               ],
-              "speak": "Che cosa mangi stasera?",
+              "speak": "Che cosa leggi stasera?",
               "explanation": "Che cosa asks about a thing.",
-              "hint": "The answer would be a food."
+              "hint": "The answer would be a book."
             },
             {
               "id": "v2-a1-question-words-1.s7",
@@ -14960,7 +14960,7 @@
                 },
                 {
                   "it": "quanto",
-                  "en": "how much; how many (masculine singular)"
+                  "en": "how much (masculine singular, and before a verb)"
                 },
                 {
                   "it": "quanta",
@@ -15084,17 +15084,17 @@
               "contextKey": "v2-a1-question-words-2.independent-2",
               "format": "choice",
               "prompt": "Choose the expression that fits this situation.",
-              "context": "___ libri hai?",
-              "translation": "How many books do you have?",
+              "context": "___ amici hai a Roma?",
+              "translation": "How many friends do you have in Rome?",
               "answer": "Quanti",
               "options": [
                 "Quanti",
                 "Quante",
                 "Quanto"
               ],
-              "speak": "Quanti libri hai?",
-              "explanation": "Libri is masculine plural, so quanto becomes quanti.",
-              "hint": "Match the noun libri."
+              "speak": "Quanti amici hai a Roma?",
+              "explanation": "Amici is masculine plural, so quanto becomes quanti.",
+              "hint": "Match the noun amici."
             },
             {
               "id": "v2-a1-question-words-2.s8",
@@ -15126,16 +15126,16 @@
               "contextKey": "v2-a1-question-words-2.independent-4",
               "format": "choice",
               "prompt": "Choose the expression that fits this situation.",
-              "context": "___ libri leggi?",
-              "translation": "Which books are you reading?",
+              "context": "___ amiche inviti?",
+              "translation": "Which female friends are you inviting?",
               "answer": "Quali",
               "options": [
                 "Quali",
                 "Quale",
-                "Quante"
+                "Quanti"
               ],
-              "speak": "Quali libri leggi?",
-              "explanation": "Libri is plural, so quale becomes quali.",
+              "speak": "Quali amiche inviti?",
+              "explanation": "Amiche is plural, so quale becomes quali.",
               "hint": "A plural noun takes quali."
             },
             {
@@ -15453,14 +15453,14 @@
               "contextKey": "v2-a1-ask-and-answer.independent-2",
               "format": "choice",
               "prompt": "What does this Italian expression mean?",
-              "context": "Perché studi l’italiano?",
-              "answer": "Why do you study Italian?",
+              "context": "Perché parti domani?",
+              "answer": "Why are you leaving tomorrow?",
               "options": [
-                "Why do you study Italian?",
-                "Because you study Italian.",
-                "When do you study Italian?"
+                "Why are you leaving tomorrow?",
+                "Because you are leaving tomorrow.",
+                "When are you leaving tomorrow?"
               ],
-              "speak": "Perché studi l’italiano?",
+              "speak": "Perché parti domani?",
               "explanation": "At the start of a question, perché means why.",
               "hint": "This line ends with a question mark."
             },
@@ -15524,21 +15524,26 @@
               "contextKey": "v2-a1-ask-and-answer.independent-5",
               "format": "type",
               "prompt": "Complete the Italian sentence with the taught form.",
-              "context": "«Perché studi l’italiano?» «___»",
-              "translation": "Answer in Italian: because I love Italy.",
-              "answer": "Perché amo l’Italia.",
+              "context": "«Perché vai alla festa?» «___»",
+              "translation": "Answer in Italian: because I love music.",
+              "answer": "Perché amo la musica.",
               "accepted": [
-                "Perché io amo l’Italia."
+                "Perché io amo la musica."
               ],
-              "speak": "Perché studi l’italiano? Perché amo l’Italia.",
-              "explanation": "Perché opens the reason, then amo l’Italia says what you love.",
+              "speak": "Perché vai alla festa? Perché amo la musica.",
+              "explanation": "Perché opens the reason, then amo la musica says what you love.",
               "hint": "Start with the word for because, then use amo.",
               "strict": true,
               "errors": [
                 {
-                  "answer": "Perche amo l’Italia.",
+                  "answer": "Perche amo la musica.",
                   "tag": "missing-accent",
                   "explanation": "Perché is written with an accent on its final e."
+                },
+                {
+                  "answer": "Perchè amo la musica.",
+                  "tag": "wrong-accent",
+                  "explanation": "Perché ends in a closed e, written with the acute accent: é, not è."
                 }
               ]
             },
@@ -16336,18 +16341,18 @@
               "contextKey": "v2-a1-di-articles.independent-6",
               "format": "type",
               "prompt": "Complete the Italian sentence with the taught form.",
-              "context": "La casa ___ zio è a Roma.",
-              "translation": "The uncle’s house is in Rome.",
+              "context": "Il libro ___ studente è qui.",
+              "translation": "The student’s book is here.",
               "answer": "dello",
-              "speak": "La casa dello zio è a Roma.",
-              "explanation": "Lo zio: di + lo = dello.",
-              "hint": "Zio begins with z.",
+              "speak": "Il libro dello studente è qui.",
+              "explanation": "Lo studente: di + lo = dello.",
+              "hint": "Studente begins with s plus a consonant.",
               "strict": true,
               "errors": [
                 {
                   "answer": "del",
                   "tag": "lo-noun",
-                  "explanation": "Zio begins with z and takes lo, so di + lo = dello."
+                  "explanation": "Studente begins with s plus a consonant and takes lo, so di + lo = dello."
                 }
               ]
             },

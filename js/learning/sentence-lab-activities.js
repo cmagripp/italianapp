@@ -146,7 +146,7 @@ export function labBuild(activity, ui, { composed, yours = {}, locked = false } 
     const items = Array.isArray(role.items) ? role.items : [], mine = yours[role.role] || [];
     const on = key => String(choice[role.role]) === String(key);
     return html`<div class="lab-role-row" data-role="${roleOf(role.role)}">
-      <span class="kicker lab-role" data-role="${roleOf(role.role)}">${role.label || ROLE_LABEL[role.role] || role.role}${role.optional === true ? raw('<span class="lab-optional"> · optional</span>') : ''}</span>
+      <span class="kicker lab-role" data-role="${roleOf(role.role)}">${role.label || ROLE_LABEL[role.role] || role.role}${role.optional === true ? raw('<span class="lab-optional">· optional</span>') : ''}</span>
       <div class="chips lab-items" role="group" aria-label="${role.label || ROLE_LABEL[role.role] || role.role}">${join(items.map((item, i) => html`<button type="button" class="chip lab-chip lab-pick ${on(i) ? 'on' : ''}" data-lab-pick="${role.role}" data-item="${i}" aria-pressed="${on(i) ? 'true' : 'false'}" ${locked ? raw('disabled') : ''}>${item.it || item.inf}</button>`))}${join(mine.map((item, i) => html`<button type="button" class="chip lab-chip lab-pick lab-yours ${on(`yours:${i}`) ? 'on' : ''}" data-lab-pick="${role.role}" data-item="yours:${i}" aria-pressed="${on(`yours:${i}`) ? 'true' : 'false'}" ${locked ? raw('disabled') : ''}><span>${item.it}</span><span class="lab-yours-tag">yours</span></button>`))}</div>
     </div>`;
   });

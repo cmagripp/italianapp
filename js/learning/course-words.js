@@ -18,12 +18,14 @@ const PROMPTS = { meaning: 'Match each word to its meaning', recall: 'Now from t
 // ---------- dictionary index (one per dictionary snapshot) ----------
 const indexes = new WeakMap();
 const add = (map, key, e) => { if (!usable(key)) return; key = keyOf(key); if (!key) return; if (!map.has(key)) map.set(key, []); map.get(key).push(e); };
-// Closed-class words whose agreement forms the dictionary lists only in the note (the schema's `forms` field belongs to
-// adjectives): the possessive and demonstrative determiners, tutto and altro, and the articulated prepositions, which the
-// dictionary enters under the masculine singular (del, al, dal, nel, sul).
+// Closed-class words whose agreement or truncated forms the dictionary lists only in the note (the schema's `forms` field
+// holds an adjective's four endings): the possessive, demonstrative, quantity and question determiners, the truncated
+// bel/buon/gran, and the articulated prepositions, which the dictionary enters under the masculine singular (del, al, dal, nel, sul).
 const CLOSED_CLASS_FORMS = new Map(Object.entries({
   mio: ['mia', 'miei', 'mie'], tuo: ['tua', 'tuoi', 'tue'], suo: ['sua', 'suoi', 'sue'], nostro: ['nostra', 'nostri', 'nostre'], vostro: ['vostra', 'vostri', 'vostre'],
   questo: ['questa', 'questi', 'queste', "quest'"], quello: ['quel', 'quella', 'quelli', 'quelle', 'quei', 'quegli', "quell'"], tutto: ['tutta', 'tutti', 'tutte'], altro: ['altra', 'altri', 'altre'],
+  quanto: ['quanta', 'quanti', 'quante'], quale: ['quali', 'qual'], troppo: ['troppa', 'troppi', 'troppe'], nessuno: ['nessun', 'nessuna', "nessun'"],
+  bello: ['bel', 'bei', 'begli', "bell'"], buono: ['buon', "buon'"], grande: ['gran'],
   del: ['dello', 'della', "dell'", 'dei', 'degli', 'delle'], al: ['allo', 'alla', "all'", 'ai', 'agli', 'alle'], dal: ['dallo', 'dalla', "dall'", 'dai', 'dagli', 'dalle'],
   nel: ['nello', 'nella', "nell'", 'nei', 'negli', 'nelle'], sul: ['sullo', 'sulla', "sull'", 'sui', 'sugli', 'sulle'],
 }));
@@ -55,20 +57,23 @@ function dictionaryIndex(vocab, verbs) {
     for (const f of Array.isArray(e.forms) ? e.forms : []) if (norm(f) !== norm(e.it)) add(forms, f, e);
     for (const f of CLOSED_CLASS_FORMS.get(norm(e.it)) || []) add(forms, f, e);
   }
-  const index = { verbs, headwords, plurals, fems, forms, byId, verbEntries, conjugated: null };
+  // Verbs by English token, so a gloss finds the few verbs worth conjugating without the whole paradigm index.
+  const verbsByToken = new Map();
+  verbEntries.forEach((e, i) => { for (const t of new Set(senses(e.en).flatMap(s => s.split(' ')))) { if (!verbsByToken.has(t)) verbsByToken.set(t, []); verbsByToken.get(t).push(i); } });
+  const index = { verbs, headwords, plurals, fems, forms, byId, verbEntries, verbsByToken, conjugated: null };
   indexes.set(vocab, index);
   return index;
 }
-// Conjugated forms of every dictionary verb, keyed by the whole form ("mi alzo", "ho mangiato", "sono andata", "va'"):
-// each cell of the paradigm with its alternatives and agreement variants, the non-finite forms (present participle
-// aside), the participle's agreement forms and, for enclisis, the gerund and imperative forms. Built on the first
-// conjugated-form lookup only: conjugating every verb costs a few hundred milliseconds and the boards never need a verb.
+// Conjugated forms of the given verbs, keyed by the whole form ("mi alzo", "ho mangiato", "sono andata", "va'"): each cell
+// of the paradigm with its alternatives and agreement variants, the non-finite forms (present participle aside), the
+// participle's agreement forms and, for enclisis, the gerund and imperative forms.
 const variants = cell => accepted(cell).flatMap(f => /o\/a\b/.test(f) ? [f.replace(/o\/a\b/g, 'o'), f.replace(/o\/a\b/g, 'a')] : /i\/e\b/.test(f) ? [f.replace(/i\/e\b/g, 'i'), f.replace(/i\/e\b/g, 'e')] : [f]).filter(usable);
-function conjugatedIndex(index) {
-  if (index.conjugated) return index.conjugated;
-  const forms = new Map(), attachable = new Map();
-  for (const e of index.verbEntries) {
+let stareForms = null;
+function conjugatedIndexFor(entries) {
+  const forms = new Map(), attachable = new Map(), infinitives = new Map();
+  for (const e of entries) {
     let c; try { c = conjugate(e.inf, { aux: e.aux, isc: e.isc }); } catch { continue; }
+    add(infinitives, e.inf, e);
     for (const [tense, cells] of Object.entries(c.tenses)) if (Array.isArray(cells)) for (const cell of cells) for (const f of variants(cell)) { add(forms, f, e); if (tense === 'imperativo') add(attachable, f, e); }
     for (const [part, value] of Object.entries(c.nonFinite)) {
       if (part === 'participioPresente') continue;
@@ -79,14 +84,28 @@ function conjugatedIndex(index) {
       }
     }
   }
-  const stare = conjugate('stare', { aux: 'essere' }).tenses;
-  index.conjugated = { forms, attachable, stare: new Set([...stare.presente, ...stare.imperfetto].flatMap(accepted).map(keyOf)) };
-  return index.conjugated;
+  if (!stareForms) { const t = conjugate('stare', { aux: 'essere' }).tenses; stareForms = new Set([...t.presente, ...t.imperfetto].flatMap(accepted).map(keyOf)); }
+  return { forms, attachable, infinitives, stare: stareForms };
 }
+// The whole dictionary, built on the first lookup that needs it: conjugating every verb costs a few hundred milliseconds.
+const conjugatedIndex = index => index.conjugated ||= conjugatedIndexFor(index.verbEntries);
 
 // ---------- resolution ----------
-const senses = s => String(s ?? '').toLocaleLowerCase('en').replace(/\([^)]*\)/g, ' ').replace(/[!?.…]+/g, ' ').split(/[;,/·]/).map(p => p.replace(/^\s*(?:to|the|a|an)\s+/, '').trim()).filter(Boolean);
-const wordIn = (needle, hay) => new RegExp(`(^|\\s)${needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\s|$)`).test(hay);
+// English senses and needle patterns are memoised: the same dictionary strings are compared with every gloss.
+// Contractions are spelt out, so a gloss "I do not understand" meets the entry "I don't understand".
+const CONTRACTIONS = [[/\b(what|where|how|it|that|there|he|she|who)'s\b/g, '$1 is'], [/\blet's\b/g, 'let us'], [/\bcan't\b/g, 'cannot'], [/\bwon't\b/g, 'will not'], [/n't\b/g, ' not'], [/\bi'm\b/g, 'i am'], [/'re\b/g, ' are'], [/'ve\b/g, ' have'], [/'ll\b/g, ' will']];
+const senseCache = new Map();
+function senses(s) {
+  s = String(s ?? '');
+  if (!senseCache.has(s)) {
+    let text = s.toLocaleLowerCase('en').replace(/[’‘]/g, "'");
+    for (const [pattern, spelt] of CONTRACTIONS) text = text.replace(pattern, spelt);
+    senseCache.set(s, text.replace(/\([^)]*\)/g, ' ').replace(/[!?.…]+/g, ' ').split(/[;,/·]/).map(p => p.replace(/^\s*(?:to|the|a|an)\s+/, '').trim().replace(/\s+/g, ' ')).filter(Boolean));
+  }
+  return senseCache.get(s);
+}
+// The needle as a whole word or word sequence of the hay (senses are single-spaced).
+const wordIn = (needle, hay) => hay === needle || hay.startsWith(needle + ' ') || hay.endsWith(' ' + needle) || hay.includes(' ' + needle + ' ');
 function englishScore(gloss, e) {
   const want = senses(gloss.en), have = senses(e.en);
   if (have.some(h => want.includes(h))) return 2;
@@ -96,6 +115,12 @@ function englishScore(gloss, e) {
 }
 // Several entries share the headword: the one whose English carries the gloss, then the lowest level, then file order (stable sort).
 const pick = (list, gloss) => list.length === 1 ? list[0] : [...list].sort((a, b) => englishScore(gloss, b) - englishScore(gloss, a) || levelRank(a) - levelRank(b))[0];
+// The verbs whose English carries the gloss (a positive score needs a shared token, so the token index is only a shortcut).
+function englishVerbs(gloss, index) {
+  const candidates = new Set();
+  for (const t of new Set(senses(gloss.en).flatMap(s => s.split(' ')))) for (const i of index.verbsByToken.get(t) || []) candidates.add(i);
+  return [...candidates].sort((a, b) => a - b).map(i => index.verbEntries[i]).filter(e => englishScore(gloss, e) > 0);
+}
 function glossKeys(it) {
   const full = keyOf(it);
   const stripped = full.replace(ARTICLE, '');
@@ -108,21 +133,23 @@ const ENCLITICS = ['gliene', 'glielo', 'gliela', 'glieli', 'gliele', 'mene', 'me
 // The whole gloss ("non" and a proclitic aside) is one form of a dictionary verb: a paradigm cell such as "mi alzo", "ho mangiato",
 // "sono andata" or "vada", a participle or gerund, stare + gerund ("sto parlando", "stava leggendo"), or an infinitive,
 // gerund or imperative carrying an enclitic ("aiutarmi", "leggendolo", "guardalo", "dimmi"). Phrases with any other word
-// ("vorrei visitare", "vengo da", "abito qui", "se piove") are constructions, not forms, and stay unresolved. The key keeps
-// its article: "la conferma" names a noun, never confermare.
-function conjugatedForm(key, index, gloss) {
-  const { forms, attachable, stare } = conjugatedIndex(index);
+// ("vorrei visitare", "vengo da", "abito qui", "se piove") are constructions, not forms, and stay unresolved. Behind lo, la,
+// le, li, gli or l' a single word is read as a clitic + verb ("lo vedo", "l'ascolto") only when the verb's English carries
+// the gloss: "la conferma" and "lo scarico" name nouns, not confermare and scaricare.
+const ARTICLE_LIKE = /^(?:(?:lo|la|le|li|gli)\s|l')/;
+function conjugatedForm(key, conjugated, gloss) {
+  const { forms, attachable, infinitives, stare } = conjugated;
   const lookup = (map, k) => { const list = map.get(k); return list?.length ? pick(list, gloss) : null; };
   const bare = key.replace(PROCLITICS, '');
   if (!bare) return null;
   const cell = lookup(forms, key) || (bare !== key ? lookup(forms, bare) : null);
-  if (cell) return cell;
+  if (cell) return bare !== key && ARTICLE_LIKE.test(key) && !bare.includes(' ') && !englishScore(gloss, cell) ? null : cell;
   const words = bare.split(' ');
   if (words.length === 2 && stare.has(words[0])) return lookup(attachable, words[1]);
   if (words.length !== 1) return null;
   const { base, clitic } = splitClitic(bare);
-  const infinitives = clitic ? (index.headwords.get(keyOf(base)) || []).filter(e => e.kind === 'verb') : [];
-  if (infinitives.length) return pick(infinitives, gloss);
+  const infinitive = clitic ? lookup(infinitives, keyOf(base)) : null;
+  if (infinitive) return infinitive;
   for (const enclitic of ENCLITICS) {
     if (!bare.endsWith(enclitic) || bare.length <= enclitic.length) continue;
     const host = bare.slice(0, -enclitic.length);
@@ -138,10 +165,14 @@ function resolveGloss(gloss, index, verbForms, depth = 0) {
   const found = map => { for (const key of keys) { const list = map.get(key); if (list?.length) return pick(list, gloss); } return null; };
   const byId = usable(gloss.entryId) ? index.byId.get(gloss.entryId) : null;
   const word = found(index.headwords) || byId || found(index.plurals) || found(index.fems) || found(index.forms);
-  // A word whose English carries nothing of the gloss yields to a verb form whose English does: "abiti · you live" is
-  // abitare, not the noun abito; "aspetti · wait!" is aspettare, not the plural of aspetto.
-  const verb = verbForms && keys.length && (!word || !englishScore(gloss, word)) ? conjugatedForm(keys[0], index, gloss) : null;
-  const entry = verb && (!word || englishScore(gloss, verb)) ? verb : word;
+  // A word whose English carries nothing of the gloss yields to a form of a verb whose English does: "abiti · you live"
+  // is abitare, not the plural of abito. Only such verbs are conjugated for that, so the words (and the boards) come out
+  // the same with or without the whole-dictionary index. A gloss no word rule claims is looked up across every verb.
+  let entry = word;
+  if (keys.length && (!word || !englishScore(gloss, word))) {
+    const verb = word ? conjugatedForm(keys[0], conjugatedIndexFor(englishVerbs(gloss, index)), gloss) : verbForms ? conjugatedForm(keys[0], conjugatedIndex(index), gloss) : null;
+    if (verb) entry = verb;
+  }
   if (entry || depth) return entry || null;
   // "il collega / la collega": the first alternative stands for the gloss.
   const alternative = String(gloss.it ?? '').split(/\s*\/\s*/)[0];

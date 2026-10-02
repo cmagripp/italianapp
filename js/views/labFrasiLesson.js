@@ -3,7 +3,7 @@
 // grades; this view keeps the session in store.learning.sessions (js/learning/sentence-lab-data.js), runs the three
 // drills of a free-entry word, records their journey events, saves "Le mie frasi" and completes the lesson (15 XP).
 // Layers 2 and 3 (fit scorer, assistant) are imported lazily inside handlers: the lesson is identical without them.
-import { html, raw, icon, speak, toast, keyboardViewportHeight, sheet } from '../ui.js';
+import { html, raw, esc, icon, speak, toast, keyboardViewportHeight, sheet } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { data, getEntry, headword, shortEn, withArticle, isPluralOnly, distractors, shuffle, fold } from '../data.js';
@@ -80,7 +80,10 @@ export async function render(root, params, query = {}) {
   for (const name of ['resize', 'orientationchange', 'pageshow']) window.addEventListener(name, fit);
   root.addEventListener('focusin', fit); root.addEventListener('focusout', fit); fit();
 
-  const save = () => { if (!disposed && !finished && store.current.id === owner) writeLabSession(store, session); };
+  // A session is written once the learner has done something in it: a lesson merely opened (or reopened after its
+  // completion) leaves no "in progress" trace on the path page.
+  const pristine = () => session.index === 0 && !(session.history || []).length && !session.paused && !session.state?.result && !(session.state?.attempts || []).length;
+  const save = () => { if (!disposed && !finished && !pristine() && store.current.id === owner) writeLabSession(store, session); };
   const step = () => currentLabStep(lesson, session);
   const ui = () => { if (!session.state) return {}; return session.state.ui ||= {}; };
   const ctx = () => labContext();
@@ -96,8 +99,9 @@ export async function render(root, params, query = {}) {
       ${footer ? raw(html`<footer class="grammar-footer ${feedback ? 'has-feedback' : ''}">${raw(footer)}</footer>`) : ''}
     </div>`;
   }
-  const detailOf = (result, explanation = '') => `${result.sentence ? `<p lang="it" data-italian-sentence data-english="${String(result.en || '').replace(/"/g, '&quot;')}">${esc(result.sentence)}</p>` : ''}${result.en ? `<p>${esc(result.en)}</p>` : ''}${explanation ? `<p>${esc(explanation)}</p>` : ''}`;
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const detailOf = (result, explanation = '') => `${result.sentence ? `<p lang="it" data-italian-sentence data-english="${esc(result.en || '')}">${esc(result.sentence)}</p>` : ''}${result.en ? `<p>${esc(result.en)}</p>` : ''}${explanation ? `<p>${esc(explanation)}</p>` : ''}`;
+  // the per-blank maps every blank handler writes to
+  const blankUi = u => { for (const k of ['bankOpen', 'freeOpen', 'drafts', 'messages', 'notes']) u[k] ||= {}; return u; };
   // A miss that is not final shows its explanation once; "Try again" dismisses it (the count is remembered per activity).
   const pendingMiss = (view, u) => !view.result && view.last && view.last.outcome === 'incorrect' && (view.state.misses || 0) > (u.seenMiss || 0);
   const missFooter = (view, u, retryLabel = 'Try again') => feedbackHTML({ ok: false, title: `Not quite${(view.state.misses || 0) < 2 ? ' · one more try' : ''}.`, detail: `<p>${esc(view.last.explanation || 'Try again.')}</p>`, nextAttribute: 'data-lab-retry', nextLabel: retryLabel, accent: 'secondary' });
@@ -141,6 +145,7 @@ export async function render(root, params, query = {}) {
       const blanks = activity.blanks || [];
       if (!Array.isArray(u.values) || u.values.length !== blanks.length) u.values = blanks.map(() => '');
       u.active = Number.isInteger(u.active) && blanks[u.active] ? u.active : 0;
+      blankUi(u);
       const locked = !!view.result;
       content = labCloze(activity, u, { locked, result: view.result });
       if (locked) { feedback = true; footer = finalFooter(view.result, { explanation: view.result.explanation }); }
@@ -150,6 +155,7 @@ export async function render(root, params, query = {}) {
       const state = view.state, current = state.current;
       if (current && u.turn !== current.index) Object.assign(u, { turn: current.index, values: current.blanks.map(() => ''), active: 0, bankOpen: {}, freeOpen: {}, drafts: {}, messages: {}, notes: {}, seenMiss: 0, hint: false });
       if (current && (!Array.isArray(u.values) || u.values.length !== current.blanks.length)) u.values = current.blanks.map(() => '');
+      blankUi(u);
       content = labDialogue(activity, state, u, { locked: !current });
       if (state.complete) { footer = labButton('Continue', 'data-lab-next', 'primary'); }
       else if (pendingMiss(view, u)) { feedback = true; footer = missFooter(view, u); }
@@ -221,7 +227,7 @@ export async function render(root, params, query = {}) {
     if (!view || view.done || session.paused) return;
     const { result } = answerLab(lesson, session, value, { ...ctx(), now: Date.now() });
     if (!result) return;
-    const u = ui();
+    const u = blankUi(ui());
     if (view.kind === 'order') {
       if (result.ok) speak(result.sentence);
     } else if (view.kind === 'cloze') {
@@ -288,7 +294,7 @@ export async function render(root, params, query = {}) {
 
   // ---------- free entry ----------
   function insertWord(i, display, info = null) {
-    const u = ui();
+    const u = blankUi(ui());
     u.values[i] = display; u.freeOpen[i] = false; u.drafts[i] = ''; u.messages[i] = null; u.notes[i] = null;
     u.entries ||= {}; u.entries[i] = info;
     const blanks = currentBlanks();
@@ -315,7 +321,7 @@ export async function render(root, params, query = {}) {
     u.notes[i] = row.note; save(); draw();
   }
   function useFreeWord(i, text) {
-    const u = ui(), blanks = currentBlanks()?.blanks || [], blank = blanks[i];
+    const u = blankUi(ui()), blanks = currentBlanks()?.blanks || [], blank = blanks[i];
     const typed = String(text ?? '').trim();
     if (!blank || !typed) return;
     u.drafts[i] = typed;
@@ -349,7 +355,8 @@ export async function render(root, params, query = {}) {
     if (!entry) { insertWord(i, info.display, info); return; }
     runDrills(entry, ({ passed }) => {
       if (disposed) return;
-      if (passed) { store.markLearned(entry.id, 'word'); toast(`${sayForm(entry)} · learned`, { kind: 'ok' }); insertWord(i, info.display, { entryId: entry.id, it: info.it, en: info.en }); }
+      // a verb is learned through its own tense chapters, never by three quick drills: the drills still run as a check
+      if (passed) { if (entry.kind !== 'verb') { store.markLearned(entry.id, 'word'); toast(`${sayForm(entry)} · learned`, { kind: 'ok' }); } insertWord(i, info.display, { entryId: entry.id, it: info.it, en: info.en }); }
       else { const u = ui(); u.messages[i] = { text: `${sayForm(entry)} is not in your words yet. Pick an option, or try it again later.` }; draw(); }
     });
   }
@@ -411,7 +418,7 @@ export async function render(root, params, query = {}) {
   const click = event => {
     const b = event.target.closest('button'); if (!b || disposed || store.current.id !== owner) return;
     if (b.closest('[data-say]')) return;
-    const u = ui();
+    const u = blankUi(ui());
     if (b.hasAttribute('data-lab-back')) { save(); location.hash = '#/lab/frasi'; return; }
     if (b.hasAttribute('data-lab-pause')) { session.paused = true; save(); draw({ focus: true }); return; }
     if (b.hasAttribute('data-lab-resume')) { session.paused = false; save(); draw({ focus: true }); return; }
@@ -435,7 +442,7 @@ export async function render(root, params, query = {}) {
     if (b.hasAttribute('data-lab-another')) { u.choice = {}; save(); draw(); return; }
     if (b.hasAttribute('data-lab-keep')) { check(); return; }
   };
-  const input = event => { if (event.target.matches('[data-lab-free-input]')) ui().drafts[Number(event.target.dataset.labFreeInput)] = event.target.value.slice(0, 80); };
+  const input = event => { if (event.target.matches('[data-lab-free-input]')) blankUi(ui()).drafts[Number(event.target.dataset.labFreeInput)] = event.target.value.slice(0, 80); };
   const form = event => { if (event.target.matches('[data-lab-free-form]')) { event.preventDefault(); const i = Number(event.target.dataset.labFreeForm); useFreeWord(i, event.target.querySelector('[data-lab-free-input]')?.value); } };
   root.addEventListener('click', click); root.addEventListener('input', input); root.addEventListener('submit', form);
   ui(); // the first activity's ui slot exists before the first draw

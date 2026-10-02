@@ -5588,11 +5588,11 @@
               "contextKey": "v2-a2-direct-me-you-us.independent-3",
               "format": "type",
               "prompt": "Complete the Italian sentence with the taught form.",
-              "context": "Anna e Sara, ___ invito a cena.",
-              "translation": "Anna and Sara, I invite you both to dinner.",
+              "context": "Anna e Sara, ___ aspetto al bar.",
+              "translation": "Anna and Sara, I will wait for you both at the bar.",
               "answer": "vi",
-              "speak": "Anna e Sara, vi invito a cena.",
-              "explanation": "Two people are addressed and invited: vi.",
+              "speak": "Anna e Sara, vi aspetto al bar.",
+              "explanation": "Two people are addressed and waited for: vi.",
               "hint": "The addressees are plural you.",
               "strict": true
             },
@@ -5744,12 +5744,12 @@
               "body": "Listen and read these before answering.",
               "words": [
                 {
-                  "it": "l’aspetto",
-                  "en": "I am waiting for him, her or it (lo or la + aspetto)"
+                  "it": "Il treno? L’aspetto.",
+                  "en": "The train? I am waiting for it (lo + aspetto → l’aspetto)."
                 },
                 {
-                  "it": "l’ascolto",
-                  "en": "I listen to him, her or it (lo or la + ascolto)"
+                  "it": "La radio? L’ascolto.",
+                  "en": "The radio? I listen to it (la + ascolto → l’ascolto)."
                 },
                 {
                   "it": "non lo so",
@@ -5886,18 +5886,18 @@
               "contextKey": "v2-a2-direct-elision-negation.independent-3",
               "format": "type",
               "prompt": "Complete the Italian sentence with the taught form.",
-              "context": "Anna? Oggi ___ vedo.",
-              "translation": "Anna? I am not seeing her today.",
+              "context": "Sara? Stasera ___ chiamo.",
+              "translation": "Sara? I am not calling her this evening.",
               "answer": "non la",
-              "speak": "Anna? Oggi non la vedo.",
-              "explanation": "Non la vedo: non, then la, then the verb.",
+              "speak": "Sara? Stasera non la chiamo.",
+              "explanation": "Non la chiamo: non, then la, then the verb.",
               "hint": "Write the negative and the pronoun together.",
               "strict": true,
               "errors": [
                 {
                   "answer": "la non",
                   "tag": "pronoun-order",
-                  "explanation": "Non must come before the pronoun: non la vedo."
+                  "explanation": "Non must come before the pronoun: non la chiamo."
                 }
               ]
             },
@@ -5975,8 +5975,8 @@
               "prompt": "Complete the Italian sentence with the taught form.",
               "context": "Il pane? ___ compro.",
               "translation": "The bread? I am not buying it.",
-              "answer": "non lo",
-              "speak": "Il pane? non lo compro.",
+              "answer": "Non lo",
+              "speak": "Il pane? Non lo compro.",
               "explanation": "Non lo compro keeps non before lo.",
               "hint": "The negative comes first.",
               "strict": true
@@ -6019,12 +6019,12 @@
             }
           ],
           "legacyLessonIds": [],
-          "takeaway": "After per or a modal the pronoun attaches to the infinitive, which drops its final -e: per vederlo, posso chiamarti. It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
+          "takeaway": "After per the pronoun attaches to the infinitive, which drops its final -e: per vederlo. After a modal it can attach in the same way: posso chiamarti (it may also stay before the modal: ti posso chiamare). It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
           "targets": [
             {
               "id": "v2-a2-direct-attached.core",
               "label": "Attach the pronoun to the verb",
-              "explanation": "After per or a modal the pronoun attaches to the infinitive, which drops its final -e: per vederlo, posso chiamarti. It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
+              "explanation": "After per the pronoun attaches to the infinitive, which drops its final -e: per vederlo. After a modal it can attach in the same way: posso chiamarti (it may also stay before the modal: ti posso chiamare). It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
               "facets": [
                 "infinitive",
                 "gerund-command"
@@ -6034,7 +6034,7 @@
               "modality": "language",
               "repair": {
                 "title": "Try attach the pronoun to the verb again",
-                "body": "With an infinitive, the pronoun attaches to the end and the infinitive drops its final -e: per vederlo, posso chiamarti, voglio vederla.",
+                "body": "With an infinitive, the pronoun attaches to the end and the infinitive drops its final -e: per vederlo, posso chiamarti, voglio vederla. After per this is the only place for it; after a modal it may also stay before the modal (ti posso chiamare), a choice the next unit practises.",
                 "examples": [
                   {
                     "it": "Vado al cinema per vederlo. Posso chiamarti stasera?",
@@ -6101,7 +6101,7 @@
               "id": "v2-a2-direct-attached.s2",
               "kind": "teach",
               "title": "After per and after a modal",
-              "body": "With an infinitive, the pronoun attaches to the end and the infinitive drops its final -e: per vederlo, posso chiamarti, voglio vederla.",
+              "body": "With an infinitive, the pronoun attaches to the end and the infinitive drops its final -e: per vederlo, posso chiamarti, voglio vederla. After per this is the only place for it; after a modal it may also stay before the modal (ti posso chiamare), a choice the next unit practises.",
               "examples": [
                 {
                   "it": "Vado al cinema per vederlo. Posso chiamarti stasera?",
@@ -6194,8 +6194,8 @@
               "id": "v2-a2-direct-attached.s7",
               "kind": "passage",
               "title": "A film for tonight",
-              "it": "Anna: «Stasera c’è un film al cinema. Vado a vederlo. Vieni?»\nLuca: «Non posso. Devo vedere mia madre: voglio vederla prima di cena.»\nAnna: «Va bene. Guardalo domani in televisione!»\nLuca: «Sì. Mi chiami dopo il film?»\nAnna: «Certo. Posso chiamarti alle undici?»",
-              "en": "Anna: “Tonight there is a film at the cinema. I am going to see it. Are you coming?”\nLuca: “I can’t. I have to see my mother: I want to see her before dinner.”\nAnna: “All right. Watch it tomorrow on television!”\nLuca: “Yes. Will you call me after the film?”\nAnna: “Of course. Can I call you at eleven?”",
+              "it": "Anna: «Stasera c’è un film al cinema. Vado a vederlo. Vieni?»\nLuca: «Non posso. Devo vedere mia madre: voglio vederla prima di cena.»\nAnna: «Va bene. Allora guardalo un’altra sera!»\nLuca: «Sì. Mi chiami dopo il film?»\nAnna: «Certo. Posso chiamarti alle undici?»",
+              "en": "Anna: “Tonight there is a film at the cinema. I am going to see it. Are you coming?”\nLuca: “I can’t. I have to see my mother: I want to see her before dinner.”\nAnna: “All right. Then watch it another evening!”\nLuca: “Yes. Will you call me after the film?”\nAnna: “Of course. Can I call you at eleven?”",
               "mode": "read",
               "task": "Notice how the taught expression works in this short exchange."
             },
@@ -6208,16 +6208,16 @@
               "contextKey": "v2-a2-direct-attached.independent-3",
               "format": "type",
               "prompt": "Complete the Italian sentence with the taught form.",
-              "context": "Il film è bello: ___!",
-              "translation": "The film is good: watch it! (familiar command)",
-              "answer": "guardalo",
-              "speak": "Il film è bello: guardalo!",
+              "context": "Il film di Marco? ___ stasera!",
+              "translation": "Marco’s film? Watch it this evening! (familiar command)",
+              "answer": "Guardalo",
+              "speak": "Il film di Marco? Guardalo stasera!",
               "explanation": "Lo attaches to the tu command guarda: guardalo.",
               "hint": "Add lo to the end of guarda.",
               "strict": true,
               "errors": [
                 {
-                  "answer": "lo guarda",
+                  "answer": "Lo guarda",
                   "tag": "command-attachment",
                   "explanation": "With a familiar command the pronoun attaches to the end: guardalo."
                 }
@@ -6307,7 +6307,7 @@
               "id": "v2-a2-direct-attached.s13",
               "kind": "teach",
               "title": "Keep this",
-              "body": "After per or a modal the pronoun attaches to the infinitive, which drops its final -e: per vederlo, posso chiamarti. It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
+              "body": "After per the pronoun attaches to the infinitive, which drops its final -e: per vederlo. After a modal it can attach in the same way: posso chiamarti (it may also stay before the modal: ti posso chiamare). It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
               "examples": [
                 {
                   "it": "Guardandola, penso a Roma. Il film è bello: guardalo!",
@@ -12194,16 +12194,16 @@
               "body": "Listen and read these before answering.",
               "words": [
                 {
-                  "it": "nello",
-                  "en": "in the (in + lo)"
+                  "it": "nello zaino",
+                  "en": "in the backpack (in + lo)"
                 },
                 {
-                  "it": "sulla",
-                  "en": "on the (su + la)"
+                  "it": "sulla sedia",
+                  "en": "on the chair (su + la)"
                 },
                 {
-                  "it": "dai",
-                  "en": "from the (da + i)"
+                  "it": "dai genitori",
+                  "en": "from my parents’ place (da + i)"
                 },
                 {
                   "it": "zaino",
@@ -12344,8 +12344,8 @@
               "id": "v2-a2-in-su-da-articles.s7",
               "kind": "passage",
               "title": "Where are the keys?",
-              "it": "Anna: «Dove sono le chiavi?»\nLuca: «Non sono nello zaino. Guarda sulla sedia.»\nAnna: «Sulla sedia non ci sono.»\nLuca: «Forse sono nell’armadio. Vengo dall’ufficio e le metto sempre lì.»",
-              "en": "Anna: “Where are the keys?”\nLuca: “They are not in the backpack. Look on the chair.”\nAnna: “They are not on the chair.”\nLuca: “Maybe they are in the wardrobe. I come from the office and I always put them there.”",
+              "it": "Anna: «Dove sono le chiavi?»\nLuca: «Non sono nello zaino. Guarda sulla sedia.»\nAnna: «Sulla sedia non ci sono.»\nLuca: «Forse sono nell’armadio: quando torno dall’ufficio, le metto sempre lì.»",
+              "en": "Anna: “Where are the keys?”\nLuca: “They are not in the backpack. Look on the chair.”\nAnna: “They are not on the chair.”\nLuca: “Maybe they are in the wardrobe: when I get back from the office, I always put them there.”",
               "mode": "read",
               "task": "Notice how the taught expression works in this short exchange."
             },
@@ -13849,12 +13849,12 @@
             }
           ],
           "legacyLessonIds": [],
-          "takeaway": "Qualcuno is someone and qualcosa is something: both are singular and never change. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
+          "takeaway": "Qualcuno is someone and qualcosa is something: both are singular and take a singular verb; qualcosa never changes, and qualcuno becomes qualcuna only when the person is clearly a woman. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
           "targets": [
             {
               "id": "v2-a2-someone-something.core",
               "label": "Talk about someone, something and somewhere",
-              "explanation": "Qualcuno is someone and qualcosa is something: both are singular and never change. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
+              "explanation": "Qualcuno is someone and qualcosa is something: both are singular and take a singular verb; qualcosa never changes, and qualcuno becomes qualcuna only when the person is clearly a woman. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
               "facets": [
                 "someone-or-something",
                 "qualche-singular",
@@ -13865,7 +13865,7 @@
               "modality": "language",
               "repair": {
                 "title": "Try talk about someone, something and somewhere again",
-                "body": "Qualcuno names a person you do not identify; qualcosa names a thing. Both are singular, so the verb is singular too, and neither word changes.",
+                "body": "Qualcuno names a person you do not identify; qualcosa names a thing. Both are singular, so the verb is singular too. Qualcosa never changes; qualcuno becomes qualcuna only when the person is clearly a woman.",
                 "examples": [
                   {
                     "it": "C’è qualcuno alla porta. Vuoi qualcosa da bere?",
@@ -13935,7 +13935,7 @@
               "id": "v2-a2-someone-something.s2",
               "kind": "teach",
               "title": "Someone and something",
-              "body": "Qualcuno names a person you do not identify; qualcosa names a thing. Both are singular, so the verb is singular too, and neither word changes.",
+              "body": "Qualcuno names a person you do not identify; qualcosa names a thing. Both are singular, so the verb is singular too. Qualcosa never changes; qualcuno becomes qualcuna only when the person is clearly a woman.",
               "examples": [
                 {
                   "it": "C’è qualcuno alla porta. Vuoi qualcosa da bere?",
@@ -13954,7 +13954,7 @@
               "examples": [
                 {
                   "it": "Aspetto qualche minuto. Ho qualche amico a Roma.",
-                  "en": "I am waiting a few minutes. I have a few friends in Rome."
+                  "en": "I’ll wait a few minutes. I have a few friends in Rome."
                 }
               ],
               "introduces": [
@@ -14028,7 +14028,7 @@
               "format": "choice",
               "prompt": "Choose the expression that fits this situation.",
               "context": "Aspetto ___ minuto.",
-              "translation": "I am waiting a few minutes.",
+              "translation": "I’ll wait a few minutes.",
               "answer": "qualche",
               "options": [
                 "qualche",
@@ -14098,18 +14098,18 @@
               "contextKey": "v2-a2-someone-something.independent-5",
               "format": "type",
               "prompt": "Complete the Italian sentence with the taught form.",
-              "context": "Ho ___ amico a Milano.",
-              "translation": "I have a few friends in Milan.",
+              "context": "Compro ___ libro per Luca.",
+              "translation": "I am buying a few books for Luca.",
               "answer": "qualche",
-              "speak": "Ho qualche amico a Milano.",
-              "explanation": "Amico is singular, so a few friends is qualche amico.",
+              "speak": "Compro qualche libro per Luca.",
+              "explanation": "Libro is singular, so a few books is qualche libro.",
               "hint": "The noun stays singular after this word.",
               "strict": true,
               "errors": [
                 {
                   "answer": "alcuni",
                   "tag": "plural-after-qualche",
-                  "explanation": "Amico is singular, so the word is qualche; alcuni goes with a plural noun: alcuni amici."
+                  "explanation": "Libro is singular, so the word is qualche; alcuni goes with a plural noun: alcuni libri."
                 }
               ]
             },
@@ -14204,7 +14204,7 @@
               "id": "v2-a2-someone-something.s16",
               "kind": "teach",
               "title": "Keep this",
-              "body": "Qualcuno is someone and qualcosa is something: both are singular and never change. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
+              "body": "Qualcuno is someone and qualcosa is something: both are singular and take a singular verb; qualcosa never changes, and qualcuno becomes qualcuna only when the person is clearly a woman. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
               "examples": [
                 {
                   "it": "Le chiavi sono da qualche parte in casa.",
@@ -14719,7 +14719,7 @@
               "id": "v2-a2-everyday-links.s3",
               "kind": "teach",
               "title": "Contrast",
-              "body": "Però means but, like ma, and can also come after a comma inside the reply. Invece sets two people or things against each other: instead, on the other hand.",
+              "body": "Però means but, like ma; unlike ma, it can also sit later in the sentence or at its end: Sono stanco, però. Invece sets two people or things against each other: instead, on the other hand.",
               "examples": [
                 {
                   "it": "Vorrei venire, però sono stanco. Anna esce; io invece resto a casa.",

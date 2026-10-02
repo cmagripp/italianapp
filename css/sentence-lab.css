@@ -101,7 +101,7 @@ span.lab-blank.is-revealed { color: var(--terracotta); background: color-mix(in 
 .lab-composed.is-ok { border-color: color-mix(in srgb, var(--turquoise) 45%, var(--glass-border)); }
 .lab-roles { display: grid; gap: 16px; }
 .lab-role-row .lab-role { display: inline-flex; margin-bottom: 8px; }
-.lab-optional { color: var(--ink-3); letter-spacing: .04em; }
+.lab-optional { color: var(--ink-3); letter-spacing: .04em; margin-left: .45em; }
 .lab-items { gap: 8px; }
 .lab-pick.chip { gap: 6px; }
 .lab-pick.chip.on { background: color-mix(in srgb, var(--role, var(--gold)) 22%, var(--glass)); border-color: var(--role, var(--gold)); color: var(--ink); box-shadow: none; }
@@ -114,6 +114,7 @@ span.lab-blank.is-revealed { color: var(--terracotta); background: color-mix(in 
 .lab-build-actions .btn.ghost { flex: none; padding: 0 18px; }
 
 /* ---------- finish, pause ---------- */
+.lab-finish .journey-recap-mark, .lab-paused .journey-recap-mark { margin: 0 auto 22px; color: var(--turquoise); background: color-mix(in srgb, var(--turquoise) 10%, transparent); border-color: color-mix(in srgb, var(--turquoise) 35%, transparent); }
 .lab-finish h2 { font: 600 22px/1.2 var(--font-display); margin: 26px 0 10px; }
 .lab-finish h2 small { font: 500 13px/1 var(--font-text); color: var(--ink-3); }
 .lab-xp { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; margin: 4px 0 8px; font: 600 13px/1 var(--font-mono); letter-spacing: .1em; color: var(--on-gold); background: linear-gradient(135deg, var(--gold), var(--gold-2)); }
