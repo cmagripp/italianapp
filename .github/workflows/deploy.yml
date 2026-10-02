@@ -14,7 +14,7 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
-# Job graph: build (deterministic checks, assemble dist/, upload the Pages artifact) -> browser (the 19 Playwright
+# Job graph: build (deterministic checks, assemble dist/, upload the Pages artifact) -> browser (the 20 Playwright
 # suites from browser.yml, in parallel) -> deploy. deploy needs both, so nothing is published unless every check and
 # every browser suite passed. The workflow-level "pages" group serializes whole runs in push order, so an older run
 # can never deploy after a newer one; a newer push waiting in the queue replaces any older one still waiting.

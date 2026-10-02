@@ -1,6 +1,6 @@
 # Plan: vocabulary inside lessons, noun forms everywhere, and the missing function-word grammar
 
-Status: proposal for review, 1 October 2026. Round 1 implemented on 2 October 2026 (engine, boards, credit, checks).
+Status: implemented, 2 October 2026 (all four rounds; what landed, and where it differs from the proposal, is noted at the end of §3).
 
 ## 1. What the app does today (audit findings)
 
@@ -74,6 +74,8 @@ Four rounds, each with the usual loop: build with parallel Fable subagents on di
 2. Round 2, nouns: Part B.
 3. Round 3, content: Part C, likely split over two reviews (A1 and A2 first, then B1 and the useful-words deck).
 4. Round 4: Part D and a final audit.
+
+**Implemented (2 October 2026).** Part A as proposed: `js/learning/course-words.js` resolves the glosses and synthesises the *Le parole di oggi* boards (meaning, recall, article to noun with singular and plural rows), a word is credited (10 XP) when every one of its rows is matched in one session with no mismatch, and `tools/test-course-words.mjs` holds coverage floors for Foundations (85%), A1 (90%) and A2 (85%). Part B: a noun's six screens are meaning, recall, article (singular), plural with its article, an article board with two decoy nouns of the other gender, recall; a singular-use noun gets a number screen in place of the plural and the board, and a plural-only noun is asked its plural article (`js/learning/lesson-content.js`, `word-questions.js`, `lesson-activities.js`). Part C: the fifteen lessons of the table, as the new units `v2-a1-u13`, `v2-a1-u14`, `v2-a2-u15` and `v2-b1-u13`, three lessons added to `v2-a2-u7` and one to `v2-a2-u13` (82 units and 256 lessons; `tools/test-course-v2-assets.mjs` now expects 82), and the useful-words set at 78 entries in six groups rather than about 60 (`data/useful-words.json`, `js/useful-words.js`, `#/browse?list=useful`, checked by `tools/test-useful-words.mjs`). Part D: README, `docs/GRAMMAR-COURSE.md`, the course contract and `data/SCHEMA.md` updated; both workflows run 36 deterministic checks.
 
 ## 4. Risks and decisions to confirm
 

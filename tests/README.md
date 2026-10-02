@@ -19,6 +19,7 @@ and no build step: they are plain Node ES modules.
 | Script | What it does | Report |
 |---|---|---|
 | `tests/e2e.mjs` | Visits every route collecting console, page and network errors, then plays the main flows end to end: verb introduction (Meet → Forms → Drill → results), word introduction, the same two walkthroughs passed with the in-page answer oracle (drill passed → item learned → bonus XP, stamp and "Next verb / word"), spaced-repetition review (with its effect on the SRS state), all 21 games to their results screen (each round recorded in the stats with its XP), the games source picker (Games tab → Start, and a list as the preset source), search in English and its All / Words / Verbs segment, browse filters, adding a custom word and a custom verb, creating a list and adding an item, deleting a list through its menu, the entry action bar (word bank, list picker, mark learned, listen), the study scope screen, switching theme, the EN translation toggle, the twelve grammar topics, exporting a backup, a backup round trip (reset → import), creating and switching users, SM-2 scheduling through the store, and a reload to check that progress persisted. | `tests/report-e2e.json` |
+| `tests/sentence-lab-e2e.mjs` | The sentence workshop (`docs/SENTENCE-LAB-CONTRACT.md` §7): the path page and the Laboratorio card, one full lesson (*Chi sono*) with a free Italian entry and its three drills, the conversation turn by turn and *Say it yourself*, a second lesson (*Come stai?*) with a free English entry through the picker, Pause, reload and Resume, then persistence, export, reset and the merge of lab records. Every screen is photographed in both themes at 430×932 into `LAB_SHOTS_DIR` (default `tests/shots/`); `LAB_FILTER=resume` runs only the checks whose name contains the filter. | `tests/report-sentence-lab.json` |
 | `tests/layout-audit.mjs` | Visits the same routes at three viewports (iPhone 13 390×664, 375×667, 430×932) in both themes and reports horizontal overflow, elements wider than the viewport, tap targets under 40px, overlapping interactive elements, crossword grid centring, inputs under 16px (iOS zoom) and clipped headings. | `tests/report-layout.json` |
 
 `tests/lib.mjs` holds the shared pieces (route list, Playwright lookup, server check, error collection, seeding, and the
@@ -48,6 +49,7 @@ node tests/adaptive-e2e.mjs              # retained legacy lesson loops, evidenc
 node tests/journey-e2e.mjs               # default taught chapters, contextual practice, formal you and complete journeys
 node tests/game-learning-e2e.mjs         # shared game runner feeds accurate evidence without duplicate rewards
 node tests/offline-e2e.mjs               # actual worker upgrade, failed precache and offline reload/resume
+node tests/sentence-lab-e2e.mjs          # the sentence workshop: two lessons with free entries and drills, conversation, Say it yourself, resume
 node tests/e2e.mjs                       # all routes + all flows (≈7 min)
 node tests/layout-audit.mjs              # all routes × 3 viewports × 2 themes (≈2 min, viewports run in parallel)
 

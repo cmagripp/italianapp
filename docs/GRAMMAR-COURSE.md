@@ -7,17 +7,19 @@ Version 2 replaces the recommended course with a taught sequence from absolute b
 | Stage | Units | Short lessons |
 | --- | ---: | ---: |
 | Foundations | 3 | 8 |
-| A1 | 12 | 55 |
-| A2 | 14 | 51 |
-| B1 | 12 | 38 |
+| A1 | 14 | 60 |
+| A2 | 15 | 58 |
+| B1 | 13 | 41 |
 | B2 | 13 | 41 |
 | C1 | 12 | 24 |
 | C2 | 12 | 24 |
-| Total | 78 | 241 |
+| Total | 82 | 256 |
 
 `data/course-v2/{Foundations,A1,A2,B1,B2,C1,C2}.json` contains explicit lesson sequences. Each unit includes reading, listening and a response with a model and self-review criteria. Each lesson prepares necessary words/chunks, drills the ones that are dictionary words on the “Le parole di oggi” boards, introduces the pattern, offers supported practice, checks fresh contexts, and applies the language. Questions use choice, matching, ordered tokens and bounded writing. Early pronunciation lessons distinguish written-pattern recognition from unassessed oral practice. Later work includes source interpretation, uncertainty, register, editing and mediation.
 
 The former “soft/hard c → unfamiliar sentence” jump is split into meaning-first steps. `il chilo` and its meaning/sound are introduced before the spelling choice; the longer shopping sentence is a contextual application. Separate A1 lessons revisit vowels, stress, accents, silent h, doubled consonants, intonation, g/gh, sc/sch and gn/gli with supplied vocabulary.
+
+Fifteen lessons added on 2 October 2026 teach the function words the vocabulary audit (`PLAN-LESSON-VOCABULARY-2026-10-01.md`) found missing: A1 unit 13 “Ask and answer” (`v2-a1-u13`: chi, che cosa, dove, quando; come, perché, quanto, quale; matching a question to its answer, perché as why and as because) and unit 14 “Prepositions and articles” (`v2-a1-u14`: a and di joined to every article); A2 unit 15 “Someone, something, somewhere” (`v2-a2-u15`: qualcuno, qualcosa, qualche, da qualche parte; nessuno and niente with non; allora, dunque, però, invece, anche, infatti), three lessons added to unit 7 (mi, ti, ci, vi as direct objects; l’ and non before the pronoun; the pronoun attached to an infinitive, gerund or command) and one to unit 13 (in, su and da joined to every article); B1 unit 13 “Agree and connect” (`v2-b1-u13`: participle agreement after lo, la, li, le; ognuno, ciascuno, tutti, tutto, ovunque, dappertutto; siccome, poiché, dato che, perciò, quindi).
 
 The vocabulary drill is synthesised at runtime, never authored. `js/learning/course-words.js` resolves each gloss of a lesson's `words` step to a dictionary entry (a leading article is stripped; exact headword first, then plural and feminine forms; verbs are listed but never drilled). When at least three glosses resolve to words, `words-check` boards follow the glosses before the teaching: match each word to its meaning, then the same pairs from the English, then the article to its noun with singular and plural rows for nouns whose article is known. A board holds up to six pairs; longer lists run in rounds. A correct match speaks the Italian side; a mismatch is shown and counted. The boards are not grammar targets, so nothing is repaired or deferred, and Continue appears once every pair is matched. The finish screen lists the lesson's words with a tick for the learned ones, and the Together session's word part draws first on the lesson's words that are not yet learned.
 

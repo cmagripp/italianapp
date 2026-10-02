@@ -124,7 +124,7 @@ Grading never depends on the renderer; the player only records what the engine r
 
 - Per profile: `store.current.lab = { frasi: { done: { [lessonId]: at }, sentences: [{ it, en, lessonId, at }] } }`, saved with the profile, merged on sync (newest `at` per lesson wins, sentences unioned by `it+at`), cleared by `resetProgress`, included in backups.
 - First completion of a lesson: `store.addXP(15)`; words learned through the three drills go through `store.markLearned` (10 XP each) with a `journey-v1` event of `wordPolicy: 'word-lab-drill-v1'` per drill so Review sees them (same skill ids as the short word lesson: meaning, recall, and for nouns article).
-- Lesson sessions persist in `store.learning.sessions['lab:frasi:<lessonId>']` so a lesson resumes where it was.
+- Lesson sessions persist in `store.learning.sessions` so a lesson resumes where it was. The player writes the literal key `lab:frasi:<lessonId>` (the session carries `entryId` equal to that key and `mode: 'lab'`), but the learning store re-keys every stored session to `${entryId}|${mode}` whenever it normalises (a reload, a merge, a recorded attempt), so the same session is found under `lab:frasi:<lessonId>|lab` afterwards. A read accepts both keys (the newer `updatedAt` wins when both exist), a write stores the literal key and drops the alias, and clearing removes both (`js/learning/sentence-lab-data.js`).
 
 ## 7. Checks
 

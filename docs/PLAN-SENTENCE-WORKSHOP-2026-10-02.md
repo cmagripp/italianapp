@@ -1,6 +1,6 @@
 # Plan: Officina delle frasi, a sentence-building workshop in the Laboratorio
 
-Status: proposal for review, 2 October 2026. Nothing is implemented yet.
+Status: implemented, 2 October 2026 (what landed, and where it differs from the proposal, is noted at the end of §6).
 
 ## 1. What it is
 
@@ -60,6 +60,8 @@ Round 2: Passato and Futuro stages, the "sentences I made" list.
 Round 3: Strutture, cross-links to the course, docs.
 
 Authoring is done by content subagents writing to the contract, with a separate reviewing subagent checking every sentence for correctness and level before integration.
+
+**Implemented (2 October 2026).** The three rounds shipped together: the engine (`js/learning/sentence-lab.js`), the path page and the player (`#/lab/frasi`, `#/lab/frasi/<lessonId>`; `js/views/labFrasi.js`, `labFrasiLesson.js`, renderers in `js/learning/sentence-lab-activities.js`), the Laboratorio card, the four stages of §2 with 21 lessons (Presente 6, Passato 5, Futuro 4, Strutture 6) and 168 activities in `data/sentence-lab/`, free entry with the three drills and the English picker, reactive conversations one turn at a time, *Say it yourself* with the saved *Le mie frasi*, 15 XP per first completion, “Review the pattern” links through each lesson's `grammarRefs`, `docs/SENTENCE-LAB-CONTRACT.md`, `tools/test-sentence-lab.mjs` and `tests/sentence-lab-e2e.mjs`. Progress is the profile field `lab` (synced, exported, reset with the rest). Of §8, layer 2 is built: the fit scorer (`js/learning/fit-scorer.js`, `js/workers/fit-scorer.worker.js`, `models/fit-scorer/`, `vendor/ort/`; 83 MB, offered from the workshop page's *Strumenti* pane, never required); layer 3 exists as the opt-in experiment of `ASSISTANT-EXPERIMENT.md`, switched on from the same pane and used only to choose among the generic reactions of a conversation turn, and the phone measurement that decides whether it stays has not been made. Two differences from the proposal: a lesson's useful words are drilled and credited only when the learner uses one in a blank (otherwise they are introduced on the model card), and a stage opens when the previous stage's last lesson is done (its conversation lesson, so the rule of §2 holds).
 
 ## 7. Decisions so far (2 October 2026)
 

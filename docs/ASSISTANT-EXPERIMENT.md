@@ -1,6 +1,6 @@
 # The assistant experiment (sentence workshop, layer 3)
 
-Status: experimental, 2 October 2026. Off by default, opt-in per device, and no lesson depends on it. It is kept only if it runs reliably on the owner's phone (`PLAN-SENTENCE-WORKSHOP-2026-10-02.md` §8 and §9; the facts behind the design are in `RESEARCH-ON-DEVICE-AI-2026-10-02.md`). Nothing in the app calls it yet: the module and its guards exist so the measurement can be made.
+Status: experimental, 2 October 2026. Off by default, opt-in per device, and no lesson depends on it. It is kept only if it runs reliably on the owner's phone (`PLAN-SENTENCE-WORKSHOP-2026-10-02.md` §8 and §9; the facts behind the design are in `RESEARCH-ON-DEVICE-AI-2026-10-02.md`). The workshop page's Strumenti pane enables and disables it and resets the breaker, and the lesson player asks it to pick among generic reaction lines in a conversation; everything else in the workshop ignores it.
 
 ## What it does
 
