@@ -14546,6 +14546,1912 @@
           ]
         }
       ]
+    },
+    {
+      "id": "v2-a1-u13",
+      "title": "Ask and answer",
+      "description": "Open a question with the right word and give the answer it asks for.",
+      "lessons": [
+        {
+          "id": "v2-a1-question-words-1",
+          "title": "Ask who, what, where and when",
+          "outcome": "I can open a question with chi, che cosa, dove or quando and put the verb next.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-a1-first-past-message"
+          ],
+          "related": [
+            {
+              "entryId": "w:chi|pron"
+            },
+            {
+              "entryId": "w:che_cosa|pron"
+            },
+            {
+              "entryId": "w:dove|adv"
+            },
+            {
+              "entryId": "w:quando|conj"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Chi asks about a person, che cosa (or cosa) about a thing, dove about a place and quando about a time. The question word comes first and the verb follows it: Dove abita Anna?",
+          "targets": [
+            {
+              "id": "v2-a1-question-words-1.core",
+              "label": "Ask who, what, where and when",
+              "explanation": "Chi asks about a person, che cosa (or cosa) about a thing, dove about a place and quando about a time. The question word comes first and the verb follows it: Dove abita Anna?",
+              "facets": [
+                "person-or-thing",
+                "place-or-time"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try ask who, what, where and when again",
+                "body": "Chi asks about a person, che cosa (or the short cosa) about a thing, dove about a place and quando about a time.",
+                "examples": [
+                  {
+                    "it": "Chi è? Che cosa mangi?",
+                    "en": "Who is it? What are you eating?"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a1-question-words-1.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "chi",
+                  "en": "who"
+                },
+                {
+                  "it": "che cosa",
+                  "en": "what",
+                  "note": "Often shortened to cosa: Cosa mangi?"
+                },
+                {
+                  "it": "dove",
+                  "en": "where"
+                },
+                {
+                  "it": "quando",
+                  "en": "when"
+                },
+                {
+                  "it": "partire",
+                  "en": "to leave"
+                },
+                {
+                  "it": "arrivare",
+                  "en": "to arrive"
+                },
+                {
+                  "it": "signora",
+                  "en": "madam; lady",
+                  "article": "la",
+                  "plural": "signore"
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-question-words-1.s2",
+              "kind": "teach",
+              "title": "Four question words",
+              "body": "Chi asks about a person, che cosa (or the short cosa) about a thing, dove about a place and quando about a time.",
+              "examples": [
+                {
+                  "it": "Chi è? Che cosa mangi?",
+                  "en": "Who is it? What are you eating?"
+                }
+              ],
+              "introduces": [
+                "v2-a1-question-words-1.core"
+              ]
+            },
+            {
+              "id": "v2-a1-question-words-1.s3",
+              "kind": "teach",
+              "title": "The verb comes next",
+              "body": "Put the question word first and the verb right after it. A named subject comes after the verb.",
+              "examples": [
+                {
+                  "it": "Dove abita Anna? Quando parti?",
+                  "en": "Where does Anna live? When are you leaving?"
+                }
+              ],
+              "introduces": [
+                "v2-a1-question-words-1.core"
+              ]
+            },
+            {
+              "id": "v2-a1-question-words-1.s4",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "place-or-time",
+              "stage": "guided",
+              "contextKey": "v2-a1-question-words-1.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ abita Anna?",
+              "translation": "Where does Anna live?",
+              "answer": "Dove",
+              "options": [
+                "Dove",
+                "Chi",
+                "Quando"
+              ],
+              "speak": "Dove abita Anna?",
+              "explanation": "Dove asks for a place; abita follows it.",
+              "hint": "The answer would be a city."
+            },
+            {
+              "id": "v2-a1-question-words-1.s5",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "person-or-thing",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-1.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ è quella signora?",
+              "translation": "Who is that woman?",
+              "answer": "Chi",
+              "options": [
+                "Chi",
+                "Che cosa",
+                "Dove"
+              ],
+              "speak": "Chi è quella signora?",
+              "explanation": "Chi asks about a person.",
+              "hint": "The answer would be a name."
+            },
+            {
+              "id": "v2-a1-question-words-1.s6",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "person-or-thing",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-1.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ mangi stasera?",
+              "translation": "What are you eating this evening?",
+              "answer": "Che cosa",
+              "options": [
+                "Che cosa",
+                "Chi",
+                "Quando"
+              ],
+              "speak": "Che cosa mangi stasera?",
+              "explanation": "Che cosa asks about a thing.",
+              "hint": "The answer would be a food."
+            },
+            {
+              "id": "v2-a1-question-words-1.s7",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "place-or-time",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-1.independent-3",
+              "format": "order",
+              "prompt": "Put these supplied words in a natural order.",
+              "translation": "When does the train leave?",
+              "answer": "Quando parte il treno?",
+              "tokens": [
+                "treno?",
+                "il",
+                "parte",
+                "Quando"
+              ],
+              "speak": "Quando parte il treno?",
+              "explanation": "Quando opens the time question and the verb parte follows it.",
+              "hint": "Start with the question word."
+            },
+            {
+              "id": "v2-a1-question-words-1.s8",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "person-or-thing",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-1.independent-4",
+              "format": "order",
+              "prompt": "Put these supplied words in a natural order.",
+              "translation": "Who is arriving tomorrow?",
+              "answer": "Chi arriva domani?",
+              "tokens": [
+                "domani?",
+                "arriva",
+                "Chi"
+              ],
+              "speak": "Chi arriva domani?",
+              "explanation": "Chi opens the question and the verb arriva follows it.",
+              "hint": "Start with the question word."
+            },
+            {
+              "id": "v2-a1-question-words-1.s9",
+              "kind": "passage",
+              "title": "A new neighbour",
+              "it": "Anna: «Chi è quella signora?»\nLuca: «È Sara, un’amica di Marco.»\nAnna: «Dove abita?»\nLuca: «Abita a Milano. Domani parte per Roma.»\nAnna: «Quando parte?»\nLuca: «Parte alle nove.»",
+              "en": "Anna: “Who is that woman?”\nLuca: “She is Sara, a friend of Marco’s.”\nAnna: “Where does she live?”\nLuca: “She lives in Milan. Tomorrow she leaves for Rome.”\nAnna: “When does she leave?”\nLuca: “She leaves at nine.”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a1-question-words-1.s10",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "place-or-time",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-1.independent-5",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "___ vai sabato?",
+              "translation": "Where are you going on Saturday?",
+              "answer": "Dove",
+              "speak": "Dove vai sabato?",
+              "explanation": "Dove asks for a place; vai follows it.",
+              "hint": "The answer would be a place.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-1.s11",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "person-or-thing",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-1.reserve-11",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ compri al mercato?",
+              "translation": "What are you buying at the market?",
+              "answer": "Che cosa",
+              "speak": "Che cosa compri al mercato?",
+              "explanation": "Che cosa asks about a thing.",
+              "hint": "The answer would be a thing, for example il pane.",
+              "accepted": [
+                "Cosa",
+                "Che"
+              ],
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-1.s12",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "person-or-thing",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-1.reserve-12",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ è il tuo amico?",
+              "translation": "Who is your friend?",
+              "answer": "Chi",
+              "speak": "Chi è il tuo amico?",
+              "explanation": "Chi asks about a person.",
+              "hint": "The answer would be a name.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-1.s13",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "place-or-time",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-1.reserve-13",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ arriva il treno?",
+              "translation": "When does the train arrive?",
+              "answer": "Quando",
+              "speak": "Quando arriva il treno?",
+              "explanation": "Quando asks for a time.",
+              "hint": "The answer would be an hour.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-1.s14",
+              "kind": "question",
+              "target": "v2-a1-question-words-1.core",
+              "facet": "place-or-time",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-1.reserve-14",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ dormi stasera?",
+              "translation": "Where are you sleeping this evening?",
+              "answer": "Dove",
+              "speak": "Dove dormi stasera?",
+              "explanation": "Dove asks for a place.",
+              "hint": "The answer would be a place.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-1.s15",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Chi asks about a person, che cosa (or cosa) about a thing, dove about a place and quando about a time. The question word comes first and the verb follows it: Dove abita Anna?",
+              "examples": [
+                {
+                  "it": "Dove abita Anna? Quando parti?",
+                  "en": "Where does Anna live? When are you leaving?"
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-a1-question-words-2",
+          "title": "Ask how, why, how many and which",
+          "outcome": "I can ask with come, perché, quanto and quale, and make quanto and quale agree with the noun.",
+          "minutes": 8,
+          "prerequisites": [
+            "v2-a1-question-words-1"
+          ],
+          "related": [
+            {
+              "entryId": "w:come|adv"
+            },
+            {
+              "entryId": "w:perché|conj"
+            },
+            {
+              "entryId": "w:quanto|adv"
+            },
+            {
+              "entryId": "w:quale|pron"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Come asks how and perché asks why. Before a noun, quanto agrees like an adjective: quanto pane, quanta acqua, quanti libri, quante case. Quale asks which and becomes quali in the plural.",
+          "targets": [
+            {
+              "id": "v2-a1-question-words-2.core",
+              "label": "Ask how, why, how many and which",
+              "explanation": "Come asks how and perché asks why. Before a noun, quanto agrees like an adjective: quanto pane, quanta acqua, quanti libri, quante case. Quale asks which and becomes quali in the plural.",
+              "facets": [
+                "how-or-why",
+                "agree-with-noun"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try ask how, why, how many and which again",
+                "body": "Come asks how and perché asks why. Both come first, with the verb next.",
+                "examples": [
+                  {
+                    "it": "Come stai? Perché resti a casa?",
+                    "en": "How are you? Why are you staying at home?"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a1-question-words-2.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "come",
+                  "en": "how"
+                },
+                {
+                  "it": "Come stai?",
+                  "en": "How are you? (familiar)"
+                },
+                {
+                  "it": "perché",
+                  "en": "why"
+                },
+                {
+                  "it": "quanto",
+                  "en": "how much; how many (masculine singular)"
+                },
+                {
+                  "it": "quanta",
+                  "en": "how much (feminine singular)"
+                },
+                {
+                  "it": "quanti",
+                  "en": "how many (masculine plural)"
+                },
+                {
+                  "it": "quante",
+                  "en": "how many (feminine plural)"
+                },
+                {
+                  "it": "quale",
+                  "en": "which (singular)"
+                },
+                {
+                  "it": "quali",
+                  "en": "which (plural)"
+                },
+                {
+                  "it": "restare",
+                  "en": "to stay"
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-question-words-2.s2",
+              "kind": "teach",
+              "title": "How and why",
+              "body": "Come asks how and perché asks why. Both come first, with the verb next.",
+              "examples": [
+                {
+                  "it": "Come stai? Perché resti a casa?",
+                  "en": "How are you? Why are you staying at home?"
+                }
+              ],
+              "introduces": [
+                "v2-a1-question-words-2.core"
+              ]
+            },
+            {
+              "id": "v2-a1-question-words-2.s3",
+              "kind": "teach",
+              "title": "Quanto and quale agree with the noun",
+              "body": "Before a noun, quanto changes its ending: quanto pane, quanta acqua, quanti libri, quante case. Quale has one plural form, quali.",
+              "examples": [
+                {
+                  "it": "Quanti libri hai? Quali libri leggi?",
+                  "en": "How many books do you have? Which books are you reading?"
+                }
+              ],
+              "introduces": [
+                "v2-a1-question-words-2.core"
+              ]
+            },
+            {
+              "id": "v2-a1-question-words-2.s4",
+              "kind": "teach",
+              "title": "Quanto before a verb",
+              "body": "Before a verb there is no noun to agree with, so quanto does not change.",
+              "examples": [
+                {
+                  "it": "Quanto costa il libro?",
+                  "en": "How much does the book cost?"
+                }
+              ],
+              "introduces": [
+                "v2-a1-question-words-2.core"
+              ]
+            },
+            {
+              "id": "v2-a1-question-words-2.s5",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "how-or-why",
+              "stage": "guided",
+              "contextKey": "v2-a1-question-words-2.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ stai, Anna?",
+              "translation": "How are you, Anna?",
+              "answer": "Come",
+              "options": [
+                "Come",
+                "Perché",
+                "Quale"
+              ],
+              "speak": "Come stai, Anna?",
+              "explanation": "Come asks how.",
+              "hint": "The answer would be bene."
+            },
+            {
+              "id": "v2-a1-question-words-2.s6",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "how-or-why",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-2.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ resti a casa oggi?",
+              "translation": "Why are you staying at home today?",
+              "answer": "Perché",
+              "options": [
+                "Perché",
+                "Come",
+                "Quanto"
+              ],
+              "speak": "Perché resti a casa oggi?",
+              "explanation": "Perché asks for a reason.",
+              "hint": "The answer would give a reason."
+            },
+            {
+              "id": "v2-a1-question-words-2.s7",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "agree-with-noun",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-2.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ libri hai?",
+              "translation": "How many books do you have?",
+              "answer": "Quanti",
+              "options": [
+                "Quanti",
+                "Quante",
+                "Quanto"
+              ],
+              "speak": "Quanti libri hai?",
+              "explanation": "Libri is masculine plural, so quanto becomes quanti.",
+              "hint": "Match the noun libri."
+            },
+            {
+              "id": "v2-a1-question-words-2.s8",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "agree-with-noun",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-2.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ case ci sono?",
+              "translation": "How many houses are there?",
+              "answer": "Quante",
+              "options": [
+                "Quante",
+                "Quanti",
+                "Quanta"
+              ],
+              "speak": "Quante case ci sono?",
+              "explanation": "Case is feminine plural, so quanto becomes quante.",
+              "hint": "Match the noun case."
+            },
+            {
+              "id": "v2-a1-question-words-2.s9",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "agree-with-noun",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-2.independent-4",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ libri leggi?",
+              "translation": "Which books are you reading?",
+              "answer": "Quali",
+              "options": [
+                "Quali",
+                "Quale",
+                "Quante"
+              ],
+              "speak": "Quali libri leggi?",
+              "explanation": "Libri is plural, so quale becomes quali.",
+              "hint": "A plural noun takes quali."
+            },
+            {
+              "id": "v2-a1-question-words-2.s10",
+              "kind": "passage",
+              "title": "In a bookshop",
+              "it": "Commessa: «Buongiorno! Come sta?»\nAnna: «Bene, grazie. Quanto costa questo libro?»\nCommessa: «Dieci euro.»\nAnna: «E quanti libri ci sono a dieci euro?»\nCommessa: «Tre. Quale libro vuole?»\nAnna: «Questo, perché è piccolo!»",
+              "en": "Shop assistant: “Good morning! How are you?”\nAnna: “Well, thank you. How much does this book cost?”\nShop assistant: “Ten euros.”\nAnna: “And how many books are there at ten euros?”\nShop assistant: “Three. Which book would you like?”\nAnna: “This one, because it is small!”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-a1-question-words-2.s10"
+            },
+            {
+              "id": "v2-a1-question-words-2.s11",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "how-or-why",
+              "stage": "independent",
+              "contextKey": "v2-a1-question-words-2.independent-5",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "___ vai a Roma? In treno?",
+              "translation": "How are you going to Rome? By train?",
+              "answer": "Come",
+              "speak": "Come vai a Roma? In treno?",
+              "explanation": "Come asks how; the answer names a way of travelling.",
+              "hint": "Use the word for how.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-2.s12",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "how-or-why",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-2.reserve-12",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ non mangi?",
+              "translation": "Why are you not eating?",
+              "answer": "Perché",
+              "speak": "Perché non mangi?",
+              "explanation": "Perché asks for the reason.",
+              "hint": "The answer would start with because.",
+              "errors": [
+                {
+                  "answer": "Perche",
+                  "tag": "missing-accent",
+                  "explanation": "Perché is written with an accent on its final e."
+                }
+              ],
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-2.s13",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "agree-with-noun",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-2.reserve-13",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ acqua c’è?",
+              "translation": "How much water is there?",
+              "answer": "Quanta",
+              "speak": "Quanta acqua c’è?",
+              "explanation": "Acqua is feminine singular, so quanto becomes quanta.",
+              "hint": "Match the feminine noun acqua.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-2.s14",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "agree-with-noun",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-2.reserve-14",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ casa è la tua?",
+              "translation": "Which house is yours?",
+              "answer": "Quale",
+              "speak": "Quale casa è la tua?",
+              "explanation": "Casa is singular, so quale keeps its singular form.",
+              "hint": "One house is asked about.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-2.s15",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "how-or-why",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-2.reserve-15",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ si chiama tua madre?",
+              "translation": "What is your mother’s name?",
+              "answer": "Come",
+              "speak": "Come si chiama tua madre?",
+              "explanation": "Come asks how; Come si chiama? is the name question you met first.",
+              "hint": "The answer would be a name.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-2.s16",
+              "kind": "question",
+              "target": "v2-a1-question-words-2.core",
+              "facet": "agree-with-noun",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-question-words-2.reserve-16",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "___ costa lo zaino?",
+              "translation": "How much does the backpack cost?",
+              "answer": "Quanto",
+              "speak": "Quanto costa lo zaino?",
+              "explanation": "Before the verb costa there is no noun to agree with: quanto.",
+              "hint": "A verb follows, not a noun.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-question-words-2.s17",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Come asks how and perché asks why. Before a noun, quanto agrees like an adjective: quanto pane, quanta acqua, quanti libri, quante case. Quale asks which and becomes quali in the plural.",
+              "examples": [
+                {
+                  "it": "Quanto costa il libro?",
+                  "en": "How much does the book cost?"
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-a1-ask-and-answer",
+          "title": "Match a question to its answer",
+          "outcome": "I can give the kind of answer a question word asks for and use perché both for why and for because.",
+          "minutes": 8,
+          "prerequisites": [
+            "v2-a1-question-words-2"
+          ],
+          "related": [
+            {
+              "entryId": "w:perché|conj"
+            },
+            {
+              "entryId": "w:chi|pron"
+            },
+            {
+              "entryId": "w:dove|adv"
+            },
+            {
+              "entryId": "w:quando|conj"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "The question word tells you what kind of answer to give: a person for chi, a place for dove, a time for quando, a reason for perché. Perché is why in the question and because in the answer.",
+          "targets": [
+            {
+              "id": "v2-a1-ask-and-answer.core",
+              "label": "Match a question to its answer",
+              "explanation": "The question word tells you what kind of answer to give: a person for chi, a place for dove, a time for quando, a reason for perché. Perché is why in the question and because in the answer.",
+              "facets": [
+                "fitting-answer",
+                "why-and-because"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try match a question to its answer again",
+                "body": "The question word tells you what kind of answer to give: a person for chi, a thing for che cosa, a place for dove, a time for quando.",
+                "examples": [
+                  {
+                    "it": "Dove abiti? Abito a Roma.",
+                    "en": "Where do you live? I live in Rome."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a1-ask-and-answer.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "perché",
+                  "en": "why; because"
+                },
+                {
+                  "it": "studiare",
+                  "en": "to study"
+                },
+                {
+                  "it": "amare",
+                  "en": "to love"
+                },
+                {
+                  "it": "l’Italia",
+                  "en": "Italy"
+                },
+                {
+                  "it": "festa",
+                  "en": "party",
+                  "article": "la",
+                  "plural": "feste"
+                },
+                {
+                  "it": "musica",
+                  "en": "music",
+                  "article": "la"
+                },
+                {
+                  "it": "stasera",
+                  "en": "this evening"
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s2",
+              "kind": "teach",
+              "title": "Answer what is asked",
+              "body": "The question word tells you what kind of answer to give: a person for chi, a thing for che cosa, a place for dove, a time for quando.",
+              "examples": [
+                {
+                  "it": "Dove abiti? Abito a Roma.",
+                  "en": "Where do you live? I live in Rome."
+                }
+              ],
+              "introduces": [
+                "v2-a1-ask-and-answer.core"
+              ]
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s3",
+              "kind": "teach",
+              "title": "Why and because",
+              "body": "Perché is why in a question and because in the answer. The same word does both jobs.",
+              "examples": [
+                {
+                  "it": "Perché studi l’italiano? Perché amo l’Italia.",
+                  "en": "Why do you study Italian? Because I love Italy."
+                }
+              ],
+              "introduces": [
+                "v2-a1-ask-and-answer.core"
+              ]
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s4",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "fitting-answer",
+              "stage": "guided",
+              "contextKey": "v2-a1-ask-and-answer.guided",
+              "format": "match",
+              "prompt": "Match each question with the answer it asks for.",
+              "translation": "Pair each question with a fitting answer.",
+              "pairs": [
+                {
+                  "left": "Chi è?",
+                  "right": "È Luca."
+                },
+                {
+                  "left": "Dove abiti?",
+                  "right": "Abito a Roma."
+                },
+                {
+                  "left": "Quando parti?",
+                  "right": "Parto domani."
+                }
+              ],
+              "explanation": "Each question word asks for its own kind of answer: a person, a place or a time.",
+              "hint": "Chi wants a person, dove a place, quando a time.",
+              "speak": "Chi è? È Luca. Dove abiti? Abito a Roma. Quando parti? Parto domani."
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s5",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "fitting-answer",
+              "stage": "independent",
+              "contextKey": "v2-a1-ask-and-answer.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Dove mangi stasera?» «___»",
+              "translation": "Choose the answer that fits the question.",
+              "answer": "A casa.",
+              "options": [
+                "A casa.",
+                "Alle otto.",
+                "Con Anna."
+              ],
+              "speak": "Dove mangi stasera? A casa.",
+              "explanation": "Dove asks where, so the answer names a place.",
+              "hint": "The question word tells you what kind of answer to give."
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s6",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "why-and-because",
+              "stage": "independent",
+              "contextKey": "v2-a1-ask-and-answer.independent-2",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Perché studi l’italiano?",
+              "answer": "Why do you study Italian?",
+              "options": [
+                "Why do you study Italian?",
+                "Because you study Italian.",
+                "When do you study Italian?"
+              ],
+              "speak": "Perché studi l’italiano?",
+              "explanation": "At the start of a question, perché means why.",
+              "hint": "This line ends with a question mark."
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s7",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "fitting-answer",
+              "stage": "independent",
+              "contextKey": "v2-a1-ask-and-answer.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Quando arriva Luca?» «___»",
+              "translation": "Choose the answer that fits the question.",
+              "answer": "Alle nove.",
+              "options": [
+                "Alle nove.",
+                "A Milano.",
+                "Perché ha fame."
+              ],
+              "speak": "Quando arriva Luca? Alle nove.",
+              "explanation": "Quando asks when, so the answer gives a time.",
+              "hint": "Look at the question word."
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s8",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "why-and-because",
+              "stage": "independent",
+              "contextKey": "v2-a1-ask-and-answer.independent-4",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Perché resti a casa?» «___ piove.»",
+              "translation": "Answer: because it is raining.",
+              "answer": "Perché",
+              "options": [
+                "Perché",
+                "Quando",
+                "Come"
+              ],
+              "speak": "Perché resti a casa? Perché piove.",
+              "explanation": "In the answer, perché means because: the same word as in the question.",
+              "hint": "The answer gives a reason."
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s9",
+              "kind": "passage",
+              "title": "Two friends make plans",
+              "it": "Luca: «Dove vai stasera?»\nAnna: «Vado a una festa. Perché non vieni anche tu?»\nLuca: «Perché domani parto presto.»\nAnna: «Quando parti?»\nLuca: «Alle sette.»",
+              "en": "Luca: “Where are you going this evening?”\nAnna: “I am going to a party. Why don’t you come too?”\nLuca: “Because tomorrow I leave early.”\nAnna: “When are you leaving?”\nLuca: “At seven.”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s10",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "why-and-because",
+              "stage": "independent",
+              "contextKey": "v2-a1-ask-and-answer.independent-5",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "«Perché studi l’italiano?» «___»",
+              "translation": "Answer in Italian: because I love Italy.",
+              "answer": "Perché amo l’Italia.",
+              "accepted": [
+                "Perché io amo l’Italia."
+              ],
+              "speak": "Perché studi l’italiano? Perché amo l’Italia.",
+              "explanation": "Perché opens the reason, then amo l’Italia says what you love.",
+              "hint": "Start with the word for because, then use amo.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "Perche amo l’Italia.",
+                  "tag": "missing-accent",
+                  "explanation": "Perché is written with an accent on its final e."
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s11",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "fitting-answer",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-ask-and-answer.reserve-11",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "«Quando parte il treno?» «Parte ___.»",
+              "translation": "Answer: it leaves at eight.",
+              "answer": "alle otto",
+              "speak": "Quando parte il treno? Parte alle otto.",
+              "explanation": "Quando asks when, so the answer gives a time.",
+              "hint": "The question word asks for a time.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s12",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "fitting-answer",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-ask-and-answer.reserve-12",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "«Chi arriva domani?» «Arriva ___.»",
+              "translation": "Answer: Anna is arriving.",
+              "answer": "Anna",
+              "speak": "Chi arriva domani? Arriva Anna.",
+              "explanation": "Chi asks who, so the answer names a person.",
+              "hint": "The question word asks for a person.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s13",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "why-and-because",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-ask-and-answer.reserve-13",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "«___ non mangi?» «Perché non ho fame.»",
+              "translation": "Ask why the person is not eating.",
+              "answer": "Perché",
+              "speak": "Perché non mangi? Perché non ho fame.",
+              "explanation": "The question asks why, so perché opens it; the answer repeats it as because.",
+              "hint": "The answer gives a reason.",
+              "errors": [
+                {
+                  "answer": "Perche",
+                  "tag": "missing-accent",
+                  "explanation": "Perché is written with an accent on its final e."
+                }
+              ],
+              "strict": true
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s14",
+              "kind": "question",
+              "target": "v2-a1-ask-and-answer.core",
+              "facet": "why-and-because",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-ask-and-answer.reserve-14",
+              "format": "choice",
+              "prompt": "What does this Italian expression mean?",
+              "context": "Perché piove.",
+              "answer": "Because it is raining.",
+              "options": [
+                "Because it is raining.",
+                "Why is it raining?",
+                "It rains later."
+              ],
+              "speak": "Perché piove.",
+              "explanation": "Without a question mark, perché gives a reason: because.",
+              "hint": "This is an answer, not a question."
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s15",
+              "kind": "portfolio",
+              "title": "Ask and answer",
+              "prompt": "With a partner or alone, ask two questions with different question words and answer each one; then ask perché and answer with perché.",
+              "mode": "interact",
+              "model": "Dove vai stasera? Vado a una festa. Perché? Perché amo la musica.",
+              "rubric": [
+                "Open each question with the right question word.",
+                "Give the kind of answer the question word asks for.",
+                "Use perché for because in one answer."
+              ],
+              "partnerPrompt": "Chi viene alla festa? Quando parti?"
+            },
+            {
+              "id": "v2-a1-ask-and-answer.s16",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "The question word tells you what kind of answer to give: a person for chi, a place for dove, a time for quando, a reason for perché. Perché is why in the question and because in the answer.",
+              "examples": [
+                {
+                  "it": "Perché studi l’italiano? Perché amo l’Italia.",
+                  "en": "Why do you study Italian? Because I love Italy."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v2-a1-u14",
+      "title": "Prepositions and articles",
+      "description": "Join a and di to every article, including clock times and whose something is.",
+      "lessons": [
+        {
+          "id": "v2-a1-a-articles-system",
+          "title": "Join a to every article",
+          "outcome": "I can choose al, allo, all’, alla, ai, agli or alle from the noun’s article, and say clock times.",
+          "minutes": 9,
+          "prerequisites": [
+            "v2-a1-ask-and-answer"
+          ],
+          "related": [
+            {
+              "entryId": "w:al|prep"
+            },
+            {
+              "entryId": "v:andare",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:telefonare",
+              "caseId": "present"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "A joins the article of the noun: al mercato, allo stadio, all’ospedale, alla stazione, ai genitori, agli studenti, alle amiche. Clock hours take alle (alle otto), one o’clock takes all’una, and mezzogiorno and mezzanotte take a alone.",
+          "targets": [
+            {
+              "id": "v2-a1-a-articles-system.core",
+              "label": "Join a to every article",
+              "explanation": "A joins the article of the noun: al mercato, allo stadio, all’ospedale, alla stazione, ai genitori, agli studenti, alle amiche. Clock hours take alle (alle otto), one o’clock takes all’una, and mezzogiorno and mezzanotte take a alone.",
+              "facets": [
+                "singular-a",
+                "plural-a",
+                "clock-time"
+              ],
+              "minIndependent": 3,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try join a to every article again",
+                "body": "A joins the article you already know: il → al, lo → allo, l’ → all’, la → alla.",
+                "examples": [
+                  {
+                    "it": "Vado al mercato. Anna è allo stadio. Luca è all’ospedale. Siamo alla stazione.",
+                    "en": "I am going to the market. Anna is at the stadium. Luca is at the hospital. We are at the station."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a1-a-articles-system.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "mercato",
+                  "en": "market",
+                  "article": "il",
+                  "plural": "mercati"
+                },
+                {
+                  "it": "stadio",
+                  "en": "stadium",
+                  "article": "lo",
+                  "plural": "stadi"
+                },
+                {
+                  "it": "ospedale",
+                  "en": "hospital",
+                  "article": "l’",
+                  "plural": "ospedali"
+                },
+                {
+                  "it": "stazione",
+                  "en": "station",
+                  "article": "la",
+                  "plural": "stazioni"
+                },
+                {
+                  "it": "genitori",
+                  "en": "parents"
+                },
+                {
+                  "it": "telefonare",
+                  "en": "to phone"
+                },
+                {
+                  "it": "mezzogiorno",
+                  "en": "noon",
+                  "article": "il"
+                },
+                {
+                  "it": "mezzanotte",
+                  "en": "midnight",
+                  "article": "la"
+                },
+                {
+                  "it": "bar",
+                  "en": "bar; café",
+                  "article": "il",
+                  "plural": "bar"
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-a-articles-system.s2",
+              "kind": "teach",
+              "title": "Singular: al, allo, all’, alla",
+              "body": "A joins the article you already know: il → al, lo → allo, l’ → all’, la → alla.",
+              "examples": [
+                {
+                  "it": "Vado al mercato. Anna è allo stadio. Luca è all’ospedale. Siamo alla stazione.",
+                  "en": "I am going to the market. Anna is at the stadium. Luca is at the hospital. We are at the station."
+                }
+              ],
+              "introduces": [
+                "v2-a1-a-articles-system.core"
+              ]
+            },
+            {
+              "id": "v2-a1-a-articles-system.s3",
+              "kind": "teach",
+              "title": "Plural: ai, agli, alle",
+              "body": "With a plural article: i → ai, gli → agli, le → alle.",
+              "examples": [
+                {
+                  "it": "Telefono ai genitori. Parlo agli studenti. Telefono alle amiche.",
+                  "en": "I phone my parents. I speak to the students. I phone my female friends."
+                }
+              ],
+              "introduces": [
+                "v2-a1-a-articles-system.core"
+              ]
+            },
+            {
+              "id": "v2-a1-a-articles-system.s4",
+              "kind": "teach",
+              "title": "Clock times",
+              "body": "Hours are plural, so they take alle: alle otto, alle dieci. One o’clock is singular: all’una. Mezzogiorno and mezzanotte take a alone.",
+              "examples": [
+                {
+                  "it": "Parto alle otto. Arrivo all’una. Mangio a mezzogiorno.",
+                  "en": "I leave at eight. I arrive at one. I eat at noon."
+                }
+              ],
+              "introduces": [
+                "v2-a1-a-articles-system.core"
+              ]
+            },
+            {
+              "id": "v2-a1-a-articles-system.s5",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "singular-a",
+              "stage": "guided",
+              "contextKey": "v2-a1-a-articles-system.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Vado ___ mercato.",
+              "translation": "I am going to the market.",
+              "answer": "al",
+              "options": [
+                "al",
+                "allo",
+                "alla"
+              ],
+              "speak": "Vado al mercato.",
+              "explanation": "Il mercato: a + il = al.",
+              "hint": "Start from the article il."
+            },
+            {
+              "id": "v2-a1-a-articles-system.s6",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "singular-a",
+              "stage": "independent",
+              "contextKey": "v2-a1-a-articles-system.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Anna è ___ stadio.",
+              "translation": "Anna is at the stadium.",
+              "answer": "allo",
+              "options": [
+                "allo",
+                "al",
+                "alla"
+              ],
+              "speak": "Anna è allo stadio.",
+              "explanation": "Lo stadio: a + lo = allo.",
+              "hint": "Stadio takes lo."
+            },
+            {
+              "id": "v2-a1-a-articles-system.s7",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "singular-a",
+              "stage": "independent",
+              "contextKey": "v2-a1-a-articles-system.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Luca è ___.",
+              "translation": "Luca is at the hospital.",
+              "answer": "all’ospedale",
+              "options": [
+                "all’ospedale",
+                "al ospedale",
+                "allo ospedale"
+              ],
+              "speak": "Luca è all’ospedale.",
+              "explanation": "L’ospedale: a + l’ = all’, written together with the noun.",
+              "hint": "Ospedale begins with a vowel."
+            },
+            {
+              "id": "v2-a1-a-articles-system.s8",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "plural-a",
+              "stage": "independent",
+              "contextKey": "v2-a1-a-articles-system.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Telefono ___ genitori.",
+              "translation": "I phone my parents.",
+              "answer": "ai",
+              "options": [
+                "ai",
+                "agli",
+                "alle"
+              ],
+              "speak": "Telefono ai genitori.",
+              "explanation": "I genitori: a + i = ai.",
+              "hint": "Genitori takes i."
+            },
+            {
+              "id": "v2-a1-a-articles-system.s9",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "plural-a",
+              "stage": "independent",
+              "contextKey": "v2-a1-a-articles-system.independent-4",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Parlo ___ studenti.",
+              "translation": "I speak to the students.",
+              "answer": "agli",
+              "options": [
+                "agli",
+                "ai",
+                "alle"
+              ],
+              "speak": "Parlo agli studenti.",
+              "explanation": "Gli studenti: a + gli = agli.",
+              "hint": "Studenti takes gli."
+            },
+            {
+              "id": "v2-a1-a-articles-system.s10",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "clock-time",
+              "stage": "independent",
+              "contextKey": "v2-a1-a-articles-system.independent-5",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il treno parte ___.",
+              "translation": "The train leaves at one.",
+              "answer": "all’una",
+              "options": [
+                "all’una",
+                "alle una",
+                "alla una"
+              ],
+              "speak": "Il treno parte all’una.",
+              "explanation": "Una is singular and begins with a vowel: all’una.",
+              "hint": "One o’clock is the exception."
+            },
+            {
+              "id": "v2-a1-a-articles-system.s11",
+              "kind": "passage",
+              "title": "A busy Saturday",
+              "it": "Sabato Anna va al mercato alle nove. A mezzogiorno mangia al bar con le amiche. Alle tre va allo stadio con Luca. Alle otto telefona ai genitori.",
+              "en": "On Saturday Anna goes to the market at nine. At noon she eats at the bar with her friends. At three she goes to the stadium with Luca. At eight she phones her parents.",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a1-a-articles-system.s12",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "clock-time",
+              "stage": "independent",
+              "contextKey": "v2-a1-a-articles-system.independent-6",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "La lezione inizia ___ dieci.",
+              "translation": "The lesson starts at ten.",
+              "answer": "alle",
+              "speak": "La lezione inizia alle dieci.",
+              "explanation": "Hours are plural: le dieci, so a + le = alle.",
+              "hint": "Hours other than one are plural.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "alla",
+                  "tag": "plural-hours",
+                  "explanation": "Hours are plural: le dieci, so a + le gives alle."
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-a-articles-system.s13",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "singular-a",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-a-articles-system.reserve-13",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Siamo ___ stazione.",
+              "translation": "We are at the station.",
+              "answer": "alla",
+              "speak": "Siamo alla stazione.",
+              "explanation": "La stazione: a + la = alla.",
+              "hint": "Stazione takes la.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-a-articles-system.s14",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "plural-a",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-a-articles-system.reserve-14",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Telefono ___ amiche.",
+              "translation": "I phone my female friends.",
+              "answer": "alle",
+              "speak": "Telefono alle amiche.",
+              "explanation": "Le amiche: a + le = alle.",
+              "hint": "Amiche takes le.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-a-articles-system.s15",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "clock-time",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-a-articles-system.reserve-15",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Mangiamo ___.",
+              "translation": "We eat at noon.",
+              "answer": "a mezzogiorno",
+              "speak": "Mangiamo a mezzogiorno.",
+              "explanation": "Mezzogiorno takes no article: a mezzogiorno.",
+              "hint": "Noon and midnight have no article.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-a-articles-system.s16",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "singular-a",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-a-articles-system.reserve-16",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Vado ___ bar con Luca.",
+              "translation": "I am going to the bar with Luca.",
+              "answer": "al",
+              "speak": "Vado al bar con Luca.",
+              "explanation": "Il bar: a + il = al.",
+              "hint": "Bar takes il.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-a-articles-system.s17",
+              "kind": "question",
+              "target": "v2-a1-a-articles-system.core",
+              "facet": "clock-time",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-a-articles-system.reserve-17",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Il treno parte ___ nove.",
+              "translation": "The train leaves at nine.",
+              "answer": "alle",
+              "speak": "Il treno parte alle nove.",
+              "explanation": "Nove is a plural hour: alle nove.",
+              "hint": "Hours other than one take alle.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-a-articles-system.s18",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "A joins the article of the noun: al mercato, allo stadio, all’ospedale, alla stazione, ai genitori, agli studenti, alle amiche. Clock hours take alle (alle otto), one o’clock takes all’una, and mezzogiorno and mezzanotte take a alone.",
+              "examples": [
+                {
+                  "it": "Parto alle otto. Arrivo all’una. Mangio a mezzogiorno.",
+                  "en": "I leave at eight. I arrive at one. I eat at noon."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-a1-di-articles",
+          "title": "Join di to every article",
+          "outcome": "I can choose del, dello, dell’, della, dei, degli or delle to say whose something is or where it comes from.",
+          "minutes": 9,
+          "prerequisites": [
+            "v2-a1-a-articles-system"
+          ],
+          "related": [
+            {
+              "entryId": "w:del|prep"
+            },
+            {
+              "entryId": "w:di|prep"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Di joins the article of the owner or the source: il libro del professore, la casa dello zio, il libro dell’amica, la casa della zia, i libri dei bambini, gli zaini degli studenti, il treno delle otto.",
+          "targets": [
+            {
+              "id": "v2-a1-di-articles.core",
+              "label": "Join di to every article",
+              "explanation": "Di joins the article of the owner or the source: il libro del professore, la casa dello zio, il libro dell’amica, la casa della zia, i libri dei bambini, gli zaini degli studenti, il treno delle otto.",
+              "facets": [
+                "singular-di",
+                "plural-di"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try join di to every article again",
+                "body": "Di joins the article of the owner or the source: il → del, lo → dello, l’ → dell’, la → della. Use the article of the owner, not of the thing owned.",
+                "examples": [
+                  {
+                    "it": "Il libro del professore. La casa dello zio. Il libro dell’amica. La casa della zia.",
+                    "en": "The teacher’s book. The uncle’s house. The female friend’s book. The aunt’s house."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a1-di-articles.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "professore",
+                  "en": "teacher",
+                  "article": "il",
+                  "plural": "professori"
+                },
+                {
+                  "it": "zio",
+                  "en": "uncle",
+                  "article": "lo",
+                  "plural": "zii"
+                },
+                {
+                  "it": "zia",
+                  "en": "aunt",
+                  "article": "la",
+                  "plural": "zie"
+                },
+                {
+                  "it": "bambini",
+                  "en": "children"
+                },
+                {
+                  "it": "ragazze",
+                  "en": "girls"
+                },
+                {
+                  "it": "treno",
+                  "en": "train",
+                  "article": "il",
+                  "plural": "treni"
+                },
+                {
+                  "it": "Di chi è?",
+                  "en": "Whose is it?"
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-di-articles.s2",
+              "kind": "teach",
+              "title": "Singular: del, dello, dell’, della",
+              "body": "Di joins the article of the owner or the source: il → del, lo → dello, l’ → dell’, la → della. Use the article of the owner, not of the thing owned.",
+              "examples": [
+                {
+                  "it": "Il libro del professore. La casa dello zio. Il libro dell’amica. La casa della zia.",
+                  "en": "The teacher’s book. The uncle’s house. The female friend’s book. The aunt’s house."
+                }
+              ],
+              "introduces": [
+                "v2-a1-di-articles.core"
+              ]
+            },
+            {
+              "id": "v2-a1-di-articles.s3",
+              "kind": "teach",
+              "title": "Plural: dei, degli, delle",
+              "body": "With a plural article: i → dei, gli → degli, le → delle. Di also names where something comes from and the time of a train.",
+              "examples": [
+                {
+                  "it": "I libri dei bambini. Gli zaini degli studenti. Il treno delle otto.",
+                  "en": "The children’s books. The students’ backpacks. The eight o’clock train."
+                }
+              ],
+              "introduces": [
+                "v2-a1-di-articles.core"
+              ]
+            },
+            {
+              "id": "v2-a1-di-articles.s4",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "singular-di",
+              "stage": "guided",
+              "contextKey": "v2-a1-di-articles.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il libro ___ professore è qui.",
+              "translation": "The teacher’s book is here.",
+              "answer": "del",
+              "options": [
+                "del",
+                "dello",
+                "della"
+              ],
+              "speak": "Il libro del professore è qui.",
+              "explanation": "Il professore: di + il = del.",
+              "hint": "Start from the owner’s article."
+            },
+            {
+              "id": "v2-a1-di-articles.s5",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "singular-di",
+              "stage": "independent",
+              "contextKey": "v2-a1-di-articles.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "La casa ___ zia è grande.",
+              "translation": "The aunt’s house is big.",
+              "answer": "della",
+              "options": [
+                "della",
+                "del",
+                "dello"
+              ],
+              "speak": "La casa della zia è grande.",
+              "explanation": "La zia: di + la = della.",
+              "hint": "Zia takes la."
+            },
+            {
+              "id": "v2-a1-di-articles.s6",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "singular-di",
+              "stage": "independent",
+              "contextKey": "v2-a1-di-articles.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il libro ___ è piccolo.",
+              "translation": "The female friend’s book is small.",
+              "answer": "dell’amica",
+              "options": [
+                "dell’amica",
+                "della amica",
+                "del amica"
+              ],
+              "speak": "Il libro dell’amica è piccolo.",
+              "explanation": "L’amica: di + l’ = dell’, written together with the noun.",
+              "hint": "Amica begins with a vowel."
+            },
+            {
+              "id": "v2-a1-di-articles.s7",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "plural-di",
+              "stage": "independent",
+              "contextKey": "v2-a1-di-articles.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Gli zaini ___ studenti sono qui.",
+              "translation": "The students’ backpacks are here.",
+              "answer": "degli",
+              "options": [
+                "degli",
+                "dei",
+                "delle"
+              ],
+              "speak": "Gli zaini degli studenti sono qui.",
+              "explanation": "Gli studenti: di + gli = degli.",
+              "hint": "Studenti takes gli."
+            },
+            {
+              "id": "v2-a1-di-articles.s8",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "plural-di",
+              "stage": "independent",
+              "contextKey": "v2-a1-di-articles.independent-4",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "I libri ___ bambini sono piccoli.",
+              "translation": "The children’s books are small.",
+              "answer": "dei",
+              "options": [
+                "dei",
+                "degli",
+                "delle"
+              ],
+              "speak": "I libri dei bambini sono piccoli.",
+              "explanation": "I bambini: di + i = dei.",
+              "hint": "Bambini takes i."
+            },
+            {
+              "id": "v2-a1-di-articles.s9",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "plural-di",
+              "stage": "independent",
+              "contextKey": "v2-a1-di-articles.independent-5",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Prendo il treno ___ otto.",
+              "translation": "I take the eight o’clock train.",
+              "answer": "delle",
+              "options": [
+                "delle",
+                "dei",
+                "degli"
+              ],
+              "speak": "Prendo il treno delle otto.",
+              "explanation": "Le otto: di + le = delle.",
+              "hint": "Hours use le."
+            },
+            {
+              "id": "v2-a1-di-articles.s10",
+              "kind": "passage",
+              "title": "Whose is it?",
+              "it": "Anna: «Di chi è questo libro?»\nLuca: «È il libro del professore.»\nAnna: «E questa casa?»\nLuca: «È la casa della zia di Marco.»\nAnna: «Prendi il treno delle otto?»\nLuca: «No, il treno delle nove.»",
+              "en": "Anna: “Whose book is this?”\nLuca: “It is the teacher’s book.”\nAnna: “And this house?”\nLuca: “It is the house of Marco’s aunt.”\nAnna: “Are you taking the eight o’clock train?”\nLuca: “No, the nine o’clock train.”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-a1-di-articles.s10"
+            },
+            {
+              "id": "v2-a1-di-articles.s11",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "singular-di",
+              "stage": "independent",
+              "contextKey": "v2-a1-di-articles.independent-6",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "La casa ___ zio è a Roma.",
+              "translation": "The uncle’s house is in Rome.",
+              "answer": "dello",
+              "speak": "La casa dello zio è a Roma.",
+              "explanation": "Lo zio: di + lo = dello.",
+              "hint": "Zio begins with z.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "del",
+                  "tag": "lo-noun",
+                  "explanation": "Zio begins with z and takes lo, so di + lo = dello."
+                }
+              ]
+            },
+            {
+              "id": "v2-a1-di-articles.s12",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "singular-di",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-di-articles.reserve-12",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Il pane ___ mercato è buono.",
+              "translation": "The bread from the market is good.",
+              "answer": "del",
+              "speak": "Il pane del mercato è buono.",
+              "explanation": "Il mercato: di + il = del; here di says where the bread comes from.",
+              "hint": "Mercato takes il.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-di-articles.s13",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "plural-di",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-di-articles.reserve-13",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Le case ___ ragazze sono vicine.",
+              "translation": "The girls’ houses are close by.",
+              "answer": "delle",
+              "speak": "Le case delle ragazze sono vicine.",
+              "explanation": "Le ragazze: di + le = delle.",
+              "hint": "Ragazze takes le.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-di-articles.s14",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "plural-di",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-di-articles.reserve-14",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Lo zaino ___ amici è qui.",
+              "translation": "The friends’ backpack is here.",
+              "answer": "degli",
+              "speak": "Lo zaino degli amici è qui.",
+              "explanation": "Gli amici: di + gli = degli.",
+              "hint": "Amici takes gli.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-di-articles.s15",
+              "kind": "question",
+              "target": "v2-a1-di-articles.core",
+              "facet": "singular-di",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a1-di-articles.reserve-15",
+              "format": "type",
+              "prompt": "Complete the gap with the taught form.",
+              "context": "Il libro ___ è qui.",
+              "translation": "The male friend’s book is here.",
+              "answer": "dell’amico",
+              "speak": "Il libro dell’amico è qui.",
+              "explanation": "L’amico: di + l’ = dell’.",
+              "hint": "Amico begins with a vowel.",
+              "strict": true
+            },
+            {
+              "id": "v2-a1-di-articles.s16",
+              "kind": "portfolio",
+              "title": "Say where and whose",
+              "prompt": "Write two sentences: where a fictional person goes at a stated time, and whose house or book is near that place.",
+              "mode": "write",
+              "model": "Alle nove Anna va al mercato con le amiche. La casa della zia è vicina al mercato.",
+              "rubric": [
+                "Join a to the article of the destination.",
+                "Use alle, all’una or a mezzogiorno for the time.",
+                "Join di to the article of the owner."
+              ]
+            },
+            {
+              "id": "v2-a1-di-articles.s17",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Di joins the article of the owner or the source: il libro del professore, la casa dello zio, il libro dell’amica, la casa della zia, i libri dei bambini, gli zaini degli studenti, il treno delle otto.",
+              "examples": [
+                {
+                  "it": "I libri dei bambini. Gli zaini degli studenti. Il treno delle otto.",
+                  "en": "The children’s books. The students’ backpacks. The eight o’clock train."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        }
+      ]
     }
   ]
 }

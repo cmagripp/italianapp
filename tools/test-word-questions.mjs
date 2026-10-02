@@ -132,27 +132,44 @@ test('all catalog words have supported lexical choices with an empty pool', () =
   for (const e of words) for (const skill of ['meaning', 'recall']) valid(q(e, skill));
 });
 test('all supported catalog noun number checks use recorded forms', () => {
+  let numbers = 0, plurals = 0;
   for (const e of words.filter(e => e.pos === 'noun')) {
-    if (e.g) valid(q(e, 'article'));
+    if (e.g) { const question = q(e, 'article'); valid(question); assert.ok(question.choices.every(c => DEFINITE.includes(c.label)), e.id); }
+    if (e.g && isSingularUse(e)) {
+      // A singular-use sense has a number statement and never a plural screen, even with a recorded plural (il pane).
+      const question = q(e, 'number'); valid(question); numbers++;
+      assert.ok(question.answer[0].startsWith('Normally singular: ') && question.answer[0].endsWith(e.it), e.id);
+      assert.equal(q(e, 'plural'), null, `${e.id} has no plural check`);
+      continue;
+    }
     if (hasPluralForm(e) && !isPluralOnly(e) && (e.g || e.it !== e.pl)) {
-      const question = q(e, 'plural'); valid(question); assert.ok(question.answer.every(a => a === e.pl || a.endsWith(e.pl)));
+      const question = q(e, 'plural'); valid(question); plurals++;
+      assert.ok(question.answer.every(a => a === e.pl || a.endsWith(e.pl)), e.id);
+      // A gendered noun always answers with its article; its wrong options carry one too.
+      if (e.g) assert.ok(question.choices.every(c => /^(?:il |lo |la |l'|i |gli |le )/.test(c.label)), `${e.id}: ${JSON.stringify(question.choices)}`);
     }
   }
+  assert.ok(numbers >= 290 && plurals >= 4000, `${numbers} number checks, ${plurals} plural checks`);
 });
 test('real noun boards pair each article with the bare noun and mix in two decoys of the other gender', () => {
   const e = word('casa'), articleTarget = target(e, 'article'), plural = target(e, 'plural');
   const board = buildShortWordQuestion(e, articleTarget, { format: 'pairs', pairTargets: [articleTarget, plural] });
   assert.equal(board.type, 'pairs'); assert.equal(board.pairs.length, 4);
   assert.deepEqual(board.pairs.slice(0, 2).map(p => [p.label, p.canonical, p.targetId, p.meta.skill, !!p.decoy]), [['la', 'casa', articleTarget.id, 'article', false], ['le', 'case', plural.id, 'plural', false]]);
-  // Without a catalog pool the decoys come from the small fallback lexicon.
-  assert.deepEqual(board.pairs.slice(2).map(p => [p.label, p.canonical, p.decoy, p.meta.decoy, p.meta.entryId]), [['il', 'libro', true, true, 'fallback:libro'], ['i', 'gatti', true, true, 'fallback:gatto']]);
+  // Without a catalog pool the decoys come from the small fallback lexicon: two
+  // distinct masculine nouns, one singular with il and one plural with i.
+  const decoys = board.pairs.slice(2);
+  assert.deepEqual(decoys.map(p => [p.label, p.decoy, p.meta.decoy, p.meta.skill]), [['il', true, true, 'article'], ['i', true, true, 'article']]);
+  assert.ok(decoys.every(p => p.meta.entryId.startsWith('fallback:')) && new Set(decoys.map(p => p.meta.entryId)).size === 2);
+  assert.ok(['libro', 'gatto', 'zaino'].includes(decoys[0].canonical) && ['libri', 'gatti', 'zaini'].includes(decoys[1].canonical), JSON.stringify(decoys.map(p => p.canonical)));
+  assert.equal(decoys[0].meta.entryId, `fallback:${decoys[0].canonical}`); assert.equal(decoys[1].meta.entryId, `fallback:${decoys[1].canonical.slice(0, -1)}o`);
   assert.ok(board.prompt.includes('Match each article to its noun')); assert.ok(board.prompt.includes('Two other nouns are mixed in.'));
   assert.equal(gradePairActivity(board, { targetId: plural.id, given: 'case' }).ok, true);
   assert.equal(gradePairActivity(board, { targetId: plural.id, given: 'casa' }).ok, false);
-  assert.deepEqual(gradePairActivity(board, { targetId: plural.id, given: 'libri' }).errorTags, ['plural']);
+  assert.deepEqual(gradePairActivity(board, { targetId: plural.id, given: decoys[1].canonical }).errorTags, ['plural']);
   assert.deepEqual(gradePairActivity(board, { targetId: articleTarget.id, given: 'case' }).errorTags, ['article']);
-  assert.equal(gradePairActivity(board, { targetId: board.pairs[2].targetId, given: 'libro' }).ok, true);
-  assert.equal(gradePairActivity(board, { targetId: board.pairs[2].targetId, given: 'casa' }).ok, false);
+  assert.equal(gradePairActivity(board, { targetId: decoys[0].targetId, given: decoys[0].canonical }).ok, true);
+  assert.equal(gradePairActivity(board, { targetId: decoys[0].targetId, given: 'casa' }).ok, false);
   for (const row of board.pairs) { assert.equal(row.meta.mode, 'recognition'); assert.equal(row.meta.supportOnly, true); }
   assert.deepEqual(board, buildShortWordQuestion(e, articleTarget, { format: 'pairs', pairTargets: [articleTarget, plural] }), 'boards are deterministic');
   assert.notDeepEqual(board.leftOrder, board.pairs.map(p => p.id));

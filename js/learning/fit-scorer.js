@@ -29,10 +29,12 @@ export const FIT_BYTES = FIT_FILES.reduce((sum, f) => sum + f.bytes, 0);
 // Notes: 'natural' from FIT_NATURAL, 'unusual here' from FIT_UNUSUAL, 'odd here' below. To be tuned from the locally
 // logged verdicts (README); not set in stone here.
 export const FIT_NATURAL = 0.6, FIT_UNUSUAL = 0.2;
-// The scale is never narrower than this many nats below the best authored option, so two authored options that score
-// alike (or a single one) do not turn a word a fraction of a nat below them into "odd here".
-export const MIN_SPAN = 2;
+// When the authored options give no scale of their own (a single option, or options that all score alike, where the
+// formula would divide by zero) the scale runs this many nats below the best one instead. It never applies when two
+// authored options differ.
+export const FALLBACK_SPAN = 2;
 const IDLE_MS = 5 * 60 * 1000;
+const LOAD_TIMEOUT_MS = 60000;
 const BLANK = '____';
 const ROOT = new URL('../../', import.meta.url);
 const WORKER_URL = new URL('../workers/fit-scorer.worker.js', import.meta.url);
@@ -43,14 +45,16 @@ export function fitNote(fit) { return fit >= FIT_NATURAL ? 'natural' : fit >= FI
 
 // Adds { fit, note } to the worker's rows ([{ candidate, pll, ... }] in the order they were asked) and sorts them by pll,
 // best first. The first `authored` rows are the blank's authored options, the reference: with top = best authored pll and
-// floor = min(worst authored pll, top - MIN_SPAN), fit = clamp((pll - floor) / (top - floor), 0, 1). The learner's word is
-// the last row, so by construction the best authored option scores 1 and, unless MIN_SPAN applies, the worst scores 0.
+// floor = worst authored pll, fit = clamp((pll - floor) / (top - floor), 0, 1), so by construction the best authored
+// option scores 1 and the worst 0. The learner's word is the last row. A reference without a span (FALLBACK_SPAN) or a
+// row without a finite pll (fit 0) cannot break the arithmetic.
 export function fitScores(rows, authored = rows.length - 1) {
   if (!Array.isArray(rows) || !rows.length) return [];
   const n = Math.min(Math.max(1, Math.floor(authored) || 1), rows.length);
   const ref = rows.slice(0, n).map((r) => Number(r.pll)).filter(Number.isFinite);
   const top = ref.length ? Math.max(...ref) : 0;
-  const floor = Math.min(ref.length ? Math.min(...ref) : top, top - MIN_SPAN);
+  let floor = ref.length ? Math.min(...ref) : top;
+  if (!(top - floor > 1e-9)) floor = top - FALLBACK_SPAN;
   return rows.map((r) => {
     const raw = (Number(r.pll) - floor) / (top - floor);
     const fit = Number.isFinite(raw) ? Math.min(1, Math.max(0, raw)) : 0;
@@ -115,7 +119,10 @@ async function install(onProgress, { signal } = {}) {
   report(true);
   for (const f of FIT_FILES) {
     const url = fileURL(f);
-    if ((await cachedBytes(cache, url)) === f.bytes) { loaded += f.bytes; report(true); continue; }
+    const have = await cachedBytes(cache, url);
+    if (have === f.bytes) { loaded += f.bytes; report(true); continue; }
+    // sw.js answers these URLs from FIT_CACHE first, so a stale copy must go before the network can be asked again
+    if (have) await cache.delete(url);
     const response = await fetch(url, { signal });
     if (!response.ok) throw new Error(`The download failed (${f.path}: HTTP ${response.status}). Files already saved are kept.`);
     const chunks = [];
@@ -152,33 +159,51 @@ export async function removeFitScorer() {
 }
 
 // ---------- scoring ----------
-let worker = null, nextId = 1, idleTimer = null;
-const pending = new Map();
-function failAll(error) { for (const p of pending.values()) { clearTimeout(p.timer); p.reject(error); } pending.clear(); }
-function touchIdle() { clearTimeout(idleTimer); if (!pending.size) idleTimer = setTimeout(releaseFitScorer, IDLE_MS); }
+// One worker, started by the first request. `ready` turns true when it reports the model loaded; until then a request's
+// clock is the load bound (loadTimeoutMs), and its own timeoutMs starts only once the model is ready, so the first
+// request of a lesson is not lost to a slow phone's load. A request that times out is cancelled in the worker's queue.
+let worker = null, ready = false, nextId = 1, idleTimer = null;
+const pending = new Map();   // id -> { resolve, reject, timer, timeoutMs, armed }
+function settle(id) { const p = pending.get(id); if (p) { pending.delete(id); clearTimeout(p.timer); } return p; }
+function failAll(error) { for (const id of [...pending.keys()]) settle(id).reject(error); }
+function touchIdle() { clearTimeout(idleTimer); idleTimer = null; if (worker && !pending.size) idleTimer = setTimeout(releaseFitScorer, IDLE_MS); }
+function arm(id, p) {
+  p.armed = true;
+  clearTimeout(p.timer);
+  p.timer = setTimeout(() => {
+    if (!settle(id)) return;
+    if (worker) worker.postMessage({ cancel: id });
+    touchIdle();
+    p.reject(new Error(`The fit scorer did not answer within ${p.timeoutMs} ms.`));
+  }, p.timeoutMs);
+}
 function ensureWorker() {
   if (worker) return worker;
-  worker = new Worker(WORKER_URL, { type: 'module', name: 'fit-scorer' });
-  worker.onmessage = (event) => {
+  const w = new Worker(WORKER_URL, { type: 'module', name: 'fit-scorer' });
+  w.onmessage = (event) => {
     const msg = event.data;
-    if (!msg || msg.type === 'ready') return;
-    const p = pending.get(msg.id);
+    if (!msg || typeof msg !== 'object') return;
+    if (msg.type === 'ready') { ready = true; for (const [id, p] of pending) if (!p.armed) arm(id, p); return; }
+    const p = settle(msg.id);
     if (!p) return;                       // answered after its timeout: dropped
-    pending.delete(msg.id); clearTimeout(p.timer);
     if (msg.error) p.reject(new Error(msg.error)); else p.resolve(msg);
     touchIdle();
   };
-  worker.onerror = (event) => { const error = new Error(event && event.message ? event.message : 'The fit scorer stopped working.'); failAll(error); releaseFitScorer(); };
-  worker.onmessageerror = () => { failAll(new Error('The fit scorer sent an unreadable reply.')); };
-  return worker;
+  w.onerror = (event) => { const error = new Error(event && event.message ? event.message : 'The fit scorer stopped working.'); failAll(error); releaseFitScorer(); };
+  w.onmessageerror = () => { failAll(new Error('The fit scorer sent an unreadable reply.')); };
+  worker = w; ready = false;
+  return w;
 }
-function request(msg, timeoutMs) {
+function request(msg, { timeoutMs, loadTimeoutMs = LOAD_TIMEOUT_MS }) {
   return new Promise((resolve, reject) => {
     const id = nextId++;
-    const timer = setTimeout(() => { pending.delete(id); touchIdle(); reject(new Error(`The fit scorer did not answer within ${timeoutMs} ms.`)); }, timeoutMs);
-    pending.set(id, { resolve, reject, timer });
-    clearTimeout(idleTimer);
-    ensureWorker().postMessage({ id, ...msg });
+    const p = { resolve, reject, timer: null, timeoutMs, armed: false };
+    pending.set(id, p);
+    clearTimeout(idleTimer); idleTimer = null;
+    const w = ensureWorker();
+    if (ready) arm(id, p);
+    else p.timer = setTimeout(() => { if (settle(id)) { p.reject(new Error(`The fit scorer did not load within ${loadTimeoutMs} ms.`)); releaseFitScorer(); } }, loadTimeoutMs);
+    w.postMessage({ id, ...msg });
   });
 }
 
@@ -186,27 +211,27 @@ function request(msg, timeoutMs) {
 export function releaseFitScorer() {
   clearTimeout(idleTimer); idleTimer = null;
   if (worker) { worker.terminate(); worker = null; }
+  ready = false;
   failAll(new Error('The fit scorer was released.'));
 }
 
 // Loads the model ahead of the first scoreFit (resolves to { ready, loadMs }), so a lesson can warm it while the
-// learner reads. Rejects when the scorer is not installed.
-export async function warmFitScorer({ timeoutMs = 60000 } = {}) {
+// learner reads. Rejects when the scorer is not installed or the load takes longer than timeoutMs.
+export async function warmFitScorer({ timeoutMs = LOAD_TIMEOUT_MS } = {}) {
   if (!(await ensureInstalled())) throw new Error('The fit scorer is not installed.');
-  const reply = await request({ warm: true }, timeoutMs);
-  touchIdle();
+  const reply = await request({ warm: true }, { timeoutMs, loadTimeoutMs: timeoutMs });
   return { ready: true, loadMs: reply.loadMs };
 }
 
 // Scores every candidate in the blank ("____") of `template`: the blank's authored options first, the learner's word last
 // (`options.authored` overrides how many leading candidates are the reference). Resolves to
-// [{ candidate, pll, pieces, perPiece, unknown, fit, note }] sorted by pll, best first (fitScores). The first call after
-// a release also loads the model, which can take longer than timeoutMs on a slow phone: a timed-out call rejects but the
-// worker keeps loading, so the next call succeeds; use warmFitScorer to load ahead.
-export async function scoreFit(template, candidates, { timeoutMs = 4000, authored } = {}) {
+// [{ candidate, pll, fit, note, pieces, perPiece, unknown }] sorted by pll, best first (fitScores). timeoutMs bounds the
+// scoring once the model is loaded; the load itself (the first call after a start or a release) has its own bound,
+// loadTimeoutMs. Rejects when the scorer is not installed, the worker fails, or a bound is passed.
+export async function scoreFit(template, candidates, { timeoutMs = 4000, loadTimeoutMs = LOAD_TIMEOUT_MS, authored } = {}) {
   if (typeof template !== 'string' || template.split(BLANK).length !== 2) throw new TypeError(`scoreFit: the template must be a string with exactly one ${BLANK}`);
   if (!Array.isArray(candidates) || !candidates.length || candidates.some((c) => typeof c !== 'string' || !c.trim())) throw new TypeError('scoreFit: candidates must be a non-empty array of non-empty strings');
   if (!(await ensureInstalled())) throw new Error('The fit scorer is not installed.');
-  const reply = await request({ template, candidates }, timeoutMs);
+  const reply = await request({ template, candidates }, { timeoutMs, loadTimeoutMs });
   return fitScores(reply.scores, authored ?? Math.max(1, candidates.length - 1));
 }

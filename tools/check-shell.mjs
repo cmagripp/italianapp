@@ -8,7 +8,9 @@
 //     cannot ship under the previous cache name;
 //   - AUDIO_CACHE matches js/learning/course-v2-media.js, or every update would delete the learner's downloaded audio;
 //   - the fit scorer's on-demand files (js/workers/, models/, vendor/) are NOT in SHELL (they would add 83 MB to every
-//     install), FIT_CACHE matches js/learning/fit-scorer.js and js/workers/fit-scorer.worker.js, and activate keeps it.
+//     install), FIT_CACHE matches js/learning/fit-scorer.js and js/workers/fit-scorer.worker.js, and activate keeps it;
+//   - activate keeps the experimental assistant's WebLLM caches ('webllm/' prefix, docs/ASSISTANT-EXPERIMENT.md), or every
+//     update would delete its 340 MB download.
 // Usage: node tools/check-shell.mjs [path/to/sw.js]   (exit 1 on any mismatch)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -58,6 +60,12 @@ export function checkShell(swFile = path.join(ROOT, 'sw.js'), root = path.dirnam
     if (workerFit !== scorerFit) errors.push(`FIT_CACHE '${workerFit}' differs from js/workers/fit-scorer.worker.js ('${scorerFit}'): the worker would not find the downloaded model`);
     if (!/k\s*!==\s*FIT_CACHE/.test(src)) errors.push(`${path.basename(swFile)} activate does not keep FIT_CACHE: every update would delete the downloaded fit scorer`);
   }
+
+  // The assistant's weights live in WebLLM's own Cache API caches ('webllm/model', 'webllm/wasm', 'webllm/config');
+  // activate must skip every cache under that prefix.
+  const assistantPrefix = src.match(/const ASSISTANT_CACHE_PREFIX\s*=\s*'([^']+)'/)?.[1];
+  if (assistantPrefix !== 'webllm/') errors.push(`no "const ASSISTANT_CACHE_PREFIX = 'webllm/'" found in ${path.basename(swFile)}: every update would delete the assistant's downloaded weights`);
+  else if (!/!\s*k\.startsWith\(\s*ASSISTANT_CACHE_PREFIX\s*\)/.test(src)) errors.push(`${path.basename(swFile)} activate does not keep the ASSISTANT_CACHE_PREFIX caches: every update would delete the assistant's downloaded weights`);
   return { errors, listed };
 }
 
@@ -65,5 +73,5 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const sw = process.argv[2] ? path.resolve(process.argv[2]) : path.join(ROOT, 'sw.js');
   const { errors, listed } = checkShell(sw);
   if (errors.length) { console.error(`${path.relative(ROOT, sw) || sw}: ${errors.length} problem(s)`); errors.forEach(e => console.error('  - ' + e)); process.exit(1); }
-  console.log(`${path.relative(ROOT, sw) || sw}: SHELL OK (${listed.length} files precached, all present, every js/css module and data pack listed, no on-demand fit scorer file listed, VERSION stamp current, audio and fit scorer cache names consistent)`);
+  console.log(`${path.relative(ROOT, sw) || sw}: SHELL OK (${listed.length} files precached, all present, every js/css module and data pack listed, no on-demand fit scorer file listed, VERSION stamp current, audio and fit scorer cache names consistent, assistant caches kept)`);
 }

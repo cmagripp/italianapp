@@ -339,6 +339,50 @@ await test('disableAssistant during a load abandons it: the engine is unloaded a
   assert.deepEqual({ enabled: stored().enabled, loading: stored().loading }, { enabled: false, loading: false });
 });
 
+await test('releaseAssistant frees the engine but keeps the opt-in; an answer in flight is dropped; during a load the engine is unloaded on arrival', async () => {
+  setNavigator({ gpu: goodGpu() });
+  const runtime = fakeRuntime();
+  const api = await fresh();
+  assert.equal((await api.enableAssistant(() => {}, { importRuntime: runtime.importRuntime })).loaded, true);
+  let state = await api.releaseAssistant();
+  assert.deepEqual({ enabled: state.enabled, loaded: state.loaded, loading: state.loading, trips: state.breaker.trips, unloads: runtime.unloads }, { enabled: true, loaded: false, loading: false, trips: 0, unloads: 1 });
+  assert.deepEqual({ enabled: stored().enabled, loading: stored().loading, busy: stored().busy }, { enabled: true, loading: false, busy: false }, 'the opt-in stays in storage');
+  assert.equal(await ask(api), null, 'a released assistant is not consulted');
+  assert.deepEqual(await api.releaseAssistant(), state, 'releasing twice is harmless');
+  assert.equal(runtime.cacheDeletes, 0);
+  assert.equal((await api.enableAssistant(() => {}, { importRuntime: runtime.importRuntime })).loaded, true);
+  assert.equal(runtime.created.length, 2, 'enabling again loads the model again (from the browser cache in a real page)');
+  // an answer that arrives after the release is dropped, without a trip
+  runtime.engine.chat.completions.create = async () => { await sleep(20); return { choices: [{ message: { content: '{"choice": 0}' } }] }; };
+  const pending = ask(api);
+  await tick();
+  assert.equal(stored().busy, true, 'the answer is in flight');
+  await api.releaseAssistant();
+  assert.equal(await pending, null);
+  assert.deepEqual({ loaded: api.assistantState().loaded, enabled: api.assistantState().enabled, trips: api.assistantState().breaker.trips, busy: stored().busy }, { loaded: false, enabled: true, trips: 0, busy: false });
+  // during a load: the engine is unloaded as soon as it arrives and the opt-in stays
+  let release;
+  const slow = fakeRuntime({ onCreate: () => new Promise(resolve => { release = resolve; }) });
+  const later = await fresh();
+  const loading = later.enableAssistant(() => {}, { importRuntime: slow.importRuntime });
+  await tick();
+  state = await later.releaseAssistant();
+  assert.deepEqual({ enabled: state.enabled, loaded: state.loaded, loading: state.loading }, { enabled: true, loaded: false, loading: true });
+  release();
+  const done = await loading;
+  assert.deepEqual({ enabled: done.enabled, loaded: done.loaded, loading: done.loading, unloads: slow.unloads }, { enabled: true, loaded: false, loading: false, unloads: 1 });
+  assert.deepEqual({ enabled: stored().enabled, loading: stored().loading }, { enabled: true, loading: false });
+  // a release followed by a disable during the same load: the disable wins and the opt-in is withdrawn
+  const both = fakeRuntime({ onCreate: () => new Promise(resolve => { release = resolve; }) });
+  const mixed = await fresh();
+  const mixedLoad = mixed.enableAssistant(() => {}, { importRuntime: both.importRuntime });
+  await tick();
+  await mixed.releaseAssistant(); await mixed.disableAssistant();
+  release();
+  assert.deepEqual({ enabled: (await mixedLoad).enabled, loaded: (await mixedLoad).loaded, unloads: both.unloads }, { enabled: false, loaded: false, unloads: 1 });
+  assert.equal(stored().enabled, false);
+});
+
 await test('a graceful pagehide or a hidden page clears the loading flag, a restore re-arms it, so a reload is not a crash', async () => {
   const target = new EventTarget();
   globalThis.addEventListener = target.addEventListener.bind(target);

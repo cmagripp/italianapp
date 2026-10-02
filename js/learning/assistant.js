@@ -41,7 +41,7 @@ function save(value = record) { try { globalThis.localStorage?.setItem(STORAGE_K
 const record = readRecord();
 let engine = null;          // the WebLLM engine while loaded
 let loadPromise = null;     // the in-flight enableAssistant, shared by concurrent callers
-let abandonLoad = false;    // disableAssistant was called while loading: unload as soon as the load settles
+let abandonLoad = null;     // 'disable' or 'release': disableAssistant or releaseAssistant was called while loading, so the engine is unloaded as soon as the load settles
 let picking = 0;            // answers in flight (at most one runs; others wait in `queue`)
 let queue = Promise.resolve();
 let lastError = null;       // why the last enableAssistant or assistantPick gave up, for the view
@@ -138,7 +138,7 @@ export async function enableAssistant(onProgress, options = {}) {
 async function load(onProgress, options) {
   const probe = await probeAdapter();
   if (!probe.ok) { lastError = probe.reason; record.enabled = false; save(); return assistantState(); }
-  abandonLoad = false;
+  abandonLoad = null;
   record.enabled = true; record.loading = true; save();
   listen();
   const report = r => { try { onProgress?.({ text: String(r?.text ?? ''), progress: Math.min(1, Math.max(0, Number(r?.progress) || 0)) }); } catch { /* a view's callback cannot break the load */ } };
@@ -153,7 +153,10 @@ async function load(onProgress, options) {
     return assistantState();
   }
   record.loading = false;
-  if (abandonLoad || tripped()) { record.enabled = false; save(); unloadQuietly(created); return assistantState(); }
+  if (abandonLoad || tripped()) {
+    if (abandonLoad !== 'release' || tripped()) record.enabled = false;   // a release keeps the opt-in, a disable or a trip withdraws it
+    save(); unloadQuietly(created); return assistantState();
+  }
   engine = created; save();
   return assistantState();
 }
@@ -163,8 +166,20 @@ async function load(onProgress, options) {
 export async function disableAssistant() {
   try {
     record.enabled = false;
-    if (loadPromise) { abandonLoad = true; save(); return assistantState(); }
+    if (loadPromise) { abandonLoad = 'disable'; save(); return assistantState(); }
     const gone = engine; engine = null; save();
+    await unloadQuietly(gone);
+  } catch { /* never throws */ }
+  return assistantState();
+}
+
+// Frees the GPU memory without withdrawing the opt-in: for leaving a workshop lesson, since a loaded engine holds about a
+// gigabyte and memory is what kills web pages on phones. The next enableAssistant loads the weights again from the
+// browser's cache. During a load the engine is unloaded as soon as it arrives; an answer in flight is dropped (null).
+export async function releaseAssistant() {
+  try {
+    if (loadPromise) { abandonLoad = abandonLoad || 'release'; return assistantState(); }   // an earlier disable still wins
+    const gone = engine; engine = null;
     await unloadQuietly(gone);
   } catch { /* never throws */ }
   return assistantState();
@@ -195,7 +210,7 @@ function buildRequest(question, list, plain) {
   const lines = list.map((candidate, i) => `${i}: ${candidate.text}`).join('\n');
   return {
     messages: [
-      { role: 'system', content: 'You help an Italian learning app choose the most natural next line in a short Italian conversation. Answer only with JSON of the form {"choice": N}, where N is the number of the best candidate.' },
+      { role: 'system', content: 'You help an Italian learning app. Given a situation and a numbered list of candidates (replies in a short Italian conversation, words for a blank in a sentence, or explanations of a mistake), you pick the one candidate that fits the situation best. Answer only with JSON of the form {"choice": N}, where N is the number of the best candidate.' },
       { role: 'user', content: `Situation:\n${question}\n\nCandidates:\n${lines}\n\nWhich candidate number fits the situation best? Answer with {"choice": N}.` },
     ],
     temperature: 0, max_tokens: MAX_ANSWER_TOKENS, stream: false,
@@ -237,6 +252,7 @@ async function pick(question, list, maxMs) {
       lastError = 'timeout'; trip('timeout');
       return null;
     }
+    if (engine !== current) return null;                    // released or switched off while the model was answering: the answer is dropped
     const choice = parseChoice(completion, list.length);
     if (choice < 0) { lastError = 'unparseable answer'; return null; }
     if (record.trips) { record.trips = 0; record.lastTripAt = null; record.lastTrip = null; } // a good answer clears earlier trips

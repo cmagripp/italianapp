@@ -8,8 +8,8 @@ import {journeyQuestion,solveJourneyQuestion,advanceJourneyPage} from './journey
 const {chromium,devices}=await loadPlaywright(),stopServer=await ensureServer(),browser=await launchBrowser(chromium);
 const results=[],errors=[],screenshots=[];let context,page;
 fs.mkdirSync(SHOTS_DIR,{recursive:true});
-async function fresh(width=390,theme='light'){
- await context?.close();context=await browser.newContext(contextOptions(devices['iPhone 13'],{viewport:{width,height:width===375?667:844},reducedMotion:'reduce'}));page=await context.newPage();
+async function fresh(width=390,theme='light',height=null){
+ await context?.close();context=await browser.newContext(contextOptions(devices['iPhone 13'],{viewport:{width,height:height||(width===375?667:844)},reducedMotion:'reduce'}));page=await context.newPage();
  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error'&&!/fonts\.g(oogleapis|static)\.com/.test(m.location()?.url||''))errors.push(m.text());});await boot(page);
  await page.evaluate(async theme=>{const{store}=await import('./js/store.js');store.setSetting('theme',theme);store.setSetting('tts',false);},theme);
  await page.waitForFunction(theme=>document.documentElement.dataset.theme===theme,theme);

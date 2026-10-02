@@ -3,7 +3,7 @@
 import { article, hasPluralForm, isPluralOnly, isUncountable, nounNumberNote } from '../data.js';
 import { escapeHTML } from './questions.js';
 import { createPairActivity } from './lesson-activities.js';
-import { nounNumberChoices } from './lesson-content.js';
+import { nounNumberChoices, isSingularUse } from './lesson-content.js';
 
 const norm = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
 const unique = values => [...new Map(values.filter(v => typeof v === 'string' && v.trim() && !/^[-—]$/.test(v)).map(v => [norm(v), v])).values()];
@@ -104,7 +104,8 @@ export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'gu
     explanation = `${answers.map(a => attach(a, noun)).join(' / ')}. Learn the article with the noun.`;
     formKey = `article-${plural ? 'plural' : 'singular'}`; say = attach(answers[0], noun);
   } else if (skill === 'plural') {
-    if (!hasPluralForm(entry) || isPluralOnly(entry)) return null;
+    // A singular-use sense (il pane, il calcio) is checked on its number instead.
+    if (!hasPluralForm(entry) || isPluralOnly(entry) || isSingularUse(entry)) return null;
     // A noun with a gender always answers with its article ("le case"), never the
     // bare plural; a genderless custom noun can only offer the bare form.
     const invariant = norm(entry.it) === norm(entry.pl), whole = !!entry.g;
@@ -120,7 +121,7 @@ export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'gu
   } else if (skill === 'number') {
     // A singular-use sense: which statement is right, rather than a plural the
     // noun does not normally use. The wrong statements name a plural phrase.
-    if (entry.pos !== 'noun' || !entry.g) return null;
+    if (entry.pos !== 'noun' || !entry.g || !isSingularUse(entry)) return null;
     const number = target.fact && target.distractors?.length ? { question: target.question, fact: target.fact, distractors: target.distractors } : nounNumberChoices(entry);
     if (!number) return null;
     const phrase = attach(articles(entry)[0], entry.it);

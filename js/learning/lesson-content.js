@@ -24,7 +24,7 @@ const attach=(a,w)=>!a?w:a.endsWith("'")?a+w:`${a} ${w}`;
 // number screen; a recorded plural is always preferred to this guess.
 const regularPlural=w=>{const [head,...rest]=String(w).split(' ');const guess=/io$/.test(head)?head.slice(0,-1):/o$/.test(head)?head.slice(0,-1)+'i':/[cg]a$/.test(head)?head.slice(0,-1)+'he':/a$/.test(head)?head.slice(0,-1)+'e':/e$/.test(head)?head.slice(0,-1)+'i':head;return [guess,...rest].join(' ');};
 export function nounNumberChoices(e){
- if(e?.pos!=='noun'||!e.g||!e.it)return null;
+ if(e?.pos!=='noun'||!e.g||!e.it||!isSingularUse(e))return null;
  const singular=attach(firstArticle(e),e.it),pluralForm=hasPluralForm(e)?e.pl:regularPlural(e.it),plural=attach(firstArticle({...e,pl:pluralForm},true),pluralForm);
  return {question:'Which is right for this noun?',fact:`Normally singular: ${singular}`,distractors:[`Normally plural: ${plural}`,`Singular and plural alike: ${singular}, ${plural}`],singular,plural,invented:!hasPluralForm(e)};
 }
@@ -483,7 +483,8 @@ function briefWordLesson(plan,entry) {
  const meaningTarget=meaning?.groups.flatMap(g=>g.targets).find(t=>t.skill==='meaning');
  const recall=meaning?.groups.flatMap(g=>g.targets).find(t=>t.skill==='recall');
  if(!meaningTarget||!recall)return plan;
- const formTargets=(forms?.groups.flatMap(g=>g.targets)||[]).filter(t=>t.available!==false&&['article','plural','agreement','number'].includes(t.skill));
+ // A singular-use noun is never asked its plural on the short path, whatever its data.
+ const formTargets=(forms?.groups.flatMap(g=>g.targets)||[]).filter(t=>t.available!==false&&['article','plural','agreement','number'].includes(t.skill)&&!(t.skill==='plural'&&isSingularUse(entry)));
  const bySkill=Object.fromEntries(formTargets.map(t=>[t.skill,t]));
  let sequence,board=null;
  if(entry?.pos==='noun'&&bySkill.article){

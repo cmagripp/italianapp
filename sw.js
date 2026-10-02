@@ -10,6 +10,11 @@ const AUDIO_CACHE = 'parola-course-audio-v2';
 // Downloaded fit scorer (sentence workshop layer 2: the model, the ONNX runtime and its worker, js/learning/fit-scorer.js):
 // kept across updates too. Must equal FIT_CACHE in js/learning/fit-scorer.js and js/workers/fit-scorer.worker.js (check-shell checks).
 const FIT_CACHE = 'parola-fit-scorer-v1';
+// The experimental assistant (sentence workshop layer 3, js/learning/assistant.js, docs/ASSISTANT-EXPERIMENT.md): WebLLM
+// keeps its downloaded weights, model library and config in Cache API caches named 'webllm/model', 'webllm/wasm' and
+// 'webllm/config' on this origin. They are kept across updates too (check-shell checks); the files themselves are
+// cross-origin, so the fetch handler below never sees them.
+const ASSISTANT_CACHE_PREFIX = 'webllm/';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
@@ -24,6 +29,7 @@ const SHELL = [
   './js/learning/grammar-lexicon.js','./js/learning/course-v2-glosses.js', './js/learning/grammar-state.js', './js/learning/grammar-course.js', './js/learning/grammar-journey.js',
   './js/views/course.js', './js/views/learnAdaptive.js', './js/views/learnJourney.js',
   './js/learning/journey.js', './js/learning/lesson-content.js', './js/learning/lesson-questions.js', './js/learning/word-questions.js', './js/learning/sentence-lookup.js', './js/learning/sentence-panel.js', './js/learning/lesson-activities.js', './js/learning/activity-panel.js', './js/learning/lesson-overview.js', './js/learning/progressive-content.js', './js/learning/legacy-progressive-content.js', './js/learning/verb-progressive-data.js', './js/learning/verb-lexicon-extra.js', './js/learning/verb-lexicon.js',
+  './js/learning/assistant.js',
   './data/grammar-course/A1.json', './data/grammar-course/A2.json', './data/grammar-course/B1.json', './data/grammar-course/B2.json', './data/grammar-course/C1.json', './data/grammar-course/C2.json',
   './data/course-v2/Foundations.json', './data/course-v2/A1.json', './data/course-v2/A2.json', './data/course-v2/B1.json', './data/course-v2/B2.json', './data/course-v2/C1.json', './data/course-v2/C2.json', './data/course-v2/audio.json',
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',
@@ -35,7 +41,7 @@ const SHELL = [
 // back as a 304 instead of a full re-download ('reload' would fetch the 3.4 MB dictionary a second time on first install)
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'no-cache' })))).then(() => self.skipWaiting())); });
 // Pruning the audio cache runs after claim and outside waitUntil, so it never holds fetches behind activation.
-self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== AUDIO_CACHE && k !== FIT_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()).then(() => { pruneAudio(); })); });
+self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== AUDIO_CACHE && k !== FIT_CACHE && !k.startsWith(ASSISTANT_CACHE_PREFIX)).map(k => caches.delete(k)))).then(() => self.clients.claim()).then(() => { pruneAudio(); })); });
 // A versioned shell is one compatible release. Updates replace it only after
 // install has fetched every module and course pack successfully.
 const shellURLs=new Set(SHELL.map(path=>new URL(path,self.location.href).href));

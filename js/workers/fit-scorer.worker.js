@@ -6,7 +6,8 @@
 //
 // Protocol: in { id, template, candidates } (or { id, warm: true } to load the model without scoring); out
 // { id, scores: [{ candidate, pll, pieces, perPiece, unknown }], ms } in the candidates' order, or { id, error }, plus one
-// { type: 'ready', loadMs } the first time the model has been loaded. Requests are answered one at a time, in order.
+// { type: 'ready', loadMs } the first time the model has been loaded. Requests are answered one at a time, in order;
+// { cancel: id } drops a request that has not started yet (the page gave up on it), which then gets no reply.
 //
 // The model, the vocabulary and the runtime's .wasm are read from the FIT_CACHE cache, where js/learning/fit-scorer.js
 // put them, and fetched from the site only when they are not there; the runtime's module is imported by URL, which a page
@@ -125,23 +126,29 @@ export function pllFromLogits(logits, dims, batch) {
   return { pll, perPiece };
 }
 
-// Scores every candidate in a template (one run each, a repeated candidate scored once). runBatch({ input, mask, dims })
-// resolves to the logits tensor { data: Float32Array, dims: [n, L, V] }; the worker binds it to the ONNX session, the
-// check to a mock. `unknown` marks a candidate with a piece the vocabulary cannot cover ([UNK]): its PLL is not meaningful.
-export async function scoreCandidates(runBatch, tok, template, candidates) {
+// Scores every candidate in a template (one run each). runBatch({ input, mask, dims }) resolves to the logits tensor
+// { data: Float32Array, dims: [n, L, V] }; the worker binds it to the ONNX session, the check to a mock. `unknown` marks a
+// candidate with a piece the vocabulary cannot cover ([UNK]): its PLL is not meaningful. `memo` remembers up to MEMO_MAX
+// results by template and candidate across calls, so a learner trying several words in one blank does not pay for the
+// blank's authored options again each time (a repeated candidate within one call is scored once the same way).
+export const MEMO_MAX = 256;
+export async function scoreCandidates(runBatch, tok, template, candidates, memo = new Map()) {
   if (!Array.isArray(candidates) || !candidates.length) throw new Error('no candidates to score');
-  const scored = new Map();
   const out = [];
   for (const raw of candidates) {
     const candidate = String(raw ?? '');
-    if (!scored.has(candidate)) {
+    const key = `${template}\u0000${candidate}`;
+    let row = memo.get(key);
+    if (!row) {
       const batch = maskedBatch(tok, template, candidate);
       const logits = await runBatch(batch);
       if (!logits || !logits.dims || logits.dims[2] < tok.vocab.size) throw new Error('the model returned no usable logits');
       const { pll, perPiece } = pllFromLogits(logits.data, logits.dims, batch);
-      scored.set(candidate, { pll, perPiece, pieces: tok.decode(batch.pieceIds), unknown: batch.pieceIds.includes(tok.UNK) });
+      row = { pll, perPiece, pieces: tok.decode(batch.pieceIds), unknown: batch.pieceIds.includes(tok.UNK) };
+      if (memo.size >= MEMO_MAX) memo.delete(memo.keys().next().value);
+      memo.set(key, row);
     }
-    out.push({ candidate, ...scored.get(candidate) });
+    out.push({ candidate, ...row });
   }
   return out;
 }

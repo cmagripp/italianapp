@@ -28,7 +28,7 @@
           "outcome": "I can use mi and ti with alzarsi.",
           "minutes": 7,
           "prerequisites": [
-            "v2-a1-first-past-message"
+            "v2-a1-di-articles"
           ],
           "related": [],
           "legacyLessonIds": [
@@ -5389,6 +5389,934 @@
               "introduces": []
             }
           ]
+        },
+        {
+          "id": "v2-a2-direct-me-you-us",
+          "title": "Say me, you, us and you all as objects",
+          "outcome": "I can use mi, ti, ci and vi as direct objects before the verb.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-a2-direct-reference"
+          ],
+          "related": [
+            {
+              "entryId": "w:mi|pron"
+            },
+            {
+              "entryId": "w:ti|pron"
+            },
+            {
+              "entryId": "w:ci|pron"
+            },
+            {
+              "entryId": "w:vi|pron"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Mi (me), ti (you), ci (us) and vi (you all) are direct objects that go before the verb, like lo and la: Mi vedi? Ti chiamo stasera. Ci aspetta. Vi invito.",
+          "targets": [
+            {
+              "id": "v2-a2-direct-me-you-us.core",
+              "label": "Say me, you, us and you all as objects",
+              "explanation": "Mi (me), ti (you), ci (us) and vi (you all) are direct objects that go before the verb, like lo and la: Mi vedi? Ti chiamo stasera. Ci aspetta. Vi invito.",
+              "facets": [
+                "me-you",
+                "us-you-all"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try say me, you, us and you all as objects again",
+                "body": "Mi means me and ti means you as direct objects. They go before the verb, just like lo and la.",
+                "examples": [
+                  {
+                    "it": "Mi vedi? Ti chiamo stasera.",
+                    "en": "Can you see me? I will call you this evening."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a2-direct-me-you-us.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "mi",
+                  "en": "me (direct object)"
+                },
+                {
+                  "it": "ti",
+                  "en": "you (direct object, familiar)"
+                },
+                {
+                  "it": "ci",
+                  "en": "us (direct object)"
+                },
+                {
+                  "it": "vi",
+                  "en": "you all (direct object)"
+                },
+                {
+                  "it": "aspettare",
+                  "en": "to wait for"
+                },
+                {
+                  "it": "invitare",
+                  "en": "to invite"
+                },
+                {
+                  "it": "cena",
+                  "en": "dinner",
+                  "article": "la",
+                  "plural": "cene"
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s2",
+              "kind": "teach",
+              "title": "Me and you",
+              "body": "Mi means me and ti means you as direct objects. They go before the verb, just like lo and la.",
+              "examples": [
+                {
+                  "it": "Mi vedi? Ti chiamo stasera.",
+                  "en": "Can you see me? I will call you this evening."
+                }
+              ],
+              "introduces": [
+                "v2-a2-direct-me-you-us.core"
+              ]
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s3",
+              "kind": "teach",
+              "title": "Us and you all",
+              "body": "Ci means us and vi means you all. They go before the verb too.",
+              "examples": [
+                {
+                  "it": "Luca ci aspetta. Vi invito a cena.",
+                  "en": "Luca is waiting for us. I invite you all to dinner."
+                }
+              ],
+              "introduces": [
+                "v2-a2-direct-me-you-us.core"
+              ]
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s4",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "me-you",
+              "stage": "guided",
+              "contextKey": "v2-a2-direct-me-you-us.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Luca, ___ vedi?",
+              "translation": "Luca, can you see me?",
+              "answer": "mi",
+              "options": [
+                "mi",
+                "ti",
+                "ci"
+              ],
+              "speak": "Luca, mi vedi?",
+              "explanation": "The speaker is the one seen: mi.",
+              "hint": "Who is seen?"
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s5",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "me-you",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-me-you-us.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Anna, ___ chiamo stasera.",
+              "translation": "Anna, I will call you this evening.",
+              "answer": "ti",
+              "options": [
+                "ti",
+                "mi",
+                "vi"
+              ],
+              "speak": "Anna, ti chiamo stasera.",
+              "explanation": "Anna, addressed as tu, is the one called: ti.",
+              "hint": "Who is called?"
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s6",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "us-you-all",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-me-you-us.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Luca ___ aspetta alla stazione.",
+              "translation": "Luca is waiting for us at the station.",
+              "answer": "ci",
+              "options": [
+                "ci",
+                "vi",
+                "mi"
+              ],
+              "speak": "Luca ci aspetta alla stazione.",
+              "explanation": "We are the ones waited for: ci.",
+              "hint": "Who is waited for?"
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s7",
+              "kind": "passage",
+              "title": "A dinner invitation",
+              "it": "Anna: «Luca, ti chiamo stasera, va bene?»\nLuca: «Sì. Mi chiami alle otto?»\nAnna: «Sì. Sabato vi invito a cena, tu e Marco.»\nLuca: «Grazie! Ci aspetti alle sette?»\nAnna: «Sì, vi aspetto alle sette.»",
+              "en": "Anna: “Luca, I will call you this evening, all right?”\nLuca: “Yes. Will you call me at eight?”\nAnna: “Yes. On Saturday I invite you both to dinner, you and Marco.”\nLuca: “Thank you! Will you wait for us at seven?”\nAnna: “Yes, I will wait for you both at seven.”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s8",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "us-you-all",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-me-you-us.independent-3",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Anna e Sara, ___ invito a cena.",
+              "translation": "Anna and Sara, I invite you both to dinner.",
+              "answer": "vi",
+              "speak": "Anna e Sara, vi invito a cena.",
+              "explanation": "Two people are addressed and invited: vi.",
+              "hint": "The addressees are plural you.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s9",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "me-you",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-me-you-us.reserve-9",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Sara ___ chiama ogni giorno.",
+              "translation": "Sara calls me every day.",
+              "answer": "mi",
+              "speak": "Sara mi chiama ogni giorno.",
+              "explanation": "The speaker is the one called: mi.",
+              "hint": "Use the word for me.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s10",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "us-you-all",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-me-you-us.reserve-10",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Marco ___ invita alla festa.",
+              "translation": "Marco invites you all to the party.",
+              "answer": "vi",
+              "options": [
+                "vi",
+                "ci",
+                "ti"
+              ],
+              "speak": "Marco vi invita alla festa.",
+              "explanation": "Several addressees are invited: vi.",
+              "hint": "Who is invited?"
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s11",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "me-you",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-me-you-us.reserve-11",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Luca, ___ aspetto qui.",
+              "translation": "Luca, I will wait for you here.",
+              "answer": "ti",
+              "options": [
+                "ti",
+                "mi",
+                "ci"
+              ],
+              "speak": "Luca, ti aspetto qui.",
+              "explanation": "Luca is the one waited for: ti.",
+              "hint": "Who is waited for?"
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s12",
+              "kind": "question",
+              "target": "v2-a2-direct-me-you-us.core",
+              "facet": "us-you-all",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-me-you-us.reserve-12",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Anna ___ aspetta a casa.",
+              "translation": "Anna is waiting for us at home.",
+              "answer": "ci",
+              "speak": "Anna ci aspetta a casa.",
+              "explanation": "We are the ones waited for: ci.",
+              "hint": "Use the word for us.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-direct-me-you-us.s13",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Mi (me), ti (you), ci (us) and vi (you all) are direct objects that go before the verb, like lo and la: Mi vedi? Ti chiamo stasera. Ci aspetta. Vi invito.",
+              "examples": [
+                {
+                  "it": "Luca ci aspetta. Vi invito a cena.",
+                  "en": "Luca is waiting for us. I invite you all to dinner."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-a2-direct-elision-negation",
+          "title": "Shorten lo and la, and add non",
+          "outcome": "I can write l’ before a verb that begins with a vowel and put non before the pronoun and verb.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-a2-direct-me-you-us"
+          ],
+          "related": [
+            {
+              "entryId": "w:lo|pron"
+            },
+            {
+              "entryId": "w:la|pron"
+            },
+            {
+              "entryId": "w:non|adv"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Before a vowel, lo and la shorten to l’ and join the verb: l’aspetto, l’ascolto. Non goes before the pronoun, never between the pronoun and the verb: Non lo so. Non la vedo.",
+          "targets": [
+            {
+              "id": "v2-a2-direct-elision-negation.core",
+              "label": "Shorten lo and la, and add non",
+              "explanation": "Before a vowel, lo and la shorten to l’ and join the verb: l’aspetto, l’ascolto. Non goes before the pronoun, never between the pronoun and the verb: Non lo so. Non la vedo.",
+              "facets": [
+                "elision",
+                "non-first"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try shorten lo and la, and add non again",
+                "body": "When the verb begins with a vowel, lo and la shorten to l’ and join it: l’aspetto, l’ascolto. Li and le never shorten.",
+                "examples": [
+                  {
+                    "it": "Il treno? L’aspetto. La radio? L’ascolto.",
+                    "en": "The train? I am waiting for it. The radio? I listen to it."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a2-direct-elision-negation.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "l’aspetto",
+                  "en": "I am waiting for him, her or it (lo or la + aspetto)"
+                },
+                {
+                  "it": "l’ascolto",
+                  "en": "I listen to him, her or it (lo or la + ascolto)"
+                },
+                {
+                  "it": "non lo so",
+                  "en": "I don’t know"
+                },
+                {
+                  "it": "ascoltare",
+                  "en": "to listen to"
+                },
+                {
+                  "it": "sapere",
+                  "en": "to know"
+                },
+                {
+                  "it": "sentire",
+                  "en": "to hear"
+                },
+                {
+                  "it": "radio",
+                  "en": "radio",
+                  "article": "la",
+                  "plural": "radio"
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s2",
+              "kind": "teach",
+              "title": "Lo and la before a vowel",
+              "body": "When the verb begins with a vowel, lo and la shorten to l’ and join it: l’aspetto, l’ascolto. Li and le never shorten.",
+              "examples": [
+                {
+                  "it": "Il treno? L’aspetto. La radio? L’ascolto.",
+                  "en": "The train? I am waiting for it. The radio? I listen to it."
+                }
+              ],
+              "introduces": [
+                "v2-a2-direct-elision-negation.core"
+              ]
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s3",
+              "kind": "teach",
+              "title": "Non before the pronoun",
+              "body": "Non goes before the pronoun and the verb together: non lo so, non la vedo.",
+              "examples": [
+                {
+                  "it": "Non lo so. Non la vedo oggi.",
+                  "en": "I don’t know. I am not seeing her today."
+                }
+              ],
+              "introduces": [
+                "v2-a2-direct-elision-negation.core"
+              ]
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s4",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "elision",
+              "stage": "guided",
+              "contextKey": "v2-a2-direct-elision-negation.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il treno? ___ qui.",
+              "translation": "The train? I am waiting for it here.",
+              "answer": "L’aspetto",
+              "options": [
+                "L’aspetto",
+                "Lo aspetto",
+                "Li aspetto"
+              ],
+              "speak": "Il treno? L’aspetto qui.",
+              "explanation": "Aspetto begins with a vowel, so lo becomes l’ and joins the verb.",
+              "hint": "Lo loses its o before a vowel."
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s5",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "non-first",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-elision-negation.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Dove abita Luca? ___ so.",
+              "translation": "Where does Luca live? I don’t know.",
+              "answer": "Non lo",
+              "options": [
+                "Non lo",
+                "Lo non",
+                "Non la"
+              ],
+              "speak": "Dove abita Luca? Non lo so.",
+              "explanation": "Non comes first, then lo, then the verb: non lo so.",
+              "hint": "Non goes before the pronoun."
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s6",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "elision",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-elision-negation.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "La radio? ___ ogni mattina.",
+              "translation": "The radio? I listen to it every morning.",
+              "answer": "L’ascolto",
+              "options": [
+                "L’ascolto",
+                "La ascolto",
+                "Le ascolto"
+              ],
+              "speak": "La radio? L’ascolto ogni mattina.",
+              "explanation": "Ascolto begins with a vowel, so la becomes l’.",
+              "hint": "La loses its a before a vowel."
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s7",
+              "kind": "passage",
+              "title": "On the phone",
+              "it": "Anna: «Luca, dove sei? Non ti vedo.»\nLuca: «Sono alla stazione. Aspetto il treno.»\nAnna: «L’aspetti ancora?»\nLuca: «Sì, l’aspetto ancora: arriva alle nove. E Marco? Lo vedi?»\nAnna: «No, non lo vedo. Sono al bar. Non ti sento bene: ti chiamo dopo.»",
+              "en": "Anna: “Luca, where are you? I don’t see you.”\nLuca: “I am at the station. I am waiting for the train.”\nAnna: “Are you still waiting for it?”\nLuca: “Yes, I am still waiting for it: it arrives at nine. And Marco? Do you see him?”\nAnna: “No, I don’t see him. I am at the bar. I can’t hear you well: I will call you later.”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s8",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "non-first",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-elision-negation.independent-3",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Anna? Oggi ___ vedo.",
+              "translation": "Anna? I am not seeing her today.",
+              "answer": "non la",
+              "speak": "Anna? Oggi non la vedo.",
+              "explanation": "Non la vedo: non, then la, then the verb.",
+              "hint": "Write the negative and the pronoun together.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "la non",
+                  "tag": "pronoun-order",
+                  "explanation": "Non must come before the pronoun: non la vedo."
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s9",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "elision",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-elision-negation.reserve-9",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Luca? ___ alla stazione.",
+              "translation": "Luca? I am waiting for him at the station.",
+              "answer": "L’aspetto",
+              "speak": "Luca? L’aspetto alla stazione.",
+              "explanation": "Lo + aspetto becomes l’aspetto.",
+              "hint": "Join l’ to the verb.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s10",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "non-first",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-elision-negation.reserve-10",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il libro? ___ compro oggi.",
+              "translation": "The book? I am not buying it today.",
+              "answer": "Non lo",
+              "options": [
+                "Non lo",
+                "Lo non",
+                "Non li"
+              ],
+              "speak": "Il libro? Non lo compro oggi.",
+              "explanation": "Non precedes lo compro.",
+              "hint": "Non first, then the pronoun."
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s11",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "elision",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-elision-negation.reserve-11",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Sara? ___ sempre.",
+              "translation": "Sara? I always listen to her.",
+              "answer": "L’ascolto",
+              "options": [
+                "L’ascolto",
+                "La ascolto",
+                "Lo ascolto"
+              ],
+              "speak": "Sara? L’ascolto sempre.",
+              "explanation": "La + ascolto becomes l’ascolto.",
+              "hint": "Shorten la before a vowel."
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s12",
+              "kind": "question",
+              "target": "v2-a2-direct-elision-negation.core",
+              "facet": "non-first",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-elision-negation.reserve-12",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Il pane? ___ compro.",
+              "translation": "The bread? I am not buying it.",
+              "answer": "non lo",
+              "speak": "Il pane? non lo compro.",
+              "explanation": "Non lo compro keeps non before lo.",
+              "hint": "The negative comes first.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-direct-elision-negation.s13",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Before a vowel, lo and la shorten to l’ and join the verb: l’aspetto, l’ascolto. Non goes before the pronoun, never between the pronoun and the verb: Non lo so. Non la vedo.",
+              "examples": [
+                {
+                  "it": "Non lo so. Non la vedo oggi.",
+                  "en": "I don’t know. I am not seeing her today."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-a2-direct-attached",
+          "title": "Attach the pronoun to the verb",
+          "outcome": "I can attach a direct pronoun to an infinitive after per or a modal, to a gerund and to a familiar command.",
+          "minutes": 7,
+          "prerequisites": [
+            "v2-a2-direct-elision-negation"
+          ],
+          "related": [
+            {
+              "entryId": "v:vedere",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:guardare",
+              "caseId": "present"
+            },
+            {
+              "entryId": "v:chiamare",
+              "caseId": "present"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "After per or a modal the pronoun attaches to the infinitive, which drops its final -e: per vederlo, posso chiamarti. It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
+          "targets": [
+            {
+              "id": "v2-a2-direct-attached.core",
+              "label": "Attach the pronoun to the verb",
+              "explanation": "After per or a modal the pronoun attaches to the infinitive, which drops its final -e: per vederlo, posso chiamarti. It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
+              "facets": [
+                "infinitive",
+                "gerund-command"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try attach the pronoun to the verb again",
+                "body": "With an infinitive, the pronoun attaches to the end and the infinitive drops its final -e: per vederlo, posso chiamarti, voglio vederla.",
+                "examples": [
+                  {
+                    "it": "Vado al cinema per vederlo. Posso chiamarti stasera?",
+                    "en": "I am going to the cinema to see it. Can I call you this evening?"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a2-direct-attached.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "vederlo",
+                  "en": "to see him or it (vedere + lo)"
+                },
+                {
+                  "it": "vederla",
+                  "en": "to see her or it (vedere + la)"
+                },
+                {
+                  "it": "chiamarti",
+                  "en": "to call you (chiamare + ti)"
+                },
+                {
+                  "it": "guardandola",
+                  "en": "looking at her or it (guardando + la)"
+                },
+                {
+                  "it": "guardalo",
+                  "en": "look at it! (guarda + lo)"
+                },
+                {
+                  "it": "guardale",
+                  "en": "look at them! (guarda + le)"
+                },
+                {
+                  "it": "leggendolo",
+                  "en": "reading it (leggendo + lo)"
+                },
+                {
+                  "it": "guardare",
+                  "en": "to look at; to watch"
+                },
+                {
+                  "it": "film",
+                  "en": "film",
+                  "article": "il",
+                  "plural": "film"
+                },
+                {
+                  "it": "foto",
+                  "en": "photo",
+                  "article": "la",
+                  "plural": "foto"
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-direct-attached.s2",
+              "kind": "teach",
+              "title": "After per and after a modal",
+              "body": "With an infinitive, the pronoun attaches to the end and the infinitive drops its final -e: per vederlo, posso chiamarti, voglio vederla.",
+              "examples": [
+                {
+                  "it": "Vado al cinema per vederlo. Posso chiamarti stasera?",
+                  "en": "I am going to the cinema to see it. Can I call you this evening?"
+                }
+              ],
+              "introduces": [
+                "v2-a2-direct-attached.core"
+              ]
+            },
+            {
+              "id": "v2-a2-direct-attached.s3",
+              "kind": "teach",
+              "title": "After a gerund and a tu command",
+              "body": "The pronoun also attaches to a gerund and to a familiar command, written as one word: guardandola, guardalo!",
+              "examples": [
+                {
+                  "it": "Guardandola, penso a Roma. Il film è bello: guardalo!",
+                  "en": "Looking at it, I think of Rome. The film is good: watch it!"
+                }
+              ],
+              "introduces": [
+                "v2-a2-direct-attached.core"
+              ]
+            },
+            {
+              "id": "v2-a2-direct-attached.s4",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "infinitive",
+              "stage": "guided",
+              "contextKey": "v2-a2-direct-attached.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il film? Vado al cinema per ___.",
+              "translation": "The film? I am going to the cinema to see it.",
+              "answer": "vederlo",
+              "options": [
+                "vederlo",
+                "lo vedere",
+                "vedere lo"
+              ],
+              "speak": "Il film? Vado al cinema per vederlo.",
+              "explanation": "After per, lo attaches to vedere, which drops its -e: vederlo.",
+              "hint": "Drop the final -e, then add lo."
+            },
+            {
+              "id": "v2-a2-direct-attached.s5",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "infinitive",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-attached.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Anna, posso ___ stasera?",
+              "translation": "Anna, can I call you this evening?",
+              "answer": "chiamarti",
+              "options": [
+                "chiamarti",
+                "chiamare ti",
+                "chiamarmi"
+              ],
+              "speak": "Anna, posso chiamarti stasera?",
+              "explanation": "After posso, ti attaches to chiamare: chiamarti.",
+              "hint": "The person called is you."
+            },
+            {
+              "id": "v2-a2-direct-attached.s6",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "gerund-command",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-attached.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "La foto? ___, penso a Roma.",
+              "translation": "The photo? Looking at it, I think of Rome.",
+              "answer": "Guardandola",
+              "options": [
+                "Guardandola",
+                "La guardando",
+                "Guardandolo"
+              ],
+              "speak": "La foto? Guardandola, penso a Roma.",
+              "explanation": "La attaches to the gerund guardando: guardandola.",
+              "hint": "The photo is feminine."
+            },
+            {
+              "id": "v2-a2-direct-attached.s7",
+              "kind": "passage",
+              "title": "A film for tonight",
+              "it": "Anna: «Stasera c’è un film al cinema. Vado a vederlo. Vieni?»\nLuca: «Non posso. Devo vedere mia madre: voglio vederla prima di cena.»\nAnna: «Va bene. Guardalo domani in televisione!»\nLuca: «Sì. Mi chiami dopo il film?»\nAnna: «Certo. Posso chiamarti alle undici?»",
+              "en": "Anna: “Tonight there is a film at the cinema. I am going to see it. Are you coming?”\nLuca: “I can’t. I have to see my mother: I want to see her before dinner.”\nAnna: “All right. Watch it tomorrow on television!”\nLuca: “Yes. Will you call me after the film?”\nAnna: “Of course. Can I call you at eleven?”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a2-direct-attached.s8",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "gerund-command",
+              "stage": "independent",
+              "contextKey": "v2-a2-direct-attached.independent-3",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Il film è bello: ___!",
+              "translation": "The film is good: watch it! (familiar command)",
+              "answer": "guardalo",
+              "speak": "Il film è bello: guardalo!",
+              "explanation": "Lo attaches to the tu command guarda: guardalo.",
+              "hint": "Add lo to the end of guarda.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "lo guarda",
+                  "tag": "command-attachment",
+                  "explanation": "With a familiar command the pronoun attaches to the end: guardalo."
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-direct-attached.s9",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "infinitive",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-attached.reserve-9",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Luca? Voglio ___ domani.",
+              "translation": "Luca? I want to see him tomorrow.",
+              "answer": "vederlo",
+              "speak": "Luca? Voglio vederlo domani.",
+              "explanation": "Vedere drops its -e and takes lo: vederlo.",
+              "hint": "Attach the pronoun to the infinitive.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-direct-attached.s10",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "gerund-command",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-attached.reserve-10",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Le foto? ___!",
+              "translation": "The photos? Look at them! (familiar command)",
+              "answer": "Guardale",
+              "options": [
+                "Guardale",
+                "Le guarda",
+                "Guardali"
+              ],
+              "speak": "Le foto? Guardale!",
+              "explanation": "Le attaches to the command guarda: guardale.",
+              "hint": "Foto is feminine plural."
+            },
+            {
+              "id": "v2-a2-direct-attached.s11",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "infinitive",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-attached.reserve-11",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Sara? Vado alla festa per ___.",
+              "translation": "Sara? I am going to the party to see her.",
+              "answer": "vederla",
+              "options": [
+                "vederla",
+                "la vedere",
+                "vederlo"
+              ],
+              "speak": "Sara? Vado alla festa per vederla.",
+              "explanation": "La attaches to veder-: vederla.",
+              "hint": "The person seen is a woman."
+            },
+            {
+              "id": "v2-a2-direct-attached.s12",
+              "kind": "question",
+              "target": "v2-a2-direct-attached.core",
+              "facet": "gerund-command",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-direct-attached.reserve-12",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Il libro? ___, imparo molte parole.",
+              "translation": "The book? Reading it, I learn many words.",
+              "answer": "Leggendolo",
+              "speak": "Il libro? Leggendolo, imparo molte parole.",
+              "explanation": "Lo attaches to the gerund leggendo: leggendolo.",
+              "hint": "Add lo to leggendo.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-direct-attached.s13",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "After per or a modal the pronoun attaches to the infinitive, which drops its final -e: per vederlo, posso chiamarti. It also attaches to a gerund and to a tu command, written as one word: guardandola, guardalo!",
+              "examples": [
+                {
+                  "it": "Guardandola, penso a Roma. Il film è bello: guardalo!",
+                  "en": "Looking at it, I think of Rome. The film is good: watch it!"
+                }
+              ],
+              "introduces": []
+            }
+          ]
         }
       ]
     },
@@ -5403,7 +6331,7 @@
           "outcome": "I can use mi or ti for a recipient with dare or scrivere.",
           "minutes": 7,
           "prerequisites": [
-            "v2-a2-direct-reference"
+            "v2-a2-direct-attached"
           ],
           "related": [],
           "legacyLessonIds": [
@@ -11212,6 +12140,355 @@
               "introduces": []
             }
           ]
+        },
+        {
+          "id": "v2-a2-in-su-da-articles",
+          "title": "Join in, su and da to every article",
+          "outcome": "I can choose the right form of in, su and da with any article.",
+          "minutes": 8,
+          "prerequisites": [
+            "v2-a2-preposition-contractions"
+          ],
+          "related": [
+            {
+              "entryId": "w:in|prep"
+            },
+            {
+              "entryId": "w:su|prep"
+            },
+            {
+              "entryId": "w:da|prep"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "In, su and da join the article like a and di: nel, nello, nell’, nella, nei, negli, nelle; sul, sullo, sull’, sulla, sui, sugli, sulle; dal, dallo, dall’, dalla, dai, dagli, dalle. Choose the preposition from the meaning, then the form from the noun’s article.",
+          "targets": [
+            {
+              "id": "v2-a2-in-su-da-articles.core",
+              "label": "Join in, su and da to every article",
+              "explanation": "In, su and da join the article like a and di: nel, nello, nell’, nella, nei, negli, nelle; sul, sullo, sull’, sulla, sui, sugli, sulle; dal, dallo, dall’, dalla, dai, dagli, dalle. Choose the preposition from the meaning, then the form from the noun’s article.",
+              "facets": [
+                "singular-article",
+                "plural-article"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try join in, su and da to every article again",
+                "body": "In, su and da join the article exactly like a and di. Singular: nel, nello, nell’, nella; sul, sullo, sull’, sulla; dal, dallo, dall’, dalla.",
+                "examples": [
+                  {
+                    "it": "Il libro è nello zaino. La chiave è sulla sedia. Vengo dall’ufficio.",
+                    "en": "The book is in the backpack. The key is on the chair. I am coming from the office."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a2-in-su-da-articles.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "nello",
+                  "en": "in the (in + lo)"
+                },
+                {
+                  "it": "sulla",
+                  "en": "on the (su + la)"
+                },
+                {
+                  "it": "dai",
+                  "en": "from the (da + i)"
+                },
+                {
+                  "it": "zaino",
+                  "en": "backpack",
+                  "article": "lo",
+                  "plural": "zaini"
+                },
+                {
+                  "it": "armadio",
+                  "en": "wardrobe",
+                  "article": "l’",
+                  "plural": "armadi"
+                },
+                {
+                  "it": "sedia",
+                  "en": "chair",
+                  "article": "la",
+                  "plural": "sedie"
+                },
+                {
+                  "it": "scaffale",
+                  "en": "shelf",
+                  "article": "lo",
+                  "plural": "scaffali"
+                },
+                {
+                  "it": "ufficio",
+                  "en": "office",
+                  "article": "l’",
+                  "plural": "uffici"
+                },
+                {
+                  "it": "chiave",
+                  "en": "key",
+                  "article": "la",
+                  "plural": "chiavi"
+                },
+                {
+                  "it": "genitori",
+                  "en": "parents"
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s2",
+              "kind": "teach",
+              "title": "Three more prepositions, the same articles",
+              "body": "In, su and da join the article exactly like a and di. Singular: nel, nello, nell’, nella; sul, sullo, sull’, sulla; dal, dallo, dall’, dalla.",
+              "examples": [
+                {
+                  "it": "Il libro è nello zaino. La chiave è sulla sedia. Vengo dall’ufficio.",
+                  "en": "The book is in the backpack. The key is on the chair. I am coming from the office."
+                }
+              ],
+              "introduces": [
+                "v2-a2-in-su-da-articles.core"
+              ]
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s3",
+              "kind": "teach",
+              "title": "Plural forms",
+              "body": "Plural: nei, negli, nelle; sui, sugli, sulle; dai, dagli, dalle. Da with a person also means at or from that person’s place.",
+              "examples": [
+                {
+                  "it": "I libri sono negli zaini. Le chiavi sono sui tavoli. Torno dai genitori.",
+                  "en": "The books are in the backpacks. The keys are on the tables. I am coming back from my parents’ place."
+                }
+              ],
+              "introduces": [
+                "v2-a2-in-su-da-articles.core"
+              ]
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s4",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "singular-article",
+              "stage": "guided",
+              "contextKey": "v2-a2-in-su-da-articles.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il libro è ___ zaino.",
+              "translation": "The book is in the backpack.",
+              "answer": "nello",
+              "options": [
+                "nello",
+                "nel",
+                "nella"
+              ],
+              "speak": "Il libro è nello zaino.",
+              "explanation": "Lo zaino: in + lo = nello.",
+              "hint": "Zaino takes lo."
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s5",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "singular-article",
+              "stage": "independent",
+              "contextKey": "v2-a2-in-su-da-articles.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "La chiave è ___.",
+              "translation": "The key is in the wardrobe.",
+              "answer": "nell’armadio",
+              "options": [
+                "nell’armadio",
+                "nello armadio",
+                "nel armadio"
+              ],
+              "speak": "La chiave è nell’armadio.",
+              "explanation": "L’armadio: in + l’ = nell’, written together with the noun.",
+              "hint": "Armadio begins with a vowel."
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s6",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "plural-article",
+              "stage": "independent",
+              "contextKey": "v2-a2-in-su-da-articles.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Le chiavi sono ___ zaini.",
+              "translation": "The keys are in the backpacks.",
+              "answer": "negli",
+              "options": [
+                "negli",
+                "nei",
+                "nelle"
+              ],
+              "speak": "Le chiavi sono negli zaini.",
+              "explanation": "Gli zaini: in + gli = negli.",
+              "hint": "Zaini takes gli."
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s7",
+              "kind": "passage",
+              "title": "Where are the keys?",
+              "it": "Anna: «Dove sono le chiavi?»\nLuca: «Non sono nello zaino. Guarda sulla sedia.»\nAnna: «Sulla sedia non ci sono.»\nLuca: «Forse sono nell’armadio. Vengo dall’ufficio e le metto sempre lì.»",
+              "en": "Anna: “Where are the keys?”\nLuca: “They are not in the backpack. Look on the chair.”\nAnna: “They are not on the chair.”\nLuca: “Maybe they are in the wardrobe. I come from the office and I always put them there.”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s8",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "plural-article",
+              "stage": "independent",
+              "contextKey": "v2-a2-in-su-da-articles.independent-3",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "I libri sono ___ sedie.",
+              "translation": "The books are on the chairs.",
+              "answer": "sulle",
+              "speak": "I libri sono sulle sedie.",
+              "explanation": "Le sedie: su + le = sulle.",
+              "hint": "Sedie takes le.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "sui",
+                  "tag": "feminine-plural-article",
+                  "explanation": "Sedie is feminine plural and takes le, so su + le = sulle."
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s9",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "singular-article",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-in-su-da-articles.reserve-9",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Vengo ___.",
+              "translation": "I am coming from the office.",
+              "answer": "dall’ufficio",
+              "options": [
+                "dall’ufficio",
+                "dal ufficio",
+                "dallo ufficio"
+              ],
+              "speak": "Vengo dall’ufficio.",
+              "explanation": "L’ufficio: da + l’ = dall’.",
+              "hint": "Ufficio begins with a vowel."
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s10",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "plural-article",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-in-su-da-articles.reserve-10",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Luca torna ___ genitori.",
+              "translation": "Luca is coming back from his parents’ place.",
+              "answer": "dai",
+              "speak": "Luca torna dai genitori.",
+              "explanation": "I genitori: da + i = dai.",
+              "hint": "Genitori takes i.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s11",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "singular-article",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-in-su-da-articles.reserve-11",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Il gatto dorme ___ sedia.",
+              "translation": "The cat is sleeping on the chair.",
+              "answer": "sulla",
+              "speak": "Il gatto dorme sulla sedia.",
+              "explanation": "La sedia: su + la = sulla.",
+              "hint": "Sedia takes la.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s12",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "plural-article",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-in-su-da-articles.reserve-12",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Domani vado ___ zii.",
+              "translation": "Tomorrow I am going to my uncle and aunt’s place.",
+              "answer": "dagli",
+              "options": [
+                "dagli",
+                "dai",
+                "dalle"
+              ],
+              "speak": "Domani vado dagli zii.",
+              "explanation": "Gli zii: da + gli = dagli; da with people means at their place.",
+              "hint": "Zii takes gli."
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s13",
+              "kind": "question",
+              "target": "v2-a2-in-su-da-articles.core",
+              "facet": "singular-article",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-in-su-da-articles.reserve-13",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Le chiavi sono ___ scaffale.",
+              "translation": "The keys are on the shelf.",
+              "answer": "sullo",
+              "options": [
+                "sullo",
+                "sul",
+                "sulla"
+              ],
+              "speak": "Le chiavi sono sullo scaffale.",
+              "explanation": "Lo scaffale: su + lo = sullo.",
+              "hint": "Scaffale begins with s plus a consonant."
+            },
+            {
+              "id": "v2-a2-in-su-da-articles.s14",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "In, su and da join the article like a and di: nel, nello, nell’, nella, nei, negli, nelle; sul, sullo, sull’, sulla, sui, sugli, sulle; dal, dallo, dall’, dalla, dai, dagli, dalle. Choose the preposition from the meaning, then the form from the noun’s article.",
+              "examples": [
+                {
+                  "it": "I libri sono negli zaini. Le chiavi sono sui tavoli. Torno dai genitori.",
+                  "en": "The books are in the backpacks. The keys are on the tables. I am coming back from my parents’ place."
+                }
+              ],
+              "introduces": []
+            }
+          ]
         }
       ]
     },
@@ -11226,7 +12503,7 @@
           "outcome": "I can use perché, poi and quindi for different relations.",
           "minutes": 7,
           "prerequisites": [
-            "v2-a2-preposition-contractions"
+            "v2-a2-in-su-da-articles"
           ],
           "related": [],
           "legacyLessonIds": [
@@ -12536,6 +13813,1181 @@
                 {
                   "it": "Il treno parte alle otto.",
                   "en": "The train leaves at eight."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v2-a2-u15",
+      "title": "Someone, something, somewhere",
+      "description": "Talk about unnamed people, things and places, say that there is nobody or nothing, and link replies naturally.",
+      "lessons": [
+        {
+          "id": "v2-a2-someone-something",
+          "title": "Talk about someone, something and somewhere",
+          "outcome": "I can use qualcuno for an unnamed person, qualcosa for an unnamed thing, qualche with a singular noun and da qualche parte for an unknown place.",
+          "minutes": 8,
+          "prerequisites": [
+            "v2-a2-listen-service"
+          ],
+          "related": [
+            {
+              "entryId": "w:qualcuno|pron"
+            },
+            {
+              "entryId": "w:qualcosa|pron"
+            },
+            {
+              "entryId": "w:qualche|det"
+            },
+            {
+              "entryId": "w:da_qualche_parte|expr"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Qualcuno is someone and qualcosa is something: both are singular and never change. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
+          "targets": [
+            {
+              "id": "v2-a2-someone-something.core",
+              "label": "Talk about someone, something and somewhere",
+              "explanation": "Qualcuno is someone and qualcosa is something: both are singular and never change. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
+              "facets": [
+                "someone-or-something",
+                "qualche-singular",
+                "somewhere"
+              ],
+              "minIndependent": 3,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try talk about someone, something and somewhere again",
+                "body": "Qualcuno names a person you do not identify; qualcosa names a thing. Both are singular, so the verb is singular too, and neither word changes.",
+                "examples": [
+                  {
+                    "it": "C’è qualcuno alla porta. Vuoi qualcosa da bere?",
+                    "en": "There is someone at the door. Do you want something to drink?"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a2-someone-something.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "qualcuno",
+                  "en": "someone; somebody"
+                },
+                {
+                  "it": "qualcosa",
+                  "en": "something"
+                },
+                {
+                  "it": "qualche",
+                  "en": "some; a few (with a singular noun)"
+                },
+                {
+                  "it": "da qualche parte",
+                  "en": "somewhere"
+                },
+                {
+                  "it": "qualcosa da bere",
+                  "en": "something to drink",
+                  "note": "A useful whole phrase: qualcosa da + infinitive."
+                },
+                {
+                  "it": "cercare",
+                  "en": "to look for"
+                },
+                {
+                  "it": "trovare",
+                  "en": "to find"
+                },
+                {
+                  "it": "porta",
+                  "en": "door",
+                  "article": "la",
+                  "plural": "porte"
+                },
+                {
+                  "it": "minuto",
+                  "en": "minute",
+                  "article": "il",
+                  "plural": "minuti"
+                },
+                {
+                  "it": "telefono",
+                  "en": "telephone",
+                  "article": "il",
+                  "plural": "telefoni"
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-someone-something.s2",
+              "kind": "teach",
+              "title": "Someone and something",
+              "body": "Qualcuno names a person you do not identify; qualcosa names a thing. Both are singular, so the verb is singular too, and neither word changes.",
+              "examples": [
+                {
+                  "it": "C’è qualcuno alla porta. Vuoi qualcosa da bere?",
+                  "en": "There is someone at the door. Do you want something to drink?"
+                }
+              ],
+              "introduces": [
+                "v2-a2-someone-something.core"
+              ]
+            },
+            {
+              "id": "v2-a2-someone-something.s3",
+              "kind": "teach",
+              "title": "Qualche with a singular noun",
+              "body": "Qualche means some or a few, but the noun after it stays singular: qualche minuto, qualche amico. Alcuni takes a plural noun instead: alcuni amici.",
+              "examples": [
+                {
+                  "it": "Aspetto qualche minuto. Ho qualche amico a Roma.",
+                  "en": "I am waiting a few minutes. I have a few friends in Rome."
+                }
+              ],
+              "introduces": [
+                "v2-a2-someone-something.core"
+              ]
+            },
+            {
+              "id": "v2-a2-someone-something.s4",
+              "kind": "teach",
+              "title": "Somewhere",
+              "body": "Da qualche parte means somewhere: the place exists, but you do not say which. It usually comes after the verb or at the end of the sentence.",
+              "examples": [
+                {
+                  "it": "Le chiavi sono da qualche parte in casa.",
+                  "en": "The keys are somewhere in the house."
+                }
+              ],
+              "introduces": [
+                "v2-a2-someone-something.core"
+              ]
+            },
+            {
+              "id": "v2-a2-someone-something.s5",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "someone-or-something",
+              "stage": "guided",
+              "contextKey": "v2-a2-someone-something.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "C’è ___ alla porta.",
+              "translation": "There is someone at the door.",
+              "answer": "qualcuno",
+              "options": [
+                "qualcuno",
+                "qualcosa",
+                "qualche"
+              ],
+              "speak": "C’è qualcuno alla porta.",
+              "explanation": "A person is at the door, so qualcuno.",
+              "hint": "Someone is a person, not a thing."
+            },
+            {
+              "id": "v2-a2-someone-something.s6",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "someone-or-something",
+              "stage": "independent",
+              "contextKey": "v2-a2-someone-something.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Vuoi ___ da bere?",
+              "translation": "Do you want something to drink?",
+              "answer": "qualcosa",
+              "options": [
+                "qualcosa",
+                "qualcuno",
+                "qualche"
+              ],
+              "speak": "Vuoi qualcosa da bere?",
+              "explanation": "A drink is a thing, so qualcosa.",
+              "hint": "Something is a thing."
+            },
+            {
+              "id": "v2-a2-someone-something.s7",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "qualche-singular",
+              "stage": "independent",
+              "contextKey": "v2-a2-someone-something.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Aspetto ___ minuto.",
+              "translation": "I am waiting a few minutes.",
+              "answer": "qualche",
+              "options": [
+                "qualche",
+                "alcuni",
+                "qualcosa"
+              ],
+              "speak": "Aspetto qualche minuto.",
+              "explanation": "Minuto is singular, so the quantity word is qualche.",
+              "hint": "Look at the noun: it is singular."
+            },
+            {
+              "id": "v2-a2-someone-something.s8",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "somewhere",
+              "stage": "independent",
+              "contextKey": "v2-a2-someone-something.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Le chiavi sono ___ in casa.",
+              "translation": "The keys are somewhere in the house.",
+              "answer": "da qualche parte",
+              "options": [
+                "da qualche parte",
+                "qualche parte",
+                "qualcosa"
+              ],
+              "speak": "Le chiavi sono da qualche parte in casa.",
+              "explanation": "Da qualche parte means somewhere, as one fixed phrase.",
+              "hint": "The place is not named."
+            },
+            {
+              "id": "v2-a2-someone-something.s9",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "someone-or-something",
+              "stage": "independent",
+              "contextKey": "v2-a2-someone-something.independent-4",
+              "format": "order",
+              "prompt": "Put these supplied words in a natural order.",
+              "translation": "Someone is calling you.",
+              "answer": "Qualcuno ti chiama.",
+              "tokens": [
+                "chiama.",
+                "ti",
+                "Qualcuno"
+              ],
+              "speak": "Qualcuno ti chiama.",
+              "explanation": "Qualcuno is the subject and comes first; ti goes before the verb.",
+              "hint": "Start with the word for someone."
+            },
+            {
+              "id": "v2-a2-someone-something.s10",
+              "kind": "passage",
+              "title": "Someone at the door",
+              "it": "Anna: «Luca, c’è qualcuno alla porta!»\nLuca: «È Marco. Ha qualche libro per me.»\nAnna: «Dove sono le chiavi?»\nLuca: «Da qualche parte nello zaino. Aspetta!»\nAnna: «Marco, entra. Vuoi qualcosa da bere?»",
+              "en": "Anna: “Luca, there is someone at the door!”\nLuca: “It is Marco. He has a few books for me.”\nAnna: “Where are the keys?”\nLuca: “Somewhere in the backpack. Wait!”\nAnna: “Marco, come in. Do you want something to drink?”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a2-someone-something.s11",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "qualche-singular",
+              "stage": "independent",
+              "contextKey": "v2-a2-someone-something.independent-5",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Ho ___ amico a Milano.",
+              "translation": "I have a few friends in Milan.",
+              "answer": "qualche",
+              "speak": "Ho qualche amico a Milano.",
+              "explanation": "Amico is singular, so a few friends is qualche amico.",
+              "hint": "The noun stays singular after this word.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "alcuni",
+                  "tag": "plural-after-qualche",
+                  "explanation": "Amico is singular, so the word is qualche; alcuni goes with a plural noun: alcuni amici."
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-someone-something.s12",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "somewhere",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-someone-something.reserve-12",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il mio telefono è ___, ma dove?",
+              "translation": "My phone is somewhere, but where?",
+              "answer": "da qualche parte",
+              "options": [
+                "da qualche parte",
+                "qualche parte",
+                "qualcuno"
+              ],
+              "speak": "Il mio telefono è da qualche parte, ma dove?",
+              "explanation": "Da qualche parte says the place is unknown.",
+              "hint": "The speaker does not know the place."
+            },
+            {
+              "id": "v2-a2-someone-something.s13",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "somewhere",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-someone-something.reserve-13",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Luca è ___ in città.",
+              "translation": "Luca is somewhere in town.",
+              "answer": "da qualche parte",
+              "options": [
+                "da qualche parte",
+                "a qualche parte",
+                "qualcosa"
+              ],
+              "speak": "Luca è da qualche parte in città.",
+              "explanation": "Somewhere is da qualche parte, with da.",
+              "hint": "The phrase begins with da."
+            },
+            {
+              "id": "v2-a2-someone-something.s14",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "someone-or-something",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-someone-something.reserve-14",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Cerco ___ per la festa: una torta?",
+              "translation": "I am looking for something for the party: a cake?",
+              "answer": "qualcosa",
+              "options": [
+                "qualcosa",
+                "qualcuno",
+                "qualche"
+              ],
+              "speak": "Cerco qualcosa per la festa: una torta?",
+              "explanation": "A cake is a thing, so qualcosa.",
+              "hint": "The example given is a thing."
+            },
+            {
+              "id": "v2-a2-someone-something.s15",
+              "kind": "question",
+              "target": "v2-a2-someone-something.core",
+              "facet": "qualche-singular",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-someone-something.reserve-15",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Resto a Roma ___ giorno.",
+              "translation": "I am staying in Rome a few days.",
+              "answer": "qualche",
+              "options": [
+                "qualche",
+                "alcuni",
+                "qualcosa"
+              ],
+              "speak": "Resto a Roma qualche giorno.",
+              "explanation": "Giorno is singular, so a few days is qualche giorno.",
+              "hint": "Match the singular noun."
+            },
+            {
+              "id": "v2-a2-someone-something.s16",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Qualcuno is someone and qualcosa is something: both are singular and never change. Qualche means some or a few and always takes a singular noun: qualche minuto. Da qualche parte means somewhere.",
+              "examples": [
+                {
+                  "it": "Le chiavi sono da qualche parte in casa.",
+                  "en": "The keys are somewhere in the house."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-a2-nobody-nothing",
+          "title": "Say nobody and nothing",
+          "outcome": "I can use nessuno and niente with non after the verb, and without non when they open the sentence.",
+          "minutes": 8,
+          "prerequisites": [
+            "v2-a2-someone-something"
+          ],
+          "related": [
+            {
+              "entryId": "w:nessuno|pron"
+            },
+            {
+              "entryId": "w:niente|pron"
+            },
+            {
+              "entryId": "w:nulla|pron"
+            },
+            {
+              "entryId": "w:non|adv"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "After the verb, nessuno and niente need non before the verb: Non vedo nessuno. Non mangio niente. When nessuno or niente opens the sentence, non disappears: Nessuno risponde. Niente è pronto. Nulla means the same as niente.",
+          "targets": [
+            {
+              "id": "v2-a2-nobody-nothing.core",
+              "label": "Say nobody and nothing",
+              "explanation": "After the verb, nessuno and niente need non before the verb: Non vedo nessuno. Non mangio niente. When nessuno or niente opens the sentence, non disappears: Nessuno risponde. Niente è pronto. Nulla means the same as niente.",
+              "facets": [
+                "after-verb-non",
+                "negative-first"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try say nobody and nothing again",
+                "body": "When nessuno or niente follows the verb, non still goes before the verb. The two words make one negative, not two.",
+                "examples": [
+                  {
+                    "it": "Non vedo nessuno. Non mangio niente.",
+                    "en": "I see nobody. I eat nothing."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a2-nobody-nothing.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "nessuno",
+                  "en": "nobody; no one"
+                },
+                {
+                  "it": "niente",
+                  "en": "nothing"
+                },
+                {
+                  "it": "nulla",
+                  "en": "nothing (the same as niente)"
+                },
+                {
+                  "it": "rispondere",
+                  "en": "to answer"
+                },
+                {
+                  "it": "dire",
+                  "en": "to say"
+                },
+                {
+                  "it": "conoscere",
+                  "en": "to know (a person)"
+                },
+                {
+                  "it": "pronto",
+                  "en": "ready"
+                },
+                {
+                  "it": "frigo",
+                  "en": "fridge",
+                  "article": "il",
+                  "plural": "frighi"
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s2",
+              "kind": "teach",
+              "title": "Nobody and nothing after the verb",
+              "body": "When nessuno or niente follows the verb, non still goes before the verb. The two words make one negative, not two.",
+              "examples": [
+                {
+                  "it": "Non vedo nessuno. Non mangio niente.",
+                  "en": "I see nobody. I eat nothing."
+                }
+              ],
+              "introduces": [
+                "v2-a2-nobody-nothing.core"
+              ]
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s3",
+              "kind": "teach",
+              "title": "Nobody or nothing first",
+              "body": "When nessuno or niente opens the sentence, there is no non: the negative word already does the job.",
+              "examples": [
+                {
+                  "it": "Nessuno risponde al telefono. Niente è pronto.",
+                  "en": "Nobody answers the phone. Nothing is ready."
+                }
+              ],
+              "introduces": [
+                "v2-a2-nobody-nothing.core"
+              ]
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s4",
+              "kind": "teach",
+              "title": "Niente or nulla",
+              "body": "Nulla means the same as niente and follows the same rules: non capisco nulla.",
+              "examples": [
+                {
+                  "it": "Non capisco nulla.",
+                  "en": "I understand nothing."
+                }
+              ],
+              "introduces": [
+                "v2-a2-nobody-nothing.core"
+              ]
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s5",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "after-verb-non",
+              "stage": "guided",
+              "contextKey": "v2-a2-nobody-nothing.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Non c’è ___ a casa.",
+              "translation": "There is nobody at home.",
+              "answer": "nessuno",
+              "options": [
+                "nessuno",
+                "niente",
+                "qualcuno"
+              ],
+              "speak": "Non c’è nessuno a casa.",
+              "explanation": "A person is missing: nessuno, after non c’è.",
+              "hint": "Nobody is a person."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s6",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "after-verb-non",
+              "stage": "independent",
+              "contextKey": "v2-a2-nobody-nothing.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Non mangio ___ stasera.",
+              "translation": "I am eating nothing this evening.",
+              "answer": "niente",
+              "options": [
+                "niente",
+                "nessuno",
+                "qualcosa"
+              ],
+              "speak": "Non mangio niente stasera.",
+              "explanation": "A thing is missing: niente, with non before the verb.",
+              "hint": "Nothing is a thing."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s7",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "negative-first",
+              "stage": "independent",
+              "contextKey": "v2-a2-nobody-nothing.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ risponde al telefono.",
+              "translation": "Nobody answers the phone.",
+              "answer": "Nessuno",
+              "options": [
+                "Nessuno",
+                "Non nessuno",
+                "Niente"
+              ],
+              "speak": "Nessuno risponde al telefono.",
+              "explanation": "Nessuno opens the sentence, so there is no non.",
+              "hint": "The negative word comes first."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s8",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "negative-first",
+              "stage": "independent",
+              "contextKey": "v2-a2-nobody-nothing.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ è pronto.",
+              "translation": "Nothing is ready.",
+              "answer": "Niente",
+              "options": [
+                "Niente",
+                "Non niente",
+                "Nessuno"
+              ],
+              "speak": "Niente è pronto.",
+              "explanation": "Niente opens the sentence, so non is not used.",
+              "hint": "A thing, first in the sentence."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s9",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "after-verb-non",
+              "stage": "independent",
+              "contextKey": "v2-a2-nobody-nothing.independent-4",
+              "format": "order",
+              "prompt": "Put these supplied words in a natural order.",
+              "translation": "I understand nothing.",
+              "answer": "Non capisco niente.",
+              "tokens": [
+                "niente.",
+                "capisco",
+                "Non"
+              ],
+              "speak": "Non capisco niente.",
+              "explanation": "Niente follows the verb, so non goes first.",
+              "hint": "Start with the negative word non."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s10",
+              "kind": "passage",
+              "title": "An empty house",
+              "it": "Luca: «Anna, c’è qualcuno a casa?»\nAnna: «No, non c’è nessuno. Nessuno risponde.»\nLuca: «E in frigo? C’è qualcosa da mangiare?»\nAnna: «Niente. Non c’è nulla in frigo.»\nLuca: «Va bene, andiamo al bar.»",
+              "en": "Luca: “Anna, is there anyone at home?”\nAnna: “No, there is nobody. Nobody answers.”\nLuca: “And in the fridge? Is there anything to eat?”\nAnna: “Nothing. There is nothing in the fridge.”\nLuca: “All right, let’s go to the bar.”",
+              "mode": "listen",
+              "task": "Notice how the taught expression works in this short exchange.",
+              "audioId": "v2-a2-nobody-nothing.s10"
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s11",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "negative-first",
+              "stage": "independent",
+              "contextKey": "v2-a2-nobody-nothing.independent-5",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "«Chi risponde?» «___ risponde.»",
+              "translation": "“Who answers?” “Nobody answers.”",
+              "answer": "Nessuno",
+              "speak": "Chi risponde? Nessuno risponde.",
+              "explanation": "Nessuno is first, so no non is needed.",
+              "hint": "One word, first in the sentence.",
+              "strict": true,
+              "errors": [
+                {
+                  "answer": "Non nessuno",
+                  "tag": "extra-non",
+                  "explanation": "When nessuno opens the sentence, there is no non: Nessuno risponde."
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s12",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "after-verb-non",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-nobody-nothing.reserve-12",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Luca non dice ___.",
+              "translation": "Luca says nothing.",
+              "answer": "niente",
+              "options": [
+                "niente",
+                "nessuno",
+                "qualcosa"
+              ],
+              "speak": "Luca non dice niente.",
+              "explanation": "A thing after the verb: niente, with non before dice.",
+              "hint": "Nothing is a thing."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s13",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "after-verb-non",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-nobody-nothing.reserve-13",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Non conosco ___ qui.",
+              "translation": "I know nobody here.",
+              "answer": "nessuno",
+              "options": [
+                "nessuno",
+                "niente",
+                "qualcuno"
+              ],
+              "speak": "Non conosco nessuno qui.",
+              "explanation": "A person after the verb: nessuno, with non before conosco.",
+              "hint": "Nobody is a person."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s14",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "negative-first",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-nobody-nothing.reserve-14",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ mi chiama la domenica.",
+              "translation": "Nobody calls me on Sunday.",
+              "answer": "Nessuno",
+              "options": [
+                "Nessuno",
+                "Non nessuno",
+                "Niente"
+              ],
+              "speak": "Nessuno mi chiama la domenica.",
+              "explanation": "Nessuno is first, so there is no non.",
+              "hint": "The subject is the negative word."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s15",
+              "kind": "question",
+              "target": "v2-a2-nobody-nothing.core",
+              "facet": "negative-first",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-nobody-nothing.reserve-15",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "___ è facile.",
+              "translation": "Nothing is easy. Use nulla.",
+              "answer": "Nulla",
+              "options": [
+                "Nulla",
+                "Non nulla",
+                "Nessuno"
+              ],
+              "speak": "Nulla è facile.",
+              "explanation": "Nulla works like niente: first in the sentence, no non.",
+              "hint": "Nulla means nothing."
+            },
+            {
+              "id": "v2-a2-nobody-nothing.s16",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "After the verb, nessuno and niente need non before the verb: Non vedo nessuno. Non mangio niente. When nessuno or niente opens the sentence, non disappears: Nessuno risponde. Niente è pronto. Nulla means the same as niente.",
+              "examples": [
+                {
+                  "it": "Non capisco nulla.",
+                  "en": "I understand nothing."
+                }
+              ],
+              "introduces": []
+            }
+          ]
+        },
+        {
+          "id": "v2-a2-everyday-links",
+          "title": "Link replies with everyday words",
+          "outcome": "I can choose allora or dunque to draw a conclusion, però or invece to contrast, and anche or infatti to add or confirm.",
+          "minutes": 9,
+          "prerequisites": [
+            "v2-a2-nobody-nothing"
+          ],
+          "related": [
+            {
+              "entryId": "w:allora|adv"
+            },
+            {
+              "entryId": "w:però|conj"
+            },
+            {
+              "entryId": "w:invece|adv"
+            },
+            {
+              "entryId": "w:anche|adv"
+            },
+            {
+              "entryId": "w:infatti|conj"
+            },
+            {
+              "entryId": "w:dunque|conj"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Allora and dunque draw a conclusion: so, then. Però contrasts like ma and can sit inside the reply; invece sets one person or thing against another: instead, on the other hand. Anche adds too, right before the word it adds; infatti confirms what was just said: in fact.",
+          "targets": [
+            {
+              "id": "v2-a2-everyday-links.core",
+              "label": "Link replies with everyday words",
+              "explanation": "Allora and dunque draw a conclusion: so, then. Però contrasts like ma and can sit inside the reply; invece sets one person or thing against another: instead, on the other hand. Anche adds too, right before the word it adds; infatti confirms what was just said: in fact.",
+              "facets": [
+                "conclude",
+                "contrast",
+                "add-confirm"
+              ],
+              "minIndependent": 3,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Try link replies with everyday words again",
+                "body": "Allora and dunque mean so or then: what follows is the result of the situation. Allora is the everyday word; dunque is a little more formal.",
+                "examples": [
+                  {
+                    "it": "Piove. Allora resto a casa.",
+                    "en": "It is raining. So I stay at home."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-a2-everyday-links.s1",
+              "kind": "words",
+              "title": "Words for this exchange",
+              "body": "Listen and read these before answering.",
+              "words": [
+                {
+                  "it": "allora",
+                  "en": "so; then"
+                },
+                {
+                  "it": "dunque",
+                  "en": "so; therefore"
+                },
+                {
+                  "it": "però",
+                  "en": "but; however"
+                },
+                {
+                  "it": "invece",
+                  "en": "instead; on the other hand"
+                },
+                {
+                  "it": "anche",
+                  "en": "also; too"
+                },
+                {
+                  "it": "infatti",
+                  "en": "in fact; indeed"
+                },
+                {
+                  "it": "uscire",
+                  "en": "to go out"
+                },
+                {
+                  "it": "stanco",
+                  "en": "tired (masculine)"
+                },
+                {
+                  "it": "libero",
+                  "en": "free; available (masculine)"
+                },
+                {
+                  "it": "cinema",
+                  "en": "cinema",
+                  "article": "il",
+                  "plural": "cinema"
+                }
+              ]
+            },
+            {
+              "id": "v2-a2-everyday-links.s2",
+              "kind": "teach",
+              "title": "Draw a conclusion",
+              "body": "Allora and dunque mean so or then: what follows is the result of the situation. Allora is the everyday word; dunque is a little more formal.",
+              "examples": [
+                {
+                  "it": "Piove. Allora resto a casa.",
+                  "en": "It is raining. So I stay at home."
+                }
+              ],
+              "introduces": [
+                "v2-a2-everyday-links.core"
+              ]
+            },
+            {
+              "id": "v2-a2-everyday-links.s3",
+              "kind": "teach",
+              "title": "Contrast",
+              "body": "Però means but, like ma, and can also come after a comma inside the reply. Invece sets two people or things against each other: instead, on the other hand.",
+              "examples": [
+                {
+                  "it": "Vorrei venire, però sono stanco. Anna esce; io invece resto a casa.",
+                  "en": "I would like to come, but I am tired. Anna is going out; I, instead, am staying at home."
+                }
+              ],
+              "introduces": [
+                "v2-a2-everyday-links.core"
+              ]
+            },
+            {
+              "id": "v2-a2-everyday-links.s4",
+              "kind": "teach",
+              "title": "Add and confirm",
+              "body": "Anche means also or too and goes right before the word it adds: anche tu, anche io. Infatti confirms what was just said: in fact, indeed.",
+              "examples": [
+                {
+                  "it": "Vieni anche tu? Sì, infatti ho già il biglietto.",
+                  "en": "Are you coming too? Yes, in fact I already have the ticket."
+                }
+              ],
+              "introduces": [
+                "v2-a2-everyday-links.core"
+              ]
+            },
+            {
+              "id": "v2-a2-everyday-links.s5",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "conclude",
+              "stage": "guided",
+              "contextKey": "v2-a2-everyday-links.guided",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Piove. ___ resto a casa.",
+              "translation": "It is raining. So I stay at home.",
+              "answer": "Allora",
+              "options": [
+                "Allora",
+                "Però",
+                "Anche"
+              ],
+              "speak": "Piove. Allora resto a casa.",
+              "explanation": "Staying at home follows from the rain: allora.",
+              "hint": "The second sentence is the result of the first."
+            },
+            {
+              "id": "v2-a2-everyday-links.s6",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "contrast",
+              "stage": "independent",
+              "contextKey": "v2-a2-everyday-links.independent-1",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Vorrei venire, ___ sono stanco.",
+              "translation": "I would like to come, but I am tired.",
+              "answer": "però",
+              "options": [
+                "però",
+                "allora",
+                "infatti"
+              ],
+              "speak": "Vorrei venire, però sono stanco.",
+              "explanation": "Being tired goes against coming: però.",
+              "hint": "The second part contrasts with the first."
+            },
+            {
+              "id": "v2-a2-everyday-links.s7",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "add-confirm",
+              "stage": "independent",
+              "contextKey": "v2-a2-everyday-links.independent-2",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Vieni ___ tu alla festa?",
+              "translation": "Are you coming to the party too?",
+              "answer": "anche",
+              "options": [
+                "anche",
+                "invece",
+                "dunque"
+              ],
+              "speak": "Vieni anche tu alla festa?",
+              "explanation": "Anche adds you to the people coming.",
+              "hint": "Too means also."
+            },
+            {
+              "id": "v2-a2-everyday-links.s8",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "contrast",
+              "stage": "independent",
+              "contextKey": "v2-a2-everyday-links.independent-3",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Anna esce; io ___ resto a casa.",
+              "translation": "Anna is going out; I, instead, am staying at home.",
+              "answer": "invece",
+              "options": [
+                "invece",
+                "infatti",
+                "allora"
+              ],
+              "speak": "Anna esce; io invece resto a casa.",
+              "explanation": "Invece sets me against Anna.",
+              "hint": "Two people do opposite things."
+            },
+            {
+              "id": "v2-a2-everyday-links.s9",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "add-confirm",
+              "stage": "independent",
+              "contextKey": "v2-a2-everyday-links.independent-4",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Sei stanco?» «Sì, ___ vado a dormire.»",
+              "translation": "“Are you tired?” “Yes, in fact I am going to sleep.”",
+              "answer": "infatti",
+              "options": [
+                "infatti",
+                "però",
+                "invece"
+              ],
+              "speak": "Sei stanco? Sì, infatti vado a dormire.",
+              "explanation": "Infatti confirms the tiredness with a matching action.",
+              "hint": "The reply confirms; it does not contrast."
+            },
+            {
+              "id": "v2-a2-everyday-links.s10",
+              "kind": "passage",
+              "title": "Pizza this evening",
+              "it": "Anna: «Stasera facciamo una pizza. Vieni anche tu?»\nLuca: «Vorrei, però domani parto presto.»\nAnna: «Allora mangiamo alle sette. Marco invece arriva alle otto.»\nLuca: «Va bene! Infatti alle sette sono libero. Dunque, a stasera!»",
+              "en": "Anna: “This evening we are making a pizza. Are you coming too?”\nLuca: “I would like to, but tomorrow I leave early.”\nAnna: “Then we eat at seven. Marco, instead, arrives at eight.”\nLuca: “All right! In fact at seven I am free. So, see you this evening!”",
+              "mode": "read",
+              "task": "Notice how the taught expression works in this short exchange."
+            },
+            {
+              "id": "v2-a2-everyday-links.s11",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "conclude",
+              "stage": "independent",
+              "contextKey": "v2-a2-everyday-links.independent-5",
+              "format": "type",
+              "prompt": "Complete the Italian sentence with the taught form.",
+              "context": "Hai fame? ___ mangiamo adesso.",
+              "translation": "Are you hungry? Then let’s eat now. Use the everyday word for so or then.",
+              "answer": "Allora",
+              "accepted": [
+                "Dunque"
+              ],
+              "speak": "Hai fame? Allora mangiamo adesso.",
+              "explanation": "Eating now follows from the hunger: allora.",
+              "hint": "The conclusion follows from the question.",
+              "strict": true
+            },
+            {
+              "id": "v2-a2-everyday-links.s12",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "conclude",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-everyday-links.reserve-12",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Non c’è pane. ___ vado al mercato.",
+              "translation": "There is no bread. So I am going to the market.",
+              "answer": "Allora",
+              "options": [
+                "Allora",
+                "Però",
+                "Invece"
+              ],
+              "speak": "Non c’è pane. Allora vado al mercato.",
+              "explanation": "Going to the market follows from the missing bread: allora.",
+              "hint": "The second sentence is a consequence."
+            },
+            {
+              "id": "v2-a2-everyday-links.s13",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "conclude",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-everyday-links.reserve-13",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Il treno parte alle otto; ___ partiamo alle sette.",
+              "translation": "The train leaves at eight; therefore we leave at seven.",
+              "answer": "dunque",
+              "options": [
+                "dunque",
+                "invece",
+                "anche"
+              ],
+              "speak": "Il treno parte alle otto; dunque partiamo alle sette.",
+              "explanation": "Leaving at seven follows from the train time: dunque.",
+              "hint": "Therefore draws a conclusion."
+            },
+            {
+              "id": "v2-a2-everyday-links.s14",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "contrast",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-everyday-links.reserve-14",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "Luca mangia la pizza; Anna ___ mangia la pasta.",
+              "translation": "Luca eats pizza; Anna, instead, eats pasta.",
+              "answer": "invece",
+              "options": [
+                "invece",
+                "infatti",
+                "allora"
+              ],
+              "speak": "Luca mangia la pizza; Anna invece mangia la pasta.",
+              "explanation": "Invece sets Anna against Luca.",
+              "hint": "Two people, two different choices."
+            },
+            {
+              "id": "v2-a2-everyday-links.s15",
+              "kind": "question",
+              "target": "v2-a2-everyday-links.core",
+              "facet": "add-confirm",
+              "stage": "independent",
+              "reserve": true,
+              "contextKey": "v2-a2-everyday-links.reserve-15",
+              "format": "choice",
+              "prompt": "Choose the expression that fits this situation.",
+              "context": "«Luca ha fame?» «Sì, ___ non ha mangiato.»",
+              "translation": "“Is Luca hungry?” “Yes, in fact he has not eaten.”",
+              "answer": "infatti",
+              "options": [
+                "infatti",
+                "però",
+                "invece"
+              ],
+              "speak": "Luca ha fame? Sì, infatti non ha mangiato.",
+              "explanation": "Infatti confirms the hunger with its reason.",
+              "hint": "The reply agrees and adds a confirming fact."
+            },
+            {
+              "id": "v2-a2-everyday-links.s16",
+              "kind": "portfolio",
+              "title": "Reply with a link",
+              "prompt": "Write a four-line exchange: an invitation, a reply with però or invece, a conclusion with allora or dunque, and one line with anche or infatti.",
+              "mode": "write",
+              "model": "Stasera vado al cinema. Vieni anche tu? Vorrei, però sono stanco. Allora resta a casa; io invece esco.",
+              "rubric": [
+                "Use each link for the relation it expresses.",
+                "Keep the replies short and natural.",
+                "Include one conclusion and one contrast."
+              ]
+            },
+            {
+              "id": "v2-a2-everyday-links.s17",
+              "kind": "teach",
+              "title": "Keep this",
+              "body": "Allora and dunque draw a conclusion: so, then. Però contrasts like ma and can sit inside the reply; invece sets one person or thing against another: instead, on the other hand. Anche adds too, right before the word it adds; infatti confirms what was just said: in fact.",
+              "examples": [
+                {
+                  "it": "Vieni anche tu? Sì, infatti ho già il biglietto.",
+                  "en": "Are you coming too? Yes, in fact I already have the ticket."
                 }
               ],
               "introduces": []
