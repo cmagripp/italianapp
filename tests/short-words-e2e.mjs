@@ -147,7 +147,8 @@ try{
   await fit('plural');await shot('430-dark-plural-with-article');
   await solveJourneyQuestion(page,q,{expected});await page.locator('[data-continue]').click();
   q=await nextQuestion();assert.equal(q.type,'pairs');assert.equal(await page.locator('[data-pair-left]').count(),4);assert.equal(await page.locator('[data-pair-right]').count(),4);
-  assert.deepEqual((await page.locator('[data-pair-left]').allTextContents()).map(t=>t.replace(/Matched$/,'').trim()).sort(),q.pairs.map(p=>p.label).sort());
+  assert.deepEqual((await page.locator('[data-pair-left] .journey-pair-front').allTextContents()).sort(),q.pairs.map(p=>p.label).sort(),'left tiles are the articles');
+  assert.deepEqual((await page.locator('[data-pair-right] .journey-pair-front').allTextContents()).sort(),q.rightTiles.map(t=>t.text).sort(),'right tiles are the bare nouns');
   const tiles=await page.locator('[data-pair-left],[data-pair-right]').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {text:el.textContent.trim(),inView:r.top>=0&&r.bottom<=innerHeight&&r.width>0};}));
   assert.equal(tiles.length,8);await fit('board');await shot('430-dark-article-board');
   return {inView:tiles.filter(t=>t.inView).length,tiles:tiles.map(t=>t.text)};

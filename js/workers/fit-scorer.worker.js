@@ -182,9 +182,12 @@ export async function loadScorer() {
   ort.env.logLevel = 'error';
   ort.env.wasm.numThreads = 1;        // GitHub Pages sends no COOP/COEP, so no SharedArrayBuffer, so no threads
   ort.env.wasm.proxy = false;         // this is already a worker
-  ort.env.wasm.wasmPaths = VENDOR;    // where the runtime fetches its .wasm when the cache does not have it
+  // Where the runtime fetches its .wasm when the cache does not have it. The object form, with `wasm` only: a string
+  // prefix (or an `mjs` entry) makes the runtime import a separate ort-wasm-simd-threaded.mjs from there instead of the
+  // Emscripten glue bundled into ort.wasm.bundle.min.mjs, and that file is not shipped.
+  ort.env.wasm.wasmPaths = { wasm: ORT_WASM };
   const [wasm, model, vocab] = await Promise.all([fromCache(ORT_WASM), loadFile(MODEL_FILE), loadFile(VOCAB_FILE)]);
-  if (wasm) ort.env.wasm.wasmBinary = await wasm.arrayBuffer();
+  if (wasm) ort.env.wasm.wasmBinary = await wasm.arrayBuffer();   // the cached runtime: no request at all
   const tok = makeTokenizer(await vocab.text());
   if (tok.MASK === undefined || tok.CLS === undefined) throw new Error('vocab.txt has no special tokens');
   const session = await ort.InferenceSession.create(new Uint8Array(await model.arrayBuffer()), { executionProviders: ['wasm'], graphOptimizationLevel: 'all' });

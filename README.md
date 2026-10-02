@@ -37,7 +37,7 @@ The repo contains two workflows:
 
 Any static host works too (Netlify, Vercel, Cloudflare Pages, an S3 bucket): upload the repository as-is, at the domain root or under any sub-path (every URL in the app is relative). `data/vocab.json`, `data/verbs.json` and `data/stats.json` must exist, which `node tools/build-data.mjs` produces; `data/grammar.json`, the course packs (`data/course-v2/`, `data/grammar-course/`), `js/learning/verb-progressive-data.js` and `audio/course-v2/` are used as they are in the repository.
 
-**Updates and offline use.** `sw.js` installs one versioned cache (`VERSION`) holding the whole shell: HTML, manifest, icon, every stylesheet and JS module, the dictionary data, `data/grammar.json`, the seven course packs, the earlier course's packs and the course audio catalogue. Installation is atomic: the new worker takes over only after every listed file has been fetched (revalidated with the server, so an unchanged file comes back as a 304), and a failed or partial update leaves the previous complete version in use. Listed files are then served from that cache, so a change to any of them reaches installed apps only through a new `VERSION`. The version is stamped from a content hash: run `node tools/stamp-sw.mjs` after changing a shell file or course data (the deploy workflow runs it too, and `tools/check-shell.mjs` fails when the stamp is stale). On activation the previous version's cache is deleted, while the course-audio cache (`parola-course-audio-v2`) is kept across upgrades. An app that is open while a new worker takes over reloads itself on its next navigation, so old and new modules never mix, and an installed app looks for a new worker whenever it returns to the foreground. Course audio is not precached: `audio/course-v2/` requests are answered from the audio cache for downloaded units (with byte-range responses, so offline playback can seek) and from the network otherwise. Other requests go to the network, with `index.html` as the offline fallback for navigations.
+**Updates and offline use.** `sw.js` installs one versioned cache (`VERSION`) holding the whole shell: HTML, manifest, icon, every stylesheet and JS module, the dictionary data, `data/grammar.json`, the seven course packs, the earlier course's packs and the course audio catalogue. Installation is atomic: the new worker takes over only after every listed file has been fetched (revalidated with the server, so an unchanged file comes back as a 304), and a failed or partial update leaves the previous complete version in use. Listed files are then served from that cache, so a change to any of them reaches installed apps only through a new `VERSION`. The version is stamped from a content hash: run `node tools/stamp-sw.mjs` after changing a shell file or course data (the deploy workflow runs it too, and `tools/check-shell.mjs` fails when the stamp is stale). On activation the previous version's cache is deleted, while the course-audio cache (`parola-course-audio-v2`) is kept across upgrades. An app that is open while a new worker takes over reloads itself on its next navigation, so old and new modules never mix, and an installed app looks for a new worker whenever it returns to the foreground. Course audio is not precached: `audio/course-v2/` requests are answered from the audio cache for downloaded units (with byte-range responses, so offline playback can seek) and from the network otherwise. The sentence workshop's optional fit scorer (`models/fit-scorer/` and `vendor/ort/`, 83 MB) is not precached either: `js/learning/fit-scorer.js` downloads it on demand into its own cache (`parola-fit-scorer-v1`, also kept across upgrades), `models/` and `vendor/ort/` requests are answered from that cache when it has them and from the network otherwise, and the scorer's worker script (`js/workers/`) is refreshed from the network whenever it answers and served from that cache when it does not. Other requests go to the network, with `index.html` as the offline fallback for navigations.
 
 ## Running locally
 
@@ -46,6 +46,7 @@ node tools/build-data.mjs                # merge data/vocab/*.json + data/verbs/
 node tools/build-verb-progressive.mjs    # compile data/verb-progressive/*.json → js/learning/verb-progressive-data.js (--check only verifies)
 node tools/test-conjugator.mjs           # 2,802 conjugation spot checks
 node tools/check-shell.mjs               # sw.js precache list vs the file tree (run after adding a module or stylesheet)
+node tools/test-fit-scorer.mjs           # the sentence workshop's fit scorer: tokenizer, PLL arithmetic, fit mapping, published model and runtime files
 python3 -m http.server 8000              # or any static server, then open http://localhost:8000
 ```
 
@@ -54,7 +55,7 @@ The tools are plain Node ES modules without dependencies; CI uses Node 22.
 ## Project layout
 
 ```
-index.html, manifest.webmanifest, sw.js   app shell, PWA manifest, offline cache (atomic shell precache + separate course-audio cache)
+index.html, manifest.webmanifest, sw.js   app shell, PWA manifest, offline cache (atomic shell precache + separate course-audio and fit-scorer caches)
 DESIGN.md                                 the design brief and the implemented token/component reference
 css/app.css                               design system tokens and components (dark "Notte" default, light "Mezzogiorno")
 css/learn.css, reference.css, games.css, views-*.css   screen-specific styles
@@ -81,6 +82,8 @@ data/course-v2/                           Everyday Italian packs (Foundations–
 data/grammar-course/                      the earlier 129-lesson course, kept for saved work
 data/verb-progressive/                    per-verb progressive-form policy (see its CONTRACT.md)
 audio/course-v2/                          course audio clips (.m4a), one folder per stage
+models/fit-scorer/, vendor/ort/           the sentence workshop's optional fit scorer: int8 BERTino masked-language model (68.7 MB, models/fit-scorer/README.md)
+                                          and ONNX Runtime Web 1.30 (14.3 MB), downloaded on demand by js/learning/fit-scorer.js, run by js/workers/fit-scorer.worker.js
 docs/                                     course plan and contract, release notes, audits
 dev/fx.html                               component playground
 tools/                                    validator, data/course/progressive builders, site build (build-site.mjs), service-worker stamp (stamp-sw.mjs), course authoring and audio scripts, check suites

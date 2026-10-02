@@ -46,7 +46,7 @@
           "prompt": "Build the sentence",
           "en": "Tomorrow I will eat a pizza.",
           "answer": "Domani mangerò una pizza.",
-          "accepted": [],
+          "accepted": ["Mangerò una pizza domani."],
           "tokens": ["Domani", "mangerò", "una", "pizza."],
           "distractors": ["mangio"],
           "explanation": "Domani points to the future, so mangiare takes the future ending: mangerò, not mangio.",
@@ -62,7 +62,7 @@
             {
               "accept": ["andrai"],
               "options": ["andrai", "andrò", "andremo"],
-              "bank": ["vai", "andrete"],
+              "bank": ["andranno", "andrete"],
               "free": false,
               "slot": null,
               "explanation": "tu takes andrai: the future of andare is andr- plus -ai."
@@ -78,8 +78,8 @@
           "answer": "L'anno prossimo saremo in Italia.",
           "accepted": [],
           "tokens": ["L'anno", "prossimo", "saremo", "in", "Italia."],
-          "distractors": ["siamo", "sarete"],
-          "explanation": "noi takes saremo, the future of essere. Siamo is the present.",
+          "distractors": ["sarò", "sarete"],
+          "explanation": "noi takes saremo, the future of essere; sarò is io and sarete is voi.",
           "hint": "When comes first here."
         },
         {
@@ -91,8 +91,8 @@
           "blanks": [
             {
               "accept": ["guarderò", "vedrò"],
-              "options": ["guarderò", "vedrò", "guardo", "guarderai"],
-              "bank": ["vedo", "guarderemo"],
+              "options": ["guarderò", "vedrò", "guarderai", "guarderanno"],
+              "bank": ["vedrai", "guarderemo"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
               "explanation": "io takes -ò in the future: guarderò (guardare) or vedrò (vedere)."
@@ -185,11 +185,11 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Mia sorella", "person": 2 },
-                { "it": "Noi", "person": 3 },
-                { "it": "I miei amici", "person": 5 }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Mia sorella", "en": "my sister", "person": 2, "gender": "f" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "I miei amici", "en": "my friends", "person": 5, "gender": "m" }
               ]
             },
             {
@@ -271,7 +271,7 @@
           "prompt": "Build the sentence",
           "en": "Tomorrow I want to go to the sea.",
           "answer": "Domani voglio andare al mare.",
-          "accepted": [],
+          "accepted": ["Voglio andare al mare domani."],
           "tokens": ["Domani", "voglio", "andare", "al", "mare."],
           "distractors": ["vuole"],
           "explanation": "io takes voglio; the second verb stays in the infinitive: andare.",
@@ -328,7 +328,7 @@
                 {
                   "accept": ["vado"],
                   "options": ["vado", "andare", "vai"],
-                  "bank": ["andiamo"],
+                  "bank": ["va"],
                   "free": false,
                   "slot": null,
                   "explanation": "A fixed plan takes the present: vado. The infinitive andare needs a modal before it."
@@ -369,7 +369,7 @@
           "prompt": "Build the sentence",
           "en": "Next week we can book the hotel.",
           "answer": "La settimana prossima possiamo prenotare l'albergo.",
-          "accepted": [],
+          "accepted": ["Possiamo prenotare l'albergo la settimana prossima."],
           "tokens": ["La", "settimana", "prossima", "possiamo", "prenotare", "l'albergo."],
           "distractors": ["possono"],
           "explanation": "noi takes possiamo, then the infinitive prenotare.",
@@ -410,11 +410,11 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Mia madre", "person": 2 },
-                { "it": "Noi", "person": 3 },
-                { "it": "I miei amici", "person": 5 }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Mia madre", "en": "my mother", "person": 2, "gender": "f" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "I miei amici", "en": "my friends", "person": 5, "gender": "m" }
               ]
             },
             {
@@ -422,7 +422,7 @@
               "items": [
                 { "inf": "volere", "en": "want to" },
                 { "inf": "dovere", "en": "have to" },
-                { "inf": "potere", "en": "can" }
+                { "inf": "potere", "en": "be able to" }
               ]
             },
             {
@@ -594,8 +594,8 @@
           "answer": "Se studi, passerai l'esame.",
           "accepted": [],
           "tokens": ["Se", "studi,", "passerai", "l'esame."],
-          "distractors": ["studierai", "passi"],
-          "explanation": "Present after se (studi), future for the result (passerai).",
+          "distractors": ["studiate", "passerà"],
+          "explanation": "Present after se (studi), future for the result (passerai); both verbs are about tu.",
           "hint": "Start with se."
         },
         {
@@ -633,11 +633,11 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Mia sorella", "person": 2 },
-                { "it": "Noi", "person": 3 },
-                { "it": "I miei amici", "person": 5 }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Mia sorella", "en": "my sister", "person": 2, "gender": "f" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "I miei amici", "en": "my friends", "person": 5, "gender": "m" }
               ]
             },
             {
@@ -837,7 +837,7 @@
           "prompt": "Build the sentence",
           "en": "On Sunday we have to study for the exam.",
           "answer": "Domenica dobbiamo studiare per l'esame.",
-          "accepted": [],
+          "accepted": ["Dobbiamo studiare per l'esame domenica."],
           "tokens": ["Domenica", "dobbiamo", "studiare", "per", "l'esame."],
           "distractors": ["devono"],
           "explanation": "noi takes dobbiamo; studiare stays in the infinitive.",
@@ -896,11 +896,11 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Marco", "person": 2 },
-                { "it": "Noi", "person": 3 },
-                { "it": "Voi", "person": 4 }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Marco", "en": "Marco", "person": 2, "gender": "m" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "Voi", "en": "you all", "person": 4 }
               ]
             },
             {

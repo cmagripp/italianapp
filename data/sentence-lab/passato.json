@@ -426,10 +426,10 @@
               "role": "object",
               "items": [
                 { "it": "a casa", "en": "home" },
-                { "it": "al mare", "en": "at the seaside" },
-                { "it": "al cinema", "en": "at the cinema" },
+                { "it": "al mare", "en": "to the seaside" },
+                { "it": "al cinema", "en": "to the cinema" },
                 { "it": "alla stazione", "en": "at the station" },
-                { "it": "alla festa", "en": "at the party" },
+                { "it": "alla festa", "en": "to the party" },
                 { "it": "con gli amici", "en": "with friends" }
               ]
             },

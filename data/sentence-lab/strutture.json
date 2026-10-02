@@ -143,7 +143,7 @@
           "template": "Anna? ____ qui da dieci minuti.",
           "en": "Anna? I've been waiting for her here for ten minutes.",
           "blanks": [
-            { "accept": ["L'aspetto"], "options": ["L'aspetto", "La aspetto", "Lo aspetto"], "bank": ["Li aspetto"], "free": false, "slot": null, "explanation": "Before a vowel, la becomes l': l'aspetto." }
+            { "accept": ["L'aspetto"], "options": ["L'aspetto", "Le aspetto", "Lo aspetto"], "bank": ["Li aspetto"], "free": false, "slot": null, "explanation": "Anna is one woman, so la; before a vowel la becomes l': l'aspetto." }
           ],
           "hint": "Aspetto starts with a vowel."
         },
@@ -232,7 +232,7 @@
           "prompt": "Build the question",
           "en": "Who is coming to the party tonight?",
           "answer": "Chi viene alla festa stasera?",
-          "accepted": [],
+          "accepted": ["Chi viene stasera alla festa?"],
           "tokens": ["Chi", "viene", "alla", "festa", "stasera?"],
           "distractors": ["Che", "vengono"],
           "explanation": "Chi takes a singular verb: chi viene.",
@@ -257,7 +257,7 @@
           "template": "Che cosa ____ domenica? Vado al mare.",
           "en": "What are you doing on Sunday? I'm going to the seaside.",
           "blanks": [
-            { "accept": ["fai"], "options": ["fai", "faccio", "fa"], "bank": ["fate", "facciamo"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "The answer says vado, so the question is to tu: fai." }
+            { "accept": ["fai"], "options": ["fai", "faccio", "fanno"], "bank": ["fate", "facciamo"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "The answer says vado, so the question is to tu: fai." }
           ],
           "hint": "Who answers? Io, so the question is to tu."
         },
@@ -592,7 +592,7 @@
           "prompt": "Build the sentence",
           "en": "In the morning I wake up at seven.",
           "answer": "La mattina mi sveglio alle sette.",
-          "accepted": [],
+          "accepted": ["Mi sveglio alle sette la mattina."],
           "tokens": ["La", "mattina", "mi", "sveglio", "alle", "sette."],
           "distractors": ["si", "ti"],
           "explanation": "Io takes mi + sveglio.",
@@ -1033,7 +1033,7 @@
               "template": "Volentieri! ____ film vedete?",
               "en": "Gladly! ____ film are you seeing?",
               "blanks": [
-                { "accept": ["Quale", "Che"], "options": ["Quale", "Che", "Chi"], "bank": ["Quali", "Dove"], "free": false, "slot": null, "explanation": "Which film: quale (or che) film." }
+                { "accept": ["Quale", "Che"], "options": ["Quale", "Che", "Chi"], "bank": ["Quanto", "Dove"], "free": false, "slot": null, "explanation": "Which film: quale (or che) film." }
               ],
               "reactions": [
                 { "when": ["Quale", "Che"], "it": "Una commedia italiana, nuova.", "en": "An Italian comedy, a new one." },
@@ -1087,7 +1087,7 @@
           "prompt": "Build the exchange",
           "en": "Why aren't you coming? Because I'm getting up early tomorrow.",
           "answer": "Perché non vieni? Perché mi alzo presto domani.",
-          "accepted": [],
+          "accepted": ["Perché non vieni? Perché domani mi alzo presto."],
           "tokens": ["Perché", "non", "vieni?", "Perché", "mi", "alzo", "presto", "domani."],
           "distractors": ["ti"],
           "explanation": "Perché asks and answers; io takes mi alzo.",

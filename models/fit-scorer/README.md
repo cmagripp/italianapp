@@ -109,9 +109,13 @@ The int8 model keeps the fp32 order in both cases (stanco > felice > verde > tav
 and the WASM backend reproduces the native numbers exactly. Per-candidate latency on a 4-core x86 container: 30 to 130 ms
 native, 80 to 220 ms on single-thread WASM; session load 0.3 s native, 0.7 s WASM. Phone timings are not measured yet.
 
-## Browser runtime plan (onnxruntime-web 1.30.0, MIT)
+## Browser runtime (onnxruntime-web 1.30.0, MIT)
 
-Serve from `vendor/ort/` in the repo; two files are enough:
+Implemented: `js/learning/fit-scorer.js` (page side: support check, install into the `parola-fit-scorer-v1` cache with
+progress, `scoreFit`, the fit scale and notes) and `js/workers/fit-scorer.worker.js` (a module worker: the tokenizer and
+recipe above, one ONNX session, PLL per candidate); `sw.js` keeps that cache across updates and serves `models/` and
+`vendor/ort/` from it; `tools/test-fit-scorer.mjs` checks the tokenizer and arithmetic against this file and the proof.
+Served from `vendor/ort/` in the repo; two files are enough:
 
 | File (from `node_modules/onnxruntime-web/dist/`) | Bytes | Role |
 |---|---|---|
@@ -124,11 +128,14 @@ and the `ort.all.*` / `ort.min.*` entries that pull WebGPU/WebNN in.
 
 ```js
 import * as ort from './vendor/ort/ort.wasm.bundle.min.mjs';
-ort.env.wasm.wasmPaths = './vendor/ort/';
+// object form with `wasm` only: a string prefix (or an `mjs` entry) makes the runtime import a separate
+// ort-wasm-simd-threaded.mjs from there instead of the glue bundled into ort.wasm.bundle.min.mjs, which is not shipped
+ort.env.wasm.wasmPaths = { wasm: new URL('./vendor/ort/ort-wasm-simd-threaded.wasm', location.href).href };
 ort.env.wasm.numThreads = 1;         // GitHub Pages sends no COOP/COEP, so no SharedArrayBuffer, so no threads
 const bytes = await (await caches.open('parola-fit-scorer-v1')).match('./models/fit-scorer/model.onnx') /* or fetch */;
 const session = await ort.InferenceSession.create(await bytes.arrayBuffer(), { executionProviders: ['wasm'] });
 ```
 
-Run it inside a Web Worker so a 100 to 300 ms forward pass never blocks the UI, keep the model in its own Cache like
-the audio packs (the service worker must not precache it), and feed `BigInt64Array` tensors exactly as `score.mjs` does.
+It runs inside a Web Worker so a 100 to 300 ms forward pass never blocks the UI, keeps the model in its own Cache like
+the audio packs (the service worker never precaches it), and feeds `BigInt64Array` tensors exactly as `score.mjs` does.
+The browser's `.wasm` is read from the cache too (`env.wasm.wasmBinary`), so the runtime makes no request of its own.

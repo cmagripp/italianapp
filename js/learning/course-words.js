@@ -2,9 +2,12 @@
 // opening `words` step to dictionary entries and synthesise matching boards over them.
 // Pure and deterministic: no DOM, storage, network or randomness; importable in Node.
 import { LEVELS, article, withArticle, hasPluralForm, isPluralOnly } from '../data.js';
+import { conjugate, accepted, splitClitic } from '../conjugator.js';
 import { buildLesson } from './lesson-content.js';
 
 const norm = s => String(s ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
+// Index and gloss keys drop trailing punctuation, so "Quanto costa?", "Mi chiamo…" and the headword "quanto costa?" meet.
+const keyOf = s => norm(s).replace(/[\s.!?…,;:]+$/u, '').trim();
 const ARTICLE = /^(?:(?:il|lo|la|i|gli|le|un|uno|una)\s+|(?:l|un)')/;
 const usable = v => typeof v === 'string' && !!v.trim() && !['-', '—'].includes(v.trim());
 const kindOf = e => e.kind || (e.inf ? 'verb' : 'word');
@@ -14,29 +17,71 @@ const PROMPTS = { meaning: 'Match each word to its meaning', recall: 'Now from t
 
 // ---------- dictionary index (one per dictionary snapshot) ----------
 const indexes = new WeakMap();
+const add = (map, key, e) => { if (!usable(key)) return; key = keyOf(key); if (!key) return; if (!map.has(key)) map.set(key, []); map.get(key).push(e); };
+// Closed-class determiners record their agreement forms in the note; the schema's `forms` field belongs to adjectives.
+const DETERMINER_FORMS = new Map(Object.entries({
+  mio: ['mia', 'miei', 'mie'], tuo: ['tua', 'tuoi', 'tue'], suo: ['sua', 'suoi', 'sue'], nostro: ['nostra', 'nostri', 'nostre'], vostro: ['vostra', 'vostri', 'vostre'],
+  questo: ['questa', 'questi', 'queste', "quest'"], quello: ['quel', 'quella', 'quelli', 'quelle', 'quei', 'quegli', "quell'"], tutto: ['tutta', 'tutti', 'tutte'], altro: ['altra', 'altri', 'altre'],
+}));
+// A noun's feminine plural is supplied, never inferred: `femPl`, or the note's "Plural: amici (m), amiche (f)" /
+// "Feminine: amica, pl. amiche." (the same readings as sentence-lookup.js).
+function femininePlural(e) {
+  if (usable(e.femPl)) return e.femPl;
+  const note = String(e.note || '');
+  const pair = note.match(/\bPlural:\s*[\p{L}’' -]+\s*\(m\),\s*([\p{L}’' -]+)\s*\(f\)/u);
+  if (pair) return pair[1].trim();
+  const named = note.match(/\bFeminine:\s*([\p{L}’' -]+),\s*pl\.\s*([\p{L}’' -]+)[.;]/u);
+  return named && norm(named[1]) === norm(e.fem) ? named[2].trim() : '';
+}
 function dictionaryIndex(vocab, verbs) {
   const cached = indexes.get(vocab);
   if (cached && cached.verbs === verbs) return cached;
-  const headwords = new Map(), plurals = new Map(), fems = new Map(), byId = new Map();
-  const add = (map, key, e) => { if (!usable(key)) return; key = norm(key); if (!map.has(key)) map.set(key, []); map.get(key).push(e); };
+  const headwords = new Map(), plurals = new Map(), fems = new Map(), forms = new Map(), byId = new Map(), verbEntries = [];
   // Raw JSON entries (Node) carry no `kind`; mirror loadData without touching the originals.
   for (const raw of [...(Array.isArray(vocab) ? vocab : []), ...(Array.isArray(verbs) ? verbs : [])]) {
     if (!raw || typeof raw !== 'object' || !raw.id) continue;
     const e = raw.kind ? raw : { ...raw, kind: kindOf(raw), it: raw.inf || raw.it };
     byId.set(e.id, e);
     add(headwords, e.inf || e.it, e);
-    if (e.kind === 'word' && e.pos === 'noun') {
+    if (e.kind === 'verb') { if (usable(e.inf)) verbEntries.push(e); continue; }
+    if (e.pos === 'noun') {
       if (hasPluralForm(e) && norm(e.pl) !== norm(e.it)) add(plurals, e.pl, e);
-      if (usable(e.fem)) add(fems, e.fem, e);
+      if (usable(e.fem)) { add(fems, e.fem, e); add(fems, femininePlural(e), e); }
     }
+    for (const f of Array.isArray(e.forms) ? e.forms : []) if (norm(f) !== norm(e.it)) add(forms, f, e);
+    for (const f of DETERMINER_FORMS.get(norm(e.it)) || []) add(forms, f, e);
   }
-  const index = { verbs, headwords, plurals, fems, byId };
+  const index = { verbs, headwords, plurals, fems, forms, byId, verbEntries, conjugated: null };
   indexes.set(vocab, index);
   return index;
 }
+// Conjugated forms of every dictionary verb, keyed by the whole form ("mi alzo", "ho mangiato", "sono andata", "va'"):
+// each cell of the paradigm with its alternatives and agreement variants, the non-finite forms (present participle
+// aside), the participle's agreement forms and, for enclisis, the gerund and imperative forms. Built on the first
+// conjugated-form lookup only: conjugating every verb costs a few hundred milliseconds and the boards never need a verb.
+const variants = cell => accepted(cell).flatMap(f => /o\/a\b/.test(f) ? [f.replace(/o\/a\b/g, 'o'), f.replace(/o\/a\b/g, 'a')] : /i\/e\b/.test(f) ? [f.replace(/i\/e\b/g, 'i'), f.replace(/i\/e\b/g, 'e')] : [f]).filter(usable);
+function conjugatedIndex(index) {
+  if (index.conjugated) return index.conjugated;
+  const forms = new Map(), attachable = new Map();
+  for (const e of index.verbEntries) {
+    let c; try { c = conjugate(e.inf, { aux: e.aux, isc: e.isc }); } catch { continue; }
+    for (const [tense, cells] of Object.entries(c.tenses)) if (Array.isArray(cells)) for (const cell of cells) for (const f of variants(cell)) { add(forms, f, e); if (tense === 'imperativo') add(attachable, f, e); }
+    for (const [part, value] of Object.entries(c.nonFinite)) {
+      if (part === 'participioPresente') continue;
+      for (const f of variants(value)) {
+        add(forms, f, e);
+        if (part === 'participioPassato' && /o$/.test(f)) for (const end of ['a', 'i', 'e']) add(forms, f.slice(0, -1) + end, e);
+        if (part === 'gerundio') { add(attachable, f, e); if (c.clitic && f.endsWith(c.clitic)) add(attachable, f.slice(0, -c.clitic.length), e); }
+      }
+    }
+  }
+  const stare = conjugate('stare', { aux: 'essere' }).tenses;
+  index.conjugated = { forms, attachable, stare: new Set([...stare.presente, ...stare.imperfetto].flatMap(accepted).map(keyOf)) };
+  return index.conjugated;
+}
 
 // ---------- resolution ----------
-const senses = s => String(s ?? '').toLocaleLowerCase('en').replace(/\([^)]*\)/g, ' ').split(/[;,/·]/).map(p => p.replace(/^\s*(?:to|the|a|an)\s+/, '').trim()).filter(Boolean);
+const senses = s => String(s ?? '').toLocaleLowerCase('en').replace(/\([^)]*\)/g, ' ').replace(/[!?.…]+/g, ' ').split(/[;,/·]/).map(p => p.replace(/^\s*(?:to|the|a|an)\s+/, '').trim()).filter(Boolean);
 const wordIn = (needle, hay) => new RegExp(`(^|\\s)${needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\s|$)`).test(hay);
 function englishScore(gloss, e) {
   const want = senses(gloss.en), have = senses(e.en);
@@ -48,28 +93,63 @@ function englishScore(gloss, e) {
 // Several entries share the headword: the one whose English carries the gloss, then the lowest level, then file order (stable sort).
 const pick = (list, gloss) => list.length === 1 ? list[0] : [...list].sort((a, b) => englishScore(gloss, b) - englishScore(gloss, a) || levelRank(a) - levelRank(b))[0];
 function glossKeys(it) {
-  const full = norm(it).replace(/[\s.!?…,;:]+$/u, '').trim();
+  const full = keyOf(it);
   const stripped = full.replace(ARTICLE, '');
   return full ? [...new Set([full, stripped])] : [];
 }
-function resolveGloss(gloss, index, depth = 0) {
+// Clitics and "non" that precede a finite form or an infinitive: "mi piacciono", "non parlare", "non mi piace", "lo vedo".
+const PROCLITICS = /^(?:non\s+)?(?:(?:mi|ti|ci|vi|si|lo|la|li|le|gli|ne|me|te|se|ce|ve)\s+){0,2}/;
+const ENCLITICS = ['gliene', 'glielo', 'gliela', 'glieli', 'gliele', 'mene', 'melo', 'mela', 'meli', 'mele', 'tene', 'telo', 'tela', 'teli', 'tele', 'cene', 'celo', 'cela', 'celi', 'cele', 'vene', 'velo', 'vela', 'veli', 'vele', 'sene', 'selo', 'sela', 'seli', 'sele', 'gli', 'mi', 'ti', 'ci', 'vi', 'si', 'lo', 'la', 'li', 'le', 'ne'];
+// The whole gloss (clitics and "non" aside) is one form of a dictionary verb: a paradigm cell such as "mi alzo", "ho mangiato",
+// "sono andata" or "vada", a participle or gerund, stare + gerund ("sto parlando", "stava leggendo"), or an infinitive,
+// gerund or imperative carrying an enclitic ("aiutarmi", "leggendolo", "guardalo", "dimmi"). Phrases with any other word
+// ("vorrei visitare", "vengo da", "abito qui") are constructions, not forms, and stay unresolved.
+function conjugatedForm(keys, index, gloss) {
+  const { forms, attachable, stare } = conjugatedIndex(index);
+  const lookup = (map, key) => { const list = map.get(key); return list?.length ? pick(list, gloss) : null; };
+  for (const key of keys) {
+    const bare = key.replace(PROCLITICS, '');
+    const cell = lookup(forms, key) || (bare && bare !== key ? lookup(forms, bare) : null);
+    if (cell) return cell;
+    const words = bare.split(' ');
+    if (words.length === 2 && stare.has(words[0])) { const gerund = lookup(attachable, words[1]); if (gerund) return gerund; }
+    if (words.length !== 1) continue;
+    const { base, clitic } = splitClitic(bare);
+    const infinitives = clitic ? (index.headwords.get(keyOf(base)) || []).filter(e => e.kind === 'verb') : [];
+    if (infinitives.length) return pick(infinitives, gloss);
+    for (const enclitic of ENCLITICS) {
+      if (!bare.endsWith(enclitic) || bare.length <= enclitic.length) continue;
+      const host = bare.slice(0, -enclitic.length);
+      // dimmi, fammi, vattene: the apostrophe imperative doubles the clitic's first consonant
+      const hit = lookup(attachable, host) || (host.endsWith(enclitic[0]) ? lookup(attachable, host.slice(0, -1) + "'") : null);
+      if (hit) return hit;
+    }
+  }
+  return null;
+}
+function resolveGloss(gloss, index, verbForms, depth = 0) {
   if (!gloss || typeof gloss !== 'object') return null;
   const keys = glossKeys(gloss.it);
   const found = map => { for (const key of keys) { const list = map.get(key); if (list?.length) return pick(list, gloss); } return null; };
   const byId = usable(gloss.entryId) ? index.byId.get(gloss.entryId) : null;
-  const entry = found(index.headwords) || byId || found(index.plurals) || found(index.fems);
+  const entry = found(index.headwords) || byId || found(index.plurals) || found(index.fems) || found(index.forms) || (verbForms && keys.length ? conjugatedForm(keys, index, gloss) : null);
   if (entry || depth) return entry || null;
   // "il collega / la collega": the first alternative stands for the gloss.
   const alternative = String(gloss.it ?? '').split(/\s*\/\s*/)[0];
-  return alternative && alternative !== gloss.it ? resolveGloss({ ...gloss, it: alternative }, index, 1) : null;
+  return alternative && alternative !== gloss.it ? resolveGloss({ ...gloss, it: alternative }, index, verbForms, 1) : null;
 }
 
-/** One record per gloss of the lesson's first `words` step that names a dictionary entry; verbs come back with entry.kind === 'verb'. */
-export function resolveLessonWords(lesson, { vocab = [], verbs = [] } = {}) {
+/**
+ * One record per gloss of the lesson's first `words` step that names a dictionary entry; verbs come back with
+ * entry.kind === 'verb'. A gloss resolves by exact headword, then its `entryId`, then as a plural, feminine, adjective or
+ * determiner form, then as a conjugated form of a verb. `verbForms: false` skips that last step (and the cost of
+ * conjugating every verb) for callers that only need the words, such as the board synthesis.
+ */
+export function resolveLessonWords(lesson, { vocab = [], verbs = [], verbForms = true } = {}) {
   const step = (lesson?.steps || []).find(s => s?.kind === 'words');
   if (!step || !Array.isArray(step.words)) return [];
   const index = dictionaryIndex(vocab, verbs), out = [];
-  for (const gloss of step.words) { const entry = resolveGloss(gloss, index); if (entry) out.push({ gloss, entry }); }
+  for (const gloss of step.words) { const entry = resolveGloss(gloss, index, verbForms !== false); if (entry) out.push({ gloss, entry }); }
   return out;
 }
 
