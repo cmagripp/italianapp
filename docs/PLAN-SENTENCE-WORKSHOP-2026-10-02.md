@@ -61,9 +61,35 @@ Round 3: Strutture, cross-links to the course, docs.
 
 Authoring is done by content subagents writing to the contract, with a separate reviewing subagent checking every sentence for correctness and level before integration.
 
-## 7. Questions to settle before building
+## 7. Decisions so far (2 October 2026)
 
-1. Name and placement as in §4 (a Laboratorio card and its own route), or also a poster in Play?
-2. Free entry checks grammar and dictionary membership only, never meaning (§3). Acceptable?
-3. Conversations: linear with reactive replies (recommended, every option has a scripted reaction) or real branching dialogues (more content per lesson)?
-4. First delivery: the Presente stage only (six lessons, so the format can be reviewed early), or all four stages in one go?
+- Placement: Laboratorio card and its own route (§4). Agreed.
+- Conversations: reactive replies, every authored option has a scripted reaction. Agreed, with the AI question below.
+- Delivery: all four stages, built and reviewed stage by stage in the preview, shipped as one complete update.
+- Free entry: a "smart combination" is wanted. Correctness matters; the owner asked whether a small, fully offline AI model could be shipped inside the app. The assessment follows.
+
+## 8. Can we ship an offline AI model inside the app?
+
+Research done on 2 October 2026 (sources in `docs/RESEARCH-ON-DEVICE-AI-2026-10-02.md`). The short answer: the platform allows it, the small models are not yet good enough at Italian to be the judge of correctness, and iPhones still kill web pages that load them. So the AI goes in as an optional, clearly labelled extra, never as the thing the lessons depend on.
+
+**What the platform offers.** WebGPU is on by default in Safari 26 and later on iPhone, iPad and Mac (September 2025), with 16-bit shader support everywhere. Storage is no longer the problem: an installed Home Screen app gets up to 60 percent of the disk and is exempt from the seven-day purge. The binding limit is memory: a page is killed without warning somewhere between about 1 and 3 GB of footprint depending on the phone and how long it has been on, and no API reports how much is left.
+
+**What the field reports say.** The report closest to this project (iPhone 16 Pro, iOS 26.7, 30 September 2026) loaded two tiny models in every available runtime and the tab died at the first inference every time. WebLLM users on iOS 26 run a 135M model but lose the tab with a 3B one. Transformers.js only switched WebGPU on for Safari on 16 September 2026. iOS 27 shipped on 14 September 2026 and has no reports yet. No measured tokens-per-second figure exists for an iPhone 16 Pro in Safari; the nearest measurement (iPhone 17 Pro Max, a different runtime) is 4 to 17 tokens per second on the smallest models.
+
+**What the models can do in Italian.** The only sub-1B model with a credible Italian footprint is Qwen3 0.6B (336 MB at 4-bit through WebLLM); its own report scores its Italian at roughly a third of the 1.7B model (850 MB). On the one Italian grammatical-acceptability benchmark with published numbers, small generative models score between 5 and 24 (Matthews correlation) while a fine-tuned Italian BERT encoder scores 43 to 60 in domain. A generative model this size would mis-grade learners; an encoder-based scorer would not, and it needs no WebGPU.
+
+**Design that follows from this: three layers.**
+
+1. **Grammar, always on, authoritative.** The deterministic engine of §3: typed slots, dictionary membership, agreement and conjugation. Every accepted sentence is well formed. Ships with the workshop; works offline with nothing to download.
+2. **Fit scorer, optional download (about 70 to 110 MB, runs on the CPU in under a second).** An Italian masked-language model (BERTino or bert-base-italian, int8, through ONNX Runtime Web on WebAssembly) scores the learner's free-entry word in the blank against the authored options by pseudo-log-likelihood, and the app says "unusual here" with a confidence when the word is grammatical but odd. It never blocks a well-formed sentence, it only advises, and its verdicts are logged locally so the thresholds can be tuned. Later it can be fine-tuned on ItaCoLA plus our own labelled learner errors. This is the reliable answer to "it should be correct" for meaning.
+3. **Assistant, experimental download (about 340 MB, needs WebGPU: iPhone 15 Pro class or newer on iOS 26 or later).** WebLLM with Qwen3 0.6B (or its successor once it runs on phones), with a 1,024-token window and low-resource mode, used only as a selector: it chooses the best reactive reply among the authored reaction lines, breaks ties for the fit scorer, and picks the explanation template that applies. It never writes Italian that the learner reads unreviewed. It is guarded by a crash-loop breaker (if the page dies twice after loading the model, the app disables it) and a memory check, and the whole workshop works identically with it absent. We measure it on the owner's phone before deciding whether to keep it.
+
+Hosting: layer 2's model file fits under GitHub's 100 MB per-file limit as one shard, served from the site like the audio packs and cached in its own cache; layer 3's weights are downloaded from the model's public repository on demand, as WebLLM does by default, so they never enter this repository.
+
+**Reactive replies and the assistant.** Dialogues keep one authored reaction per option, plus two or three generic reactions per turn for free-entry words (one per slot type: an adjective about how you feel gets "Mi dispiace, riposati!" or "Che bello!" depending on the word's polarity tag in the dictionary). Layer 3, when present, picks among those; without it the app picks by the slot's polarity tag. Real branching stays out.
+
+## 9. Open questions
+
+1. Layers 1 and 2 are part of the workshop; layer 3 is built as an experiment first and kept only if it runs reliably on your phone. Agreed?
+2. The fit scorer adds a one-time 70 to 110 MB download, offered from the workshop page like unit audio, never automatic. Agreed?
+3. May I build the workshop in parallel with the remaining rounds of the vocabulary plan? The files are separate (new `js/learning/sentence-lab*.js`, `js/views/labFrasi*.js`, `data/sentence-lab/`), so the two streams do not collide.
