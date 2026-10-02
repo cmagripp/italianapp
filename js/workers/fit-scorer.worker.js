@@ -197,6 +197,9 @@ export async function loadScorer() {
     const out = await session.run({ input_ids: new ort.Tensor('int64', input, dims), attention_mask: new ort.Tensor('int64', mask, dims) });
     return out.logits;
   };
+  // The session's first run costs several hundred milliseconds more than the rest (arena and kernel set-up), so it is
+  // paid here, while the page is warming the scorer, and not by the learner's first word.
+  await runBatch(maskedBatch(tok, 'Ciao, come ____?', 'stai'));
   const memo = new Map();
   return { score: (template, candidates) => scoreCandidates(runBatch, tok, template, candidates, memo), loadMs: now() - t0, tok };
 }

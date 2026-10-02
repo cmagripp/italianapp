@@ -1520,6 +1520,54 @@
       "passed": true,
       "method": "faster-whisper 1.2.1 / small / Italian / beam5 / no prompt",
       "seconds": 27.35
+    },
+    "v2-a1-question-words-2.s10": {
+      "sha256": "3ac6d40dba8e8ac1ab0d1cbf969b02f51a9ba98d8002f65dddc4116eefe60055",
+      "expected": "«Buongiorno! Come sta?» «Bene, grazie. Quanto costa questo libro?» «Dieci euro.» «E quanti libri ci sono a dieci euro?» «Tre. Quale libro vuole?» «Questo, perché è piccolo!»",
+      "transcript": "Buongiorno, come sta? Bene, grazie. Quanto costa questo libro? Dieci euro. E quanti libri ci sono a dieci euro? Tre quale libro vuole? Questo perché è piccolo.",
+      "wordErrorRate": 0.0,
+      "characterErrorRate": 0.0,
+      "criticalAnswers": [],
+      "criticalAnswersPresent": true,
+      "passed": true,
+      "method": "faster-whisper 1.2.1 / small / Italian / beam5 / no prompt",
+      "seconds": 13.18
+    },
+    "v2-a1-di-articles.s10": {
+      "sha256": "3b45a7f3e16594a92c709428d0632f099056e0c6fb48d16939590d37b78f0fde",
+      "expected": "«Di chi è questo libro?» «È il libro del professore.» «E questa casa?» «È la casa della zia di Marco.» «Prendi il treno delle otto?» «No, il treno delle nove.»",
+      "transcript": "Di chi è questo libro? È il libro del professore. E questa casa? È la casa della Zia di Marco. Prendi il treno delle otto? No, il treno delle nove.",
+      "wordErrorRate": 0.0,
+      "characterErrorRate": 0.0,
+      "criticalAnswers": [],
+      "criticalAnswersPresent": true,
+      "passed": true,
+      "method": "faster-whisper 1.2.1 / small / Italian / beam5 / no prompt",
+      "seconds": 12.5
+    },
+    "v2-a2-nobody-nothing.s10": {
+      "sha256": "355e902e2c076981184046fa28a500e9014b6274e52ee317119998f898b73adc",
+      "expected": "«Anna, c’è qualcuno a casa?» «No, non c’è nessuno. Nessuno risponde.» «E in frigo? C’è qualcosa da mangiare?» «Niente. Non c’è nulla in frigo.» «Va bene, andiamo al bar.»",
+      "transcript": "Anna, c'è qualcuno a casa? No, non c'è nessuno, nessuno risponde. E in frigo c'è qualcosa da mangiare? Niente, non c'è nulla in frigo. Va bene, andiamo al bar.",
+      "wordErrorRate": 0.0,
+      "characterErrorRate": 0.0,
+      "criticalAnswers": [],
+      "criticalAnswersPresent": true,
+      "passed": true,
+      "method": "faster-whisper 1.2.1 / small / Italian / beam5 / no prompt",
+      "seconds": 11.31
+    },
+    "v2-b1-object-agreement.passage": {
+      "sha256": "31874701cf607287c7c21a5f24698a70f44dfd9cb8cb8a78283e4857b9b3453b",
+      "expected": "Ciao Sara, sono Paolo. La torta per stasera l’ho già fatta: è in frigo. I biglietti per il concerto? Li ho presi ieri, sono nel portafoglio. Anna viene con noi: l’ho vista stamattina al bar e mi ha detto di sì. Ho comprato il pane e il vino. Ci vediamo alle otto!",
+      "transcript": "Ciao Sara, sono Paolo. La torta per stasera l'ho già fatta e in frigo. I biglietti per il concerto, li ho presi ieri, sono nel portafoglio. Anna viene con noi, l'ho vista stamattina al bare e mi ha detto di sì. Ho comprato il pane e il vino. Ci vediamo alle otto.",
+      "wordErrorRate": 0.019,
+      "characterErrorRate": 0.005,
+      "criticalAnswers": [],
+      "criticalAnswersPresent": true,
+      "passed": true,
+      "method": "faster-whisper 1.2.1 / small / Italian / beam5 / no prompt",
+      "seconds": 16.43
     }
   }
 }

@@ -48,7 +48,7 @@ export function fitNote(fit) { return fit >= FIT_NATURAL ? 'natural' : fit >= FI
 // floor = worst authored pll, fit = clamp((pll - floor) / (top - floor), 0, 1), so by construction the best authored
 // option scores 1 and the worst 0. The learner's word is the last row. A reference without a span (FALLBACK_SPAN) or a
 // row without a finite pll (fit 0) cannot break the arithmetic.
-export function fitScores(rows, authored = rows.length - 1) {
+export function fitScores(rows, authored = Array.isArray(rows) ? rows.length - 1 : 0) {
   if (!Array.isArray(rows) || !rows.length) return [];
   const n = Math.min(Math.max(1, Math.floor(authored) || 1), rows.length);
   const ref = rows.slice(0, n).map((r) => Number(r.pll)).filter(Number.isFinite);

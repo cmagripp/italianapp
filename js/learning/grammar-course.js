@@ -26,7 +26,8 @@ export function attachLessonVocabulary({vocab=[],verbs=[]}={}) {
   for(const lesson of grammarCourse.lessons){
     if(lesson.contentVersion!==2 || !Array.isArray(lesson.steps))continue;
     const at=lesson.steps.findIndex(s=>s?.kind==='words');
-    if(at>=0)lesson.steps.splice(at+1,0,...wordsCheckSteps(lesson,resolveLessonWords(lesson,{vocab,verbs})));
+    // The boards never carry a verb, so the conjugated-form index (every verb's paradigm) is not built on the boot path.
+    if(at>=0)lesson.steps.splice(at+1,0,...wordsCheckSteps(lesson,resolveLessonWords(lesson,{vocab,verbs,verbForms:false})));
     lesson.wordEntryIds=lessonWordIds(lesson);
   }
   vocabularyAttached=true;
