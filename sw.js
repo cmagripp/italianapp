@@ -4,7 +4,7 @@
 // to a precached file or to this file gives a new one (old caches are dropped on activate). Run it after any change to
 // the shell, the data or this file; tools/check-shell.mjs fails while the stamp is stale, and the deploy job stamps
 // before publishing. Edit the readable prefix by hand only to label a release.
-const VERSION = 'parola-v15-9e7e3ea77155';
+const VERSION = 'parola-v15-2b3a3bb1364d';
 // Downloaded lesson audio: kept across updates. Must equal AUDIO_CACHE in js/learning/course-v2-media.js (check-shell checks).
 const AUDIO_CACHE = 'parola-course-audio-v2';
 // Downloaded fit scorer (sentence workshop layer 2: the model, the ONNX runtime and its worker, js/learning/fit-scorer.js):
@@ -18,13 +18,14 @@ const ASSISTANT_CACHE_PREFIX = 'webllm/';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css', './css/learn.css', './css/reference.css', './css/games.css', './css/views-a.css', './css/views-b.css', './css/views-c.css',
-  './css/grammar-course.css', './css/adaptive.css', './css/course.css', './css/journey.css', './css/learnhub.css',
+  './css/grammar-course.css', './css/adaptive.css', './css/course.css', './css/journey.css', './css/learnhub.css', './css/sentence-lab.css',
   './icons/icon.svg',
   './js/app.js', './js/components.js', './js/completion-menu.js', './js/conjugator.js', './js/data.js', './js/fx.js', './js/icons.js', './js/irregular.js', './js/source.js', './js/srs.js', './js/store.js', './js/sync.js', './js/ui.js',
   './js/views/addWord.js', './js/views/browse.js', './js/views/entry.js', './js/views/games.js', './js/views/grammar.js', './js/views/home.js', './js/views/homeLevels.js', './js/views/learn.js', './js/views/learnCards.js', './js/views/learnDash.js', './js/views/learnData.js', './js/views/learnSections.js', './js/views/learnVerb.js', './js/views/learnWord.js', './js/views/list.js', './js/views/lists.js', './js/views/play.js', './js/views/profile.js', './js/views/reference.js', './js/views/referenceEntry.js', './js/views/review.js', './js/views/scope.js', './js/views/search.js', './js/views/walkthrough.js', './js/views/words.js',
   './js/games/crossword.js', './js/games/engine.js', './js/games/flashcards.js', './js/games/hangman.js', './js/games/index.js', './js/games/matching.js', './js/games/questions.js', './js/games/sentence.js', './js/games/speed.js',
   './js/learning/model.js', './js/learning/curriculum.js', './js/learning/content.js', './js/learning/questions.js', './js/learning/diagnose.js', './js/learning/integration.js',
   './js/views/coursePlacement.js', './js/learning/course-v2-placement.js', './js/views/learnCourse.js', './js/learning/course-v2-engine.js', './js/learning/course-v2-state.js', './js/learning/course-v2-activities.js', './js/learning/course-v2-media.js', './js/learning/course-words.js',
+  './js/learning/sentence-lab.js', './js/learning/sentence-lab-data.js', './js/learning/sentence-lab-activities.js', './js/views/labFrasi.js', './js/views/labFrasiLesson.js', './js/learning/fit-scorer.js', './js/useful-words.js',
   './js/views/learnGrammar.js', './js/views/courseSession.js',
   './js/learning/grammar-lexicon.js','./js/learning/course-v2-glosses.js', './js/learning/grammar-state.js', './js/learning/grammar-course.js', './js/learning/grammar-journey.js',
   './js/views/course.js', './js/views/learnAdaptive.js', './js/views/learnJourney.js',
@@ -32,6 +33,7 @@ const SHELL = [
   './js/learning/assistant.js',
   './data/grammar-course/A1.json', './data/grammar-course/A2.json', './data/grammar-course/B1.json', './data/grammar-course/B2.json', './data/grammar-course/C1.json', './data/grammar-course/C2.json',
   './data/course-v2/Foundations.json', './data/course-v2/A1.json', './data/course-v2/A2.json', './data/course-v2/B1.json', './data/course-v2/B2.json', './data/course-v2/C1.json', './data/course-v2/C2.json', './data/course-v2/audio.json',
+  './data/sentence-lab/presente.json', './data/sentence-lab/passato.json', './data/sentence-lab/futuro.json', './data/sentence-lab/strutture.json', './data/useful-words.json',
   './data/vocab.json', './data/verbs.json', './data/stats.json', './data/grammar.json',
 ];
 // Activate only when the complete shell is cached. A missing module must leave the

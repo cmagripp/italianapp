@@ -18,7 +18,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // manifest.webmanifest (icons/).
 const FILES = ['index.html', 'manifest.webmanifest', 'sw.js'];
 const TREES = ['css', 'js', 'icons', 'audio', 'models', 'vendor'];   // copied recursively
-const JSON_DIRS = ['data', 'data/course-v2', 'data/grammar-course']; // only the *.json directly inside (no subfolders)
+const JSON_DIRS = ['data', 'data/course-v2', 'data/grammar-course', 'data/sentence-lab']; // only the *.json directly inside (no subfolders)
 
 // Never published, wherever they appear. Checked again on the finished dist/ tree.
 const EXCLUDED_DIRS = ['docs', 'tests', 'tools', 'dev', '.github', 'node_modules', 'data/vocab', 'data/verbs', 'data/verb-progressive'];

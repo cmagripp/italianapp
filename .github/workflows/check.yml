@@ -35,6 +35,10 @@ jobs:
           node tools/test-course-v2-lexicon.mjs
           node tools/test-course-v2-editorial.mjs
           node tools/test-course-words.mjs
+          node tools/test-sentence-lab.mjs
+          node tools/test-useful-words.mjs
+          node tools/test-fit-scorer.mjs
+          node tools/test-assistant-guard.mjs
           node tools/test-grammar-course.mjs
           node tools/test-grammar-durability.mjs
           node tools/test-grammar-lexicon.mjs

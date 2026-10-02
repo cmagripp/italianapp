@@ -91,7 +91,7 @@ function conjugatedIndexFor(entries) {
 const conjugatedIndex = index => index.conjugated ||= conjugatedIndexFor(index.verbEntries);
 
 // ---------- resolution ----------
-// English senses and needle patterns are memoised: the same dictionary strings are compared with every gloss.
+// English senses are memoised: the same dictionary strings are compared with every gloss.
 // Contractions are spelt out, so a gloss "I do not understand" meets the entry "I don't understand".
 const CONTRACTIONS = [[/\b(what|where|how|it|that|there|he|she|who)'s\b/g, '$1 is'], [/\blet's\b/g, 'let us'], [/\bcan't\b/g, 'cannot'], [/\bwon't\b/g, 'will not'], [/n't\b/g, ' not'], [/\bi'm\b/g, 'i am'], [/'re\b/g, ' are'], [/'ve\b/g, ' have'], [/'ll\b/g, ' will']];
 const senseCache = new Map();
