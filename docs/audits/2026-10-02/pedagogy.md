@@ -266,3 +266,17 @@ Variant C adds `parlare` present on day 0 and `andare` present on day 1 (`out-re
 - The word half is unchanged: 1 036 word skills, all `practicing`, 266 entries overdue on day 29.
 
 Uncapped run (variant A, 20 days, no 40-row cap, `out-review-30d-A-cap100000.txt`): see Appendix B.
+
+## Appendix B. Uncapped review (variant A, 20 days, every due word reviewed, `out-review-30d-A-cap100000.txt`)
+
+| day | due skills | due words | review sessions | screens (reviews + 10 lessons) | ≈ min/day |
+|---|---|---|---|---|---|
+| 1 | 40 | 10 | 10 | 120 | 40 |
+| 5 | 80 | 20 | 20 | 180 | 60 |
+| 10 | 116 | 30 | 30 | 240 | 77 |
+| 15 | 150 | 44 | 44 | 324 | 100 |
+| 19 | 191 | 55 | 55 | 390 | **120** |
+
+- Keeping the queue at zero costs a learner of 10 words/day about 55 six-screen review sessions on day 19 (≈ 80 min of review on top of ≈ 20 min of new lessons), and the load is still rising: after 20 days 272 of 784 skills sit at the 6-day interval and the ease factor has fallen to 1.8, so the typical word comes back every 6 days indefinitely. 0 skills `ready`, 0 `remembered`.
+- Compared with the capped run (§2.3), the cap merely moves the cost from time to overdue count; neither run converges, because recognition-only sessions cannot earn the quality-4 step that would let intervals grow (`model.js:363`, `srs.js:15-24`).
+- **Inference**: at the app's default `dailyNew = 8`, the same curve applies with ~20 % lower numbers; the shape does not change.
