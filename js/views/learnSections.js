@@ -278,10 +278,10 @@ export function renderSections(container, model = {}, ctx = {}) {
   if (verbEl) { reels.verb = learnReel(verbEl, verbs.map(entryCard), { kind: 'verb', ariaLabel: 'Next verbs' }); cleanups.push(() => reels.verb.destroy()); }
   const wordEl = view.querySelector('[data-reel="word"]');
   if (wordEl) {
-    reels.word = learnReel(wordEl, [...words.map(entryCard), usefulDeckCard()], { kind: 'word', ariaLabel: 'Next words' });
+    reels.word = learnReel(wordEl, [...words.map(entryCard), usefulDeckCard(null, { compact: true })], { kind: 'word', ariaLabel: 'Next words' });
     cleanups.push(() => reels.word.destroy());
-    // the deck card's detail line gets the set's counts once the file is loaded (the deck page reports a failed load)
-    loadUsefulWords().then(set => { const d = wordEl.isConnected && wordEl.querySelector('.lc[data-key="deck:useful"] .lc-detail'); if (d) d.textContent = usefulDeckCard(set).detail; }).catch(() => { /* reported on the deck page */ });
+    // the deck card's detail line gets the set's count once the file is loaded (the deck page reports a failed load)
+    loadUsefulWords().then(set => { const d = wordEl.isConnected && wordEl.querySelector('.lc[data-key="deck:useful"] .lc-detail'); if (d) d.textContent = usefulDeckCard(set, { compact: true }).detail; }).catch(() => { /* reported on the deck page */ });
   }
 
   // Laboratorio: the dashboard's shared lab reel when it exports one, otherwise the same cards from model.lab

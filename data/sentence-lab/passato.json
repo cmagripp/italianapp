@@ -46,8 +46,8 @@
           "answer": "Ieri ho mangiato la pizza.",
           "accepted": [],
           "tokens": ["Ieri", "ho", "mangiato", "la", "pizza."],
-          "distractors": ["mangiata"],
-          "explanation": "With avere the participle keeps its -o ending: ho mangiato, even with la pizza.",
+          "distractors": ["mangiare", "sono"],
+          "explanation": "Mangiare takes avere (ho, not sono), and after ho comes the participle mangiato, never the infinitive.",
           "hint": "Start with when."
         },
         {
@@ -77,11 +77,11 @@
           "blanks": [
             {
               "accept": ["dormito"],
-              "options": ["dormito", "dormuto", "dormire"],
+              "options": ["dormito", "dormo", "dormire"],
               "bank": [],
               "free": false,
               "slot": null,
-              "explanation": "-ire verbs make the participle in -ito: dormire → dormito. The infinitive never follows ha."
+              "explanation": "-ire verbs make the participle in -ito: dormire → dormito. After ha comes the participle, never the present or the infinitive."
             }
           ]
         },
@@ -184,12 +184,12 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Mia madre", "person": 2, "gender": "f" },
-                { "it": "Noi", "person": 3 },
-                { "it": "Voi", "person": 4 },
-                { "it": "I miei amici", "person": 5, "gender": "m" }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Mia madre", "en": "my mother", "person": 2, "gender": "f" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "Voi", "en": "you all", "person": 4 },
+                { "it": "I miei amici", "en": "my friends", "person": 5, "gender": "m" }
               ]
             },
             {
@@ -404,13 +404,13 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Mia sorella", "person": 2, "gender": "f" },
-                { "it": "Marco", "person": 2, "gender": "m" },
-                { "it": "Noi", "person": 3 },
-                { "it": "Voi", "person": 4 },
-                { "it": "Le ragazze", "person": 5, "gender": "f" }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Mia sorella", "en": "my sister", "person": 2, "gender": "f" },
+                { "it": "Marco", "en": "Marco", "person": 2, "gender": "m" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "Voi", "en": "you all", "person": 4 },
+                { "it": "Le ragazze", "en": "the girls", "person": 5, "gender": "f" }
               ]
             },
             {
@@ -639,12 +639,12 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Anna", "person": 2, "gender": "f" },
-                { "it": "Noi", "person": 3 },
-                { "it": "Voi", "person": 4 },
-                { "it": "I miei genitori", "person": 5, "gender": "m" }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Anna", "en": "Anna", "person": 2, "gender": "f" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "Voi", "en": "you all", "person": 4 },
+                { "it": "I miei genitori", "en": "my parents", "person": 5, "gender": "m" }
               ]
             },
             {
@@ -723,8 +723,8 @@
           "id": "sl-passato-04-era-cosi.2",
           "kind": "cloze",
           "prompt": "The weather in the background",
-          "template": "Ieri ____ freddo e pioveva.",
-          "en": "Yesterday it was cold and it was raining.",
+          "template": "Ieri ____ freddo e non c'era il sole.",
+          "en": "Yesterday it was cold and there was no sun.",
           "blanks": [
             {
               "accept": ["faceva"],
@@ -732,7 +732,7 @@
               "bank": [],
               "free": false,
               "slot": null,
-              "explanation": "Pioveva sets the scene, so the cold goes in the imperfetto too: faceva freddo."
+              "explanation": "Non c'era il sole sets the scene, so the cold goes in the imperfetto too: faceva freddo."
             }
           ]
         },
@@ -880,12 +880,12 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Mio nonno", "person": 2, "gender": "m" },
-                { "it": "Noi", "person": 3 },
-                { "it": "Voi", "person": 4 },
-                { "it": "I bambini", "person": 5, "gender": "m" }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Mio nonno", "en": "my grandfather", "person": 2, "gender": "m" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "Voi", "en": "you all", "person": 4 },
+                { "it": "I bambini", "en": "the children", "person": 5, "gender": "m" }
               ]
             },
             {
@@ -1135,7 +1135,7 @@
           "blanks": [
             {
               "accept": ["ho visitato", "ho chiamato"],
-              "options": ["ho visitato", "ho chiamato", "visitavo", "ho visitati"],
+              "options": ["ho visitato", "ho chiamato", "visitavo", "sono visitato"],
               "bank": ["visitare", "chiamare", "vedere"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
@@ -1152,12 +1152,12 @@
             {
               "role": "subject",
               "items": [
-                { "it": "Io", "person": 0 },
-                { "it": "Tu", "person": 1 },
-                { "it": "Mio fratello", "person": 2, "gender": "m" },
-                { "it": "Noi", "person": 3 },
-                { "it": "Voi", "person": 4 },
-                { "it": "I miei genitori", "person": 5, "gender": "m" }
+                { "it": "Io", "en": "I", "person": 0 },
+                { "it": "Tu", "en": "you", "person": 1 },
+                { "it": "Mio fratello", "en": "my brother", "person": 2, "gender": "m" },
+                { "it": "Noi", "en": "we", "person": 3 },
+                { "it": "Voi", "en": "you all", "person": 4 },
+                { "it": "I miei genitori", "en": "my parents", "person": 5, "gender": "m" }
               ]
             },
             {

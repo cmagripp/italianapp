@@ -733,7 +733,7 @@ export async function render(root, params = {}, query = {}) {
       const pending=progress.pending.length,next=recommend(store,{kind:'word'});
       return html`<section class="journey-recap"><div class="journey-recap-mark" aria-hidden="true">${raw(icon(pending?'book':'check',{size:30}))}</div><div class="journey-kicker">Your word lesson</div>
         <h1 data-focus tabindex="-1">${pending?'Saved for another try':`${nameOf(entry)} · complete`}</h1>
-        <p>${pending?'Your place is saved. Practise the remaining questions when you’re ready.':'You’ve learned its meaning and practised recognising it. We’ll bring it back to help it stick.'}</p>
+        <p>${pending?'Your place is saved. Practise the remaining questions when you’re ready.':entry.pos==='noun'&&entry.g?(plan.wordLesson?.slots.some(s=>allTargets.find(t=>t.id===s.targetId)?.skill==='plural')?'You’ve learned its meaning and practised its article, singular and plural. We’ll bring them back to help them stick.':'You’ve learned its meaning and practised its article and number. We’ll bring them back to help them stick.'):'You’ve learned its meaning and practised recognising it. We’ll bring it back to help it stick.'}</p>
         ${pending?raw(primary('Practise remaining questions','data-retry')):courseReturn?'':next&&next.entry.id!==entry.id?raw(html`<a class="btn primary journey-primary" href="${practiceHref(next.entry)}">Learn ${nameOf(next.entry)}</a>`):raw('<a class="btn primary journey-primary" href="#/learn">Keep learning</a>')}
         ${raw(courseReturn)}<a class="btn ghost" href="#/words">Back to Words</a></section>`;
     }

@@ -53,7 +53,9 @@ export function usefulIds(set = cached) {
 export const idsSource = (ids) => 'ids:' + encodeURIComponent(ids.join(','));
 export const matchingHref = (ids) => `#/games?pick=matching&src=${idsSource(ids)}`;
 
-export function usefulDeckCard(set = cached) {
+// compact: the count alone, for the 124px detail column of a reel card (the full line fits a standalone card)
+export function usefulDeckCard(set = cached, { compact = false } = {}) {
   const n = set ? usefulIds(set).length : 0, g = set ? set.groups.length : 0;
-  return { key: 'deck:useful', kicker: 'Deck', title: USEFUL_TITLE, en: USEFUL_EN, detail: n ? `${n} words · ${g} groups` : 'Questions, links, pronouns', icon: 'sparkle', accent: 'var(--amalfi)', href: USEFUL_HREF, deck: USEFUL_LIST };
+  const detail = !n ? 'Function words' : compact ? `${n} words` : `${n} words · ${g} groups`;
+  return { key: 'deck:useful', kicker: 'Deck', title: USEFUL_TITLE, en: USEFUL_EN, detail, icon: 'sparkle', accent: 'var(--amalfi)', href: USEFUL_HREF, deck: USEFUL_LIST };
 }

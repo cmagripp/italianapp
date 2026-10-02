@@ -69,6 +69,9 @@ function candidateEntries(entry, pool, rng) {
 }
 function articles(entry, plural = false) { return entry.g ? unique(String(article(entry, plural)).split('/')) : []; }
 function attach(a, noun) { return a.endsWith("'") ? a + noun : `${a} ${noun}`; }
+// Whether a definite article can stand before this form's first sound at all.
+const vowelInitial = form => /^h?[aeiouàèéìíîòóùú]/i.test(String(form).normalize('NFC'));
+function fits(a, form) { return a.endsWith("'") ? vowelInitial(form) : ['gli', 'le'].includes(a) || !vowelInitial(form); }
 function nounForms(entry, plural = false) {
   const word = plural ? entry.pl : entry.it;
   if (!word || plural && !hasPluralForm(entry)) return [];
@@ -108,7 +111,9 @@ export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'gu
     if (invariant && !whole) return null;
     answers = whole ? nounForms(entry, true).slice(1) : [entry.pl];
     main = whole ? nounForms(entry)[1] : entry.it; instruction = whole ? 'Choose the plural with its article.' : 'Choose the plural.';
-    wrongs = whole ? [...definiteArticles.map(a => attach(a, entry.pl)), ...articles(entry, true).map(a => attach(a, entry.it)), ...nounForms(entry).slice(1)] : [entry.it, ...candidates.filter(hasPluralForm).map(x => x.pl)];
+    // Wrong options are other article + noun combinations that could precede this
+    // noun's first sound: la case, i case, gli alberi → le alberi; le casa; la casa.
+    wrongs = whole ? [...definiteArticles.filter(a => fits(a, entry.pl)).map(a => attach(a, entry.pl)), ...articles(entry, true).map(a => attach(a, entry.it)), ...nounForms(entry).slice(1)] : [entry.it, ...candidates.filter(hasPluralForm).map(x => x.pl)];
     diagnostic = { kind: 'plural', plural: entry.pl, requiresArticle: whole, articles: articles(entry, true) }; shown = nounForms(entry);
     explanation = `${nounForms(entry)[1] || entry.it} → ${whole ? answers.join(' / ') : entry.pl}.${invariant ? ' The noun stays the same; the article shows the plural.' : ''}`;
     formKey = whole ? 'plural-with-article' : 'plural'; say = answers[0];
@@ -204,9 +209,12 @@ function articleBoard(entry, target, descriptors, candidates, result, seedValue)
       variantId: `${t.id}:pair-${hash(`${label}|${form}`).toString(36)}`, contextId: `${entry.id}:word-pair:${number}` }) });
   }
   if (!rows.length) return null;
+  // Decoys come from the other gender at the same level first; another level,
+  // then the same gender, only when no article is left for the other gender.
   const genders = entry.g === 'mf' ? ['m', 'f'] : [entry.g === 'm' ? 'f' : 'm'];
-  const pool = candidates.filter(x => x.pos === 'noun' && genders.includes(x.g) && x.it && !isPluralOnly(x));
-  const ordered = [...pool.filter(x => x.level && x.level === entry.level), ...pool.filter(x => !x.level || x.level !== entry.level)];
+  const pool = candidates.filter(x => x.pos === 'noun' && ['m', 'f'].includes(x.g) && x.it && !isPluralOnly(x));
+  const rank = x => (genders.includes(x.g) ? 0 : 2) + (x.level && x.level === entry.level ? 0 : 1);
+  const ordered = pool.map((x, i) => [x, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map(([x]) => x);
   const decoys = [];
   for (let k = 0; k < 2; k++) {
     let found = null;

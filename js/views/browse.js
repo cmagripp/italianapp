@@ -167,8 +167,9 @@ const USEFUL_GAMES = [
   { value: 'flashcards', label: 'Flashcards', sub: 'Flip through them one by one' },
   { value: 'quiz', label: 'Play a quiz', sub: 'Multiple choice on the set' },
 ];
-// the first two senses: "him; it (direct object)" says more than entryRow's first sense alone for a clitic, and still fits one line
-const twoSenses = (en) => String(en || '').split(';').slice(0, 2).map(s => s.trim()).filter(Boolean).join('; ');
+// the first two senses: "him; it (direct object)" says more than entryRow's first sense alone for a clitic; when the pair
+// would not fit the row's one line beside the part of speech, the first sense alone
+const twoSenses = (en) => { const s = String(en || '').split(';').map(x => x.trim()).filter(Boolean); const two = s.slice(0, 2).join('; '); return two.length <= 30 ? two : (s[0] || ''); };
 function usefulRow(e, note) {
   const st = stageOf(e.id), learned = store.isLearned(e.id);
   return html`<a class="row-entry glass-flat uw-row" href="#/learn/word/${encodeURIComponent(e.id)}" data-id="${e.id}">

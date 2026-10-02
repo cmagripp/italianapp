@@ -505,6 +505,9 @@ function englishVerb(en, person, tense) {
 }
 
 const roleLabel = role => role.label || ({ subject: 'who', verb: 'the verb', object: 'what', extra: 'when or where', link: 'a link word' }[role.role] || role.role);
+// A subject item without "en" is glossed by its Italian text, except the subject pronouns (a closed class).
+const PRONOUN_EN = { io: 'I', tu: 'you', lui: 'he', lei: 'she', noi: 'we', voi: 'you', loro: 'they' };
+const subjectEn = item => String(item.en || PRONOUN_EN[normalizeLab(item.it)] || item.it || '').trim();
 
 function pickItem(role, value) {
   const items = Array.isArray(role.items) ? role.items : [];
@@ -549,7 +552,7 @@ export function composeBuild(activity, choice = {}, ctx = {}) {
     }
     const it = String(item.it || '').trim();
     if (!it) return { ok: false, reason: `Choose ${roleLabel(role)}.`, it: '', en: '' };
-    parts.push({ role: role.role, it, en: String(item.en || it).trim(), ...(item.entryId ? { entryId: item.entryId } : {}) });
+    parts.push({ role: role.role, it, en: role.role === 'subject' ? subjectEn(item) : String(item.en || it).trim(), ...(item.entryId ? { entryId: item.entryId } : {}) });
   }
   if (!parts.length) return { ok: false, reason: 'Nothing to say yet.', it: '', en: '' };
   const it = endSentence(capitalize(parts.map(p => p.it).join(' ').replace(/\s+/g, ' ').trim()));

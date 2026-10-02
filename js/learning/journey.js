@@ -516,6 +516,11 @@ export function journeyPairAttempt(plan, session, question, grade, { targetId, a
   if (!compatible(plan, session) || session.journey.awaitingContinue || session.journey.current?.format !== 'pairs' || question?.type !== 'pairs' || !grade || !integer(attempt)) return null;
   const current = session.journey.current, pair = question.pairs?.find(row => row.targetId === targetId), target = targetFor(plan, targetId), chapter = chapterFor(plan, session);
   const group = groupFor(chapter, current.targetId);
+  // A decoy row (another noun's article on the word's board) belongs to the
+  // activity, not to this word's evidence. The result carries no objective, so
+  // the learning log rejects it and nothing is recorded for either noun.
+  if (pair?.decoy) return { id: `${current.questionId}:pair:${encodeURIComponent(targetId)}:${attempt}`, sessionId: session.id, index: session.index, at: now,
+    decoy: true, objectiveId: null, entryId: plan.entryId, ok: grade.ok === true, outcome: grade.outcome || (grade.ok ? 'correct' : 'incorrect'), assistance: ['matching'], errorTags: [], components: [], xp: 0, countStats: false };
   if (!pair || !target || !group?.targets?.some(t => t.id === targetId) || session.journey.pairMatches?.[current.questionId]?.includes(targetId)) return null;
   return { id: `${current.questionId}:pair:${encodeURIComponent(targetId)}:${attempt}`, sessionId: session.id, index: session.index, at: now,
     policy: 'journey-v1', targetId, objectiveId: targetId, entryId: plan.entryId, kind: plan.kind,
@@ -528,7 +533,7 @@ export function journeyPairAttempt(plan, session, question, grade, { targetId, a
 }
 
 export function recordJourneyPairAttempt(plan, oldSession, event, result) {
-  if (!compatible(plan, oldSession) || !event || oldSession.journey.current?.format !== 'pairs' || oldSession.journey.awaitingContinue
+  if (!compatible(plan, oldSession) || !event || event.decoy || oldSession.journey.current?.format !== 'pairs' || oldSession.journey.awaitingContinue
     || oldSession.answeredEventIds.includes(event.id)) return oldSession;
   const recovery = recoverStoredAttempt(event, result);
   if (!recovery) return oldSession;

@@ -746,7 +746,7 @@
               "reactions": [
                 { "when": ["in ufficio"], "it": "Anche io lavoro in ufficio, in centro.", "en": "I work in an office too, in the centre." },
                 { "when": ["a casa"], "it": "A casa! Che fortuna.", "en": "At home! Lucky you." },
-                { "when": "*", "it": "Ah, capisco.", "en": "Ah, I see." }
+                { "when": "*", "it": "Capisco.", "en": "I see." }
               ]
             },
             { "speaker": "partner", "it": "E quando sei a casa?", "en": "And when are you at home?" },
@@ -838,7 +838,7 @@
               ]
             }
           ],
-          "examples": ["Io leggo il giornale al bar la mattina.", "Gli amici guardano un film a casa."]
+          "examples": ["Io leggo il giornale al bar.", "Gli amici guardano un film a casa."]
         }
       ]
     },
@@ -948,7 +948,7 @@
               "reactions": [
                 { "when": ["alla stazione"], "it": "Alla stazione! Allora parti oggi.", "en": "At the station! So you're leaving today." },
                 { "when": ["al bar"], "it": "Al bar, come sempre!", "en": "At the bar, as always!" },
-                { "when": "*", "it": "Ah, va bene.", "en": "Ah, alright." }
+                { "when": "*", "it": "Va bene.", "en": "Alright." }
               ]
             },
             { "speaker": "partner", "it": "Senti, che cosa fai stasera?", "en": "Listen, what are you doing tonight?" },
@@ -1135,7 +1135,7 @@
               "blanks": [
                 {
                   "accept": ["sono stanco", "sono stanca", "ho fame", "ho sonno"],
-                  "options": ["sono stanco", "ho fame", "ho sonno"],
+                  "options": ["sono stanco", "sono stanca", "ho fame", "ho sonno"],
                   "bank": ["sono stanca", "ho sete"],
                   "free": true,
                   "slot": { "pos": "adj", "agree": "speaker", "wrap": "sono {}" },
