@@ -4,8 +4,9 @@ import { schedule } from '../srs.js';
 import { grammarSkill } from './grammar-state.js';
 import { courseSkill } from './course-v2-state.js';
 import { savedSubmission } from './answer-policy.js';
+import { canonicalObjectiveId, canonicalizeAttempt, objectiveRegistryRevision, objectiveMappingSignature, OBJECTIVE_MAPPING_VERSION } from './objectives.js';
 
-export const LEARNING_VERSION = 5;
+export const LEARNING_VERSION = 6;
 const DAY = 86400e3;
 const SHORT_REVIEW = 10 * 60e3;
 const REPEAT_DELAY = 8 * 3600e3;
@@ -20,7 +21,7 @@ const unsupported = domain => finite(domain?.version) > LEARNING_VERSION;
 const SUPPORTED_WORD_POLICIES = new Set(['word-short-v1', 'word-lesson-match-v1', 'word-lab-drill-v1']);
 const canonicalEvents = new WeakSet();
 const indexStats = { normalizedEvents:0, builds:0, appends:0, replayedEvents:0, checkpointHits:0 };
-const CHECKPOINT_POLICY='learning-v5-lossless-1';
+const CHECKPOINT_POLICY='learning-v6-lossless-2-grammar-evidence';
 
 // Also used for session UI state. Never preserve functions, DOM nodes, prototypes,
 // undefined values or cycles from an accidental caller-supplied question object.
@@ -62,6 +63,7 @@ function normalizeSession(raw) {
 // New chapter sessions coexist with the former skill-loop sessions, including
 // their exact saved questions. Switching lesson UI must not overwrite a draft.
 export function learningSessionKey(session) {
+  if(session.reviewVisit)return `review:${session.id}`;
   return session.entryId + '|' + (session.journey ? 'journey:' : '') + (session.mode || 'lesson');
 }
 
@@ -79,6 +81,9 @@ function normalizeEvent(raw, epochId) {
     id: raw.id, epochId, deviceId: text(raw.deviceId), sequence: Math.max(0, Math.floor(finite(raw.sequence))),
     sessionId: text(raw.sessionId), index: Math.max(0, Math.floor(finite(raw.index))), at: finite(raw.at),
     objectiveId: raw.objectiveId, entryId: text(raw.entryId), kind: raw.kind === 'verb' ? 'verb' : 'word',
+    ...(raw.reviewPolicy==='unified-review-v1'?{reviewPolicy:'unified-review-v1'}:{}),
+    ...(raw.caseCoveragePolicy==='verb-case-coverage-v1'?{caseCoveragePolicy:'verb-case-coverage-v1'}:{}),
+    ...(raw.canonicalObjectiveId?{canonicalObjectiveId:canonicalObjectiveId(raw.objectiveId),objectiveMappingVersion:OBJECTIVE_MAPPING_VERSION}:{}),
     skill: text(raw.skill, 'recall'), tense: text(raw.tense) || null,
     person: typeof raw.person === 'number' && Number.isInteger(raw.person) ? raw.person : text(raw.person) || null,
     // the lesson boards and the short word screens are recognition by nature; a workshop drill may type the word (still guided, never independent)
@@ -244,7 +249,7 @@ export function resetLearning(old, now = Date.now(), resetId) {
 export function recordAttempt(domain, event) {
   if (unsupported(domain)) return { learning:domain, added: false, skill: skillState(domain, text(event?.objectiveId), finite(event?.at)) };
   const previous=evidenceFor(domain,finite(event?.at)),learning={...previous.learning};
-  const normalized = normalizeEvent(event, learning.epoch.id);
+  const normalized = normalizeEvent(canonicalizeAttempt(event), learning.epoch.id);
   if (!normalized || learning.events[normalized.id]) {
     return { learning, added: false, skill: skillState(learning, text(event?.objectiveId), finite(event?.at)) };
   }
@@ -267,8 +272,9 @@ const variantKey = (e) => e.contextPolicy==='distinct-scene' ? [e.contextId || '
 function tracker(skill) {
   return { skill, seen: 0, correct: 0, independentCorrect: 0, unresolved: false, errorTag: null, lastFailureAt: 0, confirmationVariants: [], confirmations: 0 };
 }
-function fail(t, tag, at) {
+function fail(t, tag, at, mode = 'production') {
   t.unresolved = true; t.errorTag = tag || t.skill; t.lastFailureAt = at;
+  t.evidenceMode = mode;
   t.confirmationVariants = []; t.confirmations = 0;
 }
 function confirm(t, event, eligible) {
@@ -284,7 +290,8 @@ function confirm(t, event, eligible) {
 
 function analyze(domain, objectiveId, now, all, positions, events, chronology = new Map()) {
   const last = events[events.length - 1];
-  if (last?.kind === 'grammar') return last.policy === 'grammar-v2' ? courseSkill(events,now) : grammarSkill(events,now);
+  if (last?.kind === 'grammar') return applyReviewSchedule(events,last.policy === 'grammar-v2' ? courseSkill(events,now) : grammarSkill(events,now),now);
+  const scheduleEvents=events;
   const journey = last?.policy === 'journey-v1';
   // A new content policy never upgrades legacy evidence, even if an imported
   // custom target accidentally reuses an older objective identifier.
@@ -292,7 +299,7 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
   const required = journey ? 2 : 4;
   const result = {
     objectiveId, entryId: last?.entryId || null, kind: last?.kind || null, skill: last?.skill || null, tense: last?.tense || null,
-    attempts: 0, recognitionCorrect: 0, productionAttempts: 0, productionQuestions: 0, independentCorrect: 0, requiredCorrect: required,
+    attempts: 0, recognitionCorrect: 0, recognitionReady:false, recognitionRemembered:false, productionAttempts: 0, productionQuestions: 0, independentCorrect: 0, requiredCorrect: required,
     variantCount: 0, independentPersons: [], spacedSuccess: false,
     ready: false, remembered: false, status: 'new', readyAt: null, rememberedAt: null, readyPeriods: [],
     unresolvedErrors: [], components: {}, personEvidence: {}, sessionEvidence: {},
@@ -304,7 +311,8 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
   const main = tracker(last.skill || 'practice');
   const variations = new Set(), persons = new Set(), previousVariants = new Map();
   const previousProduction = new Map(), advanced = new Set(), failed = new Set();
-  const checks = [], delayed = [];
+  const checks = [], delayed = [], recognitionChecks=[];
+  let previousRecognition=null;
   // A verb chapter already has separately taught forms and contextual checks.
   // One intervening activity is enough to space its two unaided recalls;
   // adjacent answers, copied forms, and duplicate scenes remain ineligible.
@@ -327,6 +335,11 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
     const spaced = (!!priorProduction && pos - positions.get(priorProduction.id) >= evidenceGap)
       || (journey && previousIndependent && previousIndependent.sessionId !== e.sessionId && e.at - previousIndependent.at >= REPEAT_DELAY);
     const eligible = qualifying && e.ok && repeatIsSpaced && (!journey || !previousIndependent || spaced);
+    const recognitionIndependent=e.mode==='recognition' && e.firstAttempt && !e.assistance.length && e.outcome==='correct';
+    const recognitionSeparated=!previousRecognition || (previousRecognition.sessionId===e.sessionId
+      ? pos-positions.get(previousRecognition.id)>=evidenceGap : e.at-previousRecognition.at>=REPEAT_DELAY);
+    const recognitionEligible=recognitionIndependent && recognitionSeparated && repeatIsSpaced;
+    if(recognitionIndependent){if(recognitionEligible)recognitionChecks.push(e);previousRecognition=e;}
     if (qualifying) { checks.push(e.ok); result.productionAttempts++; previousProduction.set(e.sessionId, e); previousIndependent = e; }
     // A correction/reveal cannot immediately become a fresh first-attempt win.
     // Ordinary recognition questions are spacers, not production successes.
@@ -335,20 +348,20 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
     // Successful support is a teaching activity in a chapter, not a new failure.
     // It contributes no independent credit and cannot erase previous retrieval.
     const needsRepair = !e.ok || e.outcome === 'revealed' || (!journey && (e.assistance.length > 0 || !e.firstAttempt));
-    if (needsRepair) fail(main, e.errorTags[0] || (e.outcome === 'revealed' ? 'revealed' : e.assistance.length ? 'assisted' : 'needs-practice'), e.at);
-    else if (e.ok) confirm(main, e, eligible);
+    if (needsRepair) fail(main, e.errorTags[0] || (e.outcome === 'revealed' ? 'revealed' : e.assistance.length ? 'assisted' : 'needs-practice'), e.at,e.mode);
+    else if (e.ok) confirm(main, e, eligible || recognitionEligible && main.evidenceMode==='recognition');
     for (const c of e.components) {
       const t = result.components[c.skill] ||= tracker(c.skill);
       t.seen++;
-      if (!c.ok) fail(t, c.errorTag || c.skill, e.at);
-      else confirm(t, e, qualifying && repeatIsSpaced && (!journey || eligible));
+      if (!c.ok) fail(t, c.errorTag || c.skill, e.at,e.mode);
+      else confirm(t, e, qualifying && repeatIsSpaced && (!journey || eligible) || recognitionEligible && t.evidenceMode==='recognition');
       // Only an explicit person diagnosis justifies person-specific remediation.
       // A wrong participle/auxiliary family must not invent a person error.
       if (c.skill === 'person' && e.person !== null && !BAD_KEYS.has(String(e.person))) {
         const p = result.personEvidence[String(e.person)] ||= { ...tracker('person'), person: e.person };
         p.seen++;
-        if (!c.ok) fail(p, c.errorTag || 'person', e.at);
-        else confirm(p, e, qualifying && repeatIsSpaced && (!journey || eligible));
+        if (!c.ok) fail(p, c.errorTag || 'person', e.at,e.mode);
+        else confirm(p, e, qualifying && repeatIsSpaced && (!journey || eligible) || recognitionEligible && p.evidenceMode==='recognition');
       }
     }
     if (eligible) {
@@ -371,9 +384,9 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
       else result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
     } else if (needsRepair) {
       result.srs.due = Math.min(result.srs.due || Infinity, e.at + SHORT_REVIEW);
-    } else if ((eligible || SUPPORTED_WORD_POLICIES.has(e.wordPolicy)) && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
+    } else if ((eligible || recognitionEligible || SUPPORTED_WORD_POLICIES.has(e.wordPolicy)) && !advanced.has(e.sessionId) && !failed.has(e.sessionId)
       && (!result.srs.due || e.at >= result.srs.due || (!result.srs.reps && !result.srs.lapses))) {
-      result.srs = schedule(result.srs, eligible ? 4 : 3, e.at); advanced.add(e.sessionId);
+      result.srs = schedule(result.srs, eligible || recognitionEligible ? 4 : 3, e.at); advanced.add(e.sessionId);
     } else if (!result.srs.due) result.srs.due = e.at + SHORT_REVIEW;
 
     const unresolved = main.unresolved || Object.values(result.components).some(t => t.unresolved) || Object.values(result.personEvidence).some(t => t.unresolved);
@@ -395,11 +408,65 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
   }
   result.variantCount = variations.size;
   result.independentPersons = [...persons].sort((a, b) => cmp(String(a), String(b)));
-  result.unresolvedErrors = [...Object.values(result.personEvidence), ...Object.values(result.components), main].filter(t => t.unresolved).map(t => ({ skill: t.skill, tag: t.errorTag, at: t.lastFailureAt, confirmations: t.confirmations, ...(t.person !== undefined ? { person: t.person } : {}) }));
+  result.unresolvedErrors = [...Object.values(result.personEvidence), ...Object.values(result.components), main].filter(t => t.unresolved).map(t => ({ skill: t.skill, tag: t.errorTag, at: t.lastFailureAt, evidenceMode:t.evidenceMode || 'production',confirmations: t.confirmations, ...(t.person !== undefined ? { person: t.person } : {}) }));
   result.remembered = result.ready && result.rememberedAt !== null;
+  result.recognitionReady=recognitionChecks.length>=2;
+  result.recognitionRemembered=result.recognitionReady && recognitionChecks.some((e,i)=>i>0&&e.sessionId!==recognitionChecks[0].sessionId&&e.at-recognitionChecks[0].at>=DAY);
   result.status = result.remembered ? 'remembered' : result.ready ? 'ready' : result.attempts ? 'practicing' : 'new';
   result.due = result.srs.due; result.isDue = !!result.due && result.due <= now;
-  return result;
+  return applyReviewSchedule(scheduleEvents,result,now);
+}
+
+// A bounded review uses its declared evidence mode. It can repair/space that
+// schedule without making recognition a written-production milestone. Replaying
+// equivalent aliases advances one schedule once per session; raw IDs stay saved.
+function applyReviewSchedule(events,state,now) {
+  if(state.kind==='grammar') {
+    const last=events.at(-1);
+    events=events.filter(e=>e.policy===last?.policy && e.contentVersion===last?.contentVersion);
+  }
+  if(!events.some(e=>e.reviewPolicy==='unified-review-v1')&&new Set(events.map(e=>e.objectiveId)).size<2)return state;
+  const grammarQualified=state.kind==='grammar'?new Set([
+    ...(state.responseEvidence?.recognition.qualifiedEventIds || []),
+    ...(state.responseEvidence?.written.qualifiedEventIds || [])]):null;
+  const lanes={recognition:{s:0,ef:2.5,iv:0,due:0,reps:0,lapses:0},production:{s:0,ef:2.5,iv:0,due:0,reps:0,lapses:0}};
+  const failed=new Set(),advanced=new Set(),recognitionVariants=new Map();
+  let recognizedAt=null,recognizedSession=null,recognitionSuccesses=0,previousRecognition=null,recognitionDelayed=false;
+  for(const e of events){
+    if(['skipped','ungraded'].includes(e.outcome))continue;
+    const mode=e.mode==='production'?'production':'recognition',sessionKey=mode+'|'+e.sessionId;
+    let srs=lanes[mode];
+    if(!e.ok||e.outcome==='revealed'){
+      if(!failed.has(sessionKey)){lanes[mode]=schedule(srs,1,e.at);failed.add(sessionKey);}
+      continue;
+    }
+    let assessed=e.firstAttempt&&!e.assistance.length && (mode==='recognition'||independent(e))
+      && (!grammarQualified || e.grammarPhase==='independent' && grammarQualified.has(e.id));
+    if(mode==='recognition' && !grammarQualified) {
+      const previous=recognitionVariants.get(variantKey(e));
+      const separated=!previousRecognition||(previousRecognition.sessionId===e.sessionId?e.index-previousRecognition.index>=2:e.at-previousRecognition.at>=REPEAT_DELAY);
+      const fresh=!previous||(previous.sessionId===e.sessionId?e.index-previous.index>=3:e.at-previous.at>=REPEAT_DELAY);
+      assessed=assessed&&separated&&fresh;
+      recognitionVariants.set(variantKey(e),e);
+    }
+    if(!assessed){if(!srs.due)srs.due=e.at+SHORT_REVIEW;continue;}
+    if(mode==='recognition'){
+      recognitionSuccesses++;recognizedAt ??= e.at;recognizedSession ??= e.sessionId;previousRecognition=e;
+      if(e.sessionId!==recognizedSession&&e.at-recognizedAt>=DAY)recognitionDelayed=true;
+    }
+    if(!advanced.has(sessionKey)&&!failed.has(sessionKey)&&(!srs.due||e.at>=srs.due)){
+      lanes[mode]=schedule(srs,4,e.at);advanced.add(sessionKey);
+    }
+  }
+  const scheduled=Object.entries(lanes).filter(([,s])=>s.due).sort((a,b)=>a[1].due-b[1].due||a[0].localeCompare(b[0]));
+  state.recognitionSrs=lanes.recognition;state.productionSrs=lanes.production;
+  state.schedulingMode=scheduled[0]?.[0] || null;state.srs=scheduled[0]?.[1] || state.srs;
+  state.due=state.srs.due;state.isDue=!!state.due&&state.due<=now;
+  if(state.kind!=='grammar') {
+    state.recognitionReady=state.recognitionReady||recognitionSuccesses>=2;
+    state.recognitionRemembered=state.recognitionRemembered||recognitionSuccesses>=2&&recognitionDelayed;
+  }
+  return state;
 }
 
 const evidenceCache = new WeakMap();
@@ -424,8 +491,9 @@ function appendEvidence(previous,learning,event) {
   if(!monotonic)return; // Imported/backdated evidence rebuilds in deterministic order.
   const bySession=new Map(previous.bySession),byObjective=new Map(previous.byObjective),summaries=new Map(previous.summaries);
   bySession.set(event.sessionId,[...session,event]);
-  byObjective.set(event.objectiveId,[...(byObjective.get(event.objectiveId) || []),event]);
-  summaries.delete(event.objectiveId);
+  const objectiveId=canonicalObjectiveId(event.objectiveId);
+  byObjective.set(objectiveId,[...(byObjective.get(objectiveId) || []),event]);
+  summaries.delete(objectiveId);
   // Forks can append the same ID at different coordinates. Keep each domain's
   // indexes isolated, including summaries that have not been requested yet.
   const positions=new Map(previous.positions),chronology=new Map(previous.chronology);
@@ -437,7 +505,7 @@ function appendEvidence(previous,learning,event) {
 function evidenceFor(domain, now) {
   const cacheable = domain && typeof domain === 'object';
   const cached = cacheable && evidenceCache.get(domain);
-  if (cached && cached.eventsRef === domain.events && cached.epochId === domain.epoch?.id && cached.epochAt === domain.epoch?.at) return cached;
+  if (cached && cached.mappingRevision===objectiveRegistryRevision() && cached.eventsRef === domain.events && cached.epochId === domain.epoch?.id && cached.epochAt === domain.epoch?.at) return cached;
   const learning=domain?.version===LEARNING_VERSION&&canonicalEvents.has(domain.events)?domain:normalizeLearning(domain,now);
   const checkpoint=checkpointFor(learning);
   const events=checkpoint?checkpoint.orderedIds.map(id=>learning.events[id]):orderedEvents(learning);
@@ -445,22 +513,25 @@ function evidenceFor(domain, now) {
   const positions = new Map(), bySession = new Map(), byObjective = new Map(), chronology = new Map(events.map((e, i) => [e.id, i]));
   for (const e of events) {
     if (!bySession.has(e.sessionId)) bySession.set(e.sessionId, []);
-    if (!byObjective.has(e.objectiveId)) byObjective.set(e.objectiveId, []);
-    bySession.get(e.sessionId).push(e); byObjective.get(e.objectiveId).push(e);
+    const objectiveId=canonicalObjectiveId(e.objectiveId);
+    if (!byObjective.has(objectiveId)) byObjective.set(objectiveId, []);
+    bySession.get(e.sessionId).push(e); byObjective.get(objectiveId).push(e);
   }
   for (const group of bySession.values()) {
     group.sort((a, b) => cmp(a.index, b.index) || compareEvents(a, b));
     group.forEach((e, i) => positions.set(e.id, i));
   }
-  const summaries=checkpoint?new Map(Object.entries(checkpoint.summaries)):new Map();
-  const context = { learning, events, positions, chronology, byObjective,bySession, summaries, eventsRef: domain?.events, epochId: domain?.epoch?.id, epochAt: domain?.epoch?.at };
+  const summaries=checkpoint&&checkpoint.mappingSignature===objectiveMappingSignature()?new Map(Object.entries(checkpoint.summaries)):new Map();
+  const context = { learning, events, positions, chronology, byObjective,bySession, summaries, mappingRevision:objectiveRegistryRevision(),eventsRef: domain?.events, epochId: domain?.epoch?.id, epochAt: domain?.epoch?.at };
   if (cacheable) evidenceCache.set(domain, context);
   return context;
 }
 function summaryFrom(context, id, now) {
+  const requested=id;id=canonicalObjectiveId(id);
   if (!context.summaries.has(id)) {const events=context.byObjective.get(id) || [];indexStats.replayedEvents+=events.length;context.summaries.set(id, analyze(context.learning, id, 0, context.events, context.positions,events, context.chronology));}
   // Callers can decorate their returned summary without corrupting the cache.
   const summary = plain(context.summaries.get(id));
+  summary.objectiveId=requested;summary.canonicalObjectiveId=id;
   summary.isDue = !!summary.due && summary.due <= now;
   return summary;
 }
@@ -484,7 +555,7 @@ export function checkpointLearning(domain,now=Date.now()) {
   if(unsupported(learning))throw new Error('Update Parola before checkpointing this learning data.');
   delete learning.checkpoint;
   const context=evidenceFor(learning,now),summaries=Object.fromEntries(allSkills(learning,0).map(s=>[s.objectiveId,s]));
-  learning.checkpoint={version:1,learningVersion:LEARNING_VERSION,policyVersion:CHECKPOINT_POLICY,epochId:learning.epoch.id,epochAt:learning.epoch.at,
+  learning.checkpoint={version:1,learningVersion:LEARNING_VERSION,policyVersion:CHECKPOINT_POLICY,mappingVersion:OBJECTIVE_MAPPING_VERSION,mappingSignature:objectiveMappingSignature(),epochId:learning.epoch.id,epochAt:learning.epoch.at,
     eventDigest:eventDigest(learning.events),completionDigest:fingerprint(stable(learning.completions)),orderedIds:context.events.map(e=>e.id),summaries,summaryDigest:fingerprint(stable(summaries))};
   return learning;
 }

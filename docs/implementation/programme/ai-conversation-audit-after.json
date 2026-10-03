@@ -1,0 +1,16 @@
+{
+  "measuredAt": "2026-10-03T15:13:40.541Z",
+  "source": "independent synthetic fixtures; no user records",
+  "summary": {
+    "meaningReversalCreatesCorrection": false,
+    "missingSourceCreatesCorrection": false
+  },
+  "storage": {
+    "collisionError": "A different recording already uses this identity.",
+    "recordingTurn": "source-1",
+    "recordingText": "first-recording",
+    "source1StillReferencesSharedId": true,
+    "quoteError": "A study note does not match its source words",
+    "wrongQuoteAccepted": false
+  }
+}

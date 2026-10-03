@@ -15,8 +15,11 @@ self.onmessage = async ({ data: { id, op, payload } }) => {
     if (op === 'load') {
       // The general pipeline factory derives components from a remote file inventory.
       // Load the known local Whisper components explicitly so processor readiness cannot be skipped.
+      const modelId = payload?.model || 'whisper-tiny';
+      if (!['whisper-tiny', 'whisper-base'].includes(modelId)) throw Error('Unprovisioned recognition model');
+      await transcriber?.dispose?.();
       const options = { device: 'wasm', dtype: 'q8', local_files_only: true };
-      const [model, tokenizer, processor] = await Promise.all([WhisperForConditionalGeneration.from_pretrained('whisper-tiny', options), AutoTokenizer.from_pretrained('whisper-tiny', options), AutoProcessor.from_pretrained('whisper-tiny', options)]);
+      const [model, tokenizer, processor] = await Promise.all([WhisperForConditionalGeneration.from_pretrained(modelId, options), AutoTokenizer.from_pretrained(modelId, options), AutoProcessor.from_pretrained(modelId, options)]);
       transcriber = new AutomaticSpeechRecognitionPipeline({ task: 'automatic-speech-recognition', model, tokenizer, processor });
       self.postMessage({ id, result: { loadMs: performance.now() - start } }); return;
     }

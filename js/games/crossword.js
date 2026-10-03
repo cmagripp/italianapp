@@ -3,7 +3,7 @@
 import { html, raw, esc, haptic, toast, speak } from '../ui.js';
 import { store } from '../store.js';
 import { shortEn, fold, shuffle } from '../data.js';
-import { showResults, gameTop, keyboardHTML, mountDock, pad2 } from './engine.js';
+import { showResults, gameTop, keyboardHTML, mountDock, pad2, gameActivityFence, gameAnswerBudget } from './engine.js';
 import fx from '../fx.js';
 
 const SIZE = 19;          // scratch grid; the result is cropped to its bounding box
@@ -98,9 +98,11 @@ function buildGrid(words, maxCols, tries = 12) {
 }
 
 export function startCrossword(root, ctx) {
+  const current=gameActivityFence(ctx.isActive);let dead=false,resultsShown=false;
+  const active=()=>!dead&&current();
   const cands = ctx.items.map(e => { const orig = e.kind === 'verb' ? e.inf : e.it; const text = fold(orig).replace(/[^a-z]/g, ''); return text.length >= 3 && text.length <= 9 && !orig.includes(' ') && !orig.includes("'") ? { text, clue: shortEn(e.en), id: e.id, orig, e } : null; }).filter(Boolean);
   const seen = new Set();
-  const words = shuffle(cands).filter(w => !seen.has(w.text) && seen.add(w.text)).slice(0, 12);
+  const words = shuffle(cands).filter(w => !seen.has(w.text) && seen.add(w.text)).slice(0,gameAnswerBudget(ctx));
   if (words.length < 3) { root.innerHTML = html`<div class="empty"><p>Need at least 3 single words for a crossword.</p><a class="btn primary" href="${ctx.backHref}">Choose another source</a></div>`; return; }
   const maxCols = maxColsFor();
   const { grid, rows, cols, placed, numAt } = buildGrid(words, maxCols);
@@ -173,7 +175,7 @@ export function startCrossword(root, ctx) {
       else if (r.bottom > fr.bottom - 10) frame.scrollTop += (r.bottom - (fr.bottom - 10));
     }
   }
-  function select(p, atPos = 0) { cur = p; pos = Math.max(0, Math.min(p.text.length - 1, atPos)); paint(); }
+  function select(p, atPos = 0) { if(!active())return;cur = p; pos = Math.max(0, Math.min(p.text.length - 1, atPos)); paint(); }
   function jumpNext() {
     const idx = placed.indexOf(cur);
     for (let k = 1; k <= placed.length; k++) {
@@ -182,7 +184,7 @@ export function startCrossword(root, ctx) {
     }
   }
   function press(l) {
-    if (finished) return;
+    if (!active() || finished) return;
     const cells = cellsOf(cur);
     if (l === '⌫') {
       if (pos > 0 && !entered[cells[pos][0]][cells[pos][1]]) pos--;
@@ -196,7 +198,7 @@ export function startCrossword(root, ctx) {
     if (armed) { armed = false; const b = dock.el.querySelector('[data-check]'); if (b) b.textContent = 'Check puzzle'; }
   }
   function hint() {
-    if (finished) return;
+    if (!active() || finished) return;
     const cells = cellsOf(cur);
     const empty = cells.find(([r, c]) => !entered[r][c]) || cells[pos];
     entered[empty[0]][empty[1]] = grid[empty[0]][empty[1]];
@@ -206,7 +208,7 @@ export function startCrossword(root, ctx) {
     paint();
   }
   function check() {
-    if (finished) return;
+    if (!active() || finished) return;
     const allCells = new Set(placed.flatMap(p => cellsOf(p).map(([r, c]) => `${r},${c}`)));
     const empties = [...allCells].filter(k => { const [r, c] = k.split(',').map(Number); return !entered[r][c]; }).length;
     if (empties && !armed) {
@@ -225,6 +227,7 @@ export function startCrossword(root, ctx) {
     if (ok.length === placed.length) toast('Perfetto! Puzzle complete', { kind: 'ok' });
   }
   function results() {
+    if(!active()||resultsShown)return;resultsShown=true;
     const ok = placed.filter(isRight);
     const result = { gameId: 'crossword', total: placed.length, correct: ok.length, wrong: placed.length - ok.length, score: Math.round((ok.length / placed.length) * 100), missed: placed.filter(p => !ok.includes(p)).map(p => p.id), secs: Math.round((Date.now() - start) / 1000) };
     result.xp = ok.length * 3 + (ok.length === placed.length ? 15 : 0);
@@ -236,7 +239,7 @@ export function startCrossword(root, ctx) {
 
   // ----- events -----
   gridEl.addEventListener('click', (ev) => {
-    const el = ev.target.closest('.c[data-r]'); if (!el || finished) return;
+    const el = ev.target.closest('.c[data-r]'); if (!el || !active() || finished) return;
     const r = Number(el.dataset.r), c = Number(el.dataset.c);
     const ws = wordsAt(r, c); if (!ws.length) return;
     const here = cellsOf(cur)[pos];
@@ -246,12 +249,13 @@ export function startCrossword(root, ctx) {
     select(next, cellsOf(next).findIndex(([rr, cc]) => rr === r && cc === c));
   });
   root.querySelector('.clues').addEventListener('click', (ev) => {
-    const b = ev.target.closest('[data-w]'); if (!b) return;
+    const b = ev.target.closest('[data-w]'); if (!b || !active()) return;
     const p = placed[Number(b.dataset.w)];
     if (finished) { speak(p.orig); return; }
     select(p, Math.max(0, cellsOf(p).findIndex(([r, c]) => !entered[r][c])));
   });
   dock.el.addEventListener('click', (ev) => {
+    if(!active())return;
     const k = ev.target.closest('[data-l]');
     if (k) { press(k.dataset.l); return; }
     if (ev.target.closest('[data-hint]')) { hint(); return; }
@@ -259,7 +263,7 @@ export function startCrossword(root, ctx) {
     if (ev.target.closest('[data-results]')) results();
   });
   const onKey = (e) => {
-    if (!root.contains(gridEl)) { cleanup(); return; }
+    if (!active() || !root.contains(gridEl)) { cleanup(); return; }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
     if (/^[a-zA-Z]$/.test(e.key)) { press(e.key.toLowerCase()); e.preventDefault(); }
@@ -268,7 +272,7 @@ export function startCrossword(root, ctx) {
   };
   document.addEventListener('keydown', onKey);
   let cleaned = false;
-  function cleanup() { if (cleaned) return; cleaned = true; document.removeEventListener('keydown', onKey); dock.destroy(); }
+  function cleanup() { if (cleaned) return; cleaned = true; dead=true; document.removeEventListener('keydown', onKey); dock.destroy(); }
   paint();
   return cleanup;
 }

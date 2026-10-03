@@ -121,7 +121,9 @@ function sceneContexts(e,ch){
   if(e.inf==='dovere'&&ch==='background')enVerb='used to have to';
   if(e.inf==='potere'&&ch==='past'&&![0,2].includes(person))enVerb='were able to';
   let tail=['past','background'].includes(ch)&&e.inf==='credere'&&situation===0?'what Marco said':enTail;
-  out.push({id:`${e.id}:${ch}:scene-${situation}:person-${person}`,it:`${ch==='background'?'A quel tempo, ':''}${subjects[person]} ${answer} ${itTail}.`,en:`${ch==='background'?'Back then, ':''}${english[person]} ${enVerb} ${tail}.`,answer,answers,person,role:'ordinary',aux:ch==='past'?scene.aux:null,source:'reviewed-scene',reviewed:true});
+  const midSentence=ch==='background'&&[0,1,3,4].includes(person),itSubject=midSentence?subjects[person].toLowerCase():subjects[person];
+  const enSubject=midSentence&&person!==0?english[person].toLowerCase():english[person];
+  out.push({id:`${e.id}:${ch}:scene-${situation}:person-${person}`,it:`${ch==='background'?'A quel tempo, ':''}${itSubject} ${answer} ${itTail}.`,en:`${ch==='background'?'Back then, ':''}${enSubject} ${enVerb} ${tail}.`,answer,answers,person,role:'ordinary',aux:ch==='past'?scene.aux:null,source:'reviewed-scene',reviewed:true});
  }
  // Polite direct address is a meaning-bearing role, not inferred from capitalization.
  for(let situation=0;situation<scene.uses.length;situation++){

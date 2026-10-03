@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 // Merges data/vocab/*.json and data/verbs/*.json into data/vocab.json and data/verbs.json,
-// de-duplicating across levels (lowest CEFR level wins), assigning stable ids and writing data/stats.json.
+// Preserves legacy headword IDs and reports every collision. Reviewed sense
+// splits are separate learning entries, without rewriting old lesson content.
 // Usage: node tools/build-data.mjs
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateVocab, validateVerbs } from './validate.mjs';
 import { conjugate } from '../js/conjugator.js';
+import { applyEditorialSenses } from './lexical-senses.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
@@ -34,6 +36,7 @@ const slug = (s) => norm(s).replace(/[^a-z0-9àèéìíîòóùú' ]/g, '').repl
 
 // ---- vocab ----
 const vocabMap = new Map();
+const vocabSources = new Map();
 let vocabIn = 0, vocabErrors = 0;
 for (const { file, data } of readDir(path.join(ROOT, 'data/vocab'))) {
   const errs = validateVocab(data, file);
@@ -43,6 +46,8 @@ for (const { file, data } of readDir(path.join(ROOT, 'data/vocab'))) {
     if (bad.has(i)) return;
     vocabIn++;
     const key = `${norm(e.it)}|${e.pos}`;
+    if(!vocabSources.has(key))vocabSources.set(key,[]);
+    vocabSources.get(key).push({file:path.relative(ROOT,file),index:i,record:e});
     const cur = vocabMap.get(key);
     if (!cur || lvl(e.level) < lvl(cur.level)) {
       const merged = { ...e };
@@ -51,11 +56,27 @@ for (const { file, data } of readDir(path.join(ROOT, 'data/vocab'))) {
     } else if (cur && !cur.note && e.note) cur.note = e.note;
   });
 }
-const vocab = [...vocabMap.values()].map(e => ({ id: `w:${slug(e.it)}|${e.pos}`, ...e }));
+let vocab = [...vocabMap.values()].map(e => ({ id: `w:${slug(e.it)}|${e.pos}`, ...e }));
 vocab.sort((a, b) => lvl(a.level) - lvl(b.level) || a.cat.localeCompare(b.cat) || a.it.localeCompare(b.it, 'it'));
 // ensure unique ids
 const seenIds = new Set();
 for (const e of vocab) { let id = e.id, n = 2; while (seenIds.has(id)) id = `${e.id}#${n++}`; e.id = id; seenIds.add(id); }
+const senseRegistries=['vocab','frequency'].map(name=>JSON.parse(fs.readFileSync(path.join(ROOT,`data/lexical-senses/${name}.json`),'utf8')));
+for(const registry of senseRegistries)vocab=applyEditorialSenses(vocab,registry);
+// Source-file validation deliberately rejects repeated headwords. Explicit
+// senses share a headword by design; validate their fields individually after
+// applyEditorialSenses has checked unique entry/sense identifiers.
+const senseErrors=vocab.filter(e=>e.senseId).flatMap(e=>validateVocab([e],e.id));
+if(senseErrors.length)throw new Error(senseErrors.join('\n'));
+vocab.sort((a,b)=>lvl(a.level)-lvl(b.level)||a.cat.localeCompare(b.cat)||a.it.localeCompare(b.it,'it')||a.id.localeCompare(b.id));
+const splits=new Set(senseRegistries.flatMap(registry=>registry.entries.map(e=>e.entryId)));
+const collisions=[...vocabSources].filter(([,records])=>records.length>1).map(([headword,records])=>{
+  const entryId=`w:${slug(records[0].record.it)}|${records[0].record.pos}`;
+  return {headword,entryId,equalLevel:records.some((r,i)=>records.some((s,j)=>i!==j&&r.record.level===s.record.level)),status:splits.has(entryId)?'editorial-split':'needs-semantic-review',records};
+});
+// This report deliberately includes equal-level and seemingly identical rows.
+// English overlap does not establish equivalence or justify dropping a sense.
+fs.writeFileSync(path.join(ROOT,'docs/implementation/programme/lexical-collisions.json'),JSON.stringify({schemaVersion:1,contentVersion:senseRegistries.map(registry=>registry.contentVersion).join('+'),collisions},null,2)+'\n');
 
 // ---- verbs ----
 const verbMap = new Map();
@@ -91,10 +112,12 @@ fs.writeFileSync(path.join(ROOT, 'data/verbs.json'), JSON.stringify(verbs));
 
 const byLevel = (arr) => Object.fromEntries(LEVELS.map(l => [l, arr.filter(e => e.level === l).length]));
 const byCat = (arr) => { const o = {}; for (const e of arr) o[e.cat] = (o[e.cat] || 0) + 1; return o; };
-const stats = { vocab: { total: vocab.length, byLevel: byLevel(vocab), byCat: byCat(vocab), byPos: byCat(vocab.map(e => ({ cat: e.pos }))) }, verbs: { total: verbs.length, byLevel: byLevel(verbs), irregular: verbs.filter(v => v.irregularEngine).length } };
+const activeVocab=vocab.filter(e=>!e.legacyGrouping);
+const stats = { vocab: { total: activeVocab.length, legacyEntries:vocab.length-activeVocab.length, senses:activeVocab.filter(e=>e.senseId).length, collisions:collisions.length, byLevel: byLevel(activeVocab), byCat: byCat(activeVocab), byPos: byCat(activeVocab.map(e => ({ cat: e.pos }))) }, verbs: { total: verbs.length, byLevel: byLevel(verbs), irregular: verbs.filter(v => v.irregularEngine).length } };
 fs.writeFileSync(path.join(ROOT, 'data/stats.json'), JSON.stringify(stats, null, 2));
 
 console.log(`vocab: ${vocabIn} in -> ${vocab.length} unique (${vocabErrors} validation errors)`);
+console.log(`sense splits: ${splits.size} headwords, ${stats.vocab.senses} independent senses; ${collisions.length} source collisions reported`);
 console.log(`verbs: ${verbIn} in -> ${verbs.length} unique (${verbErrors} validation errors)`);
 console.log('by level (vocab):', stats.vocab.byLevel);
 console.log('by level (verbs):', stats.verbs.byLevel);

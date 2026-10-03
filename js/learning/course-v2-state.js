@@ -1,5 +1,6 @@
 // Replayable evidence for authored course targets. It never changes dictionary completion.
 import { schedule } from '../srs.js';
+import { grammarEvidence } from './grammar-evidence.js';
 
 const HOUR = 3600e3;
 const emptySrs = () => ({ s:0, ef:2.5, iv:0, due:0, reps:0, lapses:0 });
@@ -53,6 +54,7 @@ export function courseSkill(inputEvents,now=Date.now(),target=null) {
     facetEvidence:Object.fromEntries(r.facets.map(f=>[f,0])),requiresProduction:r.requiresProduction,modality:r.modality,
     unresolvedErrors:[],sessionEvidence:{},srs:emptySrs(),lastAt:last?.at || null};
   const credits=new Map(r.facets.map(f=>[f,[]]));
+  const evidence=grammarEvidence(r);
   const exposures=new Map();
   const lastCredit={};
   let production=false, everReady=false;
@@ -109,11 +111,12 @@ export function courseSkill(inputEvents,now=Date.now(),target=null) {
       state.srs=schedule(state.srs,shortRepair?3:5,e.at);
       state.sessionEvidence[e.sessionId]={at:e.at,ok:true};
     }
+    evidence.observe(e,{eligible,facet,context:clean(e.contextId || e.variantId),blocked:!!state.unresolvedErrors.length});
   }
   state.due=state.srs.due;
   state.enrolled=everReady;
   state.isDue=everReady && !!state.due && state.due<=now;
   state.remembered=state.ready && state.srs.reps>=2 && !state.unresolvedErrors.length;
   state.status=state.ready ? state.remembered?'remembered':'ready' : state.attempts?'learning':'new';
-  return state;
+  return {...state,...evidence.summary()};
 }

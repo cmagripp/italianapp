@@ -1,0 +1,38 @@
+{
+  "model": {
+    "repo": "Qwen/Qwen3-8B-GGUF",
+    "revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+    "file": "Qwen3-8B-Q4_K_M.gguf",
+    "bytes": 5027783488,
+    "sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+    "license": "Apache-2.0",
+    "source": "https://huggingface.co/Qwen/Qwen3-8B-GGUF"
+  },
+  "runtime": {
+    "repo": "ggml-org/llama.cpp",
+    "release": "b11146",
+    "revision": "7fe450e19305b828c199d602c23a8337aaa1f03b",
+    "license": "MIT",
+    "macosArchiveBytes": 11189714,
+    "macosArchiveSHA256": "1ad3f9eff80edb9dbef4259ad564d1720612ef7eea48fa4afed0e54f5f3d5711",
+    "xcframeworkArchiveBytes": 58177795,
+    "xcframeworkArchiveSHA256": "1c306afe9fe68a90c4bdc74619d8558d6e0754f085deb105dd2d70293a9a964f",
+    "sourceArchiveSHA256": "a6861d549427f814dc591c439e08206f67ffaba0248344d421589abf18199e67",
+    "source": "https://github.com/ggml-org/llama.cpp/releases/tag/b11146"
+  },
+  "trial": {
+    "contextTokens": 4096,
+    "outputTokens": 512,
+    "seed": 42,
+    "temperature": 0.7,
+    "topP": 0.8,
+    "topK": 20,
+    "minP": 0,
+    "presencePenalty": 1.5,
+    "thinking": false,
+    "samplingReason": "Official non-thinking recommendations, fixed before first inference",
+    "minimumFreeGiB": 5,
+    "productionApproved": false,
+    "scope": "One bounded native trial; small frozen corpus, no tuning-to-tests, no physical iPhone proof"
+  }
+}

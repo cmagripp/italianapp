@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {loadPlaywright,launchBrowser,contextOptions,ensureServer,boot,gotoRoute,reloadApp,SHOTS_DIR} from './lib.mjs';
-import {journeyQuestion,solveJourneyQuestion} from './journey-driver.mjs';
+import {journeyQuestion,solveJourneyQuestion,advanceJourneyPage} from './journey-driver.mjs';
 const {chromium,webkit,devices}=await loadPlaywright(),stop=await ensureServer();
 const browser=process.env.VERB_BROWSER==='webkit'?await webkit.launch({headless:true}):await launchBrowser(chromium);
 const errors=[],results=[];let context,page;
@@ -37,7 +37,13 @@ try{
     if(/Build/.test(text))assert(/viaggiando/.test(text));
     await visibleControls();
    }
-   if(phase==='question'){
+   if(phase==='paused'){
+    const before=await saved(),visit=before.session.ui.visits.present;
+    assert(visit.boundary);assert.equal(visit.eventIds.length,8);
+    await advanceJourneyPage(page);const after=await saved();
+    assert.deepEqual(after.events,before.events);assert.equal(after.xp,before.xp);
+    assert.equal(after.session.ui.visits.present.number,visit.number+1);
+   }else if(phase==='question'){
     const q=await journeyQuestion(page);
     if(group==='mixed-review'){if(q.meta.skill==='progressive')mixedProgressive=true;else mixedSimple=true;}
     if(group==='mixed-review'&&q.meta.skill==='progressive'&&q.type==='type'&&!mixedError){
@@ -46,7 +52,7 @@ try{
     const before=await saved();await page.waitForTimeout(100);assert.equal((await saved()).session.journey.current.questionId,before.session.journey.current.questionId);
     await visibleControls();
     if(group==='mixed-review'&&mixedError){fs.mkdirSync(SHOTS_DIR,{recursive:true});await page.screenshot({path:SHOTS_DIR+'/verb-v2-mixed-phone.png'});}
-   }else await page.locator('[data-continue]').click();
+   }else await advanceJourneyPage(page);
   }
   assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'),'recap');
   assert(mixedSimple&&mixedProgressive&&mixedError);

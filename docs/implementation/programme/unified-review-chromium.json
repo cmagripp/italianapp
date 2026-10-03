@@ -1,0 +1,17 @@
+{
+  "browser": "chromium",
+  "passed": 10,
+  "results": [
+    "Review groups words and completed verb cases while retaining outside-scope due work",
+    "The short mixed visit has a fixed bounded denominator and updates the actual game difficulty",
+    "Feedback survives reload without changing rewards or duplicating evidence",
+    "Pause and Home/Learn Continue return to the exact saved review",
+    "An uncheck fences a saved case and the visit remains finite",
+    "Typed review retains its exact draft and submitted accent policy through page reload",
+    "Listening review records unsupported guesses and preserves the complete reviewed audio source",
+    "A complete audio replay earns listening evidence and survives exact visit reload",
+    "Grammar review retains the authored Italian gap and the situation that determines its answer",
+    "Grammar Review preserves a written error after choice repair and requests its exact typed check through reload"
+  ],
+  "errors": []
+}

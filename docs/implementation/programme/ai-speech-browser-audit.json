@@ -1,0 +1,68 @@
+{
+  "testedAt": "2026-10-03T16:27:38.948Z",
+  "environment": "headed-capable Chrome on macOS, headless transport test with synthetic microphone WAV",
+  "qualityScope": "No real human microphone, Italian ASR, TTS pronunciation or physical iPhone claim; no production adapters installed",
+  "checks": [
+    {
+      "name": "actual getUserMedia/AudioWorklet capture, 16k PCM, native-rate WAV and track stop",
+      "sampleRate": 16000,
+      "captureSampleRate": 44100,
+      "frames": 35201,
+      "duration": 2.2000907029478456,
+      "bytes": 194092,
+      "riff": "RIFF",
+      "nonzero": true,
+      "recording": false
+    },
+    {
+      "name": "actual PCM segmentation with explicit synthetic test detector",
+      "duration": 2.089795918367347,
+      "frames": 33436,
+      "bytes": 184364,
+      "recording": false
+    },
+    {
+      "name": "actual capture and temporary local replay; test-only ASR/voice and durable-send fixtures; explicit save only",
+      "afterStop": {
+        "state": "review",
+        "saves": 0,
+        "sends": 0
+      },
+      "afterSend": {
+        "saves": 0,
+        "sends": 1,
+        "voices": 1,
+        "canSave": true
+      },
+      "saves": 1,
+      "recognizerPCM": true,
+      "source": {
+        "typedText": "Due biglietti, grazie.",
+        "mode": "recorded",
+        "recognizedText": "due biglietti",
+        "transcriptEdits": [
+          {
+            "before": "due biglietti",
+            "after": "Due biglietti, grazie.",
+            "at": 1791044857760
+          }
+        ],
+        "selectedHelp": [],
+        "inputProvenance": {
+          "mode": "recorded",
+          "recognitionUncertain": false,
+          "recognizedText": "due biglietti",
+          "transcriptEdits": [
+            {
+              "before": "due biglietti",
+              "after": "Due biglietti, grazie.",
+              "at": 1791044857760
+            }
+          ],
+          "assistance": []
+        }
+      },
+      "retainedAfterDispose": false
+    }
+  ]
+}

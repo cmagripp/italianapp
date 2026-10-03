@@ -1,0 +1,46 @@
+{
+  "recordedAt": "2026-10-03T15:36:25.569Z",
+  "scope": "Exact held-out case, source, executed bundles and retained upstream notices. Initial runner provisionedManifest predates the final quality-entry bundle rebuild; these bundle hashes record the executed files.",
+  "files": [
+    {
+      "path": "dev/phase-1-ai-trial/quality-heldout.mjs",
+      "bytes": 8821,
+      "sha256": "5ba8827055cf6d5d9c7ac5ed3687c6f690e509c63052b3ec033007b2a86ecb78"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/quality-entry.mjs",
+      "bytes": 3194,
+      "sha256": "bf9e38f06fc69c9d4ea94829a8851c3e941a574b984ed7e61b8bc9b19ccbb44b"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/llm-worker.mjs",
+      "bytes": 2740,
+      "sha256": "b49a42d1675e3f0585d1e15150b121deccb3e83ce0c0b36ef858891014bdebdd"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/quality-benchmark.mjs",
+      "bytes": 4760,
+      "sha256": "43cba533d31fbe34c11e47e499e459c8b3931b0d2d24acf475b543b8c6e5e3a2"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/assets/quality-entry.mjs",
+      "bytes": 30658,
+      "sha256": "ec2c3d7025a441dc69e1ec826f53af5001002bfe067437258372a915437ca540"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/assets/llm-worker.mjs",
+      "bytes": 6034212,
+      "sha256": "108d99259f4d4fcb1c03127db389ecf1af95d325d20cad06efd58eec9dc99f33"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/PHI4-MINI-LICENSE.txt",
+      "bytes": 1084,
+      "sha256": "fa8235e5b48faca34e3ca98cf4f694ef08bd216d28b58071a1f85b1d50cb814d"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/PHI4-MINI-MODEL_CARD.md",
+      "bytes": 29246,
+      "sha256": "c4f34916182a3ee87d95d00c92847cfa687ab21dc338a577275f0c34cf0e1dfd"
+    }
+  ]
+}

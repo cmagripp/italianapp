@@ -4,21 +4,21 @@ import { courseSkill } from './course-v2-state.js';
 import { attachCourseVocabulary } from './course-vocabulary.js';
 
 export const COURSE_LEVELS = ['Foundations',...LEVELS];
-export const grammarCourse = { levels:[], lessons:[], legacyLessons:[], allLessons:[], byId:new Map(), ready:false, indexOnly:false };
+export const grammarCourse = { levels:[], lessons:[], legacyLessons:[], allLessons:[], byId:new Map(), vocabularyLinks:new Map(), workshops:[], ready:false, indexOnly:false };
 const flatten=levels=>levels.flatMap(level=>level.units.flatMap(unit=>unit.lessons.map(lesson=>({...lesson,...(Array.isArray(lesson.steps)?{steps:lesson.steps.filter(s=>!s?.synthesized)}:{}),level:level.level,unitId:unit.id,unitTitle:unit.title,contentVersion:level.version || 1}))));
 let pending;const stages=new Map(),stagePending=new Map();let vocabularyAttached=new WeakSet();
 const stageKey=(level,legacy)=>`${legacy?'legacy':'v2'}:${level}`;
 const digest=value=>{let h=2166136261;for(const c of JSON.stringify(value)){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return (h>>>0).toString(16);};
 function rebuild(){grammarCourse.lessons=flatten(grammarCourse.levels);grammarCourse.legacyLessons=flatten(grammarCourse.legacyLevels);grammarCourse.allLessons=[...grammarCourse.legacyLessons,...grammarCourse.lessons];grammarCourse.byId=new Map(grammarCourse.allLessons.map(l=>[l.id,l]));}
 export function installGrammarCourse(levels,legacyLevels=[],dictionary=null) {
- grammarCourse.levels=levels;grammarCourse.legacyLevels=legacyLevels;grammarCourse.ready=true;grammarCourse.indexOnly=false;stages.clear();stagePending.clear();vocabularyAttached=new WeakSet();
+ grammarCourse.levels=levels;grammarCourse.legacyLevels=legacyLevels;grammarCourse.vocabularyLinks=new Map();grammarCourse.workshops=[];grammarCourse.ready=true;grammarCourse.indexOnly=false;stages.clear();stagePending.clear();vocabularyAttached=new WeakSet();
  for(const pack of levels)stages.set(stageKey(pack.level,false),pack);for(const pack of legacyLevels)stages.set(stageKey(pack.level,true),pack);
  rebuild();if(dictionary)attachLessonVocabulary(dictionary);return grammarCourse;
 }
 export function installGrammarIndex(index){
  const valid=p=>p&&typeof p.level==='string'&&typeof p.path==='string'&&typeof p.digest==='string'&&Array.isArray(p.units)&&p.units.every(u=>Array.isArray(u.lessons)&&u.lessons.every(l=>typeof l.id==='string'&&Array.isArray(l.targets||l.objectives)&&Array.isArray(l.steps)));
  if(index?.version!==1||!Array.isArray(index.levels)||!Array.isArray(index.legacyLevels)||!index.levels.every(valid)||!index.legacyLevels.every(valid)||!COURSE_LEVELS.every(level=>index.levels.some(p=>p.level===level))||!LEVELS.every(level=>index.legacyLevels.some(p=>p.level===level)))throw new Error('Your course outline could not load. Reconnect and retry.');
- grammarCourse.levels=index.levels;grammarCourse.legacyLevels=index.legacyLevels;grammarCourse.ready=true;grammarCourse.indexOnly=true;stages.clear();stagePending.clear();vocabularyAttached=new WeakSet();rebuild();return grammarCourse;
+ grammarCourse.levels=index.levels;grammarCourse.legacyLevels=index.legacyLevels;grammarCourse.workshops=Array.isArray(index.workshops)?index.workshops:[];grammarCourse.vocabularyLinks=new Map(flatten(index.levels).map(lesson=>[lesson.id,Array.isArray(lesson.vocabularyLinks)?lesson.vocabularyLinks:[]]));grammarCourse.ready=true;grammarCourse.indexOnly=true;stages.clear();stagePending.clear();vocabularyAttached=new WeakSet();rebuild();return grammarCourse;
 }
 // The synchronous authoring API remains available when course-words is imported.
 // Browser navigation loads that engine only when a selected lesson needs boards.
@@ -71,7 +71,10 @@ export function grammarSessions(store) {
     .sort((a,b)=>b.updatedAt-a.updatedAt);
 }
 export function relatedVocabulary(lesson,store,{kind=null,unfinished=false}={}) {
-  return (lesson?.related || []).map(link=>({entry:getEntry(link.entryId),caseId:link.caseId || null}))
-    .filter(x=>x.entry && (!kind || x.entry.kind===kind) && (!unfinished || (x.entry.kind==='verb' && x.caseId
+  const explicit=lesson?.related || [],seen=new Set(explicit.map(link=>link.entryId));
+  const links=[...explicit];
+  for(const entryId of [...(lesson?.wordEntryIds || []),...(grammarCourse.vocabularyLinks.get(lesson?.id) || [])])if(!seen.has(entryId)){seen.add(entryId);links.push({entryId});}
+  return links.map(link=>({entry:getEntry(link.entryId),caseId:link.caseId || null}))
+    .filter(x=>x.entry && !x.entry.legacyGrouping && !store.current?.customDeleted?.[x.entry.id] && (!kind || x.entry.kind===kind) && (!unfinished || (x.entry.kind==='verb' && x.caseId
       ? !store.completionState(x.entry).cases.find(c=>c.id===x.caseId)?.checked : !store.isLearned(x.entry.id))));
 }

@@ -6,8 +6,9 @@ import path from 'node:path';
 import { loadPlaywright, launchBrowser, contextOptions, ensureServer, boot, gotoRoute, reloadApp, TESTS_DIR, SHOTS_DIR } from './lib.mjs';
 import { journeyQuestion, solveJourneyQuestion, reachJourneyActivity } from './journey-driver.mjs';
 
-const { chromium, devices } = await loadPlaywright();
-const stopServer = await ensureServer(), browser = await launchBrowser(chromium);
+const { chromium, webkit, devices } = await loadPlaywright();
+const engine=process.env.COURSE_BROWSER==='webkit'?'webkit':'chromium';
+const stopServer = await ensureServer(), browser = engine==='webkit'?await webkit.launch({headless:true}):await launchBrowser(chromium);
 const results = [], errors = [], screenshots = [];
 let context, page, completed;
 const ids = ['present', 'past', 'background', 'future', 'condizionale'];
@@ -33,8 +34,9 @@ async function state() {
     const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js');
     const {buildLesson}=await import('./js/learning/lesson-content.js');
     const {currentJourneyStep,journeyCaseProgress}=await import('./js/learning/journey.js');
-    await store.saveNow();const session=store.learning.session,plan=buildLesson(getEntry(session.entryId));
-    return {session,plan,step:currentJourneyStep(plan,session,store.learning),cases:journeyCaseProgress(plan,store.learning,session),events:Object.values(store.learning.events),xp:store.current.stats.xp,learned:store.isLearned(session.entryId),phase:document.querySelector('[data-journey]')?.dataset.phase};
+    await store.saveNow();const entryId=decodeURIComponent(location.hash.split('?')[0].split('/')[3]);
+    const session=Object.values(store.learning.sessions).filter(s=>s.entryId===entryId&&s.journey).sort((a,b)=>b.updatedAt-a.updatedAt)[0]||null,plan=buildLesson(getEntry(entryId));
+    return {session,plan,step:session?currentJourneyStep(plan,session,store.learning):{type:'overview'},cases:journeyCaseProgress(plan,store.learning,session),events:Object.values(store.learning.events),xp:store.current.stats.xp,learned:store.isLearned(entryId),phase:document.querySelector('[data-journey]')?.dataset.phase};
   });
 }
 function unchanged(a,b) {
@@ -55,7 +57,8 @@ async function finishCase(id, limit=320) {
   for(let i=0;i<limit;i++) {
     const s=await state();assert.equal(s.step.chapter?.id,id,'a case cannot automatically enter another tense');
     if(s.phase==='recap')return {state:s,answers};
-    assert(!['overview','complete','paused','unavailable','blocked'].includes(s.phase),`case remains answerable: ${s.phase}`);
+    if(s.phase==='paused'){const before=s;await page.locator('[data-resume]').click();unchanged(before,await state());continue;}
+    assert(!['overview','complete','unavailable','blocked'].includes(s.phase),`case remains answerable: ${s.phase}`);
     if(s.step.type==='question'&&!s.step.awaitingContinue){await solveJourneyQuestion(page,await journeyQuestion(page),{expected});answers++;}
     else await page.locator('[data-continue]').click();
   }
@@ -81,6 +84,7 @@ async function assertCompleteCard(id) {
 try {
   await check('A new verb meets its meaning and offers five selectable core cases',async()=>{
     await fresh();await gotoRoute(page,'/learn/verb/v:credere');const s=await state();
+    assert.equal(s.session,null,'Preview alone must not create an in-progress lesson');
     assert.equal(s.phase,'overview');assert.deepEqual(s.cases.cases.map(c=>c.id),ids);assert.equal(s.cases.total,5);assert.equal(s.cases.completed,0);
     for(const id of ids)assert.equal(await page.locator(`[data-tense-case="${id}"] [data-open-lesson="${id}"]`).count(),1);
     assert.match(await page.locator('[data-tense-case="background"]').innerText(),/imperfetto/i);
@@ -109,7 +113,7 @@ try {
     assert(before.events.every(e=>answered.events.some(a=>a.id===e.id)),'redo preserves prior event identities');
     const result=await finishCase('present');
     const freshEvents=result.state.events.filter(e=>!before.events.some(b=>b.id===e.id));
-    for(const person of [0,1,2,3,4,5])assert(freshEvents.filter(e=>e.person===person&&e.role!=='formal'&&e.mode==='production'&&e.ok&&!e.assistance.length).length>=2,`redo asks two fresh written successes for person ${person}`);
+    for(const person of [0,1,2,3,4,5])assert(freshEvents.filter(e=>e.person===person&&e.role!=='formal'&&e.mode==='production'&&e.ok&&!e.assistance.length).length>=1,`redo asks fresh unaided written coverage for person ${person}`);
     assert(freshEvents.some(e=>e.role==='formal'&&e.mode==='production'&&e.ok&&!e.assistance.length));
     assert.equal(result.state.cases.completed,1);return {newAnswers:freshEvents.length};
   });
@@ -185,11 +189,26 @@ try {
     await solveJourneyQuestion(page,scaffold);assert.equal((await state()).events.at(-1).mode,'recognition');
     const result=await finishCase('present');
     const independent=result.state.events.filter(e=>e.skill==='progressive'&&e.mode==='production'&&e.ok&&!e.assistance.length);
-    for(const person of [0,1,2,3,4,5])assert(independent.filter(e=>e.person===person&&e.role!=='formal').length>=2,`whole progressive person ${person}`);
+    for(const person of [0,1,2,3,4,5])assert(independent.filter(e=>e.person===person&&e.role!=='formal').length>=1,`fresh unaided whole progressive person ${person}`);
     assert(independent.some(e=>e.role==='formal'));
-    assert(independent.filter(e=>e.objectiveId===target&&e.at>=wrong.at&&e.id!==wrong.id).length>=2,'the failed whole construction has two later independent successes');
+    assert(independent.some(e=>e.objectiveId===target&&e.at>=wrong.at&&e.id!==wrong.id),'the failed whole construction has a fresh later unaided success');
+    assert(result.state.events.some(e=>e.objectiveId===target&&e.activityKind==='repair'&&e.ok&&e.index>wrong.index),'successful targeted repair precedes the fresh whole construction');
+    assert(result.answers<=20,'A partial progressive visit terminates instead of repeating an uncreditable final transfer');
+    const coverage=await page.evaluate(async()=>{const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js'),{caseCoverage}=await import('./js/learning/case-coverage.js');const plan=buildLesson(getEntry('v:parlare')),session=store.learning.session,c=caseCoverage(plan,store.learning,'present',{sessionId:session.id}),chapter=plan.chapters.find(ch=>ch.id==='present');return {complete:c.complete,states:[...c.states.values()],finalIds:chapter.groups.filter(g=>g.finalReview).flatMap(g=>g.targets).map(t=>t.id),deferred:session.deferred};});
+    assert.equal(coverage.complete,false);assert(coverage.states.some(s=>!s.covered),'Skipped simple targets remain uncovered');
+    for(const id of coverage.finalIds)assert(Object.hasOwn(coverage.deferred,id),'Mixed transfer is saved for later after an explicit earlier skip');
     assert.equal(result.state.cases.cases.find(c=>c.id==='present').ready,false,'skipping the earlier simple-present parts does not certify the whole case');
-    await shot('progressive-repair-and-proof');
+    await shot('progressive-repair-and-proof');return {remainingQuestions:result.answers,independent:independent.length,complete:false};
+  });
+  await check('A real progressive group follows full simple coverage with fresh mixed transfer before completion',async()=>{
+    await fresh();await gotoRoute(page,'/learn/verb/v:parlare?chapter=present');const result=await finishCase('present',130);
+    assert(result.answers<=26,'A normal full present case remains bounded');assert(result.state.cases.cases.find(c=>c.id==='present').ready);
+    const coverage=await page.evaluate(async()=>{const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js'),{caseCoverage}=await import('./js/learning/case-coverage.js');const plan=buildLesson(getEntry('v:parlare')),session=store.learning.session,c=caseCoverage(plan,store.learning,'present',{sessionId:session.id}),finalIds=plan.chapters.find(ch=>ch.id==='present').groups.filter(g=>g.finalReview).flatMap(g=>g.targets).map(t=>t.id);return {complete:c.complete,states:[...c.states.values()],finalIds,events:store.learning.events,deferred:session.deferred};});
+    assert(coverage.complete);assert(coverage.states.every(s=>s.supported&&s.production&&s.covered));
+    const finalStates=coverage.states.filter(s=>coverage.finalIds.includes(s.id)),earlier=coverage.states.filter(s=>!coverage.finalIds.includes(s.id)),lastEarlier=Math.max(...earlier.map(s=>coverage.events[s.productionEventId].index));
+    assert.equal(finalStates.length,2,'Both simple and progressive mixed targets remain required');
+    for(const state of finalStates){assert(coverage.events[state.productionEventId].index>lastEarlier);assert(!state.guidedContexts.includes(state.productionContextId));assert(!Object.hasOwn(coverage.deferred,state.id));}
+    return {questions:result.answers,finalTransfers:finalStates.length};
   });
   for(const width of [375,390])for(const theme of ['light','dark'])await check(`${width}px ${theme}: five-case overview fits and remains navigable`,async()=>{
     await fresh(width,theme);await gotoRoute(page,'/learn/verb/v:dire');
@@ -237,5 +256,5 @@ try {
   });
   await check('No application errors',async()=>assert.deepEqual(errors,[]));
 }catch(error){if(!results.some(r=>!r.ok))results.push({name:'Harness startup',ok:false,error:error.stack});process.exitCode=1;}
-finally{fs.writeFileSync(path.join(TESTS_DIR,process.env.OVERVIEW_FILTER?'report-lesson-overview-targeted.json':'report-lesson-overview.json'),JSON.stringify({results,errors,screenshots},null,2));await browser.close();stopServer();}
+finally{fs.writeFileSync(path.join(TESTS_DIR,(process.env.OVERVIEW_FILTER?'report-lesson-overview-targeted':'report-lesson-overview')+(engine==='webkit'?'-webkit':'')+'.json'),JSON.stringify({browser:engine,results,errors,screenshots},null,2));await browser.close();stopServer();}
 console.log(`${results.filter(r=>r.ok).length}/${results.length} lesson overview checks passed.`);

@@ -3,7 +3,7 @@ import { html, raw, esc, haptic, speak, speakBtn, icon } from '../ui.js';
 import { store } from '../store.js';
 import { shuffle, sample } from '../data.js';
 import { qTranslateMC, qConjMC } from './questions.js';
-import { showResults } from './engine.js';
+import { showResults,gameActivityFence } from './engine.js';
 import fx from '../fx.js';
 
 export function startSpeed(root, ctx) {
@@ -13,6 +13,8 @@ export function startSpeed(root, ctx) {
   const verbsOnly = ctx.options?.mode === 'conj';
   let idx = 0, correct = 0, wrong = 0, streak = 0, best = 0, xpGiven = 0; const missed = new Set(); const answered = new Set();
   const start = Date.now(); let timer = null; let ended = false;
+  const current=gameActivityFence(ctx.isActive);let nextTimer=null;
+  const stop=()=>{ended=true;clearInterval(timer);clearTimeout(nextTimer);};
 
   function nextQ() {
     for (let tries = 0; tries < items.length; tries++) {
@@ -39,15 +41,18 @@ export function startSpeed(root, ctx) {
   let firstQ = true;
 
   function render() {
-    if (ended) return;
+    if (ended || !current()) return stop();
+    clearTimeout(nextTimer);
     const q = nextQ();
     if (!q) return finish();
+    const questionIndex=idx;let locked=false;
     qArea.innerHTML = html`<div class="q-card"><div class="prompt">${q.tag}</div>${raw(q.prompt)}</div>
       <div class="choices">${raw(q.choices.map((c, k) => html`<button type="button" class="choice center" data-c="${k}">${c.label}</button>`).join(''))}</div>`;
     // only the first question rises in: in a timed round the choices must not move after every answer
     if (firstQ) { fx.mount(qArea, { stagger: 30 }); firstQ = false; }
     qArea.querySelector('.choices').addEventListener('click', (ev) => {
-      const b = ev.target.closest('[data-c]'); if (!b || ended) return;
+      const b = ev.target.closest('[data-c]'); if (!b || b.disabled || ended || locked || !current() || idx!==questionIndex) return;
+      locked=true;
       const c = q.choices[Number(b.dataset.c)];
       const ok = !!c.correct;
       haptic(ok ? 'success' : 'error');
@@ -56,10 +61,12 @@ export function startSpeed(root, ctx) {
       stat('[data-correct]', correct); stat('[data-wrong]', wrong); stat('[data-streak]', streak);
       const sEl = root.querySelector('[data-streak]'); if (sEl && ok) fx.pulse(sEl.parentElement);
       qArea.querySelectorAll('[data-c]').forEach((x, k) => { x.setAttribute('disabled', ''); if (q.choices[k].correct) x.classList.add('correct'); else if (k === Number(b.dataset.c)) x.classList.add('wrong'); else x.classList.add('dim'); });
-      setTimeout(render, ok ? 260 : 700);
+      if(q.say)speak(q.say);
+      nextTimer=setTimeout(render, ok ? 260 : 700);
     });
   }
   const tick = () => {
+    if(!current())return stop();
     const leftMs = Math.max(0, DURATION * 1000 - (Date.now() - start));
     const pct = (leftMs / (DURATION * 1000)) * 100;
     if (fill) { fill.style.width = pct.toFixed(1) + '%'; fill.classList.toggle('low', leftMs < 10000); }
@@ -68,7 +75,7 @@ export function startSpeed(root, ctx) {
   };
   timer = setInterval(tick, 100);
   function finish() {
-    if (ended) return; ended = true; clearInterval(timer);
+    if (ended || !current()) return stop(); ended = true; clearInterval(timer);clearTimeout(nextTimer);
     const total = correct + wrong;
     const result = { gameId: 'speed', total, correct, wrong, score: total ? Math.round((correct / total) * 100) : 0, missed: [...missed], secs: DURATION };
     result.xp = correct + best * 2;
@@ -77,5 +84,5 @@ export function startSpeed(root, ctx) {
     showResults(root, result, { backHref: ctx.backHref, onReplay: ctx.replay, onPractice: ctx.practice, extraHTML: html`<div class="grid3 mb speed-summary"><div class="stat"><div class="num">${correct}</div><div class="lab">correct</div></div><div class="stat"><div class="num gold">${best}</div><div class="lab">best streak</div></div><div class="stat"><div class="num">${total ? Math.round(DURATION / total * 10) / 10 : 0}s</div><div class="lab">per answer</div></div></div>` });
   }
   render();
-  return () => { ended = true; clearInterval(timer); };
+  return stop;
 }

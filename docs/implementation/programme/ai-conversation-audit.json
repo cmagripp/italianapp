@@ -1,0 +1,16 @@
+{
+  "measuredAt": "2026-10-03T15:04:07.652Z",
+  "source": "independent synthetic fixtures; no user records",
+  "summary": {
+    "meaningReversalCreatesCorrection": true,
+    "missingSourceCreatesCorrection": true
+  },
+  "storage": {
+    "collisionError": null,
+    "recordingTurn": "source-2",
+    "recordingText": "different-recording",
+    "source1StillReferencesSharedId": true,
+    "quoteError": null,
+    "wrongQuoteAccepted": true
+  }
+}

@@ -74,6 +74,14 @@ test('every original anchor and credere has two situations per person in all thr
   assert.ok(cs.every(x=>!x.it.includes('Marco crede a Marco')));
  }
 });
+test('prefixed background scenes use ordinary lowercase pronouns and retain names and formal Lei',()=>{
+ const cs=lessonContexts(vb('andare'),'background').filter(x=>x.source==='reviewed-scene');
+ const subjects=['io','tu','Luca','noi','voi','Luca e Paolo'],english=['I','you','Luca','we','you all','Luca and Paolo'];
+ for(let p=0;p<6;p++)for(const s of cs.filter(x=>x.role==='ordinary'&&x.person===p)){
+  assert(s.it.startsWith('A quel tempo, '+subjects[p]+' '));assert(s.en.startsWith('Back then, '+english[p]+' '));
+ }
+ assert(cs.filter(x=>x.role==='formal').every(s=>s.it.includes('a quel tempo Lei ')));
+});
 test('formal Lei is a full construction with separate polite meaning, not a seventh ordinary person',()=>{
  for(const [ch,answer]of[['present','crede'],['past','ha creduto'],['future','crederà']]){
   const e=vb('credere'),question=q(e,ch,'address',2,{},'formal');assert.deepEqual(question.answer,[answer]);assert.equal(question.meta.role,'formal');assert.equal(question.meta.person,2);assert.ok(question.prompt.includes('Lei · formal'));assert.ok(question.context.it.includes('Lei'));

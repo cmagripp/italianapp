@@ -1,0 +1,19 @@
+{
+  "browser": "webkit",
+  "scope": "Real browser UI/storage/canonical assessment with committed test messages and captured shared speech calls; no production model or audible/device speech quality claim",
+  "passed": true,
+  "checks": [
+    "A single encountered word opens selected in-place study without generation, routing or exposure evidence",
+    "A real choice records one supported recognition event and no learned status or unlearned review",
+    "Reload restores exact feedback without recording it again and returns to the same conversation",
+    "Flashcard exposure and saving do not create assessment or completion",
+    "Present verb selection stays on the encountered person/tense and double activation records only once",
+    "Two selected items use the shared matching controls and each real match records its source target",
+    "Success speaks canonical Italian only; the incorrect quoted source is heard only on request",
+    "Tapping an Italian matching form speaks that form without recording an answer before its label is selected",
+    "A source edit during practice rejects stale assessment before recording evidence",
+    "A saved assessment survives failed study-UI persistence and retry cannot duplicate or rewrite the answer",
+    "Imported session-ID collisions cannot redirect old evidence to another source; a fresh selection recovers",
+    "Navigation and profile changes dismiss study without adding assessment or returning to an old thread"
+  ]
+}

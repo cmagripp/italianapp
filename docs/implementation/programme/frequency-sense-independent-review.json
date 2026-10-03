@@ -1,0 +1,925 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "reviewer": "programme_curriculum independent agent",
+  "reviewKind": "independent-agent-editorial-source-review",
+  "scope": "All20parents43new children. Individually read every model, translation, gender, plural, note and contrast; checked exact supplied primary URLs and category validation; current parent/child application read-only.",
+  "status": "passed after the three language/precision corrections and six category corrections",
+  "sourceFile": "tools/lexical-frequency-senses.mjs",
+  "sourceFileSHA256": "0ebc1630136ea5f5257907ec51334f68262d25a981c5cc1d88605a81c48e67d3",
+  "registryEntriesSHA256": "04771bc0509b675f7a0e4f001c37093b46107e8aaf63dcf7101cce92765f2a9a",
+  "registryAtReviewStatus": "independent-agent-review-pending",
+  "reviewedFields": [
+    "key",
+    "level",
+    "cat",
+    "en",
+    "g",
+    "pl",
+    "ex",
+    "exEn",
+    "note",
+    "sources"
+  ],
+  "corrections": [
+    {
+      "id": "w:prelievo|noun#medical-sampling",
+      "reason": "Blood draw models the taking action rather than identifying the material sample."
+    },
+    {
+      "id": "w:capo|noun#boss",
+      "reason": "Primary Crusca source documents mainly colloquial/jocular capa and recommends official office titles for formal writing."
+    },
+    {
+      "id": "w:coincidenza|noun#transport-connection",
+      "reason": "English connection preserves the Italian meaning without adding an unstated train."
+    },
+    {
+      "ids": [
+        "w:paese|noun#country",
+        "w:volta|noun#vault",
+        "w:batteria|noun#electrical-battery",
+        "w:batteria|noun#drum-kit",
+        "w:media|noun#mass-media",
+        "w:conduttore|noun#presenter"
+      ],
+      "reason": "Canonical category spellings now match society/arts/tech/communication and pass field validation."
+    }
+  ],
+  "identityChecks": {
+    "uniqueChildIDs": 43,
+    "legacyParentsKept": true,
+    "childProgressCopied": false,
+    "note": "Application creates new stable child identities. This source review does not claim a deployed store migration or historical evidence reattribution."
+  },
+  "levelBasis": "Editorial placement only; primary sources establish meanings/forms, not proficiency certification.",
+  "gates": {
+    "nativeHumanItalianReview": "pending",
+    "audioPronunciation": "not validated",
+    "learnerCalibration": "pending",
+    "runtimeMigrationAndBrowser": "root integration gate"
+  },
+  "records": [
+    {
+      "entryId": "w:soggiorno|noun",
+      "childId": "w:soggiorno|noun#living-room",
+      "fields": {
+        "key": "living-room",
+        "level": "A1",
+        "cat": "home",
+        "en": "living room",
+        "g": "m",
+        "pl": "soggiorni",
+        "ex": "Il divano è in soggiorno.",
+        "exEn": "The sofa is in the living room.",
+        "note": "A room in a home. This lesson does not teach a period spent away from home.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/soggiorno/"
+        ]
+      },
+      "fieldsSHA256": "a8b373ea020176e0b115e91ab82e6237baa31db22068edc7484fe1d1b35581d8",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:soggiorno|noun",
+      "childId": "w:soggiorno|noun#stay",
+      "fields": {
+        "key": "stay",
+        "level": "B1",
+        "cat": "travel",
+        "en": "stay",
+        "g": "m",
+        "pl": "soggiorni",
+        "ex": "Il nostro soggiorno a Torino dura tre giorni.",
+        "exEn": "Our stay in Turin lasts three days.",
+        "note": "A period spent in a place; here it is a trip, not a room.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/soggiorno/"
+        ]
+      },
+      "fieldsSHA256": "2f98efb7eac9336cf1d9e41062b2d82416080bb18ef64479860dd60b55526526",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:borsa|noun",
+      "childId": "w:borsa|noun#bag",
+      "fields": {
+        "key": "bag",
+        "level": "A1",
+        "cat": "clothing",
+        "en": "bag; handbag",
+        "g": "f",
+        "pl": "borse",
+        "ex": "Ho messo le chiavi nella borsa.",
+        "exEn": "I put the keys in the bag.",
+        "note": "A bag used to carry things.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/borsa1/"
+        ]
+      },
+      "fieldsSHA256": "5c698d57b45be9ce590c4b5c5747dd23e1098165684f80fa7b8df63dd921a938",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:borsa|noun",
+      "childId": "w:borsa|noun#stock-exchange",
+      "fields": {
+        "key": "stock-exchange",
+        "level": "B1",
+        "cat": "economy",
+        "en": "stock exchange; stock market",
+        "g": "f",
+        "pl": "borse",
+        "ex": "La società è quotata in Borsa.",
+        "exEn": "The company is listed on the stock exchange.",
+        "note": "A financial market. Borsa is often capitalised in this meaning.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/borsa/"
+        ]
+      },
+      "fieldsSHA256": "a614aebd285e94fee319e24a0b577cd81d8bc6f62368f1cdb9407864413f0e8c",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:capo|noun",
+      "childId": "w:capo|noun#boss",
+      "fields": {
+        "key": "boss",
+        "level": "A1",
+        "cat": "work",
+        "en": "boss; person in charge",
+        "g": "m",
+        "pl": "capi",
+        "ex": "Il mio capo arriva alle nove.",
+        "exEn": "My boss arrives at nine.",
+        "note": "This lesson models il capo. For a woman, la capo also occurs; la capa is mainly colloquial or jocular in Italy. Formal contexts generally use the specific office title, such as la direttrice. Clothing uses a separate meaning.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/capo/",
+          "https://accademiadellacrusca.it/it/consulenza/emil-capo-emoem-la-capaem-spessoem-la-capa-giraem/33642"
+        ]
+      },
+      "fieldsSHA256": "b35d06be3af05318ae501b99b5da2610436ae28a7ca649004869d079e9ec9cc5",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:capo|noun",
+      "childId": "w:capo|noun#garment",
+      "fields": {
+        "key": "garment",
+        "level": "B1",
+        "cat": "clothing",
+        "en": "item of clothing; garment",
+        "g": "m",
+        "pl": "capi",
+        "ex": "Ho comprato due capi di abbigliamento.",
+        "exEn": "I bought two items of clothing.",
+        "note": "A countable garment, often in capo di abbigliamento.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/capo/"
+        ]
+      },
+      "fieldsSHA256": "00602320f0427fc3059796c4b45581b058572abc7b176f0940603fab9115bd1a",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:capo|noun",
+      "childId": "w:capo|noun#head",
+      "fields": {
+        "key": "head",
+        "level": "B1",
+        "cat": "body",
+        "en": "head",
+        "g": "m",
+        "pl": "capi",
+        "ex": "Ha chinato il capo per salutare.",
+        "exEn": "They bowed their head in greeting.",
+        "note": "The body-part meaning, often more formal than testa. Its plural is capi.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/capo/"
+        ]
+      },
+      "fieldsSHA256": "fb5710d35be08db7a10eb921d917c9084a2095d07755eccdcb9c14fb613c4d4f",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:paese|noun",
+      "childId": "w:paese|noun#country",
+      "fields": {
+        "key": "country",
+        "level": "A1",
+        "cat": "society",
+        "en": "country",
+        "g": "m",
+        "pl": "paesi",
+        "ex": "L’Italia è un paese europeo.",
+        "exEn": "Italy is a European country.",
+        "note": "A country or state, not a small settlement.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/paese/"
+        ]
+      },
+      "fieldsSHA256": "92cc71e1dc898646e527c2c23c951d4a17af26394f14839f5172745fccd81463",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:paese|noun",
+      "childId": "w:paese|noun#village",
+      "fields": {
+        "key": "village",
+        "level": "A1",
+        "cat": "city",
+        "en": "village; small town",
+        "g": "m",
+        "pl": "paesi",
+        "ex": "Abito in un piccolo paese di montagna.",
+        "exEn": "I live in a small mountain village.",
+        "note": "A small inhabited settlement. Country uses the same spelling.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/paese/"
+        ]
+      },
+      "fieldsSHA256": "6f5c811af86eb02a7fe2bcbdad4ee3cd21a4cd6ae4962e0ec4669d6ba3523b9b",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:volta|noun",
+      "childId": "w:volta|noun#occasion",
+      "fields": {
+        "key": "occasion",
+        "level": "A1",
+        "cat": "time",
+        "en": "time; occasion",
+        "g": "f",
+        "pl": "volte",
+        "ex": "Sono stato a Roma due volte.",
+        "exEn": "I have been to Rome twice.",
+        "note": "A count of occasions: una volta, due volte.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/volta1/"
+        ]
+      },
+      "fieldsSHA256": "2c8d25715b1038b3dde24325046d83a4444754871085032c99f31cc366ac2702",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:volta|noun",
+      "childId": "w:volta|noun#vault",
+      "fields": {
+        "key": "vault",
+        "level": "B2",
+        "cat": "arts",
+        "en": "vault; vaulted ceiling",
+        "g": "f",
+        "pl": "volte",
+        "ex": "La cappella ha una volta affrescata.",
+        "exEn": "The chapel has a frescoed vaulted ceiling.",
+        "note": "A curved architectural covering; this is not an occasion.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/volta2/"
+        ]
+      },
+      "fieldsSHA256": "1f5f299448dd2863063e63da0cef92a8de06d4ed0ff6194e1877d531e1d653c8",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:gola|noun",
+      "childId": "w:gola|noun#throat",
+      "fields": {
+        "key": "throat",
+        "level": "A2",
+        "cat": "body",
+        "en": "throat",
+        "g": "f",
+        "pl": "gole",
+        "ex": "Ho la gola secca.",
+        "exEn": "My throat is dry.",
+        "note": "A body part. Mal di gola means a sore throat.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/gola/"
+        ]
+      },
+      "fieldsSHA256": "d7c86bfb71fa54a2523603995b633aa13ff389498cd7c7c3f10a76d651964a87",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:gola|noun",
+      "childId": "w:gola|noun#gorge",
+      "fields": {
+        "key": "gorge",
+        "level": "C1",
+        "cat": "nature",
+        "en": "gorge; canyon",
+        "g": "f",
+        "pl": "gole",
+        "ex": "Il fiume scorre in una gola profonda.",
+        "exEn": "The river flows through a deep gorge.",
+        "note": "A narrow deep valley with steep sides.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/gola/"
+        ]
+      },
+      "fieldsSHA256": "6b90ad8b3c9350f4229f3cd7409b98a2b172cd51c276acde9a1bac3aed80f633",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:tenda|noun",
+      "childId": "w:tenda|noun#curtain",
+      "fields": {
+        "key": "curtain",
+        "level": "A2",
+        "cat": "home",
+        "en": "curtain",
+        "g": "f",
+        "pl": "tende",
+        "ex": "Chiudi la tenda della finestra.",
+        "exEn": "Close the window curtain.",
+        "note": "A screen of fabric used in a room.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/tenda/"
+        ]
+      },
+      "fieldsSHA256": "88b706003a177c76aa43ab0dfc768ed032629d0dbff86066f2ea817123c3439f",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:tenda|noun",
+      "childId": "w:tenda|noun#tent",
+      "fields": {
+        "key": "tent",
+        "level": "A2",
+        "cat": "travel",
+        "en": "tent",
+        "g": "f",
+        "pl": "tende",
+        "ex": "Montiamo la tenda al campeggio.",
+        "exEn": "We put up the tent at the campsite.",
+        "note": "A portable shelter used for camping.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/tenda/"
+        ]
+      },
+      "fieldsSHA256": "303b8189a4885ea3f397cbd58cd4f256d950319d04bab55e4344623b28885db9",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:riscaldamento|noun",
+      "childId": "w:riscaldamento|noun#heating",
+      "fields": {
+        "key": "heating",
+        "level": "A2",
+        "cat": "home",
+        "en": "heating",
+        "g": "m",
+        "pl": "-",
+        "ex": "In casa il riscaldamento è acceso.",
+        "exEn": "The heating is on in the house.",
+        "note": "Usually singular for heating or a heating system in a home.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/riscaldamento/"
+        ]
+      },
+      "fieldsSHA256": "bd368746bb256192ec6706d4126700f9c5c40274288792ea7e988c57d99e88be",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:riscaldamento|noun",
+      "childId": "w:riscaldamento|noun#warm-up",
+      "fields": {
+        "key": "warm-up",
+        "level": "B1",
+        "cat": "sports",
+        "en": "warm-up",
+        "g": "m",
+        "pl": "riscaldamenti",
+        "ex": "Prima della gara facciamo il riscaldamento.",
+        "exEn": "We warm up before the competition.",
+        "note": "Exercises before sport; distinct warm-ups can be counted.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/riscaldamento/"
+        ]
+      },
+      "fieldsSHA256": "347f5e603235b1f717f92791208a71bce3ab0740cf6e0d1bd84a17e16b54b128",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:impegno|noun",
+      "childId": "w:impegno|noun#commitment",
+      "fields": {
+        "key": "commitment",
+        "level": "A2",
+        "cat": "daily",
+        "en": "commitment; engagement",
+        "g": "m",
+        "pl": "impegni",
+        "ex": "Non posso uscire: ho già un impegno.",
+        "exEn": "I cannot go out: I already have a commitment.",
+        "note": "An obligation or arranged engagement.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/impegno/"
+        ]
+      },
+      "fieldsSHA256": "98dfac980dce66ac424922f9b65fa5c5879b18b8d22c8ceafd70bb9b74bbcf0a",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:impegno|noun",
+      "childId": "w:impegno|noun#effort",
+      "fields": {
+        "key": "effort",
+        "level": "B1",
+        "cat": "abstract",
+        "en": "effort; dedication",
+        "g": "m",
+        "pl": "-",
+        "ex": "Studia con molto impegno.",
+        "exEn": "They study with great dedication.",
+        "note": "Usually singular for the effort devoted to an activity.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/impegno/"
+        ]
+      },
+      "fieldsSHA256": "e39586e669f6b76d19a90688ed159f45ff29258c785fdb537c4501e392c6c6e2",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:pensione|noun",
+      "childId": "w:pensione|noun#retirement",
+      "fields": {
+        "key": "retirement",
+        "level": "A2",
+        "cat": "work",
+        "en": "pension; retirement",
+        "g": "f",
+        "pl": "pensioni",
+        "ex": "Mio nonno è in pensione.",
+        "exEn": "My grandfather is retired.",
+        "note": "A pension is a benefit; in pensione means retired. No particular retirement age or entitlement is asserted.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/pensione/"
+        ]
+      },
+      "fieldsSHA256": "b0fdcb1577d785c8914b4e57222602022ae4339ba1aff0e678a1c076fa8a682a",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:pensione|noun",
+      "childId": "w:pensione|noun#guesthouse",
+      "fields": {
+        "key": "guesthouse",
+        "level": "A2",
+        "cat": "travel",
+        "en": "guesthouse; small hotel",
+        "g": "f",
+        "pl": "pensioni",
+        "ex": "Dormiamo in una pensione vicino al mare.",
+        "exEn": "We are staying in a guesthouse near the sea.",
+        "note": "An establishment providing accommodation, often with meals.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/pensione/"
+        ]
+      },
+      "fieldsSHA256": "15e6c75d77952e1d03a96c96055029151490e297ddf9db7a0d6a96ca940a3c9b",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:pensione|noun",
+      "childId": "w:pensione|noun#board",
+      "fields": {
+        "key": "board",
+        "level": "B1",
+        "cat": "travel",
+        "en": "board; meal plan",
+        "g": "f",
+        "pl": "-",
+        "ex": "Abbiamo scelto la mezza pensione.",
+        "exEn": "We chose half board.",
+        "note": "A lodging meal arrangement, especially mezza pensione and pensione completa; normally singular in these phrases.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/pensione/"
+        ]
+      },
+      "fieldsSHA256": "2e37f0a9458d6e1459e7e8e765fb0b82128f8e579db70d46b1259ab8b20c40d5",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:materia|noun",
+      "childId": "w:materia|noun#school-subject",
+      "fields": {
+        "key": "school-subject",
+        "level": "A2",
+        "cat": "school",
+        "en": "school subject",
+        "g": "f",
+        "pl": "materie",
+        "ex": "La storia è la mia materia preferita.",
+        "exEn": "History is my favourite school subject.",
+        "note": "A subject of study, one of several materie.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/materia/"
+        ]
+      },
+      "fieldsSHA256": "779bfa6cd72e4e8a321a4b1c176669f500ce8a32939e62fb16be061577640b74",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:materia|noun",
+      "childId": "w:materia|noun#physical-matter",
+      "fields": {
+        "key": "physical-matter",
+        "level": "B2",
+        "cat": "science",
+        "en": "matter; physical substance",
+        "g": "f",
+        "pl": "-",
+        "ex": "Gli atomi costituiscono la materia.",
+        "exEn": "Atoms make up matter.",
+        "note": "Physical substance, usually singular in this general meaning. Distinct materials can instead be called materie.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/materia/"
+        ]
+      },
+      "fieldsSHA256": "6f4041ec557f59b00e9e665f9f10096cea9b6d2f15e36391d4090373308f912c",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:batteria|noun",
+      "childId": "w:batteria|noun#electrical-battery",
+      "fields": {
+        "key": "electrical-battery",
+        "level": "A2",
+        "cat": "tech",
+        "en": "battery",
+        "g": "f",
+        "pl": "batterie",
+        "ex": "La batteria del telefono è scarica.",
+        "exEn": "The phone battery is flat.",
+        "note": "A device that supplies electrical energy.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/batteria/"
+        ]
+      },
+      "fieldsSHA256": "4f86b298abeea534fcf293e87b6b97e6de83a4ed4a6de42d56de38299e7d3785",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:batteria|noun",
+      "childId": "w:batteria|noun#drum-kit",
+      "fields": {
+        "key": "drum-kit",
+        "level": "B1",
+        "cat": "arts",
+        "en": "drums; drum kit",
+        "g": "f",
+        "pl": "batterie",
+        "ex": "Nel gruppo suono la batteria.",
+        "exEn": "I play drums in the band.",
+        "note": "La batteria names a drum kit; le batterie can refer to several kits.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/batteria/"
+        ]
+      },
+      "fieldsSHA256": "8a879a0d9866f190368abf09999b18b6efe665265e51f42f9b0f099c9ef368b0",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:cartello|noun",
+      "childId": "w:cartello|noun#sign",
+      "fields": {
+        "key": "sign",
+        "level": "A2",
+        "cat": "city",
+        "en": "sign; signboard",
+        "g": "m",
+        "pl": "cartelli",
+        "ex": "Il cartello indica la strada per la stazione.",
+        "exEn": "The sign shows the way to the station.",
+        "note": "A public written sign, notice or placard.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/cartello1/"
+        ]
+      },
+      "fieldsSHA256": "8c62090e87effb03aad95b982fcc2ec99aa4f6557162580c50302744a4c29a8e",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:cartello|noun",
+      "childId": "w:cartello|noun#cartel",
+      "fields": {
+        "key": "cartel",
+        "level": "C1",
+        "cat": "economy",
+        "en": "cartel",
+        "g": "m",
+        "pl": "cartelli",
+        "ex": "Le imprese hanno formato un cartello sui prezzi.",
+        "exEn": "The companies formed a price cartel.",
+        "note": "An agreement between businesses to limit competition.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/cartello2/"
+        ]
+      },
+      "fieldsSHA256": "3c625319674031eaba1a3a5499d39b57dc0ceb831d1c0d4464e19c3b7723ea0a",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:coincidenza|noun",
+      "childId": "w:coincidenza|noun#transport-connection",
+      "fields": {
+        "key": "transport-connection",
+        "level": "A2",
+        "cat": "travel",
+        "en": "connection (transport)",
+        "g": "f",
+        "pl": "coincidenze",
+        "ex": "A Bologna prendo la coincidenza per Verona.",
+        "exEn": "In Bologna I catch my connection to Verona.",
+        "note": "A connection allowing travellers to change trains or other transport.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/coincidenza/"
+        ]
+      },
+      "fieldsSHA256": "94f35cccd61ed6700f02d4ac937722222eac26f1f1ec314bc2fcb69c09d40b2c",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:coincidenza|noun",
+      "childId": "w:coincidenza|noun#coincidence",
+      "fields": {
+        "key": "coincidence",
+        "level": "B2",
+        "cat": "abstract",
+        "en": "coincidence",
+        "g": "f",
+        "pl": "coincidenze",
+        "ex": "Che coincidenza: abitiamo nella stessa via!",
+        "exEn": "What a coincidence: we live on the same street!",
+        "note": "Events or circumstances happen to coincide.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/coincidenza/"
+        ]
+      },
+      "fieldsSHA256": "b3ff56457818f6553970fa6496ad44f36799902c629e6a769f77c942c9c02ac0",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:media|noun",
+      "childId": "w:media|noun#mass-media",
+      "fields": {
+        "key": "mass-media",
+        "level": "B1",
+        "cat": "communication",
+        "en": "the media; mass media",
+        "g": "m",
+        "pl": "media",
+        "ex": "I media hanno parlato della notizia.",
+        "exEn": "The media reported the news.",
+        "note": "Plural masculine: i media. It has no ordinary singular lesson in this use. It is not la media, an average.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/media_res-ff79f96d-0024-11de-9d89-0016357eee51/"
+        ]
+      },
+      "fieldsSHA256": "cd657248cd3034f46d74f66f76cdd092eeb7250f7d6192e32c77b408248ba918",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:media|noun",
+      "childId": "w:media|noun#average",
+      "fields": {
+        "key": "average",
+        "level": "B1",
+        "cat": "science",
+        "en": "average; mean",
+        "g": "f",
+        "pl": "medie",
+        "ex": "La media dei voti è otto.",
+        "exEn": "The average grade is eight.",
+        "note": "Singular feminine la media; plural le medie. Le medie can also mean middle school, which is a separate construction.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/media/"
+        ]
+      },
+      "fieldsSHA256": "b98abb7a0a7e66ea4952696d4d21be4f00af45ea5fa24ba352f2fc9d8b872e86",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:campione|noun",
+      "childId": "w:campione|noun#sample",
+      "fields": {
+        "key": "sample",
+        "level": "B1",
+        "cat": "science",
+        "en": "sample; specimen",
+        "g": "m",
+        "pl": "campioni",
+        "ex": "Il laboratorio analizza un campione d’acqua.",
+        "exEn": "The laboratory analyses a water sample.",
+        "note": "A sample of material. A statistical campione is a selected group, a related use not a sporting champion.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/campione/"
+        ]
+      },
+      "fieldsSHA256": "47610e8d505955aa66690cd99f14326766b1752fa77c0b888fa91484b41d7057",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:campione|noun",
+      "childId": "w:campione|noun#champion",
+      "fields": {
+        "key": "champion",
+        "level": "B1",
+        "cat": "sports",
+        "en": "champion",
+        "g": "m",
+        "pl": "campioni",
+        "ex": "Luca è campione italiano di nuoto.",
+        "exEn": "Luca is the Italian swimming champion.",
+        "note": "The feminine is campionessa, plural campionesse. This lesson models il campione; it is not a laboratory sample.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/campione/"
+        ]
+      },
+      "fieldsSHA256": "cabae440b4159a3b6013baa3bda72302f48eb825332d680365b32a5ca4f798bb",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:prelievo|noun",
+      "childId": "w:prelievo|noun#cash-withdrawal",
+      "fields": {
+        "key": "cash-withdrawal",
+        "level": "B1",
+        "cat": "shopping",
+        "en": "cash withdrawal",
+        "g": "m",
+        "pl": "prelievi",
+        "ex": "Ho fatto un prelievo al bancomat.",
+        "exEn": "I made a cash withdrawal at the ATM.",
+        "note": "Money taken from an account.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/prelievo/"
+        ]
+      },
+      "fieldsSHA256": "5b414aedd032725e4e9c5577f3a566c5fbd454dbe7721f5170717bb62398d5e4",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:prelievo|noun",
+      "childId": "w:prelievo|noun#medical-sampling",
+      "fields": {
+        "key": "medical-sampling",
+        "level": "B2",
+        "cat": "body",
+        "en": "sampling; taking a blood sample",
+        "g": "m",
+        "pl": "prelievi",
+        "ex": "Il medico ha richiesto un prelievo di sangue.",
+        "exEn": "The doctor requested a blood draw.",
+        "note": "The action of taking material for examination, not the blood itself. No preparation advice is given.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/prelievo/"
+        ]
+      },
+      "fieldsSHA256": "725d03cda99c2b84623d339d2768cc7887ed49c9c9c86764020a42dcdb94b8b7",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:promozione|noun",
+      "childId": "w:promozione|noun#special-offer",
+      "fields": {
+        "key": "special-offer",
+        "level": "B1",
+        "cat": "shopping",
+        "en": "special offer; sales promotion",
+        "g": "f",
+        "pl": "promozioni",
+        "ex": "Queste scarpe sono in promozione.",
+        "exEn": "These shoes are on special offer.",
+        "note": "A commercial offer intended to encourage sales.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/promozione/"
+        ]
+      },
+      "fieldsSHA256": "88e5031457806d5cb7a2a2b9f47bda6fa4f8fbbed72c4db57e6accf3093693ab",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:promozione|noun",
+      "childId": "w:promozione|noun#career-promotion",
+      "fields": {
+        "key": "career-promotion",
+        "level": "B1",
+        "cat": "work",
+        "en": "promotion (at work)",
+        "g": "f",
+        "pl": "promozioni",
+        "ex": "Ha ricevuto una promozione a direttrice.",
+        "exEn": "She received a promotion to director.",
+        "note": "Advancement to a higher position; school and sporting advancement are related uses.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/promozione/"
+        ]
+      },
+      "fieldsSHA256": "fa957bfe6266247b04b2221b0ee2bb5e06d5e262024371e00de7975522117738",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:perdita|noun",
+      "childId": "w:perdita|noun#leak",
+      "fields": {
+        "key": "leak",
+        "level": "B1",
+        "cat": "home",
+        "en": "leak",
+        "g": "f",
+        "pl": "perdite",
+        "ex": "C’è una perdita d’acqua sotto il lavandino.",
+        "exEn": "There is a water leak under the sink.",
+        "note": "Liquid or gas escapes from a container or pipe.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/perdita/"
+        ]
+      },
+      "fieldsSHA256": "5f438e89fef7ab9e7070546724f93102308bf67554592135b4a6725a5c8a3796",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:perdita|noun",
+      "childId": "w:perdita|noun#loss",
+      "fields": {
+        "key": "loss",
+        "level": "B1",
+        "cat": "abstract",
+        "en": "loss",
+        "g": "f",
+        "pl": "perdite",
+        "ex": "La vendita ha causato una perdita di denaro.",
+        "exEn": "The sale caused a financial loss.",
+        "note": "Losing money or another thing; this lesson models a financial loss.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/perdita/"
+        ]
+      },
+      "fieldsSHA256": "e6659ba7533cea30149f5a7ad8deffc4bc4ec29c1e13e27d4814ad1d66d190f6",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:conduttore|noun",
+      "childId": "w:conduttore|noun#presenter",
+      "fields": {
+        "key": "presenter",
+        "level": "B1",
+        "cat": "communication",
+        "en": "presenter; TV or radio host",
+        "g": "m",
+        "pl": "conduttori",
+        "ex": "Il conduttore presenta gli ospiti della trasmissione.",
+        "exEn": "The presenter introduces the programme’s guests.",
+        "note": "Feminine conduttrice, plural conduttrici; this lesson models il conduttore.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/conduttore/"
+        ]
+      },
+      "fieldsSHA256": "ae837083b4e3b95e8e8be5d238d29e39acda8cd3d2d71f9d6079c1b7b9c86793",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:conduttore|noun",
+      "childId": "w:conduttore|noun#tenant",
+      "fields": {
+        "key": "tenant",
+        "level": "B2",
+        "cat": "home",
+        "en": "tenant; lessee",
+        "g": "m",
+        "pl": "conduttori",
+        "ex": "Il contratto indica il nome del conduttore.",
+        "exEn": "The contract gives the tenant’s name.",
+        "note": "Formal tenancy language; feminine conduttrice. No particular legal obligation is asserted.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/conduttore/"
+        ]
+      },
+      "fieldsSHA256": "713c80149ae8813834a7fb8cf54e1ac933080763f6dc6e9c31092edcb6309506",
+      "decision": "pass agent source/model/forms/contrast review"
+    },
+    {
+      "entryId": "w:conduttore|noun",
+      "childId": "w:conduttore|noun#electrical-conductor",
+      "fields": {
+        "key": "electrical-conductor",
+        "level": "C1",
+        "cat": "science",
+        "en": "conductor (electricity or heat)",
+        "g": "m",
+        "pl": "conduttori",
+        "ex": "Il rame è un buon conduttore di elettricità.",
+        "exEn": "Copper is a good conductor of electricity.",
+        "note": "A material or component that conducts energy, not a person presenting a programme.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/conduttore/"
+        ]
+      },
+      "fieldsSHA256": "df08a4fbd126a1480b4691eedeca37ee455b777d772e58b91e59c49385fb52e3",
+      "decision": "pass agent source/model/forms/contrast review"
+    }
+  ]
+}

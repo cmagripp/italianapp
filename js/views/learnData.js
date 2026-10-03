@@ -4,6 +4,7 @@
 import { store as appStore } from '../store.js';
 import { data, itemsForScope, describeScope, LEVEL_INFO, getEntry, headword } from '../data.js';
 import { relTime } from '../ui.js';
+import { dailyPlan } from '../learning/daily-plan.js';
 import { practiceHref, lessonSessions, lessonPlan, reviewItems, eligibleSkills } from '../learning/integration.js';
 import { grammarCourse, grammarLesson, grammarProgress, grammarHref, courseLevel, nextGrammarLesson, grammarSessions, relatedVocabulary } from '../learning/grammar-course.js';
 import { courseSessionProgress } from '../learning/course-v2-engine.js';
@@ -155,5 +156,5 @@ export function learnModel(store, now = Date.now()) {
     { key: 'lists', title: 'My lists', sub: 'word bank & custom', href: '#/lists', icon: 'list' },
   ];
 
-  return { stage, inProgress, next: { grammar, verb, words, review: reviewModel }, modes, scope, lab };
+  return { plan:dailyPlan(store,{now}), stage, inProgress, next: { grammar, verb, words, review: reviewModel }, modes, scope, lab };
 }

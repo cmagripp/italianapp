@@ -1,0 +1,57 @@
+{
+  "measuredAt": "2026-10-03T15:13:40.125Z",
+  "synthetic": true,
+  "cases": {
+    "raced-primary": {
+      "error": "Your progress could not be updated safely. The previous copy is kept. Export it, free some storage, then retry. This profile changed in another window. Reload before updating.",
+      "current": {
+        "id": "expected",
+        "learnerId": "learner:one",
+        "learning": {
+          "version": 5
+        },
+        "draft": "new remote draft"
+      },
+      "snapshots": [
+        {
+          "key": "kv:migration:learning-v6-unified-review-1:expected:852f86f653a5fc930357bdfb68de813164c34d5065095250be41fc177457e2f4",
+          "verified": true,
+          "profileId": "expected"
+        }
+      ],
+      "pointer": "{\"recoveryKey\":\"migration:learning-v6-unified-review-1:expected:852f86f653a5fc930357bdfb68de813164c34d5065095250be41fc177457e2f4\",\"learnerId\":\"learner:one\"}"
+    },
+    "rollback-fails": {
+      "error": "Your progress could not be updated safely. The previous copy is kept. Export it, free some storage, then retry. pointer write failed",
+      "current": {
+        "id": "expected",
+        "learnerId": "learner:one",
+        "learning": {
+          "version": 5
+        },
+        "draft": "original"
+      },
+      "snapshots": [
+        {
+          "key": "kv:migration:learning-v6-unified-review-1:expected:852f86f653a5fc930357bdfb68de813164c34d5065095250be41fc177457e2f4",
+          "verified": true,
+          "profileId": "expected"
+        }
+      ],
+      "pointer": null
+    },
+    "wrong-profile-scope": {
+      "error": "The migration profile or learner identity does not match.",
+      "current": {
+        "id": "expected",
+        "learnerId": "learner:one",
+        "learning": {
+          "version": 5
+        },
+        "draft": "original"
+      },
+      "snapshots": [],
+      "pointer": null
+    }
+  }
+}

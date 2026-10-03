@@ -1,0 +1,194 @@
+{
+  "testedAt": "2026-10-03T14:10:22.842Z",
+  "source": "synthetic macOS Alice, not human learner audio",
+  "humanLearnerRecording": false,
+  "environment": "Mac M1 Max32GB, macOS26.4, headedChrome, Transformers.js4.3.0 q8 WASM one thread; ASR isolated",
+  "cases": [
+    {
+      "id": "infinitive-errors",
+      "reference": "Ieri io andare al mercato, ma non comprare niente."
+    },
+    {
+      "id": "auxiliary-error",
+      "reference": "Ieri ho andato al mercato, ma non ho comprato niente."
+    },
+    {
+      "id": "quantity-negation-date",
+      "reference": "Non voglio tre biglietti. Ne voglio due, per il diciassette novembre."
+    },
+    {
+      "id": "agreement-error",
+      "reference": "La mia amico è simpatico. Si chiama Carlo."
+    },
+    {
+      "id": "wordfinding",
+      "reference": "Come si chiama la persona che vive con me in un appartamento? Non è la mia famiglia."
+    }
+  ],
+  "models": [
+    {
+      "model": "whisper-tiny",
+      "revision": "ff4177021cc41f7db950912b73ea4fdf7d01d8e7",
+      "rows": [
+        {
+          "id": "infinitive-errors",
+          "reference": "Ieri io andare al mercato, ma non comprare niente.",
+          "recognizedText": "e è rio andare al mercato, ma non comprare niente.",
+          "asrMs": 1760.5,
+          "wer": {
+            "referenceWords": 9,
+            "edits": 3,
+            "rate": 0.3333333333333333
+          }
+        },
+        {
+          "id": "auxiliary-error",
+          "reference": "Ieri ho andato al mercato, ma non ho comprato niente.",
+          "recognizedText": "che è riondato al mercato, ma non ho comprato niente.",
+          "asrMs": 1630.1000003814697,
+          "wer": {
+            "referenceWords": 10,
+            "edits": 3,
+            "rate": 0.3
+          }
+        },
+        {
+          "id": "quantity-negation-date",
+          "reference": "Non voglio tre biglietti. Ne voglio due, per il diciassette novembre.",
+          "recognizedText": "No voglio 3 billetti, ne voglio 2, per il 17 novembre.",
+          "asrMs": 1640.6999998092651,
+          "wer": {
+            "referenceWords": 11,
+            "edits": 5,
+            "rate": 0.45454545454545453
+          }
+        },
+        {
+          "id": "agreement-error",
+          "reference": "La mia amico è simpatico. Si chiama Carlo.",
+          "recognizedText": "La mia amico è simpatico, si chiama Carlo.",
+          "asrMs": 1565.1999998092651,
+          "wer": {
+            "referenceWords": 8,
+            "edits": 0,
+            "rate": 0
+          }
+        },
+        {
+          "id": "wordfinding",
+          "reference": "Come si chiama la persona che vive con me in un appartamento? Non è la mia famiglia.",
+          "recognizedText": "Come si chiama la persona che vive come in un appartamento, non è la mia famiglia.",
+          "asrMs": 1770,
+          "wer": {
+            "referenceWords": 17,
+            "edits": 2,
+            "rate": 0.11764705882352941
+          }
+        }
+      ],
+      "load": {
+        "loadMs": 1368
+      }
+    },
+    {
+      "model": "whisper-base",
+      "revision": "1846881b6b3a3024392c1eea3ad983695bc23925",
+      "rows": [
+        {
+          "id": "infinitive-errors",
+          "reference": "Ieri io andare al mercato, ma non comprare niente.",
+          "recognizedText": "di arrivo a andare al mercato, ma non comprare niente.",
+          "asrMs": 3481.7000007629395,
+          "wer": {
+            "referenceWords": 9,
+            "edits": 3,
+            "rate": 0.3333333333333333
+          }
+        },
+        {
+          "id": "auxiliary-error",
+          "reference": "Ieri ho andato al mercato, ma non ho comprato niente.",
+          "recognizedText": "ieri ho andato al mercato, ma non ho comprato niente.",
+          "asrMs": 3403.800000190735,
+          "wer": {
+            "referenceWords": 10,
+            "edits": 0,
+            "rate": 0
+          }
+        },
+        {
+          "id": "quantity-negation-date",
+          "reference": "Non voglio tre biglietti. Ne voglio due, per il diciassette novembre.",
+          "recognizedText": "Non voglio tre billetti, ne voglio due, per il 17 novembre.",
+          "asrMs": 3257.699999809265,
+          "wer": {
+            "referenceWords": 11,
+            "edits": 2,
+            "rate": 0.18181818181818182
+          }
+        },
+        {
+          "id": "agreement-error",
+          "reference": "La mia amico è simpatico. Si chiama Carlo.",
+          "recognizedText": "La mia amico è simpatico, si chiama Carlo.",
+          "asrMs": 3007.300000190735,
+          "wer": {
+            "referenceWords": 8,
+            "edits": 0,
+            "rate": 0
+          }
+        },
+        {
+          "id": "wordfinding",
+          "reference": "Come si chiama la persona che vive con me in un appartamento? Non è la mia famiglia.",
+          "recognizedText": "come si chiama la persona che vive come in un appartamento, non è la mia famiglia.",
+          "asrMs": 3222.699999809265,
+          "wer": {
+            "referenceWords": 17,
+            "edits": 2,
+            "rate": 0.11764705882352941
+          }
+        }
+      ],
+      "load": {
+        "loadMs": 995.6000003814697
+      }
+    }
+  ],
+  "requests": [
+    "http://127.0.0.1:8132/quality.html",
+    "http://127.0.0.1:8132/assets/quality-entry.mjs",
+    "http://127.0.0.1:8132/assets/llm-worker.mjs",
+    "http://127.0.0.1:8132/assets/asr-worker.mjs",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/tokenizer_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/preprocessor_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/tokenizer.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/tokenizer_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/onnx/encoder_model_quantized.onnx",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/onnx/decoder_model_merged_quantized.onnx",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/generation_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-tiny/preprocessor_config.json",
+    "http://127.0.0.1:8132/assets/ort-asr/ort-wasm-simd-threaded.asyncify.mjs",
+    "http://127.0.0.1:8132/assets/ort-asr/ort-wasm-simd-threaded.asyncify.wasm",
+    "http://127.0.0.1:8132/assets/fixtures/programme/infinitive-errors.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/auxiliary-error.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/quantity-negation-date.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/agreement-error.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/wordfinding.wav",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/tokenizer_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/preprocessor_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/tokenizer.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/tokenizer_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/onnx/encoder_model_quantized.onnx",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/onnx/decoder_model_merged_quantized.onnx",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/generation_config.json",
+    "http://127.0.0.1:8132/assets/models/asr/whisper-base/preprocessor_config.json",
+    "http://127.0.0.1:8132/assets/fixtures/programme/infinitive-errors.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/auxiliary-error.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/quantity-negation-date.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/agreement-error.wav",
+    "http://127.0.0.1:8132/assets/fixtures/programme/wordfinding.wav"
+  ]
+}

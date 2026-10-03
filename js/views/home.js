@@ -11,6 +11,9 @@ import { posterHTML } from './games.js';
 import { levelRibbonHTML, bindLevelRibbon } from './homeLevels.js';
 import { setScene, ticker, reel, mount, countUp, parallax } from '../fx.js';
 import { homeLearning } from '../learning/home-learning.js';
+import {dailyPlan} from '../learning/daily-plan.js';
+import {loadGrammarCourse} from '../learning/grammar-course.js';
+import {planPanelHTML,openPlanBudget} from '../learning/plan-panel.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const REEL_GAMES = ['flashcards', 'quiz', 'conj-drill', 'crossword', 'speed'];
@@ -100,17 +103,12 @@ function fitDayCards(container) {
 }
 
 export async function render(root) {
-  const {reviewItems,recommendLesson,practiceHref}=await homeLearning(store);
+  await Promise.all([homeLearning(store),loadGrammarCourse().catch(() => null)]);
+  const plan=dailyPlan(store);
   setTitle(''); // the top bar shows "Parola" on its own; 'Parola' here made the document title "Parola · Parola"
   const p = store.current;
   const day = store.today();
   const s = p.settings;
-  const review = reviewItems(store);
-  const due = store.settings.adaptiveLearning !== false ? review.length : new Set(review.map(item=>item.entry.id)).size;
-  // the plan never promises more new items than the study scope still holds (a 2-word list is not "8 new words")
-  const unlearnedInScope = (kind) => itemsForScope(store.scope, store, { kind }).filter(e => !store.isLearned(e.id)).length;
-  const newWordsLeft = Math.min(Math.max(0, s.dailyNew - ((day.new || 0) - (day.newVerbs || 0))), unlearnedInScope('word'));
-  const newVerbsLeft = Math.min(Math.max(0, s.dailyVerbs - (day.newVerbs || 0)), unlearnedInScope('verb'));
   let lvl = LEVELS.includes(s.level) ? s.level : 'A1';
   const hour = new Date().getHours();
   const [greetIt, greetEn] = hour < 12 ? ['Buongiorno', 'Good morning'] : hour < 18 ? ['Buon pomeriggio', 'Good afternoon'] : ['Buonasera', 'Good evening'];
@@ -118,13 +116,8 @@ export async function render(root) {
   const dateIt = new Intl.DateTimeFormat('it-IT', { weekday: 'long', day: 'numeric', month: 'long' }).format(now);
   const dateEn = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).format(now);
   const streak = p.stats.streak || 0;
-  const goalDone = newWordsLeft === 0 && newVerbsLeft === 0 && due === 0;
   const week = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - (6 - i)); const k = todayKey(d); const st = p.stats.days[k]; return { k, today: i === 6, active: !!(st && ((st.correct || 0) + (st.new || 0) + (st.games || 0)) > 0), label: 'SMTWTFS'[d.getDay()] }; });
   const activeDays = week.filter(d => d.active).length;
-  const nextLesson = store.settings.adaptiveLearning !== false ? recommendLesson(store) : null;
-  let continueHref = nextLesson ? practiceHref(nextLesson.entry,nextLesson.objectiveId,nextLesson.mode) : due ? '#/review' : '#/learn';
-  if(nextLesson?.session?.id)continueHref+=(continueHref.includes('?')?'&':'?')+'session='+encodeURIComponent(nextLesson.session.id);
-  const continueHint = nextLesson?.session ? `resume · ${nextLesson.entry.inf || nextLesson.entry.it}` : nextLesson?.mode === 'review' ? 'a short review · or choose a new lesson' : due ? `review · ${due} due` : goalDone ? 'keep going · learn ahead' : newVerbsLeft ? `learn · ${newVerbsLeft} new verb${newVerbsLeft === 1 ? '' : 's'}` : `learn · ${newWordsLeft} new word${newWordsLeft === 1 ? '' : 's'}`;
   const picks = (L) => ({ wotd: dailyPick(data.vocab.filter(e => e.level === L), 1), votd: dailyPick(data.verbs.filter(e => e.level === L), 2) });
   let { wotd, votd } = picks(lvl);
   const recent = recentlyLearned();
@@ -146,17 +139,11 @@ export async function render(root) {
 
       <section class="tonight glass pad-l">
         <div class="sec-head in-pane"><div><span class="kicker">Today</span><span class="title">${raw(tr('Il piano di oggi', 'Today’s plan'))}</span></div><span class="tonight-days mono">${activeDays} / 7 days</span></div>
-        <div class="counters">
-          <div class="stat"><div class="num" data-count="${due}">0</div><div class="lab">to review</div></div>
-          <div class="stat"><div class="num" data-count="${newWordsLeft}">0</div><div class="lab">new words</div></div>
-          <div class="stat"><div class="num" data-count="${newVerbsLeft}">0</div><div class="lab">new verbs</div></div>
-        </div>
         <div class="week">
           <div class="rail">${raw(week.map(d => `<span class="${d.today ? 'cur' : d.active ? 'done' : ''}"></span>`).join(''))}</div>
           <div class="week-days mono">${raw(week.map(d => `<span class="${d.today ? 'today' : ''}">${d.label}</span>`).join(''))}</div>
         </div>
-        <a class="btn primary block" href="${continueHref}" data-continue>Continue</a>
-        <div class="tonight-hint mono">${continueHint}</div>
+        <div data-plan-host>${raw(planPanelHTML(plan))}</div>
       </section>
 
       <section class="night" data-night>${raw(dayCard(wotd, 'word'))}${raw(dayCard(votd, 'verb'))}</section>
@@ -201,6 +188,8 @@ export async function render(root) {
   }
 
   home.addEventListener('click', (ev) => {
+    const budget=ev.target.closest('[data-plan-budget]');
+    if(budget){openPlanBudget(budget,store,()=>{home.querySelector('[data-plan-host]').innerHTML=planPanelHTML(dailyPlan(store));});return;}
     const card = ev.target.closest('[data-href]');
     if (card && !ev.target.closest('a, button, .itx, input')) location.hash = card.dataset.href;
   });

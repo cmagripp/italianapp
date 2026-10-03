@@ -5,12 +5,14 @@
 import { html, raw, esc, trBlock, enPill, speakBtn, levelBadge, icon, relTime, toast, secHead } from '../ui.js';
 import { setTitle } from '../app.js';
 import { store } from '../store.js';
-import { data, getEntry, article, withArticle, headword, isPluralOnly, isUncountable, hasPluralForm, nounNumberNote, CATS, shortEn, fold, LEVELS } from '../data.js';
-import { hwSize, IT_POS, TENSE_HELP, openListPicker } from '../components.js';
+import { data, getEntry, entrySenses, article, withArticle, headword, isPluralOnly, isUncountable, hasPluralForm, nounNumberNote, CATS, shortEn, fold, LEVELS } from '../data.js';
+import { hwSize, IT_POS, TENSE_HELP, bindActionBar, wordForms as wordFormsGrid } from '../components.js';
 import { conjugate, regularParadigm, irregularCells, irregularAlternatives, splitClitic, primary, accepted, PERSONS, IMP_PERSONS, TENSES, TENSE_BY_KEY, MISSING } from '../conjugator.js';
 import { stage, STAGE_LABEL } from '../srs.js';
 import { setScene, mount, dial, fan, dropdown, riseLetters, reducedMotion } from '../fx.js';
 import { refRow, refHref, byLevel } from './reference.js';
+import { completionButtonHTML, bindCompletionMenu } from '../completion-menu.js';
+import { isStarred, toggleStarred } from '../learning/collections.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const AUX_LABEL = { avere: 'avere', essere: 'essere', both: 'avere / essere' };
@@ -71,8 +73,28 @@ function progressCard(e, actions) {
     <div class="action-bar">${raw(actions)}</div>
     ${lists.length ? raw(html`<div class="tiny muted mt">In lists: ${lists.join(', ')}</div>`) : ''}`;
 }
-function learnedBtn(e) { const on = store.isLearned(e.id); return html`<button type="button" class="btn sm ${on ? 'on' : ''}" data-act="learned" aria-pressed="${on ? 'true' : 'false'}">${ic('check', { size: 16 })}${on ? 'Learned' : 'Mark learned'}</button>`; }
-const listBtn = () => html`<button type="button" class="btn sm" data-act="lists">${ic('plus', { size: 16 })}List</button>`;
+function starBtn(e) { const on=isStarred(store,e.id); return html`<button type="button" class="icon-btn ${on?'is-starred':''}" data-entry-star aria-pressed="${String(on)}" aria-label="${on?'Remove from':'Add to'} Starred">${ic('star',{size:20})}</button>`; }
+function bindEntryControls(root,e,onChange) {
+  const senses=entrySenses(e);
+  if(senses.length)root.querySelector('[data-headword]')?.insertAdjacentHTML('afterend',html`<section class="card ref-target entry-meanings" id="meanings" aria-label="Meanings">
+    ${raw(secHead('Significati','Choose the meaning',{cls:'in-pane'}))}
+    ${e.legacyGrouping?raw(html`<p class="small muted" data-legacy-sense-note>Any earlier word completion is kept. Each meaning below has its own lesson and progress.</p>`):''}
+    <div class="entry-sense-list">${raw(senses.map(s=>html`<div class="entry-sense${s.id===e.id?' on':''}" data-sense="${s.senseId}"><a href="${refHref(s.id)}" ${s.id===e.id?'aria-current="page"':''}><span class="kicker">${s.level} · ${s.g==='f'?'feminine':'masculine'}</span><strong>${withArticle(s)}</strong><span>${s.en}</span></a><a class="chip" href="#/learn/word/${encodeURIComponent(s.id)}">${store.isLearned(s.id)?'Practise':'Learn this meaning'}</a></div>`).join(''))}</div>
+  </section>`);
+  const row=root.querySelector('[data-headword] .hw-row');
+  row?.insertAdjacentHTML('beforeend',completionButtonHTML(e,store.completionState(e))+starBtn(e));
+  const completion=bindCompletionMenu(root.querySelector('[data-completion-menu]'),{
+    entry:e,getState:()=>store.completionState(e),
+    setCase:(caseId,checked)=>store.setCompletion(e,{caseId,checked}),
+    setAll:checked=>store.setCompletion(e,{checked}),onChange,
+  });
+  const star=root.querySelector('[data-entry-star]');
+  const toggle=()=>{const on=toggleStarred(store,e.id);star.classList.toggle('is-starred',on);star.setAttribute('aria-pressed',String(on));star.setAttribute('aria-label',`${on?'Remove from':'Add to'} Starred`);onChange();};
+  star?.addEventListener('click',toggle);
+  const unbindActions=bindActionBar(root,e,onChange);
+  return ()=>{completion.destroy();star?.removeEventListener('click',toggle);unbindActions();};
+}
+const listBtn = e => html`<button type="button" class="btn sm" data-act="lists">${ic('plus', { size: 16 })}List</button><button type="button" class="btn sm ${store.inList('bank',e.id)?'on':''}" data-act="bank">${ic('book',{size:16})}${store.inList('bank',e.id)?'In word bank':'Word bank'}</button>${e.custom?raw(html`<button type="button" class="btn sm danger" data-act="delete-custom">${ic('trash',{size:16})}Delete</button>`):''}`;
 const jumpChips = (jumps, cls = '') => jumps.map(j => html`<button type="button" class="chip sm ${cls}" data-jump="${j.id}">${j.label}</button>`).join('');
 
 function mountMini(root, word, jumps) {
@@ -156,7 +178,12 @@ function explainVerb(e, conj, cells) {
     const isNF = !!NF_NAME[k];
     const idx = cells[k];
     const forms = isNF ? [primary(conj.nonFinite[k])] : idx.map(i => primary(conj.tenses[k][i]));
-    const regForms = isRre || SUPPLETIVE.test(conj.root) ? null : isNF ? [primary(reg.nonFinite[k])] : idx.map(i => primary(reg.tenses[k][i]));
+    // A valid alternative is never crossed out as an invented regular error.
+    // Keep irregular main forms highlighted without rejecting veduto, apparito,
+    // or other alternatives explicitly accepted by the same conjugator.
+    const proposed = isRre || SUPPLETIVE.test(conj.root) ? [] : isNF ? [primary(reg.nonFinite[k])] : idx.map(i => primary(reg.tenses[k][i]));
+    const invalid = proposed.filter((form,i) => !accepted(isNF?conj.nonFinite[k]:conj.tenses[k][idx[i]]).includes(form));
+    const regForms=invalid.length?invalid:null;
     const all = !isNF && idx.length === persons.length;
     return { key: k, name: tenseName(k), persons: isNF ? (k === 'participioPassato' ? 'non-finite' : 'non-finite') : all ? 'all persons' : idx.map(i => persons[i]).join(' · '), forms, regForms };
   });
@@ -267,7 +294,7 @@ function renderVerb(root, e) {
         <div class="nf"><div class="lab">Infinito</div><div class="val">${nf.infinito}</div></div>
         <div class="nf ${cells.participioPassato && pp[0] !== MISSING ? 'irr' : ''}"><div class="lab">Participio passato</div><div class="val">${pp[0]}${pp.length > 1 ? raw(` <span class="muted small">/ ${esc(pp.slice(1).join(' / '))}</span>`) : ''}</div></div>
         <div class="nf ${cells.gerundio ? 'irr' : ''}"><div class="lab">Gerundio</div><div class="val">${primary(nf.gerundio)}</div></div>
-        <div class="nf"><div class="lab">Participio presente</div><div class="val">${primary(nf.participioPresente)}</div></div>
+        <div class="nf" data-present-participle><div class="lab">Participio presente</div><div class="val">${primary(nf.participioPresente)}</div>${conj.nonFiniteNotes?.participioPresente ? raw(html`<p class="small muted" data-present-participle-note>${conj.nonFiniteNotes.participioPresente.text} <a href="${conj.nonFiniteNotes.participioPresente.source}" target="_blank" rel="noopener noreferrer">${conj.nonFiniteNotes.participioPresente.sourceLabel || 'Accademia della Crusca'}</a></p>`) : ''}</div>
         <div class="nf"><div class="lab">Infinito passato</div><div class="val">${nfBoth(nf.infinitoPassato)}</div></div>
         <div class="nf"><div class="lab">Gerundio passato</div><div class="val">${nfBoth(nf.gerundioPassato)}</div></div>
       </div>
@@ -278,7 +305,7 @@ function renderVerb(root, e) {
       ${(e.patterns || []).length ? raw(html`<div class="patterns">${raw(e.patterns.map(p => html`<span class="pattern">${p}</span>`).join(''))}</div>`) : raw('<p class="muted small">No pattern recorded for this verb.</p>')}
       <dl class="kv mt">
         <dt>Type</dt><dd>${TRANS_EN[e.trans] || e.trans || '—'}</dd>
-        <dt>Auxiliary</dt><dd>${AUX_LABEL[e.aux] || conj.aux}${e.aux === 'both' ? raw(' <span class="tiny muted">(essere when intransitive, avere with an object)</span>') : ''}</dd>
+        <dt>Auxiliary</dt><dd>${AUX_LABEL[e.aux] || conj.aux}${e.aux === 'both' ? raw(' <span class="tiny muted">(the auxiliary depends on the meaning and construction; see the usage and examples below)</span>') : ''}</dd>
         <dt>Participle</dt><dd class="bold">${pp[0]}${pp.length > 1 ? raw(` <span class="muted">/ ${esc(pp.slice(1).join(' / '))}</span>`) : ''}</dd>
         <dt>Gerund</dt><dd class="bold">${primary(nf.gerundio)}</dd>
       </dl>
@@ -304,9 +331,10 @@ function renderVerb(root, e) {
 
     <div class="card ref-target" id="progress" data-progress></div>`;
 
-  const actions = () => html`<a class="btn sm primary" href="#/learn/verb/${encodeURIComponent(e.id)}">${ic('book', { size: 16 })}Learn</a><a class="btn sm" href="${drillHref}">${ic('edit', { size: 16 })}Drill</a>${raw(listBtn())}${raw(learnedBtn(e))}`;
+  const actions = () => html`<a class="btn sm primary" href="#/learn/verb/${encodeURIComponent(e.id)}">${ic('book', { size: 16 })}Learn</a><a class="btn sm" href="${drillHref}">${ic('edit', { size: 16 })}Drill</a>${raw(listBtn(e))}`;
   const paintProgress = () => { root.querySelector('[data-progress]').innerHTML = progressCard(e, actions()); };
   paintProgress();
+  const unbindEntry=bindEntryControls(root,e,paintProgress);
   mount(root);
   riseLetters(root.querySelector('[data-rise]'));
 
@@ -347,6 +375,12 @@ function renderVerb(root, e) {
     const j = ev.target.closest('[data-jump]'); if (j) { jumpTo(root, j.dataset.jump); return; }
     const v = ev.target.closest('[data-view]');
     if (v) { if (v.dataset.view === view) return; view = v.dataset.view; card.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('on', b === v)); show(); return; }
+    const formView=ev.target.closest('[data-fview]');
+    if(formView){
+      const grid=formView.dataset.fview==='grid', card=root.querySelector('[data-forms-card]');
+      if(card){card.querySelector('[data-fan]').hidden=grid;card.querySelector('.fan-tools').hidden=grid;card.querySelector('[data-forms-grid]').hidden=!grid;card.querySelectorAll('[data-fview]').forEach(b=>{b.classList.toggle('on',b===formView);b.setAttribute('aria-pressed',String(b===formView));});}
+      return;
+    }
     if (ev.target.closest('[data-fan-flip]')) { flipAllSpread(); return; }
     const sp = ev.target.closest('[data-fan-spread]'); if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const menu = ev.target.closest('[data-dial-menu]');
@@ -354,12 +388,10 @@ function renderVerb(root, e) {
     const head = ev.target.closest('.acc-head');
     if (head) { const lazy = head.parentElement.querySelector('[data-lazy]'); if (lazy && !lazy.dataset.done) { lazy.dataset.done = '1'; lazy.innerHTML = TENSES.filter(t => t.mood === lazy.dataset.lazy).map(t => html`<div class="ref-acc-tense"><div class="ref-tense-head"><span class="ref-tense-name">${t.name}</span><span class="ref-tense-en">${t.en}</span></div>${raw(tenseTable(conj, t.key, cells, { compact: true }))}</div>`).join(''); } return; }
     const b = ev.target.closest('[data-act]'); if (!b) return;
-    if (b.dataset.act === 'lists') openListPicker(e.id, { onChange: paintProgress });
-    else if (b.dataset.act === 'learned') { const checked=!store.isLearned(e.id); if(store.setCompletion(e,{checked}))toast(checked?'Marked as learned':'Unmarked',checked?{kind:'ok'}:{}); paintProgress(); }
   };
   root.addEventListener('click', onClick);
   const unmountMini = mountMini(root, e.inf, jumps);
-  return () => { root.removeEventListener('click', onClick); d.destroy(); fanApi && fanApi.destroy(); unmountMini(); };
+  return () => { root.removeEventListener('click', onClick); unbindEntry(); d.destroy(); fanApi && fanApi.destroy(); unmountMini(); };
 }
 
 // ====================================================================================
@@ -548,10 +580,12 @@ function renderWord(root, e) {
     </div>
     ${jumps.length > 2 ? raw(html`<div class="chips scroll ref-jumps">${raw(jumpChips(jumps))}</div>`) : ''}
 
-    ${forms.length ? raw(html`<div class="card ref-target" id="forms">
-      ${raw(secHead('Forme', isNoun || forms.length !== 4 ? 'Singular & plural' : 'The four forms', { cls: 'in-pane' }))}
+    ${forms.length ? raw(html`<div class="card ref-target" id="forms" data-forms-card>
+      <div class="conj-head">${raw(secHead('Forme', isNoun || forms.length !== 4 ? 'Singular & plural' : 'The four forms', { cls: 'in-pane' }))}
+        <div class="view-toggle" role="group" aria-label="Cards or grid"><button type="button" class="on" data-fview="fan" aria-label="Flip cards" aria-pressed="true">${ic('flip',{size:18})}</button><button type="button" data-fview="grid" aria-label="Grid" aria-pressed="false">${ic('list',{size:18})}</button></div></div>
       ${nounNumberNote(e) ? raw(html`<p class="note small" data-number-note><strong>Plural usage:</strong> ${nounNumberNote(e)}</p>`) : ''}
       <div data-fan></div>
+      <div data-forms-grid hidden>${raw(wordFormsGrid(e,{showNumberNote:false}))}</div>
       <div class="fan-tools"><button type="button" class="btn xs ghost" data-fan-flip>${ic('flip', { size: 16 })}Flip all</button><button type="button" class="btn xs ghost" data-fan-spread>${ic('spread', { size: 16 })}Spread</button></div>
       <div class="forms-say">${raw(forms.map(f => html`<button type="button" class="chip sm" data-say="${f.val}">${ic('speaker', { size: 14 })}${f.val}</button>`).join(''))}</div>
     </div>`) : e.pos === 'adj' ? raw(html`<div class="card"><div class="note">Invariable adjective: the same form is used for all genders and numbers.</div></div>`) : ''}
@@ -579,9 +613,10 @@ function renderWord(root, e) {
 
     <div class="card ref-target" id="progress" data-progress></div>`;
 
-  const actions = () => html`<a class="btn sm primary" href="#/learn/word/${encodeURIComponent(e.id)}">${ic('book', { size: 16 })}Learn</a><a class="btn sm" href="#/game/flashcards?src=ids:${encodeURIComponent(deckIds.join(','))}">${ic('flip', { size: 16 })}Flashcards</a>${raw(listBtn())}${raw(learnedBtn(e))}`;
+  const actions = () => html`${e.legacyGrouping?raw(html`<button type="button" class="btn sm primary" data-jump="meanings">Choose a meaning</button>`):raw(html`<a class="btn sm primary" href="#/learn/word/${encodeURIComponent(e.id)}">${ic('book', { size: 16 })}Learn</a>`)}<a class="btn sm" href="#/game/flashcards?src=ids:${encodeURIComponent(deckIds.join(','))}">${ic('flip', { size: 16 })}Flashcards</a>${raw(listBtn(e))}`;
   const paintProgress = () => { root.querySelector('[data-progress]').innerHTML = progressCard(e, actions()); };
   paintProgress();
+  const unbindEntry=bindEntryControls(root,e,paintProgress);
   mount(root);
   riseLetters(root.querySelector('[data-rise]'));
 
@@ -601,15 +636,19 @@ function renderWord(root, e) {
   }
   const onClick = (ev) => {
     const j = ev.target.closest('[data-jump]'); if (j) { jumpTo(root, j.dataset.jump); return; }
+    const formView=ev.target.closest('[data-fview]');
+    if(formView){
+      const grid=formView.dataset.fview==='grid', card=root.querySelector('[data-forms-card]');
+      if(card){card.querySelector('[data-fan]').hidden=grid;card.querySelector('.fan-tools').hidden=grid;card.querySelector('[data-forms-grid]').hidden=!grid;card.querySelectorAll('[data-fview]').forEach(b=>{b.classList.toggle('on',b===formView);b.setAttribute('aria-pressed',String(b===formView));});}
+      return;
+    }
     if (ev.target.closest('[data-fan-flip]')) { flipAllSpread(); return; }
     const sp = ev.target.closest('[data-fan-spread]'); if (sp) { const on = fanApi && fanApi.spread(); sp.classList.toggle('on', !!on); return; }
     const b = ev.target.closest('[data-act]'); if (!b) return;
-    if (b.dataset.act === 'lists') openListPicker(e.id, { onChange: paintProgress });
-    else if (b.dataset.act === 'learned') { const checked=!store.isLearned(e.id); if(store.setCompletion(e,{checked}))toast(checked?'Marked as learned':'Unmarked',checked?{kind:'ok'}:{}); paintProgress(); }
   };
   root.addEventListener('click', onClick);
   const unmountMini = mountMini(root, headword(e), jumps);
-  return () => { clearTimeout(flipTimer); root.removeEventListener('click', onClick); fanApi && fanApi.destroy(); unmountMini(); };
+  return () => { clearTimeout(flipTimer); unbindEntry(); root.removeEventListener('click', onClick); fanApi && fanApi.destroy(); unmountMini(); };
 }
 
 // ====================================================================================

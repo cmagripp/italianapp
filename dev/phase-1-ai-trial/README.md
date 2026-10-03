@@ -53,3 +53,33 @@ The probe records `navigator.gpu`, the actual adapter, f16, local voices, storag
 ## Recovery and cleanup
 
 Release models before switching candidates. Keep exported text reports independently of model packs. Deleting `assets/` removes only trial artifacts; rerun preparation to repair them. Remove the `parola-phase1-disposable-trial-v1` cache and `parola.phase1.trial.v1` storage key on origin 8132 to clear the trial; never clear the production app's origin. The local server binds only to loopback. No production profile is read or migrated.
+
+## Full-programme quality and service investigation
+
+The initial results above remain unchanged. The expanded fourteen-case comparisons, independent Llama test, actual token counts, source validation limitations and native alternative are documented in [the comparative report](../../docs/implementation/programme/ai-evaluation.md). New reusable service modules are in `js/ai/`; their [integration contract](../../docs/implementation/programme/ai-services.md) deliberately keeps production generation closed without a verified Italian policy. The disposable quality harness explicitly bypasses that policy to measure candidate failures, never to authorize release.
+
+```sh
+node prepare.mjs --models=baseline,gemma,qwen35,qwen17,qwen4,llama3 --asr-base
+node server.mjs
+# In a separate terminal, sequentially:
+node quality-benchmark.mjs --models=Qwen3.5-4B-q4f16_1-MLC,Llama-3.2-3B-Instruct-q4f16_1-MLC --contexts=4096 --variants=plain,grounded --output=quality-current.json
+node speech-quality-benchmark.mjs
+node service-browser-check.mjs
+node --test service.test.mjs
+node native-probe.mjs
+```
+
+Preparation enforces a default five-GiB free-disk reserve before each new download. Qwen4 adds about 2.40 GB of model/library files, Llama3 about 1.82 GB, and selected Whisper-base files about 81 MB; browser caches add separate copies. The original five model pins and exact new revisions/licenses are retained. Do not delete unrelated caches. Generated assets and measurement profiles remain ignored; tracked copies of the raw reports are under `docs/implementation/programme/`.
+
+The current grounded generator supplies participant/text/correction proposals; definitions, forms, examples, correction explanations and dictionary indexing come only from supplied reviewed records. The fourteen cases all run, including advanced cases without complete reviewed source coverage. Success means structural acceptance until a separate Italian review passes. A new prompt revision is recorded in each current row; earlier full prompts and failures are preserved in independent report files.
+
+`native-probe.mjs` builds an investigation-only Swift executable with Xcode, checks FoundationModels availability and Italian support, and generates the same 28 plain/grounded inputs only when both are available. It has a ten-minute inference bound. It never enables Apple Intelligence, downloads system models or changes the product platform. On the measured Mac the model was unavailable because Apple Intelligence was disabled, so no native quality was measured.
+
+The later single approved independent Phi comparison is preserved in [the held-out decision](../../docs/implementation/programme/ai-phi-decision.md). `quality-heldout.mjs` freezes 24 new situations plus two generated opening/setup cases before first inference, reuses verified-teaching separation and does not tune against the resulting failures. Repeat only on explicit trial authorization:
+
+```sh
+node prepare.mjs --models=phi4 --min-free-gib=5
+node quality-benchmark.mjs --models=Phi-4-mini-instruct-q4f16_1-MLC --contexts=4096 --variants=grounded --suite=heldout --output=quality-phi-heldout.json
+```
+
+The runner has a fifteen-minute bound and uses a separate disposable browser profile. Phi adds about 2.19GB of model/library files, plus its browser cache. It failed the Italian gate despite desktop offline inference; no product/provider was installed.

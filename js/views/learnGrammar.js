@@ -1,5 +1,6 @@
+import {mountActivityViewport} from '../learning/activity-viewport.js';
 import { render as renderCourse } from './learnCourse.js';
-import { announceAnswer, html, raw, icon, speak, speakBtn, keyboardViewportHeight } from '../ui.js';
+import { announceAnswer, html, raw, icon, speak, speakBtn } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { LEARNING_VERSION } from '../learning/model.js';
@@ -27,11 +28,8 @@ export async function render(root,params,query={}) {
   const g=()=>session.grammar;
   const save=()=>{if(!disposed&&store.current.id===owner){store.saveLearningSession(session);}};
   setTitle(lesson.title);setScene(lesson.level);setChrome({tabs:false,back:false});
-  document.body.classList.add('journey-viewport');window.scrollTo(0,0);
-  const fit=()=>{const h=keyboardViewportHeight();if(h===null)document.body.style.removeProperty('--journey-viewport-height');else document.body.style.setProperty('--journey-viewport-height',`${h}px`);};
-  for(const name of ['resize','scroll'])window.visualViewport?.addEventListener(name,fit);
-  for(const name of ['resize','orientationchange','pageshow'])window.addEventListener(name,fit);
-  root.addEventListener('focusin',fit);root.addEventListener('focusout',fit);fit();
+  const viewport=mountActivityViewport(root);
+  const fit=viewport.fit;
   const info=document.createElement('button');info.className='journey-info-toggle icon-btn';info.type='button';info.setAttribute('aria-label','Lesson reference');info.setAttribute('aria-haspopup','menu');info.setAttribute('aria-expanded','false');info.innerHTML='<span aria-hidden="true" style="font-family:Georgia,serif;font-style:italic;font-size:21px">i</span>';
   document.querySelector('#enToggle').before(info);
   info.addEventListener('click',()=>dropdown(info,[{value:'outline',label:'Course outline',sub:lesson.unitTitle},...(lesson.referenceTopics || []).map(id=>({value:id,label:id.split('-').join(' '),sub:'Grammar reference'}))],{align:'end',width:285,onSelect:value=>{save();location.hash=value==='outline'?'#/course':'#/grammar/'+value;}}));
@@ -122,5 +120,5 @@ export async function render(root,params,query={}) {
   const input=event=>{if(event.target.matches('[data-grammar-input]')){g().draft=event.target.value.slice(0,600);save();root.querySelector('[data-check-grammar]')?.toggleAttribute('disabled',!g().draft.trim());}};
   const form=event=>{if(event.target.matches('[data-grammar-form]')){event.preventDefault();check();}};
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);save();draw();
-  return ()=>{save();disposed=true;panel.destroy();info.remove();root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('focusin',fit);root.removeEventListener('focusout',fit);for(const name of ['resize','scroll'])window.visualViewport?.removeEventListener(name,fit);for(const name of ['resize','orientationchange','pageshow'])window.removeEventListener(name,fit);document.body.classList.remove('journey-viewport');document.body.style.removeProperty('--journey-viewport-height');setChrome({tabs:true});};
+  return ()=>{save();disposed=true;panel.destroy();info.remove();root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);viewport.destroy();setChrome({tabs:true});};
 }

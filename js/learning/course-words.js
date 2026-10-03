@@ -5,6 +5,8 @@ import { LEVELS, article, withArticle, hasPluralForm, isPluralOnly } from '../da
 import { conjugate, accepted, splitClitic } from '../conjugator.js';
 import { buildLesson } from './lesson-content.js';
 import { registerCourseVocabulary } from './course-vocabulary.js';
+import { courseGlossKind } from './course-gloss-kind.js';
+import { courseSenseEntryId } from './course-sense-links.js';
 
 const norm = s => String(s ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
 // Index and gloss keys drop trailing punctuation, so "Quanto costa?", "Mi chiamo…" and the headword "quanto costa?" meet.
@@ -46,7 +48,7 @@ function dictionaryIndex(vocab, verbs) {
   const headwords = new Map(), plurals = new Map(), fems = new Map(), forms = new Map(), byId = new Map(), verbEntries = [];
   // Raw JSON entries (Node) carry no `kind`; mirror loadData without touching the originals.
   for (const raw of [...(Array.isArray(vocab) ? vocab : []), ...(Array.isArray(verbs) ? verbs : [])]) {
-    if (!raw || typeof raw !== 'object' || !raw.id) continue;
+    if (!raw || typeof raw !== 'object' || !raw.id || raw.legacyGrouping) continue;
     const e = raw.kind ? raw : { ...raw, kind: kindOf(raw), it: raw.inf || raw.it };
     byId.set(e.id, e);
     add(headwords, e.inf || e.it, e);
@@ -114,8 +116,17 @@ function englishScore(gloss, e) {
   if (have.some(h => want.some(w => wordIn(h, w) || wordIn(w, h)))) return 1;
   return 0;
 }
-// Several entries share the headword: the one whose English carries the gloss, then the lowest level, then file order (stable sort).
-const pick = (list, gloss) => list.length === 1 ? list[0] : [...list].sort((a, b) => englishScore(gloss, b) - englishScore(gloss, a) || levelRank(a) - levelRank(b))[0];
+// Meaning children require one positively supported match. A tied or unrelated
+// gloss cannot select a child by its level or its order in the data file.
+const pick = (list, gloss) => {
+  if(list.some(e=>e.senseId)){
+    const scores=list.map(entry=>({entry,score:englishScore(gloss,entry)})),positive=scores.filter(r=>r.score>0);
+    if(positive.length===1)return positive[0].entry;
+    const best=Math.max(...scores.map(r=>r.score)),matches=scores.filter(r=>r.score===best),qualified=senses(gloss.en).some(s=>s.includes(' '));
+    return qualified&&best===2&&matches.length===1?matches[0].entry:null;
+  }
+  return list.length === 1 ? list[0] : [...list].sort((a, b) => englishScore(gloss, b) - englishScore(gloss, a) || levelRank(a) - levelRank(b))[0];
+};
 // The verbs whose English carries the gloss (a positive score needs a shared token, so the token index is only a shortcut).
 function englishVerbs(gloss, index) {
   const candidates = new Set();
@@ -162,10 +173,12 @@ function conjugatedForm(key, conjugated, gloss) {
 }
 function resolveGloss(gloss, index, verbForms, depth = 0) {
   if (!gloss || typeof gloss !== 'object') return null;
+  if (courseGlossKind(gloss) === 'proper-name') return null;
   const keys = glossKeys(gloss.it);
   const found = map => { for (const key of keys) { const list = map.get(key); if (list?.length) return pick(list, gloss); } return null; };
   const byId = usable(gloss.entryId) ? index.byId.get(gloss.entryId) : null;
-  const word = found(index.headwords) || byId || found(index.plurals) || found(index.fems) || found(index.forms);
+  if(byId)return byId;
+  const word = found(index.headwords) || found(index.plurals) || found(index.fems) || found(index.forms);
   // A word whose English carries nothing of the gloss yields to a form of a verb whose English does: "abiti · you live"
   // is abitare, not the plural of abito. Only such verbs are conjugated for that, so the words (and the boards) come out
   // the same with or without the whole-dictionary index. A gloss no word rule claims is looked up across every verb.
@@ -174,6 +187,7 @@ function resolveGloss(gloss, index, verbForms, depth = 0) {
     const verb = word ? conjugatedForm(keys[0], conjugatedIndexFor(englishVerbs(gloss, index)), gloss) : verbForms ? conjugatedForm(keys[0], conjugatedIndex(index), gloss) : null;
     if (verb) entry = verb;
   }
+  if(!byId&&entry&&!englishScore(gloss,entry)&&keys.some(key=>index.headwords.get(key)?.some(e=>e.senseId)))return null;
   if (entry || depth) return entry || null;
   // "il collega / la collega": the first alternative stands for the gloss.
   const alternative = String(gloss.it ?? '').split(/\s*\/\s*/)[0];
@@ -182,7 +196,7 @@ function resolveGloss(gloss, index, verbForms, depth = 0) {
 
 /**
  * One record per gloss of the lesson's first `words` step that names a dictionary entry; verbs come back with
- * entry.kind === 'verb'. A gloss resolves by exact headword, then its `entryId`, then as a plural, feminine, adjective or
+ * entry.kind === 'verb'. A gloss resolves by an explicit active `entryId`, then exact headword, then as a plural, feminine, adjective or
  * closed-class form, then as a conjugated form of a verb. `verbForms: false` skips that last step (and the cost of
  * conjugating every verb) for callers that only need the words, such as the board synthesis.
  */
@@ -190,7 +204,7 @@ export function resolveLessonWords(lesson, { vocab = [], verbs = [], verbForms =
   const step = (lesson?.steps || []).find(s => s?.kind === 'words');
   if (!step || !Array.isArray(step.words)) return [];
   const index = dictionaryIndex(vocab, verbs), out = [];
-  for (const gloss of step.words) { const entry = resolveGloss(gloss, index, verbForms !== false); if (entry) out.push({ gloss, entry }); }
+  for (const gloss of step.words) { const declared=courseSenseEntryId(lesson.id,gloss),entry = resolveGloss(declared?{...gloss,entryId:declared}:gloss, index, verbForms !== false); if (entry) out.push({ gloss, entry }); }
   return out;
 }
 
@@ -307,6 +321,24 @@ export function wordsCheckPlan(lesson, resolved) {
     if (forms) break;
     excluded.add(exclusion(rows, words).entry.id);
   }
+  // A removal early in the search can become unnecessary once a different
+  // crowded noun has left. Reconsider actual complete noun slots against the
+  // final board; do not leave a useful word off every board merely because it
+  // was tried first. Each successful pass strictly shrinks the exclusion set.
+  let restored;
+  do {
+    restored = false;
+    for (const id of [...excluded]) {
+      const trialExcluded = new Set(excluded); trialExcluded.delete(id);
+      const trialWords = boardWords(resolved, trialExcluded);
+      if (!trialWords.some(w => w.entry.id === id) || words.some(w => !trialWords.some(t => t.entry.id === w.entry.id))) continue;
+      const trialRows = formsRows(trialWords);
+      if (trialRows.includes(null)) continue;
+      const trialForms = packForms(trialRows);
+      if (!trialForms) continue;
+      excluded.delete(id); words = trialWords; forms = trialForms; restored = true;
+    }
+  } while (restored);
   const pair = (w, skill, left, right) => ({ left, right, entryId: w.entry.id, skill, objectiveId: w.objectives.bySkill[skill], contentVersion: w.objectives.version, say: w.it });
   const steps = [];
   rounds(words).forEach((round, i) => steps.push(step(lesson, 'meaning', i + 1, round.map(w => pair(w, 'meaning', w.it, w.en)))));

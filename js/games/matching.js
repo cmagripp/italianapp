@@ -4,14 +4,15 @@ import { html, raw, esc, haptic, speak } from '../ui.js';
 import { store } from '../store.js';
 import { headword, shortEn, shuffle, fold } from '../data.js';
 import { conjugate, primary, PERSONS, MISSING } from '../conjugator.js';
-import { showResults, gameTop, pad2, feedbackHTML } from './engine.js';
+import { showResults, gameTop, pad2, feedbackHTML, gameActivityFence, gameAnswerBudget } from './engine.js';
 import fx from '../fx.js';
 
 export function startMatching(root, ctx) {
   const mode = ctx.options?.mode || 'translate';
-  const all = ctx.items.slice();
+  const all = ctx.items.slice(0,gameAnswerBudget(ctx));
   const roundSize = 6;
   let r = 0, mistakes = 0, matched = 0; const missed = new Set(); const start = Date.now();
+  const current=gameActivityFence(ctx.isActive);
   let dead = false, finished = false, resetTimer = null;
   const total = all.length;
 
@@ -37,7 +38,7 @@ export function startMatching(root, ctx) {
     rounds.push(round);
   }
   function renderRound() {
-    if (dead || finished) return;
+    if (!current() || dead || finished) return;
     clearTimeout(resetTimer);
     const pairs = rounds[r];
     if (!pairs) return finish();
@@ -52,7 +53,7 @@ export function startMatching(root, ctx) {
     let sel = null; let busy = false; let awaitingContinue = false;
     const roundIndex = r;
     root.querySelector('.match-grid').addEventListener('click', (ev) => {
-      const b = ev.target.closest('.m'); if (!b || dead || finished || r !== roundIndex || busy || b.classList.contains('done')) return;
+      const b = ev.target.closest('.m'); if (!b || !current() || dead || finished || r !== roundIndex || busy || b.classList.contains('done')) return;
       if (!sel) { sel = b; b.classList.add('sel'); return; }
       if (sel === b) { b.classList.remove('sel'); sel = null; return; }
       if (sel.dataset.side === b.dataset.side) { sel.classList.remove('sel'); sel = b; b.classList.add('sel'); return; }
@@ -76,7 +77,7 @@ export function startMatching(root, ctx) {
           fb.innerHTML = feedbackHTML({ ok: true, title: 'Round complete', detail: `${pairs.length} pair${pairs.length === 1 ? '' : 's'} matched.`, nextLabel: r + 1 >= rounds.length ? 'See results' : 'Continue' });
           const next = fb.querySelector('[data-next]');
           next.addEventListener('click', () => {
-            if (dead || finished || !awaitingContinue || r !== roundIndex) return;
+            if (!current() || dead || finished || !awaitingContinue || r !== roundIndex) return;
             awaitingContinue = false; next.disabled = true; r++; renderRound();
           });
           next.focus({ preventScroll: true });
@@ -85,13 +86,13 @@ export function startMatching(root, ctx) {
         haptic('error'); mistakes++; missed.add(sel.dataset.id); missed.add(id);
         const a = sel; a.classList.add('bad'); b.classList.add('bad');
         busy = true;
-        resetTimer = setTimeout(() => { if (dead || finished || r !== roundIndex) return; a.classList.remove('bad', 'sel'); b.classList.remove('bad'); busy = false; }, 420);
+        resetTimer = setTimeout(() => { if (!current() || dead || finished || r !== roundIndex) return; a.classList.remove('bad', 'sel'); b.classList.remove('bad'); busy = false; }, 420);
         sel = null;
       }
     });
   }
   function finish() {
-    if (dead || finished) return;
+    if (!current() || dead || finished) return;
     finished = true; clearTimeout(resetTimer);
     const correct = Math.max(0, total - missed.size);
     const result = { gameId: 'matching', total, correct, wrong: missed.size, score: total ? Math.round((correct / total) * 100) : 0, missed: [...missed], secs: Math.round((Date.now() - start) / 1000) };

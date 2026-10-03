@@ -35,6 +35,13 @@ test('first full-catalog lookup builds once and returns a real noun', () => {
   assert.equal(c.gender, 'f'); assert.equal(c.genderLabel, 'feminine');
   console.log(`  Lazy full-catalog first lookup: ${Math.round(elapsed)} ms (${verbs.length} verbs)`);
 });
+test('all new riavere scene words have exact offline help, including the returned security deposit',()=>{
+ const entry=verbs.find(e=>e.inf==='riavere'),deposit=candidate('cauzione','lookup:cauzione|noun');assert(entry);
+ assert.equal(deposit.meaning,'security deposit');assert.equal(deposit.gender,'f');assert.equal(deposit.singular,'la cauzione');assert.equal(deposit.plural,'le cauzioni');
+ const scenes=[...entry.examples,...['present','past','background','future','condizionale'].flatMap(chapter=>lessonContexts(entry,chapter)),...['present','background'].flatMap(chapter=>[...simpleVerbContexts(entry,{chapter,section:'all'}),...progressiveContexts(entry,{chapter,section:'all'})])];
+ assert(scenes.length>100);
+ for(const scene of scenes)for(const token of tokenizeItalianSentence(scene.it).filter(t=>t.type==='word'))assert.notEqual(lookup(token.text,{sentence:scene.it,entry}).status,'unavailable',`${token.text} in ${scene.it}`);
+});
 
 test('every catalog noun has its recorded article/number forms and plural alias', () => {
   let checked = 0;

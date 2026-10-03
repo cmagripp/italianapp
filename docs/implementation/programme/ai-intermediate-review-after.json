@@ -1,0 +1,37 @@
+{
+  "reviewedAt": "2026-10-03T16:08:00.840Z",
+  "verdict": "Agent authored-source review passed after specified corrections; educator/learner/human-audio/device gates remain pending",
+  "sourceHashes": {
+    "tools/phase6-intermediate-lessons.mjs": "4ea4d85c4d6379da9e100fa665f99bef5d53d6e0fd1c058ffdb222faf08c99a7",
+    "tools/phase6-intermediate.mjs": "3a6ad26e478651c13662feb38142e49525f6629bd052b6e5dc5f8f2fa558b694",
+    "data/course-v2/A2.json": "52b87e3eab25db7de5d71796753661cb3958801b2076637d3be370469d776bb5",
+    "data/course-v2/B1.json": "3fd071474c117f15a90243aa70e003d8b8ac430e9bae470afb73e77ff620ce5f"
+  },
+  "findings": [
+    {
+      "id": "ticket-group-scope",
+      "outcome": "Explicit four-person group, Eva already has her ticket, three new tickets for others; English matches."
+    },
+    {
+      "id": "relay-natural-model",
+      "outcome": "Guided answer/options and portfolio both use Il piano è andare al museo, ma solo se è aperto."
+    },
+    {
+      "id": "assessment-scope",
+      "outcome": "All16 language outcomes now Practise how to; targets remain narrow and portfolios ungraded."
+    },
+    {
+      "id": "audio-source-normalization",
+      "outcome": "Internal colon previously removed Eva’s sentence from speech and ASR expected text. Full stop now preserves it; all24 sources match spokenText and hashes, affected ASR review hash matches regenerated clip. Underlying broad label-parser risk should have a preservation gate."
+    }
+  ],
+  "verification": {
+    "historicalLessons": 99,
+    "newLessons": 24,
+    "twoErrorPaths": 40,
+    "allPass": true,
+    "audioSourceRows": 24,
+    "audioSourcePass": 24,
+    "audioQuality": "Automated only; affected Eva recognized as e va in ASR; no native-human pronunciation claim"
+  }
+}

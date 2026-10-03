@@ -1,6 +1,7 @@
+import {mountActivityViewport} from '../learning/activity-viewport.js';
 // Taught, resumable lessons. Sequencing and learning evidence live in journey.js;
 // this view persists only the current input, assistance and presentation state.
-import { announceAnswer, html, raw, icon, speak, stopSpeech, keyboardViewportHeight } from '../ui.js';
+import { announceAnswer, html, raw, icon, speak, stopSpeech } from '../ui.js';
 import { setScene, reducedMotion, dropdown } from '../fx.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
@@ -24,6 +25,7 @@ import { feedbackHTML as gameFeedbackHTML } from '../games/engine.js';
 import { createJourneySession, currentJourneyStep, advanceJourney, recordJourneyAttempt,
   skipJourneyTarget, chooseJourneyChapter, upgradeShortWordSession, upgradeVerbJourneySession, reconcileJourneyReview, journeyStageProgress, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
 import { recommendLesson as recommend, practiceHref } from '../learning/integration.js';
+import {journeyVisit,recordJourneyVisit,nextJourneyVisit} from '../learning/journey-visit.js';
 
 const uid = () => globalThis.crypto?.randomUUID?.() || `journey-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 const clone = x => JSON.parse(JSON.stringify(x));
@@ -142,9 +144,10 @@ export async function render(root, params = {}, query = {}) {
     session=upgraded;
     session.ui={...session.ui,historyCursor:null,questionId:null,draft:'',given:'',result:null,activity:null,assistance:[],hint:false,forms:false};
   }
-  if(query.session)query={...query,fromGrammar:query.fromGrammar || session.fromGrammar,courseSession:query.courseSession || session.courseSession};
+  if(query.session)query={...query,fromGrammar:query.fromGrammar || session.fromGrammar,courseSession:query.courseSession || session.courseSession,fromConversation:query.fromConversation || session.fromConversation};
   if(grammarLesson(query.fromGrammar))session.fromGrammar=query.fromGrammar;else delete session.fromGrammar;
   if(query.courseSession)session.courseSession='1';else delete session.courseSession;
+  if(typeof query.fromConversation==='string'&&query.fromConversation.length<=200)session.fromConversation=query.fromConversation;else delete session.fromConversation;
   let ui = session.ui?.version === 2 ? session.ui : { version: 2, draft: '', assistance: [], exposures: {}, mapOpen: false };
   ui.exposures = ui.exposures && typeof ui.exposures === 'object' && !Array.isArray(ui.exposures)
     ? Object.fromEntries(Object.entries(ui.exposures).filter(([key,value])=>!['__proto__','prototype','constructor'].includes(key) && Number.isFinite(value) && value >= 0)) : {};
@@ -156,6 +159,11 @@ export async function render(root, params = {}, query = {}) {
     ui.result.components = Array.isArray(ui.result.components) ? ui.result.components.filter(x=>x&&typeof x.skill==='string'&&typeof x.ok==='boolean') : [];
   } else ui.result = null;
   ui.paused = ui.paused === true; ui.mapOpen = ui.mapOpen === true;
+  const boundedVisit=entry.kind==='verb'&&mode==='lesson';
+  ui.visits=ui.visits&&typeof ui.visits==='object'&&!Array.isArray(ui.visits)?Object.fromEntries(Object.entries(ui.visits).filter(([key])=>!['__proto__','constructor','prototype'].includes(key))):{};
+  function currentVisit(){return boundedVisit?journeyVisit(session,ui.visits[session.journey.chapterId]):null;}
+  function saveVisit(visit){if(visit)ui.visits[visit.chapterId]=visit;}
+  const visitFull=()=>currentVisit()?.eventIds.length===currentVisit()?.limit;
   ui.overview = entry.kind==='verb' && mode==='lesson' && (query.overview==='1'
     || !query.session&&!chapterId || !!query.session&&ui.overview===true);
   ui.formDecks = ui.formDecks && typeof ui.formDecks === 'object' && !Array.isArray(ui.formDecks)
@@ -215,20 +223,22 @@ export async function render(root, params = {}, query = {}) {
   const stepNow = () => currentJourneyStep(plan, session, store.learning, Date.now());
   let step = stepNow();
   const save = () => {
-    if (disposed || store.current.id !== owner) return;
+    // A case overview is a preview. Looking at another verb must not replace
+    // the lesson the learner actually started in the shared Continue card.
+    if (disposed || ui.overview || store.current.id !== owner) return;
     session.ui = ui; session.updatedAt = Date.now(); store.saveLearningSession(session);
   };
   function updateRoute() {
-    const route = new URLSearchParams(); route.set('session', session.id);
+    const route = new URLSearchParams(); if (!ui.overview) route.set('session', session.id);
     if (mode === 'review') route.set('mode', mode);
     if (query.courseSession) route.set('courseSession','1');
     if (grammarLesson(query.fromGrammar)) route.set('fromGrammar',query.fromGrammar);
+    if (session.fromConversation) route.set('fromConversation',session.fromConversation);
     if (ui.overview) route.set('overview','1');
     history.replaceState(history.state, '', `#/learn/${entry.kind === 'verb' ? 'verb' : 'word'}/${encodeURIComponent(entry.id)}?${route}`);
   }
   updateRoute();
   setTitle(`${nameOf(entry)} · lesson`); setChrome({ tabs: false, back: false }); store.pushRecent(entry.id);
-  document.body.classList.add('journey-viewport');
   if(entry.kind==='verb') {
     tableButton=document.createElement('button');
     tableButton.type='button';tableButton.className='icon-btn journey-info-toggle';
@@ -241,27 +251,8 @@ export async function render(root, params = {}, query = {}) {
     document.querySelector('#enToggle')?.before(tableButton);
     tableButton.addEventListener('click',toggleTable);
   }
-  window.scrollTo(0,0);
-  const fitViewport = () => {
-    const keyboardHeight = keyboardViewportHeight();
-    const height = keyboardHeight ?? window.innerHeight;
-    if (keyboardHeight === null) document.body.style.removeProperty('--journey-viewport-height');
-    else document.body.style.setProperty('--journey-viewport-height',`${keyboardHeight}px`);
-    document.body.classList.toggle('journey-compact',height<600);
-    const panel = root.querySelector('.journey-main'), input = document.activeElement;
-    if (panel && input?.matches('[data-answer]')) {
-      const bottom = input.getBoundingClientRect().bottom - panel.getBoundingClientRect().bottom;
-      if (bottom > 0) panel.scrollTop += bottom + 16;
-    }
-  };
-  fitViewport();
-  window.visualViewport?.addEventListener('resize',fitViewport);
-  window.visualViewport?.addEventListener('scroll',fitViewport);
-  window.addEventListener('resize',fitViewport);
-  window.addEventListener('pageshow',fitViewport);
-  window.addEventListener('orientationchange',fitViewport);
-  document.addEventListener('focusin',fitViewport);
-  document.addEventListener('focusout',fitViewport);
+  const viewport=mountActivityViewport(root,{compactClass:'journey-compact'});
+  const fitViewport=viewport.fit;
 
   const words = createSentencePanel(root, {
     context(sentence) {
@@ -316,6 +307,7 @@ export async function render(root, params = {}, query = {}) {
     const event=events[step.questionId];
     if(event) {
       session=recordJourneyAttempt(plan,session,event,{added:false,learning:store.learning});
+      if(boundedVisit)saveVisit(recordJourneyVisit(session,currentVisit(),event));
       if(session.journey.awaitingContinue&&session.answeredEventIds.includes(event.id)
         &&(!ui.result||ui.result.ok!==event.ok||ui.result.outcome!==event.outcome
           ||JSON.stringify(ui.result.errorTags||[])!==JSON.stringify(event.errorTags||[])
@@ -699,7 +691,7 @@ export async function render(root, params = {}, query = {}) {
       <p>${model.tip || 'Use the model to connect the meaning with its form. We’ll practise a smaller step next.'}</p>
       <p class="journey-note">You can take your time, pause, or save this part for later.</p>`;
   }
-  function feedbackHTML(result = ui.result, displayQuestion = question, given = ui.given, {showNext=false} = {}) {
+  function feedbackHTML(result = ui.result, displayQuestion = question, given = ui.given, {showNext=false,nextLabel='Continue'} = {}) {
     if (!result || !displayQuestion) return '';
     const pairs=displayQuestion.type==='pairs';
     const correct=displayQuestion.answer?.[0]||'';
@@ -710,7 +702,7 @@ export async function render(root, params = {}, query = {}) {
       ${explanation?raw(html`<p>${explanation}</p>`):''}
       ${displayQuestion.context?raw(html`<div class="journey-feedback-context"><p lang="it" data-italian-sentence>${displayQuestion.context.it}</p><p class="journey-translation">${displayQuestion.context.en}</p></div>`):''}
       ${!result.ok?raw('<p class="journey-note">We’ll work on this part together, then try another example.</p>'):''}`;
-    return html`<aside class="journey-feedback ${result.ok?'is-correct':''}">${raw(gameFeedbackHTML({ok:result.ok,title:html`${title}`,detail,submission:result.submission,nextAttribute:'data-continue',showNext}))}</aside>`;
+    return html`<aside class="journey-feedback ${result.ok?'is-correct':''}">${raw(gameFeedbackHTML({ok:result.ok,title:html`${title}`,detail,submission:result.submission,nextAttribute:'data-continue',nextLabel,showNext}))}</aside>`;
   }
   function exerciseHTML() {
     if (!question) return html`<h1 data-focus tabindex="-1">Let’s use the reference</h1><p>There isn’t a reliable exercise for this part yet. You can read its examples and continue.</p>${raw(primary('Continue with this part saved', 'data-skip'))}<a class="btn secondary" href="#/reference/${encodeURIComponent(entry.id)}">Examples and forms</a>`;
@@ -731,7 +723,7 @@ export async function render(root, params = {}, query = {}) {
   }
   function summaryHTML(complete) {
     const progress = journeyProgress(plan, session, store.learning);
-    const courseReturn=query.courseSession?'<a class="btn primary block" href="#/learn/session">Continue your session</a>':grammarLesson(query.fromGrammar)?html`<a class="btn primary block" href="#/learn/grammar/${encodeURIComponent(query.fromGrammar)}?recap=1">Back to your grammar lesson</a>`:'';
+    const courseReturn=session.fromConversation?html`<a class="btn primary block" href="#/conversations/${encodeURIComponent(session.fromConversation)}">Back to your conversation</a>`:query.courseSession?'<a class="btn primary block" href="#/learn/session">Continue your session</a>':grammarLesson(query.fromGrammar)?html`<a class="btn primary block" href="#/learn/grammar/${encodeURIComponent(query.fromGrammar)}?recap=1">Back to your grammar lesson</a>`:'';
     if(progress.wordShort) {
       const pending=progress.pending.length,next=recommend(store,{kind:'word'});
       return html`<section class="journey-recap"><div class="journey-recap-mark" aria-hidden="true">${raw(icon(pending?'book':'check',{size:30}))}</div><div class="journey-kicker">Your word lesson</div>
@@ -818,7 +810,7 @@ export async function render(root, params = {}, query = {}) {
       for(const chapter of plan.chapters.filter(c=>!c.optional))revealTeaching(intro?{...intro,notes:[],examples:[],exposureForms:[]}:null,chapter);
       content=lessonOverviewHTML({entry,plan,progress:cases,session});
     }
-    else if (paused) content = html`${query.courseSession?raw('<a class="btn secondary block" href="#/learn/session">Your session</a>'):''}<h1 data-focus tabindex="-1">Your place is saved</h1><p>Come back to this question whenever you’re ready.</p>${raw(primary('Resume lesson', 'data-resume'))}${entry.kind==='verb'&&mode==='lesson'?raw('<button type="button" class="btn ghost" data-overview>Back to your verb</button>'):''}<a class="btn ghost" href="#/learn">Back to Learn</a>`;
+    else if (paused) content = html`${session.fromConversation?raw(html`<a class="btn secondary block" href="#/conversations/${encodeURIComponent(session.fromConversation)}">Back to your conversation</a>`):''}${query.courseSession?raw('<a class="btn secondary block" href="#/learn/session">Your session</a>'):''}<h1 data-focus tabindex="-1">${currentVisit()?.boundary?'This visit is saved':'Your place is saved'}</h1><p>${currentVisit()?.boundary?'Eight checks are done. Your next question is ready whenever you are.':'Come back to this question whenever you’re ready.'}</p>${raw(primary(currentVisit()?.boundary?'Start the next visit':'Resume lesson', 'data-resume'))}${entry.kind==='verb'&&mode==='lesson'?raw('<button type="button" class="btn ghost" data-overview>Back to your verb</button>'):''}<a class="btn ghost" href="#/learn">Back to Learn</a>`;
     else if(past)content=historyHTML(past);
     else if (step.type === 'teach') {
       revealTeaching(step.card);
@@ -829,14 +821,14 @@ export async function render(root, params = {}, query = {}) {
     else if (step.type === 'unavailable') content = html`<h1 data-focus tabindex="-1">This saved lesson cannot open yet</h1><p>Its saved progress is preserved. Reload the app to check for an update, or return to your other lessons.</p><a class="btn primary" href="#/learn">Back to Learn</a>`;
     else content = html`<h1 data-focus tabindex="-1">Save this part for later</h1><p>We need another useful example before checking this part again. Your practice so far is saved.</p>${raw(primary('Continue with this part saved', 'data-skip'))}<a class="btn ghost" href="#/reference/${encodeURIComponent(entry.id)}">Read the available examples</a>`;
     const lessonHeader=overview?html`<header class="journey-header is-overview"><div class="journey-overview-top"><span class="journey-kicker">Choose your next step</span><a href="#/learn">All lessons ${raw(icon('chevronRight',{size:16}))}</a></div></header>`:html`<header class="journey-header"><div class="journey-top"><div class="journey-history-controls"><button type="button" data-lesson-back aria-label="Previous lesson page" ${paused||!ui.history.length||past&&ui.historyCursor===0?raw('disabled'):''}>${raw(icon('chevron',{size:16}))}<span>Back</span></button></div>
-      <span class="journey-location">${progress.wordShort?'Word lesson':displayStep.chapter?.title||'Lesson recap'}</span>
+      <span class="journey-location">${progress.wordShort?'Word lesson':displayStep.chapter?.title||'Lesson recap'}${boundedVisit&&!past?raw(html`<small data-visit-count>${currentVisit().eventIds.length}/${currentVisit().limit} this visit</small>`):''}</span>
       <button type="button" class="btn ghost" data-pause ${paused ? raw('hidden') : ''}>Pause</button></div>
       ${past?raw(html`<div class="journey-history-controls"><button type="button" data-lesson-forward aria-label="Next lesson page">Forward ${raw(icon('chevronRight',{size:16}))}</button><button type="button" data-lesson-current>Current lesson</button></div>`):''}
       ${raw(progressHTML(progress,stage,displayStep))}</header>`;
     root.innerHTML = html`<div class="journey-page ${floatingActions?'has-action-dock':''}" data-journey data-history="${!!past}" data-phase="${phase}" data-chapter="${overview?'overview':displayStep.chapter?.id || ''}" data-group="${displayStep.group?.id || ''}" data-target="${displayStep.target?.id || ''}">
       ${raw(lessonHeader)}
       <main class="journey-main ${enter&&!reducedMotion()?'journey-enter':''}" tabindex="0" aria-label="Lesson content">${legacy && !prior && !ui.legacyDismissed ? raw(html`<aside class="journey-legacy"><p>Your previous practice is saved.</p><a href="${practiceHref(entry, null, mode)}${mode === 'lesson' ? '?' : '&'}legacy=1&session=${encodeURIComponent(legacy.id)}">Resume your previous question</a><button type="button" data-dismiss-legacy aria-label="Dismiss saved question notice">×</button></aside>`) : ''}${session.flowUpdateNotice&&!overview?raw(html`<aside class="journey-legacy"><p>${session.flowUpdateNotice}</p><button type="button" data-dismiss-flow aria-label="Dismiss lesson update notice">×</button></aside>`):''}${raw(content)}</main>
-      ${feedback&&!past&&!paused?raw(html`<div class="journey-feedback-dock">${raw(feedbackHTML(ui.result,question,ui.given,{showNext:true}))}</div>`):''}
+      ${feedback&&!past&&!paused?raw(html`<div class="journey-feedback-dock">${raw(feedbackHTML(ui.result,question,ui.given,{showNext:true,nextLabel:boundedVisit&&visitFull()?'Finish this visit':'Continue'}))}</div>`):''}
     </div>
     ${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
     if (overview) completionMenu = bindCompletionMenu(root.querySelector('[data-completion-menu]'), {
@@ -892,6 +884,7 @@ export async function render(root, params = {}, query = {}) {
       if (!event) return;
       const recorded = store.recordLearningAttempt(event);
       session = recordJourneyAttempt(plan, session, recorded.event || event, { ...recorded, ...result });
+      if(boundedVisit)saveVisit(recordJourneyVisit(session,currentVisit(),recorded.event||event));
       ui.result = { ok: result.ok, outcome: result.outcome, feedback: result.feedback, accentIssue: result.accentIssue, errorTags: result.errorTags || [], components: result.components || [], submission:result.submission };
       expose(question.answer);
       if(revealed)for(const pair of question.pairs||[])expose(pair.answers);
@@ -996,8 +989,14 @@ export async function render(root, params = {}, query = {}) {
       return;
     }
     if (b.hasAttribute('data-choice')) { const c=question?.choices?.[Number(b.dataset.choice)]; if(c) submit(c.value ?? c.label); return; }
-    if (b.hasAttribute('data-continue')) { capturePage();session=advanceJourney(plan,session,store.learning,{now:Date.now()}); activateUpdatedVerbFlow();ui.paused=false; save(); draw(true); }
-    else if (b.hasAttribute('data-resume')) { ui.paused=false;save();draw(true); }
+    if (b.hasAttribute('data-continue')) {
+      const boundary=boundedVisit&&step.awaitingContinue&&visitFull(),visit=currentVisit();
+      capturePage();session=advanceJourney(plan,session,store.learning,{now:Date.now()});activateUpdatedVerbFlow();
+      const next=stepNow();ui.paused=boundary&&!['recap','complete','unavailable'].includes(next.type);
+      if(boundary)saveVisit(ui.paused?{...visit,boundary:true}:nextJourneyVisit(session,visit));
+      if(ui.paused)stopSpeech();save();draw(true);
+    }
+    else if (b.hasAttribute('data-resume')) {if(currentVisit()?.boundary)saveVisit(nextJourneyVisit(session,currentVisit()));ui.paused=false;save();draw(true); }
     else if (b.hasAttribute('data-map')) { ui.mapOpen=!ui.mapOpen;draw(); }
     else if (b.hasAttribute('data-chapter')) { capturePage();activateUpdatedVerbFlow();session=chooseJourneyChapter(plan,session,b.dataset.chapter,{now:Date.now(),learning:store.learning});ui.mapOpen=false;ui.paused=false;ui.questionId=null;save();draw(true); }
     else if (b.hasAttribute('data-skip')) { capturePage();session=skipJourneyTarget(plan,session,step.target?.id,{now:Date.now(),learning:store.learning});activateUpdatedVerbFlow();save();draw(true); }
@@ -1022,5 +1021,5 @@ export async function render(root, params = {}, query = {}) {
   };
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('scroll',scroll,true);root.addEventListener('keydown',keydown);
   draw();
-  return () => { completionMenu?.destroy();words.destroy();closeTable({restoreFocus:false});tableButton?.removeEventListener('click',toggleTable);tableButton?.remove();save();disposed=true;stopSpeech();document.body.classList.remove('journey-viewport','journey-compact','journey-has-reference');document.body.style.removeProperty('--journey-viewport-height');window.visualViewport?.removeEventListener('resize',fitViewport);window.visualViewport?.removeEventListener('scroll',fitViewport);window.removeEventListener('resize',fitViewport);window.removeEventListener('pageshow',fitViewport);window.removeEventListener('orientationchange',fitViewport);document.removeEventListener('focusin',fitViewport);document.removeEventListener('focusout',fitViewport);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
+  return () => { completionMenu?.destroy();words.destroy();closeTable({restoreFocus:false});tableButton?.removeEventListener('click',toggleTable);tableButton?.remove();save();disposed=true;stopSpeech();viewport.destroy();document.body.classList.remove('journey-has-reference');root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
 }

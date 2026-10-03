@@ -29,7 +29,7 @@ try {
   await page.evaluate(async()=>{const {store}=await import('./js/store.js');store.setSetting('adaptiveLearning',true);});await page.evaluate(()=>location.hash='#/learn/verb/v%3Acredere?legacy=1');await page.waitForSelector('[data-adaptive]');
   assert.deepEqual(errors,[]);await context.close();console.log('PASS missing/truncated stage isolation and retry, Home draft/check preservation, classic/legacy direct routes');
  }
- const report=path.join(ROOT,'docs/implementation/phase-0-2/startup-performance.json');const before=fs.existsSync(report)?JSON.parse(fs.readFileSync(report)):{};
+ const report=path.join(ROOT,process.env.STARTUP_REPORT || 'docs/implementation/programme/startup-performance.json');const before=fs.existsSync(report)?JSON.parse(fs.readFileSync(report)):{};
  if(process.argv.includes('--baseline')){fs.writeFileSync(report,JSON.stringify({measurement:'Cold local static-server Chromium with iPhone viewport, service workers blocked. Response source bytes exclude transfer compression and offline shell installation; this is not a physical-phone timing.',baseline:rows},null,2)+'\n');}
  else {fs.writeFileSync(report,JSON.stringify({...before,measuredAt:new Date().toISOString(),current:rows},null,2)+'\n');}
 } finally {await browser.close();await new Promise(r=>server.close(r));}

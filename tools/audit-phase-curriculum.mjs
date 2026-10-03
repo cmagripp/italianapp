@@ -9,13 +9,14 @@ import { resolveLessonWords, wordsCheckPlan } from '../js/learning/course-words.
 import { conjugate, PERSONS, TENSES, MISSING } from '../js/conjugator.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const destination = path.join(root, 'docs/implementation/phase-0-2');
+const programme = process.argv.includes('--programme');
+const destination = path.join(root, programme?'docs/implementation/programme':'docs/implementation/phase-0-2');
 const read = name => JSON.parse(fs.readFileSync(path.join(root, name), 'utf8'));
 const sha = text => createHash('sha256').update(text).digest('hex');
 const unique = values => [...new Set(values)];
 const levels = ['Foundations', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const coreCases = ['presente', 'passatoProssimo', 'imperfetto', 'futuro', 'condizionale'];
-const baseline = 'bd60180cc4eea7d9c0bd45e41584048ec752fba1';
+const baseline = programme?'7eeeb36fee685ee0d7e3abd62f1499d51dee59cb':'bd60180cc4eea7d9c0bd45e41584048ec752fba1';
 const vocab = read('data/vocab.json'), verbs = read('data/verbs.json');
 const dictionary = new Map([...vocab, ...verbs].map(entry => [entry.id, entry]));
 const reference = read('data/grammar.json');
@@ -241,7 +242,7 @@ function buildInventory() {
   const visit=(id,stack=new Set(),done=new Set())=>{if(stack.has(id)){errors.push(`prerequisite cycle ${id}`);return;}if(done.has(id))return;stack.add(id);for(const before of lessons.find(l=>l.id===id)?.existingPrerequisiteIds||[])visit(before,stack,done);stack.delete(id);done.add(id);};
   for(const id of lessonIds)visit(id);
   assert.equal(errors.length,0,errors.join('\n'));
-  return {schemaVersion:1,baselineCommit:baseline,scope:'Phase 0 inventory and Phase 1 curriculum/language contract; bounded Phase 2 repairs only',decisionVocabulary:['maintain','repair','merge','replace'],reviewPolicy:{agentReview:'inventory plus targeted linguistic-source and regression review',nativeItalianEducatorReview:'pending; never implied by automated or agent review',fullC2Claim:'not-established',publication:'Phase 6 editorial programme; no mass curriculum release in this phase'},sourceFiles:sourceFiles.map(file=>({file,sha256:sha(fs.readFileSync(path.join(root,file)))})),stats,summary:{units:packs.reduce((n,p)=>n+p.units.length,0),lessons:lessons.length,authoredSteps:seen.size,authoredQuestions:lessons.flatMap(l=>l.variants).filter(s=>s.kind==='question').length,reserveReviewVariants:stats.reduce((n,s)=>n+s.reserveReviewVariants,0),repairVariants:stats.reduce((n,s)=>n+s.repairVariants,0),vocabularySenseCandidates:lexicon.length,dictionaryWords:vocab.length,dictionaryVerbs:verbs.length,courseLinkedFullParadigms:fullParadigms.length},stagePlan,bridges,referenceCatalog:reference.map(t=>({id:t.id,title:t.title,sections:t.sections?.map(s=>s.title)||[]})),lessons,vocabularySenses:lexicon,verbParadigmCatalog:paradigmCatalog,courseLinkedFullParadigms:fullParadigms,legacyMappings:read('data/course-v2/legacy-map.json').mapping};
+  return {schemaVersion:1,baselineCommit:baseline,scope:programme?'Full programme source inventory; publication and proficiency gates remain separate':'Phase 0 inventory and Phase 1 curriculum/language contract; bounded Phase 2 repairs only',decisionVocabulary:['maintain','repair','merge','replace'],reviewPolicy:{agentReview:'inventory plus targeted linguistic-source and regression review',nativeItalianEducatorReview:'pending; never implied by automated or agent review',fullC2Claim:'not-established',publication:'Phase 6 editorial programme; no mass curriculum release in this phase'},sourceFiles:sourceFiles.map(file=>({file,sha256:sha(fs.readFileSync(path.join(root,file)))})),stats,summary:{units:packs.reduce((n,p)=>n+p.units.length,0),lessons:lessons.length,authoredSteps:seen.size,authoredQuestions:lessons.flatMap(l=>l.variants).filter(s=>s.kind==='question').length,reserveReviewVariants:stats.reduce((n,s)=>n+s.reserveReviewVariants,0),repairVariants:stats.reduce((n,s)=>n+s.repairVariants,0),vocabularySenseCandidates:lexicon.length,dictionaryWords:vocab.length,dictionaryVerbs:verbs.length,courseLinkedFullParadigms:fullParadigms.length},stagePlan,bridges,referenceCatalog:reference.map(t=>({id:t.id,title:t.title,sections:t.sections?.map(s=>s.title)||[]})),lessons,vocabularySenses:lexicon,verbParadigmCatalog:paradigmCatalog,courseLinkedFullParadigms:fullParadigms,legacyMappings:read('data/course-v2/legacy-map.json').mapping};
 }
 
 const escape=value=>String(value||'').replace(/\|/g,'\\|').replace(/\n/g,' ');
@@ -281,9 +282,20 @@ function buildMap(inventory){
   return out.join('\n');
 }
 
+function buildProgrammeMap(inventory){
+  const out=['# Programme curriculum coverage','',`Implementation baseline: ${baseline}. Current canonical source: ${inventory.summary.lessons} lessons, ${inventory.summary.units} units and ${inventory.summary.authoredQuestions} authored questions.`, '',
+    'This report describes source coverage. It does not certify Italian accuracy, speaking ability or CEFR proficiency. Independent agent language review, Italian educator review, learner calibration and device checks are tracked separately. Historical planning gaps remain in the detailed inventory as baseline editorial leads; current publication decisions use the band review reports.', '',
+    '| Stage | Units | Lessons | Questions | Reading targets | Listening targets |', '| --- | --- | --- | --- | --- | --- |',
+    ...inventory.stats.map(s=>`| ${s.level} | ${s.units} | ${s.lessons} | ${s.questions} | ${s.targetModalities.reading} | ${s.targetModalities.listening} |`), '',
+    'Every source step, target, prerequisite, vocabulary candidate, related entry, reference gap and reserve/repair variant is retained in curriculum-inventory.json. A reserve flag does not establish delayed evidence. Optional open portfolios are practice until assessed.', '',
+    'The beginner band has a separate authored inventory and recovery/audio checks in ../phase-6/beginner-coverage.md. Subsequent bands require their own authoring and independent review records.', '',
+    'New dictionary senses use editorial sense IDs. Older course-sense proposal keys in this inventory are diagnostics and must be reconciled with reviewed catalogue records before AI level policy relies on them.', '',
+    'Regenerate with node tools/audit-phase-curriculum.mjs --programme --write; verify with --programme --check. The archived Phase 0–2 evidence remains unchanged.',''];
+  return out.join('\n');
+}
 const inventory=buildInventory(), outputs=new Map([
   ['curriculum-inventory.json',JSON.stringify(inventory,null,2)+'\n'],
-  ['curriculum-map.md',buildMap(inventory)],
+  ['curriculum-map.md',programme?buildProgrammeMap(inventory):buildMap(inventory)],
 ]);
 if(process.argv.includes('--write')){fs.mkdirSync(destination,{recursive:true});for(const [name,content] of outputs)fs.writeFileSync(path.join(destination,name),content);}
 if(process.argv.includes('--check'))for(const [name,content] of outputs)assert.equal(fs.readFileSync(path.join(destination,name),'utf8'),content,`${name}: stale; run --write after canonical-source changes`);

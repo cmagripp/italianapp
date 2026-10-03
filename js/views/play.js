@@ -1,5 +1,6 @@
+import {mountActivityViewport} from '../learning/activity-viewport.js';
 // Runs a game with the chosen source. The scene is tinted to the source's level (or the games palette) before the game starts.
-import { html, raw, esc, tr, keyboardViewportHeight } from '../ui.js';
+import { html, raw, esc, tr } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { GAME_BY_ID } from '../games/index.js';
@@ -32,7 +33,7 @@ export async function render(root, params, query) {
   const options = { ...query };
   if (query.tenses) options.tenses = query.tenses.split(',').filter(Boolean);
   if (query.count) options.count = Number(query.count);
-  const backHref = '#/games';
+  const backHref = typeof query.fromConversation==='string'&&query.fromConversation.length<=200 ? '#/conversations/'+encodeURIComponent(query.fromConversation) : '#/games';
   sceneFor(src, items);
   if (items.length < game.min) {
     const lvl = store.settings.level || 'A1';
@@ -51,37 +52,21 @@ export async function render(root, params, query) {
   }
   const pool = [...data.vocab, ...data.verbs];
   let cleanup = null, generation = 0, disposed = false;
-  const owner=store.current.id;
-  document.body.classList.add('practice-viewport');
+  const owner=store.current.id,learner=store.current.learnerId,epoch=store.learning.epoch.id;
+  const sameOwner=()=>store.current.id===owner&&store.current.learnerId===learner&&store.learning.epoch.id===epoch;
   root.dataset.practiceGame=game.id;
-  window.scrollTo(0,0);
-  const fit=()=>{
-    if(disposed)return;
-    const height=keyboardViewportHeight();
-    if(height===null)document.body.style.removeProperty('--practice-height');
-    else document.body.style.setProperty('--practice-height',`${height}px`);
-    const input=document.activeElement;
-    if(root.contains(input)&&input?.matches('input')) {
-      const panel=input.closest('.drill-main')||root;
-      const delta=input.getBoundingClientRect().bottom-panel.getBoundingClientRect().bottom;
-      if(delta>0)panel.scrollTop+=delta+12;
-    }
-  };
-  fit();
-  for(const event of ['resize','scroll'])window.visualViewport?.addEventListener(event,fit);
-  for(const event of ['resize','orientationchange','pageshow'])window.addEventListener(event,fit);
-  for(const event of ['focusin','focusout'])root.addEventListener(event,fit);
+  const viewport=mountActivityViewport(root,{kind:'practice',panelSelector:'.drill-main'});
   const release=c=>{if(typeof c==='function')c();else c?.destroy?.();};
   const run = async (its) => {
-    if(disposed||store.current.id!==owner)return;
+    if(disposed||!sameOwner())return;
     const current=++generation;
     release(cleanup);cleanup=null;root.scrollTop=0;
     const host=document.createElement('div');host.className='practice-host';root.replaceChildren(host);
     const ctx = { items: shuffle(its), pool, options, backHref, replay: () => run(items), practice: (missed) => run(missed),
-      isActive: () => !disposed && current === generation && store.current.id === owner && host.isConnected && root.contains(host) };
+      isActive: () => !disposed && current === generation && sameOwner() && host.isConnected && root.contains(host) };
     try {
       const result=await game.start(host,ctx);
-      if(disposed||current!==generation||store.current.id!==owner)release(result);else cleanup=result;
+      if(disposed||current!==generation||!sameOwner())release(result);else cleanup=result;
     } catch(error) {
       if(!disposed&&current===generation)host.innerHTML='<div class="empty"><p>This activity could not start.</p><a class="btn primary" href="#/games">Back to Play</a></div>';
     }
@@ -89,10 +74,7 @@ export async function render(root, params, query) {
   run(items);
   return () => {
     disposed=true;generation++;release(cleanup);cleanup=null;
-    for(const event of ['resize','scroll'])window.visualViewport?.removeEventListener(event,fit);
-    for(const event of ['resize','orientationchange','pageshow'])window.removeEventListener(event,fit);
-    for(const event of ['focusin','focusout'])root.removeEventListener(event,fit);
-    document.body.classList.remove('practice-viewport');document.body.style.removeProperty('--practice-height');
+    viewport.destroy();
     delete root.dataset.practiceGame;setChrome({tabs:true});
   };
 }

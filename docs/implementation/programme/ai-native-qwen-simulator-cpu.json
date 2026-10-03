@@ -1,0 +1,242 @@
+{
+  "contextTokens": 4096,
+  "hostExecution": "M1 Max32GB; simulator host resources, not physical iPhone performance or fit",
+  "inputRevision": "frozen-native-heldout-v1",
+  "kind": "native-Qwen-iPhone-simulator-trial",
+  "languageQualityReviewed": false,
+  "loadMs": 9378.579020500183,
+  "metalDevice": "Apple iOS simulator GPU",
+  "model": "official Qwen3-8B-Q4_K_M, pinned7c41481f57cb95916b40956ab2f0b139b296d974",
+  "modelBytes": 5021827072,
+  "outputLimit": 512,
+  "postLoadPhysicalFootprintBytes": 5380351168,
+  "productionApproved": false,
+  "recordedAt": "2026-10-03T17:29:44Z",
+  "rows": [
+    {
+      "elapsedMs": 72014.91391658783,
+      "id": "h-name-context",
+      "inputTokens": 793,
+      "observedPhysicalFootprintBytes": 5437318456,
+      "ok": true,
+      "outputTokens": 35,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Ciao Marta! Basilea è una città molto bella. Ti piace vivere lì?\",\"corrections\":[]}",
+      "review": "Natural simple reply; do not ask name/home already given or invent location."
+    },
+    {
+      "elapsedMs": 102648.59306812286,
+      "id": "h-negation-food",
+      "inputTokens": 728,
+      "observedPhysicalFootprintBytes": 5437875536,
+      "ok": true,
+      "outputTokens": 25,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai già provato i piatti di pesce?\",\"corrections\":[]}",
+      "review": "Respect explicit meat exclusion; no meat suggestion or invented allergy."
+    },
+    {
+      "elapsedMs": 50865.21506309509,
+      "id": "h-negation-completion",
+      "inputTokens": 729,
+      "observedPhysicalFootprintBytes": 5438203216,
+      "ok": true,
+      "outputTokens": 34,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Quando vuoi andare in visita? Posso aiutarti a fissare un appuntamento.\",\"corrections\":[]}",
+      "review": "Do not treat appointment as booked or cancelled; discuss tomorrow call."
+    },
+    {
+      "elapsedMs": 34581.58993721008,
+      "id": "h-no-purchase",
+      "inputTokens": 740,
+      "observedPhysicalFootprintBytes": 5437793616,
+      "ok": true,
+      "outputTokens": 22,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Che cosa hai visto nella libreria?\",\"corrections\":[]}",
+      "review": "Acknowledge browsing with no purchase; no question assuming bought book."
+    },
+    {
+      "elapsedMs": 29310.598969459534,
+      "id": "h-ticket-count",
+      "inputTokens": 740,
+      "observedPhysicalFootprintBytes": 5437777232,
+      "ok": true,
+      "outputTokens": 25,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Quindi Eva non deve comprare un biglietto?\",\"corrections\":[]}",
+      "review": "Three new tickets, four travellers, Eva already covered; no quantity reversal."
+    },
+    {
+      "elapsedMs": 29856.225967407227,
+      "id": "h-date-deadline",
+      "inputTokens": 746,
+      "observedPhysicalFootprintBytes": 5437777232,
+      "ok": true,
+      "outputTokens": 39,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai detto che devi confermare entro il 20 ottobre. Hai già fatto la prenotazione?\",\"corrections\":[]}",
+      "review": "Keep visit and confirmation deadline distinct; no date/time substitution."
+    },
+    {
+      "elapsedMs": 37071.67291641235,
+      "id": "h-quantity-zero",
+      "inputTokens": 740,
+      "observedPhysicalFootprintBytes": 5437793616,
+      "ok": true,
+      "outputTokens": 35,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Quando hai effettuato la richiesta? Posso aiutarti a controllare lo stato.\",\"corrections\":[]}",
+      "review": "Two requested, zero received, delivery unknown; no assumption of copies received."
+    },
+    {
+      "elapsedMs": 53763.95297050476,
+      "id": "h-wallet-word",
+      "inputTokens": 866,
+      "observedPhysicalFootprintBytes": 5437842768,
+      "ok": true,
+      "outputTokens": 36,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi usare la parola 'portafoglio'. Hai bisogno di un esempio?\",\"corrections\":[]}",
+      "review": "Use grounded portafoglio in useful simple reply; card definition supplied separately."
+    },
+    {
+      "elapsedMs": 103013.14890384674,
+      "id": "h-plumber-word",
+      "inputTokens": 900,
+      "observedPhysicalFootprintBytes": 5438645584,
+      "ok": true,
+      "outputTokens": 40,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi usare la parola 'idraulico'. È il mestiere che ripara i tubi dell’acqua.\",\"corrections\":[]}",
+      "review": "Use grounded idraulico without fabricated cause or gender constraints."
+    },
+    {
+      "elapsedMs": 24699.922919273376,
+      "id": "h-word-ambiguous",
+      "inputTokens": 793,
+      "observedPhysicalFootprintBytes": 5437744464,
+      "ok": true,
+      "outputTokens": 32,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi usare 'persona cara'. Vuoi dire che è una persona importante per te?\" ,\"corrections\":[]}",
+      "review": "Clarify physical-neighbour versus emotional closeness; no ungrounded definition."
+    },
+    {
+      "elapsedMs": 19398.35000038147,
+      "id": "h-recall-allergy",
+      "inputTokens": 765,
+      "observedPhysicalFootprintBytes": 5437793616,
+      "ok": true,
+      "outputTokens": 22,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai già un piano per la cena?\",\"corrections\":[]}",
+      "review": "Recall no fish from committed history; do not invent medical allergy."
+    },
+    {
+      "elapsedMs": 18789.536952972412,
+      "id": "h-recall-plan",
+      "inputTokens": 768,
+      "observedPhysicalFootprintBytes": 5437760848,
+      "ok": true,
+      "outputTokens": 36,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Bene, possiamo incontrarci domenica alle tre. Hai qualcosa da portare con te?\",\"corrections\":[]}",
+      "review": "Use Sunday at/after three, not unavailable Saturday; keep feminine speaker context."
+    },
+    {
+      "elapsedMs": 35690.68098068237,
+      "id": "h-recall-unknown",
+      "inputTokens": 766,
+      "observedPhysicalFootprintBytes": 5437859152,
+      "ok": true,
+      "outputTokens": 23,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Chi ha detto di essere d'accordo?\",\"corrections\":[]}",
+      "review": "Explain briefly agreement still unknown; do not turn silence into acceptance/refusal."
+    },
+    {
+      "elapsedMs": 20261.78503036499,
+      "id": "h-a1-level",
+      "inputTokens": 732,
+      "observedPhysicalFootprintBytes": 5437810000,
+      "ok": true,
+      "outputTokens": 37,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Ti piace stare al sole? Hai già fatto una passeggiata al parco con tua sorella prima?\",\"corrections\":[]}",
+      "review": "A1 reply with short everyday present-language; no dense subordinate/technical register."
+    },
+    {
+      "elapsedMs": 19951.968908309937,
+      "id": "h-a2-level",
+      "inputTokens": 739,
+      "observedPhysicalFootprintBytes": 5437760848,
+      "ok": true,
+      "outputTokens": 41,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Se la scuola è vicina, ti risparmi un sacco di tempo. Ti piace andare a piedi?\",\"corrections\":[]}",
+      "review": "Reply about supplied former/current routine in accessible A2 language; no unsupported cause."
+    },
+    {
+      "elapsedMs": 23244.064927101135,
+      "id": "h-b2-discussion",
+      "inputTokens": 753,
+      "observedPhysicalFootprintBytes": 5437744464,
+      "ok": true,
+      "outputTokens": 45,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai ragione, lavorare da casa può risparmiare tempo. Ma hai mai pensato a come gestire le riunioni virtuali?\",\"corrections\":[]}",
+      "review": "Connected B2 response addresses time versus spontaneous contact, no fabricated universal claim."
+    }
+  ],
+  "runtime": "llama.cpp b11146, pinned7fe450e19305b828c199d602c23a8337aaa1f03b, own arm64 iOS simulator static build",
+  "sampling": {
+    "presencePenalty": 1.5,
+    "seed": 42,
+    "temperature": 0.7,
+    "thinking": false,
+    "topK": 20,
+    "topP": 0.8
+  },
+  "simulatedModel": "iPhone 16 Pro Max",
+  "simulatedOS": "26.5",
+  "externalIntegrationConfiguration": {
+    "gpuLayers": 0,
+    "offloadKQV": false,
+    "opOffload": false,
+    "simulatorUDID": "80FC8AD8-F787-4C66-AC1B-462ABD6E2AEA",
+    "caseFileSHA256": "a2bfad8d5a32930911e5481101202e0bb737d701cd9469d8e8e3f1002b883c73",
+    "sourceSHA256": {
+      "dev/phase-1-ai-trial/native/GGUFPrototype.swift": "cac0b7e67e54d1da94fee11ce4b25087f9cbd8cebbbe88bc395c70f0443881a1",
+      "dev/phase-1-ai-trial/native/llama-bridge.cpp": "73822286a0abf938bbd36a026ff8e3712933d6b28e5ba9cbe3a6274826d02eed",
+      "dev/phase-1-ai-trial/native/build-qwen-simulator.sh": "390a458cb8c74b843d0d310faf1f7aec09488705cbe39d5400ebc3eef20c6afe"
+    }
+  },
+  "boundedOutcome": {
+    "recordedAt": "2026-10-03T17:29:45.926967+00:00",
+    "requestedIntegrationCap": "first 3 sequential cases or approximately 8 minutes",
+    "observedCapOverrun": "Between agent context handover and the next process inspection, the unattended sequential app loop completed additional cases. All observed rows are preserved; none were selectively discarded. The run is terminated now, rather than continuing the 26-case loop.",
+    "completedRows": 16,
+    "skippedCaseIds": [
+      "h-venire-error",
+      "h-andare-error",
+      "h-hypothesis-error",
+      "h-valid-reflexive",
+      "h-formal-request",
+      "h-familiar-request",
+      "h-uncertain-asr",
+      "h-injection",
+      "h-opening-informal",
+      "h-opening-formal-group"
+    ],
+    "processSnapshotBeforeTermination": "  PID ELAPSED    RSS  %CPU COMMAND\n96263   11:26 6065248 519.2 /Users/calebanderson/Library/Developer/CoreSimulator/Devices/80FC8AD8-F787-4C66-AC1B-462ABD6E2AEA/data/Containers/Bundle/Application/E839B91E-A3CB-477F-BE8D-C0841D1FF4E0/NativeQwen.app/NativeQwen\n",
+    "reason": "Native integration proven; full 26-case Mac quality screen already identifies production blockers. No further simulator cases required.",
+    "physicalPhonePerformanceOrFitAssessed": false,
+    "agentQualityPass": false
+  },
+  "integrationMeasurements": {
+    "outputsPreserved": 16,
+    "elapsedMsMin": 18789.536952972412,
+    "elapsedMsMedian": 32218.907952308655,
+    "elapsedMsMax": 103013.14890384674,
+    "postLoadPhysicalFootprintGiB": 5.010842502117157,
+    "highestEndOfTurnPhysicalFootprintBytes": 5438645584,
+    "highestEndOfTurnPhysicalFootprintGiB": 5.065133407711983,
+    "pinnedFileBytes": 5027783488,
+    "runtimeModelTensorBytes": 5021827072,
+    "modelBytesFieldMeaning": "llama_model_size reports tensor bytes, not GGUF file length",
+    "rawSourcePath": "Simulator Documents/native-qwen.json",
+    "nativeSemanticValidationApplied": false,
+    "GBNFConstraintScope": "JSON fields, active participant enum, available ruleId enum/empty corrections; not free Italian semantics",
+    "earlierProcessRSSObservation": {
+      "rssKiB": 8252368,
+      "approxElapsed": "3m10s",
+      "provenance": "Tool ps observation before context handover; not a continuous peak measurement or task physical footprint"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "testedAt": "2026-10-03T15:55:55.314Z",
+  "scope": "Independent synthetic browser/controller fixtures, explicit test-only provider; no user records or model readiness claim",
+  "import": {
+    "error": null,
+    "tips": [],
+    "summaryCorrectionCount": 0,
+    "staleTips": []
+  },
+  "overlap": {
+    "busyBeforeOldFinally": true,
+    "busyAfterOldFinally": true,
+    "newerRequestStillPending": true,
+    "generationCalls": 2
+  },
+  "crossWriter": {
+    "mirrorBeforeB": "Testo A ancora non salvato.",
+    "mirrorAfterB": null,
+    "firstWriterError": "A newer draft is already saved.",
+    "databaseText": "Testo B salvato da un altro scrittore.",
+    "recoveredConflictText": ""
+  }
+}

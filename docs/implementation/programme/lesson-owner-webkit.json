@@ -1,0 +1,8 @@
+{
+  "checks": [
+    "A course answer cannot record into a reset learner state",
+    "A workshop continuation cannot advance a reset learner state",
+    "A course answer cannot record into a replacement learner state",
+    "A workshop continuation cannot advance a replacement learner state"
+  ]
+}

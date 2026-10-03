@@ -21,7 +21,7 @@ const TREES = ['css', 'js', 'icons', 'audio', 'models', 'vendor', 'fonts'];   //
 const JSON_DIRS = ['data', 'data/course-v2', 'data/grammar-course', 'data/sentence-lab']; // only the *.json directly inside (no subfolders)
 
 // Never published, wherever they appear. Checked again on the finished dist/ tree.
-const EXCLUDED_DIRS = ['docs', 'tests', 'tools', 'dev', '.github', 'node_modules', 'data/vocab', 'data/verbs', 'data/verb-progressive'];
+const EXCLUDED_DIRS = ['docs', 'tests', 'tools', 'dev', '.github', 'node_modules', 'data/vocab', 'data/verbs', 'data/verb-progressive', 'data/lexical-senses'];
 // Single files that live next to published ones but are tooling: the Node proof of the fit scorer's recipe.
 const EXCLUDED_FILES = new Set(['models/fit-scorer/score.mjs']);
 const excludedFile = name => name.startsWith('.') || /\.md$/i.test(name);

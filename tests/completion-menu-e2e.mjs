@@ -42,14 +42,17 @@ try {
     await open();await page.locator('[data-completion-item]').click();assert.equal((await state('w:casa|noun')).complete,false);
     assert.deepEqual(await evidence(),before);
   });
-  await check('Reference word and verb completion can be repeatedly changed without rewards',async()=>{
+  await check('Both dictionary links share completion dropdowns without rewards',async()=>{
     await fresh();const before=await evidence();
     for(const id of ['w:casa|noun','v:credere']) {
       await gotoRoute(page,'/reference/'+encodeURIComponent(id));
       for(const complete of [true,false,true,false]) {
-        await page.locator('[data-act="learned"]').click();
+        await open();
+        if(id.startsWith('v:'))await page.locator(`[data-completion-all="${complete}"]`).click();
+        else await page.locator('[data-completion-item]').click();
         assert.equal((await state(id)).complete,complete);
-        assert.equal(await page.locator('[data-act="learned"]').getAttribute('aria-pressed'),String(complete));
+        assert.equal(await page.locator(trigger).evaluate(el=>el.classList.contains('is-complete')),complete);
+        await page.keyboard.press('Escape');
       }
     }
     assert.deepEqual(await evidence(),before);

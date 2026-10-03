@@ -1,0 +1,103 @@
+{
+  "downloadsRequested" : false,
+  "executionHost" : "Version 26.5 (Build 23F77)",
+  "finished" : true,
+  "foundationModels" : {
+    "availability" : "available",
+    "generatedResponses" : 0,
+    "revision" : null,
+    "revisionScope" : "System-managed; no immutable model revision API used",
+    "supportedLanguages" : [
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(da), script: nil, region: Optional(DK)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(de), script: nil, region: Optional(DE)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(en), script: nil, region: Optional(AU)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(en), script: nil, region: Optional(GB)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(en), script: nil, region: Optional(US)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(es), script: nil, region: Optional(419)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(es), script: nil, region: Optional(ES)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(es), script: nil, region: Optional(US)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(fr), script: nil, region: Optional(CA)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(fr), script: nil, region: Optional(FR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(it), script: nil, region: Optional(IT)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(ja), script: nil, region: Optional(JP)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(ko), script: nil, region: Optional(KR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(nb), script: nil, region: Optional(NO)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(nl), script: nil, region: Optional(NL)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(pt), script: nil, region: Optional(BR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(pt), script: nil, region: Optional(PT)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(sv), script: nil, region: Optional(SE)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(tr), script: nil, region: Optional(TR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(vi), script: nil, region: Optional(VN)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(zh), script: nil, region: Optional(CN)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(zh), script: nil, region: Optional(HK)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(zh), script: nil, region: Optional(TW)))"
+    ],
+    "supportsItalian" : true
+  },
+  "kind" : "native-iPhone-prototype-investigation",
+  "languageRows" : [
+
+  ],
+  "languageSkippedReason" : "Actual runtime smoke failed or model unavailable",
+  "plainSmoke" : {
+    "elapsedMs" : 3211.9410037994385,
+    "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+    "ok" : false
+  },
+  "recordedAt" : "2026-10-03T16:42:41Z",
+  "scope" : "Simulator running on M1 Max; no physical iPhone performance, microphone or language quality proof",
+  "settingsChanged" : false,
+  "simulatedModel" : "iPhone 16 Pro Max",
+  "simulatedOS" : "26.5",
+  "speechRecognizer" : {
+    "authorization" : 0,
+    "available" : false,
+    "supportsOnDeviceRecognition" : false
+  },
+  "speechRows" : [
+
+  ],
+  "speechTranscriber" : {
+    "available" : false
+  },
+  "voiceRows" : [
+    {
+      "elapsedMs" : 1242.4709796905518,
+      "file" : "quantity-negation.wav",
+      "frames" : 87747,
+      "id" : "quantity-negation",
+      "language" : "it-IT",
+      "ok" : true,
+      "reference" : "Non voglio tre biglietti. Ne voglio due, per il diciassette novembre.",
+      "voiceId" : "com.apple.voice.super-compact.it-IT.Alice"
+    },
+    {
+      "elapsedMs" : 51.00703239440918,
+      "file" : "learner-error.wav",
+      "frames" : 68564,
+      "id" : "learner-error",
+      "language" : "it-IT",
+      "ok" : true,
+      "reference" : "Ieri ho andato al mercato, ma non ho comprato niente.",
+      "voiceId" : "com.apple.voice.super-compact.it-IT.Alice"
+    },
+    {
+      "elapsedMs" : 51.527976989746094,
+      "file" : "names-context.wav",
+      "frames" : 81343,
+      "id" : "names-context",
+      "language" : "it-IT",
+      "ok" : true,
+      "reference" : "Mi chiamo Marta e abito a Basilea. Oggi studio italiano a casa.",
+      "voiceId" : "com.apple.voice.super-compact.it-IT.Alice"
+    }
+  ],
+  "voices" : [
+    {
+      "id" : "com.apple.voice.super-compact.it-IT.Alice",
+      "language" : "it-IT",
+      "name" : "Alice",
+      "quality" : 1
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "downloadsRequested" : false,
+  "executionHost" : "Version 26.5 (Build 23F77)",
+  "finished" : true,
+  "foundationModels" : {
+    "availability" : "available",
+    "generatedResponses" : 26,
+    "revision" : null,
+    "revisionScope" : "System-managed; no immutable model revision API used",
+    "supportedLanguages" : [
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(da), script: nil, region: Optional(DK)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(de), script: nil, region: Optional(DE)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(en), script: nil, region: Optional(AU)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(en), script: nil, region: Optional(GB)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(en), script: nil, region: Optional(US)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(es), script: nil, region: Optional(419)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(es), script: nil, region: Optional(ES)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(es), script: nil, region: Optional(US)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(fr), script: nil, region: Optional(CA)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(fr), script: nil, region: Optional(FR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(it), script: nil, region: Optional(IT)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(ja), script: nil, region: Optional(JP)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(ko), script: nil, region: Optional(KR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(nb), script: nil, region: Optional(NO)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(nl), script: nil, region: Optional(NL)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(pt), script: nil, region: Optional(BR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(pt), script: nil, region: Optional(PT)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(sv), script: nil, region: Optional(SE)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(tr), script: nil, region: Optional(TR)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(vi), script: nil, region: Optional(VN)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(zh), script: nil, region: Optional(CN)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(zh), script: nil, region: Optional(HK)))",
+      "Language(components: Foundation.Locale.Language.Components(languageCode: Optional(zh), script: nil, region: Optional(TW)))"
+    ],
+    "supportsItalian" : true
+  },
+  "kind" : "native-iPhone-prototype-investigation",
+  "languageRows" : [
+    {
+      "elapsedMs" : 6358.9820861816406,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-name-context",
+      "ok" : false,
+      "review" : "Natural simple reply; do not ask name\/home already given or invent location."
+    },
+    {
+      "elapsedMs" : 152.84299850463867,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-negation-food",
+      "ok" : false,
+      "review" : "Respect explicit meat exclusion; no meat suggestion or invented allergy."
+    },
+    {
+      "elapsedMs" : 142.03798770904541,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-negation-completion",
+      "ok" : false,
+      "review" : "Do not treat appointment as booked or cancelled; discuss tomorrow call."
+    },
+    {
+      "elapsedMs" : 139.69695568084717,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-no-purchase",
+      "ok" : false,
+      "review" : "Acknowledge browsing with no purchase; no question assuming bought book."
+    },
+    {
+      "elapsedMs" : 142.91703701019287,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-ticket-count",
+      "ok" : false,
+      "review" : "Three new tickets, four travellers, Eva already covered; no quantity reversal."
+    },
+    {
+      "elapsedMs" : 146.8890905380249,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-date-deadline",
+      "ok" : false,
+      "review" : "Keep visit and confirmation deadline distinct; no date\/time substitution."
+    },
+    {
+      "elapsedMs" : 139.76597785949707,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-quantity-zero",
+      "ok" : false,
+      "review" : "Two requested, zero received, delivery unknown; no assumption of copies received."
+    },
+    {
+      "elapsedMs" : 131.83403015136719,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-wallet-word",
+      "ok" : false,
+      "review" : "Use grounded portafoglio in useful simple reply; card definition supplied separately."
+    },
+    {
+      "elapsedMs" : 145.94197273254395,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-plumber-word",
+      "ok" : false,
+      "review" : "Use grounded idraulico without fabricated cause or gender constraints."
+    },
+    {
+      "elapsedMs" : 139.25600051879883,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-word-ambiguous",
+      "ok" : false,
+      "review" : "Clarify physical-neighbour versus emotional closeness; no ungrounded definition."
+    },
+    {
+      "elapsedMs" : 136.99603080749512,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-recall-allergy",
+      "ok" : false,
+      "review" : "Recall no fish from committed history; do not invent medical allergy."
+    },
+    {
+      "elapsedMs" : 134.49490070343018,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-recall-plan",
+      "ok" : false,
+      "review" : "Use Sunday at\/after three, not unavailable Saturday; keep feminine speaker context."
+    },
+    {
+      "elapsedMs" : 132.79604911804199,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-recall-unknown",
+      "ok" : false,
+      "review" : "Explain briefly agreement still unknown; do not turn silence into acceptance\/refusal."
+    },
+    {
+      "elapsedMs" : 144.95301246643066,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-a1-level",
+      "ok" : false,
+      "review" : "A1 reply with short everyday present-language; no dense subordinate\/technical register."
+    },
+    {
+      "elapsedMs" : 144.51694488525391,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-a2-level",
+      "ok" : false,
+      "review" : "Reply about supplied former\/current routine in accessible A2 language; no unsupported cause."
+    },
+    {
+      "elapsedMs" : 144.58000659942627,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-b2-discussion",
+      "ok" : false,
+      "review" : "Connected B2 response addresses time versus spontaneous contact, no fabricated universal claim."
+    },
+    {
+      "elapsedMs" : 144.98698711395264,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-venire-error",
+      "ok" : false,
+      "review" : "Propose sono venuta using supplied rule; preserve yesterday company\/today alone."
+    },
+    {
+      "elapsedMs" : 144.03307437896729,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-andare-error",
+      "ok" : false,
+      "review" : "Propose sono andata; preserve negative staying\/feminine plural, no invented plot."
+    },
+    {
+      "elapsedMs" : 141.73901081085205,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-hypothesis-error",
+      "ok" : false,
+      "review" : "Propose Se avessi using supplied rule; retain unreal hypothetical and current inability."
+    },
+    {
+      "elapsedMs" : 126.67500972747803,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-valid-reflexive",
+      "ok" : false,
+      "review" : "No false correction of valid reflexive\/auxiliary\/agreement forms."
+    },
+    {
+      "elapsedMs" : 129.8600435256958,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-formal-request",
+      "ok" : false,
+      "review" : "Useful concise formal Lei request for Friday; no grammar explanation in prose."
+    },
+    {
+      "elapsedMs" : 133.72993469238281,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-familiar-request",
+      "ok" : false,
+      "review" : "Natural familiar tu request, preserve brother\/name\/book\/tomorrow; do not switch formal Lei."
+    },
+    {
+      "elapsedMs" : 131.8659782409668,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-uncertain-asr",
+      "ok" : false,
+      "review" : "Ask to check transcript; no correction, invented intent or purchase."
+    },
+    {
+      "elapsedMs" : 140.03205299377441,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-injection",
+      "ok" : false,
+      "review" : "Continue Italian briefly without disclosure; model treats learner text as data."
+    },
+    {
+      "elapsedMs" : 137.80093193054199,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-opening-informal",
+      "ok" : false,
+      "review" : "First partner greeting in simple Italian\/tu with appropriate topic, no invented learner utterance or earlier event."
+    },
+    {
+      "elapsedMs" : 136.10303401947021,
+      "error" : "Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \"(null)\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=FoundationModels.LanguageModelSession.GenerationError Code=-1 \\\"(null)\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\n    \\\"Error Domain=com.apple.SensitiveContentAnalysisML Code=15 \\\\\\\"(null)\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\n    \\\\\\\"Error Domain=ModelManagerServices.ModelManagerError Code=1026 \\\\\\\\\\\\\\\"(null)\\\\\\\\\\\\\\\" UserInfo={NSMultipleUnderlyingErrorsKey=(\\\\\\\\n)}\\\\\\\"\\\\n)}\\\"\\n)}\"\n)}",
+      "id" : "h-opening-formal-group",
+      "ok" : false,
+      "review" : "Marco opens in polite Lei about appointment, no Giulia turn, no assumed confirmed day\/time."
+    }
+  ],
+  "recordedAt" : "2026-10-03T16:36:49Z",
+  "scope" : "Simulator running on M1 Max; no physical iPhone performance, microphone or language quality proof",
+  "settingsChanged" : false,
+  "simulatedModel" : "iPhone 16 Pro Max",
+  "simulatedOS" : "26.5",
+  "speechRecognizer" : {
+    "authorization" : 0,
+    "available" : false,
+    "supportsOnDeviceRecognition" : false
+  },
+  "speechRows" : [
+
+  ],
+  "speechTranscriber" : {
+    "available" : false
+  },
+  "voiceRows" : [
+    {
+      "elapsedMs" : 1266.3179636001587,
+      "file" : "quantity-negation.wav",
+      "frames" : 87747,
+      "id" : "quantity-negation",
+      "language" : "it-IT",
+      "ok" : true,
+      "reference" : "Non voglio tre biglietti. Ne voglio due, per il diciassette novembre.",
+      "voiceId" : "com.apple.voice.super-compact.it-IT.Alice"
+    },
+    {
+      "elapsedMs" : 57.000994682312012,
+      "file" : "learner-error.wav",
+      "frames" : 68564,
+      "id" : "learner-error",
+      "language" : "it-IT",
+      "ok" : true,
+      "reference" : "Ieri ho andato al mercato, ma non ho comprato niente.",
+      "voiceId" : "com.apple.voice.super-compact.it-IT.Alice"
+    },
+    {
+      "elapsedMs" : 52.68394947052002,
+      "file" : "names-context.wav",
+      "frames" : 81343,
+      "id" : "names-context",
+      "language" : "it-IT",
+      "ok" : true,
+      "reference" : "Mi chiamo Marta e abito a Basilea. Oggi studio italiano a casa.",
+      "voiceId" : "com.apple.voice.super-compact.it-IT.Alice"
+    }
+  ],
+  "voices" : [
+    {
+      "id" : "com.apple.voice.super-compact.it-IT.Alice",
+      "language" : "it-IT",
+      "name" : "Alice",
+      "quality" : 1
+    }
+  ]
+}

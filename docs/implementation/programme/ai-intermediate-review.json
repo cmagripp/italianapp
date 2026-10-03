@@ -1,0 +1,478 @@
+{
+  "reviewedAt": "2026-10-03T15:24:35.490Z",
+  "scope": "Independent authored-source reading and existing engine checks; no native-educator or learner-calibration claim",
+  "sourceHashes": {
+    "tools/phase6-intermediate-lessons.mjs": "66f9d092b0f13979e4d358f208375b83a081182601764e8430133407fe003787",
+    "tools/phase6-intermediate.mjs": "af3f166a079ffaff89637154df206944cb6087b509655f9824e42b7a60675de9",
+    "data/course-v2/A2.json": "097e2c0afb9f81a1061c0990ee5c7bd6655998cf1e97b70472bfbd826cc7cecc",
+    "data/course-v2/B1.json": "9682d8769cfdffccc81176b116591351c948e7e37d748d42ad5bce16082f0a69"
+  },
+  "lessons": [
+    {
+      "id": "v2-a2-service-appointment",
+      "outcome": "I can request a service appointment and confirm a workable day and time.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a2-conditional-request",
+        "v2-a2-formal-request",
+        "v2-a1-calendar-read"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-service-cancel",
+      "outcome": "I can report a completed booking and cancel it with a short practical explanation.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a2-service-appointment",
+        "v2-a2-past-regular",
+        "v2-a2-link-reason-sequence"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-travel-booking",
+      "outcome": "I can ask about a journey and select an option that meets a stated constraint.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a2-conditional-request",
+        "v2-a2-compare-more-less",
+        "v2-a1-opening-times"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-travel-problem",
+      "outcome": "I can report a travel problem, describe what was happening and request practical help.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a2-travel-booking",
+        "v2-a2-story-contrast",
+        "v2-a2-past-irregular"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-shopping-exchange",
+      "outcome": "I can identify a purchase problem and request a replacement or information about a refund.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a2-past-regular",
+        "v2-a2-direct-singular",
+        "v2-a1-clothes-shop"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-food-needs",
+      "outcome": "I can state a food restriction, ask about an ingredient and keep a request distinct from an assumption.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a1-food-preference",
+        "v2-a2-conditional-request",
+        "v2-a2-nobody-nothing"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-home-repair",
+      "outcome": "I can locate a practical fault at home and ask an appropriate person for help.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a1-home-rooms",
+        "v2-a2-conditional-request",
+        "v2-a2-da-duration"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-health-history",
+      "outcome": "I can tell a clinician when a supplied symptom began and ask for clarification.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a1-health-feeling",
+        "v2-a1-health-help",
+        "v2-a2-da-duration",
+        "v2-a2-past-regular"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-service-followup",
+      "outcome": "I can identify an earlier request, explain the unresolved result and ask for a specific response.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-b1-earlier-explanation",
+        "v2-b1-pronoun-request",
+        "v2-a2-shopping-exchange"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-personal-change",
+      "outcome": "I can connect an earlier routine, a bounded change and a current consequence.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-b1-then-now",
+        "v2-b1-changing-duration",
+        "v2-b1-story-outcome"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-choice-reasons",
+      "outcome": "I can compare two realistic options, give a reason and acknowledge a drawback.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-b1-plan-options",
+        "v2-b1-consequence-concession",
+        "v2-a2-travel-booking"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-opinion-clarify",
+      "outcome": "I can distinguish a stated fact, a personal view and uncertainty, then ask what someone meant.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-b1-opinion-doubt",
+        "v2-b1-clarify-reference",
+        "v2-b1-reporting-information"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-housing-remedy",
+      "outcome": "I can explain a repeated housing problem, state its practical effect and propose a specific next step.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-a2-home-repair",
+        "v2-b1-cause-purpose",
+        "v2-b1-revise-plan"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-group-plan",
+      "outcome": "I can propose alternatives, respond to a practical constraint and check agreement.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-b1-plan-options",
+        "v2-b1-revise-plan",
+        "v2-b1-ce-ne-quantity"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-account-help",
+      "outcome": "I can distinguish a displayed error from my interpretation and request practical account help without sharing secrets.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-b1-reporting-information",
+        "v2-b1-before-after",
+        "v2-a2-tu-commands",
+        "v2-a2-lei-commands"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-relay-decision",
+      "outcome": "I can attribute a practical decision, preserve conditions and separate confirmed information from an unresolved detail.",
+      "assessmentLabel": null,
+      "prerequisites": [
+        "v2-b1-capstone-relay",
+        "v2-b1-indirect-questions",
+        "v2-b1-group-plan"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-listen-appointment-change",
+      "outcome": "I can follow a clearly spoken appointment change and practise relaying the final arrangement.",
+      "assessmentLabel": "I can identify the final agreed detail in a clear appointment exchange.",
+      "prerequisites": [
+        "v2-a2-service-appointment",
+        "v2-a2-service-cancel"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-read-travel-notices",
+      "outcome": "I can find a travel change in a short notice and practise explaining what it means for a supplied journey.",
+      "assessmentLabel": "I can identify the stated change and relevant next step in a short travel notice.",
+      "prerequisites": [
+        "v2-a2-travel-booking",
+        "v2-a2-travel-problem"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-listen-shop-clarify",
+      "outcome": "I can understand a clearly spoken shop or café clarification and practise responding without changing its meaning.",
+      "assessmentLabel": "I can identify the confirmed item, remedy or unresolved ingredient in a clear service exchange.",
+      "prerequisites": [
+        "v2-a2-shopping-exchange",
+        "v2-a2-food-needs"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-a2-read-practical-messages",
+      "outcome": "I can find relevant details in a short practical message and practise explaining the requested next step.",
+      "assessmentLabel": "I can identify the stated availability, starting time or clarification request in a practical message.",
+      "prerequisites": [
+        "v2-a2-home-repair",
+        "v2-a2-health-history"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-listen-followup-account",
+      "outcome": "I can follow a connected practical account and practise relaying the unresolved next step.",
+      "assessmentLabel": "I can identify the earlier action, known result or next request in a clearly spoken practical account.",
+      "prerequisites": [
+        "v2-b1-service-followup",
+        "v2-b1-personal-change"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-read-viewpoints",
+      "outcome": "I can compare reasons in two short viewpoints and practise explaining their different priorities.",
+      "assessmentLabel": "I can identify the stated preference, reason and acknowledged drawback in short practical viewpoints.",
+      "prerequisites": [
+        "v2-b1-choice-reasons",
+        "v2-b1-opinion-clarify"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-listen-group-revision",
+      "outcome": "I can follow a clearly spoken small-group negotiation and practise summarising the final agreement.",
+      "assessmentLabel": "I can identify a final agreement, fallback, quantity or unresolved reply in a clear group exchange.",
+      "prerequisites": [
+        "v2-b1-group-plan",
+        "v2-b1-housing-remedy"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    },
+    {
+      "id": "v2-b1-read-relay-brief",
+      "outcome": "I can read a practical notice, select the information a named recipient needs and practise a faithful brief.",
+      "assessmentLabel": "I can identify the source detail relevant to a stated recipient need without inventing missing information.",
+      "prerequisites": [
+        "v2-b1-relay-decision",
+        "v2-b1-account-help"
+      ],
+      "reviewedFields": [
+        "models",
+        "teaching",
+        "Italian/English",
+        "questions/answers/options",
+        "independent/reserve contexts",
+        "portfolio"
+      ]
+    }
+  ],
+  "verification": {
+    "historicalLessonsPreserved": 99,
+    "newLessons": 24,
+    "repeatedErrorRecoveryPaths": 40,
+    "result": "pass",
+    "sourceAndAssistanceBoundaries": "pass",
+    "nativeItalianEducator": "pending",
+    "learnerCalibration": "pending",
+    "openProduction": "optional and ungraded"
+  },
+  "findings": [
+    {
+      "id": "ticket-group-scope",
+      "status": "reported; author accepted",
+      "priority": 1,
+      "lessonId": "v2-b1-listen-group-revision",
+      "sceneIndex": 2,
+      "before": "Siamo in tre: ce ne servono tre. Eva ha già il suo.",
+      "issue": "The group may include Eva, so three people with one held ticket need two new tickets. Repeating a final count does not resolve the contradiction.",
+      "requested": "Explicit four-person group; Eva has her ticket, three new tickets for the other three; update translation and audio."
+    },
+    {
+      "id": "relay-natural-model",
+      "status": "reported",
+      "priority": 2,
+      "lessonId": "v2-b1-relay-decision",
+      "issue": "Il museo è il piano solo se è aperto is stiff as a learner production model.",
+      "requested": "Use Il piano è andare al museo, ma solo se è aperto in answer/option and portfolio model."
+    },
+    {
+      "id": "assessment-scope",
+      "status": "limitation recorded",
+      "priority": 2,
+      "issue": "Some language lesson I-can outcomes imply open connected performance, while completion checks are gap/choice with optional ungraded portfolio.",
+      "requested": "Label outcomes as practice goals or narrow wording to taught-frame use; continue pending educator/calibration markers."
+    }
+  ],
+  "prerequisiteReview": "All named prerequisite IDs resolve. Transitive ancestors support imperfect in A2 health and combined pronouns in B1 follow-up.",
+  "repairReview": "Distinct authored situations, one guided/two independent/four reserve for each language facet and five distinct input sources; same-visit repair is not delayed retention.",
+  "next": "Author owns source edits and bounded audio rebuild; reviewer will append an after outcome without replacing pre-fix evidence."
+}

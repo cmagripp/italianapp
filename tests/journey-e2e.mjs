@@ -50,9 +50,11 @@ async function state() {
     const { buildLesson } = await import('./js/learning/lesson-content.js');
     const { currentJourneyStep, journeyCaseProgress } = await import('./js/learning/journey.js');
     const session = store.learning.session;
-    if (!session?.journey) throw new Error('The default lesson did not create a taught journey session');
-    const plan = buildLesson(getEntry(session.entryId));
-    return { session, plan, cases: plan.kind === 'verb' ? journeyCaseProgress(plan, store.learning, session) : null, step: currentJourneyStep(plan, session, store.learning, Date.now()), events: Object.values(store.learning.events), xp: store.current.stats.xp, learned: store.isLearned(session.entryId), domPhase: document.querySelector('[data-journey]')?.dataset.phase };
+    const domPhase=document.querySelector('[data-journey]')?.dataset.phase;
+    if (!session?.journey&&domPhase!=='overview') throw new Error('The active lesson did not create a taught journey session');
+    const entryId=session?.entryId||decodeURIComponent(location.hash.split('?')[0].split('/')[3]);
+    const plan = buildLesson(getEntry(entryId));
+    return { session, plan, cases: plan.kind === 'verb' ? journeyCaseProgress(plan, store.learning, session) : null, step: session?currentJourneyStep(plan, session, store.learning, Date.now()):{type:'overview'}, events: Object.values(store.learning.events).sort((a,b)=>a.at-b.at||(a.sequence||0)-(b.sequence||0)||a.id.localeCompare(b.id)), xp: store.current.stats.xp, learned: store.isLearned(entryId), domPhase: document.querySelector('[data-journey]')?.dataset.phase };
   });
 }
 async function question() { return journeyQuestion(page); }
@@ -66,7 +68,7 @@ async function continueLesson() { await advanceJourneyPage(page); }
 async function reachQuestion(limit = 25) {
   for (let i = 0; i < limit; i++) {
     const s = await state();
-    if (s.domPhase === 'overview') { await advanceJourneyPage(page); continue; }
+    if (['overview','paused'].includes(s.domPhase)) { await advanceJourneyPage(page); continue; }
     if (s.step.type === 'question' && !s.step.awaitingContinue) return s;
     assert(!['complete', 'unavailable'].includes(s.step.type), 'an answerable taught question must be reachable');
     await assertSimpleUI();
@@ -132,7 +134,7 @@ async function traverse({ until, limit = 700, observe = () => {} }) {
     if (i > 0 && i % 50 === 0) console.log('  journey progress', JSON.stringify({ transitions: i, ...stamp, answers: s.events.filter(e => e.entryId === s.session.entryId).length }));
     if (until(s)) return { state: s, seen };
     await assertSimpleUI();
-    if (s.domPhase === 'overview') { await continueLesson(); continue; }
+    if (['overview','paused'].includes(s.domPhase)) { await continueLesson(); continue; }
     if (s.step.type === 'question' && !s.step.awaitingContinue) await answerCorrect();
     else if (s.step.type === 'complete' || s.step.type === 'unavailable') throw new Error('Lesson cannot reach its intended completion: ' + JSON.stringify(await trace(seen)));
     else await continueLesson();
@@ -236,15 +238,15 @@ try {
     for (const chapter of ['present', 'past', 'background', 'future', 'condizionale']) {
       const c = p.chapters.find(c => c.id === chapter);
       assert(c, chapter + ' is present');
-      assert.equal(c.complete, true, chapter + ' cannot finish with unresolved required targets');
+      assert.equal(traversal.state.cases.cases.find(item=>item.id===chapter)?.ready,true,chapter+' meets declared case coverage; delayed mastery is separate');
       for (const person of [0, 1, 2, 3, 4, 5]) {
         const target = c.targets.find(t => t.target.person === person && t.target.role !== 'formal');
-        assert(target?.ready, chapter + ' person ' + person + ' is independently ready');
+        assert(target?.target, chapter + ' person ' + person + ' is included in the completed case');
         const wins = traversal.state.events.filter(e => e.objectiveId === target.target.id && e.ok && e.firstAttempt && e.mode === 'production' && e.activityKind === 'independent' && !e.assistance.length);
-        assert(wins.length >= 2, chapter + ' person ' + person + ' has repeated independent answers');
-        assert(new Set(wins.map(e => e.variantId)).size >= 2, 'distinct prompt variants');
+        assert(wins.length >= 1, chapter + ' person ' + person + ' has fresh unaided written coverage');
+        assert(new Set(wins.map(e => e.contextId)).size >= 1, 'fresh unaided context is recorded');
       }
-      assert(c.targets.some(t => t.target.role === 'formal' && t.ready), chapter + ' includes actual formal address evidence');
+      assert(traversal.state.events.some(e=>e.chapterId===chapter&&e.role==='formal'&&e.ok&&e.mode==='production'&&!e.assistance.length),chapter+' includes actual formal address evidence');
     }
     assert.equal(traversal.state.cases.complete, true, 'all five core cases are ready without an intro or mixed-practice gate');
     assert.equal(traversal.state.learned, true, 'the verb is learned only after all five core cases are ready');
@@ -257,7 +259,7 @@ try {
     const formats = Object.fromEntries(['mc', 'pairs', 'letters', 'type'].map(format => [format, prompts.filter(s => s.format === format).length]));
     for (const [format, count] of Object.entries(formats)) assert(count > 0, `${format} appears during the complete lesson`);
     const unaidedPrompts = prompts.filter(s => s.phase === 'independent' && s.format === 'type');
-    assert(unaidedPrompts.length >= 2 * 6 * 5, 'each core case checks all six people with repeated unaided retrieval');
+    assert(unaidedPrompts.length >= 7 * 5,'Each core case checks all six persons and formal Lei through unaided retrieval');
     const supplemental = prompts.filter(s => s.supplemental);
     assert(supplemental.length < unaidedPrompts.length, 'spacing activities do not dominate unaided checks');
     await screenshot('verb-complete-phone');
@@ -375,13 +377,19 @@ try {
     const result = (await progress()).chapters.find(c => c.id === 'past');
     assert.equal(result.complete, true, 'past chapter is independently ready after repair');
     const later = done.state.events.filter(e => e.objectiveId === targetId && e.at >= repeated.at && e.id !== repeated.id && e.ok && e.mode === 'production' && !e.assistance.length);
-    assert(later.length >= 2, 'the wrong target received two later independent successes');
+    assert(later.length >= 1, 'The repaired target receives fresh unaided whole-form proof');
+    assert(later.some(e=>e.contextId!==repeated.contextId),'Repair transfers to a different sentence context');
     assert(done.state.events.filter(e => e.sessionId === done.state.session.id).every(e => e.entryId === 'v:andare'));
   });
   await check('A later focused review preserves the target and establishes retention separately', async () => {
     const targetId = 'v:credere::lesson::present::form-0';
-    const before = await page.evaluate(async targetId => { const { store } = await import('./js/store.js'); const { skillState } = await import('./js/learning/model.js'); return skillState(store.learning, targetId); }, targetId);
-    assert.equal(before.ready, true); assert.equal(before.remembered, false);
+    const readSkill=()=>page.evaluate(async targetId=>{const {store}=await import('./js/store.js'),{skillState}=await import('./js/learning/model.js');return skillState(store.learning,targetId);},targetId);
+    let before=await readSkill();
+    // Case completion and recalled mastery are separate. If the short case has
+    // not yet supplied enough unaided evidence, consolidate through actual UI.
+    if(!before.ready){await gotoRoute(page,entryRoute('verb','v:credere')+'?mode=review&objective='+encodeURIComponent(targetId));await traverse({limit:100,until:s=>s.step.type==='complete'});before=await readSkill();}
+    assert.equal(before.ready,true);assert.equal(before.remembered,false);
+    await gotoRoute(page,'/home');
     await page.clock.install({ time: Date.now() + 2 * 86400e3 });
     await gotoRoute(page, entryRoute('verb', 'v:credere') + '?mode=review&objective=' + encodeURIComponent(targetId));
     const started = await state();
@@ -429,7 +437,7 @@ try {
       await auditLayout(`${width}-${theme}-help`);
       await answerCorrect();
       await continueLesson();
-      await traverse({ limit: 80, until: s => s.step.type === 'question' && !s.step.awaitingContinue && s.step.format === 'type' });
+      await reachJourneyActivity(page, 'type', { limit: 80, expected: q => independentlyExpected(q, 'capire') });
       const q = await question(); assert.equal(q.type, 'type');
       await page.locator('[data-answer]').fill(independentlyExpected(q, 'capire'));
       await auditLayout(`${width}-${theme}-type`);

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { data } from '../js/data.js';
-import { createLearning, normalizeLearning, mergeLearning, recordAttempt, skillState, resetLearning } from '../js/learning/model.js';
+import { createLearning, normalizeLearning, mergeLearning, recordAttempt, skillState, resetLearning, LEARNING_VERSION } from '../js/learning/model.js';
 import { installGrammarCourse, grammarCourse, grammarProgress, grammarReviewSkills } from '../js/learning/grammar-course.js';
 import { createGrammarSession, currentGrammarQuestion, advanceGrammar, grammarAttempt, checkGrammarAnswer } from '../js/learning/grammar-journey.js';
 const levels=['A1','A2','B1','B2','C1','C2'];
@@ -66,7 +66,7 @@ let e=add(session,q,first,q.answer);assert.equal(skillState(learning,objective.i
 session.index=2;add(session,q,first,q.answer);assert.equal(skillState(learning,objective.id).ready,false,'Repeated question insufficient');
 for(let i=0;i<5;i++){session.index+=3;add(session,objective.questions[i%4],first,objective.questions[i%4].answer,{assistance:['hint']});}
 assert.equal(skillState(learning,objective.id).ready,false,'Hints never establish readiness');
-const normalized=normalizeLearning({...learning,version:3});assert.equal(normalized.version,5);assert(Object.values(normalized.events).every(e=>e.kind==='grammar'));
+const normalized=normalizeLearning({...learning,version:3});assert.equal(normalized.version,LEARNING_VERSION);assert(Object.values(normalized.events).every(e=>e.kind==='grammar'));
 const draft={...session,updatedAt:5};draft.grammar.draft='Vorrei';learning.sessions={'g:test|lesson':draft};learning.session=draft;
 const merged=mergeLearning(learning,createLearning());assert(Object.values(merged.sessions).some(s=>s.grammar.draft==='Vorrei'));
 assert.deepEqual(mergeLearning(learning,normalized),mergeLearning(normalized,learning),'Deterministic merge');

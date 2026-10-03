@@ -57,7 +57,8 @@ async function homeWith(word, action) {
   await page.evaluate(async target => {
     const { data } = await import('./js/data.js');
     const { store } = await import('./js/store.js');
-    const entry = data.byId.get(target);
+    const original = data.byId.get(target);
+    const entry = original.legacyGrouping ? data.byId.get(original.senseEntryIds[0]) : original;
     window.__nounTestVocab = data.vocab;
     const candidates = data.vocab.filter(e => e.level === entry.level);
     const d = new Date(), seed = d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate() + 7919;
@@ -100,7 +101,8 @@ try {
       }
       return { ...counts, failures };
     });
-    assert.equal(audit.nouns, 4614);
+    const canonical=JSON.parse(fs.readFileSync(new URL('../data/vocab.json',import.meta.url),'utf8')).filter(e=>e.pos==='noun'&&!e.legacyGrouping);
+    assert.equal(audit.nouns, canonical.length);assert(audit.nouns>=4621,'All original nouns and independently reviewed additions are covered');
     assert.deepEqual(audit.failures, []);
     return audit;
   });
@@ -122,8 +124,8 @@ try {
       if (fixture.note) await visibleNote('[data-forms-card] [data-number-note]', fixture.note);
       else assert.equal(await page.locator('[data-forms-card] [data-number-note]').count(), 0);
       if (fixture.word === 'calcio') {
-        assert.match(await page.locator('#nota').innerText(), /'i calci' are kicks/);
-        assert.equal(await page.locator('#nota .note').isVisible(), true);
+        assert.match(await page.locator('#note').innerText(), /'i calci' are kicks/);
+        assert.equal(await page.locator('#note .note').isVisible(), true);
         await shot('calcio-entry-fan', '[data-forms-card]');
       }
       await page.locator('[data-fview="grid"]').click();

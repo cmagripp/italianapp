@@ -3,6 +3,8 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { refineBeginnerPack } from './course-beginner-refinements.mjs';
 import { repairPhaseContentPack } from './phase-content-fixes.mjs';
+import { refinePhase6BeginnerPack } from './course-phase6-beginner.mjs';
+import { refinePhase6IntermediatePack } from './phase6-intermediate.mjs';
 
 const ROOT = new URL('../data/course-v2/', import.meta.url);
 const sources = [
@@ -1322,6 +1324,8 @@ for (const [level, pack] of Object.entries(packs)) {
   if (!pack.units.length) continue;
   if (level==='Foundations' || level==='A1') refineBeginnerPack(pack);
   repairPhaseContentPack(pack);
+  refinePhase6BeginnerPack(pack);
+  refinePhase6IntermediatePack(pack);
   await writeFile(new URL(`${level}.json`, ROOT), `${JSON.stringify(pack, null, 2)}\n`);
   const lessons = pack.units.reduce((n, u) => n + u.lessons.length, 0);
   console.log(`${level}: ${pack.units.length} units, ${lessons} lessons`);

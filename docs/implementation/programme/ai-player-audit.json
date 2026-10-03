@@ -1,0 +1,20 @@
+{
+  "testedAt": "2026-10-03T15:52:47.816Z",
+  "scope": "Independent synthetic browser/controller fixtures, explicit test-only provider; no user records or model readiness claim",
+  "import": {
+    "error": null,
+    "tips": [
+      "A little Italian tipMi chiami Ada.Mi chiamo is always incorrect: use mi chiami."
+    ],
+    "summaryCorrectionCount": 0,
+    "staleTips": [
+      "A little Italian tipMi chiami Ada.Mi chiamo is always incorrect: use mi chiami."
+    ]
+  },
+  "overlap": {
+    "busyBeforeOldFinally": true,
+    "busyAfterOldFinally": false,
+    "newerRequestStillPending": true,
+    "generationCalls": 2
+  }
+}

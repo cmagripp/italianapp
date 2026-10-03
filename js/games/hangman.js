@@ -3,7 +3,7 @@
 import { html, raw, esc, haptic, speak, trBlock } from '../ui.js';
 import { store } from '../store.js';
 import { shortEn, fold } from '../data.js';
-import { showResults, gameTop, keyboardHTML, mountDock, feedbackHTML } from './engine.js';
+import { showResults, gameTop, keyboardHTML, mountDock, feedbackHTML, gameActivityFence, gameAnswerBudget } from './engine.js';
 import fx from '../fx.js';
 
 // gallows (4 strokes) then the figure (4 strokes) — one part per miss, 8 lives.
@@ -19,15 +19,16 @@ const figureSVG = () => `<svg class="hang-fig" viewBox="0 0 120 130" aria-hidden
 
 export function startHangman(root, ctx) {
   const wordOf = (e) => (e.kind === 'verb' ? e.inf : e.it).toLowerCase();
-  const items = ctx.items.filter(e => /^[a-zàèéìòùú' ]+$/i.test(wordOf(e))).slice(0, 12);
+  const items = ctx.items.filter(e => /^[a-zàèéìòùú' ]+$/i.test(wordOf(e))).slice(0,gameAnswerBudget(ctx));
   const total = items.length;
   let i = 0, correct = 0; const missed = []; const start = Date.now();
+  const current=gameActivityFence(ctx.isActive);
   let dead = false, finished = false;
   let dock = null; let onKey = null;
   const destroyDock = () => { if (dock) { dock.destroy(); dock = null; } if (onKey) { document.removeEventListener('keydown', onKey); onKey = null; } };
 
   function renderWord() {
-    if (dead || finished) return;
+    if (!current() || dead || finished) return;
     destroyDock();
     const e = items[i];
     if (!e) return finish();
@@ -55,7 +56,7 @@ export function startHangman(root, ctx) {
     const revealed = (ch) => guessed.has(fold(ch)) || ch === ' ' || ch === "'";
 
     function press(l) {
-      if (dead || finished || i !== wordIndex || done || guessed.has(l) || !/^[a-z]$/.test(l)) return;
+      if (!current() || dead || finished || i !== wordIndex || done || guessed.has(l) || !/^[a-z]$/.test(l)) return;
       guessed.add(l);
       const hit = letters.some(ch => fold(ch) === l);
       const key = dock.el.querySelector(`.k[data-l="${l}"]`);
@@ -73,7 +74,7 @@ export function startHangman(root, ctx) {
       if (allRevealed || miss >= MAX) end(allRevealed);
     }
     function end(won) {
-      if (dead || finished || done || i !== wordIndex) return;
+      if (!current() || dead || finished || done || i !== wordIndex) return;
       done = true;
       const top = root.querySelector('.game-top');
       if (top) top.outerHTML = gameTop(ctx.backHref, { i, total, completed: i + 1 });
@@ -92,14 +93,14 @@ export function startHangman(root, ctx) {
       speak(word);
       const next = dock.el.querySelector('[data-next]');
       next.addEventListener('click', () => {
-        if (dead || finished || continued || i !== wordIndex) return;
+        if (!current() || dead || finished || continued || i !== wordIndex) return;
         continued = true; next.disabled = true; i++; renderWord();
       });
       next.focus({ preventScroll: true });
     }
     dock.el.addEventListener('click', (ev) => { const b = ev.target.closest('[data-l]'); if (b) press(b.dataset.l); });
     onKey = (ev) => {
-      if (dead || !root.contains(slots[0] || root)) { destroyDock(); return; }
+      if (!current() || dead || !root.contains(slots[0] || root)) { destroyDock(); return; }
       if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
       if (/^[a-zA-Z]$/.test(ev.key)) { press(ev.key.toLowerCase()); ev.preventDefault(); }
       else if (ev.key === 'Enter' && done) { ev.preventDefault(); dock.el?.querySelector('[data-next]')?.click(); }
@@ -107,7 +108,7 @@ export function startHangman(root, ctx) {
     document.addEventListener('keydown', onKey);
   }
   function finish() {
-    if (dead || finished) return;
+    if (!current() || dead || finished) return;
     finished = true;
     destroyDock();
     const result = { gameId: 'hangman', total, correct, wrong: total - correct, score: total ? Math.round((correct / total) * 100) : 0, missed, secs: Math.round((Date.now() - start) / 1000) };

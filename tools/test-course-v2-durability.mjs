@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createLearning,normalizeLearning,recordAttempt,mergeLearning,resetLearning,setCompletionRecord,skillState} from '../js/learning/model.js';
+import {createLearning,normalizeLearning,recordAttempt,mergeLearning,resetLearning,setCompletionRecord,skillState,LEARNING_VERSION} from '../js/learning/model.js';
 import {courseSkill} from '../js/learning/course-v2-state.js';
 import {placementQuestions,placementRecommendation,assessPlacement} from '../js/learning/course-v2-placement.js';
 const time=1700000000000,target={id:'v2-durable.agreement',facets:['singular','plural'],minIndependent:3,requiresProduction:true,modality:'language'};
@@ -13,7 +13,7 @@ const left=mergeLearning(a,b),right=mergeLearning(b,a);assert.deepEqual(left,rig
 const draft={id:'saved-v2',entryId:'g:v2-durable',mode:'lesson',objectiveIds:[target.id],updatedAt:time+1,courseV2:{version:2,phase:'step',draft:'È una casa',optionOrder:[2,0,1],portfolios:{writing:{draft:'Un testo.',criteria:[1],recording:{key:'private-local-blob'}}},flags:[{stepId:'q1',answer:'sono'}]}};
 let saved=normalizeLearning({...left,sessions:{'g:v2-durable|lesson':draft},session:draft});saved=setCompletionRecord(saved,{entryId:'v:credere',caseId:'present',checked:true,id:'manual',at:time+1});
 const normalized=normalizeLearning(JSON.parse(JSON.stringify({...saved,version:4})));
-assert.equal(normalized.version,5);assert.deepEqual(normalized.sessions['g:v2-durable|lesson'].courseV2,draft.courseV2);assert.deepEqual(normalized.completions,saved.completions);assert.deepEqual(normalized.events,saved.events);
+assert.equal(normalized.version,LEARNING_VERSION);assert.deepEqual(normalized.sessions['g:v2-durable|lesson'].courseV2,draft.courseV2);assert.deepEqual(normalized.completions,saved.completions);assert.deepEqual(normalized.events,saved.events);
 const finish={...event(10,'course-completion'),id:'receipt',objectiveId:'v2-durable.course-finish',skill:'course-completion',outcome:'ungraded',ok:false,xp:0,completedTargets:[target.id]};
 const withReceipt=add(saved,finish);assert.equal(withReceipt.events.receipt.lessonFinished,true);assert.deepEqual(withReceipt.events.receipt.completedTargets,[target.id]);
 const reset=resetLearning(withReceipt,time+2*86400000,'reset');const merged=mergeLearning(reset,withReceipt);assert.deepEqual(merged.events,{});assert.deepEqual(merged.sessions,{});assert.deepEqual(merged.completions,{});

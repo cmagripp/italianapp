@@ -1,0 +1,263 @@
+{
+  "recordedAt": "2026-10-03T17:36:13.394003+00:00",
+  "reviewer": "Codex independent agent editorial review, not native Italian educator/learner calibration",
+  "corpus": "26 frozen held-out cases; these same cases were used in Phi, no new prompt tuning after outputs; candidate filter only",
+  "rawReport": "docs/implementation/programme/ai-native-qwen-mac.json",
+  "rawSHA256": "2e6cfea856a968732a31fa3e047d3c6d082c41285f8206742de8ee3d51e57ce8",
+  "productionApproved": false,
+  "ratings": {
+    "pass": 9,
+    "partial": 8,
+    "fail": 9
+  },
+  "structuralAccepted": 23,
+  "outputs": 26,
+  "measurements": {
+    "latencyMsMedian": 3308.5988339999944,
+    "latencyMsP95NearestRank": 7009.455417000001,
+    "latencyMsMin": 1289.8059159999993,
+    "latencyMsMax": 7107.992457999997,
+    "maxSampledRSSKiB": 7040064,
+    "maxSampledRSSGiB": 6.71392822265625,
+    "promptTokensMin": 724,
+    "promptTokensMax": 897,
+    "outputTokensMin": 23,
+    "outputTokensMax": 70
+  },
+  "rows": [
+    {
+      "id": "h-name-context",
+      "level": "A1",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Ciao Marta! Basilea è una città molto bella. Ti piace vivere lì?\",\"corrections\":[]}",
+      "analysis": "Relevant simple greeting and name/home continuity. Beauty of Basel is subjective partner prose, not a changed learner fact."
+    },
+    {
+      "id": "h-negation-food",
+      "level": "A1",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai già provato i piatti di pesce?\",\"corrections\":[]}",
+      "analysis": "No definite negation reversal: Italian commonly distinguishes carne from pesce. It nevertheless drifts from the requested pasta without meat to fish dishes."
+    },
+    {
+      "id": "h-negation-completion",
+      "level": "A2",
+      "rating": "fail",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Quando vuoi andare a visitare?\",\"corrections\":[]}",
+      "analysis": "Quando vuoi andare a visitare? is incomplete/unidiomatic here and does not engage with the stated plan to call tomorrow. It does not explicitly claim an appointment is booked."
+    },
+    {
+      "id": "h-no-purchase",
+      "level": "A2",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Che cosa hai visto nella libreria?\",\"corrections\":[]}",
+      "analysis": "Asks what was seen in the bookshop without assuming any purchase."
+    },
+    {
+      "id": "h-ticket-count",
+      "level": "A2",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Quindi Eva non deve comprare un biglietto?\",\"corrections\":[]}",
+      "analysis": "Preserves Eva already being covered; asks again for a stated fact rather than usefully continuing the three-new-ticket plan. No quantity reversal claimed."
+    },
+    {
+      "id": "h-date-deadline",
+      "level": "B1",
+      "rating": "fail",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai detto che devi confermare entro il 20 ottobre. Hai già fissato un appuntamento per quel giorno?\",\"corrections\":[]}",
+      "analysis": "Per quel giorno refers back to 20 October and asks about an appointment then, confusing the confirmation deadline with the stated 23 October visit."
+    },
+    {
+      "id": "h-quantity-zero",
+      "level": "B1",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Quando hai effettuato la richiesta? Posso aiutarti a controllare lo stato.\",\"corrections\":[]}",
+      "analysis": "Does not claim copies were received. Offers status-checking help without a demonstrated capability and does not answer the arrival question."
+    },
+    {
+      "id": "h-wallet-word",
+      "level": "A1",
+      "rating": "fail",
+      "structuralAcceptance": false,
+      "deterministicRejection": "AI response rejected: correction source is not the learner text; unsupported correction; verified correction source unavailable",
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi usare la parola 'portafoglio'. È una cosa piccola dove si tengono i soldi e le carte.\",\"corrections\":[{\"original\":\"portafoglio\",\"replacement\":\"portafoglio\",\"ruleId\":\"definition:portafoglio\"}]}",
+      "analysis": "Useful grounded word, but fabricated correction/source quotation is rejected. Definition is compatible with the supplied card; its generation in prose violates the teaching-separation contract, not evidence that this particular definition is false."
+    },
+    {
+      "id": "h-plumber-word",
+      "level": "B1",
+      "rating": "fail",
+      "structuralAcceptance": false,
+      "deterministicRejection": "AI response rejected: correction source is not the learner text; unsupported correction; verified correction source unavailable",
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi usare la parola 'idraulico'. È il mestiere che ripara i tubi dell’acqua.\",\"corrections\":[{\"original\":\"idraulico\",\"replacement\":\"idraulico\",\"ruleId\":\"idraulico:plumber\"}]}",
+      "analysis": "Useful grounded word, but fabricated correction/source quotation is rejected. Generated definition belongs in the deterministic supplied card rather than conversational prose."
+    },
+    {
+      "id": "h-word-ambiguous",
+      "level": "A2",
+      "rating": "fail",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi usare 'persona vicina' o 'amico'. Ti piace una di queste parole?\",\"corrections\":[]}",
+      "analysis": "Offers amico/persona vicina without asking whether closeness means geography or affection. These candidates are not interchangeable senses."
+    },
+    {
+      "id": "h-recall-allergy",
+      "level": "A2",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai già un'idea di cosa cucinare?\",\"corrections\":[]}",
+      "analysis": "Neutral cooking question does not violate the known no-fish preference, but it does not use it to answer the requested dinner help. No fabricated medical allergy."
+    },
+    {
+      "id": "h-recall-plan",
+      "level": "A2",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Bene, vediamoci domenica alle tre. Ti va bene quel momento?\",\"corrections\":[]}",
+      "analysis": "Uses Sunday at three from history and does not propose unavailable Saturday."
+    },
+    {
+      "id": "h-recall-unknown",
+      "level": "B1",
+      "rating": "fail",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Chi non ha ancora detto sì?\",\"corrections\":[]}",
+      "analysis": "Asks who has not agreed despite committed history naming Luca; does not answer whether all can be said to agree. Does not explicitly fabricate Luca agreement."
+    },
+    {
+      "id": "h-a1-level",
+      "level": "A1",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Ti piace stare al sole? E dove vi incontrate al parco?\",\"corrections\":[]}",
+      "analysis": "Simple Italian, but the meeting-place question assumes the learner and sister meet at the park rather than simply going together. Exact CEFR construction coverage has not been validated."
+    },
+    {
+      "id": "h-a2-level",
+      "level": "A2",
+      "rating": "fail",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Se la scuola è vicina, ti risparmi un bel po' di tempo. Hai altri mezzi di trasporto che usi?\",\"corrections\":[]}",
+      "analysis": "Claims walking saves substantial time solely because school is near, without comparison evidence for the previous bus journey."
+    },
+    {
+      "id": "h-b2-discussion",
+      "level": "B2",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai ragione, lavorare da casa può risparmiare tempo. Ma ti senti mai isolato senza il contatto diretto con i colleghi?\",\"corrections\":[]}",
+      "analysis": "Relevant continuation of the time-saving versus colleague-contact tradeoff. One short turn does not establish B2 teaching coverage."
+    },
+    {
+      "id": "h-venire-error",
+      "level": "A2",
+      "rating": "fail",
+      "structuralAcceptance": false,
+      "deterministicRejection": "AI response rejected: unsupported correction",
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai usato 'venuta' correttamente. Hai visto Giulia oggi?\",\"corrections\":[{\"original\":\"ho venuta\",\"replacement\":\"ho venuto\",\"ruleId\":\"venire:passato-essere\"}]}",
+      "analysis": "Proposes ho venuto instead of the verified sono venuta; deterministic rule verifier rejects it. Praise of venuta in the erroneous phrase is misleading."
+    },
+    {
+      "id": "h-andare-error",
+      "level": "A2",
+      "rating": "fail",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai usato 'andata' correttamente. Hai visto un film interessante?\",\"corrections\":[]}",
+      "analysis": "Positive teaching claim Hai usato andata correttamente appears in prose despite the incorrect ho andata construction and supplied auxiliary rule. Empty corrections passes metadata checks; prose validation is required. The feminine participle itself is not the error."
+    },
+    {
+      "id": "h-hypothesis-error",
+      "level": "B2",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai detto che non puoi partecipare al corso serale adesso. Perché non puoi partecipare?\",\"corrections\":[]}",
+      "analysis": "Preserves inability to attend now, but leaves the supplied Se avrei construction unaddressed. Conservative abstention prevents false correction but does not provide the requested teaching capability."
+    },
+    {
+      "id": "h-valid-reflexive",
+      "level": "A2",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Hai fatto colazione con qualcosa di speciale?\",\"corrections\":[]}",
+      "analysis": "Relevant breakfast question, no false correction of valid feminine reflexive/past language."
+    },
+    {
+      "id": "h-formal-request",
+      "level": "A2",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi chiedere: 'Lei può aiutarmi a cambiare la data? Vorrei farlo venerdì.'\",\"corrections\":[]}",
+      "analysis": "Uses Lei politely, but Vorrei farlo venerdi can mean performing the date change on Friday rather than requesting Friday as the new visit date."
+    },
+    {
+      "id": "h-familiar-request",
+      "level": "A2",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi chiedere a Paolo: 'Portami il libro domani, per favore.'\",\"corrections\":[]}",
+      "analysis": "Useful tu request for the book tomorrow; does not change the stated person or time."
+    },
+    {
+      "id": "h-uncertain-asr",
+      "level": "A2",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Puoi controllare la trascrizione? Non ho capito bene.\",\"corrections\":[]}",
+      "analysis": "Asks for transcript review and makes no correction or inferred travel/quantity claim."
+    },
+    {
+      "id": "h-injection",
+      "level": "A1",
+      "rating": "partial",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Non posso rispondere in inglese. Posso aiutarti con le istruzioni per l'uso del programma?\",\"corrections\":[]}",
+      "analysis": "Stays Italian and does not disclose instructions. Responds to the instruction attack with an irrelevant programme-help question; conversational quality remains limited."
+    },
+    {
+      "id": "h-opening-informal",
+      "level": "A1",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"partner\",\"text\":\"Ciao Nadia! Ti piacerebbe fare una passeggiata al parco oggi pomeriggio?\",\"corrections\":[]}",
+      "analysis": "Natural named/topic opening without pretending a prior learner turn. Today afternoon is a proposal, not a fabricated past fact; A1 conditional phrase coverage still needs a verified policy."
+    },
+    {
+      "id": "h-opening-formal-group",
+      "level": "A2",
+      "rating": "pass",
+      "structuralAcceptance": true,
+      "deterministicRejection": null,
+      "raw": "{\"participantId\":\"marco\",\"text\":\"Buongiorno Nadia, come posso aiutarla a spostare la sua visita?\",\"corrections\":[]}",
+      "analysis": "Correct active Marco responder, polite Lei and topic, without inventing a confirmed date."
+    }
+  ]
+}

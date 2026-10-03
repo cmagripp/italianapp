@@ -11,6 +11,7 @@
     "@huggingface/transformers": "4.3.0",
     "@mintplex-labs/piper-tts-web": "1.0.5",
     "@mlc-ai/web-llm": "0.2.85",
+    "@noble/hashes": "2.0.1",
     "@ricky0123/vad-web": "0.0.31",
     "esbuild": "0.25.11"
   }

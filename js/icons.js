@@ -2,6 +2,7 @@
 // Names: home, book, play, search, user, chevron, chevronRight, chevronDown, chevronUp, speaker, star, list,
 // check, x, plus, minus, dial, spread, flip, flame, orbit, dots, trash, arrow, back, refresh, sparkle, lock, cloud.
 const PATHS = {
+  settings: '<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--pane-bg, #141727)"/><circle cx="15" cy="17" r="3" fill="var(--pane-bg, #141727)"/>',
   home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M10 20v-5h4v5"/>',
   book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 7.5h7"/>',
   play: '<path d="M7 4.5v15l12-7.5z"/>',

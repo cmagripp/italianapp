@@ -1,0 +1,37 @@
+{
+  "testedAt": "2026-10-03T15:57:58.749Z",
+  "scope": "Independent synthetic browser/controller fixtures, explicit test-only provider; no user records or model readiness claim",
+  "import": {
+    "error": null,
+    "tips": [],
+    "summaryCorrectionCount": 0,
+    "staleTips": []
+  },
+  "overlap": {
+    "busyBeforeOldFinally": true,
+    "busyAfterOldFinally": true,
+    "newerRequestStillPending": true,
+    "generationCalls": 2
+  },
+  "crossWriter": {
+    "mirrorBeforeB": "Testo A ancora non salvato.",
+    "mirrorAfterB": null,
+    "firstWriterError": "A newer draft is already saved.",
+    "databaseText": "Testo B salvato da un altro scrittore.",
+    "recoveredConflictText": ""
+  },
+  "recoveredRecognition": {
+    "recoveredDraft": {
+      "typedText": "Ieri andato al mercato.",
+      "turnId": "3ee5e2a4-8fff-4e94-a3ac-929654b4f731",
+      "mode": "recorded",
+      "clientId": "d7feac7a-8b86-4d5c-a934-fb7ca52455a5",
+      "writeId": "ec041af1-5964-4d9b-a087-9019cb2e359e",
+      "ownerId": "[\"byftztixmuskt0ur\",\"learner:0md7yp9umuskt0ur\"]",
+      "threadId": "audit-recognition",
+      "revision": 1,
+      "updatedAt": 1791043081594
+    },
+    "generationRecognizedAsUncertain": false
+  }
+}

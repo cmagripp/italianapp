@@ -1,0 +1,11 @@
+import {writeFile,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {chromium} from '/tmp/parola-grammar-tools/node_modules/playwright/index.mjs';
+import {wordErrorRate} from './core.mjs';
+const native=JSON.parse(await readFile('docs/implementation/programme/ai-native-simulator-before.json','utf8')),report={recordedAt:new Date().toISOString(),scope:'Native simulator AVSpeechSynthesizer it-IT Alice output, compared by already provisioned Whisper-base q8 on physical Mac; no human pronunciation, real learner or native recognizer quality claim',recognizer:{model:'whisper-base',revision:'1846881b6b3a3024392c1eea3ad983695bc23925',runtime:'Transformers.js4.3.0 WASM q8 one thread'},rows:[]};
+const context=await chromium.launch({channel:'chrome',headless:false}),page=await context.newPage();
+try{
+ await page.goto('http://127.0.0.1:8132/quality.html');await page.evaluate(()=>{const worker=new Worker('/assets/asr-worker.mjs',{type:'module'});let id=0;const pending=new Map();worker.onmessage=({data})=>{const item=pending.get(data.id);if(!item)return;pending.delete(data.id);data.error?item.reject(Error(data.error)):item.resolve(data.result);};window.nativeVoice={call:(op,payload)=>new Promise((resolve,reject)=>{const number=++id;pending.set(number,{resolve,reject});worker.postMessage({id:number,op,payload});})};});
+ report.load=await page.evaluate(()=>nativeVoice.call('load',{model:'whisper-base'}));
+ for(const row of native.voiceRows){const bytes=await readFile(`dev/phase-1-ai-trial/assets/fixtures/native-prototype/${row.file}`),result=await page.evaluate(async file=>{const response=await fetch('/assets/fixtures/native-prototype/'+file),context=new AudioContext({sampleRate:16000}),decoded=await context.decodeAudioData(await response.arrayBuffer()),audio=decoded.getChannelData(0),result=await nativeVoice.call('transcribe',{audio});await context.close();return{...result,duration:decoded.duration};},row.file);report.rows.push({...row,...result,sha256:createHash('sha256').update(bytes).digest('hex'),bytes:bytes.length,wer:wordErrorRate(row.reference,result.recognizedText)});console.log(row.id+': '+result.recognizedText);}
+}finally{await writeFile('docs/implementation/programme/ai-native-voice-audit.json',JSON.stringify(report,null,2));await context.close();}

@@ -1,0 +1,11 @@
+{
+  "browser": "chromium",
+  "evidence": "Explicit test provider and policy; no production Italian quality claim",
+  "checks": [
+    "A generated frame offers choices without sending a fictitious learner answer",
+    "Using a suggested word records assistance and never awards mastery",
+    "The learner may replace the offered vocabulary with their own word and edit the complete reply",
+    "A reload never treats imported model metadata as a newly verified suggestion; explicit Help regenerates it",
+    "Blank replies initially hide word choices, and the learner can deliberately reveal help"
+  ]
+}

@@ -1,0 +1,20 @@
+# Bounded course meaning-link review
+
+Independent learning-workstream review, 3 October 2026. This gate is **closed for the eight listed context decisions and the reviewed resolver behavior**, after two targeted implementation corrections. It is an agent editorial/source review, not native-human review or learner calibration.
+
+The two explicit records in `js/learning/course-sense-links.js` were read alongside their actual preparation, teaching and question contexts. `una volta` in `v2-a2-habit-versus-event` counts one completed occasion: the question supplies yesterday and contrasts the event with a daily habit. It therefore links to `w:volta|noun#occasion`; the separate noun lesson teaches a time/occasion rather than claiming bare *volta* means the adverb *once*. `il capo` in `v2-b2-reported-commands` identifies the person who requested an early arrival, so `w:capo|noun#boss` is supported despite the short preparation gloss *manager*. Neither link copies parent completion or declares vocabulary-board evidence when too few resolved words permit a board.
+
+| Course preparation/context | Selected active identity | Independent context finding and primary support |
+| --- | --- | --- |
+| `una volta`, habit versus one completed event | `w:volta\|noun#occasion` | A quantified occurrence; [Treccani volta¹](https://www.treccani.it/vocabolario/volta1/) distinguishes this from historical, directional and architectural uses. |
+| `il capo`, reported instruction | `w:capo\|noun#boss` | The directing person, rather than a head or garment; [Treccani capo](https://www.treccani.it/vocabolario/capo/). |
+| `media`, requesting a clothing size | `w:medio\|adj` | Feminine agreement with *taglia*, with medium-size models; [Treccani medio](https://www.treccani.it/vocabolario/medio/). It does not credit the average or mass-media nouns. |
+| `coincidenza`, delayed train and changed ticket | `w:coincidenza\|noun#transport-connection` | A missed transport connection; [Treccani coincidenza](https://www.treccani.it/vocabolario/coincidenza/). |
+| `riscaldamento`, broken system in a bedroom | `w:riscaldamento\|noun#heating` | Domestic heating, rather than pre-exercise preparation; [Treccani riscaldamento](https://www.treccani.it/vocabolario/riscaldamento/). |
+| `il campione`, evidence/report comparison | `w:campione\|noun#sample` | A sample or statistical sample, rather than a sporting champion; [Treccani campione](https://www.treccani.it/vocabolario/campione/). |
+| `impegno`, dated or conditional promise | `w:impegno\|noun#commitment` | An obligation/commitment, rather than the effort devoted to studying; [Treccani impegno](https://www.treccani.it/vocabolario/impegno/). |
+| `la tenda`, portrait hidden in a room | `w:tenda\|noun#curtain` | The room furnishing explicitly described by the passage, rather than camping shelter; [Treccani tenda](https://www.treccani.it/vocabolario/tenda/). |
+
+Two code-review findings were corrected by the curriculum owner. An explicit active `entryId` now returns before a conjugated-verb fallback can silently replace it; the conflicting *abiti / you live* fixture pins that priority. An unrelated meaning rejected by a homograph's meaning children cannot then fall through to an unsupported singleton adjective form. Thus *media / unrelated meaning* remains unresolved, while the positive *medium* match selects *medio*. Reversing catalogue order does not resolve either an unsupported meaning or a tied promotion meaning. The generic *promozione / promotion* remains unresolved across the retail and career children.
+
+A fresh `tools/test-course-words.mjs` run passes raw/active dictionary parity for every released lesson, the eight specific links, both targeted regressions, reversed-order ambiguity, exact noun-board forms and strict credit rows: **137 lessons, 547 synthesized board steps, 1,905 pairs**. The 14 genuinely unpackable noun entries remain excluded from credit. Existing coverage floors are unchanged. This gate does not approve every dictionary sense or every later-level unresolved course gloss; native editorial, audio pronunciation and learner trials remain open.

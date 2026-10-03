@@ -1,0 +1,12 @@
+{
+  "browser": "webkit",
+  "scope": "Independent read-only view/lifecycle audit; provider is explicitly test-only, no production model or inference",
+  "passed": true,
+  "checks": [
+    "History and storage status are read-only, including a late estimate after close",
+    "Status follows explicitly injected test-provider mode readiness and removal without generation or learning writes",
+    "Both sheets close when the learning epoch changes; late storage work cannot reopen them",
+    "History distinguishes supported answers, unscored answers and recognition from recall without promotion"
+  ],
+  "errors": []
+}

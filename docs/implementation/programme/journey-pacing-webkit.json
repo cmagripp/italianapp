@@ -1,0 +1,10 @@
+{
+  "results": [
+    "Games speak the complete correct and incorrect sentence once with visible Continue",
+    "Accent restoration speaks the full sentence once and updates the same field",
+    "Queued game answer and Continue handlers stop at learner or epoch changes",
+    "An eight-answer visit has a stable count, reloadable feedback and a saved voluntary stop",
+    "Home and Learn resume the exact saved next question and the next visit keeps coverage separate from readiness"
+  ],
+  "errors": []
+}

@@ -1,0 +1,15 @@
+{
+  "environment": "chromium",
+  "model": "explicit test-only provider; no model quality claim",
+  "checks": [
+    "Setup creates a real saved thread; absent installed model never invents a greeting",
+    "Draft survives reload and remains isolated from progress",
+    "Explicit test provider supplies a greeting without a fictitious learner message",
+    "Send is durable and produces one actual partner reply; vocabulary notes do not award mastery",
+    "Word lookup displays noun forms; message notes and original edited text persist",
+    "Composer and summary remain visible with internal scrolling in a long conversation",
+    "An interrupted latest draft restores from its exact writer ancestry after reload",
+    "Conflicting recovered text stays accessible and never replaces another saved draft automatically",
+    "Immediate in-app navigation keeps the latest input for exact resume"
+  ]
+}

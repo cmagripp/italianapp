@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleIdentifier</key><string>local.parola.nativeinvestigation</string>
+<key>CFBundleName</key><string>Parola Native Investigation</string>
+<key>CFBundleExecutable</key><string>NativePrototype</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleVersion</key><string>1</string>
+<key>CFBundleShortVersionString</key><string>1</string>
+<key>UILaunchScreen</key><dict/>
+<key>NSMicrophoneUsageDescription</key><string>Record temporary audio only for the explicitly requested local Italian prototype investigation.</string>
+<key>NSSpeechRecognitionUsageDescription</key><string>Measure local Italian recognition in the isolated native investigation. No cloud recognition is enabled.</string>
+</dict></plist>

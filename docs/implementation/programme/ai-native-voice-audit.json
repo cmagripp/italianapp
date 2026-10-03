@@ -1,0 +1,74 @@
+{
+  "recordedAt": "2026-10-03T16:43:54.922Z",
+  "scope": "Native simulator AVSpeechSynthesizer it-IT Alice output, compared by already provisioned Whisper-base q8 on physical Mac; no human pronunciation, real learner or native recognizer quality claim",
+  "recognizer": {
+    "model": "whisper-base",
+    "revision": "1846881b6b3a3024392c1eea3ad983695bc23925",
+    "runtime": "Transformers.js4.3.0 WASM q8 one thread"
+  },
+  "rows": [
+    {
+      "elapsedMs": 1266.3179636001587,
+      "file": "quantity-negation.wav",
+      "frames": 87747,
+      "id": "quantity-negation",
+      "language": "it-IT",
+      "ok": true,
+      "reference": "Non voglio tre biglietti. Ne voglio due, per il diciassette novembre.",
+      "voiceId": "com.apple.voice.super-compact.it-IT.Alice",
+      "recognizedText": "Non voglio tre billetti, ne voglio due, per il 17 novembre.",
+      "asrMs": 3453.800000190735,
+      "duration": 3.9794375,
+      "sha256": "3112a904e5d9b54f515b222dac32baa003f6b5354d5f303525b768a01ae7d6c4",
+      "bytes": 355084,
+      "wer": {
+        "referenceWords": 11,
+        "edits": 2,
+        "rate": 0.18181818181818182
+      }
+    },
+    {
+      "elapsedMs": 57.00099468231201,
+      "file": "learner-error.wav",
+      "frames": 68564,
+      "id": "learner-error",
+      "language": "it-IT",
+      "ok": true,
+      "reference": "Ieri ho andato al mercato, ma non ho comprato niente.",
+      "voiceId": "com.apple.voice.super-compact.it-IT.Alice",
+      "recognizedText": "ieri ho andato al mercato, ma non ho comprato niente.",
+      "asrMs": 3397,
+      "duration": 3.1094375,
+      "sha256": "bec6d142e09902411e4e86719fc889ef84559b9882dc038ff41c8f761de30adb",
+      "bytes": 278352,
+      "wer": {
+        "referenceWords": 10,
+        "edits": 0,
+        "rate": 0
+      }
+    },
+    {
+      "elapsedMs": 52.68394947052002,
+      "file": "names-context.wav",
+      "frames": 81343,
+      "id": "names-context",
+      "language": "it-IT",
+      "ok": true,
+      "reference": "Mi chiamo Marta e abito a Basilea. Oggi studio italiano a casa.",
+      "voiceId": "com.apple.voice.super-compact.it-IT.Alice",
+      "recognizedText": "Mi chiamo Marta e Abito A Basilea, oggi studio italiano a casa.",
+      "asrMs": 3931.300000190735,
+      "duration": 3.689,
+      "sha256": "92a9f79c45c42731a3655092453bb7b1e1fc5a1445668ae57d16a2e0923c5601",
+      "bytes": 329468,
+      "wer": {
+        "referenceWords": 12,
+        "edits": 0,
+        "rate": 0
+      }
+    }
+  ],
+  "load": {
+    "loadMs": 1639.0999994277954
+  }
+}

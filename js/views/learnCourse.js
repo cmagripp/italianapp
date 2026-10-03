@@ -1,4 +1,5 @@
-import { announceAnswer, html, raw, icon, speak, speakBtn, toast, keyboardViewportHeight } from '../ui.js';
+import {mountActivityViewport} from '../learning/activity-viewport.js';
+import { announceAnswer, html, raw, icon, speak, speakBtn, toast } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, headword, shortEn } from '../data.js';
@@ -12,15 +13,27 @@ import { loadCourseAudio, courseAudioAsset, downloadUnitAudio, removeUnitAudio, 
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 const normalized=text=>String(text||'').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g,"'").trim();
+const creditText=value=>typeof value==='string'||typeof value==='number'?String(value).trim():'';
+const creditURL=value=>{if(typeof value!=='string')return '';try{const url=new URL(value);return ['https:','http:'].includes(url.protocol)&&!url.username&&!url.password?url.href:'';}catch{return '';}};
+// Authored/imported attribution is text. Only absolute web source links become
+// clickable; all labels, credits and adaptation notes use the normal escaper.
+export function courseAttributionHTML(source,{label='Source'}={}) {
+  if(!source||typeof source!=='object')return '';
+  const title=creditText(source.title),author=creditText(source.author||source.credit),date=creditText(source.date||source.year),license=creditText(source.license),changes=creditText(source.changes),url=creditURL(source.url),licenseUrl=creditURL(source.licenseUrl);
+  if(!title&&!author&&!date&&!license&&!changes&&!url)return '';
+  return html`<aside class="course-attribution" aria-label="${label} attribution"><div class="course-attribution-heading"><span>${label}</span>${url?raw(html`<a href="${url}" target="_blank" rel="noopener noreferrer">${title||'Original source'}</a>`):raw(html`<strong>${title||'Source credit'}</strong>`)}</div>${author||date?raw(html`<p>${[author,date].filter(Boolean).join(' · ')}</p>`):''}${license?raw(html`<p>${licenseUrl?raw(html`<a href="${licenseUrl}" target="_blank" rel="noopener noreferrer">${license}</a>`):license}</p>`):''}${changes?raw(html`<details><summary>Adaptation notes</summary><p>${changes}</p></details>`):''}</aside>`;
+}
 export async function render(root,lesson,query={}) {
-  const owner=store.current.id,mode=query.mode==='review'?'review':'lesson';
+  const owner=store.current.id,ownerLearner=store.current.learnerId,ownerEpoch=store.learning.epoch.id,mode=query.mode==='review'?'review':'lesson';
+  const sameOwner=()=>store.current.id===owner&&store.current.learnerId===ownerLearner&&store.learning.epoch.id===ownerEpoch;
   const prior=store.learning.sessions[`g:${lesson.id}|${mode}`];
   let session=compatibleCourseSession(lesson,prior)&&(prior.courseV2.phase!=='complete'||query.recap==='1')&&(!query.objective||prior.courseV2.activeTargetId===query.objective)?clone(prior):createCourseSession(lesson,{mode,objective:query.objective,learning:store.learning});
   if(prior?.courseV2&&session.id!==prior.id){session.courseV2.portfolios=clone(prior.courseV2.portfolios||{});session.courseV2.flags=clone(prior.courseV2.flags||[]);}
   let disposed=false,recorder=null,recordingTimer=null,recordingURL='',recordingMessage='',recordingStep=null,recordingKey=null;
   const manifest=await loadCourseAudio();
+  if(!sameOwner())return;
   const g=()=>session.courseV2;
-  const save=()=>{if(!disposed&&store.current.id===owner)store.saveLearningSession(session);};
+  const save=()=>{if(!disposed&&sameOwner())store.saveLearningSession(session);};
   const current=()=>currentCourseStep(lesson,session);
   const liveStep=()=>current()?.step;
   const markHelp=kind=>{g().assistance=[...new Set([...(g().assistance||[]),kind])];save();};
@@ -37,23 +50,20 @@ export async function render(root,lesson,query={}) {
     return {label:word.it,word:word.it,meaning:word.en,pos:article?'noun':'word',singular:word.it,plural:word.plural || '',note:word.note,genderLabel:article==='il'||article==='lo'?'masculine':article==='la'?'feminine':''};
   }
   setTitle(lesson.title);setScene(lesson.level==='Foundations'?'A1':lesson.level);setChrome({tabs:false,back:false});
-  document.body.classList.add('journey-viewport');window.scrollTo(0,0);
-  const fit=()=>{const height=keyboardViewportHeight();if(height===null)document.body.style.removeProperty('--journey-viewport-height');else document.body.style.setProperty('--journey-viewport-height',`${height}px`);};
-  for(const name of ['resize','scroll'])window.visualViewport?.addEventListener(name,fit);
-  for(const name of ['resize','orientationchange','pageshow'])window.addEventListener(name,fit);
-  root.addEventListener('focusin',fit);root.addEventListener('focusout',fit);fit();
+  const viewport=mountActivityViewport(root);
+  const fit=viewport.fit;
   const info=document.createElement('button');info.className='journey-info-toggle icon-btn';info.type='button';info.setAttribute('aria-label','Lesson reference and options');info.setAttribute('aria-haspopup','menu');info.setAttribute('aria-expanded','false');info.innerHTML='<span aria-hidden="true" style="font-family:Georgia,serif;font-style:italic;font-size:21px">i</span>';
   document.querySelector('#enToggle').before(info);
-  info.addEventListener('click',()=>dropdown(info,[{value:'outline',label:'Course outline',sub:lesson.unitTitle},{value:'download',label:'Save unit audio offline',sub:'Download recordings for this unit'},{value:'remove-audio',label:'Remove downloaded unit audio',sub:'Your lesson progress stays saved'},...(g().result&&liveStep()?.kind==='question'?[{value:'flag',label:'Flag this answer for my review',sub:'Save locally with your lesson work'}]:[]),{value:'export',label:'Export this lesson’s work',sub:'Written drafts, reflections and answer flags'}],{align:'end',width:300,onSelect:async value=>{
-    save();
+  info.addEventListener('click',()=>{if(disposed||!sameOwner())return;dropdown(info,[{value:'outline',label:'Course outline',sub:lesson.unitTitle},{value:'download',label:'Save unit audio offline',sub:'Download recordings for this unit'},{value:'remove-audio',label:'Remove downloaded unit audio',sub:'Your lesson progress stays saved'},...(g().result&&liveStep()?.kind==='question'?[{value:'flag',label:'Flag this answer for my review',sub:'Save locally with your lesson work'}]:[]),{value:'export',label:'Export this lesson’s work',sub:'Written drafts, reflections and answer flags'}],{align:'end',width:300,onSelect:async value=>{
+    if(disposed||!sameOwner())return;save();
     if(value==='outline')location.hash='#/course';
     else if(value==='download'){try{const count=await downloadUnitAudio(manifest,lesson.unitId,(n,total)=>toast(`Saving audio ${n} / ${total}`));toast(count?'Unit audio saved.':'This unit uses device speech; no audio pack is needed.');}catch(error){toast(error.message,{ms:4000});}}
     else if(value==='remove-audio'){await removeUnitAudio(manifest,lesson.unitId);toast('Downloaded unit audio removed.');}
     else if(value==='flag'){flagAnswer();}
     else if(value==='export'){const url=URL.createObjectURL(new Blob([JSON.stringify({lessonId:lesson.id,title:lesson.title,portfolios:g().portfolios||{},flags:g().flags||[]},null,2)],{type:'application/json'}));const anchor=document.createElement('a');anchor.href=url;anchor.download=`parola-${lesson.id}.json`;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  }}));
+  }});});
   const panel=createSentencePanel(root,{gloss,context:el=>({sentence:{it:el?.textContent || '',en:el?.dataset.english || ''}}),onReveal:result=>{
-    const q=liveStep();if(g().historyCursor!==null)return;
+    if(disposed||!sameOwner())return;const q=liveStep();if(g().historyCursor!==null)return;
     if(q?.kind==='passage'){g().passageLookups=[...new Set([...(g().passageLookups||[]),q.id])];save();return;}
     if(q?.kind!=='question'||g().result)return;
     if(['reading','listening'].includes(current()?.target?.modality)){markHelp('lookup');return;}
@@ -67,13 +77,15 @@ export async function render(root,lesson,query={}) {
     if(!passage)return '';
     if(store.settings.showEn==='always')g().transcripts=[...new Set([...(g().transcripts||[]),id])];
     const exposed=(g().transcripts||[]).includes(id);
-    return html`<div class="course-audio">${asset?raw(html`<audio controls preload="none" src="${asset.src}" data-course-audio="${id}" aria-label="${passage.title}"></audio><small>${asset.kind==='recorded'?'Recorded Italian':'Practice voice'}${asset.voice?' · '+asset.voice:''}</small>${asset.source?raw(html`<a class="course-audio-source" href="${asset.source}" target="_blank" rel="noopener noreferrer">Audio source · ${asset.license || 'Attribution'}</a>`):''}`):raw(html`<button type="button" class="btn secondary" data-device-audio="${id}">${raw(icon('speaker',{size:18}))} Listen</button><small>Device voice · listening practice</small>`)}${allowTranscript?raw(html`<button type="button" class="btn ghost" data-transcript="${id}" aria-expanded="${exposed}">Read with the audio</button>`):''}${exposed?raw(html`<article class="course-passage"><p lang="it" data-italian-sentence data-english="${passage.en}">${passage.it}</p><p class="muted">${passage.en}</p></article>`):''}</div>`;
+    const recordingCredit=asset?courseAttributionHTML({...asset,title:asset.title||passage.title,author:asset.credit||asset.voice,url:asset.source},{label:asset.kind==='recorded'?'Recording':'Practice voice source'}):'';
+    const textCredit=courseAttributionHTML(passage.source||lesson.editorial?.authenticText||(asset?.textSource?{title:passage.title,url:asset.textSource,license:asset.textLicense,licenseUrl:asset.textLicenseUrl}:{ }),{label:'Text source'});
+    return html`<div class="course-audio">${asset?raw(html`<audio controls preload="none" src="${asset.src}" data-course-audio="${id}" aria-label="${passage.title}"></audio><small>${asset.kind==='recorded'?'Recorded Italian':'Practice voice'}${asset.voice?' · '+asset.voice:''}</small>${raw(recordingCredit)}`):raw(html`<button type="button" class="btn secondary" data-device-audio="${id}">${raw(icon('speaker',{size:18}))} Listen</button><small>Device voice · listening practice</small>`)}${raw(textCredit)}${allowTranscript?raw(html`<button type="button" class="btn ghost" data-transcript="${id}" aria-expanded="${exposed}">Read with the audio</button>`):''}${exposed?raw(html`<article class="course-passage"><p lang="it" data-italian-sentence data-english="${passage.en}">${passage.it}</p><p class="muted">${passage.en}</p></article>`):''}</div>`;
   }
   function readingHTML(step,{expand=true}={}) {
     if(!step)return '';
     if(store.settings.showEn==='always')g().translations=[...new Set([...(g().translations||[]),step.id])];
     const shown=(g().translations||[]).includes(step.id);
-    const body=html`<article class="course-passage"><p lang="it" data-italian-sentence data-english="${step.en}">${step.it}</p><button type="button" class="btn ghost" data-passage-translation="${step.id}" aria-expanded="${shown}">English</button>${shown?raw(html`<p class="muted">${step.en}</p>`):''}</article>`;
+    const body=html`<article class="course-passage">${raw(courseAttributionHTML(step.source||lesson.editorial?.authenticText))}<p lang="it" data-italian-sentence data-english="${step.en}">${step.it}</p><button type="button" class="btn ghost" data-passage-translation="${step.id}" aria-expanded="${shown}">English</button>${shown?raw(html`<p class="muted">${step.en}</p>`):''}</article>`;
     return expand?html`<details class="course-reading-source"><summary>Read the source · ${step.title}</summary>${raw(body)}</details>`:body;
   }
   async function loadRecording(step){
@@ -81,10 +93,10 @@ export async function render(root,lesson,query={}) {
     recordingMessage='';
     if(recordingURL){URL.revokeObjectURL(recordingURL);recordingURL='';}
     const key=portfolio(step).recording?.key||recordKey(step);recordingKey=key;
-    try{const blob=await getCourseRecording(key);if(!disposed&&recordingKey===key){if(blob)recordingURL=URL.createObjectURL(blob);else if(portfolio(step).recording)recordingMessage='The audio is unavailable on this device. Use your exported recording, or record a new response.';if(blob||recordingMessage)draw();}}catch{recordingMessage='The saved audio could not be opened here. You can still practise aloud or record a new response.';if(!disposed)draw();}
+    try{const blob=await getCourseRecording(key);if(!disposed&&sameOwner()&&recordingKey===key){if(blob)recordingURL=URL.createObjectURL(blob);else if(portfolio(step).recording)recordingMessage='The audio is unavailable on this device. Use your exported recording, or record a new response.';if(blob||recordingMessage)draw();}}catch{recordingMessage='The saved audio could not be opened here. You can still practise aloud or record a new response.';if(!disposed)draw();}
   }
   function draw(focus=false) {
-    if(disposed||store.current.id!==owner)return;
+    if(disposed||!sameOwner())return;
     const view=current(),step=view?.step,phase=view?.phase || g().phase;
     const past=g().historyCursor!==null&&g().historyCursor!==undefined;
     const state=past?(g().history[g().historyCursor]?.state || g().history[g().historyCursor] || g()):g();
@@ -146,7 +158,7 @@ export async function render(root,lesson,query={}) {
     return learned;
   }
   function matchWords(left,right){
-    const step=liveStep();if(step?.kind!=='words-check'||g().result||g().paused||g().historyCursor!==null)return;
+    if(disposed||!sameOwner())return;const step=liveStep();if(step?.kind!=='words-check'||g().result||g().paused||g().historyCursor!==null)return;
     const match=recordCoursePairMatch(lesson,session,{left,right});
     session=match.session;g().left=null;
     for(const event of match.events || [])store.recordLearningAttempt(event);
@@ -156,7 +168,7 @@ export async function render(root,lesson,query={}) {
     save();draw();
   }
   function submit(value,{reveal=false}={}){
-    if(g().result||g().paused||g().historyCursor!==null)return;
+    if(disposed||!sameOwner()||g().result||g().paused||g().historyCursor!==null)return;
     const q=liveStep();if(q?.kind!=='question')return;
     const asset=courseAudioAsset(manifest,q.audioId),audioAvailable=!!asset?.reviewed&&(g().audioPlayed||[]).includes(q.audioId);
     if((g().transcripts||[]).includes(q.audioId))markHelp('transcript');
@@ -169,15 +181,15 @@ export async function render(root,lesson,query={}) {
     save();draw();
   }
   function flagAnswer(){const step=liveStep();g().flags ||= [];if(!g().flags.some(flag=>flag.stepId===step?.id&&flag.answer===g().result?.given))g().flags.push({stepId:step?.id,answer:g().result?.given||'',at:Date.now()});save();toast('Saved in this lesson’s work. Nothing was sent.');}
-  function check(){const step=liveStep();if(step?.kind==='question')submit(step.format==='order'?(g().tokens||[]).map(i=>step.tokens[i]).join(' '):g().draft);}
+  function check(){if(disposed||!sameOwner())return;const step=liveStep();if(step?.kind==='question')submit(step.format==='order'?(g().tokens||[]).map(i=>step.tokens[i]).join(' '):g().draft);}
   function stopRecording(){if(recorder?.state==='recording')recorder.stop();clearTimeout(recordingTimer);}
   async function toggleRecording(){
-    if(recorder?.state==='recording'){stopRecording();return;}
+    if(disposed||!sameOwner())return;if(recorder?.state==='recording'){stopRecording();return;}
     const step=liveStep();if(step?.kind!=='portfolio')return;
     if(!navigator.mediaDevices?.getUserMedia||!globalThis.MediaRecorder){recordingMessage='Recording is unavailable in this browser. You can practise aloud and save notes.';draw();return;}
     try{
       const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-      if(disposed||liveStep()?.id!==step.id){stream.getTracks().forEach(track=>track.stop());return;}
+      if(disposed||!sameOwner()||liveStep()?.id!==step.id){stream.getTracks().forEach(track=>track.stop());return;}
       recorder=new MediaRecorder(stream);
       const activeRecorder=recorder,chunks=[],key=recordKey(step)+'|'+Date.now().toString(36),epoch=store.learning.epoch.id,work=portfolio(step);
       recorder.ondataavailable=event=>{if(event.data.size)chunks.push(event.data);};
@@ -185,12 +197,12 @@ export async function render(root,lesson,query={}) {
         stream.getTracks().forEach(track=>track.stop());
         const blob=new Blob(chunks,{type:activeRecorder.mimeType||'audio/webm'});
         if(recorder===activeRecorder)recorder=null;
-        if(store.current.id!==owner||store.learning.epoch.id!==epoch)return;
+        if(!sameOwner()||store.learning.epoch.id!==epoch)return;
         try{
           if(!blob.size)throw new Error('No audio was captured. Your earlier work is still saved.');
           await saveCourseRecording(key,blob);
           const saved=store.learning.sessions[`g:${lesson.id}|${mode}`];
-          if(store.current.id!==owner||store.learning.epoch.id!==epoch||saved?.id!==session.id){await deleteCourseRecordings(key,{exact:true});return;}
+          if(!sameOwner()||store.learning.epoch.id!==epoch||saved?.id!==session.id){await deleteCourseRecordings(key,{exact:true});return;}
           const previous=saved.courseV2.portfolios?.[step.id]?.recording;
           const metadata={key,type:blob.type,bytes:blob.size,at:Date.now()};
           work.recording=metadata;
@@ -211,7 +223,7 @@ export async function render(root,lesson,query={}) {
     }catch{recordingMessage='Microphone access was not available. You can practise aloud and save your notes.';draw();}
   }
   const click=event=>{
-    const b=event.target.closest('button');if(!b||disposed||store.current.id!==owner)return;
+    const b=event.target.closest('button');if(!b||disposed||!sameOwner())return;
     if(b.hasAttribute('data-pause')){stopRecording();g().paused=true;save();draw();return;}
     if(b.hasAttribute('data-resume')){g().paused=false;save();draw();return;}
     if(b.hasAttribute('data-course-back')){stopRecording();session=courseBack(lesson,session);save();draw();return;}
@@ -251,14 +263,16 @@ export async function render(root,lesson,query={}) {
     } else if(b.hasAttribute('data-accent')){const field=root.querySelector('[data-course-input]');if(field){field.setRangeText(b.dataset.accent,field.selectionStart,field.selectionEnd,'end');g().draft=field.value;save();field.focus({preventScroll:true});root.querySelector('[data-check-course]')?.removeAttribute('disabled');}}
   };
   const input=event=>{
+    if(disposed||!sameOwner())return;
     if(event.target.matches('[data-course-input]')){g().draft=event.target.value.slice(0,1200);save();root.querySelector('[data-check-course]')?.toggleAttribute('disabled',!g().draft.trim());}
     else if(event.target.matches('[data-portfolio-draft]')){portfolio(liveStep()).draft=event.target.value.slice(0,12000);save();}
     else if(event.target.matches('[data-rubric]')){const work=portfolio(liveStep()),criteria=new Set(work.criteria||[]),i=Number(event.target.dataset.rubric);if(event.target.checked)criteria.add(i);else criteria.delete(i);work.criteria=[...criteria];save();}
   };
   const form=event=>{if(event.target.matches('[data-course-form]')){event.preventDefault();check();}};
-  const audioPlayed=event=>{if(event.target.matches?.('[data-course-audio]')){g().audioPlayed=[...new Set([...(g().audioPlayed||[]),event.target.dataset.courseAudio])];save();}};
-  const audioError=event=>{if(event.target.matches?.('[data-course-audio]')){g().audioPlayed=(g().audioPlayed||[]).filter(id=>id!==event.target.dataset.courseAudio);save();toast('Audio could not play. Reconnect, or use the transcript for supported practice.',{ms:4000});}};
+  const audioPlayed=event=>{if(disposed||!sameOwner())return;if(event.target.matches?.('[data-course-audio]')){g().audioPlayed=[...new Set([...(g().audioPlayed||[]),event.target.dataset.courseAudio])];save();}};
+  const audioError=event=>{if(disposed||!sameOwner())return;if(event.target.matches?.('[data-course-audio]')){g().audioPlayed=(g().audioPlayed||[]).filter(id=>id!==event.target.dataset.courseAudio);save();toast('Audio could not play. Reconnect, or use the transcript for supported practice.',{ms:4000});}};
+  const offOwner=store.on('profile',()=>{if(!sameOwner()){stopRecording();info.disabled=true;}});
   const englishToggle=()=>draw();document.querySelector('#enToggle').addEventListener('click',englishToggle);
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('ended',audioPlayed,true);root.addEventListener('error',audioError,true);save();draw();
-  return ()=>{stopRecording();save();disposed=true;panel.destroy();info.remove();document.querySelector('#enToggle').removeEventListener('click',englishToggle);if(recordingURL)URL.revokeObjectURL(recordingURL);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('ended',audioPlayed,true);root.removeEventListener('error',audioError,true);root.removeEventListener('focusin',fit);root.removeEventListener('focusout',fit);for(const name of ['resize','scroll'])window.visualViewport?.removeEventListener(name,fit);for(const name of ['resize','orientationchange','pageshow'])window.removeEventListener(name,fit);document.body.classList.remove('journey-viewport');document.body.style.removeProperty('--journey-viewport-height');setChrome({tabs:true});};
+  return ()=>{offOwner();stopRecording();save();disposed=true;panel.destroy();info.remove();document.querySelector('#enToggle').removeEventListener('click',englishToggle);if(recordingURL)URL.revokeObjectURL(recordingURL);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('ended',audioPlayed,true);root.removeEventListener('error',audioError,true);viewport.destroy();setChrome({tabs:true});};
 }

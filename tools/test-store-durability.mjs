@@ -33,7 +33,7 @@ globalThis.indexedDB=window.indexedDB={open(){const req={};queueMicrotask(()=>{r
 Object.defineProperty(globalThis,'navigator',{configurable:true,value:{storage:{persist:async()=>true}}});
 const {store}=await import('../js/store.js');
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
-const mirror=()=>JSON.parse(localStorage.getItem('it.pendingProfile'));
+const mirror=()=>JSON.parse(localStorage.getItem('it.v6.pendingProfile'));
 let passed=0,fallbackStore;
 async function test(name,fn){try{await fn();passed++;console.log(`✓ ${name}`);}catch(error){console.error(`✗ ${name}`);throw error;}}
 
@@ -53,9 +53,9 @@ try {
   await test('rapid star, unstar and re-star retain the latest mirror until all writes commit in order',async()=>{
     store.removeFromList(listId,'w:casa|noun');const remove=store.saveNow();await tick();
     store.addToList(listId,'w:casa|noun');const add=store.saveNow();
-    const latest=localStorage.getItem('it.pendingProfile');assert.deepEqual(mirror().profile.lists[listId].items,['w:casa|noun']);
+    const latest=localStorage.getItem('it.v6.pendingProfile');assert.deepEqual(mirror().profile.lists[listId].items,['w:casa|noun']);
     commit(writes[0]);await remove;await tick();
-    assert.deepEqual(records.get(key).lists[listId].items,[]);assert.equal(localStorage.getItem('it.pendingProfile'),latest);
+    assert.deepEqual(records.get(key).lists[listId].items,[]);assert.equal(localStorage.getItem('it.v6.pendingProfile'),latest);
     assert.deepEqual(store._takePending(profileId).lists[listId].items,['w:casa|noun']);
     commit(writes[0]);await add;assert.deepEqual(records.get(key).lists[listId].items,['w:casa|noun']);assert.equal(mirror(),null);
   });
@@ -67,9 +67,9 @@ try {
       store.removeFromList(listId,'w:casa|noun');second=store.saveNow();
       store.addToList(listId,'w:casa|noun');third=store.saveNow();
     } finally {Date.now=realNow;}
-    const latest=localStorage.getItem('it.pendingProfile');
-    commit(writes[0]);await first;await tick();assert.equal(localStorage.getItem('it.pendingProfile'),latest);
-    commit(writes[0]);await second;await tick();assert.deepEqual(records.get(key).lists[listId].items,[]);assert.equal(localStorage.getItem('it.pendingProfile'),latest);
+    const latest=localStorage.getItem('it.v6.pendingProfile');
+    commit(writes[0]);await first;await tick();assert.equal(localStorage.getItem('it.v6.pendingProfile'),latest);
+    commit(writes[0]);await second;await tick();assert.deepEqual(records.get(key).lists[listId].items,[]);assert.equal(localStorage.getItem('it.v6.pendingProfile'),latest);
     commit(writes[0]);await third;assert.deepEqual(records.get(key).lists[listId].items,['w:casa|noun']);assert.equal(mirror(),null);
   });
   await test('failed writes keep the latest profile recoverable and a later save retries it',async()=>{
@@ -84,7 +84,7 @@ try {
   delete globalThis.indexedDB;
   ({store:fallbackStore}=await import('../js/store.js?local-storage-durability'));
   await fallbackStore.init();
-  const fallbackKey='kv:profile:'+fallbackStore.current.id;
+  const fallbackKey='kv6:profile:'+fallbackStore.current.id;
   await test('localStorage fallback writes synchronously under quota without needing two new profile copies',async()=>{
     const oldSize=localStorage.size();
     fallbackStore.current.recent=Array(50).fill('synthetic-history-entry');fallbackStore.save();
@@ -102,18 +102,18 @@ try {
     const oldSize=localStorage.size();
     fallbackStore.current.recent=Array(100).fill('recovered-history-entry');fallbackStore.save();
     const pending=JSON.stringify({id:fallbackStore.current.id,profile:fallbackStore.current});
-    localStorage.setItem('it.pendingProfile',pending);
+    localStorage.setItem('it.v6.pendingProfile',pending);
     localStorage.limit=oldSize+pending.length+100;
     await fallbackStore.saveNow();
     assert.equal(fallbackStore._dirty,false);assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.length,100);assert.equal(mirror(),null);
   });
   await test('a truly full fallback restores its prior recovery mirror when replacement cannot fit',async()=>{
     localStorage.limit=Infinity;
-    const pending=JSON.stringify({id:fallbackStore.current.id,profile:fallbackStore.current});localStorage.setItem('it.pendingProfile',pending);
+    const pending=JSON.stringify({id:fallbackStore.current.id,profile:fallbackStore.current});localStorage.setItem('it.v6.pendingProfile',pending);
     localStorage.limit=localStorage.size();
     fallbackStore.current.recent=Array(2000).fill('large-new-history-entry');fallbackStore.save();
     await assert.rejects(fallbackStore.saveNow(),/could not be saved/);
-    assert.equal(fallbackStore._dirty,true);assert.equal(localStorage.getItem('it.pendingProfile'),pending);assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.length,100);
+    assert.equal(fallbackStore._dirty,true);assert.equal(localStorage.getItem('it.v6.pendingProfile'),pending);assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.length,100);
   });
   console.log(`\n${passed} store durability checks passed.`);
 } finally {clearTimeout(store._saveTimer);clearTimeout(fallbackStore?._saveTimer);}

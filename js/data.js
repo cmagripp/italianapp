@@ -24,7 +24,7 @@ export const CATS = {
 export const POS_NAME = { noun: 'noun', adj: 'adjective', adv: 'adverb', prep: 'preposition', conj: 'conjunction', pron: 'pronoun', num: 'number', det: 'determiner', interj: 'interjection', expr: 'expression', verb: 'verb' };
 export const GENDER_NAME = { m: 'masculine', f: 'feminine', mf: 'masc./fem.' };
 
-export const data = { vocab: [], verbs: [], byId: new Map(), loaded: false, stats: null };
+export const data = { vocab: [], verbs: [], byId: new Map(), bySenseId:new Map(), loaded: false, stats: null };
 
 // A failed response (500 from the host, a captive-portal page) is reported by status instead of as a JSON parse error.
 const getJSON = (url) => fetch(url).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} loading ${url}`); return r.json(); });
@@ -37,9 +37,10 @@ export async function loadData(base = '') {
   ]);
   installCompletionIndex(completion);
   if([...v,...vb].some(e=>!Object.hasOwn(completion.entries,e.id)))throw new Error('Completion details are out of date. Reconnect and retry.');
-  data.vocab = v; data.verbs = vb; data.stats = st;
+  data.vocab = v.filter(e=>!e.legacyGrouping); data.verbs = vb; data.stats = st;
   data.byId = new Map();
-  for (const e of v) { e.kind = 'word'; data.byId.set(e.id, e); }
+  data.bySenseId=new Map();
+  for (const e of v) { e.kind = 'word'; data.byId.set(e.id, e); if(e.senseId)data.bySenseId.set(e.senseId,e); }
   for (const e of vb) { e.kind = 'verb'; e.it = e.inf; data.byId.set(e.id, e); }
   data.loaded = true;
   searchIndex = null;
@@ -49,14 +50,20 @@ export async function loadData(base = '') {
 // custom words are registered by the app after the profile loads
 export function registerCustom(customMap) {
   for (const id of [...data.byId.keys()]) if (id.startsWith('c:')) data.byId.delete(id);
-  for (const e of Object.values(customMap || {})) {
-    if (!e || !String(e.id).startsWith('c:')) continue; // a custom entry never replaces a dictionary one (imported backup with a w:/v: id)
-    e.kind = e.pos === 'verb' ? 'verb' : 'word'; if (e.kind === 'verb') e.inf = e.it; data.byId.set(e.id, e);
+  for (const record of Object.values(customMap || {})) {
+    if (!record || !String(record.id).startsWith('c:')) continue; // a custom entry never replaces a dictionary one (imported backup with a w:/v: id)
+    const e={...record,kind:record.pos==='verb'?'verb':'word'};if(e.kind==='verb')e.inf=e.it;data.byId.set(e.id,e);
   }
   searchIndex = null;
 }
 
 export const getEntry = (id) => data.byId.get(id) || null;
+export const getSense = id => data.bySenseId.get(id)?.sense || null;
+export function entrySenses(entryOrId) {
+  const e=typeof entryOrId==='string'?getEntry(entryOrId):entryOrId;
+  const parent=e?.parentEntryId?getEntry(e.parentEntryId):e;
+  return (parent?.senseEntryIds || []).map(getEntry).filter(Boolean);
+}
 export const isVerb = (e) => !!e && e.kind === 'verb';
 
 // ---------- text helpers ----------
@@ -68,6 +75,7 @@ let searchIndex = null;
 function buildSearchIndex() {
   searchIndex = [];
   for (const e of data.byId.values()) {
+    if(e.legacyGrouping)continue;
     const it = fold(e.it), en = fold(e.en);
     // inflected forms a learner meets in texts and on the cards: the plural, the feminine, the four adjective forms
     const forms = new Set();

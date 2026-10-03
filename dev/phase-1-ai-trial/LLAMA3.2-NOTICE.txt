@@ -1,0 +1,3 @@
+Llama 3.2 is licensed under the Llama 3.2 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.
+
+Any product redistribution must prominently display “Built with Llama” and retain the license and Acceptable Use Policy. MLC conversion: mlc-ai/Llama-3.2-3B-Instruct-q4f16_1-MLC revision 1e80abf71e3d17cd564e2d2b63caa15cb226018e.

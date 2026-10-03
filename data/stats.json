@@ -1,67 +1,70 @@
 {
   "vocab": {
-    "total": 6958,
+    "total": 6994,
+    "legacyEntries": 27,
+    "senses": 57,
+    "collisions": 935,
     "byLevel": {
-      "A1": 930,
-      "A2": 984,
-      "B1": 1309,
-      "B2": 1291,
-      "C1": 1240,
-      "C2": 1204
+      "A1": 934,
+      "A2": 996,
+      "B1": 1321,
+      "B2": 1297,
+      "C1": 1243,
+      "C2": 1203
     },
     "byCat": {
-      "abstract": 306,
+      "abstract": 310,
       "animals": 226,
-      "arts": 258,
+      "arts": 260,
       "basics": 142,
-      "body": 281,
-      "city": 234,
-      "clothing": 202,
+      "body": 283,
+      "city": 236,
+      "clothing": 204,
       "colors": 151,
-      "communication": 385,
+      "communication": 387,
       "daily": 184,
       "description": 360,
-      "economy": 221,
+      "economy": 224,
       "emotions": 258,
       "expressions": 301,
-      "food": 278,
-      "home": 242,
-      "nature": 322,
-      "numbers": 220,
+      "food": 282,
+      "home": 243,
+      "nature": 323,
+      "numbers": 221,
       "people": 292,
       "school": 219,
-      "shopping": 212,
+      "shopping": 211,
       "society": 282,
-      "sports": 238,
-      "tech": 236,
+      "sports": 242,
+      "tech": 235,
       "time": 249,
-      "travel": 247,
-      "work": 248,
-      "science": 164
+      "travel": 252,
+      "work": 250,
+      "science": 167
     },
     "byPos": {
-      "noun": 4614,
+      "noun": 4648,
       "expr": 801,
       "interj": 47,
       "adv": 230,
-      "adj": 995,
+      "adj": 996,
       "prep": 76,
       "det": 28,
       "pron": 44,
       "conj": 80,
-      "num": 43
+      "num": 44
     }
   },
   "verbs": {
-    "total": 1185,
+    "total": 1186,
     "byLevel": {
       "A1": 124,
-      "A2": 213,
+      "A2": 214,
       "B1": 224,
       "B2": 238,
       "C1": 199,
       "C2": 187
     },
-    "irregular": 339
+    "irregular": 340
   }
 }

@@ -64,6 +64,12 @@ try {
     assert.equal((await save(2,updated)).conflict,false);
     assert.deepEqual((await db.query('select data from parola_profiles')).rows[0].data,updated);
   });
+  await check('RPC retains version-six review scheduling and distinct finite-session identities',async()=>{
+    const previous=(await db.query('select data from parola_profiles')).rows[0].data;
+    const updated={...previous,learning:{...previous.learning,version:6,events:{...previous.learning.events,review:{id:'review',reviewPolicy:'unified-review-v1',canonicalObjectiveId:'w:casa|noun::lesson::forms::article',mappingVersion:1,mode:'recognition',ok:true}},sessions:{...previous.learning.sessions,'review:one':{id:'one',mode:'review',review:{version:1,draft:'caffè',submittedPolicy:{strictAccents:false}}},'review:two':{id:'two',mode:'review',review:{version:1}}}}};
+    assert.equal((await save(3,updated)).conflict,false);
+    assert.deepEqual((await db.query('select data from parola_profiles')).rows[0].data,updated);
+  });
   await signIn(b);
   await check('a different account cannot read or write another account’s row', async () => {
     assert.equal((await db.query('select * from parola_profiles')).rows.length, 0);

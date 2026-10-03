@@ -1,0 +1,75 @@
+{
+  "recordedAt": "2026-10-03T17:36:34.748Z",
+  "rawPath": "docs/implementation/programme/ai-native-qwen-simulator-cpu.json",
+  "rawSHA256": "c4964e1d01fa68655aa4cb240e13152ccbeb4039af1d66af90d3781f38983339",
+  "metadataReplay": "Actual current deterministic validator with the frozen held-out grounding; no language policy applied",
+  "rows": [
+    {
+      "id": "h-name-context",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-negation-food",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-negation-completion",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-no-purchase",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-ticket-count",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-date-deadline",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-quantity-zero",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-wallet-word",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-plumber-word",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-word-ambiguous",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-recall-allergy",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-recall-plan",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-recall-unknown",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-a1-level",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-a2-level",
+      "metadataAccepted": true
+    },
+    {
+      "id": "h-b2-discussion",
+      "metadataAccepted": true
+    }
+  ],
+  "metadataAccepted": 16,
+  "italianQualityPassed": false,
+  "productionApproved": false
+}

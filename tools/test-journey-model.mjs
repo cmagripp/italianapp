@@ -22,7 +22,7 @@ const plan = { version: 1, entryId: 'v:fixture', kind: 'verb', title: 'fixture',
 ] };
 function harness(p = plan, options = {}) {
   let learning = options.learning || createLearning(START), time = options.now || START, serial = 0;
-  let session = createJourneySession({ id: options.id || 'journey', plan: p, now: time, ...options });
+  let session = createJourneySession({ id: options.id || 'journey', plan: p, now: time, caseCoveragePolicy:null, ...options });
   return {
     p, get learning() { return learning; }, set learning(x) { learning = x; },
     get session() { return session; }, set session(x) { session = x; },

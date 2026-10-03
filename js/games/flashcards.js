@@ -4,21 +4,20 @@ import { html, raw, icon, speak, stopSpeech, haptic } from '../ui.js';
 import { store } from '../store.js';
 import { headword, shortEn, withArticle, isPluralOnly, hasPluralForm, nounNumberNote } from '../data.js';
 import { conjugate, primary, MISSING } from '../conjugator.js';
-import { showResults, gameTop } from './engine.js';
+import { showResults, gameTop, gameActivityFence } from './engine.js';
 import fx from '../fx.js';
+import {isStarred as entryIsStarred,toggleStarred} from '../learning/collections.js';
 
 export function startFlashcards(root, ctx) {
   const items = ctx.items.slice();
   const total = items.length;
-  const owner = store.current.id, start = Date.now();
+  const owner = store.current.id, start = Date.now(), active = gameActivityFence(ctx.isActive);
   const ratings = Array(total).fill(null), faces = Array(total).fill(false), revealed = Array(total).fill(false);
   let i = 0, completed = 0, dead = false, finished = false, pending = null, screen = null;
   const dir = ctx.options?.dir || 'it-en';
   const ratingNames = { 1: 'Again', 3: 'Hard', 4: 'Good', 5: 'Easy' };
-  const owned = () => !dead && store.current.id === owner && (!screen || root.contains(screen));
-  const starredLists = () => Object.values(store.lists).filter(list => list && typeof list.name === 'string' && list.name.trim().toLocaleLowerCase() === 'starred')
-    .sort((a,b) => Number(!!b.builtin)-Number(!!a.builtin) || (a.created||0)-(b.created||0) || a.id.localeCompare(b.id));
-  const isStarred = id => starredLists().some(list => store.inList(list.id,id));
+  const owned = () => !dead && active() && store.current.id === owner && (!screen || root.contains(screen));
+  const isStarred = id => entryIsStarred(store,id);
 
   const kicker = (e) => `${e.level || 'A1'} · ${e.kind === 'verb' ? 'verbo' : e.pos}${e.pos === 'noun' ? ' · ' + (e.g === 'mf' ? 'm/f' : e.g) : ''}`;
   function front(e) {
@@ -116,9 +115,7 @@ export function startFlashcards(root, ctx) {
     root.querySelector('[data-hear]').addEventListener('click',ev=>{if(active())speak(say,{force:true,button:ev.currentTarget});});
     root.querySelector('[data-star]').addEventListener('click',ev=>{
       if(!active())return;
-      const lists=starredLists(), starred=lists.some(list=>store.inList(list.id,e.id));
-      if(starred)for(const list of lists)store.removeFromList(list.id,e.id);
-      else store.addToList(lists[0]?.id||store.createList('Starred'),e.id);
+      const starred=isStarred(e.id);toggleStarred(store,e.id);
       const button=ev.currentTarget;
       button.classList.toggle('is-starred',!starred);button.setAttribute('aria-pressed',String(!starred));
       button.setAttribute('aria-label',`${starred?'Add to':'Remove from'} Starred`);button.querySelector('span').textContent=starred?'Star':'Starred';

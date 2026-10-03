@@ -178,6 +178,7 @@ route('learn/session', () => import('./views/courseSession.js'));
 route('learn/verb/:id', (params,query={}) => import(learningPlayer('verb',query)));
 route('learn/word/:id', (params,query={}) => import(learningPlayer('word',query)));
 route('review', () => import('./views/review.js'));
+route('conversations/:id?', () => import('./views/conversations.js'));
 route('lab/frasi', () => import('./views/labFrasi.js'));
 route('lab/frasi/:id', () => import('./views/labFrasiLesson.js'));
 route('games', () => import('./views/games.js'));
@@ -229,7 +230,12 @@ async function boot() {
   dataReady.catch(() => { /* reported below */ });
   const first = match(parse().parts);
   if (first && !['learn'].includes(parse().parts[0])) first.r.loader(first.params,parse().query).catch(() => { /* render() reports a module that cannot load */ });
-  await store.init();
+  try{await store.init();}catch(error){
+    $('#view').innerHTML=`<div class="empty"><h1>Keep your progress safe</h1><p>${esc(error.message)}</p>${error.profileBackup?'<button class="btn" data-export-prior>Export previous progress</button>':''}<button class="btn primary" data-retry-start>Retry</button></div>`;
+    $('#view [data-retry-start]').addEventListener('click',()=>location.reload());
+    $('#view [data-export-prior]')?.addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([error.profileBackup],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download='parola-pre-update-progress.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+    return;
+  }
   if(first&&parse().parts[0]==='learn')first.r.loader(first.params,parse().query).catch(()=>{});
   mountSaveStatus();
   applyTheme(); applyEnToggle();

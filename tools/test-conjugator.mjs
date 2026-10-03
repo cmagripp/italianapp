@@ -831,10 +831,18 @@ for (const [inf, tense, i, p] of [['risolvere', 'passatoRemoto', 0, 'risolsi'], 
 for (const [inf, f] of Object.entries({ sapere: 'sapiente', venire: 'veniente', convenire: 'conveniente', provenire: 'proveniente', dormire: 'dormiente', obbedire: 'obbediente', ubbidire: 'ubbidiente', cuocere: 'cocente', parere: 'parvente', nutrire: 'nutriente', salire: 'saliente', esordire: 'esordiente', patire: 'paziente', capire: 'capiente', sentire: 'senziente', uscire: 'uscente', seguire: 'seguente', morire: 'morente', servire: 'servente', parlare: 'parlante', fare: 'facente', dire: 'dicente', porre: 'ponente', condurre: 'conducente', trarre: 'traente', piacere: 'piacente', vivere: 'vivente' })) nf(inf, 'participioPresente', f);
 // lexicalised participles of single verbs, also when the verb is a prefix + root derivative (attenere = at- + tenere);
 // the page shows primary(), so the primary is checked. avvenire keeps avveniente: avvenente comes from French avenant.
-for (const [inf, f] of Object.entries({ soffrire: 'sofferente', offrire: 'offerente', consentire: 'consenziente', dissentire: 'dissenziente', assentire: 'assenziente', attenere: 'attinente', attenersi: 'attinente', risalire: 'risalente', avvenire: 'avveniente', provenire: 'proveniente', contenere: 'contenente', appartenere: 'appartenente', salire: 'saliente', sentire: 'senziente' })) {
+for (const [inf, f] of Object.entries({ soffrire: 'sofferente', offrire: 'offerente', consentire: 'consenziente', dissentire: 'dissenziente', assentire: 'assenziente', attenere: 'attinente', risalire: 'risalente', avvenire: 'avveniente', provenire: 'proveniente', contenere: 'contenente', appartenere: 'appartenente', salire: 'saliente', sentire: 'senziente' })) {
   checks++; const got = conjugate(inf).nonFinite.participioPresente; if (primary(got) !== f) { fails++; console.log(`FAIL ${inf} participioPresente primary: expected "${f}", got "${got}"`); }
 }
 nf('attenere', 'participioPresente', 'attenente');
+checks++; if(conjugate('capire').nonFinite.participioPresente!=='capiente' || conjugate('capire').nonFiniteNotes?.participioPresente?.source!=='https://www.treccani.it/vocabolario/capiente/' || !conjugate('capire').nonFiniteNotes.participioPresente.text.includes('containment meaning')){fails++;console.log('FAIL capire: lexical participle lacks its capacity/containment meaning');}
+// Base lexical participles are not silently credited to clitic meanings:
+// attinente concerns something; attenersi is adhering to a rule. Actual rare
+// reflexive/pronominal participles require their own reviewed lexical evidence.
+for (const inf of ['attenersi', 'addormentarsi', 'alzarsi', 'andarsene', 'farcela', 'cavarsela']) {
+  checks++; const c=conjugate(inf);
+  if (c.nonFinite.participioPresente!==MISSING || c.nonFiniteNotes?.participioPresente?.status!=='unreviewed-pronominal-form' || !c.nonFiniteNotes.participioPresente.source.startsWith('https://accademiadellacrusca.it/')) { fails++; console.log(`FAIL ${inf}: unverified clitic participle was supplied or lacks source explanation`); }
+}
 // both-auxiliary contract: auxBoth marks the verbs whose compound cells carry the essere forms after the avere ones
 for (const [inf, meta, want] of [['salire', { aux: 'both', isc: false }, true], ['piovere', { aux: 'both' }, true], ['mangiare', {}, false], ['andare', { aux: 'essere' }, false], ['alzarsi', { aux: 'both' }, false]]) {
   checks++; if (conjugate(inf, meta).auxBoth !== want) { fails++; console.log(`FAIL ${inf}.auxBoth: expected ${want}`); }

@@ -1,0 +1,12 @@
+{
+  "browser": "webkit",
+  "evidence": "Explicit test provider and generated PCM; not speech/model quality or physical-device proof",
+  "checks": [
+    "No speech provider means no recording or continuous microphone controls can start",
+    "Manual capture gives an editable transcript and a single spoken reply after sending",
+    "Only Save recording persists audio with its exact learner turn",
+    "Continuous mode pauses on uncertain recognition and a failed reply never resends the learner",
+    "Pause-and-explain speaks one verified correction, waits with the microphone off, then continues the same reply",
+    "Closing voice controls releases the microphone and route exit preserves an unsent transcript"
+  ]
+}

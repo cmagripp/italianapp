@@ -1,0 +1,11 @@
+{
+  "browser": "webkit",
+  "results": [
+    "The v5 profile migrates with a verified exact old-schema copy, retaining drafts/checks/XP",
+    "A failed pre-update snapshot leaves v5 active on disk and offers the original export before retry",
+    "Migration refuses a changed primary and rolls back verification failure atomically",
+    "The localStorage fallback preserves the old primary when the replacement cannot be saved",
+    "Fallback migration rechecks a raced primary and cannot write a different profile into the slot",
+    "An un-restorable fallback primary is reported honestly and keeps a discoverable verified backup"
+  ]
+}

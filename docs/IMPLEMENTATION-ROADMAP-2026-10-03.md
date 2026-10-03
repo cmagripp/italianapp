@@ -1,6 +1,6 @@
 # Parola implementation roadmap
 
-Status: implementation proposal, 3 October 2026. This document defines execution order for the [agreed comprehensive update plan](PLAN-UNIFIED-LEARNING-OFFLINE-AI-2026-10-03.md); it does not change its product decisions. Application implementation, downloads and deployment have not begun as part of this planning work.
+Status: full programme implementation authorised and in progress, 3 October 2026. This document defines execution order for the [agreed comprehensive update plan](PLAN-UNIFIED-LEARNING-OFFLINE-AI-2026-10-03.md); it does not change its product decisions. Current implementation, validation and open gates are tracked in [the programme ledger](implementation/programme/ledger.json). The earlier correctness release is documented separately in [Phase 0–2 release evidence](implementation/phase-0-2/RELEASE.md).
 
 Build and release the programme in usable increments. Run three workstreams together: application correctness and integration; curriculum and language data; offline AI and speech feasibility. Stabilise shared data rules before connecting new features. Begin the complete Foundations–C2 curriculum early, while independently resolving whether the requested conversation experience works on the installed iPhone app.
 
@@ -39,11 +39,11 @@ Three specialist assignments start together:
 
 1. **Learning and data:** specify completion versus evidence, canonical objectives and legacy aliases, review eligibility, assistance, prospective rewards, accent comparison/display, durable saves, profiles, sessions, sense IDs and content versions. Specify committed/draft conversation turns, correction provenance, summary revisions and audio retention. Preserve existing progress and never manufacture past evidence.
 2. **Curriculum and language:** inventory all 256 baseline lessons plus reserve, repair and review variants; define the complete Foundations–C2 outcome/prerequisite map and retain/repair/merge/replace decisions. Map vocabulary senses, full paradigms, linked word/verb cases and reference topics. Reconcile counts if the new main has changed them.
-3. **AI and speech:** build a small disposable test of the complete local pipeline: microphone → turn detection → Italian recognition → dialogue/correction → local speech. Compare the plan's candidate combinations, including the existing text-model baseline. Test Italian teaching quality, learner-error preservation, latency, resource contention, audio activation and cold offline use on the iPhone 16 Pro Max with the reported iOS 26.6.1, or document its actual updated version.
+3. **AI and speech:** build a small disposable test of the complete local pipeline: microphone → turn detection → Italian recognition → dialogue/correction → local speech. Compare the plan's candidate combinations, including the existing text-model baseline. Test Italian teaching quality, learner-error preservation, latency, resource contention, audio activation and cold offline use on the user-approved iPhone 16 Pro Max simulator on iOS 26.5. Attribute measurements to that tested environment; simulator limitations cannot establish real-device performance.
 
 The trial returns separate results for written conversation, manual speech and hands-free use. It is not a polished chat interface or proof of full A1–C2 quality. Select the runtime/model combination from measurements, not model size or family reputation. Pin exact versions and redistribution terms.
 
-If the browser path cannot meet the agreed offline experience, present the measured failure and a concrete native iOS alternative, including distribution and progress migration. That product decision remains with the user. Do not silently substitute cloud processing or scripted replies. Physical-phone access is a real dependency; unavailable testing remains explicitly unverified while independent work continues.
+If the browser path cannot meet the agreed offline experience, present the measured failure and a concrete native iOS alternative, including distribution and progress migration. The user authorised a native iPhone prototype investigation on 3 October 2026. It runs alongside website development, using the iPhone 16 Pro Max simulator on iOS 26.5. A shipped native replacement remains a separate product decision. Do not silently substitute cloud processing or scripted replies. Physical-phone access is a real dependency; unavailable testing remains explicitly unverified while independent work continues.
 
 **Result:** shared contracts and an evidence-based platform direction. Correctness repairs may begin once their individual contracts are reviewed, without waiting for every trial result.
 
@@ -176,4 +176,4 @@ Do not promise calendar dates from the number of agents. Establish estimates aft
 | Persistence, cloud identity, compaction, performance and offline updates | Phases 1–2 foundations; Phases 4–5 new-data integration; Phase 7 stress and release verification. |
 | Legacy retirement, documentation and deployment | Incremental integration throughout; final reconciliation and live verification in Phase 7. |
 
-All phases are planned. This roadmap records no completed application changes, model benchmarks or deployment results.
+All phases remain in scope. The implementation ledger and linked evidence distinguish partial implementation, independent review, browser/device validation and actual deployment; this roadmap is the execution contract, not a claim that the complete programme has shipped.

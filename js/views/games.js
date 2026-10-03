@@ -8,6 +8,7 @@ import { TENSE_BY_KEY } from '../conjugator.js';
 import { sourceChoices, resolveSource, sourceLabel } from '../source.js';
 import { LEVELS, LEVEL_INFO } from '../data.js';
 import { reel, dial, dropdown, mount } from '../fx.js';
+import {conversationReadiness,onConversationProviderChange} from '../conversations/runtime.js';
 
 let lastSrc = 'scope';
 const ic = (name, opts) => raw(icon(name, opts));
@@ -152,6 +153,14 @@ export async function render(root, params, query) {
         <div class="play-hero-hint mono">or <a href="${second.href}">${second.label}</a></div>
       </section>
 
+      <section class="games-section" aria-label="Your practice">
+        ${raw(secHead('Your practice', 'Keep your Italian moving'))}
+        <div class="play-practice-links">
+          <a class="play-practice-link glass-flat" href="#/review">${ic('refresh',{size:24})}<span><strong>Review</strong><small>Short visits to the words and cases you’ve learned.</small></span>${ic('chevronRight',{size:18})}</a>
+          <a class="play-practice-link glass-flat" href="#/lab/frasi">${ic('edit',{size:24})}<span><strong>Sentence workshop</strong><small>Build a thought, try a pattern and find your words.</small></span>${ic('chevronRight',{size:18})}</a>
+          <a class="play-practice-link glass-flat" href="#/conversations">${ic('book',{size:24})}<span><strong>Conversations</strong><small data-conversation-availability></small></span>${ic('chevronRight',{size:18})}</a>
+        </div>
+      </section>
       <section class="games-section">
         ${raw(secHead('Vocabulary', 'Words in play'))}
         ${raw(reelHTML(vocab))}
@@ -164,6 +173,9 @@ export async function render(root, params, query) {
     </div>`;
 
   const hub = root.querySelector('.games-hub');
+  const showConversationAvailability=()=>{const node=hub.querySelector('[data-conversation-availability]');if(node)node.textContent=conversationReadiness().written?'Pick up a conversation, with help when you need it.':'Set up conversations and keep your notes. Replies aren’t available on this device yet.';};
+  showConversationAvailability();
+  const offProvider=onConversationProviderChange(showConversationAvailability);
   mount(hub);
   const reels = [...hub.querySelectorAll('[data-reel]')].map(el => reel(el));
   hub.addEventListener('click', (ev) => {
@@ -180,5 +192,5 @@ export async function render(root, params, query) {
       try { history.replaceState(history.state, '', location.href.replace(/#\/games\?.*$/, '#/games')); } catch { /* ignore */ }
     }
   }
-  return () => reels.forEach(r => r.destroy());
+  return () => {offProvider();reels.forEach(r => r.destroy());};
 }

@@ -5,12 +5,15 @@ import { schedule as srsSchedule } from './srs.js';
 import { data, LEVELS } from './data.js'; // data.js imports nothing, so no cycle
 import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills, learningSessionKey, completionKey, completionRecord, setCompletionRecord, checkpointLearning } from './learning/model.js';
 import { entryCompletion, loadFullCompletion, hasCompletionDescriptor } from './learning/completion-state.js';
+import {migrateStoredProfile,verifyMigrationSnapshot,migrationBackupJSON} from './learning/migrate-profile.js';
 
-const DB_NAME = 'italiano-db';
+import {PROFILE_STORAGE,legacyRoster,legacyProfileCandidates,deleteLegacyProfile} from './learning/legacy-profile.js';
+
+const DB_NAME = PROFILE_STORAGE.database;
 const KV = 'kv';
-const LS_PROFILES = 'it.profiles';
-const LS_CURRENT = 'it.currentProfile';
-const LS_PENDING = 'it.pendingProfile'; // unsaved profile mirrored on pagehide (see init)
+const LS_PROFILES = PROFILE_STORAGE.profiles;
+const LS_CURRENT = PROFILE_STORAGE.current;
+const LS_PENDING = PROFILE_STORAGE.pending; // unsaved profile mirrored on pagehide (see init)
 
 function openDB() {
   return new Promise((resolve) => {
@@ -37,13 +40,13 @@ function localSet(key, value) {
     if (raw && key === 'profile:' + value?.id) {
       try { if (JSON.parse(raw)?.id === value.id) pending = raw; } catch { /* malformed mirror is unrelated */ }
     }
-    try { localStorage.setItem('kv:' + key, serialized); }
+    try { localStorage.setItem(PROFILE_STORAGE.fallback + key, serialized); }
     catch (error) {
       // A recovered mirror can consume the space needed to replace its primary.
       // Both operations are synchronous; restore that mirror if replacement fails.
       if (!pending) throw error;
       localStorage.removeItem(LS_PENDING);
-      try { localStorage.setItem('kv:' + key, serialized); }
+      try { localStorage.setItem(PROFILE_STORAGE.fallback + key, serialized); }
       catch (retryError) { localStorage.setItem(LS_PENDING, pending); throw retryError; }
     }
     if (pending && localStorage.getItem(LS_PENDING) === pending) localStorage.removeItem(LS_PENDING);
@@ -52,15 +55,28 @@ function localSet(key, value) {
 }
 
 async function kvGet(key) {
+  const readFallback=()=>{const raw=localStorage.getItem(PROFILE_STORAGE.fallback+key);return raw===null?undefined:JSON.parse(raw);};
   const d = await db();
-  if (!d) { try { const v = localStorage.getItem('kv:' + key); return v ? JSON.parse(v) : undefined; } catch { return undefined; } }
-  return new Promise((resolve) => {
-    try {
-      const tx = d.transaction(KV, 'readonly');
-      const req = tx.objectStore(KV).get(key);
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => resolve(undefined);
-    } catch { resolve(undefined); }
+  if (!d) return readFallback();
+  const existing=await new Promise((resolve,reject)=>{
+    try{const request=d.transaction(KV,'readonly').objectStore(KV).get(key);request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error||storageError());}catch(error){reject(error);}
+  });
+  if(existing!==undefined)return existing;
+  const fallback=readFallback();if(fallback===undefined)return undefined;
+  // IndexedDB may become available after a prior fallback-only launch. Promote
+  // its exact v6 copy before consulting any older generation. Recheck the target
+  // inside the write transaction so a concurrent new primary always wins.
+  return new Promise((resolve,reject)=>{
+    let value=fallback,failure;
+    try{
+      const tx=d.transaction(KV,'readwrite'),kv=tx.objectStore(KV),get=kv.get(key);
+      tx.oncomplete=()=>resolve(value);tx.onerror=tx.onabort=()=>reject(failure||tx.error||storageError());
+      get.onsuccess=()=>{
+        if(get.result!==undefined){value=get.result;return;}
+        kv.put(fallback,key);const verify=kv.get(key);
+        verify.onsuccess=()=>{if(JSON.stringify(verify.result)!==JSON.stringify(fallback)){failure=new Error('The saved fallback progress could not be verified. Its original copy is kept.');tx.abort();}};
+      };
+    }catch(error){reject(error);}
   });
 }
 async function kvSet(key, value) {
@@ -80,10 +96,23 @@ async function kvSet(key, value) {
 }
 async function kvDel(key) {
   const d = await db();
-  if (!d) { try { localStorage.removeItem('kv:' + key); } catch { /* ignore */ } return; }
+  try { localStorage.removeItem(PROFILE_STORAGE.fallback + key); } catch { return false; }
+  if (!d) return true;
   return new Promise((resolve) => {
     try { const tx = d.transaction(KV, 'readwrite'); tx.objectStore(KV).delete(key); tx.oncomplete = () => resolve(true); tx.onerror = () => resolve(false); tx.onabort = () => resolve(false); } catch { resolve(false); }
   });
+}
+
+async function deleteProfileStorage(profileId){
+ const exact=new Set(['profile:'+profileId,'recovery:'+profileId,'merge-recovery:'+profileId,'migration-latest:'+profileId]);
+ const matches=(key,value)=>exact.has(key)||String(key).startsWith('migration:')&&value?.profileId===profileId;
+ const database=await db();
+ {
+  const keys=Array.from({length:localStorage.length},(_,i)=>localStorage.key(i)).filter(key=>key?.startsWith(PROFILE_STORAGE.fallback));
+  for(const key of keys){let value;try{value=JSON.parse(localStorage.getItem(key));}catch{}if(matches(key.slice(PROFILE_STORAGE.fallback.length),value))localStorage.removeItem(key);}
+ }
+ if(!database)return;
+ await new Promise((resolve,reject)=>{const tx=database.transaction(KV,'readwrite'),request=tx.objectStore(KV).openCursor();tx.oncomplete=resolve;tx.onerror=tx.onabort=()=>reject(tx.error||new Error('User deletion did not finish. Retry deleting this user.'));request.onsuccess=()=>{const cursor=request.result;if(!cursor)return;if(matches(cursor.key,cursor.value))cursor.delete();cursor.continue();};});
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
@@ -154,7 +183,8 @@ export const DEFAULT_SETTINGS = {
   showEn: 'tap',        // 'tap' = reveal on tap, 'always' = always visible
   dailyNew: 8,          // new words per day
   dailyVerbs: 2,        // new verbs per day
-  dailyReviews: 40,
+  dailyReviews: 10,
+  studyMinutes: 10,     // daily plan budget; existing review limits are preserved
   tts: true,
   ttsRate: 0.9,
   level: 'A1',
@@ -228,6 +258,7 @@ function normalize(p) {
   p.learnerId ||= p.id ? 'legacy:'+p.id : fresh.learnerId;
   p.name ||= fresh.name; p.avatar ||= fresh.avatar;
   p.settings = { ...fresh.settings, ...(p.settings || {}) };
+  p.settings.studyMinutes = [5,10,15,20,30].includes(Number(p.settings.studyMinutes)) ? Number(p.settings.studyMinutes) : 10;
   if (!LEVELS.includes(p.settings.level)) p.settings.level = DEFAULT_SETTINGS.level;
   p.items ||= {}; p.lists ||= fresh.lists; p.lists.bank ||= fresh.lists.bank; p.custom ||= {};
   for (const l of Object.values(p.lists)) if (l && !Array.isArray(l.items)) l.items = [];
@@ -280,13 +311,16 @@ class Store extends EventTarget {
   async init() {
     // Know whether saves need an unload mirror before creating the first profile.
     await db();
-    try { this.profiles = JSON.parse(localStorage.getItem(LS_PROFILES) || '[]'); } catch { this.profiles = []; }
+    let indexExists=false;
+    try { const raw=localStorage.getItem(LS_PROFILES);indexExists=raw!==null;this.profiles=JSON.parse(raw||'[]'); } catch { throw new Error('The saved user list could not be read. Your progress has been kept; retry before resetting it.'); }
+    if(!Array.isArray(this.profiles))throw new Error('The saved user list could not be read. Export your previous progress before resetting it.');
+    if(!indexExists){const legacy=legacyRoster();if(legacy.profiles.length){this.profiles=legacy.profiles;if(!this._persistIndex())throw storageError();if(legacy.current)this._setCurrentId(legacy.current);}}
     let curId = null;
     try { curId = localStorage.getItem(LS_CURRENT); } catch { /* ignore */ }
     if (this.profiles.length === 0) {
       const p = newProfile('Learner');
       this.profiles.push({ id: p.id, learnerId:p.learnerId,name: p.name, avatar: p.avatar, created: p.created });
-      this._persistIndex();
+      if(!this._persistIndex())throw storageError();
       this.current = p;
       this.touchDay(); // the first launch is day 1 of the streak like every later one (and marks the profile dirty, so it is really written)
       await this.saveNow();
@@ -329,14 +363,30 @@ class Store extends EventTarget {
   on(type, fn) { this.addEventListener(type, fn); return () => this.removeEventListener(type, fn); }
 
   async switchProfile(id) {
+    const loadSerial=this._profileLoadSerial=(this._profileLoadSerial||0)+1;
+    const isCurrent=()=>this._profileLoadSerial===loadSerial;
     await this.saveNow();
     const meta = this.profiles.find(x => x.id === id);
     let p = await kvGet('profile:' + id);
+    const primaryBefore=p===undefined?undefined:clone(p);
+    let legacySource=null;
+    if(p===undefined&&meta?.legacySource){legacySource=await legacyProfileCandidates(id);p=legacySource.pending||legacySource.primary||legacySource.fallback;}
     const pending = this._takePending(id);
-    if (pending) { p = pending; this._dirty = true; }
+    let pendingRaw=null;try{pendingRaw=localStorage.getItem(LS_PENDING);}catch{}
+    if (pending) p = pending;
     if (!p) { p = newProfile(meta ? meta.name : 'Learner', meta && meta.avatar); p.id = id; }
-    normalize(p); // upgrade missing fields
+    if(p.learning?.version>LEARNING_VERSION){const error=new Error('This profile needs a newer version of Parola. Update the app before using it.');error.profileBackup=migrationBackupJSON(p);throw error;}
+    if((legacySource&&(legacySource.primary||legacySource.pending||legacySource.fallback))||((primaryBefore||pending)&&(p.learning?.version||0)<LEARNING_VERSION)){
+      const candidate=normalize(clone(p));
+      await migrateStoredProfile({database:await db(),storage:localStorage,profileId:id,primaryBefore,original:p,candidate,isCurrent,storagePrefix:PROFILE_STORAGE.fallback,legacySource});
+      p=candidate;
+      if(pendingRaw)try{if(localStorage.getItem(LS_PENDING)===pendingRaw)localStorage.removeItem(LS_PENDING);}catch{}
+    }else normalize(p);
+    const migrationPointer=await kvGet('migration-latest:'+id);
+    if(!isCurrent())throw new Error('The selected profile changed. Retry opening it.');
     this.current = p;
+    this.hasPreUpdateBackup=migrationPointer?.learnerId===p.learnerId;
+    this._dirty=!!pending;
     this._revision++;this._saveError=null;
     if(meta){meta.learnerId=p.learnerId;this._persistIndex();}
     this._setCurrentId(id);
@@ -359,15 +409,22 @@ class Store extends EventTarget {
     return p;
   }
   async deleteProfile(id) {
+    if(!this.profiles.some(p=>p.id===id))return;
+    await this.saveNow();
     const wasCurrent = !!this.current && this.current.id === id;
     // a save still pending for the deleted user (switchProfile starts with saveNow) would re-create its record after kvDel
     if (wasCurrent) { clearTimeout(this._saveTimer); this._dirty = false; }
+    const {deleteConversationsForProfile}=await import('./conversations/storage.js');
+    const {deleteProfileBackupJournal}=await import('./conversations/profile-backup.js');
+    await deleteProfileBackupJournal(id);
+    await deleteConversationsForProfile(id);
+    await deleteCourseRecordings(id+'|');
+    await deleteLegacyProfile(id);
+    await deleteProfileStorage(id);
     this.profiles = this.profiles.filter(p => p.id !== id);
     if (this.profiles.length === 0) { const p = newProfile('Learner'); this.profiles.push({ id: p.id, name: p.name, avatar: p.avatar, created: p.created }); await kvSet('profile:' + p.id, p); }
     this._persistIndex();
     if (wasCurrent || !this.current) await this.switchProfile(this.profiles[0].id);
-    await kvDel('profile:' + id);
-    await deleteCourseRecordings(id+'|').catch(()=>{});
     try { const raw = localStorage.getItem(LS_PENDING); if (raw && JSON.parse(raw).id === id) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ }
     try { localStorage.removeItem('it.sync.' + id); } catch { /* ignore */ } // the deleted user's cloud tokens must not stay on the device
     this.emit('change');
@@ -452,6 +509,7 @@ class Store extends EventTarget {
         }
         throw this._failedSave(error,profileId);
       }
+      if(candidate.learnerId!==expected.learnerId)this.hasPreUpdateBackup=false;
       this.current=candidate;this._dirty=false;this._revision++;
       const meta=this.profiles.find(p=>p.id===profileId);
       if(meta){meta.name=candidate.name;meta.avatar=candidate.avatar;meta.learnerId=candidate.learnerId;this._persistIndex();}
@@ -463,9 +521,21 @@ class Store extends EventTarget {
     try{return await run;}finally{if(this._transition===run)this._transition=null;}
   }
   async recoveryBackup() {
-    const recovery=await kvGet('recovery:'+this.current.id) || await kvGet('merge-recovery:'+this.current.id);
-    if(!recovery?.profile||recovery.checksum!==checksum(recovery.profile))throw new Error('No verified recovery backup is available for this user.');
+    const migration=await kvGet('migration-latest:'+this.current.id);
+    const recovery=await kvGet('recovery:'+this.current.id) || await kvGet('merge-recovery:'+this.current.id) || (migration&&await kvGet(migration.recoveryKey));
+    if(!recovery?.profile||(recovery.kind==='migration'?!await verifyMigrationSnapshot(recovery):recovery.checksum!==checksum(recovery.profile)))throw new Error('No verified recovery backup is available for this user.');
     return JSON.stringify({app:'italiano',exported:new Date(recovery.at).toISOString(),profile:recovery.profile});
+  }
+  async preUpdateBackup(){const pointer=await kvGet('migration-latest:'+this.current.id),snapshot=pointer&&await kvGet(pointer.recoveryKey);if(!await verifyMigrationSnapshot(snapshot)||(snapshot.profile.learnerId||'legacy:'+snapshot.profile.id)!==this.current.learnerId)throw new Error('No verified pre-update backup is available for this learner.');return migrationBackupJSON(snapshot.profile);}
+  async previousAppBackups(){
+    const profileId=this.current.id,learnerId=this.current.learnerId,legacy=await legacyProfileCandidates(profileId),pointer=await kvGet('migration-latest:'+profileId),snapshot=pointer&&await kvGet(pointer.recoveryKey);
+    if(this.current.id!==profileId||this.current.learnerId!==learnerId)throw new Error('The selected learner changed.');
+    const verified=await verifyMigrationSnapshot(snapshot),baseline=verified?snapshot.legacySource||{}:{},seen=new Set(),copies=[];
+    const add=(kind,profile)=>{if(!profile||(profile.learnerId||'legacy:'+profile.id)!==learnerId)return;const encoded=JSON.stringify(profile);if(seen.has(encoded))return;seen.add(encoded);copies.push({kind,json:migrationBackupJSON(profile)});};
+    for(const source of [baseline,legacy])for(const kind of ['primary','pending','fallback']){const profile=source[kind];if(profile&&JSON.stringify(profile)!==JSON.stringify(verified?snapshot.profile:null))add(kind,profile);}
+    for(const backup of [...(baseline.backups||[]),...(legacy.backups||[])])add('recovery',backup.snapshot?.profile);
+    if(this.current.id!==profileId||this.current.learnerId!==learnerId)throw new Error('The selected learner changed.');
+    return copies;
   }
   async restoreRecovery() { const backup=await this.recoveryBackup();return this.importJSON(backup); }
 
@@ -750,7 +820,8 @@ class Store extends EventTarget {
 
   // ---------- export / import ----------
   exportJSON() { return JSON.stringify({ app: 'italiano', exported: new Date().toISOString(), profile: this.current }, null, 0); }
-  async importJSON(text, { merge = false, silent = false } = {}) {
+  async importJSON(text, { merge = false, silent = false, backupOperationId = null } = {}) {
+    if(backupOperationId!==null&&(typeof backupOperationId!=='string'||!backupOperationId||backupOperationId.length>200))throw new TypeError('Invalid backup operation');
     const obj = JSON.parse(text);
     const p = clone(obj.profile || obj);
     if (!p || typeof p!=='object' || Array.isArray(p) || !p.items || !p.lists || Array.isArray(p.items) || Array.isArray(p.lists)) throw new Error('Not a valid backup file');
@@ -797,6 +868,7 @@ class Store extends EventTarget {
       p.id = expected.id; // explicit restore keeps the slot but adopts the saved learner identity
       candidate=p;
     }
+    if(backupOperationId)candidate.lastBackupImportId=backupOperationId;else if(!silent)delete candidate.lastBackupImportId;
     return this._commitProfile(candidate,{kind:merge?'merge':'import',silent,expected,revision});
   }
   async resetProgress() {

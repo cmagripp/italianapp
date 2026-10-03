@@ -57,7 +57,7 @@ function englishPossessive(text,person,formal=false){
 }
 function englishSimple(subject,person,spec,past,formal){
   if(past){
-    if(spec.policy==='simple'){const predicate=spec.en[2].replace(/^was\b/,person===0||person===2&&!formal?'was':'were');return `${subject} ${predicate}`;}
+    if(spec.policy==='simple'){const predicate=(spec.imperfectEn||spec.en[2]).replace(/^was\b/,person===0||person===2&&!formal?'was':'were');return `${subject} ${predicate}`;}
     return `${subject} used to ${spec.en[0]}`;
   }
   const base=spec.en[0];

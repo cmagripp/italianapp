@@ -1,0 +1,38 @@
+[
+  {
+    "inf": "riavere",
+    "en": "to get back; to have again",
+    "level": "A2",
+    "cat": "daily",
+    "aux": "avere",
+    "trans": "vt",
+    "irregular": true,
+    "patterns": [
+      "riavere + thing returned",
+      "riavere + opportunity/possession"
+    ],
+    "usage": "Conjugates like avere with ri-, but the present is riò, riài, rià, riabbiamo, riavete, rianno: it does not retain avere’s h. The future riavrò, conditional riavrei, participle riavuto and gerund riavendo preserve the prefix. Here it means receiving something back, rather than the separate pronominal riaversi, to recover.",
+    "examples": [
+      {
+        "it": "Vorrei riavere lo scontrino.",
+        "en": "I would like to get the receipt back."
+      },
+      {
+        "it": "Ieri ho riavuto le chiavi.",
+        "en": "Yesterday I got the keys back."
+      },
+      {
+        "it": "Domani riavremo il documento.",
+        "en": "Tomorrow we will get the document back."
+      }
+    ],
+    "related": [
+      "avere",
+      "ricevere",
+      "restituire"
+    ],
+    "sources": [
+      "https://www.treccani.it/vocabolario/riavere/"
+    ]
+  }
+]

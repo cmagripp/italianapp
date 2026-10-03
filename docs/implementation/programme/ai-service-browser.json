@@ -1,0 +1,124 @@
+{
+  "testedAt": "2026-10-03T14:26:08.559Z",
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "environment": "Real Chrome CacheStorage, synthetic3MiB files, actual HTTP streams; runtime probe is a test callback, not model inference",
+  "checks": {
+    "corruptionRejected": true,
+    "cancellationRejected": true,
+    "oldPackPreserved": true,
+    "resumed": true,
+    "phases": [
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 0
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 393216
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 851968
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 917504
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 1114112
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 1245184
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 2097152
+      },
+      {
+        "phase": "verifying",
+        "totalBytes": 3145728,
+        "verifiedBytes": 0,
+        "transferredBytes": 2097152
+      },
+      {
+        "phase": "verified",
+        "totalBytes": 3145728,
+        "verifiedBytes": 2097152,
+        "transferredBytes": 2097152
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 2097152,
+        "transferredBytes": 2490368
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 2097152,
+        "transferredBytes": 2621440
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 2097152,
+        "transferredBytes": 2686976
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 2097152,
+        "transferredBytes": 2752512
+      },
+      {
+        "phase": "downloading",
+        "totalBytes": 3145728,
+        "verifiedBytes": 2097152,
+        "transferredBytes": 3145728
+      },
+      {
+        "phase": "verifying",
+        "totalBytes": 3145728,
+        "verifiedBytes": 2097152,
+        "transferredBytes": 3145728
+      },
+      {
+        "phase": "verified",
+        "totalBytes": 3145728,
+        "verifiedBytes": 3145728,
+        "transferredBytes": 3145728
+      },
+      {
+        "phase": "assets-installed",
+        "totalBytes": 3145728,
+        "verifiedBytes": 3145728,
+        "transferredBytes": 3145728
+      }
+    ],
+    "readiness": {
+      "assetsVerified": true,
+      "writtenGeneration": true,
+      "speechPipeline": false,
+      "italianTeachingQuality": false,
+      "physicalPhone": false
+    },
+    "offlineRead": true,
+    "actualDownloadRequests": 5
+  }
+}

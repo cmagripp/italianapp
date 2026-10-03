@@ -1,5 +1,6 @@
 // Grammar evidence is independent of dictionary completion. Pure and replayable.
 import { schedule } from '../srs.js';
+import { grammarEvidence } from './grammar-evidence.js';
 
 function replayOrder(events) {
   const sessions=new Map();
@@ -23,6 +24,7 @@ export function grammarSkill(events, now = Date.now()) {
     independentCorrect:0, requiredCorrect:2, unresolvedErrors:[], sessionEvidence:{},
     srs:{s:0,ef:2.5,iv:0,due:0,reps:0,lapses:0}, lastAt:last?.at || null };
   let successes = [], previous = null;
+  const evidence=grammarEvidence();
   const exposed = new Map();
   for (const e of relevant) {
     if (e.outcome === 'skipped') continue;
@@ -53,10 +55,11 @@ export function grammarSkill(events, now = Date.now()) {
       state.srs=schedule(state.srs,e.ok ? spacedSuccess?5:3 : 1,e.at);
       state.sessionEvidence[e.sessionId]={at:e.at,ok:e.ok};
     }
+    evidence.observe(e,{eligible,blocked:!!state.unresolvedErrors.length});
   }
   state.due=state.srs.due;
   state.isDue=state.ready && state.due<=now;
   state.remembered=state.ready && state.srs.reps>=2 && !state.unresolvedErrors.length;
   state.status=state.ready ? state.remembered?'remembered':'ready' : state.attempts?'learning':'new';
-  return state;
+  return {...state,...evidence.summary()};
 }

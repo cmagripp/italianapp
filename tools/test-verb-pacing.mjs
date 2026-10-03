@@ -7,16 +7,17 @@ import { createLearning, recordAttempt, skillState } from '../js/learning/model.
 import { createJourneySession, currentJourneyStep, advanceJourney, journeyAttempt, recordJourneyAttempt, journeyPairAttempt, recordJourneyPairAttempt, journeyCaseProgress, chooseJourneyChapter } from '../js/learning/journey.js';
 import { gradeQuestion } from '../js/learning/diagnose.js';
 import { gradePairActivity } from '../js/learning/lesson-activities.js';
+import { caseCoverage, CASE_COVERAGE_POLICY } from '../js/learning/case-coverage.js';
 
 const verbs = JSON.parse(fs.readFileSync(new URL('../data/verbs.json', import.meta.url)));
 const norm = s => String(s || '').normalize('NFC').trim().toLocaleLowerCase('it').replace(/\s+/g, ' ');
 
-export function runCase(inf, chapterId = 'present') {
+export function runCase(inf, chapterId = 'present', { legacy = false } = {}) {
   const entry = { ...verbs.find(e => e.inf === inf), kind: 'verb' };
   assert(entry, inf);
   const plan = buildLesson(entry);
   let learning = createLearning(1), serial = 0;
-  let session = createJourneySession({ id: `pacing-${inf}-${chapterId}`, plan, now: 1, chapterId, caseMode: true });
+  let session = createJourneySession({ id: `pacing-${inf}-${chapterId}`, plan, now: 1, chapterId, caseMode: true, ...(legacy ? { caseCoveragePolicy:null } : {}) });
   const trace = [];
   const expose = forms => { session.ui ||= { exposures: {} }; for (const form of forms || []) if (form) session.ui.exposures[norm(form)] = session.index; };
   const save = event => {
@@ -70,38 +71,64 @@ export function runCase(inf, chapterId = 'present') {
 }
 
 const budgets = [
-  ['avere', 'present', 28], ['viaggiare', 'present', 45],
-  ['piovere', 'present', 18], ['credere', 'present', 28],
-  ['viaggiare', 'background', 45], ['avere', 'past', 24],
-  ['avere', 'future', 22], ['avere', 'condizionale', 22],
-  ['piacere', 'future', 12],
+  ['avere', 'present', 14], ['viaggiare', 'present', 24],
+  ['piovere', 'present', 10], ['credere', 'present', 13],
+  ['viaggiare', 'background', 24], ['avere', 'past', 12],
+  ['avere', 'future', 10], ['avere', 'condizionale', 10],
+  ['piacere', 'future', 7],
 ];
 for (const [inf, chapter, maximum] of budgets) {
   const run = runCase(inf, chapter), questions = run.trace.filter(s => s.type === 'question' && !s.awaitingContinue);
   const count = key => Object.fromEntries([...new Set(questions.map(q => q[key]))].map(value => [value, questions.filter(q => q[key] === value).length]));
-  const required = run.plan.chapters.find(c => c.id === chapter).groups.flatMap(g => g.targets).filter(t => t.required && t.available !== false && !t.supplementalOnly);
-  for (const target of required) assert(skillState(run.learning, target.id).ready, `${inf}/${chapter}: ${target.id}`);
+  const required = run.plan.chapters.find(c => c.id === chapter).groups.flatMap(g => g.targets).filter(t => (t.required !== false || t.completionRequired) && t.available !== false && !t.supplementalOnly);
+  const production = required.filter(t => !t.completionRequired && !t.guidedOnly);
+  const coverage = caseCoverage(run.plan,run.learning,chapter,{sessionId:run.session.id});
+  assert.equal(run.session.journey.caseCoveragePolicy,CASE_COVERAGE_POLICY);
+  assert(coverage.complete,`${inf}/${chapter}: every required target must be covered before recap`);
+  for (const target of required) {
+    const state=coverage.states.get(target.id);
+    assert(state.supported,`${inf}/${chapter}: ${target.id} missing supported check`);
+    assert(state.covered,`${inf}/${chapter}: ${target.id} not covered`);
+    if(production.includes(target)) {
+      assert(state.production,`${inf}/${chapter}: ${target.id} missing unaided production`);
+      assert(skillState(run.learning,target.id).independentCorrect>=1,`${inf}/${chapter}: ${target.id} missing genuine production evidence`);
+    }
+  }
   assert(questions.length <= maximum, `${inf}/${chapter}: ${questions.length} prompts exceeds ${maximum}`);
-  assert.equal(questions.filter(q => q.phase === 'independent').length, required.length * 2,
-    `${inf}/${chapter}: every required target should need exactly two unaided retrievals on an all-correct run`);
+  assert.equal(questions.filter(q => q.phase === 'independent').length, production.length,
+    `${inf}/${chapter}: every production target needs one unaided retrieval for finished case coverage`);
   assert(questions.filter(q => q.supplemental).length <= (inf === 'piovere' ? 12 : required.length),
     `${inf}/${chapter}: too many support screens`);
   if (['avere','viaggiare','credere'].includes(inf)) {
-    for (const format of ['mc','pairs','letters','type']) assert(questions.some(q => q.format === format), `${inf}/${chapter}: missing ${format}`);
+    for (const format of ['mc','pairs','type']) assert(questions.some(q => q.format === format), `${inf}/${chapter}: missing ${format}`);
     const independent = questions.filter(q => q.phase === 'independent');
     assert(independent.every(q => q.sentence && q.contextId), `${inf}/${chapter}: unaided verb checks need complete scenes`);
-    assert(new Set(independent.map(q => q.sentence)).size >= required.length + 4, `${inf}/${chapter}: scenes repeat too often`);
+    assert.equal(new Set(independent.map(q => q.sentence)).size,production.length, `${inf}/${chapter}: every unaided target needs its own complete scene`);
     const repeats = questions.filter(q => q.sentence).reduce((map, q) => map.set(q.sentence, (map.get(q.sentence) || 0) + 1), new Map());
     assert(Math.max(...repeats.values()) <= 2, `${inf}/${chapter}: same sentence shown on too many exercise prompts: ${JSON.stringify(questions.filter(q=>repeats.get(q.sentence)>2).map(q=>({group:q.group,phase:q.phase,format:q.format,target:q.target,contextId:q.contextId,sentence:q.sentence})))}`);
   }
   if (inf === 'avere' && chapter === 'present') {
     const singular = questions.filter(q => q.group === 'singular' && q.phase === 'guided' && !q.supplemental);
     const board = singular.find(q => q.format === 'pairs');
-    assert(board?.pairTargets.some(id => id.endsWith('::formal')), 'matching board should include formal Lei');
-    assert(!singular.some(q => q.target.endsWith('::formal')), 'matched Lei should not get a duplicate guided prompt');
+    assert(board?.pairTargets.some(id => id.endsWith('::form-0')), 'matching board should replace the first simple-form prompts');
+    assert(singular.some(q => q.target.endsWith('::formal')), 'formal Lei still needs its own supported check');
+    assert.equal(skillState(run.learning,'v:avere::lesson::present::form-0').ready,false,'finished coverage must not claim consolidated readiness');
   }
   console.log(JSON.stringify({ inf, chapter, required: required.length, cards: run.trace.filter(s => s.type === 'teach').length, questions: questions.length, uniqueSentences: new Set(questions.map(q => q.sentence).filter(Boolean)).size, byPhase: count('phase'), byFormat: count('format'), supplemental: questions.filter(q => q.supplemental).length, byGroup: count('group') }));
   if (process.env.VERB_PACING_DETAIL === `${inf}:${chapter}`) console.log(questions.map(q => `${q.index} ${q.group} ${q.pass}/${q.phase.slice(0,1)} ${q.format} ${q.supplemental?'supp':''} ${q.target.split('::').at(-1)} v${q.variant} ${q.assistance?.length?'assisted':''} ->${q.correct ?? '-'}${q.ready?' ready':''}`).join('\n'));
+}
+
+// A saved historical policy still requires both varied, spaced productions.
+// New coverage is never retroactively assigned to those immutable events.
+{
+  const old=runCase('viaggiare','present',{legacy:true});
+  const questions=old.trace.filter(s=>s.type==='question'&&!s.awaitingContinue);
+  const required=old.plan.chapters.find(c=>c.id==='present').groups.flatMap(g=>g.targets).filter(t=>t.required&&t.available!==false&&!t.supplementalOnly);
+  assert.equal(old.session.journey.caseCoveragePolicy,undefined);
+  assert.equal(questions.length,42);assert.equal(questions.filter(q=>q.phase==='independent').length,32);
+  for(const target of required)assert(skillState(old.learning,target.id).ready,target.id);
+  assert.equal(caseCoverage(old.plan,old.learning,'present').complete,false);
+  assert(Object.values(old.learning.events).every(e=>e.caseCoveragePolicy===undefined));
 }
 
 // Saved pre-expansion variants use the exact old scene cycle, including an
@@ -112,7 +139,7 @@ for (const [inf, chapter, maximum] of budgets) {
   const target = chapter.groups.flatMap(g => g.targets).find(t => t.legacyAuthoredContexts?.length === 2 && t.contexts?.length > 2);
   assert(target, 'expected expanded contextual target');
   let learning = createLearning(1);
-  let session = createJourneySession({ id: 'saved-v2-variant', plan, learning, now: 1, chapterId: 'present', caseMode: true });
+  let session = createJourneySession({ id: 'saved-v2-variant', plan, learning, now: 1, chapterId: 'present', caseMode: true, caseCoveragePolicy:null });
   session.journey.phase = 'checkpoint'; session.journey.groupIndex = chapter.groups.findIndex(g => g.targets.includes(target));
   session.journey.current = { targetId: target.id, phase: 'independent', format: 'type', variant: 2,
     questionId: 'saved-v2-variant:journey:42', supplemental: false, repairTag: null };

@@ -180,7 +180,16 @@ test('invariable, plural-only and vowel-initial nouns build boards with unique a
   assert.deepEqual(caffe.pairs.filter(p => !p.decoy).map(p => [p.label, p.canonical]), [['il', 'caffè'], ['i', 'caffè']]);
   assert.equal(caffe.rightTiles.filter(t => t.text === 'caffè').length, 2); assert.equal(caffe.pairs.length, 4);
   for (const row of caffe.pairs.filter(p => !p.decoy)) assert.equal(gradePairActivity(caffe, { targetId: row.targetId, given: 'caffè' }).ok, true);
-  assert.ok(caffe.pairs.filter(p => p.decoy).every(p => ['la', 'le'].includes(p.label) && words.find(x => x.id === p.meta.entryId).g === 'f' && words.find(x => x.id === p.meta.entryId).level === coffee.level));
+  // A feminine vowel-initial decoy legitimately takes l' (l'arancia), not la.
+  // Check the actual number/form as well as gender/level; this does not permit a
+  // wrong article merely because it appears in a larger allowed-label list.
+  for (const row of caffe.pairs.filter(p => p.decoy)) {
+    const decoy=words.find(x=>x.id===row.meta.entryId),plural=row.canonical===decoy.pl&&decoy.pl!==decoy.it;
+    assert.equal(decoy.g,'f');assert.equal(decoy.level,coffee.level);
+    assert.equal(row.label,article(decoy,plural));
+    assert.equal(row.canonical,plural?decoy.pl:decoy.it);
+    assert.ok(["l'",'la','le'].includes(row.label));
+  }
   const [, occhiali] = board('occhiali');
   assert.equal(occhiali.pairs.length, 3); assert.deepEqual(occhiali.pairs[0] && [occhiali.pairs[0].label, occhiali.pairs[0].canonical, !!occhiali.pairs[0].decoy], ['gli', 'occhiali', false]);
   const [, albero] = board('albero');
@@ -257,5 +266,19 @@ test('common lexical alternatives are conservatively excluded in both directions
       assert.ok(!question.choices.some(c => !c.correct && [alternate,other.it].includes(c.value)), JSON.stringify({meaning, alternate, question}));
     }
   }
+});
+test('Reviewed homograph senses keep their authored context and full-sentence feedback',()=>{
+ const senses=words.filter(e=>e.senseId);assert.equal(senses.length,57);
+ for(const e of senses){
+  for(const skill of ['meaning','recall','article','plural','number']){
+   const question=q(e,skill,{pool:words});if(!question)continue;valid(question);
+   assert.equal(question.context.it,e.ex);assert.equal(question.say,e.ex);
+   assert(question.prompt.includes(e.ex.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;')),'Authored context makes the intended sense visible');
+   assert.equal(question.meta.supportOnly,true);
+  }
+ }
+ const city=words.find(e=>e.id==='w:capitale|noun#capital-city'),money=words.find(e=>e.id==='w:capitale|noun#financial-capital');
+ assert.deepEqual(q(city,'article').answer,['la']);assert.deepEqual(q(money,'article').answer,['il']);
+ assert.notEqual(q(city,'article').context.it,q(money,'article').context.it);
 });
 console.log(`${count} short-word question checks passed; ${words.length} catalog words covered.`);

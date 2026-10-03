@@ -1,0 +1,20 @@
+# Independent review of conversation storage
+
+Reviewed on 3 October 2026 by the unified learning/review workstream. Root owns the implementation; this review made no edits to `storage.js`, `backup.js` or their root tests. Reproductions ran in an isolated fresh Chromium context using synthetic learner/profile data.
+
+## Status
+
+The transaction design waits for IDB transaction completion, commits message/thread/draft/summary changes together, aborts failed sends, preserves original learner text and edit history, and isolates profile plus stable learner ownership. Local conversation deletion removes private text/audio from live records and recovery snapshots; minimal tombstones prevent restoration by stale local backups. Recordings require an explicit save choice and carry byte hashes. These are useful foundations, supported by the root browser suite, rather than evidence of installed-device reliability or a complete application backup UI.
+
+Six actionable findings were reported to root:
+
+1. **Divergent higher-revision merge:** a content revision counter does not establish ancestry. The earlier importer accepted a longer divergent backup and replaced local originals/edits. Root added retained-original/sequence/descendant-history checks and draft conflict/preservation rules. Code re-review confirms this branch now rejects divergence. Root regression browser coverage passed both engines.
+2. **Incoming deletion privacy:** an imported tombstone could be ignored when local contentRevision was larger. Root now treats incoming deletion independently of the ordinary merge revision comparison and redacts all recovery snapshots, including the pre-import snapshot. Code re-review confirms the correction; root regression browser coverage passed both engines.
+3. **Missing summary source:** a nonexistent turn with no reference revision passed because both compared values were undefined. An isolated browser fixture saved a clean summary attributed to `never-existed`. Root now requires a real source and a positive integer revision in save/import validation. The latest isolated rerun rejects this source.
+4. **Large audio codec:** a valid 8 MiB recording exceeded V8’s RegExp stack in the repeated capture-group base64 validator, despite a 64 MiB recording allowance. The isolated browser fixture reproduced the RangeError. Root replaced that validator and added a realistic round-trip regression. The latest isolated rerun decodes 8 MiB successfully.
+5. **Owner changes during IDB:** `list()` could return an earlier learner’s private row after isCurrent became false during the IDB getAll success callback. The isolated fixture returned one row with current=false. Root added final work/completion owner guards. Independent re-verification now rejects with AbortError and returns no private rows.
+6. **Conflicting retry payload:** commitTurn treated the same turnId/originalText/role as an idempotent retry even when submittedText/displayText differed. The fixture returned the first submitted payload silently. Root added stable submitted-payload comparison. Independent re-verification now rejects this retry with ConversationConflict.
+
+The standalone reproduction is `/tmp/parola-conversation-review.mjs`; its captured results are `/tmp/parola-conversation-review-results.json`. The original run reproduced findings 3–6; the latest rerun independently verifies all four corrections. The six reported storage findings are repaired. Root’s portable JSON codec now addresses binary serialization; the existing progress-only store export still needs the planned full application backup integration. No full backup claim should be made from a repository export alone.
+
+Remaining integration gates include progress/conversation/audio backup and restore as one explicit user action, profile removal and learner replacement lifecycle closure, actual installed-device storage/quota failure tests, source-linked study-summary consumption, and physical-device privacy/offline checks. Root’s synthetic browser evidence and this isolated review do not close those gates.

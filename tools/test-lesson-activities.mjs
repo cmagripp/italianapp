@@ -7,15 +7,16 @@ import { createLetterActivity, createPairActivity, gradePairActivity } from '../
 import { gradeQuestion } from '../js/learning/diagnose.js';
 import { createLearning, recordAttempt, normalizeLearning, skillState } from '../js/learning/model.js';
 import { createJourneySession, currentJourneyStep, advanceJourney, journeyAttempt, recordJourneyAttempt, journeyPairAttempt, recordJourneyPairAttempt, journeyTargetState } from '../js/learning/journey.js';
+import { caseCoverage, CASE_COVERAGE_POLICY } from '../js/learning/case-coverage.js';
 
 const verbs = JSON.parse(readFileSync(new URL('../data/verbs.json', import.meta.url)));
 const words = JSON.parse(readFileSync(new URL('../data/vocab.json', import.meta.url)));
 const START = 1700000000000, clone = value => JSON.parse(JSON.stringify(value));
 let tests = 0;
 function test(name, run) { try { run(); tests++; console.log(`✓ ${name}`); } catch (error) { console.error(`✗ ${name}`); throw error; } }
-function harness(inf = 'credere', chapterId = 'present') {
+function harness(inf = 'credere', chapterId = 'present', { legacy = false } = {}) {
   const entry = verbs.find(e => e.inf === inf) || words.find(e => e.it === inf), plan = buildLesson(entry);
-  let learning = createLearning(START), session = createJourneySession({ id: 'activity-session', plan, chapterId, now: START }), sequence = 0;
+  let learning = createLearning(START), session = createJourneySession({ id: 'activity-session', plan, chapterId, now: START, ...(legacy ? { caseCoveragePolicy:null } : {}) }), sequence = 0;
   const h = {
     entry, plan, get learning() { return learning; }, get session() { return session; }, set session(next) { session = next; },
     step() { return currentJourneyStep(plan, session, learning, START + sequence); },
@@ -72,8 +73,8 @@ test('English meanings, grammar facts and long text retain their existing guided
   ]) assert.equal(createLetterActivity(q), q);
 });
 
-test('real letter activities preserve the authored cloze and its whole accepted construction', () => {
-  const h = harness('andare', 'past'); h.until(s => s.type === 'question' && s.format === 'letters');
+test('historical letter activities preserve the authored cloze and its whole accepted construction', () => {
+  const h = harness('andare', 'past', { legacy:true }); h.until(s => s.type === 'question' && s.format === 'letters');
   const s = h.step(), q = h.question(), plain = buildJourneyQuestion(h.entry, s.chapter, s.target, { ...s, format: 'type' });
   assert.equal(q.type, 'letters'); assert.equal(q.prompt, plain.prompt); assert.deepEqual(q.answer, plain.answer);
   assert.ok(q.slots.some(slot => slot.kind === 'fixed' && slot.text === ' '));
@@ -82,8 +83,8 @@ test('real letter activities preserve the authored cloze and its whole accepted 
   assert.equal(journeyTargetState(h.learning, event.objectiveId).independentCorrect, 0);
 });
 
-test('guided rotation keeps choices, then matching, then letters before independent writing', () => {
-  const h = harness(); h.until(s => s.type === 'question'); assert.equal(h.question().type, 'mc');
+test('historical guided rotation keeps choices, then matching, then letters before independent writing', () => {
+  const h = harness('credere','present',{ legacy:true }); h.until(s => s.type === 'question'); assert.equal(h.question().type, 'mc');
   h.answer(); h.next(); assert.equal(h.question().type, 'pairs');
   const q = h.question(); for (const pair of q.pairs) h.pair(q, pair.targetId, pair.canonical);
   h.answer(q); h.next(); assert.equal(h.question().type, 'letters');
@@ -91,8 +92,8 @@ test('guided rotation keeps choices, then matching, then letters before independ
   assert.equal(h.question().type, 'type'); assert.equal(h.question().meta.evidenceMode, 'production');
 });
 
-test('boards use three taught same-group targets and preserve the distinct formal role', () => {
-  const h = harness(); h.until(s => s.type === 'question' && s.format === 'pairs');
+test('historical boards use three taught same-group targets and preserve the distinct formal role', () => {
+  const h = harness('credere','present',{ legacy:true }); h.until(s => s.type === 'question' && s.format === 'pairs');
   const q = h.question(), group = h.step().group;
   assert.equal(q.pairs.length, 3); assert.equal(new Set(q.pairs.map(p => p.targetId)).size, 3);
   assert.ok(q.pairs.every(p => group.targets.some(t => t.id === p.targetId)));
@@ -102,7 +103,7 @@ test('boards use three taught same-group targets and preserve the distinct forma
 });
 
 test('identical ordinary and polite forms can use either physical tile without a false error', () => {
-  const h = harness(); h.until(s => s.type === 'question' && s.format === 'pairs');
+  const h = harness('credere','present',{ legacy:true }); h.until(s => s.type === 'question' && s.format === 'pairs');
   const q = h.question(), ordinary = q.pairs.find(p => p.meta.person === 2 && p.meta.role !== 'formal'), formal = q.pairs.find(p => p.meta.role === 'formal');
   assert.equal(ordinary.canonical, formal.canonical);
   assert.equal(gradePairActivity(q, { targetId: ordinary.targetId, given: formal.canonical }).ok, true);
@@ -110,7 +111,7 @@ test('identical ordinary and polite forms can use either physical tile without a
 });
 
 test('overlapping compound alternatives cannot consume the only form a remaining person accepts', () => {
-  const h = harness('andare', 'past'); h.until(s => s.type === 'question' && s.format === 'pairs');
+  const h = harness('andare', 'past', { legacy:true }); h.until(s => s.type === 'question' && s.format === 'pairs');
   const q = h.question(), ordinary = q.pairs.find(p => p.meta.person === 2 && p.meta.role !== 'formal'), formal = q.pairs.find(p => p.meta.role === 'formal');
   assert.equal(ordinary.canonical, 'è andata'); assert.equal(formal.canonical, 'è andata');
   assert.match(formal.label, /woman/);
@@ -250,8 +251,8 @@ test('a recovered wrong pair remains wrong and a later correct try has a distinc
   assert.equal(h.learning.events[event.id].xp + h.learning.events[fresh.id].xp, 0);
 });
 
-test('varied supported activities accompany recall without consuming independent variants or mastery', () => {
-  const h = harness(), supportedFormats = new Set(); let checks = 0, turns = 0;
+test('historical supported activities accompany consolidation without consuming independent variants or mastery', () => {
+  const h = harness('credere','present',{ legacy:true }), supportedFormats = new Set(); let checks = 0, turns = 0;
   while (h.step().type !== 'recap' && turns++ < 300) {
     const s = h.step();
     if (s.type === 'question' && !s.awaitingContinue) {
@@ -272,6 +273,22 @@ test('varied supported activities accompany recall without consuming independent
   for (const format of ['mc', 'letters', 'pairs']) assert.ok(supportedFormats.has(format), `lesson includes ${format}`);
   const states = h.step().progress.chapters.find(c => c.id === 'present').targets;
   assert.ok(states.every(state => state.ready && (state.supportedCompletion ? state.independentCorrect === 0 : state.independentCorrect >= 2)));
+});
+
+test('new cases use supported choices and matching plus unaided writing without adding a mandatory letter screen', () => {
+  const h=harness('viaggiare'), formats=new Set(); let answered=0;
+  h.until(s=>{
+    if(s.type==='question'&&!s.awaitingContinue){formats.add(h.question().type);answered++;}
+    return s.type==='recap';
+  });
+  assert.equal(h.session.journey.caseCoveragePolicy,CASE_COVERAGE_POLICY);
+  assert(formats.has('mc'));assert(formats.has('pairs'));assert(formats.has('type'));
+  assert(!formats.has('letters'),'an extra support screen must not extend this short case');
+  assert.equal(answered,24,'present has eight supported screens and sixteen unaided checks');
+  const coverage=caseCoverage(h.plan,h.learning,'present',{sessionId:h.session.id});
+  assert(coverage.complete);
+  for(const state of coverage.states.values()){assert(state.supported,state.id);assert(state.covered,state.id);}
+  assert.equal(journeyTargetState(h.learning,'v:viaggiare::lesson::present::form-0').ready,false,'finished coverage does not claim consolidated readiness');
 });
 
 console.log(`\n${tests} lesson activity checks passed.`);

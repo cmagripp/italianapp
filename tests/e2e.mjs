@@ -59,7 +59,7 @@ async function tap(target, { timeout = 1500, label = '', js = false, soft = fals
 async function isResults() {
   return page.evaluate(() => {
     const v = document.querySelector('#view'); if (!v) return false;
-    if (v.querySelector('.result-hero, [data-replay], [data-practice]')) return true;
+    if (v.querySelector('.result-hero, [data-replay], [data-practice], [data-review-complete]')) return true;
     return /\b\d+\s+of\s+\d+\s+correct\b/i.test(v.innerText || '');
   });
 }
@@ -344,17 +344,17 @@ const flows = [
   } },
   { name: 'review', run: async () => {
     await ensureSeeded();
-    const tally = () => storeEval(`return { due: ctx.store.dueIds().length, seen: Object.values(ctx.store.current.items).reduce((a, it) => a + (it.seen || 0), 0), reviews: ctx.store.today().reviews || 0 };`);
+    const tally = () => storeEval(`return {events:Object.keys(ctx.store.learning.events).length, xp:ctx.store.current.stats.xp, visit:Object.values(ctx.store.learning.sessions).filter(s=>s.reviewVisit).sort((a,b)=>b.updatedAt-a.updatedAt)[0]||null};`);
     const before = await tally();
     await gotoRoute(page, '/review');
     if (/Niente da ripassare|Nothing to review/i.test(await viewText(page, 120))) throw new Error('review has nothing to review after seeding');
     const r = await playToResults({ maxSteps: 200 });
     await shot(page, 'e2e_review_results');
     if (!r.ok) throw new Error(`review did not finish: ${r.stuck}`);
-    // every answer goes through store.recordAnswer: the items were seen, their due dates moved on, today's reviews grew
-    const after = await tally();
-    if (after.seen <= before.seen || after.due >= before.due || after.reviews <= before.reviews) throw new Error(`review did not update the store: ${JSON.stringify({ before, after })}`);
-    return `${await resultsSummary()} · ${r.actions.length} actions · due ${before.due} → ${after.due}, seen +${after.seen - before.seen}, reviews today ${after.reviews}`;
+    const after=await tally(),visit=after.visit?.reviewVisit;
+    if(!visit||visit.index!==visit.total||visit.total>8||after.events<=before.events)throw new Error(`Review did not commit its finite actual-target answers: ${JSON.stringify({before,after})}`);
+    await reloadApp(page);const restored=await tally();if(restored.events!==after.events||restored.xp!==after.xp||restored.visit?.id!==after.visit.id||restored.visit?.reviewVisit.index!==visit.index||restored.visit?.reviewVisit.total!==visit.total)throw new Error('Completed review changed evidence, rewards or its saved answer position after reload');
+    return `${visit.total} checks saved · ${r.actions.length} actions · ${after.events-before.events} actual target events`;
   } },
   gameFlow('quiz', 'count=6'),
   gameFlow('conj-drill', 'tenses=presente&count=3'),
@@ -428,6 +428,7 @@ const flows = [
   } },
   { name: 'theme', run: async () => {
     await gotoRoute(page, '/profile');
+    await page.getByRole('button', { name: 'Settings', exact: true }).click();
     const out = [];
     for (const t of ['light', 'dark', 'auto']) {
       const byName = page.getByRole('button', { name: new RegExp(`^${t}$`, 'i') });
@@ -443,9 +444,11 @@ const flows = [
   } },
   { name: 'export', run: async () => {
     await gotoRoute(page, '/profile');
+    await page.getByRole('button', { name: 'Settings', exact: true }).click();
     const dl = page.waitForEvent('download', { timeout: 3000 }).catch(() => null);
     const btn = (await has('[data-export]')) ? page.locator('[data-export]') : page.getByRole('button', { name: /export backup/i });
     await tap(btn, { label: 'Export backup' });
+    await tap(page.locator('[data-export-full]'), {label:'Export progress and conversations'});
     const d = await dl;
     const toast = await page.locator('#toast').textContent().catch(() => '');
     if (!(await has('[data-file]'))) sink.push('warn', 'import file input [data-file] not found on profile');
@@ -519,7 +522,7 @@ const flows = [
     const v = await storeEval(`return Object.values(ctx.store.current.custom).find(c => c.inf === 'dormire') || null;`);
     if (!v || v.pos !== 'verb' || v.isc !== false || v.aux !== 'avere') throw new Error(`custom verb not stored as expected: ${JSON.stringify(v)}`);
     const t = await viewText(page, 3000);
-    if (!/dormire/i.test(t) || !(await has('#view [data-kind="verb"]'))) throw new Error(`entry view does not show the verb: ${t.slice(0, 120)}`);
+    if (!/dormire/i.test(t) || !(await has('#view .ref-conj'))) throw new Error(`entry view does not show the verb: ${t.slice(0, 120)}`);
     if (!/\bdormo\b/.test(t)) throw new Error(`entry view shows no conjugation ("dormo") for the custom verb: ${t.slice(0, 160)}`);
     return `custom verb ${v.id} (aux ${v.aux}, isc ${v.isc}) opened with its conjugation`;
   } },
@@ -540,6 +543,7 @@ const flows = [
     await storeEval(`await ctx.store.resetProgress();`);
     if ((await storeEval(`return ctx.store.learnedIds().length;`)) !== 0) throw new Error('resetProgress left learned items behind');
     await gotoRoute(page, '/profile');
+    await page.getByRole('button', { name: 'Settings', exact: true }).click();
     await page.locator('[data-file]').setInputFiles({ name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(before.json) });
     const dlg = page.locator('[role="dialog"]').last();
     await dlg.waitFor({ timeout: 3000 });
@@ -552,6 +556,7 @@ const flows = [
   } },
   { name: 'users', run: async () => {
     await gotoRoute(page, '/profile');
+    await page.getByRole('button', { name: 'Settings', exact: true }).click();
     const first = await storeEval(`return { id: ctx.store.current.id, learned: ctx.store.learnedIds().length };`);
     await tap('[data-new-user]', { label: 'New user' }); await wait(400);
     const dlg = page.locator('[role="dialog"]').last();
@@ -602,15 +607,15 @@ const flows = [
     const inList = (l) => storeEval(`return ctx.store.inList(arg.l, arg.id);`, { l, id });
     await gotoRoute(page, '/entry/' + id);
     const bank0 = await inList('bank');
-    await tap('#view [data-actions] [data-act="bank"]', { label: 'Word bank' }); await wait(300);
+    await tap('#view [data-act="bank"]', { label: 'Word bank' }); await wait(300);
     if ((await inList('bank')) === bank0) throw new Error(`tapping "Word bank" did not ${bank0 ? 'remove casa from' : 'add casa to'} the word bank`);
-    const label = (await page.locator('#view [data-actions] [data-act="bank"]').textContent()) || '';
+    const label = (await page.locator('#view [data-act="bank"]').textContent()) || '';
     if (!bank0 && !/In word bank/i.test(label)) throw new Error(`the button did not switch to "In word bank": "${label.trim()}"`);
-    await tap('#view [data-actions] [data-act="bank"]', { label: 'Word bank (back)' }); await wait(300);
+    await tap('#view [data-act="bank"]', { label: 'Word bank (back)' }); await wait(300);
     if ((await inList('bank')) !== bank0) throw new Error('the second tap did not restore the word bank');
     const lid = await storeEval(`const l = Object.values(ctx.store.lists).find(x => x.name === 'E2E list'); return l ? l.id : ctx.store.createList('E2E list');`);
     const in0 = await inList(lid);
-    await tap('#view [data-actions] [data-act="lists"]', { label: 'List' }); await wait(400);
+    await tap('#view [data-act="lists"]', { label: 'List' }); await wait(400);
     const sheet = page.locator('[role="dialog"]').last();
     await sheet.waitFor({ timeout: 3000 });
     const cb = sheet.locator(`input[data-list="${lid}"]`), row = sheet.locator(`label:has(input[data-list="${lid}"])`);

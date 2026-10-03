@@ -2,7 +2,7 @@
 import { html, raw, esc, haptic, speak, trBlock } from '../ui.js';
 import { store } from '../store.js';
 import { shuffle } from '../data.js';
-import { showResults, gameTop, feedbackHTML } from './engine.js';
+import { showResults, gameTop, feedbackHTML, gameActivityFence, gameAnswerBudget } from './engine.js';
 import fx from '../fx.js';
 
 const PUNCT = /^[,.;:!?«»"]$/;
@@ -25,13 +25,14 @@ function glide(fromEl, fromRect, toRect, done) {
 }
 
 export function startSentence(root, ctx) {
-  const items = ctx.items.map(e => { const exs = e.kind === 'verb' ? (e.examples || []) : (e.ex ? [{ it: e.ex, en: e.exEn }] : []); const ex = exs[Math.floor(Math.random() * exs.length)]; const n = ex ? tokenize(ex.it).filter(t => !PUNCT.test(t)).length : 0; return ex && n >= 3 && n <= 14 ? { e, ex } : null; }).filter(Boolean).slice(0, 10);
+  const items = ctx.items.map(e => { const exs = (e.kind === 'verb' ? (e.examples || []) : (e.ex ? [{ it: e.ex, en: e.exEn }] : [])).filter(ex=>{const n=tokenize(ex.it||'').filter(t=>!PUNCT.test(t)).length;return n>=3&&n<=14;});const ex=exs[Math.floor(Math.random()*exs.length)];return ex?{e,ex}:null;}).filter(Boolean).slice(0,gameAnswerBudget(ctx));
   const total = items.length;
   let i = 0, correct = 0; const missed = []; const start = Date.now();
+  const current=gameActivityFence(ctx.isActive);
   let dead = false, finished = false;
 
   function render() {
-    if (dead || finished) return;
+    if (!current() || dead || finished) return;
     const cur = items[i];
     if (!cur) return finish();
     const words = tokenize(cur.ex.it).filter(t => !PUNCT.test(t));
@@ -57,7 +58,7 @@ export function startSentence(root, ctx) {
     const sync = () => { if (chosen.length === words.length) checkBtn.removeAttribute('disabled'); else checkBtn.setAttribute('disabled', ''); };
 
     function add(c) {
-      if (dead || finished || i !== questionIndex || done || chosen.includes(c)) return;
+      if (!current() || dead || finished || i !== questionIndex || done || chosen.includes(c)) return;
       const src = bankEl.querySelector(`[data-add="${c.idx}"]`);
       const from = src.getBoundingClientRect();
       src.classList.add('used'); src.setAttribute('aria-hidden', 'true');
@@ -70,7 +71,7 @@ export function startSentence(root, ctx) {
       sync();
     }
     function remove(c) {
-      if (dead || finished || i !== questionIndex || done) return;
+      if (!current() || dead || finished || i !== questionIndex || done) return;
       const k = chosen.indexOf(c); if (k < 0) return;
       const chip = answer.querySelector(`[data-rm="${c.idx}"]`);
       const src = bankEl.querySelector(`[data-add="${c.idx}"]`);
@@ -84,7 +85,7 @@ export function startSentence(root, ctx) {
     answer.addEventListener('click', (ev) => { const b = ev.target.closest('[data-rm]'); if (!b) return; const c = bank.find(x => x.idx === Number(b.dataset.rm)); if (c) remove(c); });
     root.querySelector('[data-clear]').addEventListener('click', () => { for (const c of chosen.slice().reverse()) remove(c); });
     checkBtn.addEventListener('click', () => {
-      if (dead || finished || i !== questionIndex || done || chosen.length !== words.length) return;
+      if (!current() || dead || finished || i !== questionIndex || done || chosen.length !== words.length) return;
       done = true;
       const top = root.querySelector('.game-top');
       if (top) top.outerHTML = gameTop(ctx.backHref, { i, total, completed: i + 1 });
@@ -100,14 +101,14 @@ export function startSentence(root, ctx) {
       speak(cur.ex.it);
       const next = fb.querySelector('[data-next]');
       next.addEventListener('click', () => {
-        if (dead || finished || continued || i !== questionIndex) return;
+        if (!current() || dead || finished || continued || i !== questionIndex) return;
         continued = true; next.disabled = true; i++; render();
       });
       next.focus({ preventScroll: true });
     });
   }
   function finish() {
-    if (dead || finished) return;
+    if (!current() || dead || finished) return;
     finished = true;
     const result = { gameId: 'sentence', total, correct, wrong: total - correct, score: total ? Math.round((correct / total) * 100) : 0, missed, secs: Math.round((Date.now() - start) / 1000) };
     result.xp = correct * 3;

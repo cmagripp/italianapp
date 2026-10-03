@@ -98,7 +98,7 @@ try{
   assert.equal(await updateWorker(),'activated');
   await reloadApp(page);
   const after=await snapshot();
-  assert.equal(after.version,5);
+  assert.equal(after.version,6);
   for(const field of ['learned','casa','essere','completions','xp','bank'])assert.deepEqual(after[field],before[field],`Migration lost ${field}`);
   assert.equal(after.session?.id,before.session.id);
   assert.deepEqual(after.session?.course,before.session.course);

@@ -115,8 +115,12 @@ const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'parola-phase2-authors-'));
 try{
   fs.mkdirSync(path.join(scratch,'tools'),{recursive:true});
   fs.mkdirSync(path.join(scratch,'data'),{recursive:true});
-  for(const filename of ['author-course-beginner.mjs','author-course-intermediate.mjs','course-beginner-refinements.mjs','course-beginner-checkpoints.mjs','course-pronunciation-lessons.mjs','phase-content-fixes.mjs'])
+  for(const filename of ['author-course-beginner.mjs','author-course-intermediate.mjs','course-beginner-refinements.mjs','course-beginner-checkpoints.mjs','course-pronunciation-lessons.mjs','phase-content-fixes.mjs','course-phase6-beginner.mjs','phase6-beginner-lessons.mjs','phase6-intermediate.mjs','phase6-intermediate-lessons.mjs','phase6-advanced.mjs','phase6-advanced-transfers.mjs','phase6-advanced-lessons.mjs','phase6-advanced-reading.mjs','phase6-advanced-listening.mjs','phase6-advanced-support.mjs'])
     fs.copyFileSync(path.join(sourceRoot,'tools',filename),path.join(scratch,'tools',filename));
+  // Advanced preparation uses the actual sentence tokenizer and its runtime
+  // imports. Copy that dependency tree into the same isolated checkout; the
+  // canonical authors still run afresh and their output remains asserted below.
+  fs.cpSync(path.join(sourceRoot,'js'),path.join(scratch,'js'),{recursive:true});
   for(const dirname of ['course-v2','grammar-course'])fs.cpSync(path.join(sourceRoot,'data',dirname),path.join(scratch,'data',dirname),{recursive:true});
   execFileSync(process.execPath,['tools/author-course-beginner.mjs'],{cwd:scratch,stdio:'pipe'});
   execFileSync(process.execPath,['tools/author-course-intermediate.mjs'],{cwd:scratch,stdio:'pipe'});

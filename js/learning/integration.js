@@ -4,8 +4,11 @@ import { data, getEntry, itemsForScope } from '../data.js';
 import { objectivesFor, allowedTenses, CORE_STAGES, EXPANSIONS, ANCHOR_VERBS, stageObjectives } from './curriculum.js';
 import { allSkills, skillState, completionRecord } from './model.js';
 import { buildLesson } from './lesson-content.js';
-import { grammarReviewSkills, grammarLesson, grammarEntry, grammarHref } from './grammar-course.js';
+import { grammarCourse, grammarReviewSkills, grammarLesson, grammarEntry, grammarHref } from './grammar-course.js';
 import { currentJourneyStep, journeyProgress, journeyCaseProgress, journeyWordCompletion, journeyChapterCompletions } from './journey.js';
+import { canonicalObjectiveId, registerEntryObjectives, objectiveDescriptor } from './objectives.js';
+import { registerDailyPlanServices } from './daily-plan.js';
+export { dailyPlan, continuation } from './daily-plan.js';
 export { journeyCaseProgress, coreJourneyChapters } from './journey.js';
 
 const lessonCache = new WeakMap();
@@ -15,8 +18,9 @@ export function lessonPlan(entry) {
   return lessonCache.get(entry);
 }
 export function lessonObjectives(entry) {
-  return lessonPlan(entry)?.chapters.flatMap(c => c.groups.flatMap(g => g.targets.map(t => ({ ...t, entryId:entry.id,
+  const objectives=lessonPlan(entry)?.chapters.flatMap(c => c.groups.flatMap(g => g.targets.map(t => ({ ...t, entryId:entry.id,
     kind:entry.kind, chapterId:c.id, chapterTitle:c.title, optional:!!c.optional, label:learningLabel(t,c) })))) || [];
+  return entry?registerEntryObjectives(entry,objectives):[];
 }
 export function entryCompletion(entry, learning, item = null, now = Date.now()) {
   if (!entry) return {complete:false,cases:[]};
@@ -41,26 +45,29 @@ function learningLabel(target, chapter) {
 }
 export function skillLabel(entry, state) {
   if(entry.kind==='grammar'){const lesson=grammarLesson(entry.id);return (lesson?.targets || lesson?.objectives || []).find(o=>o.id===state?.objectiveId)?.label || 'Grammar';}
-  return lessonObjectives(entry).find(o=>o.id===state?.objectiveId)?.label || ({meaning:'Meaning',recall:'Recall',article:'Articles',plural:'Plurals',conjugation:'Verb forms',auxiliary:'The auxiliary',participle:'Past participle',agreement:'Agreement',context:'Use in a sentence',listening:'Listening'}[state?.skill] || 'Practice');
+  return lessonObjectives(entry).find(o=>canonicalObjectiveId(o.id)===canonicalObjectiveId(state?.objectiveId))?.label || ({meaning:'Meaning',recall:'Recall',article:'Articles',plural:'Plurals',conjugation:'Verb forms',auxiliary:'The auxiliary',participle:'Past participle',agreement:'Agreement',context:'Use in a sentence',listening:'Listening'}[state?.skill] || 'Practice');
 }
 
 export function activeObjectives(entry, learning) {
   return objectivesFor(entry, learning.preferences || {});
 }
 function scopedEntries(store, kind = null) {
-  return itemsForScope(store.scope, store, { kind }).filter(e => !store.current.customDeleted?.[e.id]);
+  return itemsForScope(store.scope, store, { kind }).filter(e => !e.legacyGrouping && !store.current.customDeleted?.[e.id]);
 }
 export function eligibleSkills(store, now = Date.now()) {
   const allowed = new Set(allowedTenses(store.learning));
-  const scopeIds = new Set(scopedEntries(store).map(e => e.id));
+  // Scope chooses new learning. Completed work remains available everywhere.
+  const candidateIds=new Set([...Object.values(store.learning.events || {}).map(e=>e.entryId),...Object.values(store.learning.completions || {}).map(c=>c.entryId),...Object.keys(store.current.items || {})]);
+  const candidates=[...candidateIds].map(getEntry).filter(e=>e&&!store.current.customDeleted?.[e.id]);
+  for(const entry of candidates)lessonObjectives(entry);
   const objectiveIds = new Map();
   const completion = new Map();
   const status = entry => {if(!completion.has(entry.id))completion.set(entry.id,entryCompletion(entry,store.learning,store.current.items?.[entry.id],now));return completion.get(entry.id);};
   const evidenceSkills=allSkills(store.learning,now);
   const skills = evidenceSkills.filter(s => {
     const entry = getEntry(s.entryId);
-    if (!entry || !scopeIds.has(entry.id)) return false;
-    const journeyObjective = lessonObjectives(entry).find(o=>o.id===s.objectiveId);
+    if (!entry || store.current.customDeleted?.[entry.id]) return false;
+    const journeyObjective = lessonObjectives(entry).find(o=>canonicalObjectiveId(o.id)===canonicalObjectiveId(s.objectiveId));
     if(entry.kind==='verb') {
       // Mixed practice was offered only after the full core course. Keep that
       // boundary after an uncheck too, so its spacing contrasts cannot need an
@@ -89,12 +96,12 @@ export function eligibleSkills(store, now = Date.now()) {
     if (entry.kind==='verb')return true;
     if (s.tense && s.tense !== 'meaning' && !allowed.has(s.tense)) return false;
     if (!objectiveIds.has(entry.id)) objectiveIds.set(entry.id, new Set(activeObjectives(entry, store.learning).map(o => o.id)));
-    return objectiveIds.get(entry.id).has(s.objectiveId);
+    // An older identifier can still describe the same broad diagnostic skill.
+    // Keep it under its original identity; no content/mastery alias is inferred.
+    return objectiveIds.get(entry.id).has(s.objectiveId) || s.attempts>0;
   });
   const known=new Set(skills.map(s=>s.objectiveId));
-  const candidateIds=new Set([...evidenceSkills.map(s=>s.entryId),...Object.values(store.learning.completions || {}).map(c=>c.entryId)]);
-  for(const entry of scopedEntries(store)) {
-    if(!candidateIds.has(entry.id))continue;
+  for(const entry of candidates) {
     if(entry.kind!=='verb') {
       if(!skills.some(s=>s.entryId===entry.id) && status(entry).complete) {
         const objective=lessonObjectives(entry).find(o=>o.skill==='meaning' && o.available!==false);
@@ -107,7 +114,7 @@ export function eligibleSkills(store, now = Date.now()) {
     if(!enrolled.length)continue;
     for(const objective of lessonObjectives(entry)) {
       const chapter=enrolled.find(c=>c.id===objective.chapterId);
-      if(!chapter || known.has(objective.id) || objective.supplementalOnly || objective.guidedOnly || objective.available===false || objective.required===false)continue;
+      if(!chapter || known.has(canonicalObjectiveId(objective.id)) || objective.supplementalOnly || objective.guidedOnly || objective.available===false || objective.required===false)continue;
       const state=skillState(store.learning,objective.id,now);
       // A manually known case gets a real diagnostic review, not synthetic
       // correct attempts. Natural completions already have target schedules.
@@ -116,22 +123,94 @@ export function eligibleSkills(store, now = Date.now()) {
         chapterId:objective.chapterId,enrolled:true,due:(chapter.completedAt || 0)+8*3600e3});
     }
   }
-  return [...skills,...grammarReviewSkills(store,now)];
+  const reviewedGrammar=new Set(Object.values(store.learning.events || {}).filter(e=>e.kind==='grammar'&&e.reviewPolicy==='unified-review-v1').map(e=>e.objectiveId));
+  const grammar=grammarReviewSkills(store,now).map(s=>reviewedGrammar.has(s.objectiveId)
+    ? {...s,...skillState(store.learning,s.objectiveId,now),objectiveId:s.objectiveId,lessonId:s.lessonId} : s);
+  return [...skills,...grammar];
 }
 export function dueSkills(store, now = Date.now()) {
   return eligibleSkills(store, now).filter(s => s.due && s.due <= now).sort((a, b) => a.due - b.due || a.objectiveId.localeCompare(b.objectiveId));
 }
 export function reviewItems(store, now = Date.now()) {
   const skills = dueSkills(store, now);
-  // Legacy evidence is deliberately not inflated into per-skill mastery. Items with
-  // adaptive records use the skill queue; older items enter a fresh diagnostic loop.
-  const known = new Set([...allSkills(store.learning, now).map(s => s.entryId),...skills.map(s=>s.entryId)]);
   const scopeIds = new Set(scopedEntries(store).map(e => e.id));
-  return [...skills.map(s => ({ entry: s.kind==='grammar' ? grammarEntry(grammarLesson(s.entryId)) : getEntry(s.entryId), objectiveId: s.objectiveId, skill: s })),
-    ...store.dueIds(now).filter(id => !known.has(id) && scopeIds.has(id)).map(id => ({ entry: getEntry(id), objectiveId: null })).filter(x => x.entry?.kind!=='verb'
-      && x.entry && entryCompletion(x.entry,store.learning,store.current.items?.[x.entry.id],now).complete)];
+  const rows=groupReviewSkills(store,skills,now,scopeIds);
+  // An aggregate legacy lapse remains actionable even when a newer adaptive
+  // target has a later due date. It is diagnostic, with its own item schedule.
+  for(const entryId of store.dueIds(now)) {
+    const entry=getEntry(entryId);
+    if(!entry||store.current.customDeleted?.[entryId])continue;
+    const completion=entryCompletion(entry,store.learning,store.current.items?.[entryId],now);
+    const chapter=entry.kind==='verb'?completion.cases.find(c=>c.checked):null;
+    if(entry.kind==='verb'?!chapter:!completion.complete)continue;
+    const caseId=chapter?.id || (entry.kind==='verb'?'present':'word');
+    const id=reviewRowId(entry,caseId),due=store.current.items?.[entryId]?.due || now;
+    let row=rows.find(x=>x.id===id);
+    if(!row){row=reviewRow(entry,caseId,scopeIds);rows.push(row);}
+    row.targets.push({objectiveId:null,entryId,kind:entry.kind,skill:'recall',tense:chapter?.tense || null,
+      caseId,legacyItem:true,diagnostic:true,due,ready:false,attempts:0});
+    row.due=Math.min(row.due || Infinity,due);
+  }
+  return finishReviewRows(rows);
 }
+export const reviewRowId=(entry,caseId=null)=>`${entry.id}|${entry.kind==='grammar'?'grammar':entry.kind==='verb'?caseId || 'present':'word'}`;
+function reviewRow(entry,caseId,scopeIds) {
+  const label=entry.kind==='grammar'?entry.it:`${entry.inf || entry.it}${entry.kind==='verb'?` · ${CORE_STAGES.find(c=>c.id===caseId)?.label || caseId}`:''}`;
+  const id=reviewRowId(entry,caseId);
+  return {id,entry,entryId:entry.id,caseId,targets:[],due:0,outOfScope:entry.kind!=='grammar'&&!scopeIds.has(entry.id),label,
+    href:`#/review?target=${encodeURIComponent(id)}&start=1`};
+}
+function grammarReviewContentAvailable(entryId,objectiveId) {
+  const lesson=grammarLesson(entryId),target=(lesson?.targets || lesson?.objectives || []).find(t=>t.id===objectiveId);
+  if(!target)return false;
+  const questions=lesson.targets?lesson.steps.filter(s=>s.kind==='question'&&s.target===target.id):target.questions;
+  // The outline deliberately omits questions. Known authored targets can enter
+  // review; the route loads and rechecks their actual lesson before creating it.
+  const pack=(lesson.targets?grammarCourse.levels:grammarCourse.legacyLevels).find(p=>p.level===lesson.level);
+  if(grammarCourse.indexOnly&&pack?.path&&pack?.digest&&!questions?.length)return true;
+  return (questions || []).some(q=>{
+    if(q.format==='match')return q.pairs?.length>=2&&q.pairs.every(p=>typeof p.left==='string'&&typeof p.right==='string');
+    if(typeof q.answer!=='string'||!q.answer.trim())return false;
+    if(['type','order'].includes(q.format))return true;
+    if(!['choice','mc'].includes(q.format))return false;
+    const choices=q.options || q.choices || [],answers=[q.answer,...q.accepted || []].map(a=>String(a).normalize('NFC').toLocaleLowerCase('it').trim());
+    return choices.length>=2&&choices.some(c=>answers.includes(String(typeof c==='string'?c:c.label || c.value).normalize('NFC').toLocaleLowerCase('it').trim()));
+  });
+}
+function groupReviewSkills(store,skills,now,scopeIds=new Set(scopedEntries(store).map(e=>e.id))) {
+  const rows=new Map();
+  for(const skill of skills){
+    const entry=skill.kind==='grammar'?grammarEntry(grammarLesson(skill.entryId)):getEntry(skill.entryId);
+    if(!entry)continue;
+    const descriptor=objectiveDescriptor(skill.objectiveId);
+    const caseId=entry.kind==='verb'?(descriptor?.sourceChapter || descriptor?.chapterId || skill.chapterId || chapterForTense(skill.tense)):entry.kind==='grammar'?'grammar':'word';
+    if(entry.kind==='verb'&&!caseId)continue; // A broad meaning target has no checked case to claim.
+    const id=reviewRowId(entry,caseId);
+    if(!rows.has(id))rows.set(id,reviewRow(entry,caseId,scopeIds));
+    const row=rows.get(id);
+    if(!row.targets.some(t=>canonicalObjectiveId(t.objectiveId)===canonicalObjectiveId(skill.objectiveId)))row.targets.push({...skill,caseId,
+      diagnostic:entry.kind!=='grammar'&&!descriptor,contentUnavailable:entry.kind==='grammar'?!grammarReviewContentAvailable(entry.id,skill.objectiveId):!descriptor&&!['meaning','recall','article','plural','conjugation','auxiliary','participle','agreement','context','listening'].includes(skill.skill),enrolled:!!skill.enrolled});
+    row.due=Math.min(row.due || Infinity,skill.due || Infinity);
+  }
+  return [...rows.values()];
+}
+function finishReviewRows(rows) {
+  for(const row of rows){
+    row.targets.sort((a,b)=>(a.due || Infinity)-(b.due || Infinity)||String(a.objectiveId || '').localeCompare(String(b.objectiveId || '')));
+    const target=row.targets[0];row.objectiveId=target?.objectiveId || null;row.skill=target;
+    if(row.targets.every(t=>t.contentUnavailable)){row.contentUnavailable=true;row.href=row.entry.kind==='grammar'?grammarHref(grammarLesson(row.entryId)):`#/entry/${encodeURIComponent(row.entryId)}`;}
+  }
+  return rows.sort((a,b)=>a.due-b.due || a.id.localeCompare(b.id));
+}
+export function familiarReviewItems(store,now=Date.now()) {return finishReviewRows(groupReviewSkills(store,eligibleSkills(store,now),now));}
 export function practiceHref(entry, objectiveId = null, mode = 'lesson') {
+  if(mode==='review') {
+    const descriptor=objectiveDescriptor(objectiveId),caseId=descriptor?.sourceChapter || descriptor?.chapterId || chapterForTense(objectiveId?.split('::')[1]);
+    const query=new URLSearchParams({start:'1'});
+    if(entry.kind!=='verb'||caseId)query.set('target',reviewRowId(entry,caseId));
+    if(objectiveId)query.set('objective',objectiveId);
+    return '#/review?'+query;
+  }
   if(entry.kind==='grammar')return grammarHref(grammarLesson(entry.id),mode,objectiveId);
   const query = new URLSearchParams();
   if (objectiveId) query.set('objective', objectiveId);
@@ -253,3 +332,4 @@ export function courseProgress(store, now = Date.now()) {
 }
 
 registerCompletionResolver(entryCompletion);
+registerDailyPlanServices({reviewItems,lessonPlan});

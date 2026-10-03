@@ -1,9 +1,10 @@
+import {mountActivityViewport} from '../learning/activity-viewport.js';
 // The sentence workshop's lesson player (#/lab/frasi/:id): the course's full-screen shell (progress bar, Back, Pause)
 // around the five activity kinds of docs/SENTENCE-LAB-CONTRACT.md §3. The pure engine (js/learning/sentence-lab.js)
 // grades; this view keeps the session in store.learning.sessions (js/learning/sentence-lab-data.js), runs the three
 // drills of a free-entry word, records their journey events, saves "Le mie frasi" and completes the lesson (15 XP).
 // Optional reply selection is imported lazily; authored conversation replies work without it.
-import { html, raw, esc, icon, speak, toast, keyboardViewportHeight, sheet, submissionNote, announceAnswer } from '../ui.js';
+import { html, raw, esc, icon, speak, toast, sheet, submissionNote, announceAnswer } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { data, getEntry, headword, shortEn, withArticle, isPluralOnly, distractors, shuffle, fold } from '../data.js';
@@ -60,9 +61,10 @@ export function buildDrills(entry) {
 const typedSubmission = (value, answers) => compareSubmission(value,answers,{accentStrict:store.settings.accentStrict===true,inputMode:'typed'});
 
 export async function render(root, params, query = {}) {
-  const owner=store.current.id;
+  const owner=store.current.id,ownerLearner=store.current.learnerId,ownerEpoch=store.learning.epoch.id;
+  const sameOwner=()=>store.current.id===owner&&store.current.learnerId===ownerLearner&&store.learning.epoch.id===ownerEpoch;
   await loadSentenceLab();
-  if(store.current.id!==owner)return;
+  if(!sameOwner())return;
   const lesson = labLesson(params.id);
   if (!lesson) { setTitle('Officina delle frasi'); root.innerHTML = html`<div class="empty"><p>Lesson not found.</p><a class="btn primary" href="#/lab/frasi">Back to the workshop</a></div>`; return; }
   const place = labLessonIndex(lesson.id), stageName = place?.stage?.stage || 'presente';
@@ -72,26 +74,23 @@ export async function render(root, params, query = {}) {
   const activities = lesson.activities;
 
   setTitle(lesson.title); setScene(STAGE_TINT[stageName] || 'A1'); setChrome({ tabs: false, back: false });
-  document.body.classList.add('journey-viewport'); window.scrollTo(0, 0);
-  const fit = () => { const height = keyboardViewportHeight(); if (height === null) document.body.style.removeProperty('--journey-viewport-height'); else document.body.style.setProperty('--journey-viewport-height', `${height}px`); };
-  for (const name of ['resize', 'scroll']) window.visualViewport?.addEventListener(name, fit);
-  for (const name of ['resize', 'orientationchange', 'pageshow']) window.addEventListener(name, fit);
-  root.addEventListener('focusin', fit); root.addEventListener('focusout', fit); fit();
+  const viewport=mountActivityViewport(root);
+  const fit=viewport.fit;
 
   // A session is written once the learner has done something in it: a lesson merely opened (or reopened after its
   // completion) leaves no "in progress" trace on the path page.
   const pristine = () => session.index === 0 && !(session.history || []).length && !session.paused && !session.state?.result && !(session.state?.attempts || []).length && !session.state?.ui?.touched;
-  const save = () => { if (!disposed && !finished && !pristine() && store.current.id === owner) writeLabSession(store, session); };
+  const save = () => { session.title=lesson.title; if (!disposed && !finished && !pristine() && sameOwner()) writeLabSession(store, session); };
   const step = () => currentLabStep(lesson, session);
   const ui = () => { if (!session.state) return {}; return session.state.ui ||= {}; };
   const ctx = () => labContext();
-  const alive=()=>!disposed&&!finished&&store.current.id===owner;
+  const alive=()=>!disposed&&!finished&&sameOwner();
   // An async task may return after the learner advances a turn or changes profile.
   const capture=()=>({id:session.id,index:session.index,state:session.state});
   const valid=token=>alive()&&session.id===token.id&&session.index===token.index&&session.state===token.state;
   const touch=()=>{ui().touched=true;save();};
   const release=()=>{assistantService?.releaseAssistant().catch(()=>{});};
-  const offProfile=store.on('profile',()=>{if(store.current.id!==owner){activeSheet?.close({silent:true});release();}});
+  const offProfile=store.on('profile',()=>{if(!sameOwner()){activeSheet?.close({silent:true});release();}});
 
   // ---------- drawing ----------
   function shell({ content, footer = '', feedback = false, kind, activityId, phase }) {
@@ -135,7 +134,7 @@ export async function render(root, params, query = {}) {
   const refsFor = () => (Array.isArray(lesson.grammarRefs) ? lesson.grammarRefs : []).map(id => { try { const l = grammarLesson(id); return l ? { title: l.title, href: grammarHref(l) } : null; } catch { return null; } }).filter(Boolean);
 
   function draw({ focus = false, scrollChat = false } = {}) {
-    if (disposed || store.current.id !== owner) return;
+    if (disposed || !sameOwner()) return;
     const view = step(), kind = view.kind, activity = view.activity, u = ui();
     let content = '', footer = '', feedback = false;
     if (session.paused) { content = labPaused(lesson); }
@@ -430,7 +429,7 @@ export async function render(root, params, query = {}) {
 
   // ---------- events ----------
   const click = event => {
-    const b = event.target.closest('button'); if (!b || disposed || store.current.id !== owner) return;
+    const b = event.target.closest('button'); if (!b || disposed || !sameOwner()) return;
     if (b.closest('[data-say]')) return;
     const u = blankUi(ui());
     if (b.hasAttribute('data-lab-back')) { save(); location.hash = '#/lab/frasi'; return; }
@@ -469,9 +468,7 @@ export async function render(root, params, query = {}) {
     store.saveNow().catch(err=>console.warn('Workshop draft could not be saved.',err));
     root.removeEventListener('click', click); root.removeEventListener('input', input); root.removeEventListener('submit', form);
     root.removeEventListener('focusin', fit); root.removeEventListener('focusout', fit);
-    for (const name of ['resize', 'scroll']) window.visualViewport?.removeEventListener(name, fit);
-    for (const name of ['resize', 'orientationchange', 'pageshow']) window.removeEventListener(name, fit);
-    document.body.classList.remove('journey-viewport'); document.body.style.removeProperty('--journey-viewport-height');
+    viewport.destroy();
     setChrome({ tabs: true });
   };
 }

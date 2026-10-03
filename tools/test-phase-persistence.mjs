@@ -18,11 +18,11 @@ const {store}=await import('../js/store.js');const sync=await import('../js/sync
 const response=value=>({ok:true,status:200,text:async()=>JSON.stringify(value)});
 const configure=()=>localStorage.setItem('it.sync.'+store.current.id,JSON.stringify({url:'https://example.invalid',anonKey:'synthetic-public',access:'synthetic-access',refresh:'synthetic-refresh',userId:'synthetic-account',enabled:true}));
 let passed=0;const test=async(name,fn)=>{await fn();passed++;console.log('✓',name);};
-const durable=()=>JSON.parse(localStorage.getItem('kv:profile:'+store.current.id));
+const durable=()=>JSON.parse(localStorage.getItem('kv6:profile:'+store.current.id));
 try {
   await store.init();await store.saveNow();
   await test('explicit failed save rejects, keeps dirty/exportable data and clears warning after retry',async()=>{
-    const previous=durable(),key='kv:profile:'+store.current.id;store.setSetting('theme','dark');
+    const previous=durable(),key='kv6:profile:'+store.current.id;store.setSetting('theme','dark');
     localStorage.fail=k=>k===key;await assert.rejects(store.saveNow(),/could not be saved/);
     assert.equal(store._dirty,true);assert.equal(store.saveError.profileId,store.current.id);assert.deepEqual(durable(),previous);
     assert.equal(JSON.parse(store.exportJSON()).profile.settings.theme,'dark');
@@ -30,20 +30,20 @@ try {
   });
   await test('failed recovery preservation stops replacement before changing active or durable state',async()=>{
     const previous=clone(store.current),candidate=clone(previous);candidate.name='Must not activate';
-    localStorage.fail=k=>k.startsWith('kv:recovery:');
+    localStorage.fail=k=>k.startsWith('kv6:recovery:');
     await assert.rejects(store.importJSON(JSON.stringify({profile:candidate})),/recovery copy could not be saved/);
     assert.deepEqual(store.current,previous);assert.deepEqual(durable(),previous);localStorage.fail=null;
   });
   await test('failed candidate write leaves previous profile active and verified recovery export available',async()=>{
     const previous=clone(store.current),candidate=clone(previous);candidate.name='Must not activate';
-    localStorage.fail=k=>k==='kv:profile:'+previous.id;
+    localStorage.fail=k=>k==='kv6:profile:'+previous.id;
     await assert.rejects(store.importJSON(JSON.stringify({profile:candidate})),/could not be saved/);
     assert.deepEqual(store.current,previous);assert.deepEqual(durable(),previous);localStorage.fail=null;
     assert.deepEqual(JSON.parse(await store.recoveryBackup()).profile,previous);
   });
   await test('read-back verification failure restores previous durable profile before reporting failure',async()=>{
     const previous=clone(store.current),candidate=clone(previous);candidate.name='Candidate';let once=true;
-    localStorage.onWrite=key=>{if(once&&key==='kv:profile:'+previous.id){once=false;localStorage.corruptNextRead=key;}};
+    localStorage.onWrite=key=>{if(once&&key==='kv6:profile:'+previous.id){once=false;localStorage.corruptNextRead=key;}};
     await assert.rejects(store.importJSON(JSON.stringify({profile:candidate})),/could not be verified/);
     localStorage.onWrite=null;assert.deepEqual(store.current,previous);assert.deepEqual(durable(),previous);
   });
@@ -55,24 +55,24 @@ try {
   });
   await test('concurrent learner edit during staging is retained and replacement is refused',async()=>{
     const previous=clone(store.current),candidate=clone(previous);candidate.name='Stale candidate';let once=true;
-    localStorage.onWrite=key=>{if(once&&key.startsWith('kv:recovery:')){once=false;store.setSetting('ttsRate',0.75);}};
+    localStorage.onWrite=key=>{if(once&&key.startsWith('kv6:recovery:')){once=false;store.setSetting('ttsRate',0.75);}};
     await assert.rejects(store.importJSON(JSON.stringify({profile:candidate})),/Profile changed/);
     localStorage.onWrite=null;assert.equal(store.current.name,previous.name);assert.equal(store.settings.ttsRate,0.75);await store.saveNow();
   });
   await test('failed reset leaves answers, XP, workshop progress and recording deletion untouched',async()=>{
     store.completeLabLesson('frasi','synthetic-before-reset');await store.saveNow();const previous=clone(store.current);
-    localStorage.fail=k=>k.startsWith('kv:profile:');await assert.rejects(store.resetProgress(),/could not be saved/);localStorage.fail=null;
+    localStorage.fail=k=>k.startsWith('kv6:profile:');await assert.rejects(store.resetProgress(),/could not be saved/);localStorage.fail=null;
     assert.deepEqual(store.current,previous);assert.deepEqual(durable(),previous);
   });
   await test('failed checkpoint save preserves the complete log and a successful retry retains all fences',async()=>{
-    const previous=clone(store.current);localStorage.fail=k=>k==='kv:profile:'+previous.id;
+    const previous=clone(store.current);localStorage.fail=k=>k==='kv6:profile:'+previous.id;
     await assert.rejects(store.checkpointEvidence(),/could not be saved/);assert.deepEqual(store.current,previous);
     localStorage.fail=null;await store.saveNow();assert.equal(store.saveError,null);await store.checkpointEvidence();
     assert.deepEqual(store.current.learning.events,previous.learning.events);assert.deepEqual(store.current.learning.completions,previous.learning.completions);assert.equal(store.current.learning.checkpoint.version,1);
   });
   await test('failed outgoing save prevents profile creation or switching',async()=>{
     const previous=clone(store.current),count=store.profiles.length;store.setSetting('haptics',false);
-    localStorage.fail=k=>k.startsWith('kv:profile:');await assert.rejects(store.createProfile('Must not appear'),/could not be saved/);
+    localStorage.fail=k=>k.startsWith('kv6:profile:');await assert.rejects(store.createProfile('Must not appear'),/could not be saved/);
     assert.equal(store.current.id,previous.id);assert.equal(store.profiles.length,count);localStorage.fail=null;await store.saveNow();
   });
   await test('list and membership tombstones defeat stale backups while deliberate newer re-add works',async()=>{

@@ -3,11 +3,25 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {buildProgressiveGroup,progressiveForms,progressiveContexts,progressiveInfo,progressiveSpec,simpleVerbContexts} from '../js/learning/progressive-content.js';
-import {buildLesson} from '../js/learning/lesson-content.js';
+import {buildLesson,lessonContexts} from '../js/learning/lesson-content.js';
 import {buildJourneyQuestion} from '../js/learning/lesson-questions.js';
 const verbs=JSON.parse(fs.readFileSync(new URL('../data/verbs.json',import.meta.url))),verb=inf=>verbs.find(e=>e.inf===inf)||{id:`v:${inf}`,inf};
 let passed=0;
 const check=(name,run)=>{run();passed++;console.log('PASS',name);};
+check('domandare teaches an addressee and real indirect question across the five cases',()=>{
+ const e=verb('domandare');
+ for(const [chapter,english] of [['present','I ask Sara how she is.'],['background','I used to ask Sara how she is.']]){
+  const s=simpleVerbContexts(e,{chapter,section:'all'}).find(s=>s.person===0&&s.it.includes('a Sara come sta'));
+  assert.equal(s?.en,english);
+  assert(progressiveContexts(e,{chapter,section:'all'}).some(s=>s.it.includes('a Sara come sta')&&s.en.includes('asking Sara how she is')));
+ }
+ for(const [chapter,english] of [['past','I asked Sara how she is.'],['future','I will ask Sara how she is.'],['condizionale','I would ask Sara how she is.']]){
+  const s=lessonContexts(e,chapter).find(s=>s.person===0&&s.it.includes('a Sara come sta'));
+  assert.equal(s?.en,english);
+ }
+ assert.equal(progressiveSpec(e).frames.some(([it])=>it==='una domanda'),false);
+ assert(progressiveSpec(e).sources.includes('https://www.treccani.it/vocabolario/domandare/'));
+});
 check('English cues preserve irregular past forms, doubled consonants and subject possessives',()=>{
  for(const [inf,past,ongoing] of [['accedere','logged in to','logging in to'],['lottare','fought','fighting'],['nascondere','hid','hiding'],['prelevare','withdrew','withdrawing'],['superare','overtook','overtaking'],['adempiere','fulfilled','fulfilling'],['attenersi','stuck',''],['dedurre','inferred','inferring'],['emettere','emitted','emitting'],['intraprendere','undertook','undertaking'],['omettere','omitted','omitting'],['scaturire','arose','arising'],['sconvolgere','upset','upsetting'],['sorgere','arose','arising'],['sottoporre','submitted','submitting'],['subire','underwent','undergoing']]){
   const en=progressiveSpec(verb(inf)).en;assert.equal(en[2],past,inf);assert.equal(en[3],ongoing,inf);

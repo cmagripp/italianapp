@@ -1,0 +1,230 @@
+{
+  "version": 1,
+  "clips": {
+    "v2-b2-listen-cultural-interviews.source-0": {
+      "sha256": "0505fedfdd99243e10bd5054b8ccdc1cb4b8d9abca243b1b2ba6df0e2ccebc27",
+      "textSha256": "330dbf749748a66ecba24f49195d72f8e212a9d6a0ace1bec8fcba45596f8301",
+      "expected": "Come spiegheresti a una persona che non è qua cosa è questa cosa? Spiegare questa cosa è complicato, ecco, perché è multiforme, sfaccettata, ha una quantità enorme di aspetti. Però diciamo che Lucca Comics è l’evento in Italia in cui si trova tutto il mondo del fumetto italiano, senza alcuna eccezione, per cui c’è proprio tutta la filiera: si parte dagli editori, distributori, gli autori, i negozianti. Ci sono veramente tutti, le autoproduzioni, ecco, che arrivano con i loro materiali, fanzine e simili. Per cui, ecco, veramente tutto il mondo del fumetto si riunisce qui. È il luogo dove vengono presentate ormai la maggior parte delle novità editoriali dell’anno, almeno questo vale per un gran numero di editori. È il luogo dove gli operatori si incontrano e si decidono strategie, si mettono in campo nuovi progetti. È il luogo dove si decide anche il futuro per quel che riguarda questo mondo.",
+      "transcript": "Come spiegherete a una persona che non è qua, cosa è questa cosa? Spiegare questa cosa è complicato, perché è multiforme, sfaccettata, ha una quantità enorme di aspetti, però dicevo che Luca Comics è l'evento in Italia in cui si trova tutto il mondo del fumetto italiano senza alcuna eccezione, per cui c'è tutta la filiera, si parte dagli editori, distributori, gli autori, i negozianti, sono veramente tutti le autoproduzioni, ecco che arrivano con i loro materiali, i fanzine simili, per cui ecco veramente tutto il mondo del fumetto si riuscise qua, look dove vengono presentate ormai la maggior parte delle novità editoriali dell'anno, almeno questo vale per un gran numero di editori, Luca e Dove gli operatori si incontrano e si decidono strategie, si mettono in campo nuovi progetti, ecco Luca e Dove si decide anche il futuro, perché riguarda questo mondo",
+      "wordErrorRate": 0.143,
+      "characterErrorRate": 0.065,
+      "criticalPhrases": [
+        "si incontrano"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-b2-listen-cultural-interviews.source-1": {
+      "sha256": "a402133fae27f7bc6b95cf0b2c7a6d71146ab25405f289f41456836e1edd3016",
+      "textSha256": "b09126b073a125ab14adf6d80fddaf8a35aedc58e4160416a17b8c8f30098437",
+      "expected": "Andrea Plazzi, laureato in matematica, adesso però famoso in particolare per le collaborazioni con Leo Ortolani: come è avvenuto questo passaggio? È una cosa che mi chiedono tutti; ho dovuto farci un po’ caso perché io non me ne sono accorto, nel senso che mi sono comunque sempre occupato di editoria parallelamente al mio corso di studi ufficiale, che mi ha portato a un’attività lavorativa a cui poi, a un certo punto, capitando l’occasione, è subentrata quella nell’editoria, che da una quindicina d’anni è il mio lavoro a tempo pieno. E anche se naturalmente le questioni strettamente matematiche, in cui ho anche lavorato, adesso sono un po’ nel cassetto e le coltivo a tempo perso, un certo tipo di approccio e di mentalità al lavoro credo d’averlo preso da quegli anni formativi, come è normale.",
+      "transcript": "Adesso però famoso, in particolare per le collaborazioni con i nottolani, come è avvenuto questo passaggio? È una cosa che mi chiedono tutti, ho dovuto farci un po' caso, perché io non me ne sono accordo, nel senso che mi sono comunque sempre occupato di editoria parallelamente al mio corso di studi ufficiale che mi ha portato a una attività lavorativa a cui poi a un certo punto, capitando l'occasione, è subentrata quella nell'editoria che da una quindicina d'anni è il mio lavoro a tempo pieno e anche se naturalmente le questioni strettamente matematiche in cui ho anche lavorato adesso sono un po' nel cassetto e le coltivo a tempo perso un certo tipo di approccio e di mentalità al lavoro che do d'averlo preso da da quegli anni formativi come",
+      "wordErrorRate": 0.1,
+      "characterErrorRate": 0.076,
+      "criticalPhrases": [
+        "parallelamente"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-b2-listen-cultural-interviews.source-2": {
+      "sha256": "6311f0531ee79e186c13b139d5e696dcdf3befa3ac36ee6f6ae461bf73c6dae5",
+      "textSha256": "5a5ff69de6b6c3d814481de38c31c259b4e80c393f4f0257d43e849d1fecf0e0",
+      "expected": "Puoi descriverci in particolare il progetto per cui siete stati premiati, cioè il Ponte Radio? Ok, allora Ponte Radio fa parte di un progetto più ampio che si chiama Altre Frequenze, che è nato dalla collaborazione tra Sanbaradio, Radio Studio 7, il CAM che è il Consorzio Associazioni con il Mozambico di Trento, che appunto ha diversi progetti in particolare nella zona di Caia, che è un paese appunto in Mozambico vicino allo Zambesi, e l’associazione Moving Sounds, un’associazione che si occupa di musica, quindi di promuovere la musica dei gruppi in particolare della Valsugana, del Trentino. Allora ci siamo riuniti perché vogliamo creare un collegamento tra la realtà delle radio e della musica trentine e la radio comunitaria di Caia, che è questa radio mozambicana, nata da tre anni più o meno, con il supporto appunto del consorzio trentino. Quindi un po’ da un brainstorming che abbiamo fatto è nata questa idea, è nato questo programma che sostanzialmente presenta in ogni puntata un gruppo musicale trentino e un gruppo musicale mozambicano. Viene fatta un’intervista a entrambi i gruppi e vengono fatti ascoltare i brani musicali di entrambi i gruppi, registrati, quindi versioni sia da CD se ci sono, ma anche registrate con il microfono direttamente da esibizioni live, registrate in studio a Sanbaradio. Poi durante l’intervista venivano chieste, insomma, chiaramente informazioni sui gruppi, sui gruppi di riferimento, sulla storia di queste band, sia trentine che mozambicane, e poi veniva dato anche un messaggio dal gruppo trentino a quello mozambicano e viceversa. In tanti hanno espresso il desiderio un giorno anche di incontrarsi e magari di fare un concerto insieme. Quindi speriamo che questo contatto vada avanti, o con un’altra edizione di Ponte Radio o Altre Frequenze, insomma con un altro nome ma nell’ambito di Altre Frequenze, oppure magari con un incontro vero. Ricordo che la trasmissione è andata in onda su Sanbaradio, andrà in onda anche su Radio Studio 7 integralmente: le puntate le abbiamo fatte insieme, dividendoci il lavoro, che vanno in onda nella stessa forma su una e sull’altra.",
+      "transcript": "Poi descriverci, in particolare il progetto per cui siete stati premiati c'è il Ponte Radio. Ok, allora Ponte Radio fa parte di un progetto più ampio che si chiama Altre Frequenze, che è nato dalla collaborazione tra Samba Radio, Radio Studio 7, il CAM che è il Consorzio Associazione con il Mozambico di Trento, che appunto ha diversi progetti in particolare nella zona di Kaya, che è un paese appunto Mozambico vicino al Zambesi, e l'associazione Moving Sound, un'associazione che si occupa di musica, quindi promuovere la musica dei gruppi, in particolare della Valsugana del Trentino. Allora ci stiamo riuniti perché volevamo creare un collegamento tra la realtà delle radio e della musica Trentini e la radio comunitaria di Caia, che è questa radio in Gonzambicana, nata da tre anni Stronello, con il supporto appunto del Consorzo Trentino. Quindi un po' da un brainstorm in che abbiamo fatto è nata questa idea e è nata questo programma che sostanzialmente è presente in in ogni puntata, un gruppo musicale Trentino è un gruppo musicale e modrambicano, viene fatta un'intervista in entrambi gruppi e vengono fatte ascoltare i brani musicali di entrambi gruppi registrati, quindi versioni sia da CD se ci sono, ma anche registrate con microfono direttamente da esibizioni live, registrate in studio a Sambaradio. Poi durante l'intervista venivano chieste, ma chiaramente informazioni sui gruppi, gruppi di riferimento sulla storia di queste band, sia a Trentiene che a Ponte Ambicane, e poi veniva dato anche un messaggio dal gruppo Trentino a quello Mozzambicano e Viceversa e in tanti anni ha espresso il desiderio un giorno anche di incontrarsi e magari di fare un concerto insieme. Quindi speriamo che questo contatto va davanti o con un'altra edizione di Ponte Radio o altre frequenze insomma con un altro nome, ma insomma nell'ambito di altre frequenze, oppure magari con un incontro vero. Ricordo che la tradizione è andata in onda sul San Maragno e andrà in onda anche sul radio studio 7, integralmente l'abbiamo fatta insieme e dividendoci con il lavoro e vanno in onda nella stessa forma a suonare.",
+      "wordErrorRate": 0.192,
+      "characterErrorRate": 0.065,
+      "criticalPhrases": [
+        "messaggio"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-b2-listen-cultural-interviews.source-3": {
+      "sha256": "2d6ac410f54edc4d8b0a018d3fcbe53c7079e687ac701592761747c998f98cc8",
+      "textSha256": "8e90b3370e7bfb36a27b45a748492092f6adc8f48973b2999f20aa070a1662cc",
+      "expected": "Ecco, Lucca poi dal punto di vista del visitatore è il luogo dove si possono trovare tutti, ripeto, i fumetti che magari è difficile trovare anche nelle librerie specializzate, dove si possono incontrare gli autori, i più grandi autori internazionali, e dove alla fine, ecco, si può anche vedere, ora siamo in strada, voi non vedete, ma appunto anche questo scorrere di ragazzi in costume, in cosplay, ecco, che impersonano per un giorno i loro personaggi preferiti. Ecco, è un qualcosa veramente che va vissuto, è difficile da descrivere.",
+      "transcript": "Ecco, Luca poi dal punto di vista del visitatore è il luogo dove si possono trovare tutti, ripeto, i fumetti che magari è difficile trovare anche nelle liberi specializzate, dove si possono incontrare gli autori, i più grandi autori internazionali e dove alla fine, ecco, si può anche vedere, ora siamo in strada, voi non vedete, ma appunto anche questo scorrere di ragazzi in costume, in cosplay, che imparzonano per un giorno i loro personaggi preferiti, ecco, è un qualcosa veramente che va vissuto, è difficile ad escriver.",
+      "wordErrorRate": 0.067,
+      "characterErrorRate": 0.025,
+      "criticalPhrases": [
+        "cosplay"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-b2-listen-cultural-interviews.source-4": {
+      "sha256": "8843979cab7c76e40d083cb70ef2c82f84b3540034893d7bea895daf03857883",
+      "textSha256": "d2df8a96e4279085f2d54c04794a977a9817583f226e297be85db9fb2a45d6c3",
+      "expected": "Quali sono i progetti che avete in mente per il futuro prossimo? Insomma, Sanbaradio in generale speriamo che vada sempre meglio e di ampliare sempre più la programmazione. Tra le idee che erano venute fuori già l’anno scorso e che speriamo di realizzare quest’anno è un programma dedicato proprio al significato e anche ai prodotti realizzati in Creative Commons, dalla musica ai contenuti. Un programma liberamente, interamente dedicato a questa tematica e quindi condivisibile. Speriamo che sia un progetto che andrà a buon fine. Grazie mille.",
+      "transcript": "Quali sono i progetti che avete in mente per il futuro prossimo? Insomma, Sambaladi in generale, speriamo che vada sempre meglio e di ampliare sempre più la programmazione. Tra le idee che erano venute fuori già l'anno scorso e che speriamo di realitare quest'anno, è un programma dedicato proprio a il significato e anche ai prodotti realizzati in Creative Commons dalla musica ai contenuti, insomma un programma liberamente, interamente dedicato a questa tematica e quindi fondibile. Speriamo che sia un progetto che andrà con chi vede. Grazie mille!",
+      "wordErrorRate": 0.102,
+      "characterErrorRate": 0.058,
+      "criticalPhrases": [
+        "speriamo"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c1-listen-interview-stance.source-0": {
+      "sha256": "2bbaebe5b9920e607bd0ab6fd0408c9dbed02f0aec34d099cf29994598e7c75e",
+      "textSha256": "8732ec5f0b66bddcaba8fef383d5f8f72c41bcfd61d29a971a949b8d75bada9b",
+      "expected": "Ti puoi presentare? Sono Francesca Re, sono la direttrice di questa radio universitaria di Trento, Sanbaradio, che è gestita da una cooperativa, la cooperativa Mercurio. Siamo in onda da più o meno un anno e mezzo, anche se il progetto, chiaramente l’idea, è un po’ più vecchia, ma insomma ci abbiamo messo un po’ a partire. Ora siamo operativi. Il target di riferimento, come già detto, è un po’ la popolazione universitaria di Trento, ma non solo, insomma.",
+      "transcript": "Ti puoi presentare? Sono Francesca Rex, sono la direttrice di questa radio universitare di Trento, Sambaradio che è gestita da una cooperativa a Mercurio. Siamo in onda da più o meno un anno e mezzo, anche se il progetto è chiaramente l'idea è un po' più vecchia, ma insomma ci abbiamo messo un po' a partire. Ora siamo operativi, il target di riferimento, come ho detto, è un po' la popolazione universitare di Trento, ma non solo, insomma.",
+      "wordErrorRate": 0.101,
+      "characterErrorRate": 0.061,
+      "criticalPhrases": [
+        "ma non solo"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c1-listen-interview-stance.source-1": {
+      "sha256": "3764dd9537460622eadecd8f7650e0401a34dbf88a715bf3787dd8cdfd4600aa",
+      "textSha256": "623b74b0db22c12cf10c61d1896bbf7d39886d275cba3dfc38686a188e84e648",
+      "expected": "Com’è la situazione dell’editoria fumettistica in Italia adesso? Ah, questa è una… dovrei rifiutarmi di rispondere a questa domanda. Dico soltanto che c’è un evento positivo, in maniera abbastanza astratta. Poi per commentarlo più concretamente dovremmo passare a qualche numero, guarda caso. Ed è il fronte che si è riaperto, dopo che si era chiuso una ventina di anni fa, del fumetto in libreria, con molti titoli di una buona qualità media che sono presenti nel normale circuito delle librerie di varia, che non realizza grandi numeri, con poche eccezioni, però rende i titoli almeno in linea di principio più reperibili e più a lungo ordinabili rispetto al mercato ancora più ampio ma molto deperibile, molto rapido, che consuma i titoli molto rapidamente, delle edicole.",
+      "transcript": "normale. Come è la situazione dell'itoria fumettistica in Italia adesso? Ah, questa è una pa... Dovrei rifiutarmi di rispondere a questa domanda. Dico soltanto che c'è un evento positivo, in maniera abbastanza astratta, poi per commentarlo più concretamente dovremmo passare a qualche numero, guarda caso, ed è il fronte che, se è riaperto, dopo che si era chiuso una ventina di anni fa del fumetto in libreria con molti titoli di una buona qualità media che sono presenti nel normale circuito delle librerie di varia, che non realizza grandi numeri con poche eccezioni, però rende i titoli almeno in linea di principio più reperibili e più a lungo ordinabili rispetto al mercato ancora più ampio ma molto deperibile, molto rapido che consuma i titoli molto rapidamente e delle edicole.",
+      "wordErrorRate": 0.047,
+      "characterErrorRate": 0.022,
+      "criticalPhrases": [
+        "numero"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c1-listen-interview-stance.source-2": {
+      "sha256": "52d4f0fcfbc0620164c99c4ae81842df385fd8c429d7869844a3530dccea0d0d",
+      "textSha256": "5a5ff69de6b6c3d814481de38c31c259b4e80c393f4f0257d43e849d1fecf0e0",
+      "expected": "Puoi descriverci in particolare il progetto per cui siete stati premiati, cioè il Ponte Radio? Ok, allora Ponte Radio fa parte di un progetto più ampio che si chiama Altre Frequenze, che è nato dalla collaborazione tra Sanbaradio, Radio Studio 7, il CAM che è il Consorzio Associazioni con il Mozambico di Trento, che appunto ha diversi progetti in particolare nella zona di Caia, che è un paese appunto in Mozambico vicino allo Zambesi, e l’associazione Moving Sounds, un’associazione che si occupa di musica, quindi di promuovere la musica dei gruppi in particolare della Valsugana, del Trentino. Allora ci siamo riuniti perché vogliamo creare un collegamento tra la realtà delle radio e della musica trentine e la radio comunitaria di Caia, che è questa radio mozambicana, nata da tre anni più o meno, con il supporto appunto del consorzio trentino. Quindi un po’ da un brainstorming che abbiamo fatto è nata questa idea, è nato questo programma che sostanzialmente presenta in ogni puntata un gruppo musicale trentino e un gruppo musicale mozambicano. Viene fatta un’intervista a entrambi i gruppi e vengono fatti ascoltare i brani musicali di entrambi i gruppi, registrati, quindi versioni sia da CD se ci sono, ma anche registrate con il microfono direttamente da esibizioni live, registrate in studio a Sanbaradio. Poi durante l’intervista venivano chieste, insomma, chiaramente informazioni sui gruppi, sui gruppi di riferimento, sulla storia di queste band, sia trentine che mozambicane, e poi veniva dato anche un messaggio dal gruppo trentino a quello mozambicano e viceversa. In tanti hanno espresso il desiderio un giorno anche di incontrarsi e magari di fare un concerto insieme. Quindi speriamo che questo contatto vada avanti, o con un’altra edizione di Ponte Radio o Altre Frequenze, insomma con un altro nome ma nell’ambito di Altre Frequenze, oppure magari con un incontro vero. Ricordo che la trasmissione è andata in onda su Sanbaradio, andrà in onda anche su Radio Studio 7 integralmente: le puntate le abbiamo fatte insieme, dividendoci il lavoro, che vanno in onda nella stessa forma su una e sull’altra.",
+      "transcript": "Poi descriverci, in particolare il progetto per cui siete stati premiati c'è il Ponte Radio. Ok, allora Ponte Radio fa parte di un progetto più ampio che si chiama Altre Frequenze, che è nato dalla collaborazione tra Samba Radio, Radio Studio 7, il CAM che è il Consorzio Associazione con il Mozambico di Trento, che appunto ha diversi progetti in particolare nella zona di Kaya, che è un paese appunto Mozambico vicino al Zambesi, e l'associazione Moving Sound, un'associazione che si occupa di musica, quindi promuovere la musica dei gruppi, in particolare della Valsugana del Trentino. Allora ci stiamo riuniti perché volevamo creare un collegamento tra la realtà delle radio e della musica Trentini e la radio comunitaria di Caia, che è questa radio in Gonzambicana, nata da tre anni Stronello, con il supporto appunto del Consorzo Trentino. Quindi un po' da un brainstorm in che abbiamo fatto è nata questa idea e è nata questo programma che sostanzialmente è presente in in ogni puntata, un gruppo musicale Trentino è un gruppo musicale e modrambicano, viene fatta un'intervista in entrambi gruppi e vengono fatte ascoltare i brani musicali di entrambi gruppi registrati, quindi versioni sia da CD se ci sono, ma anche registrate con microfono direttamente da esibizioni live, registrate in studio a Sambaradio. Poi durante l'intervista venivano chieste, ma chiaramente informazioni sui gruppi, gruppi di riferimento sulla storia di queste band, sia a Trentiene che a Ponte Ambicane, e poi veniva dato anche un messaggio dal gruppo Trentino a quello Mozzambicano e Viceversa e in tanti anni ha espresso il desiderio un giorno anche di incontrarsi e magari di fare un concerto insieme. Quindi speriamo che questo contatto va davanti o con un'altra edizione di Ponte Radio o altre frequenze insomma con un altro nome, ma insomma nell'ambito di altre frequenze, oppure magari con un incontro vero. Ricordo che la tradizione è andata in onda sul San Maragno e andrà in onda anche sul radio studio 7, integralmente l'abbiamo fatta insieme e dividendoci con il lavoro e vanno in onda nella stessa forma a suonare.",
+      "wordErrorRate": 0.192,
+      "characterErrorRate": 0.065,
+      "criticalPhrases": [
+        "speriamo"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c1-listen-interview-stance.source-3": {
+      "sha256": "5686334c0bbcbd2d2a4587bd5974110c989c345520567345fd413a13bf615493",
+      "textSha256": "77161df5a8c158e9c2bfce0cff8decb661db38dc5c4fdaad0c279c1182969d7c",
+      "expected": "L’informazione fumettistica in generale in Italia com’è? L’informazione spicciola, che non è un dispregiativo, significa rapida, gli aggiornamenti, le novità, come in ogni settore ovviamente da tempo si è integralmente trasferita online e soffre degli stessi problemi che in generale, aggravata forse dalla settorialità di un ambito che è di nicchia, soffre l’informazione online: cioè è on time, è rapida ma inevitabilmente superficiale. L’approfondimento è più difficile, non soltanto per la carenza magari di firme o di personalità interessanti che vi si dedicano, che ci sono naturalmente, non sono tantissime ma naturalmente ci sono, anche per le caratteristiche intrinseche del mezzo, che ha per ora, poi cambieremo un po’ tutti col tempo forse sensibilità di lettura, però ha soglie di attenzione piuttosto basse. Non è facile leggere a lungo testi impegnativi online e questo è un limite intrinseco per ora. Ciò detto il tempo, e in realtà una base di appassionati molto attiva, potrebbe, forse sta già cambiando la situazione.",
+      "transcript": "l'informazione fumatistica in generale in Italia in Italia come? L'informazione spicciola che non è un dispregiativo significa rapida gli aggiornamenti, le novità come in ogni settore ovviamente da tempo sia integralmente trasferita online e soffre degli stessi problemi che in generale ha gravata forse dalla settorialità di un ambito che è di nicchia e soffre l'informazione online cioè è on time e rapida ma inevitabilmente superficiale l'approfondimento è più difficile non soltanto per la carenza magari di firme o di personalità interessanti che vi si dedicano che ci sono naturalmente non sono tantissime naturalmente ci sono anche per le caratteristiche intrinseche del del mezzo che ha per ora poi cambieremo un po tutti con il tempo forse sensibilità di lettura però ha soglie di attenzione piuttosto basse e non è facile leggere a lungo testi impegnativi online e questo è un limite in trinseco per ora. Ci ho detto il tempo e in realtà una base di appassionati molto attiva potrebbe forse sta già cambiando la situazione.",
+      "wordErrorRate": 0.109,
+      "characterErrorRate": 0.027,
+      "criticalPhrases": [
+        "non è un dispregiativo"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c1-listen-interview-stance.source-4": {
+      "sha256": "a6305d60c108efce8c53942fcfe93b2ef1cd5deb70e825c8c19249f6284934eb",
+      "textSha256": "bbc904f5230db984277193243bff320b02e249aeebddab7cc3e4f8de9d965bb9",
+      "expected": "Perché avete scelto questa licenza Creative Commons? Ma insomma, secondo noi un po’ in generale come impostazione nostra, un po’ anche proprio per il tipo di programma, ci piacerebbe se qualcun altro mandasse in onda questo programma o potesse insomma riproporlo, perché è anche un bel messaggio: fa conoscere sia la realtà trentina che la realtà mozambicana. È anche un programma che ha degli spunti innovativi, quindi siamo contenti, insomma, se più gira il mondo è meglio. La logica un po’ generale della nostra radio, in quanto radio comunitaria universitaria, e di altre radio italiane universitarie con cui noi stiamo in contatto attraverso un circuito di radio universitarie, Ustation, è quella un po’ della condivisione. Quindi in generale è stata anche prevista su questo portale di Ustation la possibilità di mettere i programmi che altre radio prendono. C’è questa logica di scambio e di libero scambio, ci è congeniale.",
+      "transcript": "Perché avete scelto questa licenza creati in commos? Ma insomma secondo noi un po' in generale come impostazione nostra un po' anche proprio per il tipo di programma ci piacerebbe se qualcun altro mandasse in onda questo programma o potesse insomma diffonderlo perché è anche un bel messaggio per conoscere sia la realtà Trentina che la realtà muzzambicana e anche un programma che ha degli spontanei innovativi quindi siamo giusto contenti insomma se più gira il mondo è meglio La logica un po' generale della nostra radio in quanto radio comunitario universitaria e di altre radio italiane universitarie con cui ne stanno in contatto attraverso un circuito di radio universitarie, Justation, è quello un po' della condivisione, quindi in generale abbiamo anche, è stato anche previsto su questo portale di Justation la possibilità di mettere programmi che altri radio prendono, c'è questa logica di scambio e di libero scambio, c'è congeniale.",
+      "wordErrorRate": 0.14,
+      "characterErrorRate": 0.066,
+      "criticalPhrases": [
+        "condivisione"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c2-listen-implicit-register.source-0": {
+      "sha256": "97e25d804bb83a42d596e808871fb2b179e54b19482e81aa3a701b1376a922b0",
+      "textSha256": "209b37a2232986086249bd2b1f549bebae49ff7dafa7b787160325115ad4693c",
+      "expected": "Quali sono le cifre di questa manifestazione? A che numero, a che edizione siamo arrivati? Quanti espositori? Quanto pubblico? Allora, se non vado errato, è il quarantaquattresimo anno, almeno per quel che riguarda la manifestazione del fumetto a Lucca, nel senso che Lucca Comics and Games in realtà è l’ultima incarnazione di una storia che è molto più lunga e complessa. Siamo… abbiamo circa ventimila metri quadri di tendostrutture costruite in centro storico e fuori. Abbiamo qualcosa come circa cinquecento espositori. L’ultima edizione ha avuto centoquarantamila presenze. Vedremo quest’anno, siamo solo all’inizio.",
+      "transcript": "e quali sono le cifre di questa manifestazione? A che numero che edizione siamo arrivati? quanti espositori? Quante pubblico? Allora, se non vaderà il 44-esimo anno, almeno per quel che riguarda la manifestazione del Fumeto a Lucca, nel senso che Lucca Comics and Games in realtà è l'ultima incarnazione di una storia che è molto più lunga e complessa, Siamo in circa 20.000 metri quadri di tenzo strutture costruite in centro storico e fuori. Abbiamo qualcosa come circa 500 espositori. L'ultima edizione ha avuto 140.000 presenze. Vedremo quest'anno. Siamo solo all'inizio.",
+      "wordErrorRate": 0.167,
+      "characterErrorRate": 0.049,
+      "criticalPhrases": [
+        "siamo solo all"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c2-listen-implicit-register.source-1": {
+      "sha256": "8f7123808fc7df906b943de2924850cb7f0b9e31fafe11bb86938a82d4c5f050",
+      "textSha256": "2b9a5c32138be7a2551bccd1f362afb3348e1b9c8fef957c56c92aed7c9c9017",
+      "expected": "Poi niente, abbiamo mostre espositive, anche lì volendo parlare di metri quadri potrei dire forse altri duemila metri quadri, fra mostre espositive, sale incontri, sale conferenze, sale proiezioni. Per cui un programma ricchissimo, centinaia di eventi che si succedono a ogni minuto, ogni ora del giorno, per cui è qualcosa che veramente non può essere vissuto completamente da nessuno, in realtà. Ma anche meno da noi, per cui c’è sempre quel tornare a casa con un pochino di «accidenti, non sono riuscito a vedere tutto, magari mi sarebbe servito più tempo, più… come dire, sdoppiarsi», magari fosse possibile.",
+      "transcript": "Poi niente, abbiamo mostre espositive anche lì, volendo parlare di metri quadri, potrei dire forse alti 2.000 metri quadri fra mostre espositive, sale incontri, sale conferenze, sale proiezioni, per cui un programma ricchissimo, centinaia di eventi che si succedono ogni minuto, ogni ora del giorno, per cui è con qualcosa che veramente non può essere vissuto completamente da nessuno in realtà. ma anche meno da noi, per cui c'è sempre quel tornare a casa in realtà con un pochino di faccidenti, non sono riuscito a vedere tutto, magari mi sarebbe servito più tempo, più, come dire, sdoppiarzi, magari fosse possibile.",
+      "wordErrorRate": 0.091,
+      "characterErrorRate": 0.039,
+      "criticalPhrases": [
+        "non può essere vissuto completamente da nessuno"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c2-listen-implicit-register.source-2": {
+      "sha256": "85330373edb68242d481996d4a552d9480c1cab9d5420fffb8e42adbd10c4712",
+      "textSha256": "77161df5a8c158e9c2bfce0cff8decb661db38dc5c4fdaad0c279c1182969d7c",
+      "expected": "L’informazione fumettistica in generale in Italia com’è? L’informazione spicciola, che non è un dispregiativo, significa rapida, gli aggiornamenti, le novità, come in ogni settore ovviamente da tempo si è integralmente trasferita online e soffre degli stessi problemi che in generale, aggravata forse dalla settorialità di un ambito che è di nicchia, soffre l’informazione online: cioè è on time, è rapida ma inevitabilmente superficiale. L’approfondimento è più difficile, non soltanto per la carenza magari di firme o di personalità interessanti che vi si dedicano, che ci sono naturalmente, non sono tantissime ma naturalmente ci sono, anche per le caratteristiche intrinseche del mezzo, che ha per ora, poi cambieremo un po’ tutti col tempo forse sensibilità di lettura, però ha soglie di attenzione piuttosto basse. Non è facile leggere a lungo testi impegnativi online e questo è un limite intrinseco per ora. Ciò detto il tempo, e in realtà una base di appassionati molto attiva, potrebbe, forse sta già cambiando la situazione.",
+      "transcript": "l'informazione fumatistica in generale in Italia in Italia come? L'informazione spicciola che non è un dispregiativo significa rapida gli aggiornamenti, le novità come in ogni settore ovviamente da tempo sia integralmente trasferita online e soffre degli stessi problemi che in generale ha gravata forse dalla settorialità di un ambito che è di nicchia e soffre l'informazione online cioè è on time e rapida ma inevitabilmente superficiale l'approfondimento è più difficile non soltanto per la carenza magari di firme o di personalità interessanti che vi si dedicano che ci sono naturalmente non sono tantissime naturalmente ci sono anche per le caratteristiche intrinseche del del mezzo che ha per ora poi cambieremo un po tutti con il tempo forse sensibilità di lettura però ha soglie di attenzione piuttosto basse e non è facile leggere a lungo testi impegnativi online e questo è un limite in trinseco per ora. Ci ho detto il tempo e in realtà una base di appassionati molto attiva potrebbe forse sta già cambiando la situazione.",
+      "wordErrorRate": 0.109,
+      "characterErrorRate": 0.027,
+      "criticalPhrases": [
+        "per ora"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c2-listen-implicit-register.source-3": {
+      "sha256": "7201b51d4cceb192e6f3f40ffe3e214095989ece58ac19c3653e55b8ba137108",
+      "textSha256": "6b423b9b47f1f667bc6cd551b55646d08c0bce0f19bd06bb836fb66c6b19e691",
+      "expected": "E ripresa l’ascia in mano, tirò giù un solennissimo colpo sul pezzo di legno.\n— Ohi! tu m’hai fatto male! — gridò rammaricandosi la solita vocina.\nQuesta volta maestro Ciliegia restò di stucco, cogli occhi fuori del capo per la paura, colla bocca spalancata e colla lingua giù penzoloni fino al mento, come un mascherone da fontana.\nAppena riebbe l’uso della parola, cominciò a dire tremando e balbettando dallo spavento:\n— Ma di dove sarà uscita questa vocina che ha detto ohi?… Eppure qui non c’è anima viva. Che sia per caso questo pezzo di legno che abbia imparato a piangere e a lamentarsi come un bambino? Io non lo posso credere. Questo legno eccolo qui; è un pezzo di legno da caminetto, come tutti gli altri, e a buttarlo sul fuoco, c’è da far bollire una pentola di fagioli… O dunque? Che ci sia nascosto dentro qualcuno? Se c’è nascosto qualcuno, tanto peggio per lui. Ora l’accomodo io!",
+      "transcript": "E ripresa lascia in mano, tiro giù un solendissimo colpo sul pezzo di legno. «Oi, tu m'hai fatto male!» gridò rammaricandosi la solita voccina. Questa volta Mastrociliegi arrestò di stucco, con gli occhi fuori del capo per la paura, con la bocca spalancata e con la lingua giucciandoloni fino al mento, come un mascherone da fontana. Appena riebbe l'uso della parola cominciò a dire, tremando e balbettando dallo spavento, ma di dove sarà uscita questa vocina che ha detto oi? Eppure, qui non c'è anima e viva, che sia per caso questo pezzo di legno che abbia imparato a piangere a lamentarsi come un bambino? Io non lo posso credere. Questo legno, eccolo qui, è un pezzo di legno da caminetto, come tutti gli altri, e a buttarlo sul fuoco c'è da far bollire una pentora di fagioli. O dunque, che ci sia nascosto dentro qualcuno, se c'è nascosto qualcuno tanto peggio per lui. Ora l'ho comodo io.",
+      "wordErrorRate": 0.135,
+      "characterErrorRate": 0.027,
+      "criticalPhrases": [
+        "nascosto"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    },
+    "v2-c2-listen-implicit-register.source-4": {
+      "sha256": "ddb1a5c43dfe14c438b652a199c551de5dae9ba97cbf39b00a1d8d600f2e5495",
+      "textSha256": "c667ba30a2c511ced904b3c53a827583d4a296fd5c11afae2a4fd71c0850ad9e",
+      "expected": "E così dicendo, agguantò con tutte e due le mani quel povero pezzo di legno e si pose a sbatacchiarlo senza carità contro le pareti della stanza. Poi si mise in ascolto, per sentire se c’era qualche vocina che si lamentasse. Aspettò due minuti, e nulla; cinque minuti, e nulla; dieci minuti, e nulla!\n— Ho capito — disse allora sforzandosi di ridere e arruffandosi la parrucca — si vede che quella vocina che ha detto ohi, me la sono figurata io! Rimettiamoci a lavorare.\nE perché gli era entrata addosso una gran paura, si provò a canterellare per farsi un po’ di coraggio. Intanto, posata da una parte l’ascia, prese in mano la pialla per piallare e tirare a pulimento il pezzo di legno; ma nel mentre che lo piallava in su e in giù, sentì la solita vocina che gli disse ridendo:\n— Smetti! tu mi fai il pizzicorino sul corpo!\nQuesta volta il povero maestro Ciliegia cadde giù come fulminato. Quando riaprì gli occhi, si trovò seduto per terra. Il suo viso pareva trasfigurato, e perfino la punta del naso, di paonazza come era quasi sempre, gli era diventata turchina dalla gran paura.",
+      "transcript": "E così dicendo, aguantò con tutte e due le mani quel povero pezzo di legno, e si posea a sbattacchiarlo senza carità contro le pareti della stanza. Poi si mise in ascolto, per sentire se c'era qualche vocina che si lamentasse. Aspettò due minuti e nulla, cinque minuti e nulla, dieci minuti e nulla. Ho capito di se allora sforzandosi di ridere e arruffandosi la parrucca. Si vede che quella vocina che ha dettooi me la sono figurata io, rimettiamoci a lavorare. E perché gli era entrata addosso una gran paura si provò a cantarellare per farsi un po' di coraggio. Intanto, posata da una parte lascia, presa in mano la pialla per piallare e tirare a pulimento il pezzo di legno. Ma nel mentre che lo piallava in su e in giù sentì la solita vocina che gli disse ridendo, «Smetti, tu mi fai il pizzicorino sul corpo!» Questa volta il povero Mastro Ciliegia cadde giù come fulminato. Quando riapprì gli occhi si ritrovò seduto per terra. Il suo viso pareva trasfigurato e, perfino alla punta del naso, di paonazza come era quasi sempre, era divenuta turchina dalla gran paura.",
+      "wordErrorRate": 0.088,
+      "characterErrorRate": 0.021,
+      "criticalPhrases": [
+        "pizzicorino"
+      ],
+      "criticalPhrasesPresent": true,
+      "passed": true,
+      "method": "faster-whisper small / Italian / beam5 / no prompt",
+      "humanAudioReview": "pending"
+    }
+  }
+}

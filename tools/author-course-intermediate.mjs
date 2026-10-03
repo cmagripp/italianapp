@@ -2,6 +2,10 @@
 // The helpers only expand the individually written teaching, task and application text.
 import fs from 'node:fs';
 import { repairPhaseContentPack } from './phase-content-fixes.mjs';
+import { refinePhase6IntermediatePack } from './phase6-intermediate.mjs';
+import { refinePhase6AdvancedPack } from './phase6-advanced.mjs';
+const selectedLevel=process.argv.includes('--level')?process.argv[process.argv.indexOf('--level')+1]:null;
+if(selectedLevel&&!['B1','B2'].includes(selectedLevel))throw Error(`Unknown level: ${selectedLevel}`);
 
 const read = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 const old = {B1: read('data/grammar-course/B1.json'), B2: read('data/grammar-course/B2.json')};
@@ -648,8 +652,11 @@ finish('B2',[
 ],[{title:'Council of Europe CEFR Companion Volume',url:'https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4'},{title:'Profilo della lingua italiana',url:'https://www.unistrapg.it/profilo_lingua_italiana/site/index.html'}]);
 
 function finish(level,units,sources){
+  if(selectedLevel&&selectedLevel!==level)return;
   const pack={version:2,level,title:level==='B1'?'Independent everyday Italian':'Confident and flexible Italian',sources,units};
   repairPhaseContentPack(pack);
+  refinePhase6IntermediatePack(pack);
+  refinePhase6AdvancedPack(pack);
   fs.writeFileSync(`data/course-v2/${level}.json`,JSON.stringify(pack,null,2)+'\n');
   console.log(`${level}: ${units.length} units, ${units.reduce((n,u)=>n+u.lessons.length,0)} lessons`);
 }

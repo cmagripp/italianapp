@@ -1,0 +1,477 @@
+{
+  "preparedAt": "2026-10-03T15:32:16.404Z",
+  "models": [
+    {
+      "model": "./models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/",
+      "model_id": "Phi-4-mini-instruct-q4f16_1-MLC",
+      "model_lib": "./models/llm/Phi-4-mini-instruct-q4f16_1-MLC/Phi-4-mini-instruct-q4f16_1_cs1k-webgpu.wasm",
+      "vram_required_MB": 3437.58,
+      "low_resource_required": false,
+      "overrides": {
+        "context_window_size": 4096
+      },
+      "provenance": {
+        "repository": "mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC",
+        "revision": "c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52",
+        "license": "MIT (Microsoft Phi-4-mini-instruct; preserve original copyright and conversion attribution)",
+        "source": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/tree/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52",
+        "binaryRevision": "025bcaf3780fa8254f5e5efd3bfea0a5397248f4"
+      },
+      "role": "challenger"
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/added_tokens.json",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/added_tokens.json",
+      "bytes": 249,
+      "sha256": "d4f2aceb0f20b71dd1f4bcc7e052e4412946bf281840b8f83d39f259571af486"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/merges.txt",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/merges.txt",
+      "bytes": 2418348,
+      "sha256": "856ce61180bb689282eed6b3a6838bb1f438399be23aefe9d20eb379791fb4ad"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/mlc-chat-config.json",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/mlc-chat-config.json",
+      "bytes": 3976,
+      "sha256": "f99764504eda475edc425d6c8769005eedd35c7ae26e402c79edf722c9a239fc"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/ndarray-cache.json",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/ndarray-cache.json",
+      "bytes": 137624,
+      "sha256": "78da9cdf911e5ec34cc6733834bdcb9532bbaf2e89bb3ce79e3a4e944b8bae30"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_0.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_0.bin",
+      "bytes": 307298304,
+      "sha256": "218c42e0c0fda6c05c5e674fb6324c5332d41b2698727048975e823605a62230"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_1.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_1.bin",
+      "bytes": 38412288,
+      "sha256": "f4d4ff7341fd0ff47be6a277347695345528d875694b705bb56962788c3b4ae7"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_10.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_10.bin",
+      "bytes": 25165824,
+      "sha256": "800c9a302f7d103907117905d64994d86f7dd152a25f02bacff7a6867d32d4d4"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_11.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_11.bin",
+      "bytes": 31469568,
+      "sha256": "913cf0dd8196a40a69e21ea887c5cd23d33964b6b5a26daea76bd48c694db026"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_12.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_12.bin",
+      "bytes": 25165824,
+      "sha256": "bfb58db9465829f911b28b478824fa24eb9881e1abaaa9a49fe8159f1eaf73cb"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_13.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_13.bin",
+      "bytes": 31469568,
+      "sha256": "ea93a8160dacb353baf496c4df130d15ae9dbbe48a23f0101178764abe261d6f"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_14.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_14.bin",
+      "bytes": 25165824,
+      "sha256": "ef52b0de2efe1415aa711b380f5f4ae172470d2a0e9ced2df90a00c08e28793c"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_15.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_15.bin",
+      "bytes": 31469568,
+      "sha256": "dcf605e71ea88dcb8f8089d8bba0c17daf20096eb67fbc9ab6cd831e42341348"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_16.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_16.bin",
+      "bytes": 25165824,
+      "sha256": "c3f7d62d2dbf79f4137c9717ddc5c53882b45e9cf3d046b07f0e3a52f77f245e"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_17.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_17.bin",
+      "bytes": 31469568,
+      "sha256": "1262ed8c8746cd9ea8ded024641640fe948281fe59baf9d2ae85ec04a4b9ab96"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_18.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_18.bin",
+      "bytes": 25165824,
+      "sha256": "27b8bb4fbce2fe3d5ecb48fd0356e4be36ea737ecccdf73acf41f25cee5675f5"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_19.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_19.bin",
+      "bytes": 31469568,
+      "sha256": "a5e1d8752da8892752506f2e4147ae9572ec67e1b1f01622b23fb38ad610bf4d"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_2.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_2.bin",
+      "bytes": 25165824,
+      "sha256": "9bc606c6cc94b26766608fbd928c3d9d4ca39f89eb5e3ffa291a7b24c3345616"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_20.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_20.bin",
+      "bytes": 25165824,
+      "sha256": "d44efdacd1534558bba8f0d56ce7cbee428d56d1188af5397bdfef10ad8b1ed4"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_21.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_21.bin",
+      "bytes": 31463424,
+      "sha256": "123e6286bb842559f8fecc0e09b440182cf3761c621c9caebd590161aef03f21"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_22.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_22.bin",
+      "bytes": 25165824,
+      "sha256": "9fe067a9e8a994e6efde185cadf55914e37f98c0d7cf4d21e69ce826bdf3fc37"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_23.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_23.bin",
+      "bytes": 31469568,
+      "sha256": "f091c9d5f6c69bc807215f80c32831cfe0cc22e44272258bee48b3bbe7c4488d"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_24.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_24.bin",
+      "bytes": 25165824,
+      "sha256": "2067d162090b26b06af5f84302b2cb945c12d40a71a590e3578288d68f71c955"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_25.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_25.bin",
+      "bytes": 31469568,
+      "sha256": "c43ec36f0b2cab902ddcb35146eafdf1a89e655de853a3e14f89a0103dbe99d3"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_26.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_26.bin",
+      "bytes": 25165824,
+      "sha256": "8fd06406693dda1f34ef58510cb6562bf50a8d966cde341429893c42afcf6d38"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_27.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_27.bin",
+      "bytes": 31469568,
+      "sha256": "d1b71f8e1bb9e06dd3d024f860969b9b3844cae0ceeb3777f05aabdec7b1936b"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_28.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_28.bin",
+      "bytes": 25165824,
+      "sha256": "5e19d2e20a0ba579239869a7dcd69a3fdd8bd23606fdbc3288e7476a5934da8d"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_29.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_29.bin",
+      "bytes": 31469568,
+      "sha256": "ac184a4ef1562b3c00159838f806527fd8dbbd9b71c0592aee1f74e3ca8c1499"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_3.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_3.bin",
+      "bytes": 31475712,
+      "sha256": "ff079ce6e0ae9240887615d0b2f7c68a898655a32a364b848888c07fde29f525"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_30.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_30.bin",
+      "bytes": 25165824,
+      "sha256": "d76c648b4fca51e1cfc865e3343a64417c35d6055db61a3cf8a8d93593724818"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_31.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_31.bin",
+      "bytes": 31469568,
+      "sha256": "a50340169e310dc66a4953f4f78ac5f16f0ff6b628908af2acbace2c3ce74993"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_32.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_32.bin",
+      "bytes": 25165824,
+      "sha256": "c8673cd8260d56c6c0f528bc60385532d32ae45e836c8fd9b48916d40b0447ba"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_33.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_33.bin",
+      "bytes": 31469568,
+      "sha256": "af0ecb69b6d9d7110f945f145380d5b8348cc87df55763fea70a4d2d4a0c3dfe"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_34.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_34.bin",
+      "bytes": 25165824,
+      "sha256": "24b152b28e8f790541f4acbab207f68b33f231712bd6c0207c2483a73b5aa96c"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_35.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_35.bin",
+      "bytes": 31469568,
+      "sha256": "9626d486ca383696c283e4b8d8fec4b331a5111b98ebf410ab0f6915f7b48ab2"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_36.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_36.bin",
+      "bytes": 25165824,
+      "sha256": "ae864e35290a11e1709948de370e518a8ac8546bcb9b2e64cde566e4bdf10d28"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_37.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_37.bin",
+      "bytes": 31469568,
+      "sha256": "26b883e9070fcc82c87e3ccbb762f880015b7e00c85840fd36325ff67703b3a6"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_38.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_38.bin",
+      "bytes": 25165824,
+      "sha256": "33e132593a8019df5e5dfa192d10dd15af73b1322ff1af1eddb8b3d610c31be0"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_39.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_39.bin",
+      "bytes": 31475712,
+      "sha256": "c83019e1c5c0b5593a2066f3d2ede8b48390c79d81dc2465ebecc3da2edecf86"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_4.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_4.bin",
+      "bytes": 25165824,
+      "sha256": "cbc69712238c1b0a8fcfc6b90b5f6866beb4a340b228db9ba8827debc9e04725"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_40.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_40.bin",
+      "bytes": 25165824,
+      "sha256": "0a33411600fc0ad41a838a61573571b401d16c780d8228ddfc1dda114e049f38"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_41.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_41.bin",
+      "bytes": 31469568,
+      "sha256": "9581fbb70cfc65a3a399948b2dba430efee61028d7c48a2dd62e5727a0460aa3"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_42.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_42.bin",
+      "bytes": 25165824,
+      "sha256": "1f5ccb3c1a8298ccca9130c443ac86e7a758699db6cd54f51a95645a29efc341"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_43.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_43.bin",
+      "bytes": 31469568,
+      "sha256": "864086433c9e3f260b3134f481eca71a240f562690e9dd5fbcba0fdeffbe7930"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_44.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_44.bin",
+      "bytes": 25165824,
+      "sha256": "79a0c1544551c162f709877647716a792ba1fbc3dc35d486a29f71369ff58ba1"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_45.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_45.bin",
+      "bytes": 31469568,
+      "sha256": "97c65b8ebebef385a2bb7d9ad62c7c071eae8c8840e7df6169a26ae5109f62a0"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_46.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_46.bin",
+      "bytes": 25165824,
+      "sha256": "4187c6b69587a3b60b2a994c0cf81a825c294585988193f6293e1e5bc455ea5b"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_47.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_47.bin",
+      "bytes": 31469568,
+      "sha256": "e67e1141cbe11e51733909dadd88d59873d3da3da4809a1cdc0641e4259600d6"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_48.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_48.bin",
+      "bytes": 25165824,
+      "sha256": "6ca48ef270c84a978e6d62e042ac4e62c0341d9f9442ed5e82eb675b096f6091"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_49.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_49.bin",
+      "bytes": 31469568,
+      "sha256": "37e62703f856e41b6f6f3a78391b67517ff57bdec3f24d38456b25cbfd313315"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_5.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_5.bin",
+      "bytes": 31469568,
+      "sha256": "55e984cc97c6e67915efdc3552c1c7eec14dc2d77fd254607a36d356662c72f5"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_50.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_50.bin",
+      "bytes": 25165824,
+      "sha256": "af806a360c94bb859abac38522874b66dd498bdcea59611190c87aa46cf82211"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_51.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_51.bin",
+      "bytes": 31469568,
+      "sha256": "d96f9135b975c3ec450a64af3ae65376851b741333c41954a987ed59c0504022"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_52.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_52.bin",
+      "bytes": 25165824,
+      "sha256": "0ef95ff0aef22521a32edabed1704b5d4594cdd9ae543c4bd777ccfd85739d21"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_53.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_53.bin",
+      "bytes": 31469568,
+      "sha256": "c3b4e7eaab093a4bc39875dddc0e67c758d0f7a2a32cd865ee004bc0033b1a2c"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_54.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_54.bin",
+      "bytes": 25165824,
+      "sha256": "d98a21d6984602c3fcaf2b5307bb4325f9eed5cf8215253cc60057c0859b112c"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_55.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_55.bin",
+      "bytes": 31469568,
+      "sha256": "8f86e8a03fbeac90ec5a3a718c9edbf3f60aa27efb7df97655703a477db6a683"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_56.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_56.bin",
+      "bytes": 25165824,
+      "sha256": "5bb64effa250578669584a59f836a944b34bdea5f3affb202a4252fbb5b0311c"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_57.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_57.bin",
+      "bytes": 31469568,
+      "sha256": "ecdc7587b1a6b68e94b094462ee41ed513de3b0e5adf04f1d08e82d6cebcc3a8"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_58.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_58.bin",
+      "bytes": 25165824,
+      "sha256": "b950e772a6ded8685e876c8eae460d522e148de5c7438e3f86caddf92064c926"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_59.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_59.bin",
+      "bytes": 31469568,
+      "sha256": "67acc625b37c70ac9984c4c7c96523c920a193da8f05a1144f2eb363bb412ee5"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_6.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_6.bin",
+      "bytes": 25165824,
+      "sha256": "9fcd04b44542f5e5831d53252912f7ad5e1e27bb35071dc54adc65d15464a937"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_60.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_60.bin",
+      "bytes": 25165824,
+      "sha256": "12a5264f7cb2bd9d1dceeb7bd29586fe298de0227ee07c2b89a5399eb0c57ff0"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_61.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_61.bin",
+      "bytes": 31469568,
+      "sha256": "0b7669cd5b86679ac420b7c49656cade2e24f05a1151947c4186a42be8545624"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_62.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_62.bin",
+      "bytes": 25165824,
+      "sha256": "ffe5e7a7b9788b1f4d715e7e22b398fbaa6f27f399b8aaf05139caadffbe4d61"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_63.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_63.bin",
+      "bytes": 31469568,
+      "sha256": "d3881bb905e52f9751827bf78d3bcebcd2a98e3493a372569548fe3afdb9e39c"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_64.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_64.bin",
+      "bytes": 25165824,
+      "sha256": "2031fb77a49cef9697f73c88b6f37570e4034b383c8a92bb1a29f31afced5315"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_65.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_65.bin",
+      "bytes": 31469568,
+      "sha256": "f659dd9f2a4be7cf710fe8a3720c238f86403efac46a4bbf3de3f26067b87cff"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_7.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_7.bin",
+      "bytes": 31469568,
+      "sha256": "b2c825dccdd4598bcfefc281d302b06627970ece7771cb1392fc5db310eb2809"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_8.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_8.bin",
+      "bytes": 25165824,
+      "sha256": "4a4e7d88c3ae40ca8a32e27ca59337c4d658f28697c9771576e46286fdfb0c72"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/params_shard_9.bin",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/params_shard_9.bin",
+      "bytes": 31469568,
+      "sha256": "0c67c664cbe866a85a68b33123cac547050ad5291af27a3c05deb6141f25c3b7"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/tensor-cache.json",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/tensor-cache.json",
+      "bytes": 137624,
+      "sha256": "78da9cdf911e5ec34cc6733834bdcb9532bbaf2e89bb3ce79e3a4e944b8bae30"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/tokenizer.json",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/tokenizer.json",
+      "bytes": 15524095,
+      "sha256": "382cc235b56c725945e149cc25f191da667c836655efd0857b004320e90e91ea"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/tokenizer_config.json",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/tokenizer_config.json",
+      "bytes": 2932,
+      "sha256": "9c9b6bc0c94d95f69f826c41069a3e8b387ac3ced89601d201886e99240ac9db"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/resolve/main/vocab.json",
+      "url": "https://huggingface.co/mlc-ai/Phi-4-mini-instruct-q4f16_1-MLC/resolve/c2ecf2bf3a81d201ccdbfb9019d67fb8f0dede52/vocab.json",
+      "bytes": 3910310,
+      "sha256": "6cb65a857824fa6615bb1782d95d882617a8bbce1da0317118586b36f39e98bd"
+    },
+    {
+      "path": "assets/models/llm/Phi-4-mini-instruct-q4f16_1-MLC/Phi-4-mini-instruct-q4f16_1_cs1k-webgpu.wasm",
+      "url": "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/025bcaf3780fa8254f5e5efd3bfea0a5397248f4/web-llm-models/v0_2_84/base/Phi-4-mini-instruct-q4f16_1_cs1k-webgpu.wasm",
+      "bytes": 5396246,
+      "sha256": "5d24b86a0bab130f0ab04bd7a208294423ff69c8f35c3254c873bf17fb7020d6"
+    }
+  ],
+  "upstreamLicense": "PHI4-MINI-LICENSE.txt",
+  "originalRevision": "cfbefacb99257ffa30c83adab238a50856ac3083"
+}

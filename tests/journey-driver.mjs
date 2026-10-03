@@ -20,6 +20,7 @@ const attr = (name, value) => `[${name}=${JSON.stringify(String(value))}]`;
 
 export async function advanceJourneyPage(page) {
   const phase = await page.locator('[data-journey]').getAttribute('data-phase');
+  if (phase === 'paused') { await page.locator('[data-resume]').click(); return; }
   if (phase === 'overview') {
     const resume = page.locator('[data-resume-lesson]');
     if (await resume.count()) await resume.click();
@@ -89,7 +90,7 @@ export async function reachJourneyActivity(page, desired, { limit = 60, expected
       if (typeof desired === 'function' ? desired(q) : q.type === desired) return q;
       await solveJourneyQuestion(page, q, { expected });
     } else {
-      assert(!['complete', 'unavailable', 'paused'].includes(phase), `Cannot reach requested activity from ${phase}`);
+      assert(!['complete', 'unavailable'].includes(phase), `Cannot reach requested activity from ${phase}`);
       await advanceJourneyPage(page);
     }
   }

@@ -1,0 +1,9 @@
+{
+  "results": [
+    "Authored credit text is escaped and only absolute web source and licence URLs are clickable",
+    "An authentic reading shows author, date, source, licence and disclosed adaptation without changing progress",
+    "Reading-question source credits remain available beside their exact passage and feedback controls",
+    "Natural recording credits retain named creators, historical date, title, licence and adaptation independently of the transcript"
+  ],
+  "errors": []
+}

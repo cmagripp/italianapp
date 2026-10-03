@@ -1,0 +1,58 @@
+{
+  "testedAt": "2026-10-03T16:01:50.733Z",
+  "scope": "Independent synthetic browser/controller fixtures, explicit test-only provider; no user records or model readiness claim",
+  "import": {
+    "error": null,
+    "tips": [],
+    "summaryCorrectionCount": 0,
+    "staleTips": []
+  },
+  "overlap": {
+    "busyBeforeOldFinally": true,
+    "busyAfterOldFinally": true,
+    "newerRequestStillPending": true,
+    "generationCalls": 2
+  },
+  "crossWriter": {
+    "mirrorBeforeB": "Testo A ancora non salvato.",
+    "mirrorAfterB": "Testo A ancora non salvato.",
+    "firstWriterError": "A newer draft is already saved.",
+    "databaseText": "Testo B salvato da un altro scrittore.",
+    "recoveredConflictText": "Testo A ancora non salvato."
+  },
+  "recoveredRecognition": {
+    "recoveredDraft": {
+      "recognizedText": "ieri andato mercato",
+      "transcriptEdits": [
+        {
+          "before": "ieri andato mercato",
+          "after": "Ieri andato al mercato."
+        }
+      ],
+      "selectedHelp": [
+        "hint-used"
+      ],
+      "inputProvenance": {
+        "mode": "recorded",
+        "recognitionUncertain": true
+      },
+      "typedText": "Ieri andato al mercato.",
+      "turnId": "46022440-3602-4a93-9f97-57a1d0b9c051",
+      "mode": "recorded",
+      "clientId": "db8ba7dd-e0ed-49ba-ac43-4cd672641bed",
+      "writeId": "506dbafc-087d-4abe-b9be-2b8b62fc29a4",
+      "ownerId": "[\"inlmhtuemuskxzwl\",\"learner:l0wvwff1muskxzwl\"]",
+      "threadId": "audit-recognition",
+      "revision": 1,
+      "updatedAt": 1791043313783
+    },
+    "generationRecognizedAsUncertain": true
+  },
+  "providerReplacement": {
+    "firstReply": true,
+    "replacementReply": false,
+    "error": "Fixture service A disposed",
+    "callsA": 2,
+    "callsB": 0
+  }
+}

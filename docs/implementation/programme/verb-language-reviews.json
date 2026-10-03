@@ -1,0 +1,1285 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "reviewer": "programme_curriculum author agent",
+  "method": "Each listed record was individually read through the source/example/policy/five-case --audit output. All declared frames and five six-person paradigms were read; representative generated ordinary and formal contexts are explicitly listed. Hashes bind the exact data and output reviewed, but do not turn unlisted contexts into linguistic review.",
+  "gates": {
+    "independentAgentReview": "pending for this verb-language slice except separately recorded bounded fixes",
+    "nativeHumanItalianReview": "pending",
+    "allGeneratedContextsAndQuestions": "pending",
+    "rareOrLexicalNonFiniteForms": "primary attestation remains pending except exact referenced findings",
+    "pronunciationAndHumanAudio": "not validated",
+    "learnerCalibration": "pending"
+  },
+  "records": [
+    {
+      "id": "v:abbracciare",
+      "index": 0,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "7542c34f794fcc9908875328493134ba31f09c52bbbd500cce1aac9d85757ee3",
+      "policySHA256": "c467bb17ba2604271a0cdf1be2c5ee88dc08093365d3ef16a5288a31167999be",
+      "compiledSHA256": "8067c5092f99f17e595a0f158898675e22eedb3c4d720570048b8709fd6345be",
+      "nonFiniteSHA256": "166b7750db2e5f3851999f901d284b605415bedbba7d062b8473ba888635e3b9",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:abbracciare:present:dictionary-0",
+        "v:abbracciare:present:v2:simple:scene-0-2-formal",
+        "v:abbracciare:present:v2:progressive:scene-0-0-ordinary",
+        "v:abbracciare:present:v2:progressive:scene-0-2-formal",
+        "v:abbracciare:past:reviewed-frame-0:person-0",
+        "v:abbracciare:past:reviewed-frame-0:formal",
+        "v:abbracciare:background:v2:simple:scene-0-0-ordinary",
+        "v:abbracciare:background:v2:simple:scene-0-2-formal",
+        "v:abbracciare:background:v2:progressive:scene-0-0-ordinary",
+        "v:abbracciare:background:v2:progressive:scene-0-2-formal",
+        "v:abbracciare:future:reviewed-frame-0:person-0",
+        "v:abbracciare:future:reviewed-frame-0:formal",
+        "v:abbracciare:condizionale:reviewed-frame-0:person-0",
+        "v:abbracciare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:abitare",
+      "index": 1,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "40b70390ca4d6f213ce9837c765b561e41bef03ad58dce78f284b38628698af7",
+      "policySHA256": "6202c575f2ea4a5f2362dda109f2e00abd271c1a999244af7a1e250e9c5fc83f",
+      "compiledSHA256": "3c81419a5e6d8b5ef482ba5a3ed1532815170ceeffd77dbf0e9bb7fcf88a54c5",
+      "nonFiniteSHA256": "6adf672ca1587432bfd16523562341c5e5d5b72d2d9515f8cc44d566ed3aa3eb",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:abitare:present:dictionary-0",
+        "v:abitare:present:v2:simple:scene-0-2-formal",
+        "v:abitare:past:reviewed-frame-0:person-0",
+        "v:abitare:past:reviewed-frame-0:formal",
+        "v:abitare:background:v2:simple:scene-0-0-ordinary",
+        "v:abitare:background:v2:simple:scene-0-2-formal",
+        "v:abitare:future:reviewed-frame-0:person-0",
+        "v:abitare:future:reviewed-frame-0:formal",
+        "v:abitare:condizionale:reviewed-frame-0:person-0",
+        "v:abitare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:accettare",
+      "index": 2,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "e5e927e056dbd59d0344c6ca36e0215372425587a3228577f61c7bb4660c8a10",
+      "policySHA256": "845cdc4d09e3ec4d455da5d464adfb6113739e87384b2e0249b056be729dbd3b",
+      "compiledSHA256": "58dd06962705fa01c91c30890958b9f1b3e00eeafdf864c419491b00b8570108",
+      "nonFiniteSHA256": "d51fbf5d58909b9bd504f48a285998a20170e85c2b42089559175704030813a8",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:accettare:present:dictionary-0",
+        "v:accettare:present:v2:simple:scene-0-2-formal",
+        "v:accettare:present:v2:progressive:scene-0-0-ordinary",
+        "v:accettare:present:v2:progressive:scene-0-2-formal",
+        "v:accettare:past:reviewed-frame-0:person-0",
+        "v:accettare:past:reviewed-frame-0:formal",
+        "v:accettare:background:v2:simple:scene-0-0-ordinary",
+        "v:accettare:background:v2:simple:scene-0-2-formal",
+        "v:accettare:background:v2:progressive:scene-0-0-ordinary",
+        "v:accettare:background:v2:progressive:scene-0-2-formal",
+        "v:accettare:future:reviewed-frame-0:person-0",
+        "v:accettare:future:reviewed-frame-0:formal",
+        "v:accettare:condizionale:reviewed-frame-0:person-0",
+        "v:accettare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:addormentarsi",
+      "index": 3,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "73cd40cce82ffc2e06f143f7ea94d2d44882fe56813af2937c9101a815154eff",
+      "policySHA256": "97fae6cd9c1d7cb35c52da92fd77669bd9a1dca25cad1182e35e7d414c78c483",
+      "compiledSHA256": "57551ea806590d11474a42c5bd7ed4dc34ea631b56887e6c1df5d1fc8018b2fc",
+      "nonFiniteSHA256": "1621f8c275b54479a6a1d88b75e61951c129d03d6f4412ad64922bc48ce0c3c9",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:addormentarsi:present:dictionary-0",
+        "v:addormentarsi:present:v2:simple:scene-0-2-formal",
+        "v:addormentarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:addormentarsi:present:v2:progressive:scene-0-2-formal",
+        "v:addormentarsi:past:reviewed-frame-0:person-0",
+        "v:addormentarsi:past:reviewed-frame-0:formal",
+        "v:addormentarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:addormentarsi:background:v2:simple:scene-0-2-formal",
+        "v:addormentarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:addormentarsi:background:v2:progressive:scene-0-2-formal",
+        "v:addormentarsi:future:reviewed-frame-0:person-0",
+        "v:addormentarsi:future:reviewed-frame-0:formal",
+        "v:addormentarsi:condizionale:reviewed-frame-0:person-0",
+        "v:addormentarsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [
+        "The unqualified active present participle was removed; the rare reflexive form remains unavailable with primary-source explanation."
+      ],
+      "sources": [
+        "https://accademiadellacrusca.it/it/consulenza/sul-participio-presente-di-verbi-riflessivi-e-pronominali/42855"
+      ]
+    },
+    {
+      "id": "v:adorare",
+      "index": 4,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "c2a7eefeac8e98945db6122595ef717af740324a213f179700dd4b5b8c10ddf2",
+      "policySHA256": "3f62353e1d577c0f0aa94b3a503d8e2c2a3389133e4c523bc47bfd4c1f30300c",
+      "compiledSHA256": "5c2c7eedc499c3b277e7abcdeed1c6527f49bc70d48a9396616d742fa2cec8ea",
+      "nonFiniteSHA256": "74aaa24c918e23ef3ae1de7da09bff781c4d323925d8d3bd7c55f926145924d6",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:adorare:present:dictionary-0",
+        "v:adorare:present:v2:simple:scene-0-2-formal",
+        "v:adorare:past:reviewed-frame-0:person-0",
+        "v:adorare:past:reviewed-frame-0:formal",
+        "v:adorare:background:v2:simple:scene-0-0-ordinary",
+        "v:adorare:background:v2:simple:scene-0-2-formal",
+        "v:adorare:future:reviewed-frame-0:person-0",
+        "v:adorare:future:reviewed-frame-0:formal",
+        "v:adorare:condizionale:reviewed-frame-0:person-0",
+        "v:adorare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:aiutare",
+      "index": 5,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "551fbea422b8e733646527db3a4f830638eb71f3bd8e9a06fc5a7c531db7e376",
+      "policySHA256": "1e55749a8f95f636eb175eca61408268bbf16419702d652a8597db13aae8f3b4",
+      "compiledSHA256": "77359759406ee7d16f316ab4fd3e93f77183c6354551a212ba56039bee8a3a4d",
+      "nonFiniteSHA256": "e08bb3986690bcee342f9ad4a50e932f93a1e7033dbf51f0ba45f6ace4f71044",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:aiutare:present:v2:simple:scene-0-0-ordinary",
+        "v:aiutare:present:v2:simple:scene-0-2-formal",
+        "v:aiutare:present:v2:progressive:scene-0-0-ordinary",
+        "v:aiutare:present:v2:progressive:scene-0-2-formal",
+        "v:aiutare:past:reviewed-frame-0:person-0",
+        "v:aiutare:past:reviewed-frame-0:formal",
+        "v:aiutare:background:v2:simple:scene-0-0-ordinary",
+        "v:aiutare:background:v2:simple:scene-0-2-formal",
+        "v:aiutare:background:v2:progressive:scene-0-0-ordinary",
+        "v:aiutare:background:v2:progressive:scene-0-2-formal",
+        "v:aiutare:future:dictionary-2",
+        "v:aiutare:future:reviewed-frame-0:formal",
+        "v:aiutare:condizionale:reviewed-frame-0:person-0",
+        "v:aiutare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:alzare",
+      "index": 6,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "46c6d6f14bdfe3ef70026dbad2309828db1242775236aa0a620bfbaa6bbf0dcc",
+      "policySHA256": "74f678a715d51d051d50c3baab815be3321cf71fd88b7350fdc38422915decaa",
+      "compiledSHA256": "4bfac382db655229b30c6a54dfaa812f431a4ff173cc5c38eddaac55f4b35764",
+      "nonFiniteSHA256": "f55af2d2eeafc7e1502111e9cd1134d7c057043b6c01174aebc21cbe69385091",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:alzare:present:v2:simple:scene-0-0-ordinary",
+        "v:alzare:present:v2:simple:scene-0-2-formal",
+        "v:alzare:present:v2:progressive:scene-0-0-ordinary",
+        "v:alzare:present:v2:progressive:scene-0-2-formal",
+        "v:alzare:past:dictionary-1",
+        "v:alzare:past:reviewed-frame-0:formal",
+        "v:alzare:background:v2:simple:scene-0-0-ordinary",
+        "v:alzare:background:v2:simple:scene-0-2-formal",
+        "v:alzare:background:v2:progressive:scene-0-0-ordinary",
+        "v:alzare:background:v2:progressive:scene-0-2-formal",
+        "v:alzare:future:reviewed-frame-0:person-0",
+        "v:alzare:future:reviewed-frame-0:formal",
+        "v:alzare:condizionale:reviewed-frame-0:person-0",
+        "v:alzare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:alzarsi",
+      "index": 7,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "d10853ae172f0cbc652eb53d7092c64f3892064620faa3ef2ceb86de002b1b6e",
+      "policySHA256": "251d95eae6f52135d79583398010d12ea42f261765625d0dba3a78f8cd496077",
+      "compiledSHA256": "379aaa7085356e95132c9d2a1382604aa953b66bea7bacebcf8d7ec20b1fc52b",
+      "nonFiniteSHA256": "62284f76f32d22300346d30363dd9c84d0c35d1b16de22c6c3864e3e54296924",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:alzarsi:present:scene-0:person-0",
+        "v:alzarsi:present:formal-scene-0",
+        "v:alzarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:alzarsi:present:v2:progressive:scene-0-2-formal",
+        "v:alzarsi:past:scene-0:person-0",
+        "v:alzarsi:past:formal-scene-0",
+        "v:alzarsi:background:scene-0:person-0",
+        "v:alzarsi:background:formal-scene-0",
+        "v:alzarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:alzarsi:background:v2:progressive:scene-0-2-formal",
+        "v:alzarsi:future:scene-0:person-0",
+        "v:alzarsi:future:formal-scene-0",
+        "v:alzarsi:condizionale:scene-0:person-0",
+        "v:alzarsi:condizionale:formal-scene-0"
+      ],
+      "findings": [
+        "The unqualified active present participle was removed; the rare reflexive form remains unavailable with primary-source explanation."
+      ],
+      "sources": [
+        "https://accademiadellacrusca.it/it/consulenza/sul-participio-presente-di-verbi-riflessivi-e-pronominali/42855"
+      ]
+    },
+    {
+      "id": "v:amare",
+      "index": 8,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "a6e3f72e7b65e2423f0cf7d14ca591ab8ef2f26090abd98bf4c3816ebfbe0349",
+      "policySHA256": "92fb89222a3b37c155cd289bc83d4181f484154fcc5cd609935d23a5acaa23a6",
+      "compiledSHA256": "14df09d129406a9338dfe096f7dde191cfcd1d8ebc59b93cfdec49029549eb33",
+      "nonFiniteSHA256": "0502a4167613db79244813cd28a8b49cc26cc86b0a8d9492bc735e281a9a5aa4",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:amare:present:dictionary-0",
+        "v:amare:present:v2:simple:scene-0-2-formal",
+        "v:amare:past:reviewed-frame-0:person-0",
+        "v:amare:past:reviewed-frame-0:formal",
+        "v:amare:background:v2:simple:scene-0-0-ordinary",
+        "v:amare:background:v2:simple:scene-0-2-formal",
+        "v:amare:future:dictionary-2",
+        "v:amare:future:reviewed-frame-0:formal",
+        "v:amare:condizionale:reviewed-frame-0:person-0",
+        "v:amare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:andare",
+      "index": 9,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "72a5b263f2e8f2a9f4e16e2cf970ad7e1ba590a8358ea5e8b06a5bd3f93fdff6",
+      "policySHA256": "54f954dd5cdb10922f51b2d67792866156d8724f8930ab8c5719e185ca3508dd",
+      "compiledSHA256": "e87207f6ca4f5169f91bb6b6e5c3ad1f956a116d8b87f11f90ef3bb4bc0787f7",
+      "nonFiniteSHA256": "f8080fb57f9b3825a9238426bc3b214608b52262ecb1dfc4d525cb71c7fc9eb2",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:andare:present:scene-0:person-0",
+        "v:andare:present:formal-scene-0",
+        "v:andare:present:v2:progressive:scene-0-0-ordinary",
+        "v:andare:present:v2:progressive:scene-0-2-formal",
+        "v:andare:past:scene-0:person-0",
+        "v:andare:past:formal-scene-0",
+        "v:andare:background:scene-0:person-0",
+        "v:andare:background:formal-scene-0",
+        "v:andare:background:v2:progressive:scene-0-0-ordinary",
+        "v:andare:background:v2:progressive:scene-0-2-formal",
+        "v:andare:future:scene-0:person-0",
+        "v:andare:future:formal-scene-0",
+        "v:andare:condizionale:scene-0:person-0",
+        "v:andare:condizionale:formal-scene-0"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:aprire",
+      "index": 10,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "1f4f1c7b7c81d7f205b38091108453555cdf11223fdcbb8d68512c33ebad268f",
+      "policySHA256": "a3a796dd46e9bf813563c0d982aafbfeb5648c559827c1143a79c8d8721cf59d",
+      "compiledSHA256": "0cc684d2276663a75c088ec4bbf295382ba7f5f400055f405205d2dafe73c1af",
+      "nonFiniteSHA256": "633b79c6a83f3ff0010077f3c80c2af8f98a154bf38cacd0ed9dd69a184e194f",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:aprire:present:v2:simple:scene-0-0-ordinary",
+        "v:aprire:present:v2:simple:scene-0-2-formal",
+        "v:aprire:present:v2:progressive:scene-0-0-ordinary",
+        "v:aprire:present:v2:progressive:scene-0-2-formal",
+        "v:aprire:past:reviewed-frame-0:person-0",
+        "v:aprire:past:reviewed-frame-0:formal",
+        "v:aprire:background:v2:simple:scene-0-0-ordinary",
+        "v:aprire:background:v2:simple:scene-0-2-formal",
+        "v:aprire:background:v2:progressive:scene-0-0-ordinary",
+        "v:aprire:background:v2:progressive:scene-0-2-formal",
+        "v:aprire:future:dictionary-2",
+        "v:aprire:future:reviewed-frame-0:formal",
+        "v:aprire:condizionale:reviewed-frame-0:person-0",
+        "v:aprire:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:arrivare",
+      "index": 11,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "9582e70b0c66d9ce198eb9870f7632896931f4ff8be174bc6cab266a2d57b922",
+      "policySHA256": "c59bd0272bbfbb03c46eacdd9f37b99b3c653b1d310f4d63f891e69a73ea1293",
+      "compiledSHA256": "ab465030c7e99b8354986d650dff564288d70fbd48086d6def7bbec6247c2a05",
+      "nonFiniteSHA256": "c7ae0f5c023cd6b5f273d542a66b7bc91d3a1357c512110da38c0a3c5affa78c",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:arrivare:present:scene-0:person-0",
+        "v:arrivare:present:formal-scene-0",
+        "v:arrivare:present:v2:progressive:scene-0-0-ordinary",
+        "v:arrivare:present:v2:progressive:scene-0-2-formal",
+        "v:arrivare:past:scene-0:person-0",
+        "v:arrivare:past:formal-scene-0",
+        "v:arrivare:background:scene-0:person-0",
+        "v:arrivare:background:formal-scene-0",
+        "v:arrivare:background:v2:progressive:scene-0-0-ordinary",
+        "v:arrivare:background:v2:progressive:scene-0-2-formal",
+        "v:arrivare:future:scene-0:person-0",
+        "v:arrivare:future:formal-scene-0",
+        "v:arrivare:condizionale:scene-0:person-0",
+        "v:arrivare:condizionale:formal-scene-0"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:ascoltare",
+      "index": 12,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "b89ff6b1793790db948e4c78f12efc460c46f2fdd836a99f6f44840466542f16",
+      "policySHA256": "fb619411129ba6274e426439e29826f6f0d0fb4f93acdb13cd1d7b9879525814",
+      "compiledSHA256": "c8074d4518e038bf5a291b07bfb18ed55a55a8deb228ee09bc21d0c17d2ea04a",
+      "nonFiniteSHA256": "afa4b71af65ec15973df6354bacdf4ae2912cd77ab8a24dd0e24dbade4b44d5f",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:ascoltare:present:dictionary-0",
+        "v:ascoltare:present:v2:simple:scene-0-2-formal",
+        "v:ascoltare:present:v2:progressive:scene-0-0-ordinary",
+        "v:ascoltare:present:v2:progressive:scene-0-2-formal",
+        "v:ascoltare:past:reviewed-frame-0:person-0",
+        "v:ascoltare:past:reviewed-frame-0:formal",
+        "v:ascoltare:background:v2:simple:scene-0-0-ordinary",
+        "v:ascoltare:background:v2:simple:scene-0-2-formal",
+        "v:ascoltare:background:v2:progressive:scene-0-0-ordinary",
+        "v:ascoltare:background:v2:progressive:scene-0-2-formal",
+        "v:ascoltare:future:reviewed-frame-0:person-0",
+        "v:ascoltare:future:reviewed-frame-0:formal",
+        "v:ascoltare:condizionale:reviewed-frame-0:person-0",
+        "v:ascoltare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:aspettare",
+      "index": 13,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "9fde0b8804b27f4847c43bd3aec37267d11149af2005c0f206b481ed2803a4f5",
+      "policySHA256": "7682423a413f95a2a2f7ba175d54c178e980032e0cc4e156c85755e9ab32490d",
+      "compiledSHA256": "46dadfbc51072c252867e4c3ffe51f10e045fa2443bd57028ae1ee705a2fa18a",
+      "nonFiniteSHA256": "f6bc5d8662ebad693fbf8cdb5158ff3c47d4b1ee67c6ca0e5f5cd0b21b8f8ce4",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:aspettare:present:dictionary-0",
+        "v:aspettare:present:v2:simple:scene-0-2-formal",
+        "v:aspettare:present:v2:progressive:scene-0-0-ordinary",
+        "v:aspettare:present:v2:progressive:scene-0-2-formal",
+        "v:aspettare:past:dictionary-1",
+        "v:aspettare:past:reviewed-frame-0:formal",
+        "v:aspettare:background:v2:simple:scene-0-0-ordinary",
+        "v:aspettare:background:v2:simple:scene-0-2-formal",
+        "v:aspettare:background:v2:progressive:scene-0-0-ordinary",
+        "v:aspettare:background:v2:progressive:scene-0-2-formal",
+        "v:aspettare:future:dictionary-2",
+        "v:aspettare:future:reviewed-frame-0:formal",
+        "v:aspettare:condizionale:reviewed-frame-0:person-0",
+        "v:aspettare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:avere",
+      "index": 14,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "51a79c5ba20bb0d17e2bad29ff863c4ae53c3c1ae8f7f31e34ea4ae417ce0b04",
+      "policySHA256": "f28a40fa843b1631959d6e9be8b182ca85ac958bc57b845c64dd66af70f36ad1",
+      "compiledSHA256": "a0419aef54a3324b34b146aa30f74e559569d900e21949f37270488f9ed23167",
+      "nonFiniteSHA256": "f3b63d813b3690d912c53f89858d188a586a81a022ca640e032b02bdc61ba03b",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "reviewedSampleIds": [
+        "v:avere:present:scene-0:person-0",
+        "v:avere:present:formal-scene-0",
+        "v:avere:past:scene-0:person-0",
+        "v:avere:past:formal-scene-0",
+        "v:avere:background:scene-0:person-0",
+        "v:avere:background:formal-scene-0",
+        "v:avere:future:scene-0:person-0",
+        "v:avere:future:formal-scene-0",
+        "v:avere:condizionale:scene-0:person-0",
+        "v:avere:condizionale:formal-scene-0"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:baciare",
+      "index": 15,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "e074913b6019c1b89229704bcf429bd49fdc88eb6496028ac8d5b610d9bce514",
+      "policySHA256": "c16747ad29e58642199f25369ee489187e22237b3d647335ce19ad12ecf54603",
+      "compiledSHA256": "8196789a6d6e4e664f431d0813a6b54bc8d3abc4c66b7b7ad1c6b2c2948895cc",
+      "nonFiniteSHA256": "8fbb88b221d2614d9bdf8c2ea5d92cfba26d7b52ad0be19da60276707748bbb5",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:baciare:present:v2:simple:scene-0-0-ordinary",
+        "v:baciare:present:v2:simple:scene-0-2-formal",
+        "v:baciare:present:v2:progressive:scene-0-0-ordinary",
+        "v:baciare:present:v2:progressive:scene-0-2-formal",
+        "v:baciare:past:reviewed-frame-0:person-0",
+        "v:baciare:past:reviewed-frame-0:formal",
+        "v:baciare:background:v2:simple:scene-0-0-ordinary",
+        "v:baciare:background:v2:simple:scene-0-2-formal",
+        "v:baciare:background:v2:progressive:scene-0-0-ordinary",
+        "v:baciare:background:v2:progressive:scene-0-2-formal",
+        "v:baciare:future:dictionary-2",
+        "v:baciare:future:reviewed-frame-0:formal",
+        "v:baciare:condizionale:reviewed-frame-0:person-0",
+        "v:baciare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [
+        "Language forms and selected frames reviewed. The cultural greeting generalization still needs contextual qualification; no universal social rule validated."
+      ],
+      "sources": []
+    },
+    {
+      "id": "v:ballare",
+      "index": 16,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "abee836458c65e6c22ef04d1701118c77655ab018304e31c996b8c25fe156520",
+      "policySHA256": "16f5cacfcb52397ac7cb4e730b2025aa76e09493f48ef0a48e5228496e88366f",
+      "compiledSHA256": "62f1405465c22a301a4adc154a5de7d5bb83f2031d6878793d5cbddca693553f",
+      "nonFiniteSHA256": "158abd08db19e8742db64ed6cb29b971e197c031cec1d4a3ae936200ddbebd56",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:ballare:present:v2:simple:scene-0-0-ordinary",
+        "v:ballare:present:v2:simple:scene-0-2-formal",
+        "v:ballare:present:v2:progressive:scene-0-0-ordinary",
+        "v:ballare:present:v2:progressive:scene-0-2-formal",
+        "v:ballare:past:reviewed-frame-0:person-0",
+        "v:ballare:past:reviewed-frame-0:formal",
+        "v:ballare:background:v2:simple:scene-0-0-ordinary",
+        "v:ballare:background:v2:simple:scene-0-2-formal",
+        "v:ballare:background:v2:progressive:scene-0-0-ordinary",
+        "v:ballare:background:v2:progressive:scene-0-2-formal",
+        "v:ballare:future:dictionary-2",
+        "v:ballare:future:reviewed-frame-0:formal",
+        "v:ballare:condizionale:reviewed-frame-0:person-0",
+        "v:ballare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:bere",
+      "index": 17,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "e1b081e16a162ae85774a15fd16cf5e6f2afd5e4f0e2e970a1b6517af2817949",
+      "policySHA256": "c79705d978db34caf3cc9c9f1773f6ced84f55072e9b04c3a632bc2ed8ca3798",
+      "compiledSHA256": "b1ce25cd0d5e28fdb76ada8f765e8edb857a23af1e70e7d7f27bafddfa437009",
+      "nonFiniteSHA256": "91bd2cb64bb4370f733b25bed47ac65c7f270e940a8d93d68d25bfbd87a5b7f0",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:bere:present:scene-0:person-0",
+        "v:bere:present:formal-scene-0",
+        "v:bere:present:v2:progressive:scene-0-0-ordinary",
+        "v:bere:present:v2:progressive:scene-0-2-formal",
+        "v:bere:past:scene-0:person-0",
+        "v:bere:past:formal-scene-0",
+        "v:bere:background:scene-0:person-0",
+        "v:bere:background:formal-scene-0",
+        "v:bere:background:v2:progressive:scene-0-0-ordinary",
+        "v:bere:background:v2:progressive:scene-0-2-formal",
+        "v:bere:future:scene-0:person-0",
+        "v:bere:future:formal-scene-0",
+        "v:bere:condizionale:scene-0:person-0",
+        "v:bere:condizionale:formal-scene-0"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:bussare",
+      "index": 18,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "4afb6a7019596f08b6ac313de51b9c6644a61344f5499b9476e7ac9f5a0faa97",
+      "policySHA256": "83ea5ce9f277d36dcc67404a92ca6ab78da660ec305dec8202d26eaef700d9c5",
+      "compiledSHA256": "105a2354b792952f78bdd19db0603b9c75333c4ebc9b082a1a62e411dd662a62",
+      "nonFiniteSHA256": "fc70f9973525e4795cae56f892bfb581c9d2e9ed5b024c96a8a71785badc1072",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:bussare:present:v2:simple:scene-0-0-ordinary",
+        "v:bussare:present:v2:simple:scene-0-2-formal",
+        "v:bussare:present:v2:progressive:scene-0-0-ordinary",
+        "v:bussare:present:v2:progressive:scene-0-2-formal",
+        "v:bussare:past:dictionary-1",
+        "v:bussare:past:reviewed-frame-0:formal",
+        "v:bussare:background:v2:simple:scene-0-0-ordinary",
+        "v:bussare:background:v2:simple:scene-0-2-formal",
+        "v:bussare:background:v2:progressive:scene-0-0-ordinary",
+        "v:bussare:background:v2:progressive:scene-0-2-formal",
+        "v:bussare:future:reviewed-frame-0:person-0",
+        "v:bussare:future:reviewed-frame-0:formal",
+        "v:bussare:condizionale:reviewed-frame-0:person-0",
+        "v:bussare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:buttare",
+      "index": 19,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "3bcee333ec6fe6afa3260e17b0ea68802993d1adce25f378285b399ef7a4020d",
+      "policySHA256": "6e72be909aad2b3101305aabead597f40bc3ac44da846bf8b49d5fd08fef21bf",
+      "compiledSHA256": "1587fe29ab7f98b637e60185c5d282ae9d73149ef0794f175ae9b7050d2bbf24",
+      "nonFiniteSHA256": "1637cc1dbd3c434376084535d1505282aa323757b88c04c2e83955b5f49c2afa",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:buttare:present:dictionary-0",
+        "v:buttare:present:v2:simple:scene-0-2-formal",
+        "v:buttare:present:v2:progressive:scene-0-0-ordinary",
+        "v:buttare:present:v2:progressive:scene-0-2-formal",
+        "v:buttare:past:reviewed-frame-0:person-0",
+        "v:buttare:past:reviewed-frame-0:formal",
+        "v:buttare:background:v2:simple:scene-0-0-ordinary",
+        "v:buttare:background:v2:simple:scene-0-2-formal",
+        "v:buttare:background:v2:progressive:scene-0-0-ordinary",
+        "v:buttare:background:v2:progressive:scene-0-2-formal",
+        "v:buttare:future:reviewed-frame-0:person-0",
+        "v:buttare:future:reviewed-frame-0:formal",
+        "v:buttare:condizionale:dictionary-2",
+        "v:buttare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:camminare",
+      "index": 20,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "490746d53b70f595f5ed5771d6a68ad6bfac6932b5eb35c39756fdc7f62f91d5",
+      "policySHA256": "678b4dc5a8699cc0622d6e9bacc023d7712f843d0e396ead038099593d8daf1c",
+      "compiledSHA256": "a6ddd34269f20522ca842488874f805884aac2221f6b27bb24a75506fe96466e",
+      "nonFiniteSHA256": "44f64dd68bb74026e1601ddbfca7d96679f141e1d445a02b15a29c7e1eb816eb",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:camminare:present:dictionary-0",
+        "v:camminare:present:v2:simple:scene-0-2-formal",
+        "v:camminare:present:v2:progressive:scene-0-0-ordinary",
+        "v:camminare:present:v2:progressive:scene-0-2-formal",
+        "v:camminare:past:reviewed-frame-0:person-0",
+        "v:camminare:past:reviewed-frame-0:formal",
+        "v:camminare:background:v2:simple:scene-0-0-ordinary",
+        "v:camminare:background:v2:simple:scene-0-2-formal",
+        "v:camminare:background:v2:progressive:scene-0-0-ordinary",
+        "v:camminare:background:v2:progressive:scene-0-2-formal",
+        "v:camminare:future:reviewed-frame-0:person-0",
+        "v:camminare:future:reviewed-frame-0:formal",
+        "v:camminare:condizionale:reviewed-frame-0:person-0",
+        "v:camminare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:cancellare",
+      "index": 21,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "7a2cefb8cf9f962d5ec4f20cdbf463aa129bf89db996c2a0a711b8b747b53035",
+      "policySHA256": "cc0bbcebed73f4926cf393fa1252cb79614e176a92a8e3aaa148dc3165b305a3",
+      "compiledSHA256": "37ff27701bcf37ba54d02bec0ac3fcadb4cdd441016a8477923d2cd5aab50f65",
+      "nonFiniteSHA256": "e5f722b306cd78af05831e260a0203be46a99fd56609e839324522fbf14f5230",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:cancellare:present:v2:simple:scene-0-0-ordinary",
+        "v:cancellare:present:v2:simple:scene-0-2-formal",
+        "v:cancellare:present:v2:progressive:scene-0-0-ordinary",
+        "v:cancellare:present:v2:progressive:scene-0-2-formal",
+        "v:cancellare:past:dictionary-1",
+        "v:cancellare:past:reviewed-frame-0:formal",
+        "v:cancellare:background:v2:simple:scene-0-0-ordinary",
+        "v:cancellare:background:v2:simple:scene-0-2-formal",
+        "v:cancellare:background:v2:progressive:scene-0-0-ordinary",
+        "v:cancellare:background:v2:progressive:scene-0-2-formal",
+        "v:cancellare:future:reviewed-frame-0:person-0",
+        "v:cancellare:future:reviewed-frame-0:formal",
+        "v:cancellare:condizionale:reviewed-frame-0:person-0",
+        "v:cancellare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:cantare",
+      "index": 22,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "8a060a621375be5dd7320680f890fb9b015f568a9d2def9bd409729fe16ed25e",
+      "policySHA256": "40c78770465de1c360de8c7e03722b974efd391a21e3a6a213e115e6b8a6aaaf",
+      "compiledSHA256": "c9f8fafa9e610509e9e27a306ad4fe7911e64dd12ea455bc0a691928eed837f0",
+      "nonFiniteSHA256": "fb185fc73c09e503c14576063ec1b377c70b6cbab298dfce88d0e998289eb456",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:cantare:present:dictionary-0",
+        "v:cantare:present:v2:simple:scene-0-2-formal",
+        "v:cantare:present:v2:progressive:scene-0-0-ordinary",
+        "v:cantare:present:v2:progressive:scene-0-2-formal",
+        "v:cantare:past:reviewed-frame-0:person-0",
+        "v:cantare:past:reviewed-frame-0:formal",
+        "v:cantare:background:v2:simple:scene-0-0-ordinary",
+        "v:cantare:background:v2:simple:scene-0-2-formal",
+        "v:cantare:background:v2:progressive:scene-0-0-ordinary",
+        "v:cantare:background:v2:progressive:scene-0-2-formal",
+        "v:cantare:future:reviewed-frame-0:person-0",
+        "v:cantare:future:reviewed-frame-0:formal",
+        "v:cantare:condizionale:reviewed-frame-0:person-0",
+        "v:cantare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "sources": []
+    },
+    {
+      "id": "v:capire",
+      "index": 23,
+      "status": "author-agent-source-frames-five-case-and-representative-context-review",
+      "sourceSHA256": "839c2fdf8f010a0ac385da65d33dc323f02e19778805c942f77938f5db73630e",
+      "policySHA256": "87621600a0f6b56822566e6857afa9c7b0b14f44c7663c76695d73b5cde1bff6",
+      "compiledSHA256": "8f7d16f3035c76141a68966dafe0b7b85fadc17b998079c4eb5923f6b10d2f01",
+      "nonFiniteSHA256": "1a01cd66968707b2133e7176aa0b58b61bcc55de40127ae511c900032279be34",
+      "fields": [
+        "all three authored Italian examples and translations",
+        "usage and patterns",
+        "selected-sense policy and every declared lexical frame",
+        "all six persons of present, passato prossimo, imperfetto, future and conditional",
+        "formal Lei masculine/feminine agreement in all five cases",
+        "rendered non-finite fields and available qualification",
+        "listed representative ordinary and formal simple/progressive contexts"
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      },
+      "reviewedExampleIndexes": [
+        0,
+        1,
+        2
+      ],
+      "reviewedFrameIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reviewedSampleIds": [
+        "v:capire:present:scene-0:person-0",
+        "v:capire:present:formal-scene-0",
+        "v:capire:past:scene-0:person-0",
+        "v:capire:past:formal-scene-0",
+        "v:capire:background:scene-0:person-0",
+        "v:capire:background:formal-scene-0",
+        "v:capire:future:scene-0:person-0",
+        "v:capire:future:formal-scene-0",
+        "v:capire:condizionale:scene-0:person-0",
+        "v:capire:condizionale:formal-scene-0"
+      ],
+      "findings": [
+        "Capiente retains its attested capacity/containment meaning and now displays that exact lexical qualification."
+      ],
+      "sources": [
+        "https://www.treccani.it/vocabolario/capiente/",
+        "https://www.treccani.it/vocabolario/capire/"
+      ]
+    }
+  ]
+}

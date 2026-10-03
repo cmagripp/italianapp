@@ -3,13 +3,21 @@
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {buildLesson} from '../js/learning/lesson-content.js';
+import {resolveLessonWords} from '../js/learning/course-words.js';
 const root=new URL('../',import.meta.url),levels=['Foundations','A1','A2','B1','B2','C1','C2'];
 const read=p=>JSON.parse(fs.readFileSync(new URL(p,root))),write=(p,x)=>fs.writeFileSync(new URL(p,root),JSON.stringify(x)+'\n');
 export const digest=value=>{let h=2166136261;for(const c of JSON.stringify(value)){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return (h>>>0).toString(16);};
 const pick=(x,keys)=>Object.fromEntries(keys.filter(k=>x[k]!==undefined).map(k=>[k,x[k]]));
-const descriptor=lesson=>({...pick(lesson,['id','title','outcome','minutes','prerequisites','related','targets','legacyLessonIds','referenceTopics']),...(lesson.objectives?{objectives:lesson.objectives.map(o=>pick(o,['id','label']))}:{}),steps:(lesson.steps||[]).filter(s=>s.kind==='portfolio').map(s=>pick(s,['id','kind','mode','title']))});
+let dictionary;
+const descriptor=lesson=>({...pick(lesson,['id','title','outcome','minutes','prerequisites','related','legacyLessonIds','referenceTopics']),
+ ...(lesson.targets?{targets:lesson.targets.map(target=>pick(target,['id','label','facets','minIndependent','requiresProduction','modality']))}:{}),
+ ...(lesson.objectives?{objectives:lesson.objectives.map(o=>pick(o,['id','label']))}:{}),
+ vocabularyLinks:[...new Set(resolveLessonWords(lesson,dictionary).map(row=>row.entry.id))],
+ steps:(lesson.steps||[]).filter(s=>s.kind==='portfolio').map(s=>pick(s,['id','kind','mode','title']))});
 const packs=(kind,names)=>names.map(level=>{const pack=read(`data/${kind}/${level}.json`);return {...pick(pack,['version','level','title','description']),path:`data/${kind}/${level}.json`,digest:digest(pack),units:pack.units.map(unit=>({...pick(unit,['id','title','description']),lessons:unit.lessons.map(descriptor)}))};});
-export function buildCourseIndex(){const index={version:1,levels:packs('course-v2',levels),legacyLevels:packs('grammar-course',levels.slice(1))};write('data/course-index.json',index);return index;}
+export function buildCourseIndex(){dictionary={vocab:read('data/vocab.json'),verbs:read('data/verbs.json')};
+ const workshops=['presente','passato','futuro','strutture'].map(stage=>{const pack=read(`data/sentence-lab/${stage}.json`);return {...pick(pack,['stage','order','title']),lessons:pack.lessons.map(lesson=>pick(lesson,['id','title','outcome','minutes','tense','grammarRefs']))};});
+ const index={version:1,levels:packs('course-v2',levels),legacyLevels:packs('grammar-course',levels.slice(1)),workshops};write('data/course-index.json',index);return index;}
 export function buildCompletionIndex(){
  const entries=[...read('data/verbs.json'),...read('data/vocab.json')],chapters=[],chapterIds=new Map(),plans=[],planIds=new Map(),byEntry={};
  const intern=(value,list,map)=>{const key=JSON.stringify(value);if(!map.has(key)){map.set(key,list.length);list.push(value);}return map.get(key);};

@@ -115,8 +115,8 @@ export function toast(msg, { ms = 1800, kind = '' } = {}) {
 // ---------- bottom sheet ----------
 // Open sheets are tracked so the router can dismiss them when the screen underneath changes (back button, tab, link).
 const openSheets = new Set();
-export function closeSheets() { for (const close of [...openSheets]) close(); }
-export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, cls = '' } = {}) {
+export function closeSheets() { for (const close of [...openSheets].reverse()) close(); }
+export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, cls = '', opener = document.activeElement } = {}) {
   const wrap = el('div', { class: 'sheet-wrap' });
   wrap.innerHTML = html`<div class="sheet-backdrop"></div>
     <div class="sheet ${cls}" role="dialog" aria-modal="true">
@@ -128,27 +128,40 @@ export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, 
   document.body.classList.add('no-scroll');
   let closed = false;
   const pane = wrap.querySelector('.sheet');
+  pane.setAttribute('aria-label', title || 'Options');
+  for (const active of openSheets) active.pane?.setAttribute('inert', '');
   // Keyboard and screen-reader users land inside the sheet: the pane takes focus (Tab then walks its own controls) and
   // the app behind it is inert while any sheet is open; focus goes back to the opener on close.
-  const opener = document.activeElement;
   const chrome = ['view', 'topbar', 'tabs'].map(id => document.getElementById(id)).filter(Boolean);
   pane.setAttribute('tabindex', '-1');
   chrome.forEach(el => el.setAttribute('inert', ''));
-  requestAnimationFrame(() => { wrap.classList.add('open'); if (!closed && !pane.contains(document.activeElement)) pane.focus({ preventScroll: true }); });
+  requestAnimationFrame(() => { if (closed) return; wrap.classList.add('open'); if (!pane.contains(document.activeElement)) pane.focus({ preventScroll: true }); });
   // an open dropdown menu over the sheet takes the Escape itself (fx.js): one key press must not dismiss both layers
-  const onKey = (e) => { if (e.key === 'Escape' && !document.querySelector('.dropdown-layer')) close(); };
+  const onKey = (e) => {
+    if ([...openSheets].at(-1) !== close || document.querySelector('.dropdown-layer[data-active]')) return;
+    if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); close(); return; }
+    if (e.key !== 'Tab') return;
+    const focusable = [...pane.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
+      .filter(node => !node.disabled && node.tabIndex >= 0 && !node.closest('[inert]') && node.getClientRects().length);
+    const first = focusable[0], last = focusable.at(-1), active = document.activeElement;
+    if (!first) { e.preventDefault(); pane.focus(); }
+    else if (e.shiftKey && (active === first || !focusable.includes(active))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (active === last || !pane.contains(active))) { e.preventDefault(); first.focus(); }
+  };
   const close = (opts) => {
     if (closed) return; closed = true;
     openSheets.delete(close);
     const silent = !!(opts && opts.silent === true);
     wrap.classList.remove('open');
-    document.body.classList.remove('no-scroll');
+    document.body.classList.toggle('no-scroll', openSheets.size > 0);
     document.removeEventListener('keydown', onKey);
     if (!openSheets.size) chrome.forEach(el => el.removeAttribute('inert'));
+    else [...openSheets].at(-1).pane?.removeAttribute('inert');
     if (wrap.contains(document.activeElement) && opener && opener.isConnected && typeof opener.focus === 'function') { try { opener.focus({ preventScroll: true }); } catch { /* ignore */ } }
     setTimeout(() => wrap.remove(), 320);
     if (!silent && onClose) onClose();
   };
+  close.pane = pane;
   openSheets.add(close);
   document.addEventListener('keydown', onKey);
   wrap.querySelector('.sheet-backdrop').addEventListener('click', close);

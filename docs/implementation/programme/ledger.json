@@ -1,0 +1,559 @@
+{
+  "version": 1,
+  "objective": "Complete every remaining phase of the agreed comprehensive programme; no phase reduction.",
+  "authorizedAt": "2026-10-03",
+  "baseline": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+  "priorRelease": {
+    "phases": [
+      0,
+      1,
+      2
+    ],
+    "mainCommit": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+    "deployment": "https://github.com/cmagripp/italianapp/actions/runs/37125812491",
+    "liveStamp": "parola-v15-a9cf12a5a28d",
+    "phase1ArchitectureStatus": "Production model selection and combined mobile AI/speech validation remain unresolved."
+  },
+  "sourceRequirements": [
+    "docs/IMPLEMENTATION-ROADMAP-2026-10-03.md",
+    "docs/PLAN-UNIFIED-LEARNING-OFFLINE-AI-2026-10-03.md",
+    "docs/implementation/phase-0-2/contracts.md"
+  ],
+  "validationStates": [
+    "pending",
+    "in_progress",
+    "implemented",
+    "independently_reviewed",
+    "controlled_validated",
+    "live_verified"
+  ],
+  "rules": [
+    "This index does not replace detailed requirements in referenced plans. Each entire requirement needs matching authoritative evidence before closed.",
+    "Simulator iPhone16ProMax iOS26.5 is the user-approved testconfiguration; measurements stay attributed to actualenvironment.",
+    "No cloud or native product substitution without user decision.",
+    "Do not label agent review as human Italian educator review."
+  ],
+  "requirements": [
+    {
+      "id": "P3-navigation",
+      "phase": 3,
+      "requirement": "One exact continuation and balanced time-budget daily plan shared across Home and Learn; retain visible Review and scope/stage/practice distinctions.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/programme-navigation-e2e.mjs",
+        "js/learning/plan-panel.js"
+      ],
+      "implementationNotes": "Shared continuation and time-budget plan implemented. Course-linked vocabulary and prerequisite-qualified workshop suggestions pass six checks; merged session continuation uses newest state. Conversation continuation and release integration remain."
+    },
+    {
+      "id": "P3-settings",
+      "phase": 3,
+      "requirement": "Me progress, skill/history and coherent settings sheet for preferences, voices, data, profiles, sync and offline AI.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/programme-navigation-e2e.mjs",
+        "js/views/learningHistory.js",
+        "js/views/offlineAI.js"
+      ],
+      "implementationNotes": "Settings, read-only skill and paged answer history, exact recognition/recall distinctions and offline mode availability are implemented. Nine navigation/history/owner-isolation checks pass in Chromium and WebKit. Grammar labels remain neutral because its existing completion rubric can use recognition. Production pack download/settings integration remains gated on approved runtime assets; no unavailable model is offered for download."
+    },
+    {
+      "id": "P3-review",
+      "phase": 3,
+      "requirement": "Canonical objectives, equivalent-only legacy aliases, one row per word/case/grammar target; short mixed exact-target review; overdue work survives scope changes.",
+      "status": "in_progress",
+      "owner": "programme_learning",
+      "evidence": [
+        "docs/implementation/programme/unified-learning-contract.md",
+        "docs/implementation/programme/unified-review-chromium.json",
+        "docs/implementation/programme/unified-review-webkit.json"
+      ],
+      "implementationNotes": "Grouped finite actual-target review implemented and independently exercised; release integration remains."
+    },
+    {
+      "id": "P3-schedule",
+      "phase": 3,
+      "requirement": "Delayed recognition and production remain distinct; gentle manual review; preserve old completion, uncheck fences and XP; prospective balanced rewards.",
+      "status": "in_progress",
+      "owner": "programme_learning",
+      "evidence": [
+        "tools/test-unified-learning.mjs"
+      ],
+      "implementationNotes": "Delayed recognition/production scheduling remains distinct; old diagnostics retained."
+    },
+    {
+      "id": "P3-shell",
+      "phase": 3,
+      "requirement": "Shared viewport, keyboard, safe areas, history/back/pause/help/lookup/info/feedback/end controls, fixed reachable Continue, stable visit denominator, centered rails, zoom/reduced motion/VoiceOver.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/learning/activity-viewport.js",
+        "tests/practice-controls-e2e.mjs"
+      ],
+      "implementationNotes": "Shared viewport adopted across existing activity families; catalogue/accessibility and final device sweep remain."
+    },
+    {
+      "id": "P3-words",
+      "phase": 3,
+      "requirement": "Catalogue-wide compact mainly non-writing recognition journeys, noun forms/senses, speech and independent evidence without forced final-pair credit.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tools/test-word-questions.mjs",
+        "tools/test-lesson-activities.mjs",
+        "docs/implementation/programme/journey-pacing-full.json",
+        "tests/dictionary-senses-e2e.mjs",
+        "tools/test-lexical-frequency-senses.mjs",
+        "docs/implementation/programme/catalogue-pacing-review.md"
+      ],
+      "implementationNotes": "Six-question word journeys are structurally checked across the current 6,994-entry active snapshot; recognition/forms and forced-pair evidence constraints are implemented. Word-question check passes 29 constraints, including exact context and full-sentence playback for 57 meaning entries. Six independent frequency-sense integration checks preserve parent IDs/evidence/XP and verify gender-changing noun boards. Activity controls/replay/repair pass 19 checks. Whole-catalogue semantic review, pronunciation and installed/learner gates remain; this is not phase completion."
+    },
+    {
+      "id": "P3-verbs",
+      "phase": 3,
+      "requirement": "Catalogue-wide five-case journeys, formal Lei, individual pattern exceptions and natural meaning-specific examples, present/progressive mixed review, short varied visits and voluntary continuation.",
+      "status": "in_progress",
+      "owner": "programme_learning",
+      "evidence": [
+        "docs/implementation/programme/journey-pacing.json",
+        "docs/implementation/programme/journey-pacing-full.json",
+        "tools/test-journey-pacing.mjs",
+        "tests/report-lesson-overview.json",
+        "tests/report-lesson-overview-targeted-webkit.json"
+      ],
+      "implementationNotes": "Finite visits and declared case coverage reduce ordinary present/progressive from 42 to 24 questions (16 typed); simpler cases take 10–13. Current 1,186 verbs provide 5,930 case descriptors: all 5,908 available cases traverse successfully and 22 unsupported remain exempt. Required earlier skips defer mixed transfer to an incomplete partial recap; ten deterministic checks, all 18 Chromium overview checks and three targeted WebKit partial/full checks pass. 25 cases still take four visits; individual linguistic catalogue review and release integration remain."
+    },
+    {
+      "id": "P3-games",
+      "phase": 3,
+      "requirement": "Every game family has full-sentence speech, stable matching geometry with spoken cards, flashcard controls/progress/back/star, intentional transitions and reachable dynamic buttons.",
+      "status": "in_progress",
+      "owner": "programme_learning",
+      "evidence": [
+        "tests/practice-controls-e2e.mjs",
+        "tests/game-family-pacing-e2e.mjs",
+        "docs/implementation/programme/game-family-chromium.json",
+        "docs/implementation/programme/game-family-webkit.json",
+        "docs/implementation/programme/catalogue-pacing-review.md"
+      ],
+      "implementationNotes": "Six controlled checks pass in Chromium and WebKit across drill/matching/sentence/hangman/crossword/speed families: shorter default/exact selected answer budgets, larger requested sessions, full-sentence feedback speech, reachable controls and stale route/profile/learner/epoch callbacks. Timed speed semantics are retained. Flashcard-specific behavior is root-owned; full accessibility, installed-device and learner timing gates remain."
+    },
+    {
+      "id": "P3-senses",
+      "phase": 3,
+      "requirement": "Stable sense/construction records, valid levels/forms/noun metadata/auxiliaries, common meanings restored, reference links, safe ambiguous old-ID migration and diagnostic destinations.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "docs/implementation/programme/sense-review.json",
+        "docs/implementation/programme/lexical-collisions.json",
+        "tests/dictionary-senses-e2e.mjs",
+        "docs/implementation/programme/frequency-sense-independent-review.json",
+        "tools/test-word-questions.mjs",
+        "tools/test-lexical-frequency-senses.mjs",
+        "docs/implementation/programme/lexical-collision-review.json",
+        "docs/implementation/programme/lexical-collision-review.md",
+        "docs/implementation/phase-6/course-sense-links-independent-review.md"
+      ],
+      "implementationNotes": "27 headwords now resolve to 57 independently reviewed sense children. Original parent IDs/progress remain without inherited child mastery. 20 frequency parents and 43 children match the independent review SHA256 and pass six independent integration checks. 935 source collision groups / 2,004 records were manually contrasted with pinned fingerprints; 21 inventory parents are split, leaving 914 unsplit groups, separately from six polysemous parents outside the inventory. No inventory-wide semantic approval is claimed. Eight bounded course context links pass independent source/resolver review. Remaining semantic decisions, native pronunciation and final runtime coverage stay open."
+    },
+    {
+      "id": "P3-workshop",
+      "phase": 3,
+      "requirement": "Practise this pattern versus Help me say it, editable agreement preferences, original text and assisted construction, meaningful glosses and coherent next turns.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P3-migration",
+      "phase": 3,
+      "requirement": "Old links and unfinished sessions preserved or honest compatible migration; no progress loss or fabricated evidence.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/learning-v6-migration-e2e.mjs",
+        "docs/implementation/programme/learning-v6-migration-chromium.json",
+        "docs/implementation/programme/learning-v6-migration-webkit.json",
+        "tests/mixed-client-migration-e2e.mjs",
+        "docs/implementation/programme/mixed-client-migration-chromium.json",
+        "docs/implementation/programme/mixed-client-migration-webkit.json",
+        "docs/implementation/programme/mixed-client-migration-design-review.md"
+      ],
+      "implementationNotes": "Physically separate v6 profile database, fallback, roster and pending mirror prevent already-open actual v5 clients from overwriting v6. Verified initial source and alternative copies, previous migration recoveries and later old-tab exports are kept separately. Current fallback-to-IndexedDB promotion is conditional/verified; deletion clears both backends.13 same-origin actual-baseline/current-client cases pass in each browser; installed worker activation and wider release paths remain."
+    },
+    {
+      "id": "P4-model",
+      "phase": 4,
+      "requirement": "Measured adequate Italian generation/teaching, correction and level adherence; usable offline mobile runtime; explicit product decision for any native switch.",
+      "status": "in_progress",
+      "owner": "programme_ai",
+      "evidence": [
+        "docs/implementation/programme/ai-evaluation.md"
+      ],
+      "implementationNotes": "Measured candidates still fail Italian teaching/meaning quality. No model enabled and no silent native/cloud substitution."
+    },
+    {
+      "id": "P4-service",
+      "phase": 4,
+      "requirement": "Shared worker-based cancellable priority service, bounded history/retrieval, stale-result and profile guards, output schema and grounded validation, one bounded regeneration.",
+      "status": "in_progress",
+      "owner": "programme_ai",
+      "evidence": [
+        "docs/implementation/programme/ai-services.md",
+        "dev/phase-1-ai-trial/service.test.mjs"
+      ],
+      "implementationNotes": "Shared queue/service/validation and deterministic teaching source APIs implemented; production runtime/verified language policy unresolved."
+    },
+    {
+      "id": "P4-language",
+      "phase": 4,
+      "requirement": "Sense/construction level policy with proper-name/number rules and explicit scoped exceptions; verified rule retrieval and supported alternative/uncertain correction policy.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/ai/language-policy.js",
+        "js/ai/language-scope.js",
+        "tools/test-language-policy.mjs"
+      ],
+      "implementationNotes": "Versioned policy validates exact contextual sense/form identities, independently verified constructions, explicit proper names, numeric spans and complete token/structure coverage. Learner-selected word exceptions are scoped to exact conversation/revision/surface and cannot raise grammar levels. Eleven bounded fixture checks and30 service checks pass. This is the validation mechanism only: production full-level reviewed registries/analyzer, free-reply meaning entailment and blinded language quality remain unresolved; no model enabled."
+    },
+    {
+      "id": "P4-packs",
+      "phase": 4,
+      "requirement": "Pinned hash-verified model/tokenizer/runtime/speech packs, real byte progress/resume/cancel/repair/remove, staged atomic activation, storage estimate and licenses.",
+      "status": "in_progress",
+      "owner": "programme_ai",
+      "evidence": [
+        "js/ai/packs.js",
+        "dev/phase-1-ai-trial/service.test.mjs"
+      ],
+      "implementationNotes": "Staged hash-verified service implemented/tested; final model/runtime bundle and user interface pending."
+    },
+    {
+      "id": "P4-storage",
+      "phase": 4,
+      "requirement": "Separate durable transcript/draft/summary/audio records with stable identity, revision/source provenance, transactional commits and safe export/import/delete/profile isolation.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "docs/implementation/programme/conversation-storage-chromium.json",
+        "docs/implementation/programme/conversation-storage-webkit.json",
+        "docs/implementation/programme/ai-conversation-audit-after.json",
+        "tests/conversation-storage-e2e.mjs",
+        "tests/profile-data-lifecycle-e2e.mjs",
+        "tests/conversation-player-e2e.mjs",
+        "tests/profile-backup-e2e.mjs"
+      ],
+      "implementationNotes": "Twenty Chromium checks include exact-source meanings and deletion of every imported identity in a local profile. Conversation player has synchronous scoped unsent-draft recovery with conflicting-text preservation. Full combined backup and installed-device gates remain. Combined profile/transcript/optional-audio backup now passes eight failure/recovery checks in Chromium and WebKit, including durable operation receipts and newer-work protection."
+    },
+    {
+      "id": "P4-audio",
+      "phase": 4,
+      "requirement": "Foreground capture/VAD/recognition/local voice controller, pause/hesitation/self-repair/chunk dedupe/uncertainty, serial resource scheduling, lifecycle cancellation and explicit audio retention.",
+      "status": "in_progress",
+      "owner": "programme_ai",
+      "evidence": [
+        "js/ai/audio-controller.js",
+        "docs/implementation/programme/ai-speech-quality.json"
+      ],
+      "implementationNotes": "Controller and synthetic recognition trial exist; complete microphone/runtime/voice/device combination remains."
+    },
+    {
+      "id": "P4-offline",
+      "phase": 4,
+      "requirement": "Actual combined cold offline model+recognition+voice reopen and broken/evicted/interrupted pack recovery; written/manual/hands-free readiness separately proved.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P5-inbox",
+      "phase": 5,
+      "requirement": "Saved conversations inbox, rename/archive/delete/export, exact resume/draft and thread setup name/agreement/level/support/topic/participants/register.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/conversation-player-e2e.mjs"
+      ],
+      "implementationNotes": "Inbox/setup/rename/archive/delete/transcript export and import implemented. Nine player checks/browser verify drafts, word lookup, messages and internal scrolling using an explicit test-only provider; production AI remains closed. Independent review is in progress."
+    },
+    {
+      "id": "P5-written",
+      "phase": 5,
+      "requirement": "Dynamic generated turns follow actual meaning; guided choices, blanks with own words and free replies; help/difficulty controls, fixed composer/keyboard arrow, unlimited interface history.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/conversations/controller.js",
+        "js/views/conversations.js",
+        "tests/conversation-support-e2e.mjs",
+        "tools/test-conversation-support.mjs"
+      ],
+      "implementationNotes": "Written composer, exact durable turns/drafts, owner-scoped cancellable service and guided/cloze/editable reply support are implemented. Suggested replies are individually language-policy checked and marked assisted; help never invents learner history. Controlled support/player browser tests pass with explicit test providers. Production Italian quality, own-word level exceptions and installed model integration remain."
+    },
+    {
+      "id": "P5-corrections",
+      "phase": 5,
+      "requirement": "Natural correction then continue default, pause-and-explain/review-afterward options, one verified error/contrast, original provenance and recognition uncertainty separated.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/conversation-speech-ui-e2e.mjs",
+        "tools/test-spoken-feedback.mjs",
+        "js/conversations/spoken-feedback.js"
+      ],
+      "implementationNotes": "Natural, pause-and-explain and afterward interfaces use verified source rules and exact source revisions; recognition uncertainty is ungraded and editable. Spoken correction waits or continues according to selected style; stale/untrusted notes cannot be voiced as corrections. Controlled speech UI tests6per browser pass; real model/language/ASR and native human validation remain."
+    },
+    {
+      "id": "P5-lookup",
+      "phase": 5,
+      "requirement": "Every Italian word/phrase resolves contextual verified sense, article/gender/plural or verb form; scoped new word insertion, optional short learning and custom unknown notes.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/conversations/summary.js",
+        "tests/conversation-storage-e2e.mjs"
+      ],
+      "implementationNotes": "Per-word existing local inspector integrated; ambiguous dictionary meanings require explicit selection with exact source revision. Full contextual construction policy and custom notes/study coverage remain."
+    },
+    {
+      "id": "P5-participants",
+      "phase": 5,
+      "requirement": "Stable one-to-three partner identities/roles/addressee, correct tu/Lei/voi/group agreement and explicit join/leave events; one model.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/conversation-player-e2e.mjs",
+        "js/conversations/controller.js"
+      ],
+      "implementationNotes": "Stable1–3partner identities and explicit joins/leaves are committed with system history. Inactive partners cannot reply; addressed participant is constrained at service boundary. Saved UI/player checks cover setup and changes; explicit per-turn addressee selection and model behavior remain."
+    },
+    {
+      "id": "P5-summary",
+      "phase": 5,
+      "requirement": "Always-present living source-linked vocabulary/verb/correction/practice/notes summary, revision invalidation, deterministic entries and no invented mastery.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/conversations/summary.js",
+        "tools/test-conversation-summary.mjs",
+        "tests/conversation-player-e2e.mjs"
+      ],
+      "implementationNotes": "Living summary display, source jump, dictionary/lesson links, Starred and Word Bank actions integrated; individual meaning choices use source-linked revisions. Independent correction trust review in progress; full study/voice scope remains."
+    },
+    {
+      "id": "P5-study",
+      "phase": 5,
+      "requirement": "Summary Learn/Practise/list/star/manual completion connect exact targets and return to same thread, short selected-item drills, unlearned cases remain out of review.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P5-recorded",
+      "phase": 5,
+      "requirement": "Record-stop-edit/re-record-send, timer/cancel/replay, original/transcript edit provenance, optional audio save and full spoken replies.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/conversations/speech-session.js",
+        "tests/conversation-speech-ui-e2e.mjs",
+        "dev/phase-1-ai-trial/speech-session.test.mjs"
+      ],
+      "implementationNotes": "Real microphone PCM capture wired to scoped installed recognizer/voice adapters. Stop/edit/send, cancel, retry, uncertain transcripts, original-versus-edited provenance and explicit optional recording are controlled-tested in both browsers. Default persistence is transcript/notes only. No production recognition/voice pack enabled."
+    },
+    {
+      "id": "P5-handsfree",
+      "phase": 5,
+      "requirement": "One Start continuous foreground alternating turns, pause detection/hesitation/self-repair/silence/longutterance handling, visible states, permission/background cancellation, explicit Resume.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/ai/pcm-capture.js",
+        "js/conversations/speech-session.js",
+        "tests/conversation-speech-ui-e2e.mjs"
+      ],
+      "implementationNotes": "Foreground VAD alternating-turn lifecycle and controls implemented; uncertainty pauses for transcript review. Real Italian ASR/voice/mobile combination remains unvalidated."
+    },
+    {
+      "id": "P5-coach",
+      "phase": 5,
+      "requirement": "Italian goals, explanations, simplification, word-finding/circumlocution (coinquilino case), fresh supportive use, explicit translation escape and native-like natural correction.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/conversation-support-e2e.mjs",
+        "docs/implementation/programme/ai-native-qwen-decision.md"
+      ],
+      "implementationNotes": "Coach setup/goal and shared coach request route implemented with preserved transcript, assistance and source-linked teaching-card interfaces. Actual Italian circumlocution, simplification and helpful feedback remain blocked by measured generation quality; no conversational-teacher pass is claimed."
+    },
+    {
+      "id": "P5-assistance",
+      "phase": 5,
+      "requirement": "Same validated AI service in workshop intent construction and lesson explanations/hints/optionalpractice; uncertain generated drills never determine mastery.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P5-retention",
+      "phase": 5,
+      "requirement": "Transcript/notes default, selected recordings only, no implicit cloud sync, profile-scoped export/import/delete including optional verified audio.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "tests/profile-data-lifecycle-e2e.mjs",
+        "tests/profile-backup-e2e.mjs"
+      ],
+      "implementationNotes": "Profile deletion now removes old-schema/recovery progress plus all conversation learner identities and unsent recovery mirrors; failure keeps profile available for retry. Both browsers pass2 lifecycle checks. Full combined profile backup and selected-audio UI remain. Combined profile/transcript/optional-audio backup now passes eight failure/recovery checks in Chromium and WebKit, including durable operation receipts and newer-work protection."
+    },
+    {
+      "id": "P5-quality",
+      "phase": 5,
+      "requirement": "Per-level independent generated exchange review, 100+turn exactresume, 30–60minute combined stability, meaningful Italian error/speech corpus; no scripted substitute for dynamic conversation.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P6-foundations-a1",
+      "phase": 6,
+      "requirement": "Absolutezero meaning/sound beforetest, knownvocabulary, everydaydomains, usefulchunks/formaladdress, complete requiredparadigms, varied guidance/transfer/repair/retrieval.",
+      "status": "in_progress",
+      "owner": "programme_curriculum",
+      "evidence": [
+        "docs/implementation/phase-6/beginner-coverage.json",
+        "docs/implementation/phase-6/beginner-independent-review.md"
+      ],
+      "implementationNotes": "Twenty-four additions,43targets,24 transcript-checked clips; independent agent review fixes complete. Human educator and beginner learning validation remain, as does full retained-content editorial review."
+    },
+    {
+      "id": "P6-a2-b1",
+      "phase": 6,
+      "requirement": "Travel/services/accounts/plans/opinions, fullpast/futureparadigms, connected exchange/narrative and independent transfer.",
+      "status": "in_progress",
+      "owner": "programme_curriculum",
+      "evidence": [
+        "docs/implementation/phase-6/intermediate-coverage.json",
+        "docs/implementation/phase-6/"
+      ],
+      "implementationNotes": "24 additions40targets and24 transcript-checked clips independently reviewed by an agent;99 baseline lesson objects retained exactly. Actual human educator/calibration, full retained editorial review and final linked-word sense validation remain."
+    },
+    {
+      "id": "P6-b2",
+      "phase": 6,
+      "requirement": "Arguments/hypotheticals/register/cohesion, sustained receptive/production/interaction tasks with meaningfulrubrics.",
+      "status": "in_progress",
+      "owner": "programme_curriculum",
+      "evidence": [
+        "tools/test-phase6-advanced.mjs",
+        "tests/course-attribution-e2e.mjs"
+      ],
+      "implementationNotes": "Advanced band authoring added18 lessons9units27targets171questions across B2/C1/C2, with40 retained transfer repairs and6preparation repairs. Independent agent editorial review closed for declared additions/repairs;89baseline identities retained. Source attribution/browser checks pass. Native educator, learner calibration and all retained content review remain."
+    },
+    {
+      "id": "P6-c1-c2",
+      "phase": 6,
+      "requirement": "Authentic licensed extendedtext/naturalaudio, implicitmeaning/nuance/mediation/synthesis/difficultlistening/precisereformulation, demanding fresh interaction.",
+      "status": "in_progress",
+      "owner": "programme_curriculum",
+      "evidence": [
+        "data/course-v2/phase6-advanced-recorded-sources.json",
+        "data/course-v2/phase6-advanced-recorded-review.json"
+      ],
+      "implementationNotes": "Advanced band includes3495words of extended readings,15 natural-source clips13intervals (928seconds total), and six synthetic models, with exact transcript/source/adaptation records. This media quantity and agent review do not certify C1/C2 proficiency, human editorial approval or listening difficulty. Remaining outcomes and retained-content review stay open."
+    },
+    {
+      "id": "P6-catalogue",
+      "phase": 6,
+      "requirement": "Individual meaning/form/usage review of allverbs highfrequency/irregular/reflexive/impersonal/dualauxiliary/progressivesensitive and fullword/referencecoverage.",
+      "status": "pending",
+      "owner": "programme_curriculum",
+      "evidence": []
+    },
+    {
+      "id": "P6-authoring",
+      "phase": 6,
+      "requirement": "Everylesson tracked outcome/prerequisites/knownsenses/forms/teaching/validalternatives/repairs/variants/delayedreview/references/audio/migration; generators aid/validate not autonomously publish.",
+      "status": "in_progress",
+      "owner": "programme_curriculum",
+      "evidence": [
+        "docs/implementation/programme/curriculum-inventory.json",
+        "docs/implementation/programme/curriculum-map.md",
+        "tools/test-course-v2-assets.mjs"
+      ],
+      "implementationNotes": "Current authored packs contain110units322lessons2211questions and199audio assets. Counts establish inventory only, not full zero-to-C2 coverage or editorial approval. Canonical builds, prerequisite/gloss coverage and source hashes are tested; full programme gates remain."
+    },
+    {
+      "id": "P6-editorial",
+      "phase": 6,
+      "requirement": "Independent agent review plus actual Italian educator and beginner validation gates recorded separately; genuine licensed media and no CEFR certification claims.",
+      "status": "pending",
+      "owner": "programme_curriculum",
+      "evidence": []
+    },
+    {
+      "id": "P7-integration",
+      "phase": 7,
+      "requirement": "Course→word/case→workshop→written/spokenchat→summary→targetpractice→delayedreview→resume/export/offline full flows.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P7-recovery",
+      "phase": 7,
+      "requirement": "Oldprofiles/manualunchecks/cloudconflicts/deletions/reset/checkpoints/storagefailures/corruptpacks/backgroundtermination, compatible recovery/export/rollback.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P7-accessibility",
+      "phase": 7,
+      "requirement": "Both themes, large text, keyboard and VoiceOver, safeareas/internalscroll/reachableactions, simulatoriPhone16ProMaxiOS26.5 and honest environmentlimits.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P7-retirement",
+      "phase": 7,
+      "requirement": "Retire olddispatchers/players/caches only when migratedreplacement coverage and imported-session compatibility are proved.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    },
+    {
+      "id": "P7-release",
+      "phase": 7,
+      "requirement": "Reconcilelatestmain; assembledsite and allapplicabletests; commit/push/deploy; verifyexactlivebuild and old/fresh installationoffline; fullrequirementaudit with allgatesproven.",
+      "status": "pending",
+      "owner": "root",
+      "evidence": []
+    }
+  ],
+  "updatedAt": "2026-10-03T18:37:04.278Z",
+  "testedDeviceConfiguration": {
+    "device": "iPhone 16 Pro Max simulator",
+    "iOS": "26.5",
+    "status": "approved configuration; current programme integration device run pending"
+  },
+  "decisions": [
+    {
+      "date": "2026-10-03",
+      "decision": "User authorizes investigating a native iPhone prototype alongside the website. Shipping a native replacement remains a separate product decision; prototype evaluated on iPhone 16 Pro Max iOS 26.5 simulator."
+    }
+  ],
+  "checkpoint": {
+    "kind": "recoverable development checkpoint",
+    "branch": "codex/parola-full-programme",
+    "productionRelease": false,
+    "validation": "57 deterministic CI suites pass after the limitante lookup repair; 10 conversation study checks, 11 bounded language-policy checks, 6 daily-path checks, browser reports retained. Source/module/build integrity checked. No new live deployment.",
+    "open": "Expanded-v1 scene continuity, individual full-catalogue language audit, workshop assistance, approved model/runtime and speech, human educator/learner gates, assembled offline/device/release integration remain."
+  }
+}

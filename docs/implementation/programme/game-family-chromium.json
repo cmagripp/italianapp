@@ -1,0 +1,11 @@
+{
+  "results": [
+    "Drill defaults bound answers rather than multiplying the selected verb count",
+    "Matching, sentence and letter games have short defaults and retain explicit larger sessions",
+    "A matching pair cannot record after its learner changes",
+    "Sentence Check cannot grade a filled bank for a different learner",
+    "Hangman letters and retained puzzle Check callbacks stop at ownership changes",
+    "A timed speed round stops its late timer and next-question callbacks without recording results"
+  ],
+  "errors": []
+}

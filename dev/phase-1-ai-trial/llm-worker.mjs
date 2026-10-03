@@ -16,8 +16,8 @@ self.onmessage = async ({ data }) => {
     }
     if (!engine) throw Error('Load an explicitly provisioned model first.');
     const token = ++generation, started = performance.now(); let firstTokenMs = null, text = '', usage;
-    const stream = await engine.chat.completions.create({ messages: messagesFor(payload.text, payload.level, payload.history),
-      max_tokens: SETTINGS.max_tokens, temperature: SETTINGS.temperature, top_p: SETTINGS.top_p, seed: SETTINGS.seed,
+    const stream = await engine.chat.completions.create({ messages: payload.messages || messagesFor(payload.text, payload.level, payload.history),
+      max_tokens: Math.min(payload.maxTokens || SETTINGS.max_tokens, 512), ...(payload.responseFormat ? { response_format: payload.responseFormat } : {}), temperature: SETTINGS.temperature, top_p: SETTINGS.top_p, seed: SETTINGS.seed,
       ...(/^Qwen3(?:[-.])/.test(currentModelId) ? { extra_body: { enable_thinking: false } } : {}),
       stream: true, stream_options: { include_usage: true } });
     for await (const chunk of stream) { if (token !== generation) throw Error('Cancelled'); const next = chunk.choices[0]?.delta.content || ''; if (next && firstTokenMs === null) firstTokenMs = performance.now() - started; text += next; usage ||= chunk.usage; }

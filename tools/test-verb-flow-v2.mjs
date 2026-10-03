@@ -12,7 +12,7 @@ const verbs=JSON.parse(fs.readFileSync(new URL('../data/verbs.json',import.meta.
 let count=0;
 const test=(name,run)=>{run();count++;console.log('PASS',name);};
 function runLesson(inf,{chapterId='present',injectError=false,skipProgressive=false}={}){
- const entry=verb(inf),plan=buildLesson(entry);let learning=createLearning(1),serial=0,session=createJourneySession({id:`v2-${inf}`,plan,now:1,chapterId,caseMode:true});
+ const entry=verb(inf),plan=buildLesson(entry);let learning=createLearning(1),serial=0,session=createJourneySession({id:`v2-${inf}`,plan,now:1,chapterId,caseMode:true,caseCoveragePolicy:null});
  const trace=[];let didError=false;
  const norm=s=>String(s||'').normalize('NFC').trim().toLocaleLowerCase('it').replace(/\s+/g,' ');
  const expose=forms=>{session.ui||={exposures:{}};for(const form of forms||[])if(form)session.ui.exposures[norm(form)]=session.index;};

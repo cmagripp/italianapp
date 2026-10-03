@@ -3,7 +3,7 @@ import { html, raw, icon, speak } from '../ui.js';
 import { data } from '../data.js';
 import { createSentenceLookup, tokenizeItalianSentence } from './sentence-lookup.js';
 
-export function createSentencePanel(root, { context = () => ({}), onReveal = () => {}, gloss = () => null } = {}) {
+export function createSentencePanel(root, { context = () => ({}), onReveal = () => {}, gloss = () => null, backLabel = 'Back to the lesson' } = {}) {
   let lookup, origin, disposed = false;
   const dialog = document.createElement('dialog');
   dialog.className = 'journey-word-dialog';
@@ -49,7 +49,7 @@ export function createSentencePanel(root, { context = () => ({}), onReveal = () 
         ${result.status === 'ambiguous' ? raw('<p class="journey-note">This form can have more than one meaning. Use the sentence to choose.</p>') : ''}
         ${raw(candidates.map(candidateHTML).join(''))}
         ${!candidates.length ? raw(html`<p class="journey-note">${result.message || 'A word-level definition is not available yet.'}</p>${result.sentence?.en ? raw(html`<div class="journey-definition"><span class="journey-kicker">Sentence meaning</span><p>${result.sentence.en}</p></div>`) : ''}`) : ''}
-      </div><footer class="journey-word-footer"><button type="button" data-word-say="${result.token}">${raw(icon('speaker',{size:18}))} Listen</button><button type="button" data-word-close>Back to the lesson</button></footer>`;
+      </div><footer class="journey-word-footer"><button type="button" data-word-say="${result.token}">${raw(icon('speaker',{size:18}))} Listen</button><button type="button" data-word-close>${backLabel}</button></footer>`;
     dialog.showModal();
   }
   // Tokenize only Italian sentence text; leave blanks, punctuation and existing

@@ -3,6 +3,8 @@
 // cards, the "up next" reel and the verb-lab reel (both learnCards.js). Returns a cleanup function.
 // Everything here is presentation: the model carries every href, count and label. The lab reel builder is exported
 // (labReelHTML / mountLabReel) so the Sezioni view can draw the same Laboratorio.
+import {planPanelHTML,openPlanBudget} from '../learning/plan-panel.js';
+import {dailyPlan} from '../learning/daily-plan.js';
 import { html, raw, icon } from '../ui.js';
 import { dial, mount, sheen, reducedMotion } from '../fx.js';
 import { readPref, writePref, MODE_KEY } from './learnData.js';
@@ -75,6 +77,8 @@ export function mountLabReel(container, model = {}) {
 export function renderDash(container, model = {}, ctx = {}) {
   if (!container) return () => {};
   const stage = model.stage || {};
+  let plan=model.plan || null;
+  const nextPlan=()=>plan?.continuation || plan?.steps?.[0];
   const modes = (model.modes || []).filter(Boolean);
   const scope = model.scope || {};
   const store = ctx.store;
@@ -107,6 +111,8 @@ export function renderDash(container, model = {}, ctx = {}) {
       <a class="btn primary block dash-start" data-start href="${resume&&mode0.fresh ? resume.href : mode0.href}">${resume&&mode0.fresh ? resumeLabel : 'Start lesson'}</a>
     </section>
 
+    ${plan?raw(html`<section class="card dash-daily-plan" aria-label="Today’s plan"><div class="sec-head in-pane"><div><span class="kicker">Today</span><span class="title">Your daily plan</span></div></div><div data-plan-host>${raw(planPanelHTML(plan,{showContinue:false}))}</div></section>`):''}
+
     <section class="dash-progress">
       <div class="sec-head"><div><span class="kicker">In progress</span><span class="title">In corso</span></div>${inProgress.length ? raw(html`<span class="mono sec-side">${plural(inProgress.length, 'thread')}</span>`) : ''}</div>
       <div class="dash-threads" data-threads>${raw(inProgress.length ? inProgress.map(progressCard).join('') : inviteCard())}</div>
@@ -132,6 +138,7 @@ export function renderDash(container, model = {}, ctx = {}) {
   let swapTimer = 0;
   function showMode(i, { save = false } = {}) {
     const m = modes[i]; if (!m) return;
+    delete startBtn.dataset.continueShared;
     titleEl.textContent = m.title || m.label || '';
     subEl.textContent = m.sub || '';
     startBtn.dataset.mode = m.key || '';
@@ -150,6 +157,15 @@ export function renderDash(container, model = {}, ctx = {}) {
     : null;
   if (!modes.length) root.querySelector('.dash-dial-wrap').remove();
   showMode(idx);
+  function showPlanTarget(){
+    const next=nextPlan();if(!next)return;
+    titleEl.textContent=next.entry?(next.entry.inf||next.entry.it||next.entry.title||next.label.replace(/^Continue\s+/,'')):next.label.replace(/^Continue\s+/,'');
+    subEl.textContent=next.label+' · '+next.reason;
+    startBtn.textContent=next.kind==='continue'?'Continue':'Start lesson';
+    startBtn.href=next.href;startBtn.dataset.continueShared=next.id;
+    startBtn.classList.toggle('dash-resume',next.kind==='continue');
+  }
+  showPlanTarget();
 
   // the two reels (learnCards.js): up next and the verb lab
   const nextEl = root.querySelector('[data-next-reel]');
@@ -159,6 +175,8 @@ export function renderDash(container, model = {}, ctx = {}) {
   const labReel = labEl ? mountLabReel(labEl, model) : null;
 
   const onClick = (e) => {
+    const budget=e.target.closest('[data-plan-budget]');
+    if(budget){openPlanBudget(budget,store,()=>{plan=dailyPlan(store);root.querySelector('[data-plan-host]').innerHTML=planPanelHTML(plan,{showContinue:false});showPlanTarget();});return;}
     const go = e.target.closest('button[data-href]');
     if (go) { location.hash = go.dataset.href; return; }
     if (e.target.closest('[data-to-hero]')) {

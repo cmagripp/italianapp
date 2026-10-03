@@ -1,0 +1,133 @@
+// Canonical, idempotent compilation of the bounded Foundations/A1 release.
+// The editorial source supplies every model, situation and answer; this file
+// assigns stable IDs and validates local authoring requirements only.
+import fs from 'node:fs';
+import {pathToFileURL} from 'node:url';
+import {everydayUnits,productionRepairs,W,C,T,F} from './phase6-beginner-lessons.mjs';
+const SYLLABUS='https://www.unistrapg.it/sites/default/files/docs/certificazioni/sillabo-4-enti-A1.pdf';
+const editorial={version:'phase6-beginner-1',author:'Parola curriculum workstream',sourceRefs:[SYLLABUS],textOrigin:'Original authored teaching and fictional situations; no third-party text copied.',agentReview:'passed independent agent editorial review',agentReviewRecord:'docs/implementation/phase-6/beginner-independent-review.md',nativeItalianEducatorReview:'pending',learnerCalibration:'pending'};
+const link=entryId=>({entryId,...entryId.startsWith('v:')?{caseId:'present'}:{}});
+const senseKey=word=>'phase6-beginner-sense:'+word.it.normalize('NFC').toLocaleLowerCase('it').replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,'');
+
+export function compileBeginnerLesson(record){
+ const id='v2-'+record.id,steps=[],targets=[];
+ const words=[...record.words,...record.extraWords||[],...record.id==='a1-simple-directions'?[W('Dopo il bar','after the café')]:[],...record.id==='a1-weather-conditions'?[W('al parco','at the park')]:[]];
+ steps.push({id:id+'.words',kind:'words',title:'Language for this situation',body:'Read the meanings and listen to the words before answering. Whole phrases are explained as chunks when their grammar comes later.',words});
+ for(const facet of record.facets){
+  const target=id+'.'+facet.key;
+  targets.push({id:target,label:facet.label,explanation:facet.body,facets:[facet.key],minIndependent:2,requiresProduction:facet.questions.slice(1,3).some(q=>q.format==='type'),modality:'language',repair:{title:facet.label,body:facet.body,examples:facet.examples}});
+  steps.push({id:id+'.teach-'+facet.key,kind:'teach',title:facet.label,body:facet.body,examples:facet.examples,introduces:[target]});
+  const guided=facet.questions[0];
+  steps.push({id:id+'.'+facet.key+'-guided',kind:'question',target,facet:facet.key,stage:'guided',contextKey:id+'.'+facet.key+'-guided',...guided});
+ }
+ const [mode,title,it,en]=record.passage,source=id+'.scene';
+ steps.push({id:source,kind:'passage',mode,title,it,en,task:'Notice the purpose of each sentence. This model is supported input; the fresh checks below assess the taught expression.',...mode==='listen'?{audioId:source}:{}});
+ // Interleave the two contrasts. Consecutive answers to the same facet do
+ // not meet the player's intervening-use evidence rule.
+ for(let i=0;i<6;i++)for(const facet of record.facets){
+  const q=i<4?facet.questions[i+1]:productionRepairs[record.id]?.[facet.key]?.[i-4],key=id+'.'+facet.key+'-'+(i+1);
+  if(!q)throw new Error(key+': fresh productive repair is missing');
+  steps.push({id:key,kind:'question',target:id+'.'+facet.key,facet:facet.key,stage:'independent',contextKey:key,...i>=2?{reserve:true}:{},...q});
+ }
+ const [portfolioMode,prompt,model,rubric,partnerPrompt]=record.portfolio;
+ steps.push({id:id+'.application',kind:'portfolio',title:'Use it in a short exchange',mode:portfolioMode,prompt:prompt+' This is optional practice with self-review; it does not certify writing, speaking or interaction.',model,rubric,...partnerPrompt?{partnerPrompt}:{}});
+ const takeaway=record.facets.map(f=>f.label+': '+f.body).join(' ');
+ steps.push({id:id+'.recap',kind:'teach',title:'Keep the useful contrast',body:record.facets.map(f=>f.label+'.').join(' ')+' Use the model if needed; a later fresh question checks recall.',examples:record.facets.map(f=>f.examples[0]),introduces:[]});
+ return {id,title:record.title,outcome:record.outcome,minutes:9,prerequisites:record.prerequisites,related:(record.related||[]).map(link),legacyLessonIds:[],takeaway,targets,steps,editorial:{...editorial},curriculum:{domains:record.domains,introducedSenses:words.map(w=>({id:senseKey(w),it:w.it,en:w.en,firstStepId:id+'.words',...w.article?{article:w.article}:{},...w.plural?{plural:w.plural}:{}})),forms:record.facets.map(f=>({id:id+'.'+f.key,modelStepId:id+'.teach-'+f.key,description:f.body})),retrievalPolicy:'Existing exact-target review scheduler; the next cross-context encounter is listed in the band coverage report. Same-visit reserve questions are repair, not delayed retrieval.'}};
+}
+
+// Source-linked reception retains transcript/translation assistance semantics
+// from the current player. Teaching explains the strategy without revealing
+// the independent sources' answers. Every independent source is distinct.
+export function compileBeginnerInput({id,title,outcome,assessmentLabel=outcome,modality,words,prerequisites,domains,related=[],scenes,model,body,portfolio}){
+ const target=id+'.detail',steps=[{id:id+'.words',kind:'words',title:'Language in these messages',words},
+ {id:id+'.model',kind:'teach',title:modality==='listening'?'Listen for one useful detail':'Read for one useful detail',body,examples:[model],introduces:[target]}];
+ for(const [i,scene] of scenes.entries()){
+  const source=id+'.source-'+i;
+  steps.push({id:source,kind:'passage',mode:modality==='listening'?'listen':'read',title:i?'A different situation':'One together',it:scene.it,en:scene.en,task:'Find the detail requested in the next question.',...modality==='listening'?{audioId:source}:{},...i>=3?{reserve:true}:{}});
+  steps.push({id:id+'.check-'+i,kind:'question',format:'choice',target,facet:'practical-detail',stage:i?'independent':'guided',contextKey:source,exposureGroup:source,modality,prompt:scene.prompt,answer:scene.answer,options:scene.options,explanation:scene.explanation,hint:i?'Keep the stated person, place, time or quantity. Use the source again if you need support.':scene.explanation,speak:scene.it,...modality==='listening'?{audioId:source}:{passageId:source},...i>=3?{reserve:true}:{}});
+ }
+ const [mode,prompt,applicationModel,rubric]=portfolio;
+ steps.push({id:id+'.application',kind:'portfolio',mode,title:'Pass on the useful information',prompt:prompt+' This is optional practice with self-review.',model:applicationModel,rubric},
+ {id:id+'.recap',kind:'teach',title:'Keep the information faithful',body:'Use the source to find the requested detail. Keep names, places, quantities and times; do not add a fact the message did not give. Reading the transcript of a listening source records support.',examples:[model],introduces:[]});
+ return {id,title,outcome,minutes:9,prerequisites,related:related.map(link),legacyLessonIds:[],takeaway:body,targets:[{id:target,label:assessmentLabel,explanation:body,facets:['practical-detail'],minIndependent:2,requiresProduction:false,modality,repair:{title:'Find the requested detail',body,examples:[model]}}],steps,editorial:{...editorial},curriculum:{domains,introducedSenses:words.map(w=>({id:senseKey(w),it:w.it,en:w.en,firstStepId:id+'.words'})),forms:[],retrievalPolicy:'Exact-source comprehension remains separate from later exact-target review and optional open mediation.'}};
+}
+
+function foundationExchange(){return compileBeginnerLesson({id:'f-supported-exchange',title:'Complete a first supported exchange',outcome:'I can greet a peer, give a name and origin, ask for repetition and close the exchange.',prerequisites:['v2-f-greet','v2-f-name','v2-f-origin','v2-f-repair'],domains:['first-contact','repair'],words:[W('e tu?','and you? (familiar)'),W('piacere','nice to meet you'),W('a domani','see you tomorrow'),W('Sono di…','I am from…'),W('Mi chiamo…','My name is…'),W('Può ripetere, per favore?','Could you repeat, please? (polite)')],facets:[
+ F('introduce','Respond with your own information','An introduction gives your own name with mi chiamo and origin with sono di. E tu? gives the other person a turn. Piacere is a friendly meeting phrase, not a name or a place.','Mi chiamo Eva. Sono di Roma. E tu?','My name is Eva. I am from Rome. And you?',[
+ C('«Come ti chiami?» «___»','Your fictional name is Paolo.','Mi chiamo Paolo.',['Mi chiamo Paolo.','Come ti chiami?','Sono di Roma.'],'The name question needs your own name.'),
+ T('Mi chiamo Eva. Sono ___ Roma.','My name is Eva. I am from Rome.','di','The introduced origin frame is sono di + city.'),
+ C('«Sono di Roma. E tu?» «___»','Your fictional origin is Napoli.','Sono di Napoli.',['Sono di Napoli.','Mi chiamo Napoli.','Sono di Roma.'],'Reply with your supplied city rather than copying the speaker’s origin.'),
+ T('___ Paolo.','My name is Paolo. Complete the whole name frame.','Mi chiamo','Mi chiamo introduces your name.'),
+ C('«Ciao, sono Eva.» «___»','You meet Eva for the first time; say nice to meet you.','Piacere!',['Piacere!','Arrivederci!','Non capisco.'],'Piacere is the taught friendly meeting reply.')]),
+ F('repair-close','Ask for help, then close','When you miss a message, ask for a repeat rather than guessing a name. Può ripetere, per favore? is a taught polite chunk. At the end, arrivederci is a polite goodbye; a domani is appropriate when you expect to meet tomorrow.','Scusi, non capisco. Può ripetere, per favore? Arrivederci.','Excuse me, I do not understand. Could you repeat, please? Goodbye.',[
+ C('Scusi, ___.','State that you do not understand.','non capisco',['non capisco','mi chiamo','piacere'],'Non capisco states the understanding problem.'),
+ T('___, per favore?','Could you repeat, please? Use the taught polite phrase.','Può ripetere','Può ripetere asks to hear the same message again.'),
+ C('«Grazie. ___»','You end a polite exchange now.','Arrivederci!',['Arrivederci!','Buongiorno!','Come si chiama?'],'Arrivederci closes the exchange.'),
+ T('A ___!','See you tomorrow!','domani','A domani refers to the next day.'),
+ C('«___»','You missed the spoken name; ask for repetition.','Può ripetere, per favore?',['Può ripetere, per favore?','Piacere!','Mi chiamo Eva.'],'Request the missing information rather than inventing it.')])],passage:['read','One first exchange','Eva: «Ciao! Mi chiamo Eva. Sono di Roma. E tu?»\nPaolo: «Mi chiamo Paolo. Sono di Napoli. Piacere!»','Eva: “Hi! My name is Eva. I am from Rome. And you?”\nPaolo: “My name is Paolo. I am from Naples. Nice to meet you!”'],portfolio:['interact','Use fictional name Eva and city Roma. Begin, answer the partner’s questions, then close.','Ciao! Mi chiamo Eva. Sono di Roma. Piacere! A domani.',['Give the supplied name.','Give the supplied city.','Ask for repetition if needed.','Use a farewell.'],'Ciao! Come ti chiami? Di dove sei?']});}
+
+function foundationListening(){return compileBeginnerInput({id:'v2-f-listen-first-contact',title:'Understand a first greeting',outcome:'I can identify a name, city or help request in a short clear exchange.',modality:'listening',domains:['first-contact','listening'],prerequisites:['v2-f-supported-exchange'],words:[W('Eva','a fictional first name'),W('Paolo','a fictional first name'),W('Sara','a fictional first name'),W('Roma','Rome'),W('Napoli','Naples'),W('Milano','Milan'),W('non capisco','I do not understand'),W('ciao','hi; bye'),W('buongiorno','good morning; good day'),W('scusi','excuse me (polite)'),W('ripetere','to repeat')],model:{it:'Mi chiamo Sara. Sono di Milano.',en:'My name is Sara. I am from Milan.'},body:'Listen for the question’s requested detail: a name, a city or a help request. You may replay. The transcript and English help make the task supported; they do not count as independent listening.',scenes:[
+ {it:'Ciao! Mi chiamo Sara. Sono di Milano.',en:'Hi! My name is Sara. I am from Milan.',prompt:'What is the speaker’s name?',answer:'Sara',options:['Sara','Eva','Paolo'],explanation:'The speaker gives the name Sara after mi chiamo.'},
+ {it:'Buongiorno. Mi chiamo Paolo. Sono di Napoli.',en:'Good morning. My name is Paolo. I am from Naples.',prompt:'Where is Paolo from?',answer:'Napoli',options:['Napoli','Roma','Milano'],explanation:'Sono di Napoli gives his origin.'},
+ {it:'Ciao! Sono di Roma. Mi chiamo Eva.',en:'Hi! I am from Rome. My name is Eva.',prompt:'What is the speaker’s name?',answer:'Eva',options:['Eva','Sara','Paolo'],explanation:'The name comes after the city: mi chiamo Eva.'},
+ {it:'Scusi, non capisco. Può ripetere, per favore?',en:'Excuse me, I do not understand. Could you repeat, please?',prompt:'What does the speaker need?',answer:'A repeat',options:['A repeat','A name question','A goodbye'],explanation:'Può ripetere requests repetition.'},
+ {it:'Ciao, mi chiamo Sara. Sono di Roma. A domani!',en:'Hi, my name is Sara. I am from Rome. See you tomorrow!',prompt:'Where is Sara from?',answer:'Roma',options:['Roma','Milano','Napoli'],explanation:'The origin is Roma, even though a different Sara example used Milano.'}
+ ],portfolio:['speak','Pass on the name and origin from one message.','Paolo è di Napoli.',['Use the given name.','Keep the stated city.','Do not copy a different example’s detail.']]});}
+
+function foundationSound(){return compileBeginnerInput({id:'v2-f-listen-c-words',title:'Hear familiar hard and soft c words',outcome:'I can identify a familiar word from its sound before reading its spelling.',modality:'listening',domains:['known-sounds','listening'],prerequisites:['v2-f-sound-c','v2-f-keep-c-hard'],related:['w:casa|noun'],words:[W('casa','house','la','case'),W('cena','dinner','la','cene'),W('chiave','key','la','chiavi'),W('chiesa','church','la','chiese'),W('ecco','here is'),W('Ecco la casa.','Here is the house.')],model:{it:'casa · cena · chiave · chiesa',en:'house · dinner · key · church'},body:'Listen to the familiar word, then choose what you heard. Casa begins with hard c; cena with soft c. Ch keeps c hard in chiave and chiesa. The known meanings let you focus on sound. This checks listening to words, not the quality of your own pronunciation.',scenes:[
+ {it:'Ecco la casa. La casa è grande. La casa è qui.',en:'Here is the house. The house is big. The house is here.',prompt:'Which familiar object or place did you hear?',answer:'casa',options:['casa','cena','chiave'],explanation:'Casa, house, has the hard initial c sound.'},
+ {it:'Ecco la cena. La cena è pronta.',en:'Here is dinner. Dinner is ready.',prompt:'Which familiar word did you hear?',answer:'cena',options:['cena','casa','chiesa'],explanation:'Cena, dinner, begins with soft c.'},
+ {it:'Ecco la chiave. La chiave è qui.',en:'Here is the key. The key is here.',prompt:'Which familiar object did you hear?',answer:'chiave',options:['chiave','casa','cena'],explanation:'Chiave, key, has hard c kept by ch.'},
+ {it:'Ecco la chiesa. La chiesa è a Roma.',en:'Here is the church. The church is in Rome.',prompt:'Which familiar place did you hear?',answer:'chiesa',options:['chiesa','casa','cena'],explanation:'Chiesa, church, has the hard c sound before i.'},
+ {it:'La casa è qui. Ecco la casa.',en:'The house is here. Here is the house.',prompt:'Which familiar place did you hear?',answer:'casa',options:['casa','chiesa','cena'],explanation:'The repeated familiar word is casa, with hard c.'}
+ ],portfolio:['speak','Repeat two known words after the sound models, then compare your recording if you wish.','casa · cena',['Compare the initial c sounds.','Keep the meanings separate.','Treat the recording as self-practice.']]});}
+
+function exitReading(){return compileBeginnerInput({id:'v2-a1-exit-read-relay',title:'Read and relay a practical note',outcome:'I can find and pass on the day, time or place in short familiar notices.',assessmentLabel:'I can find the requested day, time or place in a short familiar notice.',modality:'reading',domains:['stage-exit','reading','mediation'],prerequisites:['v2-a1-opening-times','v2-a1-meet-place','v2-a1-calendar-dates','v2-a1-health-help'],words:[W('appuntamento','appointment'),W('aperto','open'),W('chiuso','closed'),W('oggi','today'),W('domani','tomorrow'),W('alle dieci','at ten'),W('davanti alla stazione','in front of the station'),W('il primo maggio','the first of May'),W('il dieci ottobre','the tenth of October')],model:{it:'Appuntamento: domani alle nove.',en:'Appointment: tomorrow at nine.'},body:'Read the whole note first. Find the exact day, time or place the question requests. When passing it on, retain those details and leave out information that was not supplied.',scenes:[
+ {it:'Appuntamento: domani alle nove.',en:'Appointment: tomorrow at nine.',prompt:'When is the appointment?',answer:'Tomorrow at nine',options:['Tomorrow at nine','Today at nine','Tomorrow at ten'],explanation:'The note states domani alle nove.'},
+ {it:'Il museo è chiuso il primo maggio. È aperto il due maggio.',en:'The museum is closed on the first of May. It is open on the second of May.',prompt:'On which day is the museum open?',answer:'The second of May',options:['The second of May','The first of May','Both days'],explanation:'The open day is il due maggio; day one is closed.'},
+ {it:'Ciao Eva. Ci vediamo davanti alla stazione alle sei. Paolo.',en:'Hi Eva. Let’s meet in front of the station at six. Paolo.',prompt:'Where is the meeting?',answer:'In front of the station',options:['In front of the station','At the café','At home'],explanation:'The stated place is davanti alla stazione.'},
+ {it:'La farmacia è aperta oggi dalle nove alle sei. Domani è chiusa.',en:'The pharmacy is open today from nine to six. Tomorrow it is closed.',prompt:'When is the pharmacy closed?',answer:'Tomorrow',options:['Tomorrow','Today','Both days'],explanation:'Domani è chiusa gives the closed day.'},
+ {it:'Lezione: il dieci ottobre alle nove. Appuntamento: il dieci ottobre alle dieci.',en:'Lesson: on the tenth of October at nine. Appointment: on the tenth of October at ten.',prompt:'At what time is the appointment?',answer:'At ten',options:['At ten','At nine','At six'],explanation:'The appointment is the second item, at ten, rather than the lesson at nine.'}
+ ],portfolio:['mediate','Pass one fictional note to a friend in two short sentences. Keep its practical details.','Il museo è chiuso il primo maggio. È aperto il due maggio.',['Keep which place the note concerns.','Keep the day and time.','Do not add a reason that was not stated.']]});}
+
+function exitListening(){return compileBeginnerInput({id:'v2-a1-exit-listen-arrange',title:'Follow a changed arrangement',outcome:'I can recover the final detail from a clearly spoken familiar service or meeting exchange.',modality:'listening',domains:['stage-exit','listening','interaction'],prerequisites:['v2-a1-exit-read-relay','v2-a1-clothes-shop','v2-a1-contact-details','v2-a1-leisure-invitation'],words:[W('alle cinque','at five'),W('alle sei','at six'),W('alle nove','at nine'),W('alle dieci','at ten'),W('oggi','today'),W('domani','tomorrow'),W('taglia media','medium size'),W('taglia grande','large size'),W('al bar','at the café'),W('non posso','I cannot')],model:{it:'Alle cinque non posso. Alle sei? Va bene.',en:'I cannot at five. At six? All right.'},body:'Listen for the final agreed detail. A first proposal can be changed. Keep the final day, time, place or size rather than selecting the first familiar expression you hear. Replaying is allowed; transcript help records support.',scenes:[
+ {it:'Eva: «Ci vediamo alle cinque?»\nPaolo: «Alle cinque non posso. Alle sei?»\nEva: «Va bene, alle sei.»',en:'Eva: “Let’s meet at five?”\nPaolo: “I cannot at five. At six?”\nEva: “All right, at six.”',prompt:'What is the final meeting time?',answer:'At six',options:['At six','At five','At nine'],explanation:'The final accepted time is alle sei.'},
+ {it:'Cliente: «Un appuntamento oggi?»\nAddetta: «Oggi no. Domani alle dieci.»\nCliente: «Domani alle dieci, va bene.»',en:'Customer: “An appointment today?”\nReceptionist: “Not today. Tomorrow at ten.”\nCustomer: “Tomorrow at ten, all right.”',prompt:'When is the appointment finally agreed?',answer:'Tomorrow at ten',options:['Tomorrow at ten','Today at ten','Tomorrow at nine'],explanation:'The customer accepts domani alle dieci.'},
+ {it:'Cliente: «Vorrei una taglia media.»\nCommessa: «Questa giacca è troppo piccola?»\nCliente: «Sì. Vorrei una taglia grande.»',en:'Customer: “I would like a medium size.”\nShop assistant: “Is this jacket too small?”\nCustomer: “Yes. I would like a large size.”',prompt:'What size does the customer finally request?',answer:'Large',options:['Large','Medium','Small'],explanation:'The final request changes to taglia grande.'},
+ {it:'Eva: «Ci vediamo davanti alla stazione?»\nPaolo: «Al bar, per favore.»\nEva: «Va bene, al bar alle sei.»',en:'Eva: “Let’s meet in front of the station?”\nPaolo: “At the café, please.”\nEva: “All right, at the café at six.”',prompt:'What is the final meeting place?',answer:'At the café',options:['At the café','In front of the station','At home'],explanation:'The final accepted place is al bar.'},
+ {it:'Cliente: «Il museo apre alle nove?»\nAddetta: «No, oggi apre alle dieci.»\nCliente: «Alle dieci, grazie.»',en:'Customer: “Does the museum open at nine?”\nReceptionist: “No, today it opens at ten.”\nCustomer: “At ten, thank you.”',prompt:'When does the museum open today?',answer:'At ten',options:['At ten','At nine','At six'],explanation:'The receptionist corrects the time to alle dieci.'}
+ ],portfolio:['interact','Practise changing a meeting time and confirming the final arrangement with a partner.','Alle cinque non posso. Alle sei? Va bene, al bar alle sei.',['Notice a changed proposal.','Confirm the final details.','Use help if the reply is unclear.']]});}
+
+function calendarReading(){return compileBeginnerInput({id:'v2-a1-calendar-read',title:'Find a date in a calendar',outcome:'I can recover a date from a familiar calendar and recognise all twelve month names.',assessmentLabel:'I can find the requested date or month in a familiar calendar.',modality:'reading',domains:['dates','reading'],prerequisites:['v2-a1-calendar-dates'],related:['w:febbraio|noun','w:aprile|noun','w:giugno|noun','w:agosto|noun','w:settembre|noun','w:novembre|noun'],words:[W('gennaio','January'),W('febbraio','February'),W('marzo','March'),W('aprile','April'),W('maggio','May'),W('giugno','June'),W('luglio','July'),W('agosto','August'),W('settembre','September'),W('ottobre','October'),W('novembre','November'),W('dicembre','December')],model:{it:'Lezione: il due febbraio.',en:'Lesson: on the second of February.'},body:'Month names identify the calendar month; the preceding number gives the day. Six names are familiar from the earlier date lesson. Read the remaining six with their meanings before using the calendar. Find the event named in the question rather than choosing the first date in the note.',scenes:[
+ {it:'Lezione: il due febbraio.',en:'Lesson: on the second of February.',prompt:'In which month is the lesson?',answer:'February',options:['February','January','March'],explanation:'Febbraio is February.'},
+ {it:'Appuntamento: il cinque aprile. Lezione: il cinque maggio.',en:'Appointment: on the fifth of April. Lesson: on the fifth of May.',prompt:'In which month is the appointment?',answer:'April',options:['April','May','March'],explanation:'The appointment is in aprile; maggio belongs to the lesson.'},
+ {it:'Compleanno di Eva: il dieci giugno. Compleanno di Paolo: il dieci luglio.',en:'Eva’s birthday: on the tenth of June. Paolo’s birthday: on the tenth of July.',prompt:'In which month is Eva’s birthday?',answer:'June',options:['June','July','January'],explanation:'Eva’s entry says giugno, June.'},
+ {it:'Il museo è chiuso il primo agosto. È aperto il due agosto.',en:'The museum is closed on the first of August. It is open on the second of August.',prompt:'In which month are these opening dates?',answer:'August',options:['August','April','October'],explanation:'Agosto is August in both dates.'},
+ {it:'Lezione: il cinque settembre. Appuntamento: il cinque novembre.',en:'Lesson: on the fifth of September. Appointment: on the fifth of November.',prompt:'Which month is given for the lesson?',answer:'September',options:['September','November','December'],explanation:'Settembre belongs to the lesson; novembre belongs to the appointment.'},
+ {it:'Appuntamento: il dieci novembre. Lezione: il dieci dicembre.',en:'Appointment: on the tenth of November. Lesson: on the tenth of December.',prompt:'Which month is given for the appointment?',answer:'November',options:['November','December','September'],explanation:'The appointment is in novembre, November.'}
+ ],portfolio:['write','Copy one calendar event into a short Italian message, keeping its day and month.','La lezione è il cinque settembre.',['Name the event.','Keep its stated day.','Keep its stated month.']]});}
+
+const additions = {
+ Foundations:()=>[{id:'v2-foundations-u4',title:'Use a first exchange',description:'Integrate known chunks, listen for a practical detail, and distinguish familiar c words by sound.',lessons:[foundationExchange(),foundationListening(),foundationSound()]}],
+ A1:()=>[...everydayUnits.map(unit=>({...unit,id:'v2-a1-u'+unit.id,lessons:[...unit.lessons.map(compileBeginnerLesson),...unit.id===21?[calendarReading()]:[]]})),{id:'v2-a1-u24',title:'Put everyday information together',description:'Use short familiar written and spoken sources; keep reception separate from open production, interaction and mediation practice.',lessons:[exitReading(),exitListening()]}],
+};
+
+export function refinePhase6BeginnerPack(pack){
+ if(!Object.hasOwn(additions,pack.level))return pack;
+ for(const unit of additions[pack.level]()){
+  const index=pack.units.findIndex(existing=>existing.id===unit.id);
+  if(index<0)pack.units.push(unit);else pack.units[index]=unit;
+ }
+ // A small gloss is genuine preparation; a tooltip or a reserve flag is not.
+ const sound=pack.units.flatMap(u=>u.lessons).find(l=>l.id==='v2-f-listen-c-words');
+ if(sound)for(const word of [W('qui','here'),W('pronta','ready (feminine singular)'),W('La cena è pronta.','Dinner is ready.'),W('grande','big (singular)'),W('La casa è grande.','The house is big.')])sound.steps[0].words.push(word);
+ pack.curriculumRelease={version:'phase6-beginner-1',scope:pack.level==='Foundations'?'First supported exchange and source-linked beginner listening':'Dedicated everyday domains and source-linked stage transfer',nativeItalianEducatorReview:'pending',learnerCalibration:'pending',proficiencyClaim:'No certified CEFR proficiency claim; open production/interaction/mediation remain self-review.'};
+ return pack;
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
+ for(const level of ['Foundations','A1']){
+  const file=new URL('../data/course-v2/'+level+'.json',import.meta.url),pack=JSON.parse(fs.readFileSync(file));
+  refinePhase6BeginnerPack(pack);fs.writeFileSync(file,JSON.stringify(pack,null,2)+'\n');
+ }
+}

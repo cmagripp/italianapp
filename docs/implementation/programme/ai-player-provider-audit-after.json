@@ -1,0 +1,58 @@
+{
+  "testedAt": "2026-10-03T16:08:04.939Z",
+  "scope": "Independent synthetic browser/controller fixtures, explicit test-only provider; no user records or model readiness claim",
+  "import": {
+    "error": null,
+    "tips": [],
+    "summaryCorrectionCount": 0,
+    "staleTips": []
+  },
+  "overlap": {
+    "busyBeforeOldFinally": true,
+    "busyAfterOldFinally": true,
+    "newerRequestStillPending": true,
+    "generationCalls": 2
+  },
+  "crossWriter": {
+    "mirrorBeforeB": "Testo A ancora non salvato.",
+    "mirrorAfterB": "Testo A ancora non salvato.",
+    "firstWriterError": "A newer draft is already saved.",
+    "databaseText": "Testo B salvato da un altro scrittore.",
+    "recoveredConflictText": "Testo A ancora non salvato."
+  },
+  "recoveredRecognition": {
+    "recoveredDraft": {
+      "recognizedText": "ieri andato mercato",
+      "transcriptEdits": [
+        {
+          "before": "ieri andato mercato",
+          "after": "Ieri andato al mercato."
+        }
+      ],
+      "selectedHelp": [
+        "hint-used"
+      ],
+      "inputProvenance": {
+        "mode": "recorded",
+        "recognitionUncertain": true
+      },
+      "typedText": "Ieri andato al mercato.",
+      "turnId": "abc1abc1-dd5b-4867-9c9a-b1bd62d29b4b",
+      "mode": "recorded",
+      "clientId": "eb4ed5cb-ff71-4838-abe5-b5d4ad31b692",
+      "writeId": "ba749818-16f2-44f7-bf19-2b437785684f",
+      "ownerId": "[\"db4n2i4smusl61mv\",\"learner:7vni9zd6musl61mv\"]",
+      "threadId": "audit-recognition",
+      "revision": 1,
+      "updatedAt": 1791043691448
+    },
+    "generationRecognizedAsUncertain": true
+  },
+  "providerReplacement": {
+    "firstReply": true,
+    "replacementReply": true,
+    "error": null,
+    "callsA": 1,
+    "callsB": 1
+  }
+}

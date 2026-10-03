@@ -1,0 +1,97 @@
+[
+  {
+    "it": "trentuno",
+    "en": "thirty-one",
+    "pos": "num",
+    "level": "A1",
+    "cat": "numbers",
+    "ex": "La visita è il trentuno ottobre.",
+    "exEn": "The visit is on the thirty-first of October.",
+    "note": "Cardinal 31. Calendar dates use the cardinal after day one; before a noun, trentun also occurs.",
+    "sources": [
+      "https://www.treccani.it/vocabolario/trentuno/"
+    ]
+  },
+  {
+    "it": "caricatore",
+    "en": "charger",
+    "pos": "noun",
+    "g": "m",
+    "pl": "caricatori",
+    "level": "A2",
+    "cat": "tech",
+    "ex": "Il caricatore del telefono non funziona.",
+    "exEn": "The phone charger does not work.",
+    "note": "Here an electrical battery charger; the machinery, person and ammunition meanings are not taught in this entry.",
+    "sources": [
+      "https://www.treccani.it/vocabolario/caricatore/"
+    ]
+  },
+  {
+    "it": "bevanda",
+    "en": "drink; beverage",
+    "pos": "noun",
+    "g": "f",
+    "pl": "bevande",
+    "level": "A2",
+    "cat": "food",
+    "ex": "Vorrei una bevanda senza latte.",
+    "exEn": "I would like a drink without milk.",
+    "note": "A liquid drink. La bevanda / le bevande.",
+    "sources": [
+      "https://www.treccani.it/vocabolario/bevanda/"
+    ]
+  },
+  {
+    "it": "tecnico",
+    "en": "technician",
+    "pos": "noun",
+    "g": "m",
+    "pl": "tecnici",
+    "fem": "tecnica",
+    "femPl": "tecniche",
+    "level": "A2",
+    "cat": "work",
+    "ex": "Il tecnico controlla il riscaldamento.",
+    "exEn": "The technician checks the heating.",
+    "note": "A person with practical technical expertise, here in a repair service. Feminine: tecnica, pl. tecniche. The adjective technical is a separate use.",
+    "sources": [
+      "https://www.treccani.it/vocabolario/tecnico/"
+    ]
+  },
+  {
+    "it": "noce",
+    "en": "walnut",
+    "pos": "noun",
+    "g": "f",
+    "pl": "noci",
+    "level": "A2",
+    "cat": "food",
+    "ex": "Questi biscotti contengono noci.",
+    "exEn": "These biscuits contain walnuts.",
+    "note": "La noce is the edible fruit; le noci is its plural. Il noce is the tree, a separate masculine meaning. This entry gives vocabulary, not allergy advice.",
+    "sources": [
+      "https://www.treccani.it/vocabolario/noce1/",
+      "https://www.treccani.it/vocabolario/noce2/"
+    ]
+  },
+  {
+    "it": "sostitutivo",
+    "en": "replacement; substitute",
+    "pos": "adj",
+    "forms": [
+      "sostitutivo",
+      "sostitutiva",
+      "sostitutivi",
+      "sostitutive"
+    ],
+    "level": "A2",
+    "cat": "travel",
+    "ex": "Il bus sostitutivo parte davanti alla stazione.",
+    "exEn": "The replacement bus leaves from in front of the station.",
+    "note": "Something serving in place of something else. Here it describes a replacement transport service, with no provider policy implied.",
+    "sources": [
+      "https://www.treccani.it/vocabolario/sostitutivo/"
+    ]
+  }
+]

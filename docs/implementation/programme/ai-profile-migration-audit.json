@@ -1,0 +1,63 @@
+{
+  "measuredAt": "2026-10-03T15:11:15.471Z",
+  "synthetic": true,
+  "cases": {
+    "raced-primary": {
+      "error": null,
+      "current": {
+        "id": "expected",
+        "learnerId": "learner:one",
+        "learning": {
+          "version": 6
+        },
+        "draft": "original"
+      },
+      "snapshots": [
+        {
+          "key": "kv:migration:learning-v6-unified-review-1:expected:d8fe7cc4",
+          "verified": true,
+          "profileId": "expected"
+        }
+      ],
+      "pointer": "{\"recoveryKey\":\"migration:learning-v6-unified-review-1:expected:d8fe7cc4\"}"
+    },
+    "rollback-fails": {
+      "error": "Your progress could not be updated safely. The previous copy is kept. Export it, free some storage, then retry. rollback failed",
+      "current": {
+        "id": "expected",
+        "learnerId": "learner:one",
+        "learning": {
+          "version": 6
+        },
+        "draft": "original"
+      },
+      "snapshots": [
+        {
+          "key": "kv:migration:learning-v6-unified-review-1:expected:d8fe7cc4",
+          "verified": true,
+          "profileId": "expected"
+        }
+      ],
+      "pointer": null
+    },
+    "wrong-profile-scope": {
+      "error": null,
+      "current": {
+        "id": "other-profile",
+        "learnerId": "learner:one",
+        "learning": {
+          "version": 6
+        },
+        "draft": "original"
+      },
+      "snapshots": [
+        {
+          "key": "kv:migration:learning-v6-unified-review-1:expected:dc2c11b8",
+          "verified": true,
+          "profileId": "other-profile"
+        }
+      ],
+      "pointer": "{\"recoveryKey\":\"migration:learning-v6-unified-review-1:expected:dc2c11b8\"}"
+    }
+  }
+}

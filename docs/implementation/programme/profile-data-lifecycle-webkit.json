@@ -1,0 +1,7 @@
+{
+  "browser": "webkit",
+  "checks": [
+    "Deleting a local user clears progress, old-schema recovery, all conversation owners and synchronous draft copies",
+    "A failed conversation deletion keeps the user available for a clear retry"
+  ]
+}

@@ -78,6 +78,7 @@ function nounForms(entry, plural = false) {
   return unique([word, ...articles(entry, plural).map(a => attach(a, word))]);
 }
 function prompt(main, instruction) { return `<div class="big md">${escapeHTML(main)}</div>${instruction ? `<div class="sub">${escapeHTML(instruction)}</div>` : ''}`; }
+function senseContext(entry,skill){return entry.senseId&&entry.ex?`<p class="sentence">${escapeHTML(entry.ex)}</p>${skill==='meaning'?'':`<p class="sub">In this meaning: ${escapeHTML(selectedMeaning(entry))}</p>`}`:'';}
 
 export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'guided', pool = [], chapterId = 'word-short', contentVersion = 1, format = 'mc', pairTargets = [] } = {}) {
   if (!entry?.id || !entry.it || !target?.id || target.available === false || entry.inf || entry.pos === 'verb') return null;
@@ -157,8 +158,8 @@ export function buildShortWordQuestion(entry, target, { variant = 0, phase = 'gu
   const lexicalExposure = entry.pos === 'noun' && ['recall', 'plural'].includes(skill) ? nounForms(entry, skill === 'plural') : answers;
   const variantKey = `${target.id}:${formKey}:${hash([main, instruction, ...choices.map(c => norm(c.label)).sort()].join('|')).toString(36)}`;
   const result = {
-    id: variantKey, type: 'mc', itemId: entry.id, prompt: prompt(main, instruction), tag: skill,
-    answer: answers, choices, say, tip: explanation, lesson: [explanation, entry.note, nounNumberNote(entry)].filter(Boolean).join(' '),
+    id: variantKey, type: 'mc', itemId: entry.id, prompt: prompt(main, instruction)+senseContext(entry,skill), tag: skill,
+    answer: answers, choices, say:entry.senseId&&entry.ex?entry.ex:say, ...(entry.senseId&&entry.ex?{context:{it:entry.ex,en:entry.exEn||''}}:{}), tip: explanation, lesson: [explanation, entry.note, nounNumberNote(entry)].filter(Boolean).join(' '),
     example: entry.ex || '', exampleTranslation: entry.exEn || '', explanation,
     meta: { entryId: entry.id, objectiveId: target.id, targetId: target.id, wordSlotId: target.wordSlotId || null,
       chapterId: target.chapterId || chapterId, contentVersion, kind: 'word', skill, tense: null, person: null, role: 'ordinary',
@@ -239,5 +240,5 @@ function articleBoard(entry, target, descriptors, candidates, result, seedValue)
   if (rows.length < 2) return null;
   const mixed = decoys.length === 2 ? 'Two other nouns are mixed in.' : decoys.length === 1 ? 'Another noun is mixed in.' : '';
   const base = { ...result, meta: { ...result.meta, promptExposureForms: [], exposureForms: unique(ownForms), feedbackExposureForms: unique([entry.it, ...ownForms]) } };
-  return createPairActivity(base, rows.map(({ targetId, label, decoy, question }) => ({ targetId, label, decoy, question })), { seed: seedValue, prompt: prompt('Match each article to its noun', mixed) });
+  return createPairActivity(base, rows.map(({ targetId, label, decoy, question }) => ({ targetId, label, decoy, question })), { seed: seedValue, prompt: prompt('Match each article to its noun', mixed)+senseContext(entry,'article') });
 }

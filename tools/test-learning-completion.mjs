@@ -40,7 +40,7 @@ try {
   const state=store.completionState(verb);assert.equal(state.complete,false);assert.deepEqual(state.cases.filter(c=>c.checked).map(c=>c.id),['past']);
   assert.equal(store.isLearned(verb.id),false);assert.deepEqual(store.learning.events,{});assert.deepEqual(store.current.stats,before);
   const queue=eligibleSkills(store,now);assert.ok(queue.length);assert.ok(queue.every(s=>s.tense==='passatoProssimo'&&!s.ready&&s.independentCorrect===0));
-  assert.deepEqual(reviewableTenses(store,verb),['passatoProssimo']);assert.equal(reviewItems(store,now+DAY).length,queue.length);
+  assert.deepEqual(reviewableTenses(store,verb),['passatoProssimo']);const rows=reviewItems(store,now+DAY);assert.equal(rows.length,1);assert.equal(rows[0].targets.length,queue.length);assert.equal(rows[0].caseId,'past');
  });
  await test('all and individual checkboxes are reversible; evidence, drafts, Starred and XP are unchanged',()=>{
   fresh();const target=lessonObjectives(verb).find(t=>t.chapterId==='future'&&t.person===0);evidence(target,{ok:false,outcome:'incorrect'});
@@ -142,7 +142,7 @@ try {
   profile.items[verb.id]={learned:true,learnedAt:START-1,last:START,due:START};profile.stats.xp=42;
   const session=createJourneySession({id:'v9-draft',plan:lessonPlan(word),now});session.ui={draft:'retained',paused:true};profile.learning.session=session;profile.learning.sessions.saved=session;
   profile.lists.starred={id:'starred',name:'Starred',items:[word.id]};await store.importJSON(JSON.stringify({profile}));
-  assert.equal(store.learning.version,LEARNING_VERSION);assert.equal(LEARNING_VERSION,5);assert.equal(store.current.stats.xp,42);assert.equal(store.learning.session.ui.draft,'retained');assert.deepEqual(store.lists.starred.items,[word.id]);
+  assert.equal(store.learning.version,LEARNING_VERSION);assert.equal(LEARNING_VERSION,6);assert.equal(store.current.stats.xp,42);assert.equal(store.learning.session.ui.draft,'retained');assert.deepEqual(store.lists.starred.items,[word.id]);
   assert.equal(store.completionState(verb).complete,true);assert.deepEqual(store.learning.events,{});assert.ok(eligibleSkills(store,now+DAY).every(s=>!s.ready));
   const newer={...copy(store.learning),version:LEARNING_VERSION+1};assert.deepEqual(normalizeLearning(newer),newer);assert.throws(()=>mergeLearning(store.learning,newer),/newer version/);
  });

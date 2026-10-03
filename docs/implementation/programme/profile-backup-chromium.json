@@ -1,0 +1,13 @@
+{
+  "browser": "chromium",
+  "checks": [
+    "Full backup restores progress and exact transcripts, with audio only on explicit inclusion",
+    "Invalid content and future formats are rejected before changing progress",
+    "Failure to save the recovery journal leaves the current profile untouched",
+    "Interruption after the progress commit resumes without replacing newer progress",
+    "A committed conversation restore is idempotent even if journal cleanup failed and newer messages exist",
+    "Changes to conversations while restoration is pending are never silently overwritten",
+    "Deleting a conversation clears any pending import that contains its private text",
+    "Deleting a user removes their pending backup and pre-import recovery record"
+  ]
+}

@@ -1,6 +1,7 @@
 // Pure chapter sequencing. Teaching and supported activities never masquerade as
 // independent evidence; the event reducer remains the only source of readiness.
 import { createSession, applySessionAttempt, skillState, completionRecord, LEARNING_VERSION } from './model.js';
+import {CASE_COVERAGE_POLICY,caseCoverage} from './case-coverage.js';
 
 export const JOURNEY_VERSION = 1;
 export const CORE_JOURNEY_CASES = ['present', 'past', 'background', 'future', 'condizionale'];
@@ -59,6 +60,7 @@ function compatible(plan, session) {
   if (j.varietyRound !== undefined && !integer(j.varietyRound)) return false;
   if (j.checkpointNextGroup !== undefined && j.checkpointNextGroup !== null && !integer(j.checkpointNextGroup)) return false;
   if (j.verbFlowVersion !== undefined && j.verbFlowVersion !== 2) return false;
+  if (j.caseCoveragePolicy !== undefined && j.caseCoveragePolicy !== CASE_COVERAGE_POLICY) return false;
   if (j.caseMode !== undefined && typeof j.caseMode !== 'boolean') return false;
   if (j.redoStartIndex !== undefined && j.redoStartIndex !== null && !integer(j.redoStartIndex)) return false;
   if (j.wordShort !== undefined && (!record(j.wordShort) || j.wordShort.version !== 1 || !integer(j.wordShort.teachingIndex)
@@ -92,9 +94,11 @@ function completionEvidence(learning, entryId, chapterId) {
   if (!cache.domains.has(override.id)) cache.domains.set(override.id,{...learning,events:Object.fromEntries(Object.entries(learning.events || {}).filter(([,e])=>e.at>override.at))});
   return cache.domains.get(override.id);
 }
-function readyForRun(learning, target, session, now) {
+function readyForRun(learning, target, session, now, plan) {
   const manual=completionRecord(learning,session.entryId,session.journey.chapterId);
   if(session.journey.redoStartIndex==null&&manual?.checked&&(manual.flowVersion===2||!target.flowVersion))return true;
+  if(session.journey.caseCoveragePolicy===CASE_COVERAGE_POLICY&&session.mode==='lesson')return !!caseCoverage(plan,
+    learning,session.journey.chapterId,{sessionId:session.id,startIndex:session.journey.redoStartIndex}).states.get(target.id)?.covered;
   if (!journeyTargetState(completionEvidence(learning,session.entryId,session.journey.chapterId), target, now).ready) return false;
   const start = session.journey.redoStartIndex;
   if (start === undefined || start === null || !learning) return true;
@@ -149,7 +153,9 @@ function setQuestion(plan, session, target, phase, { supplemental = false, repai
   if (phase === 'guided' && !supplemental && !target.supplementalOnly) {
     const group = groupFor(chapterFor(plan, session), target.id), taught = taughtTargets(group), position = taught.findIndex(t => t.id === target.id);
     const matchable = taught.filter(t => !t.guidedOnly && ['conjugation', 'address', 'progressive'].includes(t.skill) && Number.isInteger(t.person));
-    if (plan.kind === 'verb' && position === 1 && variant === 0 && matchable.length >= 3 && matchable.some(t => t.id === target.id)) format = 'pairs';
+    const pendingMatches=matchable.filter(t=>t.id===target.id||j.queue.includes(t.id));
+    if(j.caseCoveragePolicy===CASE_COVERAGE_POLICY&&plan.kind==='verb')format=pendingMatches.length>=3&&pendingMatches.some(t=>t.id===target.id)?'pairs':'mc';
+    else if (plan.kind === 'verb' && position === 1 && variant === 0 && matchable.length >= 3 && matchable.some(t => t.id === target.id)) format = 'pairs';
     else if (!target.guidedOnly && ((position + variant) % 3 === 2 || (matchable.length < 3 && position === 1))) format = 'letters';
     else if (plan.kind === 'verb' && position === 0 && !target.guidedOnly) format = 'mc';
     else if (format === 'match') format = 'mc';
@@ -171,19 +177,28 @@ function setQuestion(plan, session, target, phase, { supplemental = false, repai
 function inCurrentSection(chapter, session, target) {
   if(chapter?.flowVersion!==2 || session.mode==='review')return true;
   const current=groups(chapter)[session.journey.groupIndex];
-  return current?.finalReview || groupFor(chapter,target.id)?.stage===current?.stage;
+  return !current || current.finalReview || groupFor(chapter,target.id)?.stage===current.stage;
 }
 function sectionPending(plan,session,learning,now){
-  return eligibleTargets(plan,session).filter(t=>inCurrentSection(chapterFor(plan,session),session,t)&&!readyForRun(learning,t,session,now));
+  return eligibleTargets(plan,session).filter(t=>inCurrentSection(chapterFor(plan,session),session,t)&&!readyForRun(learning,t,session,now,plan));
+}
+function afterTeaching(plan,session,learning,group,now){
+  const chapter=chapterFor(plan,session),taught=taughtTargets(group);
+  return startPass(plan,session,learning,group?.finalReview&&session.journey.caseCoveragePolicy!==CASE_COVERAGE_POLICY?'checkpoint':'guided',taught.map(t=>t.id),now);
 }
 function startGroup(plan, session, learning, now) {
   const j = session.journey, chapter = chapterFor(plan, session), group = groups(chapter)[j.groupIndex];
   j.cardIndex = 0; j.current = null; j.phase = 'teach';
   if (!group) return startPass(plan, session, learning, 'checkpoint', eligibleTargets(plan, session).map(target => target.id), now);
   if(group.finalReview){
-    for(const target of group.targets||[])if(target.dependsOn?.some(id=>Object.hasOwn(j.skipped,id))){j.skipped[target.id]=now;session.deferred[target.id]=now;}
+    // New case completion credits mixed transfer only after every earlier
+    // required part. Explicitly skipped material cannot satisfy that gate;
+    // save the final transfer for a later visit instead of asking it forever.
+    const earlierSkipped=j.caseCoveragePolicy===CASE_COVERAGE_POLICY&&session.mode==='lesson'
+      &&groups(chapter).filter(g=>!g.finalReview).flatMap(g=>g.targets||[]).some(t=>required(t)&&Object.hasOwn(j.skipped,t.id));
+    for(const target of group.targets||[])if(earlierSkipped||target.dependsOn?.some(id=>Object.hasOwn(j.skipped,id))){j.skipped[target.id]=now;session.deferred[target.id]=now;}
   }
-  if (!(group.cards || []).length) return startPass(plan, session, learning, 'guided', taughtTargets(group).map(target => target.id), now);
+  if (!(group.cards || []).length) return afterTeaching(plan,session,learning,group,now);
   return session;
 }
 
@@ -196,7 +211,12 @@ function startPass(plan, session, learning, phase, queue, now) {
 
 function finishPass(plan, session, learning, now) {
   const j = session.journey, chapter = chapterFor(plan, session), group = groups(chapter)[j.groupIndex];
-  if (j.phase === 'guided') return startPass(plan, session, learning, 'practice', (group?.targets || []).filter(required).map(target => target.id), now);
+  if (j.phase === 'guided') {
+    if(j.caseCoveragePolicy===CASE_COVERAGE_POLICY&&group?.finalReview)for(const target of (group.targets||[]).filter(required)){
+      (j.variants[target.id]||={guided:0,independent:0,repair:0}).independent=Math.max(1,j.variants[target.id].independent);
+    }
+    return startPass(plan, session, learning, 'practice', (group?.targets || []).filter(required).map(target => target.id), now);
+  }
   if (j.phase === 'practice') {
     const nextIndex=j.groupIndex+1,next=groups(chapter)[nextIndex];
     if(chapter?.flowVersion===2 && next && next.stage!==group?.stage){
@@ -208,7 +228,7 @@ function finishPass(plan, session, learning, now) {
   // A previously-ready form may have failed while serving as a contrast. Keep
   // that reopened target in this chapter even if it left the original queue.
   if (j.phase === 'checkpoint') {
-    const pending = chapter?.flowVersion===2 ? sectionPending(plan,session,learning,now) : eligibleTargets(plan, session).filter(target => !(chapter.id==='mixed'&&target.flowVersion&&journeyCaseProgress(plan,learning,null,now).cases.find(c=>c.id===target.sourceChapter)?.updateAvailable) && !readyForRun(learning, target, session, now));
+    const pending = chapter?.flowVersion===2 ? sectionPending(plan,session,learning,now) : eligibleTargets(plan, session).filter(target => !(chapter.id==='mixed'&&target.flowVersion&&journeyCaseProgress(plan,learning,null,now).cases.find(c=>c.id===target.sourceChapter)?.updateAvailable) && !readyForRun(learning, target, session, now,plan));
     if (pending.length) return startPass(plan, session, learning, 'checkpoint', pending.map(target => target.id), now);
     if(j.checkpointNextGroup!=null){j.groupIndex=j.checkpointNextGroup;j.checkpointNextGroup=null;return startGroup(plan,session,learning,now);}
   }
@@ -259,14 +279,15 @@ function schedule(plan, session, learning, now) {
     j.phase = 'repair-teach';
     return session;
   }
-  if (j.phase === 'checkpoint') j.queue = j.queue.filter(id => !readyForRun(learning, targetFor(plan, id), session, now));
+  if (j.phase === 'checkpoint') j.queue = j.queue.filter(id => !readyForRun(learning, targetFor(plan, id), session, now,plan));
   if (j.phase === 'review') j.queue = j.queue.filter(id => !reviewed(learning, targetFor(plan, id), session, now));
   if (!j.queue.length) return finishPass(plan, session, learning, now);
   if (j.phase === 'guided') { setQuestion(plan, session, targetFor(plan, j.queue.shift()), 'guided'); return session; }
   const support = j.queue.findIndex(id => targetFor(plan, id)?.completionRequired);
   if (support >= 0) { setQuestion(plan, session, targetFor(plan, j.queue.splice(support, 1)[0]), 'guided'); return session; }
   // Rotate people/activities from this same chapter. Never inject another entry.
-  const limited = target => (target.independentVariantCount ?? target.variantCount) === 1 || j.limitedTargets?.[target.id];
+  const limited = target => j.caseCoveragePolicy===CASE_COVERAGE_POLICY&&session.mode==='lesson'?false:
+    (target.independentVariantCount ?? target.variantCount) === 1 || j.limitedTargets?.[target.id];
   const possible = j.queue.filter(id => !limited(targetFor(plan, id)));
   if (!possible.length && j.phase !== 'practice') { j.blocked = 'limited-variants'; j.current = null; return session; }
   if (plan.kind !== 'verb' && session.mode !== 'review' && ['practice', 'checkpoint'].includes(j.phase) && (j.writtenRun || 0) >= 2) {
@@ -387,11 +408,11 @@ function advanceShortWord(plan, oldSession, learning, now) {
   return changed(session,now);
 }
 
-export function createJourneySession({ id, plan, learning = null, now = Date.now(), mode = 'lesson', chapterId = null, targetId = null, caseMode = false }) {
+export function createJourneySession({ id, plan, learning = null, now = Date.now(), mode = 'lesson', chapterId = null, targetId = null, caseMode = false, caseCoveragePolicy=CASE_COVERAGE_POLICY }) {
   const chapter = targetId ? plan.chapters?.find(c => targets(c).some(t => t.id === targetId))
     : plan.chapters?.find(c => c.id === chapterId) || plan.chapters?.find(c => !c.optional && (mode !== 'review' || targets(c).some(required))) || plan.chapters?.[0];
   const session = createSession({ id, entryId: plan.entryId, objectiveIds: allTargets(plan).filter(available).map(target => target.id), now, mode });
-  session.journey = { ...(plan.flowVersion===2?{verbFlowVersion:2}:{}),version: JOURNEY_VERSION, planVersion: plan.version, chapterId: chapter?.id || null, groupIndex: 0, cardIndex: 0,
+  session.journey = { ...(plan.flowVersion===2?{verbFlowVersion:2}:{}),...(plan.kind==='verb'&&plan.flowVersion===2&&mode==='lesson'&&caseCoveragePolicy===CASE_COVERAGE_POLICY?{caseCoveragePolicy}:{}),version: JOURNEY_VERSION, planVersion: plan.version, chapterId: chapter?.id || null, groupIndex: 0, cardIndex: 0,
     phase: 'teach', current: null, queue: [], serial: 0, variants: {}, lastAnswered: {}, failures: {}, skipped: {}, covered: {},
     awaitingContinue: false, lastAttempt: null, repairReturn: null, focusTargetId: targetId || null, blocked: false, limitedTargets: {}, personRepairs: {}, caseMode: !!caseMode, caseCursors: {}, redoStartIndex: null };
   if (!chapter) session.journey.phase = 'complete';
@@ -441,14 +462,14 @@ export function advanceJourney(plan, oldSession, learning, { now = Date.now() } 
   if (j.phase === 'teach') {
     const group = groups(chapter)[j.groupIndex];
     j.cardIndex++;
-    if (j.cardIndex >= (group?.cards || []).length) startPass(plan, session, learning, group?.finalReview?'checkpoint':'guided', taughtTargets(group).map(target => target.id), now);
+    if (j.cardIndex >= (group?.cards || []).length) afterTeaching(plan,session,learning,group,now);
   } else if (j.phase === 'repair-teach') {
     j.phase = 'repair';
     setQuestion(plan, session, targetFor(plan, j.current.targetId), 'repair', { repairTag: j.lastAttempt?.errorTags?.[0] || 'uncertain', supplemental: j.current.supplemental });
   } else if (j.phase === 'recap') {
     // The only way beyond a recap with unfinished forms is the learner's
     // explicit continue action. Keep those forms pending for a later visit.
-    for (const target of targets(chapter).filter(required)) if (!readyForRun(learning, target, session, now)) {
+    for (const target of targets(chapter).filter(required)) if (!readyForRun(learning, target, session, now,plan)) {
       j.skipped[target.id] = now; session.deferred[target.id] = now;
     }
     const index = plan.chapters.findIndex(c => c.id === j.chapterId);
@@ -474,11 +495,11 @@ export function advanceJourney(plan, oldSession, learning, { now = Date.now() } 
         const matching = g => taughtTargets(g).filter(t => !t.guidedOnly
           && ['conjugation', 'address', 'progressive'].includes(t.skill) && Number.isInteger(t.person));
         const firstMatchingGroup = groups(chapter).find(g => matching(g).length >= 3);
-        const letterTargetId = group === firstMatchingGroup ? matching(group)[2]?.id : null;
+        const letterTargetId = j.caseCoveragePolicy!==CASE_COVERAGE_POLICY&&group === firstMatchingGroup ? matching(group)[2]?.id : null;
         const matched = new Set(j.pairMatches?.[current.questionId] || []);
         j.queue = j.queue.filter(id => id === letterTargetId || !matched.has(id) || j.pairRepairs?.[id]);
       } else if (!current.supplemental && ((j.phase === 'review' && !reviewed(learning, targetFor(plan, current.targetId), session, now))
-        || (j.phase === 'checkpoint' && !readyForRun(learning, targetFor(plan, current.targetId), session, now)))) j.queue.push(current.targetId);
+        || (j.phase === 'checkpoint' && !readyForRun(learning, targetFor(plan, current.targetId), session, now,plan)))) j.queue.push(current.targetId);
       schedule(plan, session, learning, now);
     }
   }
@@ -498,6 +519,7 @@ export function journeyAttempt(plan, session, question, grade, { assistance = []
   const independent = current.phase === 'independent' && question.type === 'type' && question.meta?.mode !== 'recognition';
   return { id: current.questionId, sessionId: session.id, index: session.index, at: now,
     policy: 'journey-v1', targetId: target.id, objectiveId: target.id, entryId: plan.entryId, kind: plan.kind,
+    ...(j.caseCoveragePolicy===CASE_COVERAGE_POLICY?{caseCoveragePolicy:CASE_COVERAGE_POLICY}:{}),
     chapterId: chapter.id, contentVersion: plan.version, role: question.meta?.role || target.role || null,
     skill: question.meta?.skill || target.skill, tense: target.tense || chapter.tense || null, person: question.meta?.person ?? target.person ?? null,
     activityKind: current.phase, mode: independent ? 'production' : 'recognition',
@@ -525,6 +547,7 @@ export function journeyPairAttempt(plan, session, question, grade, { targetId, a
   if (!pair || !target || !group?.targets?.some(t => t.id === targetId) || session.journey.pairMatches?.[current.questionId]?.includes(targetId)) return null;
   return { id: `${current.questionId}:pair:${encodeURIComponent(targetId)}:${attempt}`, sessionId: session.id, index: session.index, at: now,
     policy: 'journey-v1', targetId, objectiveId: targetId, entryId: plan.entryId, kind: plan.kind,
+    ...(session.journey.caseCoveragePolicy===CASE_COVERAGE_POLICY?{caseCoveragePolicy:CASE_COVERAGE_POLICY}:{}),
     chapterId: chapter.id, contentVersion: plan.version, role: question.meta?.role || target.role || null,
     skill: pair.meta?.skill || target.skill, tense: target.tense || chapter.tense || null, person: pair.meta?.person ?? target.person ?? null,
     activityKind: 'guided', mode: 'recognition', variantId: text(pair.meta?.variantId), contextId: text(pair.meta?.contextId),
@@ -643,7 +666,7 @@ export function chooseJourneyChapter(plan, oldSession, chapterId, { now = Date.n
   if (session.mode === 'review') startPass(plan, session, learning, 'review', eligibleTargets(plan, session).map(t => t.id), now);
   else {
     const chapter=chapterFor(plan,session);
-    if(!redo&&chapter?.flowVersion===2){const pending=groups(chapter).findIndex(g=>g.targets?.some(t=>required(t)&&!readyForRun(learning,t,session,now)));if(pending>=0)j.groupIndex=pending;}
+    if(!redo&&chapter?.flowVersion===2){const pending=groups(chapter).findIndex(g=>g.targets?.some(t=>required(t)&&!readyForRun(learning,t,session,now,plan)));if(pending>=0)j.groupIndex=pending;}
     startGroup(plan, session, learning, now);
   }
   return changed(session, now);
@@ -655,7 +678,7 @@ export function retryJourneyPending(plan, oldSession, learning, { now = Date.now
   if(j.wordShort){j.wordShort.skipped={};for(const slot of wordSlots(plan)){delete session.deferred[slot.targetId];delete j.skipped[slot.targetId];}startWordSlot(plan,session,learning);return changed(session,now);}
   const pending = targets(chapterFor(plan, session)).filter(target => (j.focusTargetId ? available(target) && !target.supplementalOnly && !target.guidedOnly : required(target))
     && (!j.focusTargetId || target.id === j.focusTargetId)
-    && (session.mode === 'review' ? !reviewed(learning, target, session, now) : !readyForRun(learning, target, session, now)));
+    && (session.mode === 'review' ? !reviewed(learning, target, session, now) : !readyForRun(learning, target, session, now,plan)));
   for (const target of pending) { delete j.skipped[target.id]; delete session.deferred[target.id]; }
   const chapter=chapterFor(plan,session);
   if(session.mode!=='review'&&chapter?.flowVersion===2){
@@ -682,7 +705,7 @@ export function journeyProgress(plan, session, learning = null, now = Date.now()
   if(session?.journey && Object.hasOwn(session.journey,'wordShort'))return shortWordProgress(plan,session,learning,now);
   const chapters = (plan.chapters || []).map(chapter => {
     const states = targets(chapter).filter(required).map(target => ({ target, ...journeyTargetState(learning, target, now),
-      ...(session?.journey?.chapterId === chapter.id && (session.journey.redoStartIndex != null || completionRecord(learning,plan.entryId,chapter.id)?.checked) ? { ready: readyForRun(learning, target, session, now) } : {}),
+      ...(session?.journey?.chapterId === chapter.id && (session.journey.caseCoveragePolicy===CASE_COVERAGE_POLICY || session.journey.redoStartIndex != null || completionRecord(learning,plan.entryId,chapter.id)?.checked) ? { ready: readyForRun(learning, target, session, now,plan) } : {}),
       skipped: !!session?.journey?.skipped?.[target.id] }));
     const ready = states.filter(state => state.ready).length;
     return { id: chapter.id, title: chapter.title, optional: !!chapter.optional, targets: states, total: states.length, ready,
@@ -738,8 +761,9 @@ export function journeyChapterCompletions(plan, learning, now = Date.now()) {
       const available = targets(chapter).some(target => required(target) && !target.guidedOnly && !target.completionRequired);
       const demonstratedAt = available ? milestone(completionStates) : null;
       const historicalAt=chapter.legacyRequirements?milestone(chapter.legacyRequirements.filter(required).map(t=>journeyTargetState(evidence,t,now))):null;
-      const completedAt = available && override?.checked ? override.at : demonstratedAt ?? historicalAt, ready = completedAt !== null;
-      const updateAvailable=ready&&demonstratedAt===null&&!!chapter.flowVersion&&(!override?.checked&&historicalAt!==null||override?.checked&&override.flowVersion!==2);
+      const coverageAt=available?caseCoverage(plan,evidence,chapter.id).completedAt:null;
+      const completedAt = available && override?.checked ? override.at : coverageAt ?? demonstratedAt ?? historicalAt, ready = completedAt !== null;
+      const updateAvailable=ready&&coverageAt===null&&demonstratedAt===null&&!!chapter.flowVersion&&(!override?.checked&&historicalAt!==null||override?.checked&&override.flowVersion!==2);
       return { id: chapter.id, title: chapter.title, tense: chapter.tense, optional:!!chapter.optional, ready, completedAt,
         updateAvailable, source:ready && override?.checked ? override.source : ready ? 'lesson' : null, manual:override?.source === 'manual',
         available, exempt: !available, limitation: available ? null : 'This entry has no supported forms for this case in the current course.',
@@ -821,7 +845,7 @@ export function upgradeVerbJourneySession(plan, oldSession, learning, {now=Date.
       if(j.current&&!target){j.current=null;startGroup(plan,session,learning,now);}
     }else{
       const forms=groups(chapter).filter(g=>g.stage==='forms').flatMap(g=>g.targets||[]).filter(required);
-      const pending=forms.filter(t=>!Object.hasOwn(j.skipped,t.id)&&!readyForRun(learning,t,session,now));
+      const pending=forms.filter(t=>!Object.hasOwn(j.skipped,t.id)&&!readyForRun(learning,t,session,now,plan));
       j.current=null;j.awaitingContinue=false;j.lastAttempt=null;j.repairReturn=null;j.focusTargetId=null;
       if(pending.length){j.groupIndex=Math.max(0,groups(chapter).findIndex(g=>g.id==='progressive')-1);j.checkpointNextGroup=j.groupIndex+1;startPass(plan,session,learning,'checkpoint',pending.map(t=>t.id),now);}
       else {j.groupIndex=Math.max(0,groups(chapter).findIndex(g=>g.id==='progressive'));startGroup(plan,session,learning,now);}
@@ -854,7 +878,7 @@ export function journeyStageProgress(plan,session,learning,now=Date.now()){
   return labels.map((item,index)=>{
     const ts=groups(chapter).filter(g=>g.stage===item.id).flatMap(g=>g.targets||[]).filter(required);
     const passed=index<labels.findIndex(s=>s.id===active)||['recap','complete'].includes(j.phase);
-    const done=passed&&(ts.length?ts.every(t=>readyForRun(learning,t,session,now)):true);
+    const done=passed&&(ts.length?ts.every(t=>readyForRun(learning,t,session,now,plan)):true);
     return {...item,done,deferred:passed&&!done,current:!['recap','complete'].includes(j.phase)&&item.id===active};
   });
 }

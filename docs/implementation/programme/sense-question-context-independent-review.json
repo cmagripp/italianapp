@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "reviewer": "programme_curriculum independent agent",
+  "status": "passed bounded source/context/answer/evidence spot-check",
+  "scope": "Eight meaning records; initial generated MC for each unique short-word target. The 57-record source batch and every exercise variant are not covered by this spot-check.",
+  "wordQuestionSourceSHA256": "d0a8a1c50b13c8852d247ba50c173997494a9be0d243d77f05436769d531138c",
+  "gates": {
+    "nativeHumanItalian": "pending",
+    "pronunciationAndHumanAudio": "not validated",
+    "learnerCalibration": "pending"
+  },
+  "records": [
+    {
+      "id": "w:capitale|noun#capital-city",
+      "entrySHA256": "f04a81ad5695e4d7dd122220a74d3cb5e4e7425cb98257c3b8afaf0fa34a98c2",
+      "reviewedTargetIds": [
+        "w:capitale|noun#capital-city::lesson::meaning::meaning",
+        "w:capitale|noun#capital-city::lesson::meaning::recall",
+        "w:capitale|noun#capital-city::lesson::forms::article",
+        "w:capitale|noun#capital-city::lesson::forms::plural"
+      ],
+      "renderedQuestionsSHA256": "34cd09fbd56b172e483c2d2c322b6bb11695e218368150061cdd4a84aa130087",
+      "findings": []
+    },
+    {
+      "id": "w:capitale|noun#financial-capital",
+      "entrySHA256": "075d41a5af8b0c8b4f074d561eabc552c41f0d60a77c8bc62dc110538710d547",
+      "reviewedTargetIds": [
+        "w:capitale|noun#financial-capital::lesson::meaning::meaning",
+        "w:capitale|noun#financial-capital::lesson::meaning::recall",
+        "w:capitale|noun#financial-capital::lesson::forms::article",
+        "w:capitale|noun#financial-capital::lesson::forms::plural"
+      ],
+      "renderedQuestionsSHA256": "f119fea9af433cef033ea473eb16fdab1c7f8a02b70856ce6cc06e66f90a8e28",
+      "findings": []
+    },
+    {
+      "id": "w:media|noun#mass-media",
+      "entrySHA256": "a1f0ed03163ac68d5d519d41a25ad50b75a7cb3e8abf316471bf81e6a1f38f29",
+      "reviewedTargetIds": [
+        "w:media|noun#mass-media::lesson::forms::article",
+        "w:media|noun#mass-media::lesson::meaning::meaning",
+        "w:media|noun#mass-media::lesson::meaning::recall"
+      ],
+      "renderedQuestionsSHA256": "7e30c4e1aa59ce00745c9b33416632cea9097d2cf0cd5deda3a9c1b0ba798493",
+      "findings": []
+    },
+    {
+      "id": "w:media|noun#average",
+      "entrySHA256": "09425b500d06772ed91121d5fbdfba0df9a4eb0f6c1aa616fb19cdc55d657666",
+      "reviewedTargetIds": [
+        "w:media|noun#average::lesson::meaning::meaning",
+        "w:media|noun#average::lesson::meaning::recall",
+        "w:media|noun#average::lesson::forms::article",
+        "w:media|noun#average::lesson::forms::plural"
+      ],
+      "renderedQuestionsSHA256": "f9fc0831ed6cbf2734271e23e9e8a4064f312862e97235b7a17780d2638f0b31",
+      "findings": []
+    },
+    {
+      "id": "w:riscaldamento|noun#heating",
+      "entrySHA256": "612f4675429250b7b96be2f2f162c73f5bd53b3fddd4be208062170bb1b80cfa",
+      "reviewedTargetIds": [
+        "w:riscaldamento|noun#heating::lesson::meaning::meaning",
+        "w:riscaldamento|noun#heating::lesson::meaning::recall",
+        "w:riscaldamento|noun#heating::lesson::forms::article",
+        "w:riscaldamento|noun#heating::lesson::forms::number"
+      ],
+      "renderedQuestionsSHA256": "38485c81fd3d92622277a001061692d260f20b66378e8cdcd867561b36f4eb33",
+      "findings": []
+    },
+    {
+      "id": "w:riscaldamento|noun#warm-up",
+      "entrySHA256": "0bf1e163080e76ce6cad74fb703cbaf35b5b853bea35dd8185b6ae6c78c485f7",
+      "reviewedTargetIds": [
+        "w:riscaldamento|noun#warm-up::lesson::meaning::meaning",
+        "w:riscaldamento|noun#warm-up::lesson::meaning::recall",
+        "w:riscaldamento|noun#warm-up::lesson::forms::article",
+        "w:riscaldamento|noun#warm-up::lesson::forms::plural"
+      ],
+      "renderedQuestionsSHA256": "17cb9cfe30cea15514f0c2ab813b9e4d8085d928ebf16b796eb44c97b9705dcf",
+      "findings": []
+    },
+    {
+      "id": "w:impegno|noun#effort",
+      "entrySHA256": "df356b9dbbe2c17686ac265574c8d8bb92810772c98e079f1b8445f466a16775",
+      "reviewedTargetIds": [
+        "w:impegno|noun#effort::lesson::meaning::meaning",
+        "w:impegno|noun#effort::lesson::meaning::recall",
+        "w:impegno|noun#effort::lesson::forms::article",
+        "w:impegno|noun#effort::lesson::forms::number"
+      ],
+      "renderedQuestionsSHA256": "ac72817d86a09751c4338e3582b251166c5053a7052720a846d2b4dd091afa62",
+      "findings": []
+    },
+    {
+      "id": "w:impegno|noun#commitment",
+      "entrySHA256": "d21e9cbe71f3041c3973239a9fbf49329a24c25a4ae03ab83986ec87feafc8e9",
+      "reviewedTargetIds": [
+        "w:impegno|noun#commitment::lesson::meaning::meaning",
+        "w:impegno|noun#commitment::lesson::meaning::recall",
+        "w:impegno|noun#commitment::lesson::forms::article",
+        "w:impegno|noun#commitment::lesson::forms::plural"
+      ],
+      "renderedQuestionsSHA256": "d92e1df52a00088d3758b10b51a0de263085e49caf1f15d37b25e1f73c8efc4c",
+      "findings": []
+    }
+  ]
+}

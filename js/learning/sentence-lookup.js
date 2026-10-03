@@ -30,6 +30,14 @@ SUPPLEMENT.push(...GRAMMAR_LOOKUP_ENTRIES);
 SUPPLEMENT.push(...VERB_EXTRA_ENTRIES);
 SUPPLEMENT.push(...VERB_LOOKUP_ENTRIES);
 SUPPLEMENT.push({ id: 'lookup:riposare|verb', inf: 'riposare', en: 'to rest', pos: 'verb', aux: 'avere', lookupSource: 'curated' });
+// The restitution frames of riavere return a security deposit. Treccani's
+// cauzione entry records this feminine noun and the return/deposit use.
+SUPPLEMENT.push({id:'lookup:cauzione|noun',it:'cauzione',en:'security deposit',g:'f',pl:'cauzioni',pos:'noun',lookupSource:'curated',
+  note:'In these riavere scenes, a deposit held as security and then returned.',sources:['https://www.treccani.it/vocabolario/cauzione/']});
+// An attested adjective in the advanced survey passage, independently of the
+// unavailable unreviewed participle of the pronominal verb limitarsi.
+SUPPLEMENT.push({id:'lookup:limitante|adj',it:'limitante',en:'limiting; restrictive',pos:'adj',forms:['limitante','limitanti'],lookupSource:'curated',
+  note:'An adjective: limiting or placing a restriction. Singular for both genders; plural limitanti.',sources:['https://www.treccani.it/vocabolario/limitante/']});
 
 // Expand only alternatives explicitly supplied by the existing conjugator.
 function forms(value) {
@@ -366,7 +374,7 @@ export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
       const verb = e.kind === 'verb' || e.pos === 'verb' || usable(e.inf);
       const word = variant?.it || e.inf || e.it;
       const note = [phrase ? `Part of the recorded phrase “${phrase}”. The meaning shown is for the whole phrase.` : '', String(e.note || ''),...GRAMMAR_LOOKUP_FORM_NOTES.filter(x=>norm(x.lemma)===norm(word)&&norm(x.form)===key).map(x=>x.note)].filter(Boolean).join(' ');
-      const base = { id, source: e.lookupSource || (verb && matches.length ? 'conjugation' : 'catalog'), word, label: word, meaning: String(e.en || 'Meaning not recorded for this entry.'), pos: verb ? 'verb' : e.pos || 'word', note, exposureForms: exposures([word]) };
+      const base = { id, ...(e.senseId?{senseId:e.senseId,entryId:e.parentEntryId,level:e.level}:{}), source: e.lookupSource || (verb && matches.length ? 'conjugation' : 'catalog'), word, label: word, meaning: String(e.en || 'Meaning not recorded for this entry.'), pos: verb ? 'verb' : e.pos || 'word', note, exposureForms: exposures([word]) };
       if (verb) return { ...base, ...verbDetails(e, matches, context, options) };
       return e.pos === 'noun' ? { ...base, ...nounCandidate(e, variant) } : base;
     });
@@ -381,7 +389,7 @@ export function createSentenceLookup({ vocab = [], verbs = [] } = {}) {
     // Articles are a useful ordering hint, not proof: la/lo can also be clitics.
     // Preserve every reading and never set contextMatched from this preference.
     const nounHint = followsArticle(key, contraction, context);
-    const priority = candidate => (nounHint && candidate.pos === 'noun' ? 6 : 0) + (candidate.id === options.entry?.id ? 4 : 0) + (candidate.matches?.some(m => m.contextMatched) ? 3 : 0) + (candidate.source === 'name' ? 1 : 0);
+    const priority = candidate => (options.senseId&&candidate.senseId===options.senseId?10:0) + (nounHint && candidate.pos === 'noun' ? 6 : 0) + (candidate.id === options.entry?.id ? 4 : 0) + (candidate.matches?.some(m => m.contextMatched) ? 3 : 0) + (candidate.source === 'name' ? 1 : 0);
     candidates.sort((a, b) => priority(b) - priority(a) || a.label.localeCompare(b.label, 'it') || a.id.localeCompare(b.id));
     const status = candidates.length > 1 ? 'ambiguous' : candidates.length ? 'found' : 'unavailable';
     return {

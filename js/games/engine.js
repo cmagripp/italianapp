@@ -14,6 +14,11 @@ export const ACCENTS = ['à', 'è', 'é', 'ì', 'ò', 'ù'];
 // Three tidy rows: 9 · 9 · 8 (+ backspace) keys — fits 375px with 44px-tall keys.
 export const KEY_ROWS = ['abcdefghi', 'jklmnopqr', 'stuvwxyz'];
 export const pad2 = (n) => String(Math.max(0, n | 0)).padStart(2, '0');
+export function gameAnswerBudget(ctx, fallback=8){const count=Number(ctx?.options?.count);return Number.isSafeInteger(count)&&count>0?count:fallback;}
+export function gameActivityFence(isActive){
+  const owner=store.current.id,learner=store.current.learnerId,epoch=store.learning.epoch.id;
+  return ()=>store.current.id===owner&&store.current.learnerId===learner&&store.learning.epoch.id===epoch&&isActive?.()!==false;
+}
 const ic = (name, opts) => raw(icon(name, opts));
 const BACKSPACE_SVG = '<svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.5 5.5H19a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5H9.5L3.5 12z"/><path d="m11.5 9.5 5 5M16.5 9.5l-5 5"/></svg>';
 
@@ -171,6 +176,7 @@ export function runDrill(root, questions, opts = {}) {
   const state = { i: 0, correct: 0, wrong: 0, missed: [], perItem: {}, start: Date.now(), answers: [] };
   let locked = false;
   let dead = false;
+  const current=gameActivityFence(opts.isActive),active=()=>!dead&&current();
   let finished = false;
   let advanceTimer = null, focusTimer = null;
   const evidenceSessionId = `game:${gameId}:${globalThis.crypto?.randomUUID?.() || Date.now() + ':' + Math.random().toString(36).slice(2)}`;
@@ -180,7 +186,7 @@ export function runDrill(root, questions, opts = {}) {
   const exposeAnswers = q => { for (const a of expandedForms(q.answer || [])) exposure.set(answerKey(a), state.i); };
   const onAnswerAudio = ev => {
     const q = questions[state.i];
-    if (dead || locked || !q?.meta || q.meta.audioIsPrompt || q.meta.answerLanguage === 'en') return;
+    if (!active() || locked || !q?.meta || q.meta.audioIsPrompt || q.meta.answerLanguage === 'en') return;
     if (ev.target.closest?.('[data-say]')) { assistance.add('answer-audio'); exposeAnswers(q); }
   };
   root.addEventListener('click', onAnswerAudio, true);
@@ -189,7 +195,7 @@ export function runDrill(root, questions, opts = {}) {
   function renderQ() {
     clearTimeout(advanceTimer); clearTimeout(focusTimer);
     locked = false;
-    if (dead) return;
+    if (!active()) return;
     const q = questions[state.i];
     if (!q) return finish();
     assistance = new Set();
@@ -207,7 +213,7 @@ export function runDrill(root, questions, opts = {}) {
     if (q.type !== 'mc') {
       const input = root.querySelector('[data-answer]');
       bindAccentBar(root.querySelector('.typed'), input);
-      focusTimer = setTimeout(() => { if (!dead && root.contains(input)) input.focus({ preventScroll: true }); }, 60);
+      focusTimer = setTimeout(() => { if (active() && root.contains(input)) input.focus({ preventScroll: true }); }, 60);
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitTyped(); } });
       root.querySelector('[data-check]').addEventListener('click', submitTyped);
       root.querySelector('[data-skip]').addEventListener('click', () => grade(false, '', q, '', { revealed: true }));
@@ -217,14 +223,14 @@ export function runDrill(root, questions, opts = {}) {
     if (q.autoSay && q.say) speak(q.say);
   }
   function submitTyped() {
-    if (locked) return;
+    if (locked || !active()) return;
     const q = questions[state.i];
     const input = root.querySelector('[data-answer]');
     const res = q.accept ? q.accept(input.value) : checkTyped(input.value, q.answer);
     grade(!!res.ok, input.value, q, null, res);
   }
   function grade(ok, given, q, choiceIdx, res = {}) {
-    if (locked || dead) return;
+    if (locked || !active()) return;
     locked = true;
     announceAnswer({ok,...res});
     haptic(ok ? 'success' : 'error');
@@ -283,21 +289,21 @@ export function runDrill(root, questions, opts = {}) {
     const fb = root.querySelector('[data-feedback]');
     fb.innerHTML = feedbackHTML({ ok, title, detail: q.explain || '', submission:res.submission, nextLabel: state.i + 1 >= total ? 'See results' : 'Continue' });
     requestAnimationFrame(() => { if (root.contains(fb)) revealInScroller(fb.firstElementChild || fb); });
-    if (q.say && !ok) speak(q.say);
+    if (q.say) speak(q.say);
     const nextBtn = fb.querySelector('[data-next]');
     nextBtn.addEventListener('click', () => next(answeredIndex));
     // Enter checked the answer (the field is disabled now): Enter again continues, without a hunt for the button
     nextBtn.focus({ preventScroll: true });
     if (ok && autoAdvance && q.type === 'mc') advanceTimer = setTimeout(() => { if (root.contains(fb)) next(answeredIndex); }, 700);
-    if (ok && res.accentIssue) speak(q.say || res.submission?.displayText || answerText);
+    if (!q.say && ok && res.accentIssue) speak(res.submission?.displayText || answerText);
   }
   function next(answeredIndex) {
-    if (dead || finished || !locked || state.i !== answeredIndex) return;
+    if (!active() || finished || !locked || state.i !== answeredIndex) return;
     root.querySelector('[data-next]')?.setAttribute('disabled', '');
     locked = false; state.i++; renderQ();
   }
   function finish() {
-    if (finished || dead) return;
+    if (finished || !active()) return;
     finished = true;
     clearTimeout(advanceTimer); clearTimeout(focusTimer);
     stopEvidenceListeners();

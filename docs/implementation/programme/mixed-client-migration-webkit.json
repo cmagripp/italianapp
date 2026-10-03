@@ -1,0 +1,26 @@
+{
+  "browser": "webkit",
+  "baseline": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+  "sourceExecution": "Actual shipped baseline store and current app on one origin",
+  "namespace": {
+    "old": "italiano-db / kv: / it.*",
+    "current": "italiano-db-v6 / kv6: / it.v6.*"
+  },
+  "serviceWorkers": "Blocked to keep both source generations open; installed-worker activation remains a separate release gate",
+  "results": [
+    "A real v5 draft, history, completion, XP and learner migrate once with an exact verified original",
+    "A late real v5 full-profile write cannot replace v6 evidence, exact cursor, XP or original recovery",
+    "A late v5 unload mirror stays exportable and cannot override an existing v6 primary",
+    "The genuine v6 unload mirror recovers independently while retaining the old v5 mirror",
+    "A pending v5 mirror is selected only at first cutover, with the alternative primary retained",
+    "Actual legacy localStorage progress migrates when IndexedDB becomes available",
+    "Actual old and new localStorage fallbacks use separate authoritative namespaces",
+    "Old roster edits and profile deletion cannot change the already cut-over v6 learner",
+    "A new reset keeps its epoch and empty evidence even after the open v5 client saves",
+    "Deleting in v6 removes old copies and an old tab cannot resurrect the deleted v6 profile",
+    "A provisional schema-6 legacy primary retains a verified earlier schema-5 recovery",
+    "Current v6 fallback progress and verified recovery survive IndexedDB becoming available",
+    "Deleting after a fallback-to-IDB transition removes v6 fallback profiles and recovery copies"
+  ],
+  "errors": []
+}

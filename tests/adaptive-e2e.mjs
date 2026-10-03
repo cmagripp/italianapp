@@ -202,7 +202,7 @@ try {
     const result = await skill('w:casa|noun::word::recall');
     assert(result.ready); assert(result.independentCorrect >= 4); assert(result.variantCount >= 2);
   });
-  await check('Focused review rechecks an already-ready skill in a new session', async () => {
+  await check('Legacy focused-review bookmarks recheck a ready skill while the menu groups its case', async () => {
     // This compatibility lesson proves one legacy skill, not every target in
     // the new Present chapter. Explicitly enroll that case for automatic review
     // while keeping the earlier answer evidence and rewards unchanged.
@@ -214,9 +214,8 @@ try {
     assert.equal(afterEnrollment.xp,beforeEnrollment.xp);
     await gotoRoute(page, '/review?mode=extra');
     const objective = 'v:mangiare::presente::conjugation';
-    const link = page.locator(`a[href*="objective=${encodeURIComponent(objective)}"]`).first();
-    assert(await link.count(), 'review menu links to the individual skill');
-    await gotoRoute(page, (await link.getAttribute('href')).slice(1) + '&legacy=1');
+    assert.equal(await page.locator('[data-review-row="v:mangiare|present"]').count(),1,'Review groups the case once');
+    await gotoRoute(page,lessonRoute('verb','v:mangiare',objective)+'&mode=review');
     await page.locator('[data-adaptive]').waitFor();
     assert.notEqual((await state()).phase, 'complete');
     const result = await finishCurrent();
@@ -226,7 +225,7 @@ try {
     await reloadApp(page);
     assert.equal((await state()).phase, 'complete', 'reload preserves the completed session summary');
     await gotoRoute(page, '/review?mode=extra');
-    await gotoRoute(page, (await page.locator(`a[href*="objective=${encodeURIComponent(objective)}"]`).first().getAttribute('href')).slice(1) + '&legacy=1');
+    await gotoRoute(page,lessonRoute('verb','v:mangiare',objective)+'&mode=review');
     await page.locator('[data-adaptive]').waitFor();
     assert.notEqual((await state()).session.id, result.session.id, 'a new review request gets a new session');
     assert.notEqual((await state()).phase, 'complete');

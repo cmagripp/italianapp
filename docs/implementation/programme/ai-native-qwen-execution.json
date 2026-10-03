@@ -1,0 +1,76 @@
+{
+  "recordedAt": "2026-10-03T17:17:57.304Z",
+  "sources": [
+    {
+      "path": "dev/phase-1-ai-trial/native/qwen-native-cases.json",
+      "sha256": "a2bfad8d5a32930911e5481101202e0bb737d701cd9469d8e8e3f1002b883c73"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/native/native-heldout.json",
+      "sha256": "bf6da03135dce9af11548655b813878592f32ac2f1c78396b1d14562a9232465"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/native/llama-bridge.cpp",
+      "sha256": "73822286a0abf938bbd36a026ff8e3712933d6b28e5ba9cbe3a6274826d02eed"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/native/GGUFPrototype.swift",
+      "sha256": "cac0b7e67e54d1da94fee11ce4b25087f9cbd8cebbbe88bc395c70f0443881a1"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/native/mac-qwen-benchmark.mjs",
+      "sha256": "40540107583ba30bae1a00bb6ffad809208a0a472437964d7ab2adcc9549b5bd"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/native/native-pins.json",
+      "sha256": "98464ac020a9a455a10bfb4f324852094cb8a9734051773eaec697ab367629a4"
+    }
+  ],
+  "cpuSimulatorLaunch": {
+    "bundleId": "local.parola.nativeqweninvestigation",
+    "gpuLayers": 0,
+    "offloadKQV": false,
+    "opOffload": false,
+    "model": "Qwen3-8B-Q4_K_M",
+    "purpose": "Bounded CPU-only integration after simulator Metal initialization did not complete; no model or prompt tuning",
+    "copiedWeightBytes": 0,
+    "hardLinkOwnedByTrial": true
+  },
+  "diskFloorGiB": 5,
+  "preservedExecutedSourceCopies": [
+    {
+      "executedPath": "dev/phase-1-ai-trial/native/GGUFPrototype.swift",
+      "preservedPath": "dev/phase-1-ai-trial/native/evidence/GGUFPrototype-cpu-executed.swift",
+      "sha256": "cac0b7e67e54d1da94fee11ce4b25087f9cbd8cebbbe88bc395c70f0443881a1",
+      "reason": "Retains actual CPU-loop source before adding a self-enforced cap"
+    }
+  ],
+  "laterReproductionRevision": {
+    "recordedAt": "2026-10-03T17:39:24.973748+00:00",
+    "defaultCaseLimit": 3,
+    "betweenCaseBudgetSeconds": 480,
+    "compiled": true,
+    "inferenceRerun": false,
+    "sources": [
+      {
+        "path": "dev/phase-1-ai-trial/native/GGUFPrototype.swift",
+        "sha256": "5b900afbb85a6c35a18db605df303c6afec4c4f24acaf5889617f9545fc70924"
+      },
+      {
+        "path": "dev/phase-1-ai-trial/native/build-native-runtime.sh",
+        "sha256": "e24118ed878d1f61807d981e436562805653a0d7fcb1b346bdedc6585efa0f13"
+      },
+      {
+        "path": "dev/phase-1-ai-trial/native/verify-native-assets.mjs",
+        "sha256": "803e739850cd6e20bf648f8bb01f499dd7545fcd8ab58979c7e1f2db99ba7993"
+      }
+    ]
+  },
+  "postTrialArtifactVerification": {
+    "weightBytes": 5027783488,
+    "allFourArtifactsSHA256Match": true,
+    "freeGiBObserved": 20.611839294433594,
+    "additionalDownloadBytes": 0,
+    "diskFloorGiB": 5
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "auditedAt": "2026-10-03T16:08:00.817Z",
+  "method": "All24 exact source hashes/media hashes/spokenText with only line-start labels removed; automated ASR metadata, no human listening claim",
+  "rows": [
+    {
+      "id": "v2-a2-listen-appointment-change.source-0",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-appointment-change.source-1",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-appointment-change.source-2",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-appointment-change.source-3",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-appointment-change.source-4",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-travel-problem.scene",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-shop-clarify.source-0",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-shop-clarify.source-1",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-shop-clarify.source-2",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-shop-clarify.source-3",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-listen-shop-clarify.source-4",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-a2-health-history.scene",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-followup-account.source-0",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-followup-account.source-1",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-followup-account.source-2",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-followup-account.source-3",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-followup-account.source-4",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-choice-reasons.scene",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-group-revision.source-0",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-group-revision.source-1",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-group-revision.source-2",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-group-revision.source-3",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-listen-group-revision.source-4",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    },
+    {
+      "id": "v2-b1-account-help.scene",
+      "sourceSpeechMatches": true,
+      "sourceHashMatches": true,
+      "audioHashMatches": true,
+      "automatedReviewMatches": true
+    }
+  ]
+}

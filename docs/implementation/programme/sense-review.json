@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-03",
+  "registryContentVersion": "2026-10-03.1",
+  "reviewType": "Independent agent language/source/compatibility review",
+  "reviewer": "Curriculum workstream; not the sense author",
+  "nativeItalianHumanReview": {
+    "status": "pending",
+    "claim": "No native human review was performed or inferred."
+  },
+  "levelReview": {
+    "status": "editorial-placement-reviewed",
+    "basis": "Parola curriculum placement; lexical references establish meaning and forms, not CEFR certification.",
+    "claim": "Reference sources establish lexical meaning and morphology; they do not certify assigned CEFR levels."
+  },
+  "findings": [
+    {
+      "severity": "resolved-editorial-clarity",
+      "entryId": "w:giostra|noun#joust",
+      "finding": "The earlier re-enactment example could also describe themed fairground imagery. The reviewed replacement explicitly names knights and lances, keeping the intended historical meaning clear."
+    },
+    {
+      "severity": "audio-gate-pending",
+      "entryIds": [
+        "w:pesca|noun#peach",
+        "w:pesca|noun#fishing"
+      ],
+      "finding": "The written notes correctly distinguish open and closed e. Both learning entries keep ordinary unaccented pesca, so generic word synthesis does not by itself validate sense-specific pronunciation. Reviewed pronunciation/audio remains required."
+    },
+    {
+      "severity": "copy-follow-up",
+      "component": "js/views/referenceEntry.js",
+      "finding": "A fresh learner may have no earlier completion. Conditional wording Any earlier word completion is kept accurately describes the preservation policy. Root owns the UI wording change."
+    }
+  ],
+  "compatibilityReview": {
+    "oldHeadwordIdentity": "Retained parent IDs remain in byId and resolve old routes; active discovery returns independently addressable sense children.",
+    "completionMigration": "The authoring splitter changes lexical data only. It never reads or copies learner completions into child IDs. Parent and child progress use separate entry identities.",
+    "forms": "Child noun gender and plural are supplied for the selected meaning rather than inherited from a different parent meaning. La/il capitale and countable/usually-singular pesca/calcio distinctions checked.",
+    "lookup": "A preferred sense affects ordering without claiming exclusive contextual disambiguation. Competing readings stay available.",
+    "validation": "Six lexical-sense Node checks passed before the reviewStatus update; root updates that exact status fixture and rebuilds generated dictionary/completion metadata. Existing independent Chromium/WebKit gates are root-owned and were not rerun by this reviewer."
+  },
+  "reviewedSenseCount": 14,
+  "reviewedFields": [
+    "key",
+    "level",
+    "cat",
+    "en",
+    "g",
+    "pl",
+    "ex",
+    "exEn",
+    "note",
+    "sources"
+  ],
+  "sources": [
+    {
+      "url": "https://www.treccani.it/vocabolario/calcio2/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/capitale/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/capitale2/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/credenza1/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/credenza2/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/giostra/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/macchia1/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/macchia2/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/mora1/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/mora3/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/pesca/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    },
+    {
+      "url": "https://www.treccani.it/vocabolario/pesca_res-cfc4c19d-002d-11de-9d89-0016357eee51/",
+      "provider": "Istituto della Enciclopedia Italiana Treccani",
+      "accessedAt": "2026-10-03",
+      "verification": "Opened directly and checked the intended lexical definition/article/pronunciation where stated; no source text copied."
+    }
+  ],
+  "reviewedSenses": [
+    {
+      "entryId": "w:macchia|noun#stain",
+      "parentEntryId": "w:macchia|noun",
+      "exactReviewedFields": {
+        "key": "stain",
+        "level": "A2",
+        "cat": "clothing",
+        "en": "stain; spot",
+        "g": "f",
+        "pl": "macchie",
+        "ex": "C'è una macchia sulla camicia.",
+        "exEn": "There is a stain on the shirt.",
+        "note": "A mark on a surface. Do not confuse this meaning with macchia mediterranea, Mediterranean scrub.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/macchia1/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:macchia|noun#scrub",
+      "parentEntryId": "w:macchia|noun",
+      "exactReviewedFields": {
+        "key": "scrub",
+        "level": "C2",
+        "cat": "nature",
+        "en": "Mediterranean scrub; maquis",
+        "g": "f",
+        "pl": "macchie",
+        "ex": "Il sentiero attraversa la macchia mediterranea.",
+        "exEn": "The path crosses the Mediterranean scrub.",
+        "note": "Vegetation made up of shrubs and small trees. The plural macchie can refer to distinct areas of scrub.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/macchia2/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:mora|noun#blackberry",
+      "parentEntryId": "w:mora|noun",
+      "exactReviewedFields": {
+        "key": "blackberry",
+        "level": "A2",
+        "cat": "food",
+        "en": "blackberry",
+        "g": "f",
+        "pl": "more",
+        "ex": "Nello yogurt ci sono le more.",
+        "exEn": "There are blackberries in the yogurt.",
+        "note": "A fruit. Mora di gelso instead names a mulberry. This entry teaches the blackberry meaning.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/mora1/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:mora|noun#payment-delay",
+      "parentEntryId": "w:mora|noun",
+      "exactReviewedFields": {
+        "key": "payment-delay",
+        "level": "C2",
+        "cat": "economy",
+        "en": "default; delay in payment",
+        "g": "f",
+        "pl": "-",
+        "ex": "Il contratto prevede interessi di mora.",
+        "exEn": "The contract provides for interest on late payment.",
+        "note": "A legal or commercial use, usually in phrases such as interessi di mora and messa in mora. It is normally singular in this meaning.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/mora3/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:pesca|noun#peach",
+      "parentEntryId": "w:pesca|noun",
+      "exactReviewedFields": {
+        "key": "peach",
+        "level": "A1",
+        "cat": "food",
+        "en": "peach",
+        "g": "f",
+        "pl": "pesche",
+        "ex": "Vuoi una pesca o una mela?",
+        "exEn": "Do you want a peach or an apple?",
+        "note": "The fruit: pèsca has an open e sound. The accent here indicates pronunciation; the ordinary spelling is pesca.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/pesca_res-cfc4c19d-002d-11de-9d89-0016357eee51/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:pesca|noun#fishing",
+      "parentEntryId": "w:pesca|noun",
+      "exactReviewedFields": {
+        "key": "fishing",
+        "level": "B1",
+        "cat": "sports",
+        "en": "fishing",
+        "g": "f",
+        "pl": "-",
+        "ex": "La pesca è il mio passatempo preferito.",
+        "exEn": "Fishing is my favourite pastime.",
+        "note": "The activity: pésca has a closed e sound. It is normally singular. The ordinary spelling is pesca, just like the fruit.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/pesca/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:giostra|noun#fairground-ride",
+      "parentEntryId": "w:giostra|noun",
+      "exactReviewedFields": {
+        "key": "fairground-ride",
+        "level": "A2",
+        "cat": "sports",
+        "en": "merry-go-round; fairground ride",
+        "g": "f",
+        "pl": "giostre",
+        "ex": "I bambini salgono sulla giostra.",
+        "exEn": "The children get on the merry-go-round.",
+        "note": "A rotating amusement ride. The plural le giostre can mean fairground rides more generally.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/giostra/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:giostra|noun#joust",
+      "parentEntryId": "w:giostra|noun",
+      "exactReviewedFields": {
+        "key": "joust",
+        "level": "C2",
+        "cat": "sports",
+        "en": "joust; tournament",
+        "g": "f",
+        "pl": "giostre",
+        "ex": "I cavalieri partecipano alla giostra con le lance.",
+        "exEn": "The knights take part in the joust with lances.",
+        "note": "The historical use refers to contests involving riders and lances. It differs from the everyday amusement-ride meaning.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/giostra/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:credenza|noun#sideboard",
+      "parentEntryId": "w:credenza|noun",
+      "exactReviewedFields": {
+        "key": "sideboard",
+        "level": "A2",
+        "cat": "home",
+        "en": "sideboard; dresser",
+        "g": "f",
+        "pl": "credenze",
+        "ex": "I piatti sono nella credenza.",
+        "exEn": "The plates are in the sideboard.",
+        "note": "A piece of furniture for dishes or tableware. The same spelling also has a separate belief meaning.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/credenza2/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:credenza|noun#belief",
+      "parentEntryId": "w:credenza|noun",
+      "exactReviewedFields": {
+        "key": "belief",
+        "level": "B2",
+        "cat": "abstract",
+        "en": "belief; conviction",
+        "g": "f",
+        "pl": "credenze",
+        "ex": "Questo studio confronta le credenze di due comunità.",
+        "exEn": "This study compares the beliefs of two communities.",
+        "note": "Something held to be true, including religious or popular beliefs. Here credenza is unrelated to the furniture being discussed.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/credenza1/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:capitale|noun#capital-city",
+      "parentEntryId": "w:capitale|noun",
+      "exactReviewedFields": {
+        "key": "capital-city",
+        "level": "A1",
+        "cat": "city",
+        "en": "capital city",
+        "g": "f",
+        "pl": "capitali",
+        "ex": "Roma è la capitale d'Italia.",
+        "exEn": "Rome is the capital of Italy.",
+        "note": "La capitale names a city. Its article and gender differ from il capitale, money or assets.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/capitale2/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:capitale|noun#financial-capital",
+      "parentEntryId": "w:capitale|noun",
+      "exactReviewedFields": {
+        "key": "financial-capital",
+        "level": "B2",
+        "cat": "economy",
+        "en": "capital; funds",
+        "g": "m",
+        "pl": "capitali",
+        "ex": "L'impresa ha bisogno di nuovo capitale.",
+        "exEn": "The business needs new capital.",
+        "note": "Il capitale refers to money or assets. I capitali can refer to separate funds or amounts of capital.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/capitale/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:calcio|noun#football",
+      "parentEntryId": "w:calcio|noun",
+      "exactReviewedFields": {
+        "key": "football",
+        "level": "A1",
+        "cat": "sports",
+        "en": "football; soccer",
+        "g": "m",
+        "pl": "-",
+        "ex": "Mi piace giocare a calcio.",
+        "exEn": "I like playing football.",
+        "note": "The sport is normally singular. The plural i calci instead refers to kicks in the separate countable meaning.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/calcio2/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    },
+    {
+      "entryId": "w:calcio|noun#kick",
+      "parentEntryId": "w:calcio|noun",
+      "exactReviewedFields": {
+        "key": "kick",
+        "level": "A2",
+        "cat": "sports",
+        "en": "kick",
+        "g": "m",
+        "pl": "calci",
+        "ex": "Il giocatore dà un calcio al pallone.",
+        "exEn": "The player kicks the ball.",
+        "note": "A strike with the foot: un calcio, due calci. This countable meaning is separate from the sport calcio.",
+        "sources": [
+          "https://www.treccani.it/vocabolario/calcio2/"
+        ]
+      },
+      "status": "agent-reviewed",
+      "nativeHumanStatus": "pending",
+      "audioStatus": "not validated"
+    }
+  ]
+}

@@ -1,5 +1,80 @@
 [
   {
+    "inf": "abbaiare",
+    "policy": "dynamic",
+    "sense": "bark",
+    "note": "Barking is an ongoing sound made by a dog; use a canine subject rather than six human persons.",
+    "en": [
+      "bark",
+      "barks",
+      "barked",
+      "barking"
+    ],
+    "frames": [
+      [
+        "ai passanti",
+        "at passers-by"
+      ],
+      [
+        "davanti al cancello",
+        "by the gate"
+      ],
+      [
+        "di notte",
+        "at night"
+      ],
+      [
+        "alla porta",
+        "at the door"
+      ]
+    ],
+    "persons": [
+      2,
+      5
+    ],
+    "formal": false,
+    "subjects": {
+      "2": [
+        "Il cane",
+        "The dog"
+      ],
+      "5": [
+        "I cani",
+        "The dogs"
+      ]
+    }
+  },
+  {
+    "inf": "abbassare",
+    "policy": "dynamic",
+    "sense": "lower something",
+    "note": "Lowering a shade, window or setting can be observed in progress; name the object.",
+    "en": [
+      "lower",
+      "lowers",
+      "lowered",
+      "lowering"
+    ],
+    "frames": [
+      [
+        "il volume",
+        "the volume"
+      ],
+      [
+        "la tenda",
+        "the blind"
+      ],
+      [
+        "il finestrino",
+        "the window"
+      ],
+      [
+        "la temperatura",
+        "the temperature"
+      ]
+    ]
+  },
+  {
     "inf": "abbracciare",
     "policy": "dynamic",
     "sense": "embrace someone",
@@ -26,6 +101,36 @@
       [
         "i miei figli",
         "my children"
+      ]
+    ]
+  },
+  {
+    "inf": "abbronzarsi",
+    "policy": "sense-dependent",
+    "sense": "get a tan",
+    "note": "Mi sto abbronzando describes skin changing in the sun; mi abbronzo facilmente states a tendency.",
+    "en": [
+      "get a tan",
+      "gets a tan",
+      "got a tan",
+      "getting a tan"
+    ],
+    "frames": [
+      [
+        "al mare",
+        "at the seaside"
+      ],
+      [
+        "in spiaggia",
+        "on the beach"
+      ],
+      [
+        "al sole",
+        "in the sun"
+      ],
+      [
+        "durante le vacanze",
+        "on holiday"
       ]
     ]
   },
@@ -60,6 +165,66 @@
     ]
   },
   {
+    "inf": "accarezzare",
+    "policy": "dynamic",
+    "sense": "stroke an animal or person",
+    "note": "Stroking is a repeated gentle movement in progress; identify who is being touched.",
+    "en": [
+      "stroke",
+      "strokes",
+      "stroked",
+      "stroking"
+    ],
+    "frames": [
+      [
+        "il gatto",
+        "the cat"
+      ],
+      [
+        "il cane",
+        "the dog"
+      ],
+      [
+        "il bambino",
+        "the child"
+      ],
+      [
+        "un cavallo",
+        "a horse"
+      ]
+    ]
+  },
+  {
+    "inf": "accendere",
+    "policy": "sense-dependent",
+    "sense": "switch on or light something",
+    "note": "Sto accendendo focuses on the short act of switching on; accendo can also describe a routine.",
+    "en": [
+      "switch on",
+      "switches on",
+      "switched on",
+      "switching on"
+    ],
+    "frames": [
+      [
+        "la luce",
+        "the light"
+      ],
+      [
+        "il computer",
+        "the computer"
+      ],
+      [
+        "la televisione",
+        "the television"
+      ],
+      [
+        "il forno",
+        "the oven"
+      ]
+    ]
+  },
+  {
     "inf": "accettare",
     "policy": "dynamic",
     "sense": "accept an offer or invitation",
@@ -86,6 +251,36 @@
       [
         "un nuovo lavoro",
         "a new job"
+      ]
+    ]
+  },
+  {
+    "inf": "accompagnare",
+    "policy": "dynamic",
+    "sense": "escort someone to a place",
+    "note": "Accompanying someone lasts through the trip; the person and destination belong together.",
+    "en": [
+      "accompany",
+      "accompanies",
+      "accompanied",
+      "accompanying"
+    ],
+    "frames": [
+      [
+        "Sara alla stazione",
+        "Sara to the station"
+      ],
+      [
+        "un amico in aeroporto",
+        "a friend to the airport"
+      ],
+      [
+        "il bambino a scuola",
+        "the child to school"
+      ],
+      [
+        "un amico dal medico",
+        "a friend to the doctor"
       ]
     ]
   },
@@ -150,6 +345,66 @@
     ]
   },
   {
+    "inf": "affittare",
+    "policy": "sense-dependent",
+    "sense": "rent a vehicle as a customer",
+    "note": "Sto affittando can focus on arranging a rental now; affittare can also mean let property to someone, which is a different role.",
+    "en": [
+      "rent",
+      "rents",
+      "rented",
+      "renting"
+    ],
+    "frames": [
+      [
+        "una macchina",
+        "a car"
+      ],
+      [
+        "una bicicletta",
+        "a bicycle"
+      ],
+      [
+        "uno scooter",
+        "a scooter"
+      ],
+      [
+        "un furgone",
+        "a van"
+      ]
+    ]
+  },
+  {
+    "inf": "aggiustare",
+    "policy": "dynamic",
+    "sense": "repair an item",
+    "note": "A repair unfolds over time; say which object is being fixed.",
+    "en": [
+      "repair",
+      "repairs",
+      "repaired",
+      "repairing"
+    ],
+    "frames": [
+      [
+        "la bicicletta",
+        "the bicycle"
+      ],
+      [
+        "un orologio",
+        "a watch"
+      ],
+      [
+        "la porta",
+        "the door"
+      ],
+      [
+        "il tavolo",
+        "the table"
+      ]
+    ]
+  },
+  {
     "inf": "aiutare",
     "policy": "dynamic",
     "sense": "help another person",
@@ -176,6 +431,66 @@
       [
         "i bambini a vestirsi",
         "the children get dressed"
+      ]
+    ]
+  },
+  {
+    "inf": "allegare",
+    "policy": "dynamic",
+    "sense": "attach a file to a message",
+    "note": "Attaching a document is a concrete digital action; the destination message should be included.",
+    "en": [
+      "attach",
+      "attaches",
+      "attached",
+      "attaching"
+    ],
+    "frames": [
+      [
+        "un documento alla mail",
+        "a document to the email"
+      ],
+      [
+        "una foto al messaggio",
+        "a photo to the message"
+      ],
+      [
+        "il modulo alla richiesta",
+        "the form to the request"
+      ],
+      [
+        "un file alla risposta",
+        "a file to the reply"
+      ]
+    ]
+  },
+  {
+    "inf": "allenarsi",
+    "policy": "dynamic",
+    "sense": "train or work out",
+    "note": "Training lasts through a session; the reflexive pronoun belongs to the Italian verb.",
+    "en": [
+      "train",
+      "trains",
+      "trained",
+      "training"
+    ],
+    "frames": [
+      [
+        "in palestra",
+        "at the gym"
+      ],
+      [
+        "per la gara",
+        "for the race"
+      ],
+      [
+        "con un amico",
+        "with a friend"
+      ],
+      [
+        "al parco",
+        "in the park"
       ]
     ]
   },
@@ -270,3933 +585,6 @@
     ]
   },
   {
-    "inf": "andare",
-    "policy": "dynamic",
-    "sense": "travel toward a destination",
-    "note": "Sto andando tracks movement toward a place already underway; vado can also state a routine or an immediate trip.",
-    "en": [
-      "go",
-      "goes",
-      "went",
-      "going"
-    ],
-    "frames": [
-      [
-        "alla stazione",
-        "to the station"
-      ],
-      [
-        "al lavoro",
-        "to work"
-      ],
-      [
-        "in centro",
-        "into town"
-      ],
-      [
-        "da un amico",
-        "to a friend's place"
-      ]
-    ]
-  },
-  {
-    "inf": "aprire",
-    "policy": "dynamic",
-    "sense": "open an object",
-    "note": "Opening a door or container unfolds over a short interval; the object must be named.",
-    "en": [
-      "open",
-      "opens",
-      "opened",
-      "opening"
-    ],
-    "frames": [
-      [
-        "la porta",
-        "the door"
-      ],
-      [
-        "la finestra",
-        "the window"
-      ],
-      [
-        "la valigia",
-        "the suitcase"
-      ],
-      [
-        "un pacco",
-        "a package"
-      ]
-    ]
-  },
-  {
-    "inf": "arrivare",
-    "policy": "sense-dependent",
-    "sense": "approach a destination",
-    "note": "Sto arrivando often presents arrival as imminent or in its final approach; avoid teaching it as a long, completed journey.",
-    "en": [
-      "arrive",
-      "arrives",
-      "arrived",
-      "arriving"
-    ],
-    "frames": [
-      [
-        "alla stazione",
-        "at the station"
-      ],
-      [
-        "in aeroporto",
-        "at the airport"
-      ],
-      [
-        "davanti a casa",
-        "in front of the house"
-      ],
-      [
-        "al traguardo",
-        "at the finish line"
-      ]
-    ]
-  },
-  {
-    "inf": "ascoltare",
-    "policy": "dynamic",
-    "sense": "listen attentively to someone or something",
-    "note": "Listening is an activity in progress; unlike sentire, ascoltare involves deliberate attention.",
-    "en": [
-      "listen to",
-      "listens to",
-      "listened to",
-      "listening to"
-    ],
-    "frames": [
-      [
-        "la radio",
-        "the radio"
-      ],
-      [
-        "una canzone",
-        "a song"
-      ],
-      [
-        "il professore",
-        "the teacher"
-      ],
-      [
-        "la spiegazione",
-        "the explanation"
-      ]
-    ]
-  },
-  {
-    "inf": "aspettare",
-    "policy": "dynamic",
-    "sense": "wait for someone or something",
-    "note": "Sto aspettando identifies a wait in progress; the Italian verb takes its object directly, without per.",
-    "en": [
-      "wait for",
-      "waits for",
-      "waited for",
-      "waiting for"
-    ],
-    "frames": [
-      [
-        "l’autobus",
-        "the bus"
-      ],
-      [
-        "Sara",
-        "Sara"
-      ],
-      [
-        "il treno",
-        "the train"
-      ],
-      [
-        "una risposta",
-        "an answer"
-      ]
-    ]
-  },
-  {
-    "inf": "avere",
-    "policy": "simple",
-    "sense": "possess or have a relationship",
-    "note": "For possession and family relationships use ho, hai, ha; sto avendo is inappropriate for this selected state, though other senses of avere can be dynamic.",
-    "en": [
-      "have",
-      "has",
-      "had",
-      ""
-    ],
-    "legacyFrameCount": 4,
-    "frames": [
-      [
-        "una sorella",
-        "a sister"
-      ],
-      [
-        "una bicicletta",
-        "a bicycle"
-      ],
-      [
-        "molti libri",
-        "many books"
-      ],
-      [
-        "un cane",
-        "a dog"
-      ],
-      [
-        "un appuntamento",
-        "an appointment"
-      ],
-      [
-        "le chiavi di casa",
-        "the house keys"
-      ]
-    ]
-  },
-  {
-    "inf": "baciare",
-    "policy": "dynamic",
-    "sense": "kiss someone",
-    "note": "A kiss can be unfolding at the focal moment; bacio can also describe a habitual greeting.",
-    "en": [
-      "kiss",
-      "kisses",
-      "kissed",
-      "kissing"
-    ],
-    "frames": [
-      [
-        "Marco sulla guancia",
-        "Marco on the cheek"
-      ],
-      [
-        "mia figlia",
-        "my daughter"
-      ],
-      [
-        "il bambino sulla fronte",
-        "the child on the forehead"
-      ],
-      [
-        "la persona amata",
-        "the person I love"
-      ]
-    ]
-  },
-  {
-    "inf": "ballare",
-    "policy": "dynamic",
-    "sense": "dance",
-    "note": "Dancing is an ongoing activity; choose the complement that states the dance, partner or place.",
-    "en": [
-      "dance",
-      "dances",
-      "danced",
-      "dancing"
-    ],
-    "frames": [
-      [
-        "con Sara",
-        "with Sara"
-      ],
-      [
-        "il tango",
-        "the tango"
-      ],
-      [
-        "alla festa",
-        "at the party"
-      ],
-      [
-        "in piazza",
-        "in the square"
-      ]
-    ]
-  },
-  {
-    "inf": "bere",
-    "policy": "dynamic",
-    "sense": "drink something",
-    "note": "A drink can be underway; the object says what is being consumed.",
-    "en": [
-      "drink",
-      "drinks",
-      "drank",
-      "drinking"
-    ],
-    "frames": [
-      [
-        "un bicchiere d’acqua",
-        "a glass of water"
-      ],
-      [
-        "un caffè",
-        "a coffee"
-      ],
-      [
-        "una tazza di tè",
-        "a cup of tea"
-      ],
-      [
-        "del succo d’arancia",
-        "some orange juice"
-      ]
-    ]
-  },
-  {
-    "inf": "bussare",
-    "policy": "dynamic",
-    "sense": "knock at a door",
-    "note": "Bussare describes repeated knocks in progress and takes a with the door or entrance.",
-    "en": [
-      "knock",
-      "knocks",
-      "knocked",
-      "knocking"
-    ],
-    "frames": [
-      [
-        "alla porta",
-        "at the door"
-      ],
-      [
-        "al portone",
-        "at the front door"
-      ],
-      [
-        "alla finestra",
-        "at the window"
-      ],
-      [
-        "alla porta della camera",
-        "at the bedroom door"
-      ]
-    ]
-  },
-  {
-    "inf": "buttare",
-    "policy": "dynamic",
-    "sense": "throw away an object",
-    "note": "Throwing an item away is an observable action; via marks disposal rather than a throw toward someone.",
-    "en": [
-      "throw away",
-      "throws away",
-      "threw away",
-      "throwing away"
-    ],
-    "frames": [
-      [
-        "la carta",
-        "the paper"
-      ],
-      [
-        "una bottiglia vuota",
-        "an empty bottle"
-      ],
-      [
-        "il vecchio biglietto",
-        "the old ticket"
-      ],
-      [
-        "la spazzatura",
-        "the rubbish"
-      ]
-    ]
-  },
-  {
-    "inf": "camminare",
-    "policy": "dynamic",
-    "sense": "walk somewhere",
-    "note": "Walking can be followed as it unfolds; cammino often also describes a regular route.",
-    "en": [
-      "walk",
-      "walks",
-      "walked",
-      "walking"
-    ],
-    "frames": [
-      [
-        "nel parco",
-        "in the park"
-      ],
-      [
-        "verso casa",
-        "toward home"
-      ],
-      [
-        "lungo il fiume",
-        "along the river"
-      ],
-      [
-        "con un amico",
-        "with a friend"
-      ]
-    ]
-  },
-  {
-    "inf": "cancellare",
-    "policy": "dynamic",
-    "sense": "erase or delete something",
-    "note": "Cancellare names the removal in progress; a specified surface or file keeps the action concrete.",
-    "en": [
-      "erase",
-      "erases",
-      "erased",
-      "erasing"
-    ],
-    "frames": [
-      [
-        "una parola dalla lavagna",
-        "a word from the board"
-      ],
-      [
-        "un numero dalla lista",
-        "a number from the list"
-      ],
-      [
-        "una frase dal quaderno",
-        "a sentence from the notebook"
-      ],
-      [
-        "una nota dal calendario",
-        "a note from the calendar"
-      ]
-    ]
-  },
-  {
-    "inf": "cantare",
-    "policy": "dynamic",
-    "sense": "sing",
-    "note": "Singing is durative; the object can be a particular song or the setting can locate the performance.",
-    "en": [
-      "sing",
-      "sings",
-      "sang",
-      "singing"
-    ],
-    "frames": [
-      [
-        "una canzone",
-        "a song"
-      ],
-      [
-        "nel coro",
-        "in the choir"
-      ],
-      [
-        "sotto la doccia",
-        "in the shower"
-      ],
-      [
-        "per gli ospiti",
-        "for the guests"
-      ]
-    ]
-  },
-  {
-    "inf": "capire",
-    "policy": "simple",
-    "sense": "understand a fact or explanation",
-    "note": "Capisco reports understanding already reached; sto capendo would instead highlight understanding developing, a different reading.",
-    "en": [
-      "understand",
-      "understands",
-      "understood",
-      ""
-    ],
-    "frames": [
-      [
-        "la domanda",
-        "the question"
-      ],
-      [
-        "la regola",
-        "the rule"
-      ],
-      [
-        "il problema",
-        "the problem"
-      ],
-      [
-        "la spiegazione",
-        "the explanation"
-      ]
-    ]
-  },
-  {
-    "inf": "cenare",
-    "policy": "dynamic",
-    "sense": "have dinner",
-    "note": "Dinner is an activity with duration; the complement supplies company or location.",
-    "en": [
-      "have dinner",
-      "has dinner",
-      "had dinner",
-      "having dinner"
-    ],
-    "frames": [
-      [
-        "con gli amici",
-        "with friends"
-      ],
-      [
-        "a casa",
-        "at home"
-      ],
-      [
-        "al ristorante",
-        "at a restaurant"
-      ],
-      [
-        "fuori",
-        "out"
-      ]
-    ]
-  },
-  {
-    "inf": "cercare",
-    "policy": "dynamic",
-    "sense": "look for someone or something",
-    "note": "A search can be in progress; the searched-for item is a direct object in Italian.",
-    "en": [
-      "look for",
-      "looks for",
-      "looked for",
-      "looking for"
-    ],
-    "frames": [
-      [
-        "le chiavi",
-        "the keys"
-      ],
-      [
-        "un appartamento",
-        "an apartment"
-      ],
-      [
-        "il gatto",
-        "the cat"
-      ],
-      [
-        "un libro in biblioteca",
-        "a book in the library"
-      ]
-    ]
-  },
-  {
-    "inf": "chiamare",
-    "policy": "dynamic",
-    "sense": "phone someone",
-    "note": "A call can be underway; this selected sense uses chiamare with a direct object.",
-    "en": [
-      "call",
-      "calls",
-      "called",
-      "calling"
-    ],
-    "frames": [
-      [
-        "Sara",
-        "Sara"
-      ],
-      [
-        "un amico",
-        "a friend"
-      ],
-      [
-        "l’albergo",
-        "the hotel"
-      ],
-      [
-        "il medico",
-        "the doctor"
-      ]
-    ]
-  },
-  {
-    "inf": "chiamarsi",
-    "policy": "simple",
-    "sense": "have a name",
-    "note": "Mi chiamo states a person’s name; an ongoing naming event would use a different construction, not sto chiamandomi.",
-    "simpleExamples": [
-      {
-        "it": "Mi chiamo Luca.",
-        "en": "My name is Luca.",
-        "answer": "mi chiamo",
-        "person": 0,
-        "past": {
-          "it": "Da bambino mi chiamavo Luca.",
-          "en": "As a child, my name was Luca.",
-          "answer": "mi chiamavo"
-        }
-      },
-      {
-        "it": "Ti chiami Sara?",
-        "en": "Is your name Sara?",
-        "answer": "ti chiami",
-        "person": 1,
-        "past": {
-          "it": "Ti chiamavi Sara da piccola?",
-          "en": "Was your name Sara when you were little?",
-          "answer": "ti chiamavi"
-        }
-      },
-      {
-        "it": "Si chiama Marco.",
-        "en": "His name is Marco.",
-        "answer": "si chiama",
-        "person": 2,
-        "past": {
-          "it": "Il paese si chiamava Borgo Nuovo.",
-          "en": "The village used to be called Borgo Nuovo.",
-          "answer": "si chiamava"
-        }
-      },
-      {
-        "it": "Signora, come si chiama?",
-        "en": "Madam, what is your name?",
-        "answer": "si chiama",
-        "person": 2,
-        "past": {
-          "it": "Signora, come si chiamava prima del matrimonio?",
-          "en": "Madam, what was your name before marriage?",
-          "answer": "si chiamava"
-        }
-      }
-    ]
-  },
-  {
-    "inf": "chiedere",
-    "policy": "dynamic",
-    "sense": "ask for something",
-    "note": "Chiedere can denote a request being made; Italian puts the requested item before a for the recipient.",
-    "en": [
-      "ask for",
-      "asks for",
-      "asked for",
-      "asking for"
-    ],
-    "frames": [
-      [
-        "il conto",
-        "the bill"
-      ],
-      [
-        "un’informazione",
-        "some information"
-      ],
-      [
-        "un favore",
-        "a favour"
-      ],
-      [
-        "un consiglio",
-        "some advice"
-      ]
-    ]
-  },
-  {
-    "inf": "chiudere",
-    "policy": "dynamic",
-    "sense": "close something",
-    "note": "Closing a door or box has an observable course; name the object being shut.",
-    "en": [
-      "close",
-      "closes",
-      "closed",
-      "closing"
-    ],
-    "frames": [
-      [
-        "la porta",
-        "the door"
-      ],
-      [
-        "la finestra",
-        "the window"
-      ],
-      [
-        "la valigia",
-        "the suitcase"
-      ],
-      [
-        "il negozio",
-        "the shop"
-      ]
-    ]
-  },
-  {
-    "inf": "colorare",
-    "policy": "dynamic",
-    "sense": "colour in a drawing",
-    "note": "Colouring proceeds over time; the direct object is the picture or part being coloured.",
-    "en": [
-      "colour in",
-      "colours in",
-      "coloured in",
-      "colouring in"
-    ],
-    "frames": [
-      [
-        "un disegno",
-        "a drawing"
-      ],
-      [
-        "una stella",
-        "a star"
-      ],
-      [
-        "il cielo nel disegno",
-        "the sky in the drawing"
-      ],
-      [
-        "una pagina dell’album",
-        "a page in the album"
-      ]
-    ]
-  },
-  {
-    "inf": "cominciare",
-    "policy": "sense-dependent",
-    "sense": "begin a task",
-    "note": "Sto cominciando puts focus on the start of a task, often just now; comincio can also announce a plan.",
-    "en": [
-      "begin",
-      "begins",
-      "began",
-      "beginning"
-    ],
-    "frames": [
-      [
-        "il lavoro",
-        "the work"
-      ],
-      [
-        "la lezione",
-        "the lesson"
-      ],
-      [
-        "un nuovo libro",
-        "a new book"
-      ],
-      [
-        "il progetto",
-        "the project"
-      ]
-    ]
-  },
-  {
-    "inf": "comprare",
-    "policy": "dynamic",
-    "sense": "buy something",
-    "note": "A purchase can be in progress while the person is choosing or paying for the item.",
-    "en": [
-      "buy",
-      "buys",
-      "bought",
-      "buying"
-    ],
-    "frames": [
-      [
-        "il pane",
-        "the bread"
-      ],
-      [
-        "un biglietto",
-        "a ticket"
-      ],
-      [
-        "una giacca",
-        "a jacket"
-      ],
-      [
-        "un regalo per Sara",
-        "a present for Sara"
-      ]
-    ]
-  },
-  {
-    "inf": "conoscere",
-    "policy": "simple",
-    "sense": "know a person or place",
-    "note": "Conosco expresses existing familiarity; sto conoscendo someone would mean getting to know them, a distinct developing sense.",
-    "en": [
-      "know",
-      "knows",
-      "knew",
-      ""
-    ],
-    "frames": [
-      [
-        "Marco",
-        "Marco"
-      ],
-      [
-        "questa città",
-        "this city"
-      ],
-      [
-        "il quartiere",
-        "the neighbourhood"
-      ],
-      [
-        "la famiglia di Sara",
-        "Sara’s family"
-      ]
-    ]
-  },
-  {
-    "inf": "copiare",
-    "policy": "dynamic",
-    "sense": "copy written material",
-    "note": "Copying text is an action in progress; the complement can locate where the copy goes.",
-    "en": [
-      "copy",
-      "copies",
-      "copied",
-      "copying"
-    ],
-    "frames": [
-      [
-        "la frase sul quaderno",
-        "the sentence into the notebook"
-      ],
-      [
-        "un indirizzo",
-        "an address"
-      ],
-      [
-        "il testo dal libro",
-        "the text from the book"
-      ],
-      [
-        "una pagina del documento",
-        "a page of the document"
-      ]
-    ]
-  },
-  {
-    "inf": "correre",
-    "policy": "dynamic",
-    "sense": "run",
-    "note": "Running has duration; the complement gives route, setting or purpose.",
-    "en": [
-      "run",
-      "runs",
-      "ran",
-      "running"
-    ],
-    "frames": [
-      [
-        "nel parco",
-        "in the park"
-      ],
-      [
-        "verso la stazione",
-        "toward the station"
-      ],
-      [
-        "lungo il fiume",
-        "along the river"
-      ],
-      [
-        "per prendere l’autobus",
-        "to catch the bus"
-      ]
-    ]
-  },
-  {
-    "inf": "costare",
-    "policy": "simple",
-    "sense": "have a price",
-    "note": "Costa states an item’s price; a fixed price is not an action unfolding.",
-    "en": [
-      "cost",
-      "costs",
-      "cost",
-      ""
-    ],
-    "frames": [
-      [
-        "dieci euro",
-        "ten euros"
-      ],
-      [
-        "troppo",
-        "too much"
-      ],
-      [
-        "meno di cinque euro",
-        "less than five euros"
-      ],
-      [
-        "una fortuna",
-        "a fortune"
-      ]
-    ],
-    "persons": [
-      2,
-      5
-    ],
-    "formal": false,
-    "subjects": {
-      "2": [
-        "Questo libro",
-        "This book"
-      ],
-      "5": [
-        "Questi libri",
-        "These books"
-      ]
-    }
-  },
-  {
-    "inf": "credere",
-    "policy": "simple",
-    "sense": "hold a belief",
-    "note": "Credo expresses a belief held at the moment; a belief forming or changing would need its own reviewed situation.",
-    "en": [
-      "believe",
-      "believes",
-      "believed",
-      ""
-    ],
-    "frames": [
-      [
-        "a Marco",
-        "Marco"
-      ],
-      [
-        "alla spiegazione",
-        "the explanation"
-      ],
-      [
-        "a questo racconto",
-        "this account"
-      ],
-      [
-        "alle parole di Sara",
-        "Sara’s words"
-      ]
-    ]
-  },
-  {
-    "inf": "cucinare",
-    "policy": "dynamic",
-    "sense": "cook food",
-    "note": "Cooking is an activity in progress; use a food or meal complement rather than an unrelated generic sentence.",
-    "en": [
-      "cook",
-      "cooks",
-      "cooked",
-      "cooking"
-    ],
-    "frames": [
-      [
-        "la cena",
-        "dinner"
-      ],
-      [
-        "la pasta",
-        "pasta"
-      ],
-      [
-        "una zuppa",
-        "a soup"
-      ],
-      [
-        "per gli amici",
-        "for friends"
-      ]
-    ]
-  },
-  {
-    "inf": "dare",
-    "policy": "dynamic",
-    "sense": "give something",
-    "note": "Giving can be underway as part of a handover; the complement must identify the item and recipient.",
-    "en": [
-      "give",
-      "gives",
-      "gave",
-      "giving"
-    ],
-    "frames": [
-      [
-        "un libro a Sara",
-        "a book to Sara"
-      ],
-      [
-        "le chiavi a Marco",
-        "the keys to Marco"
-      ],
-      [
-        "un regalo a un amico",
-        "a gift to a friend"
-      ],
-      [
-        "una mano ai vicini",
-        "a hand to the neighbours"
-      ]
-    ]
-  },
-  {
-    "inf": "dimenticare",
-    "policy": "sense-dependent",
-    "sense": "gradually forget a detail",
-    "note": "Sto dimenticando can describe a memory fading now; dimentico also describes repeated forgetfulness.",
-    "en": [
-      "forget",
-      "forgets",
-      "forgot",
-      "forgetting"
-    ],
-    "frames": [
-      [
-        "i dettagli",
-        "the details"
-      ],
-      [
-        "il suo nome",
-        "his name"
-      ],
-      [
-        "le parole della canzone",
-        "the words of the song"
-      ],
-      [
-        "la regola",
-        "the rule"
-      ]
-    ]
-  },
-  {
-    "inf": "dire",
-    "policy": "dynamic",
-    "sense": "say or tell something",
-    "note": "Speaking the words can be in progress; the quoted or reported content matters to dire.",
-    "en": [
-      "say",
-      "says",
-      "said",
-      "saying"
-    ],
-    "frames": [
-      [
-        "la verità",
-        "the truth"
-      ],
-      [
-        "una cosa importante",
-        "something important"
-      ],
-      [
-        "il nome di Sara",
-        "Sara’s name"
-      ],
-      [
-        "la stessa frase",
-        "the same sentence"
-      ]
-    ]
-  },
-  {
-    "inf": "disegnare",
-    "policy": "dynamic",
-    "sense": "draw something",
-    "note": "A drawing develops over time; the object names what is taking shape.",
-    "en": [
-      "draw",
-      "draws",
-      "drew",
-      "drawing"
-    ],
-    "frames": [
-      [
-        "una casa",
-        "a house"
-      ],
-      [
-        "un gatto",
-        "a cat"
-      ],
-      [
-        "un paesaggio",
-        "a landscape"
-      ],
-      [
-        "un ritratto",
-        "a portrait"
-      ]
-    ]
-  },
-  {
-    "inf": "domandare",
-    "policy": "dynamic",
-    "sense": "ask a question",
-    "note": "Domandare can focus on a question being posed; this selected sense uses a direct object.",
-    "en": [
-      "ask",
-      "asks",
-      "asked",
-      "asking"
-    ],
-    "frames": [
-      [
-        "una cosa",
-        "one thing"
-      ],
-      [
-        "una domanda",
-        "a question"
-      ],
-      [
-        "un’informazione",
-        "for some information"
-      ],
-      [
-        "il prezzo",
-        "the price"
-      ]
-    ]
-  },
-  {
-    "inf": "dormire",
-    "policy": "dynamic",
-    "sense": "sleep",
-    "note": "A sleep episode continues over time; dormo can also describe a normal pattern.",
-    "en": [
-      "sleep",
-      "sleeps",
-      "slept",
-      "sleeping"
-    ],
-    "frames": [
-      [
-        "sul divano",
-        "on the sofa"
-      ],
-      [
-        "in camera",
-        "in the bedroom"
-      ],
-      [
-        "in treno",
-        "on the train"
-      ],
-      [
-        "profondamente",
-        "deeply"
-      ]
-    ]
-  },
-  {
-    "inf": "dovere",
-    "policy": "simple",
-    "sense": "have an obligation",
-    "note": "Devo with an infinitive states an obligation; the modal obligation itself is not an unfolding action.",
-    "en": [
-      "have to",
-      "has to",
-      "had to",
-      ""
-    ],
-    "frames": [
-      [
-        "studiare",
-        "study"
-      ],
-      [
-        "partire presto",
-        "leave early"
-      ],
-      [
-        "pagare il conto",
-        "pay the bill"
-      ],
-      [
-        "telefonare a Sara",
-        "call Sara"
-      ]
-    ]
-  },
-  {
-    "inf": "durare",
-    "policy": "simple",
-    "sense": "have a stated duration",
-    "note": "Dura gives the length of an event as a fact; this selected measured-duration sense does not focus on a process unfolding.",
-    "en": [
-      "last",
-      "lasts",
-      "lasted",
-      ""
-    ],
-    "frames": [
-      [
-        "due ore",
-        "two hours"
-      ],
-      [
-        "mezz’ora",
-        "half an hour"
-      ],
-      [
-        "fino alle cinque",
-        "until five"
-      ],
-      [
-        "pochissimo",
-        "a very short time"
-      ]
-    ],
-    "persons": [
-      2,
-      5
-    ],
-    "formal": false,
-    "subjects": {
-      "2": [
-        "La lezione",
-        "The lesson"
-      ],
-      "5": [
-        "Le lezioni",
-        "The lessons"
-      ]
-    }
-  },
-  {
-    "inf": "entrare",
-    "policy": "sense-dependent",
-    "sense": "go in through an entrance",
-    "note": "Sto entrando can depict the movement through an entrance; entro can also announce an immediate plan.",
-    "en": [
-      "enter",
-      "enters",
-      "entered",
-      "entering"
-    ],
-    "frames": [
-      [
-        "in casa",
-        "the house"
-      ],
-      [
-        "nel negozio",
-        "the shop"
-      ],
-      [
-        "dalla porta principale",
-        "through the main door"
-      ],
-      [
-        "in classe",
-        "the classroom"
-      ]
-    ]
-  },
-  {
-    "inf": "essere",
-    "policy": "simple",
-    "sense": "be in a place or have an identity",
-    "note": "Sono and the other simple forms state identity or location; sto essendo does not express that ordinary meaning.",
-    "simpleExamples": [
-      {
-        "it": "Sono a casa.",
-        "en": "I am at home.",
-        "answer": "sono",
-        "person": 0,
-        "past": {
-          "it": "Ero a casa quel pomeriggio.",
-          "en": "I was at home that afternoon.",
-          "answer": "ero"
-        }
-      },
-      {
-        "it": "Sei in biblioteca.",
-        "en": "You are in the library.",
-        "answer": "sei",
-        "person": 1,
-        "past": {
-          "it": "Eri in biblioteca ogni sabato.",
-          "en": "You used to be in the library every Saturday.",
-          "answer": "eri"
-        }
-      },
-      {
-        "it": "Marco è italiano.",
-        "en": "Marco is Italian.",
-        "answer": "è",
-        "person": 2,
-        "past": {
-          "it": "Marco era italiano.",
-          "en": "Marco was Italian.",
-          "answer": "era"
-        }
-      },
-      {
-        "it": "Siamo in centro.",
-        "en": "We are in the city centre.",
-        "answer": "siamo",
-        "person": 3,
-        "past": {
-          "it": "Eravamo in centro alle sei.",
-          "en": "We were in the city centre at six.",
-          "answer": "eravamo"
-        }
-      }
-    ]
-  },
-  {
-    "inf": "fare",
-    "policy": "dynamic",
-    "sense": "make an object",
-    "note": "Here fare means make a tangible item; the progressive follows its creation as it happens.",
-    "en": [
-      "make",
-      "makes",
-      "made",
-      "making"
-    ],
-    "frames": [
-      [
-        "una torta",
-        "a cake"
-      ],
-      [
-        "un disegno",
-        "a drawing"
-      ],
-      [
-        "una lista",
-        "a list"
-      ],
-      [
-        "un biglietto per Sara",
-        "a card for Sara"
-      ]
-    ]
-  },
-  {
-    "inf": "finire",
-    "policy": "sense-dependent",
-    "sense": "finish a task",
-    "note": "Sto finendo highlights the final stretch of an activity; finisco can simply announce when it ends.",
-    "en": [
-      "finish",
-      "finishes",
-      "finished",
-      "finishing"
-    ],
-    "frames": [
-      [
-        "i compiti",
-        "the homework"
-      ],
-      [
-        "il lavoro",
-        "the work"
-      ],
-      [
-        "un libro",
-        "a book"
-      ],
-      [
-        "la cena",
-        "dinner"
-      ]
-    ]
-  },
-  {
-    "inf": "fotografare",
-    "policy": "dynamic",
-    "sense": "take photographs of a subject",
-    "note": "Photography is a deliberate activity; the subject being photographed is a direct object.",
-    "en": [
-      "photograph",
-      "photographs",
-      "photographed",
-      "photographing"
-    ],
-    "frames": [
-      [
-        "il tramonto",
-        "the sunset"
-      ],
-      [
-        "un palazzo antico",
-        "an old building"
-      ],
-      [
-        "gli amici al parco",
-        "the friends in the park"
-      ],
-      [
-        "la piazza",
-        "the square"
-      ]
-    ]
-  },
-  {
-    "inf": "frequentare",
-    "policy": "sense-dependent",
-    "sense": "attend a course during a limited period",
-    "note": "Sto frequentando can highlight current participation in a course; frequento also states a standing enrolment.",
-    "en": [
-      "attend",
-      "attends",
-      "attended",
-      "attending"
-    ],
-    "frames": [
-      [
-        "un corso di italiano",
-        "an Italian course"
-      ],
-      [
-        "una scuola serale",
-        "an evening school"
-      ],
-      [
-        "un laboratorio",
-        "a workshop"
-      ],
-      [
-        "un corso di cucina",
-        "a cooking course"
-      ]
-    ]
-  },
-  {
-    "inf": "fumare",
-    "policy": "dynamic",
-    "sense": "smoke",
-    "note": "Smoking is an action with duration; the object or setting makes the specific episode clear.",
-    "en": [
-      "smoke",
-      "smokes",
-      "smoked",
-      "smoking"
-    ],
-    "frames": [
-      [
-        "una sigaretta",
-        "a cigarette"
-      ],
-      [
-        "fuori dal locale",
-        "outside the venue"
-      ],
-      [
-        "in giardino",
-        "in the garden"
-      ],
-      [
-        "una pipa",
-        "a pipe"
-      ]
-    ]
-  },
-  {
-    "inf": "giocare",
-    "policy": "dynamic",
-    "sense": "play a game or sport",
-    "note": "Playing can be underway; Italian uses a before the game or sport.",
-    "en": [
-      "play",
-      "plays",
-      "played",
-      "playing"
-    ],
-    "frames": [
-      [
-        "a calcio",
-        "football"
-      ],
-      [
-        "a tennis",
-        "tennis"
-      ],
-      [
-        "a carte",
-        "cards"
-      ],
-      [
-        "con i bambini",
-        "with the children"
-      ]
-    ]
-  },
-  {
-    "inf": "guardare",
-    "policy": "dynamic",
-    "sense": "watch or look at something",
-    "note": "Guardare is deliberate attention and can be in progress; unlike vedere, it is not mere perception.",
-    "en": [
-      "watch",
-      "watches",
-      "watched",
-      "watching"
-    ],
-    "frames": [
-      [
-        "un film",
-        "a film"
-      ],
-      [
-        "la televisione",
-        "television"
-      ],
-      [
-        "una partita",
-        "a match"
-      ],
-      [
-        "un video",
-        "a video"
-      ]
-    ]
-  },
-  {
-    "inf": "imparare",
-    "policy": "dynamic",
-    "sense": "learn a skill or subject",
-    "note": "Learning develops over time; the selected object says what is being learned.",
-    "en": [
-      "learn",
-      "learns",
-      "learned",
-      "learning"
-    ],
-    "frames": [
-      [
-        "l’italiano",
-        "Italian"
-      ],
-      [
-        "una canzone",
-        "a song"
-      ],
-      [
-        "una nuova ricetta",
-        "a new recipe"
-      ],
-      [
-        "le regole del gioco",
-        "the rules of the game"
-      ]
-    ]
-  },
-  {
-    "inf": "incontrare",
-    "policy": "sense-dependent",
-    "sense": "meet someone at a particular point",
-    "note": "Sto incontrando can describe a meeting happening now; incontro often also states an appointment or habit.",
-    "en": [
-      "meet",
-      "meets",
-      "met",
-      "meeting"
-    ],
-    "frames": [
-      [
-        "Marco",
-        "Marco"
-      ],
-      [
-        "un collega",
-        "a colleague"
-      ],
-      [
-        "gli amici al bar",
-        "friends at the bar"
-      ],
-      [
-        "il direttore",
-        "the director"
-      ]
-    ]
-  },
-  {
-    "inf": "insegnare",
-    "policy": "dynamic",
-    "sense": "teach a subject to learners",
-    "note": "Teaching a lesson is an ongoing activity; the subject or learners belong to the construction.",
-    "en": [
-      "teach",
-      "teaches",
-      "taught",
-      "teaching"
-    ],
-    "frames": [
-      [
-        "italiano a Sara",
-        "Italian to Sara"
-      ],
-      [
-        "matematica ai bambini",
-        "maths to the children"
-      ],
-      [
-        "una nuova regola",
-        "a new rule"
-      ],
-      [
-        "la pronuncia agli studenti",
-        "pronunciation to the students"
-      ]
-    ]
-  },
-  {
-    "inf": "lavarsi",
-    "policy": "dynamic",
-    "sense": "wash oneself",
-    "note": "The reflexive pronoun stays with lavarsi; the progressive can focus on washing in progress.",
-    "en": [
-      "wash",
-      "washes",
-      "washed",
-      "washing"
-    ],
-    "frames": [
-      [
-        "in bagno",
-        "in the bathroom"
-      ],
-      [
-        "con acqua calda",
-        "with warm water"
-      ],
-      [
-        "dopo la corsa",
-        "after the run"
-      ],
-      [
-        "prima di cena",
-        "before dinner"
-      ]
-    ]
-  },
-  {
-    "inf": "lavorare",
-    "policy": "dynamic",
-    "sense": "work on a task or in a place",
-    "note": "A work session can be unfolding; lavoro can also state a job or routine.",
-    "en": [
-      "work",
-      "works",
-      "worked",
-      "working"
-    ],
-    "frames": [
-      [
-        "in ufficio",
-        "in the office"
-      ],
-      [
-        "da casa",
-        "from home"
-      ],
-      [
-        "al progetto",
-        "on the project"
-      ],
-      [
-        "con i colleghi",
-        "with colleagues"
-      ]
-    ]
-  },
-  {
-    "inf": "leggere",
-    "policy": "dynamic",
-    "sense": "read text",
-    "note": "Reading a particular text takes time; the complement names that text.",
-    "en": [
-      "read",
-      "reads",
-      "read",
-      "reading"
-    ],
-    "frames": [
-      [
-        "un libro",
-        "a book"
-      ],
-      [
-        "il giornale",
-        "the newspaper"
-      ],
-      [
-        "un messaggio",
-        "a message"
-      ],
-      [
-        "il menu",
-        "the menu"
-      ]
-    ]
-  },
-  {
-    "inf": "mangiare",
-    "policy": "dynamic",
-    "sense": "eat food",
-    "note": "An eating episode can be in progress; the food is the direct object.",
-    "en": [
-      "eat",
-      "eats",
-      "ate",
-      "eating"
-    ],
-    "frames": [
-      [
-        "una mela",
-        "an apple"
-      ],
-      [
-        "la pasta",
-        "pasta"
-      ],
-      [
-        "un panino",
-        "a sandwich"
-      ],
-      [
-        "un’insalata",
-        "a salad"
-      ]
-    ]
-  },
-  {
-    "inf": "mettere",
-    "policy": "dynamic",
-    "sense": "put an object somewhere",
-    "note": "Putting something in place is observable as it happens; include both object and destination.",
-    "en": [
-      "put",
-      "puts",
-      "put",
-      "putting"
-    ],
-    "frames": [
-      [
-        "i piatti sul tavolo",
-        "the plates on the table"
-      ],
-      [
-        "il latte in frigo",
-        "the milk in the fridge"
-      ],
-      [
-        "le chiavi nella borsa",
-        "the keys in the bag"
-      ],
-      [
-        "un libro sullo scaffale",
-        "a book on the shelf"
-      ]
-    ]
-  },
-  {
-    "inf": "nuotare",
-    "policy": "dynamic",
-    "sense": "swim",
-    "note": "Swimming is durative; the place or manner gives a concrete ongoing activity.",
-    "en": [
-      "swim",
-      "swims",
-      "swam",
-      "swimming"
-    ],
-    "frames": [
-      [
-        "in piscina",
-        "in the pool"
-      ],
-      [
-        "nel mare",
-        "in the sea"
-      ],
-      [
-        "verso la riva",
-        "toward the shore"
-      ],
-      [
-        "con gli amici",
-        "with friends"
-      ]
-    ]
-  },
-  {
-    "inf": "odiare",
-    "policy": "simple",
-    "sense": "hate someone or something",
-    "note": "Odio states an attitude toward a person or thing; do not turn that stable attitude into an unfolding activity.",
-    "en": [
-      "hate",
-      "hates",
-      "hated",
-      ""
-    ],
-    "frames": [
-      [
-        "il freddo",
-        "the cold"
-      ],
-      [
-        "le bugie",
-        "lies"
-      ],
-      [
-        "la pioggia",
-        "the rain"
-      ],
-      [
-        "alzarmi presto",
-        "getting up early"
-      ]
-    ]
-  },
-  {
-    "inf": "pagare",
-    "policy": "dynamic",
-    "sense": "pay for something",
-    "note": "A payment can be in progress; choose a bill or purchase as its object.",
-    "en": [
-      "pay",
-      "pays",
-      "paid",
-      "paying"
-    ],
-    "frames": [
-      [
-        "il conto",
-        "the bill"
-      ],
-      [
-        "il biglietto",
-        "for the ticket"
-      ],
-      [
-        "la spesa",
-        "for the groceries"
-      ],
-      [
-        "l’affitto",
-        "the rent"
-      ]
-    ]
-  },
-  {
-    "inf": "parlare",
-    "policy": "dynamic",
-    "sense": "speak with someone or about something",
-    "note": "Talking can be in progress; parlare con and parlare di mark different complements.",
-    "en": [
-      "talk",
-      "talks",
-      "talked",
-      "talking"
-    ],
-    "frames": [
-      [
-        "con Sara",
-        "with Sara"
-      ],
-      [
-        "del viaggio",
-        "about the trip"
-      ],
-      [
-        "al telefono",
-        "on the phone"
-      ],
-      [
-        "con il medico",
-        "with the doctor"
-      ]
-    ]
-  },
-  {
-    "inf": "partire",
-    "policy": "sense-dependent",
-    "sense": "set off on a journey",
-    "note": "Sto partendo often focuses on departure just beginning or imminent, not the whole journey.",
-    "en": [
-      "leave",
-      "leaves",
-      "left",
-      "leaving"
-    ],
-    "frames": [
-      [
-        "per Roma",
-        "for Rome"
-      ],
-      [
-        "dalla stazione",
-        "from the station"
-      ],
-      [
-        "in treno",
-        "by train"
-      ],
-      [
-        "per le vacanze",
-        "for the holidays"
-      ]
-    ]
-  },
-  {
-    "inf": "passeggiare",
-    "policy": "dynamic",
-    "sense": "stroll",
-    "note": "A walk has duration; location or company makes the current outing clear.",
-    "en": [
-      "stroll",
-      "strolls",
-      "strolled",
-      "strolling"
-    ],
-    "frames": [
-      [
-        "in centro",
-        "around the centre"
-      ],
-      [
-        "lungo il fiume",
-        "along the river"
-      ],
-      [
-        "con Sara",
-        "with Sara"
-      ],
-      [
-        "nel parco",
-        "in the park"
-      ]
-    ]
-  },
-  {
-    "inf": "pattinare",
-    "policy": "dynamic",
-    "sense": "skate",
-    "note": "Skating is an ongoing activity; the setting specifies where it is happening.",
-    "en": [
-      "skate",
-      "skates",
-      "skated",
-      "skating"
-    ],
-    "frames": [
-      [
-        "sul ghiaccio",
-        "on the ice"
-      ],
-      [
-        "al parco",
-        "at the park"
-      ],
-      [
-        "con gli amici",
-        "with friends"
-      ],
-      [
-        "sulla pista",
-        "on the rink"
-      ]
-    ]
-  },
-  {
-    "inf": "pensare",
-    "policy": "sense-dependent",
-    "sense": "think through an idea",
-    "note": "Sto pensando a can describe active consideration; penso che and stable opinions are a different use.",
-    "en": [
-      "think about",
-      "thinks about",
-      "thought about",
-      "thinking about"
-    ],
-    "frames": [
-      [
-        "al viaggio",
-        "the trip"
-      ],
-      [
-        "a una soluzione",
-        "a solution"
-      ],
-      [
-        "alla proposta",
-        "the proposal"
-      ],
-      [
-        "a un amico",
-        "a friend"
-      ]
-    ]
-  },
-  {
-    "inf": "pescare",
-    "policy": "dynamic",
-    "sense": "fish",
-    "note": "Fishing is an activity that unfolds over time; the place or object locates the outing.",
-    "en": [
-      "fish",
-      "fishes",
-      "fished",
-      "fishing"
-    ],
-    "frames": [
-      [
-        "al lago",
-        "at the lake"
-      ],
-      [
-        "nel fiume",
-        "in the river"
-      ],
-      [
-        "con un amico",
-        "with a friend"
-      ],
-      [
-        "dalla barca",
-        "from the boat"
-      ]
-    ]
-  },
-  {
-    "inf": "pettinarsi",
-    "policy": "dynamic",
-    "sense": "comb one’s hair",
-    "note": "The reflexive marks grooming oneself; the progressive focuses on that grooming underway.",
-    "en": [
-      "comb {poss} hair",
-      "combs {poss} hair",
-      "combed {poss} hair",
-      "combing {poss} hair"
-    ],
-    "frames": [
-      [
-        "davanti allo specchio",
-        "in front of the mirror"
-      ],
-      [
-        "prima di uscire",
-        "before going out"
-      ],
-      [
-        "con calma",
-        "slowly"
-      ],
-      [
-        "in bagno",
-        "in the bathroom"
-      ]
-    ]
-  },
-  {
-    "inf": "piacere",
-    "policy": "simple",
-    "sense": "be pleasing to someone",
-    "note": "The liked thing is the grammatical subject of piace or piacciono; ordinary liking is a state, not an unfolding action.",
-    "simpleExamples": [
-      {
-        "it": "Mi piace questo libro.",
-        "en": "I like this book.",
-        "answer": "piace",
-        "person": 2,
-        "past": {
-          "it": "Mi piaceva quel libro.",
-          "en": "I used to like that book.",
-          "answer": "piaceva"
-        }
-      },
-      {
-        "it": "Ti piace la musica italiana?",
-        "en": "Do you like Italian music?",
-        "answer": "piace",
-        "person": 2,
-        "past": {
-          "it": "Ti piaceva la musica italiana?",
-          "en": "Did you use to like Italian music?",
-          "answer": "piaceva"
-        }
-      },
-      {
-        "it": "Mi piacciono questi film.",
-        "en": "I like these films.",
-        "answer": "piacciono",
-        "person": 5,
-        "past": {
-          "it": "Mi piacevano quei film.",
-          "en": "I used to like those films.",
-          "answer": "piacevano"
-        }
-      },
-      {
-        "it": "A Sara piacciono i gatti.",
-        "en": "Sara likes cats.",
-        "answer": "piacciono",
-        "person": 5,
-        "past": {
-          "it": "A Sara piacevano i gatti.",
-          "en": "Sara used to like cats.",
-          "answer": "piacevano"
-        }
-      }
-    ],
-    "persons": [
-      2,
-      5
-    ],
-    "formal": false
-  },
-  {
-    "inf": "portare",
-    "policy": "dynamic",
-    "sense": "carry or take an object",
-    "note": "Carrying something to a destination can be underway; this sense differs from wearing something.",
-    "en": [
-      "carry",
-      "carries",
-      "carried",
-      "carrying"
-    ],
-    "frames": [
-      [
-        "le valigie in camera",
-        "the suitcases into the bedroom"
-      ],
-      [
-        "la spesa a casa",
-        "the groceries home"
-      ],
-      [
-        "una scatola in ufficio",
-        "a box into the office"
-      ],
-      [
-        "lo zaino sulle spalle",
-        "the backpack on the shoulders"
-      ]
-    ]
-  },
-  {
-    "inf": "potere",
-    "policy": "simple",
-    "sense": "have ability or permission",
-    "note": "Posso plus an infinitive states ability or permission; the modal meaning itself is not an event in progress.",
-    "en": [
-      "can",
-      "can",
-      "could",
-      ""
-    ],
-    "frames": [
-      [
-        "nuotare",
-        "swim"
-      ],
-      [
-        "entrare",
-        "come in"
-      ],
-      [
-        "aprire la finestra",
-        "open the window"
-      ],
-      [
-        "aiutare Sara",
-        "help Sara"
-      ]
-    ]
-  },
-  {
-    "inf": "pranzare",
-    "policy": "dynamic",
-    "sense": "have lunch",
-    "note": "A lunch is an event with duration; the place or company identifies this meal.",
-    "en": [
-      "have lunch",
-      "has lunch",
-      "had lunch",
-      "having lunch"
-    ],
-    "frames": [
-      [
-        "a casa",
-        "at home"
-      ],
-      [
-        "con i colleghi",
-        "with colleagues"
-      ],
-      [
-        "al bar",
-        "at the café"
-      ],
-      [
-        "fuori",
-        "out"
-      ]
-    ]
-  },
-  {
-    "inf": "preferire",
-    "policy": "simple",
-    "sense": "have a preference",
-    "note": "Preferisco expresses which choice is favoured; a stable preference is not an unfolding action.",
-    "en": [
-      "prefer",
-      "prefers",
-      "preferred",
-      ""
-    ],
-    "frames": [
-      [
-        "il tè al caffè",
-        "tea to coffee"
-      ],
-      [
-        "il treno all’aereo",
-        "the train to flying"
-      ],
-      [
-        "la pasta al riso",
-        "pasta to rice"
-      ],
-      [
-        "restare a casa",
-        "staying at home"
-      ]
-    ]
-  },
-  {
-    "inf": "prendere",
-    "policy": "dynamic",
-    "sense": "take or pick up an object",
-    "note": "Prendere can focus on physically taking something now; other senses, such as ordering a drink, need separate context.",
-    "en": [
-      "take",
-      "takes",
-      "took",
-      "taking"
-    ],
-    "frames": [
-      [
-        "le chiavi",
-        "the keys"
-      ],
-      [
-        "un libro dallo scaffale",
-        "a book from the shelf"
-      ],
-      [
-        "l’autobus",
-        "the bus"
-      ],
-      [
-        "la borsa dal tavolo",
-        "the bag from the table"
-      ]
-    ]
-  },
-  {
-    "inf": "preparare",
-    "policy": "dynamic",
-    "sense": "prepare food or materials",
-    "note": "Preparation unfolds over time; the object identifies what is being made ready.",
-    "en": [
-      "prepare",
-      "prepares",
-      "prepared",
-      "preparing"
-    ],
-    "frames": [
-      [
-        "la cena",
-        "dinner"
-      ],
-      [
-        "la colazione",
-        "breakfast"
-      ],
-      [
-        "una valigia",
-        "a suitcase"
-      ],
-      [
-        "il materiale per la lezione",
-        "the materials for the lesson"
-      ]
-    ]
-  },
-  {
-    "inf": "presentare",
-    "policy": "dynamic",
-    "sense": "introduce someone to someone",
-    "note": "An introduction can be taking place now; use a direct object for the person introduced.",
-    "en": [
-      "introduce",
-      "introduces",
-      "introduced",
-      "introducing"
-    ],
-    "frames": [
-      [
-        "Sara ai colleghi",
-        "Sara to colleagues"
-      ],
-      [
-        "un amico alla famiglia",
-        "a friend to the family"
-      ],
-      [
-        "il nuovo direttore",
-        "the new director"
-      ],
-      [
-        "un collega agli ospiti",
-        "a colleague to the guests"
-      ]
-    ]
-  },
-  {
-    "inf": "presentarsi",
-    "policy": "sense-dependent",
-    "sense": "show up at a place or appointment",
-    "note": "Mi sto presentando can describe appearing at a scheduled place; this is distinct from saying one’s name.",
-    "en": [
-      "show up",
-      "shows up",
-      "showed up",
-      "showing up"
-    ],
-    "frames": [
-      [
-        "all’appuntamento",
-        "at the appointment"
-      ],
-      [
-        "in ufficio",
-        "at the office"
-      ],
-      [
-        "alla riunione",
-        "at the meeting"
-      ],
-      [
-        "all’esame",
-        "for the exam"
-      ]
-    ]
-  },
-  {
-    "inf": "prestare",
-    "policy": "dynamic",
-    "sense": "lend something to someone",
-    "note": "Lending is a handover in progress; say what is lent and to whom.",
-    "en": [
-      "lend",
-      "lends",
-      "lent",
-      "lending"
-    ],
-    "frames": [
-      [
-        "un libro a Sara",
-        "a book to Sara"
-      ],
-      [
-        "la penna a Marco",
-        "a pen to Marco"
-      ],
-      [
-        "la bici a un amico",
-        "the bike to a friend"
-      ],
-      [
-        "un ombrello al vicino",
-        "an umbrella to the neighbour"
-      ]
-    ]
-  },
-  {
-    "inf": "pronunciare",
-    "policy": "dynamic",
-    "sense": "pronounce a word or phrase",
-    "note": "Pronouncing a word is an action one can hear unfolding; name the target word or phrase.",
-    "en": [
-      "pronounce",
-      "pronounces",
-      "pronounced",
-      "pronouncing"
-    ],
-    "frames": [
-      [
-        "questa parola",
-        "this word"
-      ],
-      [
-        "il nome di Sara",
-        "Sara’s name"
-      ],
-      [
-        "una frase italiana",
-        "an Italian sentence"
-      ],
-      [
-        "le vocali",
-        "the vowels"
-      ]
-    ]
-  },
-  {
-    "inf": "provare",
-    "policy": "sense-dependent",
-    "sense": "try on clothing",
-    "note": "Sto provando focuses on trying a garment on now; provare a plus infinitive expresses attempting something else.",
-    "en": [
-      "try on",
-      "tries on",
-      "tried on",
-      "trying on"
-    ],
-    "frames": [
-      [
-        "una giacca",
-        "a jacket"
-      ],
-      [
-        "queste scarpe",
-        "these shoes"
-      ],
-      [
-        "un vestito",
-        "a dress"
-      ],
-      [
-        "un cappello",
-        "a hat"
-      ]
-    ]
-  },
-  {
-    "inf": "pulire",
-    "policy": "dynamic",
-    "sense": "clean a place or object",
-    "note": "Cleaning is an ongoing task; the object shows what is being cleaned.",
-    "en": [
-      "clean",
-      "cleans",
-      "cleaned",
-      "cleaning"
-    ],
-    "frames": [
-      [
-        "la cucina",
-        "the kitchen"
-      ],
-      [
-        "il tavolo",
-        "the table"
-      ],
-      [
-        "le finestre",
-        "the windows"
-      ],
-      [
-        "il pavimento",
-        "the floor"
-      ]
-    ]
-  },
-  {
-    "inf": "respirare",
-    "policy": "dynamic",
-    "sense": "breathe",
-    "note": "Breathing is continuous; manner or setting makes a particular moment salient.",
-    "en": [
-      "breathe",
-      "breathes",
-      "breathed",
-      "breathing"
-    ],
-    "frames": [
-      [
-        "profondamente",
-        "deeply"
-      ],
-      [
-        "con calma",
-        "calmly"
-      ],
-      [
-        "aria fresca",
-        "fresh air"
-      ],
-      [
-        "lentamente",
-        "slowly"
-      ]
-    ]
-  },
-  {
-    "inf": "restare",
-    "policy": "simple",
-    "sense": "remain in a place",
-    "note": "Resto here states where someone remains; sto restando would shift toward a temporary decision or unfolding change.",
-    "en": [
-      "stay",
-      "stays",
-      "stayed",
-      ""
-    ],
-    "frames": [
-      [
-        "a casa",
-        "at home"
-      ],
-      [
-        "in ufficio",
-        "in the office"
-      ],
-      [
-        "con gli amici",
-        "with friends"
-      ],
-      [
-        "qui",
-        "here"
-      ]
-    ]
-  },
-  {
-    "inf": "restituire",
-    "policy": "dynamic",
-    "sense": "give an item back",
-    "note": "Restitution can be underway as a handover; the recipient and item are explicit.",
-    "en": [
-      "return",
-      "returns",
-      "returned",
-      "returning"
-    ],
-    "frames": [
-      [
-        "il libro a Sara",
-        "the book to Sara"
-      ],
-      [
-        "le chiavi al vicino",
-        "the keys to the neighbour"
-      ],
-      [
-        "un prestito alla biblioteca",
-        "a loan to the library"
-      ],
-      [
-        "il denaro a Marco",
-        "the money to Marco"
-      ]
-    ]
-  },
-  {
-    "inf": "ricordare",
-    "policy": "simple",
-    "sense": "remember a person or fact",
-    "note": "Ricordo reports a memory held; remembering is not itself a visible action underway in this ordinary sense.",
-    "en": [
-      "remember",
-      "remembers",
-      "remembered",
-      ""
-    ],
-    "frames": [
-      [
-        "quel giorno",
-        "that day"
-      ],
-      [
-        "il suo nome",
-        "her name"
-      ],
-      [
-        "la risposta",
-        "the answer"
-      ],
-      [
-        "la strada",
-        "the way"
-      ]
-    ]
-  },
-  {
-    "inf": "rientrare",
-    "policy": "dynamic",
-    "sense": "return inside or home",
-    "note": "Sto rientrando tracks movement back toward home or another place; rientro alle sette can instead give a schedule.",
-    "en": [
-      "return",
-      "returns",
-      "returned",
-      "returning"
-    ],
-    "frames": [
-      [
-        "a casa",
-        "home"
-      ],
-      [
-        "in ufficio",
-        "to the office"
-      ],
-      [
-        "in albergo",
-        "to the hotel"
-      ],
-      [
-        "dalla pausa",
-        "from the break"
-      ]
-    ]
-  },
-  {
-    "inf": "rilassarsi",
-    "policy": "dynamic",
-    "sense": "relax",
-    "note": "Relaxing can be unfolding; the reflexive pronoun is part of the Italian verb.",
-    "en": [
-      "relax",
-      "relaxes",
-      "relaxed",
-      "relaxing"
-    ],
-    "frames": [
-      [
-        "sul divano",
-        "on the sofa"
-      ],
-      [
-        "con la musica",
-        "with music"
-      ],
-      [
-        "in giardino",
-        "in the garden"
-      ],
-      [
-        "dopo il lavoro",
-        "after work"
-      ]
-    ]
-  },
-  {
-    "inf": "ringraziare",
-    "policy": "dynamic",
-    "sense": "thank someone",
-    "note": "Thanking someone is a speech action; the person and reason can be stated directly.",
-    "en": [
-      "thank",
-      "thanks",
-      "thanked",
-      "thanking"
-    ],
-    "frames": [
-      [
-        "Sara per l’aiuto",
-        "Sara for the help"
-      ],
-      [
-        "gli ospiti",
-        "the guests"
-      ],
-      [
-        "un collega per il consiglio",
-        "a colleague for the advice"
-      ],
-      [
-        "il medico",
-        "the doctor"
-      ]
-    ]
-  },
-  {
-    "inf": "ripassare",
-    "policy": "dynamic",
-    "sense": "review studied material",
-    "note": "Revision takes time; a specific set of material makes the session concrete.",
-    "en": [
-      "review",
-      "reviews",
-      "reviewed",
-      "reviewing"
-    ],
-    "frames": [
-      [
-        "i verbi",
-        "the verbs"
-      ],
-      [
-        "gli appunti",
-        "the notes"
-      ],
-      [
-        "la lezione",
-        "the lesson"
-      ],
-      [
-        "le parole nuove",
-        "the new words"
-      ]
-    ]
-  },
-  {
-    "inf": "rispondere",
-    "policy": "dynamic",
-    "sense": "reply to a message or person",
-    "note": "A reply can be in progress; Italian rispondere requires a before the recipient.",
-    "en": [
-      "reply to",
-      "replies to",
-      "replied to",
-      "replying to"
-    ],
-    "frames": [
-      [
-        "a Sara",
-        "Sara"
-      ],
-      [
-        "a un’email",
-        "an email"
-      ],
-      [
-        "a una domanda",
-        "a question"
-      ],
-      [
-        "al collega",
-        "the colleague"
-      ]
-    ],
-    "legacyFrames": [
-      [
-        "Sara",
-        "Sara"
-      ],
-      [
-        "un’email",
-        "an email"
-      ],
-      [
-        "una domanda",
-        "a question"
-      ],
-      [
-        "il collega",
-        "the colleague"
-      ]
-    ]
-  },
-  {
-    "inf": "salutare",
-    "policy": "dynamic",
-    "sense": "greet someone",
-    "note": "A greeting can be happening now; salutare takes the person directly in Italian.",
-    "en": [
-      "greet",
-      "greets",
-      "greeted",
-      "greeting"
-    ],
-    "frames": [
-      [
-        "gli ospiti",
-        "the guests"
-      ],
-      [
-        "un amico",
-        "a friend"
-      ],
-      [
-        "i vicini",
-        "the neighbours"
-      ],
-      [
-        "il professore",
-        "the teacher"
-      ]
-    ]
-  },
-  {
-    "inf": "salvare",
-    "policy": "dynamic",
-    "sense": "save a file",
-    "note": "Saving a file is an action with a result; this computer sense is distinct from rescuing a person.",
-    "en": [
-      "save",
-      "saves",
-      "saved",
-      "saving"
-    ],
-    "frames": [
-      [
-        "il documento",
-        "the document"
-      ],
-      [
-        "una foto",
-        "a photo"
-      ],
-      [
-        "il file sul computer",
-        "the file on the computer"
-      ],
-      [
-        "una copia del progetto",
-        "a copy of the project"
-      ]
-    ]
-  },
-  {
-    "inf": "sapere",
-    "policy": "simple",
-    "sense": "know a fact or know how",
-    "note": "So reports knowledge or ability already held; sto sapendo is not the ordinary way to say this.",
-    "en": [
-      "know",
-      "knows",
-      "knew",
-      ""
-    ],
-    "frames": [
-      [
-        "la risposta",
-        "the answer"
-      ],
-      [
-        "il suo indirizzo",
-        "her address"
-      ],
-      [
-        "la verità",
-        "the truth"
-      ],
-      [
-        "come arrivare",
-        "how to get there"
-      ]
-    ]
-  },
-  {
-    "inf": "scherzare",
-    "policy": "dynamic",
-    "sense": "joke with someone",
-    "note": "Joking is a communicative action underway; the complement can identify its audience or topic.",
-    "en": [
-      "joke",
-      "jokes",
-      "joked",
-      "joking"
-    ],
-    "frames": [
-      [
-        "con Sara",
-        "with Sara"
-      ],
-      [
-        "sul film",
-        "about the film"
-      ],
-      [
-        "con gli amici",
-        "with friends"
-      ],
-      [
-        "sulla situazione",
-        "about the situation"
-      ]
-    ]
-  },
-  {
-    "inf": "sciare",
-    "policy": "dynamic",
-    "sense": "ski",
-    "note": "Skiing has duration; its place or company establishes the particular outing.",
-    "en": [
-      "ski",
-      "skis",
-      "skied",
-      "skiing"
-    ],
-    "frames": [
-      [
-        "in montagna",
-        "in the mountains"
-      ],
-      [
-        "con gli amici",
-        "with friends"
-      ],
-      [
-        "sulla pista facile",
-        "on the easy slope"
-      ],
-      [
-        "sulle Alpi",
-        "in the Alps"
-      ]
-    ]
-  },
-  {
-    "inf": "scrivere",
-    "policy": "dynamic",
-    "sense": "write text",
-    "note": "Writing a message or document unfolds over time; name the text being written.",
-    "en": [
-      "write",
-      "writes",
-      "wrote",
-      "writing"
-    ],
-    "frames": [
-      [
-        "una mail",
-        "an email"
-      ],
-      [
-        "una lettera",
-        "a letter"
-      ],
-      [
-        "un messaggio",
-        "a message"
-      ],
-      [
-        "un articolo",
-        "an article"
-      ]
-    ]
-  },
-  {
-    "inf": "scusare",
-    "policy": "simple",
-    "sense": "excuse a person for a mistake",
-    "note": "Scusare here means forgiving a particular fault; the polite formulas scusa and scusi are separate uses, not progressive events.",
-    "en": [
-      "excuse",
-      "excuses",
-      "excused",
-      ""
-    ],
-    "frames": [
-      [
-        "Marco per il ritardo",
-        "Marco for being late"
-      ],
-      [
-        "un amico per l’errore",
-        "a friend for the mistake"
-      ],
-      [
-        "Sara per la dimenticanza",
-        "Sara for forgetting"
-      ],
-      [
-        "il collega per l’assenza",
-        "the colleague for the absence"
-      ]
-    ]
-  },
-  {
-    "inf": "sentire",
-    "policy": "simple",
-    "sense": "hear a sound",
-    "note": "Sento reports immediate perception; ascoltare is the deliberate listening activity more naturally put in progress.",
-    "en": [
-      "hear",
-      "hears",
-      "heard",
-      ""
-    ],
-    "frames": [
-      [
-        "un rumore",
-        "a noise"
-      ],
-      [
-        "la musica",
-        "the music"
-      ],
-      [
-        "la voce di Sara",
-        "Sara’s voice"
-      ],
-      [
-        "il campanello",
-        "the doorbell"
-      ]
-    ]
-  },
-  {
-    "inf": "spendere",
-    "policy": "dynamic",
-    "sense": "spend money",
-    "note": "Spending money can unfold over a shopping trip; the amount or purpose makes the episode specific.",
-    "en": [
-      "spend",
-      "spends",
-      "spent",
-      "spending"
-    ],
-    "frames": [
-      [
-        "troppi soldi",
-        "too much money"
-      ],
-      [
-        "venti euro",
-        "twenty euros"
-      ],
-      [
-        "molto per la spesa",
-        "a lot on groceries"
-      ],
-      [
-        "meno del previsto",
-        "less than expected"
-      ]
-    ]
-  },
-  {
-    "inf": "stare",
-    "policy": "simple",
-    "sense": "be somewhere or feel a certain way",
-    "note": "Stare in the senses of location and well-being uses sto, stai, sta; progressive stare belongs to another verb’s action, not to this state.",
-    "simpleExamples": [
-      {
-        "it": "Sto bene.",
-        "en": "I feel well.",
-        "answer": "sto",
-        "person": 0,
-        "past": {
-          "it": "Stavo bene durante il viaggio.",
-          "en": "I felt well during the trip.",
-          "answer": "stavo"
-        }
-      },
-      {
-        "it": "Stai a casa oggi?",
-        "en": "Are you staying at home today?",
-        "answer": "stai",
-        "person": 1,
-        "past": {
-          "it": "Stavi a casa ogni domenica.",
-          "en": "You used to stay at home every Sunday.",
-          "answer": "stavi"
-        }
-      },
-      {
-        "it": "Marco sta male.",
-        "en": "Marco feels unwell.",
-        "answer": "sta",
-        "person": 2,
-        "past": {
-          "it": "Marco stava male quella mattina.",
-          "en": "Marco felt unwell that morning.",
-          "answer": "stava"
-        }
-      },
-      {
-        "it": "Stiamo qui.",
-        "en": "We are staying here.",
-        "answer": "stiamo",
-        "person": 3,
-        "past": {
-          "it": "Stavamo qui prima della partenza.",
-          "en": "We were staying here before departure.",
-          "answer": "stavamo"
-        }
-      }
-    ]
-  },
-  {
-    "inf": "studiare",
-    "policy": "dynamic",
-    "sense": "study a subject",
-    "note": "Studying a subject is a sustained activity; the object or place anchors this session.",
-    "en": [
-      "study",
-      "studies",
-      "studied",
-      "studying"
-    ],
-    "frames": [
-      [
-        "italiano",
-        "Italian"
-      ],
-      [
-        "per l’esame",
-        "for the exam"
-      ],
-      [
-        "in biblioteca",
-        "in the library"
-      ],
-      [
-        "una nuova regola",
-        "a new rule"
-      ]
-    ]
-  },
-  {
-    "inf": "suonare",
-    "policy": "dynamic",
-    "sense": "play a musical instrument",
-    "note": "Playing an instrument has duration; this differs from a bell ringing once.",
-    "en": [
-      "play",
-      "plays",
-      "played",
-      "playing"
-    ],
-    "frames": [
-      [
-        "il pianoforte",
-        "the piano"
-      ],
-      [
-        "la chitarra",
-        "the guitar"
-      ],
-      [
-        "il violino",
-        "the violin"
-      ],
-      [
-        "in un gruppo",
-        "in a band"
-      ]
-    ]
-  },
-  {
-    "inf": "svegliarsi",
-    "policy": "sense-dependent",
-    "sense": "wake up",
-    "note": "Mi sto svegliando focuses on the transition from sleep; mi sveglio alle sei gives a daily routine.",
-    "en": [
-      "wake up",
-      "wakes up",
-      "woke up",
-      "waking up"
-    ],
-    "frames": [
-      [
-        "lentamente",
-        "slowly"
-      ],
-      [
-        "dal sonno",
-        "from sleep"
-      ],
-      [
-        "al rumore",
-        "at the noise"
-      ],
-      [
-        "prima della sveglia",
-        "before the alarm"
-      ]
-    ]
-  },
-  {
-    "inf": "telefonare",
-    "policy": "dynamic",
-    "sense": "phone someone",
-    "note": "A phone call can be in progress; Italian telefonare takes a before its recipient.",
-    "en": [
-      "phone",
-      "phones",
-      "phoned",
-      "phoning"
-    ],
-    "frames": [
-      [
-        "a Sara",
-        "Sara"
-      ],
-      [
-        "all’albergo",
-        "the hotel"
-      ],
-      [
-        "al medico",
-        "the doctor"
-      ],
-      [
-        "a un amico",
-        "a friend"
-      ]
-    ]
-  },
-  {
-    "inf": "tornare",
-    "policy": "dynamic",
-    "sense": "return to a place",
-    "note": "Sto tornando presents the trip back as underway; torno can also announce a regular return time.",
-    "en": [
-      "return",
-      "returns",
-      "returned",
-      "returning"
-    ],
-    "frames": [
-      [
-        "a casa",
-        "home"
-      ],
-      [
-        "in ufficio",
-        "to the office"
-      ],
-      [
-        "da Sara",
-        "to Sara’s place"
-      ],
-      [
-        "al negozio",
-        "to the shop"
-      ]
-    ]
-  },
-  {
-    "inf": "trovare",
-    "policy": "simple",
-    "sense": "find a person or item",
-    "note": "Trovare in this sense marks successful discovery; sto trovando can instead describe repeated discoveries or solutions emerging.",
-    "en": [
-      "find",
-      "finds",
-      "found",
-      ""
-    ],
-    "frames": [
-      [
-        "le chiavi",
-        "the keys"
-      ],
-      [
-        "un libro interessante",
-        "an interesting book"
-      ],
-      [
-        "Sara al bar",
-        "Sara at the café"
-      ],
-      [
-        "la risposta",
-        "the answer"
-      ]
-    ]
-  },
-  {
-    "inf": "truccarsi",
-    "policy": "dynamic",
-    "sense": "put on make-up",
-    "note": "Putting on make-up takes time; the reflexive points to the person doing their own make-up.",
-    "en": [
-      "put on make-up",
-      "puts on make-up",
-      "put on make-up",
-      "putting on make-up"
-    ],
-    "frames": [
-      [
-        "davanti allo specchio",
-        "in front of the mirror"
-      ],
-      [
-        "prima della festa",
-        "before the party"
-      ],
-      [
-        "in bagno",
-        "in the bathroom"
-      ],
-      [
-        "con calma",
-        "slowly"
-      ]
-    ]
-  },
-  {
-    "inf": "usare",
-    "policy": "dynamic",
-    "sense": "use a tool or device",
-    "note": "Using a device is an action in progress; a named object prevents a vague use.",
-    "en": [
-      "use",
-      "uses",
-      "used",
-      "using"
-    ],
-    "frames": [
-      [
-        "il computer",
-        "the computer"
-      ],
-      [
-        "una penna",
-        "a pen"
-      ],
-      [
-        "il telefono",
-        "the phone"
-      ],
-      [
-        "una nuova app",
-        "a new app"
-      ]
-    ]
-  },
-  {
-    "inf": "uscire",
-    "policy": "dynamic",
-    "sense": "leave a place",
-    "note": "Sto uscendo focuses on leaving now or imminently; esco can also give a normal departure time.",
-    "en": [
-      "leave",
-      "leaves",
-      "left",
-      "leaving"
-    ],
-    "frames": [
-      [
-        "di casa",
-        "the house"
-      ],
-      [
-        "dall’ufficio",
-        "the office"
-      ],
-      [
-        "dal negozio",
-        "the shop"
-      ],
-      [
-        "dalla stazione",
-        "the station"
-      ]
-    ]
-  },
-  {
-    "inf": "vedere",
-    "policy": "simple",
-    "sense": "see a person or thing",
-    "note": "Vedo expresses perception; watching a film is a deliberate action better taught with guardare, or as a separate sense of vedere.",
-    "en": [
-      "see",
-      "sees",
-      "saw",
-      ""
-    ],
-    "frames": [
-      [
-        "la montagna",
-        "the mountain"
-      ],
-      [
-        "Sara alla finestra",
-        "Sara at the window"
-      ],
-      [
-        "un uccello",
-        "a bird"
-      ],
-      [
-        "la stazione da qui",
-        "the station from here"
-      ]
-    ]
-  },
-  {
-    "inf": "vendere",
-    "policy": "dynamic",
-    "sense": "sell an item",
-    "note": "Selling can be underway as a transaction; the object identifies the item offered.",
-    "en": [
-      "sell",
-      "sells",
-      "sold",
-      "selling"
-    ],
-    "frames": [
-      [
-        "una bicicletta",
-        "a bicycle"
-      ],
-      [
-        "la vecchia macchina",
-        "the old car"
-      ],
-      [
-        "libri usati",
-        "used books"
-      ],
-      [
-        "un tavolo",
-        "a table"
-      ]
-    ]
-  },
-  {
-    "inf": "venire",
-    "policy": "dynamic",
-    "sense": "come toward a person or place",
-    "note": "Sto venendo can track movement toward the speaker; vengo can also state a plan or repeated visit.",
-    "en": [
-      "come",
-      "comes",
-      "came",
-      "coming"
-    ],
-    "frames": [
-      [
-        "da Sara",
-        "to Sara’s place"
-      ],
-      [
-        "in centro",
-        "into town"
-      ],
-      [
-        "alla festa",
-        "to the party"
-      ],
-      [
-        "con gli amici",
-        "with friends"
-      ]
-    ]
-  },
-  {
-    "inf": "versare",
-    "policy": "dynamic",
-    "sense": "pour a liquid",
-    "note": "Pouring liquid is a visible action in progress; specify what is poured and where.",
-    "en": [
-      "pour",
-      "pours",
-      "poured",
-      "pouring"
-    ],
-    "frames": [
-      [
-        "l’acqua nel bicchiere",
-        "water into the glass"
-      ],
-      [
-        "il latte nella tazza",
-        "milk into the cup"
-      ],
-      [
-        "il vino nei calici",
-        "wine into the glasses"
-      ],
-      [
-        "il succo nella bottiglia",
-        "juice into the bottle"
-      ]
-    ]
-  },
-  {
-    "inf": "vestirsi",
-    "policy": "dynamic",
-    "sense": "get dressed",
-    "note": "Getting dressed is an action underway; the Italian reflexive pronoun changes with the person.",
-    "en": [
-      "get dressed",
-      "gets dressed",
-      "got dressed",
-      "getting dressed"
-    ],
-    "frames": [
-      [
-        "per la festa",
-        "for the party"
-      ],
-      [
-        "in camera",
-        "in the bedroom"
-      ],
-      [
-        "con calma",
-        "slowly"
-      ],
-      [
-        "prima di uscire",
-        "before going out"
-      ]
-    ]
-  },
-  {
-    "inf": "viaggiare",
-    "policy": "dynamic",
-    "sense": "travel on a journey",
-    "note": "Sto viaggiando focuses on a journey underway; viaggio often states how or where someone habitually travels.",
-    "en": [
-      "travel",
-      "travels",
-      "travelled",
-      "travelling"
-    ],
-    "frames": [
-      [
-        "in treno",
-        "by train"
-      ],
-      [
-        "verso Roma",
-        "toward Rome"
-      ],
-      [
-        "con un amico",
-        "with a friend"
-      ],
-      [
-        "per lavoro",
-        "for work"
-      ],
-      [
-        "sul treno delle otto e quindici",
-        "on the eight fifteen train"
-      ],
-      [
-        "attraverso l’Italia",
-        "across Italy"
-      ]
-    ],
-    "sources": [
-      "https://www.treccani.it/magazine/lingua_italiana/domande_e_risposte/grammatica/grammatica_764.html",
-      "https://www.treccani.it/vocabolario/viaggiare/"
-    ]
-  },
-  {
-    "inf": "visitare",
-    "policy": "dynamic",
-    "sense": "visit a place",
-    "note": "Visiting a site can be underway; this is distinct from the conversational phrase andare a trovare a person.",
-    "en": [
-      "visit",
-      "visits",
-      "visited",
-      "visiting"
-    ],
-    "frames": [
-      [
-        "il Duomo",
-        "the cathedral"
-      ],
-      [
-        "un museo",
-        "a museum"
-      ],
-      [
-        "Venezia",
-        "Venice"
-      ],
-      [
-        "il castello",
-        "the castle"
-      ]
-    ]
-  },
-  {
-    "inf": "vivere",
-    "policy": "simple",
-    "sense": "reside somewhere as a settled fact",
-    "note": "Vivo gives a usual home or life situation; sto vivendo would add a temporary or actively developing reading that needs its own context.",
-    "en": [
-      "live",
-      "lives",
-      "lived",
-      ""
-    ],
-    "frames": [
-      [
-        "a Roma",
-        "in Rome"
-      ],
-      [
-        "in una piccola città",
-        "in a small town"
-      ],
-      [
-        "con un amico",
-        "with a friend"
-      ],
-      [
-        "vicino al mare",
-        "near the sea"
-      ]
-    ]
-  },
-  {
-    "inf": "volere",
-    "policy": "simple",
-    "sense": "want something",
-    "note": "Voglio states a desire; an ordinary wish is not an action that unfolds as sto volendo.",
-    "en": [
-      "want",
-      "wants",
-      "wanted",
-      ""
-    ],
-    "frames": [
-      [
-        "un caffè",
-        "a coffee"
-      ],
-      [
-        "una risposta",
-        "an answer"
-      ],
-      [
-        "un biglietto",
-        "a ticket"
-      ],
-      [
-        "più tempo",
-        "more time"
-      ]
-    ]
-  },
-  {
-    "inf": "abbaiare",
-    "policy": "dynamic",
-    "sense": "bark",
-    "note": "Barking is an ongoing sound made by a dog; use a canine subject rather than six human persons.",
-    "en": [
-      "bark",
-      "barks",
-      "barked",
-      "barking"
-    ],
-    "frames": [
-      [
-        "ai passanti",
-        "at passers-by"
-      ],
-      [
-        "davanti al cancello",
-        "by the gate"
-      ],
-      [
-        "di notte",
-        "at night"
-      ],
-      [
-        "alla porta",
-        "at the door"
-      ]
-    ],
-    "persons": [
-      2,
-      5
-    ],
-    "formal": false,
-    "subjects": {
-      "2": [
-        "Il cane",
-        "The dog"
-      ],
-      "5": [
-        "I cani",
-        "The dogs"
-      ]
-    }
-  },
-  {
-    "inf": "abbassare",
-    "policy": "dynamic",
-    "sense": "lower something",
-    "note": "Lowering a shade, window or setting can be observed in progress; name the object.",
-    "en": [
-      "lower",
-      "lowers",
-      "lowered",
-      "lowering"
-    ],
-    "frames": [
-      [
-        "il volume",
-        "the volume"
-      ],
-      [
-        "la tenda",
-        "the blind"
-      ],
-      [
-        "il finestrino",
-        "the window"
-      ],
-      [
-        "la temperatura",
-        "the temperature"
-      ]
-    ]
-  },
-  {
-    "inf": "abbronzarsi",
-    "policy": "sense-dependent",
-    "sense": "get a tan",
-    "note": "Mi sto abbronzando describes skin changing in the sun; mi abbronzo facilmente states a tendency.",
-    "en": [
-      "get a tan",
-      "gets a tan",
-      "got a tan",
-      "getting a tan"
-    ],
-    "frames": [
-      [
-        "al mare",
-        "at the seaside"
-      ],
-      [
-        "in spiaggia",
-        "on the beach"
-      ],
-      [
-        "al sole",
-        "in the sun"
-      ],
-      [
-        "durante le vacanze",
-        "on holiday"
-      ]
-    ]
-  },
-  {
-    "inf": "accarezzare",
-    "policy": "dynamic",
-    "sense": "stroke an animal or person",
-    "note": "Stroking is a repeated gentle movement in progress; identify who is being touched.",
-    "en": [
-      "stroke",
-      "strokes",
-      "stroked",
-      "stroking"
-    ],
-    "frames": [
-      [
-        "il gatto",
-        "the cat"
-      ],
-      [
-        "il cane",
-        "the dog"
-      ],
-      [
-        "il bambino",
-        "the child"
-      ],
-      [
-        "un cavallo",
-        "a horse"
-      ]
-    ]
-  },
-  {
-    "inf": "accendere",
-    "policy": "sense-dependent",
-    "sense": "switch on or light something",
-    "note": "Sto accendendo focuses on the short act of switching on; accendo can also describe a routine.",
-    "en": [
-      "switch on",
-      "switches on",
-      "switched on",
-      "switching on"
-    ],
-    "frames": [
-      [
-        "la luce",
-        "the light"
-      ],
-      [
-        "il computer",
-        "the computer"
-      ],
-      [
-        "la televisione",
-        "the television"
-      ],
-      [
-        "il forno",
-        "the oven"
-      ]
-    ]
-  },
-  {
-    "inf": "accompagnare",
-    "policy": "dynamic",
-    "sense": "escort someone to a place",
-    "note": "Accompanying someone lasts through the trip; the person and destination belong together.",
-    "en": [
-      "accompany",
-      "accompanies",
-      "accompanied",
-      "accompanying"
-    ],
-    "frames": [
-      [
-        "Sara alla stazione",
-        "Sara to the station"
-      ],
-      [
-        "un amico in aeroporto",
-        "a friend to the airport"
-      ],
-      [
-        "il bambino a scuola",
-        "the child to school"
-      ],
-      [
-        "un amico dal medico",
-        "a friend to the doctor"
-      ]
-    ]
-  },
-  {
-    "inf": "affittare",
-    "policy": "sense-dependent",
-    "sense": "rent a vehicle as a customer",
-    "note": "Sto affittando can focus on arranging a rental now; affittare can also mean let property to someone, which is a different role.",
-    "en": [
-      "rent",
-      "rents",
-      "rented",
-      "renting"
-    ],
-    "frames": [
-      [
-        "una macchina",
-        "a car"
-      ],
-      [
-        "una bicicletta",
-        "a bicycle"
-      ],
-      [
-        "uno scooter",
-        "a scooter"
-      ],
-      [
-        "un furgone",
-        "a van"
-      ]
-    ]
-  },
-  {
-    "inf": "aggiustare",
-    "policy": "dynamic",
-    "sense": "repair an item",
-    "note": "A repair unfolds over time; say which object is being fixed.",
-    "en": [
-      "repair",
-      "repairs",
-      "repaired",
-      "repairing"
-    ],
-    "frames": [
-      [
-        "la bicicletta",
-        "the bicycle"
-      ],
-      [
-        "un orologio",
-        "a watch"
-      ],
-      [
-        "la porta",
-        "the door"
-      ],
-      [
-        "il tavolo",
-        "the table"
-      ]
-    ]
-  },
-  {
-    "inf": "allegare",
-    "policy": "dynamic",
-    "sense": "attach a file to a message",
-    "note": "Attaching a document is a concrete digital action; the destination message should be included.",
-    "en": [
-      "attach",
-      "attaches",
-      "attached",
-      "attaching"
-    ],
-    "frames": [
-      [
-        "un documento alla mail",
-        "a document to the email"
-      ],
-      [
-        "una foto al messaggio",
-        "a photo to the message"
-      ],
-      [
-        "il modulo alla richiesta",
-        "the form to the request"
-      ],
-      [
-        "un file alla risposta",
-        "a file to the reply"
-      ]
-    ]
-  },
-  {
-    "inf": "allenarsi",
-    "policy": "dynamic",
-    "sense": "train or work out",
-    "note": "Training lasts through a session; the reflexive pronoun belongs to the Italian verb.",
-    "en": [
-      "train",
-      "trains",
-      "trained",
-      "training"
-    ],
-    "frames": [
-      [
-        "in palestra",
-        "at the gym"
-      ],
-      [
-        "per la gara",
-        "for the race"
-      ],
-      [
-        "con un amico",
-        "with a friend"
-      ],
-      [
-        "al parco",
-        "in the park"
-      ]
-    ]
-  },
-  {
     "inf": "ammalarsi",
     "policy": "sense-dependent",
     "sense": "become ill",
@@ -4223,6 +611,36 @@
       [
         "proprio prima delle vacanze",
         "just before the holidays"
+      ]
+    ]
+  },
+  {
+    "inf": "andare",
+    "policy": "dynamic",
+    "sense": "travel toward a destination",
+    "note": "Sto andando tracks movement toward a place already underway; vado can also state a routine or an immediate trip.",
+    "en": [
+      "go",
+      "goes",
+      "went",
+      "going"
+    ],
+    "frames": [
+      [
+        "alla stazione",
+        "to the station"
+      ],
+      [
+        "al lavoro",
+        "to work"
+      ],
+      [
+        "in centro",
+        "into town"
+      ],
+      [
+        "da un amico",
+        "to a friend's place"
       ]
     ]
   },
@@ -4347,6 +765,36 @@
     ]
   },
   {
+    "inf": "aprire",
+    "policy": "dynamic",
+    "sense": "open an object",
+    "note": "Opening a door or container unfolds over a short interval; the object must be named.",
+    "en": [
+      "open",
+      "opens",
+      "opened",
+      "opening"
+    ],
+    "frames": [
+      [
+        "la porta",
+        "the door"
+      ],
+      [
+        "la finestra",
+        "the window"
+      ],
+      [
+        "la valigia",
+        "the suitcase"
+      ],
+      [
+        "un pacco",
+        "a package"
+      ]
+    ]
+  },
+  {
     "inf": "arrabbiarsi",
     "policy": "sense-dependent",
     "sense": "become angry",
@@ -4407,6 +855,36 @@
     ]
   },
   {
+    "inf": "arrivare",
+    "policy": "sense-dependent",
+    "sense": "approach a destination",
+    "note": "Sto arrivando often presents arrival as imminent or in its final approach; avoid teaching it as a long, completed journey.",
+    "en": [
+      "arrive",
+      "arrives",
+      "arrived",
+      "arriving"
+    ],
+    "frames": [
+      [
+        "alla stazione",
+        "at the station"
+      ],
+      [
+        "in aeroporto",
+        "at the airport"
+      ],
+      [
+        "davanti a casa",
+        "in front of the house"
+      ],
+      [
+        "al traguardo",
+        "at the finish line"
+      ]
+    ]
+  },
+  {
     "inf": "asciugare",
     "policy": "dynamic",
     "sense": "dry an object",
@@ -4433,6 +911,66 @@
       [
         "un bicchiere",
         "a glass"
+      ]
+    ]
+  },
+  {
+    "inf": "ascoltare",
+    "policy": "dynamic",
+    "sense": "listen attentively to someone or something",
+    "note": "Listening is an activity in progress; unlike sentire, ascoltare involves deliberate attention.",
+    "en": [
+      "listen to",
+      "listens to",
+      "listened to",
+      "listening to"
+    ],
+    "frames": [
+      [
+        "la radio",
+        "the radio"
+      ],
+      [
+        "una canzone",
+        "a song"
+      ],
+      [
+        "il professore",
+        "the teacher"
+      ],
+      [
+        "la spiegazione",
+        "the explanation"
+      ]
+    ]
+  },
+  {
+    "inf": "aspettare",
+    "policy": "dynamic",
+    "sense": "wait for someone or something",
+    "note": "Sto aspettando identifies a wait in progress; the Italian verb takes its object directly, without per.",
+    "en": [
+      "wait for",
+      "waits for",
+      "waited for",
+      "waiting for"
+    ],
+    "frames": [
+      [
+        "l’autobus",
+        "the bus"
+      ],
+      [
+        "Sara",
+        "Sara"
+      ],
+      [
+        "il treno",
+        "the train"
+      ],
+      [
+        "una risposta",
+        "an answer"
       ]
     ]
   },
@@ -4602,6 +1140,45 @@
     ]
   },
   {
+    "inf": "avere",
+    "policy": "simple",
+    "sense": "possess or have a relationship",
+    "note": "For possession and family relationships use ho, hai, ha; sto avendo is inappropriate for this selected state, though other senses of avere can be dynamic.",
+    "en": [
+      "have",
+      "has",
+      "had",
+      ""
+    ],
+    "legacyFrameCount": 4,
+    "frames": [
+      [
+        "una sorella",
+        "a sister"
+      ],
+      [
+        "una bicicletta",
+        "a bicycle"
+      ],
+      [
+        "molti libri",
+        "many books"
+      ],
+      [
+        "un cane",
+        "a dog"
+      ],
+      [
+        "un appuntamento",
+        "an appointment"
+      ],
+      [
+        "le chiavi di casa",
+        "the house keys"
+      ]
+    ]
+  },
+  {
     "inf": "avvisare",
     "policy": "dynamic",
     "sense": "notify someone",
@@ -4628,6 +1205,66 @@
       [
         "il direttore del problema",
         "the director about the problem"
+      ]
+    ]
+  },
+  {
+    "inf": "baciare",
+    "policy": "dynamic",
+    "sense": "kiss someone",
+    "note": "A kiss can be unfolding at the focal moment; bacio can also describe a habitual greeting.",
+    "en": [
+      "kiss",
+      "kisses",
+      "kissed",
+      "kissing"
+    ],
+    "frames": [
+      [
+        "Marco sulla guancia",
+        "Marco on the cheek"
+      ],
+      [
+        "mia figlia",
+        "my daughter"
+      ],
+      [
+        "il bambino sulla fronte",
+        "the child on the forehead"
+      ],
+      [
+        "la persona amata",
+        "the person I love"
+      ]
+    ]
+  },
+  {
+    "inf": "ballare",
+    "policy": "dynamic",
+    "sense": "dance",
+    "note": "Dancing is an ongoing activity; choose the complement that states the dance, partner or place.",
+    "en": [
+      "dance",
+      "dances",
+      "danced",
+      "dancing"
+    ],
+    "frames": [
+      [
+        "con Sara",
+        "with Sara"
+      ],
+      [
+        "il tango",
+        "the tango"
+      ],
+      [
+        "alla festa",
+        "at the party"
+      ],
+      [
+        "in piazza",
+        "in the square"
       ]
     ]
   },
@@ -4687,6 +1324,36 @@
       5
     ],
     "formal": false
+  },
+  {
+    "inf": "bere",
+    "policy": "dynamic",
+    "sense": "drink something",
+    "note": "A drink can be underway; the object says what is being consumed.",
+    "en": [
+      "drink",
+      "drinks",
+      "drank",
+      "drinking"
+    ],
+    "frames": [
+      [
+        "un bicchiere d’acqua",
+        "a glass of water"
+      ],
+      [
+        "un caffè",
+        "a coffee"
+      ],
+      [
+        "una tazza di tè",
+        "a cup of tea"
+      ],
+      [
+        "del succo d’arancia",
+        "some orange juice"
+      ]
+    ]
   },
   {
     "inf": "bloccare",
@@ -4789,6 +1456,66 @@
     ]
   },
   {
+    "inf": "bussare",
+    "policy": "dynamic",
+    "sense": "knock at a door",
+    "note": "Bussare describes repeated knocks in progress and takes a with the door or entrance.",
+    "en": [
+      "knock",
+      "knocks",
+      "knocked",
+      "knocking"
+    ],
+    "frames": [
+      [
+        "alla porta",
+        "at the door"
+      ],
+      [
+        "al portone",
+        "at the front door"
+      ],
+      [
+        "alla finestra",
+        "at the window"
+      ],
+      [
+        "alla porta della camera",
+        "at the bedroom door"
+      ]
+    ]
+  },
+  {
+    "inf": "buttare",
+    "policy": "dynamic",
+    "sense": "throw away an object",
+    "note": "Throwing an item away is an observable action; via marks disposal rather than a throw toward someone.",
+    "en": [
+      "throw away",
+      "throws away",
+      "threw away",
+      "throwing away"
+    ],
+    "frames": [
+      [
+        "la carta",
+        "the paper"
+      ],
+      [
+        "una bottiglia vuota",
+        "an empty bottle"
+      ],
+      [
+        "il vecchio biglietto",
+        "the old ticket"
+      ],
+      [
+        "la spazzatura",
+        "the rubbish"
+      ]
+    ]
+  },
+  {
     "inf": "cadere",
     "policy": "sense-dependent",
     "sense": "fall",
@@ -4879,6 +1606,126 @@
     ]
   },
   {
+    "inf": "camminare",
+    "policy": "dynamic",
+    "sense": "walk somewhere",
+    "note": "Walking can be followed as it unfolds; cammino often also describes a regular route.",
+    "en": [
+      "walk",
+      "walks",
+      "walked",
+      "walking"
+    ],
+    "frames": [
+      [
+        "nel parco",
+        "in the park"
+      ],
+      [
+        "verso casa",
+        "toward home"
+      ],
+      [
+        "lungo il fiume",
+        "along the river"
+      ],
+      [
+        "con un amico",
+        "with a friend"
+      ]
+    ]
+  },
+  {
+    "inf": "cancellare",
+    "policy": "dynamic",
+    "sense": "erase or delete something",
+    "note": "Cancellare names the removal in progress; a specified surface or file keeps the action concrete.",
+    "en": [
+      "erase",
+      "erases",
+      "erased",
+      "erasing"
+    ],
+    "frames": [
+      [
+        "una parola dalla lavagna",
+        "a word from the board"
+      ],
+      [
+        "un numero dalla lista",
+        "a number from the list"
+      ],
+      [
+        "una frase dal quaderno",
+        "a sentence from the notebook"
+      ],
+      [
+        "una nota dal calendario",
+        "a note from the calendar"
+      ]
+    ]
+  },
+  {
+    "inf": "cantare",
+    "policy": "dynamic",
+    "sense": "sing",
+    "note": "Singing is durative; the object can be a particular song or the setting can locate the performance.",
+    "en": [
+      "sing",
+      "sings",
+      "sang",
+      "singing"
+    ],
+    "frames": [
+      [
+        "una canzone",
+        "a song"
+      ],
+      [
+        "nel coro",
+        "in the choir"
+      ],
+      [
+        "sotto la doccia",
+        "in the shower"
+      ],
+      [
+        "per gli ospiti",
+        "for the guests"
+      ]
+    ]
+  },
+  {
+    "inf": "capire",
+    "policy": "simple",
+    "sense": "understand a fact or explanation",
+    "note": "Capisco reports understanding already reached; sto capendo would instead highlight understanding developing, a different reading.",
+    "en": [
+      "understand",
+      "understands",
+      "understood",
+      ""
+    ],
+    "frames": [
+      [
+        "la domanda",
+        "the question"
+      ],
+      [
+        "la regola",
+        "the rule"
+      ],
+      [
+        "il problema",
+        "the problem"
+      ],
+      [
+        "la spiegazione",
+        "the explanation"
+      ]
+    ]
+  },
+  {
     "inf": "caricare",
     "policy": "dynamic",
     "sense": "charge a battery-powered device",
@@ -4905,6 +1752,66 @@
       [
         "la macchina elettrica",
         "the electric car"
+      ]
+    ]
+  },
+  {
+    "inf": "cenare",
+    "policy": "dynamic",
+    "sense": "have dinner",
+    "note": "Dinner is an activity with duration; the complement supplies company or location.",
+    "en": [
+      "have dinner",
+      "has dinner",
+      "had dinner",
+      "having dinner"
+    ],
+    "frames": [
+      [
+        "con gli amici",
+        "with friends"
+      ],
+      [
+        "a casa",
+        "at home"
+      ],
+      [
+        "al ristorante",
+        "at a restaurant"
+      ],
+      [
+        "fuori",
+        "out"
+      ]
+    ]
+  },
+  {
+    "inf": "cercare",
+    "policy": "dynamic",
+    "sense": "look for someone or something",
+    "note": "A search can be in progress; the searched-for item is a direct object in Italian.",
+    "en": [
+      "look for",
+      "looks for",
+      "looked for",
+      "looking for"
+    ],
+    "frames": [
+      [
+        "le chiavi",
+        "the keys"
+      ],
+      [
+        "un appartamento",
+        "an apartment"
+      ],
+      [
+        "il gatto",
+        "the cat"
+      ],
+      [
+        "un libro in biblioteca",
+        "a book in the library"
       ]
     ]
   },
@@ -4939,6 +1846,148 @@
     ]
   },
   {
+    "inf": "chiamare",
+    "policy": "dynamic",
+    "sense": "phone someone",
+    "note": "A call can be underway; this selected sense uses chiamare with a direct object.",
+    "en": [
+      "call",
+      "calls",
+      "called",
+      "calling"
+    ],
+    "frames": [
+      [
+        "Sara",
+        "Sara"
+      ],
+      [
+        "un amico",
+        "a friend"
+      ],
+      [
+        "l’albergo",
+        "the hotel"
+      ],
+      [
+        "il medico",
+        "the doctor"
+      ]
+    ]
+  },
+  {
+    "inf": "chiamarsi",
+    "policy": "simple",
+    "sense": "have a name",
+    "note": "Mi chiamo states a person’s name; an ongoing naming event would use a different construction, not sto chiamandomi.",
+    "simpleExamples": [
+      {
+        "it": "Mi chiamo Luca.",
+        "en": "My name is Luca.",
+        "answer": "mi chiamo",
+        "person": 0,
+        "past": {
+          "it": "Da bambino mi chiamavo Luca.",
+          "en": "As a child, my name was Luca.",
+          "answer": "mi chiamavo"
+        }
+      },
+      {
+        "it": "Ti chiami Sara?",
+        "en": "Is your name Sara?",
+        "answer": "ti chiami",
+        "person": 1,
+        "past": {
+          "it": "Ti chiamavi Sara da piccola?",
+          "en": "Was your name Sara when you were little?",
+          "answer": "ti chiamavi"
+        }
+      },
+      {
+        "it": "Si chiama Marco.",
+        "en": "His name is Marco.",
+        "answer": "si chiama",
+        "person": 2,
+        "past": {
+          "it": "Il paese si chiamava Borgo Nuovo.",
+          "en": "The village used to be called Borgo Nuovo.",
+          "answer": "si chiamava"
+        }
+      },
+      {
+        "it": "Signora, come si chiama?",
+        "en": "Madam, what is your name?",
+        "answer": "si chiama",
+        "person": 2,
+        "past": {
+          "it": "Signora, come si chiamava prima del matrimonio?",
+          "en": "Madam, what was your name before marriage?",
+          "answer": "si chiamava"
+        }
+      }
+    ]
+  },
+  {
+    "inf": "chiedere",
+    "policy": "dynamic",
+    "sense": "ask for something",
+    "note": "Chiedere can denote a request being made; Italian puts the requested item before a for the recipient.",
+    "en": [
+      "ask for",
+      "asks for",
+      "asked for",
+      "asking for"
+    ],
+    "frames": [
+      [
+        "il conto",
+        "the bill"
+      ],
+      [
+        "un’informazione",
+        "some information"
+      ],
+      [
+        "un favore",
+        "a favour"
+      ],
+      [
+        "un consiglio",
+        "some advice"
+      ]
+    ]
+  },
+  {
+    "inf": "chiudere",
+    "policy": "dynamic",
+    "sense": "close something",
+    "note": "Closing a door or box has an observable course; name the object being shut.",
+    "en": [
+      "close",
+      "closes",
+      "closed",
+      "closing"
+    ],
+    "frames": [
+      [
+        "la porta",
+        "the door"
+      ],
+      [
+        "la finestra",
+        "the window"
+      ],
+      [
+        "la valigia",
+        "the suitcase"
+      ],
+      [
+        "il negozio",
+        "the shop"
+      ]
+    ]
+  },
+  {
     "inf": "cliccare",
     "policy": "sense-dependent",
     "sense": "click repeatedly or select on screen",
@@ -4969,6 +2018,36 @@
     ]
   },
   {
+    "inf": "colorare",
+    "policy": "dynamic",
+    "sense": "colour in a drawing",
+    "note": "Colouring proceeds over time; the direct object is the picture or part being coloured.",
+    "en": [
+      "colour in",
+      "colours in",
+      "coloured in",
+      "colouring in"
+    ],
+    "frames": [
+      [
+        "un disegno",
+        "a drawing"
+      ],
+      [
+        "una stella",
+        "a star"
+      ],
+      [
+        "il cielo nel disegno",
+        "the sky in the drawing"
+      ],
+      [
+        "una pagina dell’album",
+        "a page in the album"
+      ]
+    ]
+  },
+  {
     "inf": "coltivare",
     "policy": "dynamic",
     "sense": "grow plants",
@@ -4995,6 +2074,36 @@
       [
         "fiori",
         "flowers"
+      ]
+    ]
+  },
+  {
+    "inf": "cominciare",
+    "policy": "sense-dependent",
+    "sense": "begin a task",
+    "note": "Sto cominciando puts focus on the start of a task, often just now; comincio can also announce a plan.",
+    "en": [
+      "begin",
+      "begins",
+      "began",
+      "beginning"
+    ],
+    "frames": [
+      [
+        "il lavoro",
+        "the work"
+      ],
+      [
+        "la lezione",
+        "the lesson"
+      ],
+      [
+        "un nuovo libro",
+        "a new book"
+      ],
+      [
+        "il progetto",
+        "the project"
       ]
     ]
   },
@@ -5059,6 +2168,36 @@
     ]
   },
   {
+    "inf": "comprare",
+    "policy": "dynamic",
+    "sense": "buy something",
+    "note": "A purchase can be in progress while the person is choosing or paying for the item.",
+    "en": [
+      "buy",
+      "buys",
+      "bought",
+      "buying"
+    ],
+    "frames": [
+      [
+        "il pane",
+        "the bread"
+      ],
+      [
+        "un biglietto",
+        "a ticket"
+      ],
+      [
+        "una giacca",
+        "a jacket"
+      ],
+      [
+        "un regalo per Sara",
+        "a present for Sara"
+      ]
+    ]
+  },
+  {
     "inf": "comunicare",
     "policy": "dynamic",
     "sense": "communicate with someone",
@@ -5115,6 +2254,36 @@
       [
         "il riso con spezie",
         "the rice with spices"
+      ]
+    ]
+  },
+  {
+    "inf": "conoscere",
+    "policy": "simple",
+    "sense": "know a person or place",
+    "note": "Conosco expresses existing familiarity; sto conoscendo someone would mean getting to know them, a distinct developing sense.",
+    "en": [
+      "know",
+      "knows",
+      "knew",
+      ""
+    ],
+    "frames": [
+      [
+        "Marco",
+        "Marco"
+      ],
+      [
+        "questa città",
+        "this city"
+      ],
+      [
+        "il quartiere",
+        "the neighbourhood"
+      ],
+      [
+        "la famiglia di Sara",
+        "Sara’s family"
       ]
     ]
   },
@@ -5254,6 +2423,36 @@
     ]
   },
   {
+    "inf": "copiare",
+    "policy": "dynamic",
+    "sense": "copy written material",
+    "note": "Copying text is an action in progress; the complement can locate where the copy goes.",
+    "en": [
+      "copy",
+      "copies",
+      "copied",
+      "copying"
+    ],
+    "frames": [
+      [
+        "la frase sul quaderno",
+        "the sentence into the notebook"
+      ],
+      [
+        "un indirizzo",
+        "an address"
+      ],
+      [
+        "il testo dal libro",
+        "the text from the book"
+      ],
+      [
+        "una pagina del documento",
+        "a page of the document"
+      ]
+    ]
+  },
+  {
     "inf": "coprire",
     "policy": "dynamic",
     "sense": "cover something",
@@ -5284,6 +2483,81 @@
     ]
   },
   {
+    "inf": "correre",
+    "policy": "dynamic",
+    "sense": "run",
+    "note": "Running has duration; the complement gives route, setting or purpose.",
+    "en": [
+      "run",
+      "runs",
+      "ran",
+      "running"
+    ],
+    "frames": [
+      [
+        "nel parco",
+        "in the park"
+      ],
+      [
+        "verso la stazione",
+        "toward the station"
+      ],
+      [
+        "lungo il fiume",
+        "along the river"
+      ],
+      [
+        "per prendere l’autobus",
+        "to catch the bus"
+      ]
+    ]
+  },
+  {
+    "inf": "costare",
+    "policy": "simple",
+    "sense": "have a price",
+    "note": "Costa states an item’s price; a fixed price is not an action unfolding.",
+    "en": [
+      "cost",
+      "costs",
+      "cost",
+      ""
+    ],
+    "frames": [
+      [
+        "dieci euro",
+        "ten euros"
+      ],
+      [
+        "troppo",
+        "too much"
+      ],
+      [
+        "meno di cinque euro",
+        "less than five euros"
+      ],
+      [
+        "una fortuna",
+        "a fortune"
+      ]
+    ],
+    "persons": [
+      2,
+      5
+    ],
+    "formal": false,
+    "subjects": {
+      "2": [
+        "Questo libro",
+        "This book"
+      ],
+      "5": [
+        "Questi libri",
+        "These books"
+      ]
+    }
+  },
+  {
     "inf": "costruire",
     "policy": "dynamic",
     "sense": "build a structure",
@@ -5310,6 +2584,36 @@
       [
         "una mensola",
         "a shelf"
+      ]
+    ]
+  },
+  {
+    "inf": "credere",
+    "policy": "simple",
+    "sense": "hold a belief",
+    "note": "Credo expresses a belief held at the moment; a belief forming or changing would need its own reviewed situation.",
+    "en": [
+      "believe",
+      "believes",
+      "believed",
+      ""
+    ],
+    "frames": [
+      [
+        "a Marco",
+        "Marco"
+      ],
+      [
+        "alla spiegazione",
+        "the explanation"
+      ],
+      [
+        "a questo racconto",
+        "this account"
+      ],
+      [
+        "alle parole di Sara",
+        "Sara’s words"
       ]
     ]
   },
@@ -5357,6 +2661,36 @@
         "The plants"
       ]
     }
+  },
+  {
+    "inf": "cucinare",
+    "policy": "dynamic",
+    "sense": "cook food",
+    "note": "Cooking is an activity in progress; use a food or meal complement rather than an unrelated generic sentence.",
+    "en": [
+      "cook",
+      "cooks",
+      "cooked",
+      "cooking"
+    ],
+    "frames": [
+      [
+        "la cena",
+        "dinner"
+      ],
+      [
+        "la pasta",
+        "pasta"
+      ],
+      [
+        "una zuppa",
+        "a soup"
+      ],
+      [
+        "per gli amici",
+        "for friends"
+      ]
+    ]
   },
   {
     "inf": "cuocere",
@@ -5425,6 +2759,36 @@
       [
         "un malato",
         "an ill person"
+      ]
+    ]
+  },
+  {
+    "inf": "dare",
+    "policy": "dynamic",
+    "sense": "give something",
+    "note": "Giving can be underway as part of a handover; the complement must identify the item and recipient.",
+    "en": [
+      "give",
+      "gives",
+      "gave",
+      "giving"
+    ],
+    "frames": [
+      [
+        "un libro a Sara",
+        "a book to Sara"
+      ],
+      [
+        "le chiavi a Marco",
+        "the keys to Marco"
+      ],
+      [
+        "un regalo a un amico",
+        "a gift to a friend"
+      ],
+      [
+        "una mano ai vicini",
+        "a hand to the neighbours"
       ]
     ]
   },
@@ -5654,6 +3018,36 @@
     ]
   },
   {
+    "inf": "dimenticare",
+    "policy": "sense-dependent",
+    "sense": "gradually forget a detail",
+    "note": "Sto dimenticando can describe a memory fading now; dimentico also describes repeated forgetfulness.",
+    "en": [
+      "forget",
+      "forgets",
+      "forgot",
+      "forgetting"
+    ],
+    "frames": [
+      [
+        "i dettagli",
+        "the details"
+      ],
+      [
+        "il suo nome",
+        "his name"
+      ],
+      [
+        "le parole della canzone",
+        "the words of the song"
+      ],
+      [
+        "la regola",
+        "the rule"
+      ]
+    ]
+  },
+  {
     "inf": "dimenticarsi",
     "policy": "sense-dependent",
     "sense": "forget a detail as memory fades",
@@ -5714,6 +3108,36 @@
     ]
   },
   {
+    "inf": "dire",
+    "policy": "dynamic",
+    "sense": "say or tell something",
+    "note": "Speaking the words can be in progress; the quoted or reported content matters to dire.",
+    "en": [
+      "say",
+      "says",
+      "said",
+      "saying"
+    ],
+    "frames": [
+      [
+        "la verità",
+        "the truth"
+      ],
+      [
+        "una cosa importante",
+        "something important"
+      ],
+      [
+        "il nome di Sara",
+        "Sara’s name"
+      ],
+      [
+        "la stessa frase",
+        "the same sentence"
+      ]
+    ]
+  },
+  {
     "inf": "discutere",
     "policy": "dynamic",
     "sense": "discuss a topic",
@@ -5740,6 +3164,36 @@
       [
         "le nuove regole",
         "the new rules"
+      ]
+    ]
+  },
+  {
+    "inf": "disegnare",
+    "policy": "dynamic",
+    "sense": "draw something",
+    "note": "A drawing develops over time; the object names what is taking shape.",
+    "en": [
+      "draw",
+      "draws",
+      "drew",
+      "drawing"
+    ],
+    "frames": [
+      [
+        "una casa",
+        "a house"
+      ],
+      [
+        "un gatto",
+        "a cat"
+      ],
+      [
+        "un paesaggio",
+        "a landscape"
+      ],
+      [
+        "un ritratto",
+        "a portrait"
       ]
     ]
   },
@@ -5930,6 +3384,193 @@
     ]
   },
   {
+    "inf": "domandare",
+    "policy": "dynamic",
+    "sense": "ask a question",
+    "note": "Domandare can focus on a question being posed; this selected sense uses a direct object.",
+    "en": [
+      "ask",
+      "asks",
+      "asked",
+      "asking"
+    ],
+    "frames": [
+      [
+        "una cosa",
+        "one thing"
+      ],
+      [
+        "a Sara come sta",
+        "Sara how she is"
+      ],
+      [
+        "un’informazione",
+        "for some information"
+      ],
+      [
+        "il prezzo",
+        "the price"
+      ]
+    ],
+    "sources": [
+      "https://www.treccani.it/vocabolario/domandare/"
+    ],
+    "legacyFrames": [
+      [
+        "una cosa",
+        "one thing"
+      ],
+      [
+        "una domanda",
+        "a question"
+      ],
+      [
+        "un’informazione",
+        "for some information"
+      ],
+      [
+        "il prezzo",
+        "the price"
+      ]
+    ],
+    "legacyFrameCount": 4
+  },
+  {
+    "inf": "dormire",
+    "policy": "dynamic",
+    "sense": "sleep",
+    "note": "A sleep episode continues over time; dormo can also describe a normal pattern.",
+    "en": [
+      "sleep",
+      "sleeps",
+      "slept",
+      "sleeping"
+    ],
+    "frames": [
+      [
+        "sul divano",
+        "on the sofa"
+      ],
+      [
+        "in camera",
+        "in the bedroom"
+      ],
+      [
+        "in treno",
+        "on the train"
+      ],
+      [
+        "profondamente",
+        "deeply"
+      ]
+    ]
+  },
+  {
+    "inf": "dovere",
+    "policy": "simple",
+    "sense": "have an obligation",
+    "note": "Devo with an infinitive states an obligation; the modal obligation itself is not an unfolding action.",
+    "en": [
+      "have to",
+      "has to",
+      "had to",
+      ""
+    ],
+    "frames": [
+      [
+        "studiare",
+        "study"
+      ],
+      [
+        "partire presto",
+        "leave early"
+      ],
+      [
+        "pagare il conto",
+        "pay the bill"
+      ],
+      [
+        "telefonare a Sara",
+        "call Sara"
+      ]
+    ]
+  },
+  {
+    "inf": "durare",
+    "policy": "simple",
+    "sense": "have a stated duration",
+    "note": "Dura gives the length of an event as a fact; this selected measured-duration sense does not focus on a process unfolding.",
+    "en": [
+      "last",
+      "lasts",
+      "lasted",
+      ""
+    ],
+    "frames": [
+      [
+        "due ore",
+        "two hours"
+      ],
+      [
+        "mezz’ora",
+        "half an hour"
+      ],
+      [
+        "fino alle cinque",
+        "until five"
+      ],
+      [
+        "pochissimo",
+        "a very short time"
+      ]
+    ],
+    "persons": [
+      2,
+      5
+    ],
+    "formal": false,
+    "subjects": {
+      "2": [
+        "La lezione",
+        "The lesson"
+      ],
+      "5": [
+        "Le lezioni",
+        "The lessons"
+      ]
+    }
+  },
+  {
+    "inf": "entrare",
+    "policy": "sense-dependent",
+    "sense": "go in through an entrance",
+    "note": "Sto entrando can depict the movement through an entrance; entro can also announce an immediate plan.",
+    "en": [
+      "enter",
+      "enters",
+      "entered",
+      "entering"
+    ],
+    "frames": [
+      [
+        "in casa",
+        "the house"
+      ],
+      [
+        "nel negozio",
+        "the shop"
+      ],
+      [
+        "dalla porta principale",
+        "through the main door"
+      ],
+      [
+        "in classe",
+        "the classroom"
+      ]
+    ]
+  },
+  {
     "inf": "esercitarsi",
     "policy": "dynamic",
     "sense": "practise a skill",
@@ -5956,6 +3597,88 @@
       [
         "con la chitarra",
         "with the guitar"
+      ]
+    ]
+  },
+  {
+    "inf": "essere",
+    "policy": "simple",
+    "sense": "be in a place or have an identity",
+    "note": "Sono and the other simple forms state identity or location; sto essendo does not express that ordinary meaning.",
+    "simpleExamples": [
+      {
+        "it": "Sono a casa.",
+        "en": "I am at home.",
+        "answer": "sono",
+        "person": 0,
+        "past": {
+          "it": "Ero a casa quel pomeriggio.",
+          "en": "I was at home that afternoon.",
+          "answer": "ero"
+        }
+      },
+      {
+        "it": "Sei in biblioteca.",
+        "en": "You are in the library.",
+        "answer": "sei",
+        "person": 1,
+        "past": {
+          "it": "Eri in biblioteca ogni sabato.",
+          "en": "You used to be in the library every Saturday.",
+          "answer": "eri"
+        }
+      },
+      {
+        "it": "Marco è italiano.",
+        "en": "Marco is Italian.",
+        "answer": "è",
+        "person": 2,
+        "past": {
+          "it": "Marco era italiano.",
+          "en": "Marco was Italian.",
+          "answer": "era"
+        }
+      },
+      {
+        "it": "Siamo in centro.",
+        "en": "We are in the city centre.",
+        "answer": "siamo",
+        "person": 3,
+        "past": {
+          "it": "Eravamo in centro alle sei.",
+          "en": "We were in the city centre at six.",
+          "answer": "eravamo"
+        }
+      }
+    ]
+  },
+  {
+    "inf": "fare",
+    "policy": "dynamic",
+    "sense": "make an object",
+    "note": "Here fare means make a tangible item; the progressive follows its creation as it happens.",
+    "en": [
+      "make",
+      "makes",
+      "made",
+      "making"
+    ],
+    "frames": [
+      [
+        "una torta",
+        "a cake"
+      ],
+      [
+        "un disegno",
+        "a drawing"
+      ],
+      [
+        "una lista",
+        "a list"
+      ],
+      [
+        "un biglietto per Sara",
+        "a card for Sara"
       ]
     ]
   },
@@ -6016,6 +3739,36 @@
       [
         "il Capodanno",
         "New Year’s Eve"
+      ]
+    ]
+  },
+  {
+    "inf": "finire",
+    "policy": "sense-dependent",
+    "sense": "finish a task",
+    "note": "Sto finendo highlights the final stretch of an activity; finisco can simply announce when it ends.",
+    "en": [
+      "finish",
+      "finishes",
+      "finished",
+      "finishing"
+    ],
+    "frames": [
+      [
+        "i compiti",
+        "the homework"
+      ],
+      [
+        "il lavoro",
+        "the work"
+      ],
+      [
+        "un libro",
+        "a book"
+      ],
+      [
+        "la cena",
+        "dinner"
       ]
     ]
   },
@@ -6125,6 +3878,66 @@
     ]
   },
   {
+    "inf": "fotografare",
+    "policy": "dynamic",
+    "sense": "take photographs of a subject",
+    "note": "Photography is a deliberate activity; the subject being photographed is a direct object.",
+    "en": [
+      "photograph",
+      "photographs",
+      "photographed",
+      "photographing"
+    ],
+    "frames": [
+      [
+        "il tramonto",
+        "the sunset"
+      ],
+      [
+        "un palazzo antico",
+        "an old building"
+      ],
+      [
+        "gli amici al parco",
+        "the friends in the park"
+      ],
+      [
+        "la piazza",
+        "the square"
+      ]
+    ]
+  },
+  {
+    "inf": "frequentare",
+    "policy": "sense-dependent",
+    "sense": "attend a course during a limited period",
+    "note": "Sto frequentando can highlight current participation in a course; frequento also states a standing enrolment.",
+    "en": [
+      "attend",
+      "attends",
+      "attended",
+      "attending"
+    ],
+    "frames": [
+      [
+        "un corso di italiano",
+        "an Italian course"
+      ],
+      [
+        "una scuola serale",
+        "an evening school"
+      ],
+      [
+        "un laboratorio",
+        "a workshop"
+      ],
+      [
+        "un corso di cucina",
+        "a cooking course"
+      ]
+    ]
+  },
+  {
     "inf": "friggere",
     "policy": "dynamic",
     "sense": "fry food",
@@ -6151,6 +3964,36 @@
       [
         "un uovo",
         "an egg"
+      ]
+    ]
+  },
+  {
+    "inf": "fumare",
+    "policy": "dynamic",
+    "sense": "smoke",
+    "note": "Smoking is an action with duration; the object or setting makes the specific episode clear.",
+    "en": [
+      "smoke",
+      "smokes",
+      "smoked",
+      "smoking"
+    ],
+    "frames": [
+      [
+        "una sigaretta",
+        "a cigarette"
+      ],
+      [
+        "fuori dal locale",
+        "outside the venue"
+      ],
+      [
+        "in giardino",
+        "in the garden"
+      ],
+      [
+        "una pipa",
+        "a pipe"
       ]
     ]
   },
@@ -6198,6 +4041,36 @@
         "The machines"
       ]
     }
+  },
+  {
+    "inf": "giocare",
+    "policy": "dynamic",
+    "sense": "play a game or sport",
+    "note": "Playing can be underway; Italian uses a before the game or sport.",
+    "en": [
+      "play",
+      "plays",
+      "played",
+      "playing"
+    ],
+    "frames": [
+      [
+        "a calcio",
+        "football"
+      ],
+      [
+        "a tennis",
+        "tennis"
+      ],
+      [
+        "a carte",
+        "cards"
+      ],
+      [
+        "con i bambini",
+        "with the children"
+      ]
+    ]
   },
   {
     "inf": "girare",
@@ -6286,6 +4159,36 @@
       [
         "molto",
         "a lot"
+      ]
+    ]
+  },
+  {
+    "inf": "guardare",
+    "policy": "dynamic",
+    "sense": "watch or look at something",
+    "note": "Guardare is deliberate attention and can be in progress; unlike vedere, it is not mere perception.",
+    "en": [
+      "watch",
+      "watches",
+      "watched",
+      "watching"
+    ],
+    "frames": [
+      [
+        "un film",
+        "a film"
+      ],
+      [
+        "la televisione",
+        "television"
+      ],
+      [
+        "una partita",
+        "a match"
+      ],
+      [
+        "un video",
+        "a video"
       ]
     ]
   },
@@ -6380,6 +4283,36 @@
     ]
   },
   {
+    "inf": "imparare",
+    "policy": "dynamic",
+    "sense": "learn a skill or subject",
+    "note": "Learning develops over time; the selected object says what is being learned.",
+    "en": [
+      "learn",
+      "learns",
+      "learned",
+      "learning"
+    ],
+    "frames": [
+      [
+        "l’italiano",
+        "Italian"
+      ],
+      [
+        "una canzone",
+        "a song"
+      ],
+      [
+        "una nuova ricetta",
+        "a new recipe"
+      ],
+      [
+        "le regole del gioco",
+        "the rules of the game"
+      ]
+    ]
+  },
+  {
     "inf": "importare",
     "policy": "sense-dependent",
     "sense": "import goods from another country",
@@ -6436,6 +4369,36 @@
       [
         "un disegno sul cartellone",
         "a drawing onto the poster"
+      ]
+    ]
+  },
+  {
+    "inf": "incontrare",
+    "policy": "sense-dependent",
+    "sense": "meet someone at a particular point",
+    "note": "Sto incontrando can describe a meeting happening now; incontro often also states an appointment or habit.",
+    "en": [
+      "meet",
+      "meets",
+      "met",
+      "meeting"
+    ],
+    "frames": [
+      [
+        "Marco",
+        "Marco"
+      ],
+      [
+        "un collega",
+        "a colleague"
+      ],
+      [
+        "gli amici al bar",
+        "friends at the bar"
+      ],
+      [
+        "il direttore",
+        "the director"
       ]
     ]
   },
@@ -6556,6 +4519,36 @@
       [
         "di Sara",
         "with Sara"
+      ]
+    ]
+  },
+  {
+    "inf": "insegnare",
+    "policy": "dynamic",
+    "sense": "teach a subject to learners",
+    "note": "Teaching a lesson is an ongoing activity; the subject or learners belong to the construction.",
+    "en": [
+      "teach",
+      "teaches",
+      "taught",
+      "teaching"
+    ],
+    "frames": [
+      [
+        "italiano a Sara",
+        "Italian to Sara"
+      ],
+      [
+        "matematica ai bambini",
+        "maths to the children"
+      ],
+      [
+        "una nuova regola",
+        "a new rule"
+      ],
+      [
+        "la pronuncia agli studenti",
+        "pronunciation to the students"
       ]
     ]
   },
@@ -6857,6 +4850,96 @@
     ]
   },
   {
+    "inf": "lavarsi",
+    "policy": "dynamic",
+    "sense": "wash oneself",
+    "note": "The reflexive pronoun stays with lavarsi; the progressive can focus on washing in progress.",
+    "en": [
+      "wash",
+      "washes",
+      "washed",
+      "washing"
+    ],
+    "frames": [
+      [
+        "in bagno",
+        "in the bathroom"
+      ],
+      [
+        "con acqua calda",
+        "with warm water"
+      ],
+      [
+        "dopo la corsa",
+        "after the run"
+      ],
+      [
+        "prima di cena",
+        "before dinner"
+      ]
+    ]
+  },
+  {
+    "inf": "lavorare",
+    "policy": "dynamic",
+    "sense": "work on a task or in a place",
+    "note": "A work session can be unfolding; lavoro can also state a job or routine.",
+    "en": [
+      "work",
+      "works",
+      "worked",
+      "working"
+    ],
+    "frames": [
+      [
+        "in ufficio",
+        "in the office"
+      ],
+      [
+        "da casa",
+        "from home"
+      ],
+      [
+        "al progetto",
+        "on the project"
+      ],
+      [
+        "con i colleghi",
+        "with colleagues"
+      ]
+    ]
+  },
+  {
+    "inf": "leggere",
+    "policy": "dynamic",
+    "sense": "read text",
+    "note": "Reading a particular text takes time; the complement names that text.",
+    "en": [
+      "read",
+      "reads",
+      "read",
+      "reading"
+    ],
+    "frames": [
+      [
+        "un libro",
+        "a book"
+      ],
+      [
+        "il giornale",
+        "the newspaper"
+      ],
+      [
+        "un messaggio",
+        "a message"
+      ],
+      [
+        "il menu",
+        "the menu"
+      ]
+    ]
+  },
+  {
     "inf": "mancare",
     "policy": "simple",
     "sense": "be missed by someone",
@@ -6944,6 +5027,36 @@
     ]
   },
   {
+    "inf": "mangiare",
+    "policy": "dynamic",
+    "sense": "eat food",
+    "note": "An eating episode can be in progress; the food is the direct object.",
+    "en": [
+      "eat",
+      "eats",
+      "ate",
+      "eating"
+    ],
+    "frames": [
+      [
+        "una mela",
+        "an apple"
+      ],
+      [
+        "la pasta",
+        "pasta"
+      ],
+      [
+        "un panino",
+        "a sandwich"
+      ],
+      [
+        "un’insalata",
+        "a salad"
+      ]
+    ]
+  },
+  {
     "inf": "mescolare",
     "policy": "dynamic",
     "sense": "mix ingredients",
@@ -6970,6 +5083,36 @@
       [
         "la salsa",
         "the sauce"
+      ]
+    ]
+  },
+  {
+    "inf": "mettere",
+    "policy": "dynamic",
+    "sense": "put an object somewhere",
+    "note": "Putting something in place is observable as it happens; include both object and destination.",
+    "en": [
+      "put",
+      "puts",
+      "put",
+      "putting"
+    ],
+    "frames": [
+      [
+        "i piatti sul tavolo",
+        "the plates on the table"
+      ],
+      [
+        "il latte in frigo",
+        "the milk in the fridge"
+      ],
+      [
+        "le chiavi nella borsa",
+        "the keys in the bag"
+      ],
+      [
+        "un libro sullo scaffale",
+        "a book on the shelf"
       ]
     ]
   },
@@ -7371,6 +5514,66 @@
     ]
   },
   {
+    "inf": "nuotare",
+    "policy": "dynamic",
+    "sense": "swim",
+    "note": "Swimming is durative; the place or manner gives a concrete ongoing activity.",
+    "en": [
+      "swim",
+      "swims",
+      "swam",
+      "swimming"
+    ],
+    "frames": [
+      [
+        "in piscina",
+        "in the pool"
+      ],
+      [
+        "nel mare",
+        "in the sea"
+      ],
+      [
+        "verso la riva",
+        "toward the shore"
+      ],
+      [
+        "con gli amici",
+        "with friends"
+      ]
+    ]
+  },
+  {
+    "inf": "odiare",
+    "policy": "simple",
+    "sense": "hate someone or something",
+    "note": "Odio states an attitude toward a person or thing; do not turn that stable attitude into an unfolding activity.",
+    "en": [
+      "hate",
+      "hates",
+      "hated",
+      ""
+    ],
+    "frames": [
+      [
+        "il freddo",
+        "the cold"
+      ],
+      [
+        "le bugie",
+        "lies"
+      ],
+      [
+        "la pioggia",
+        "the rain"
+      ],
+      [
+        "alzarmi presto",
+        "getting up early"
+      ]
+    ]
+  },
+  {
     "inf": "offrire",
     "policy": "dynamic",
     "sense": "offer something to someone",
@@ -7461,6 +5664,36 @@
     ]
   },
   {
+    "inf": "pagare",
+    "policy": "dynamic",
+    "sense": "pay for something",
+    "note": "A payment can be in progress; choose a bill or purchase as its object.",
+    "en": [
+      "pay",
+      "pays",
+      "paid",
+      "paying"
+    ],
+    "frames": [
+      [
+        "il conto",
+        "the bill"
+      ],
+      [
+        "il biglietto",
+        "for the ticket"
+      ],
+      [
+        "la spesa",
+        "for the groceries"
+      ],
+      [
+        "l’affitto",
+        "the rent"
+      ]
+    ]
+  },
+  {
     "inf": "parcheggiare",
     "policy": "sense-dependent",
     "sense": "park a vehicle",
@@ -7536,6 +5769,66 @@
     }
   },
   {
+    "inf": "parlare",
+    "policy": "dynamic",
+    "sense": "speak with someone or about something",
+    "note": "Talking can be in progress; parlare con and parlare di mark different complements.",
+    "en": [
+      "talk",
+      "talks",
+      "talked",
+      "talking"
+    ],
+    "frames": [
+      [
+        "con Sara",
+        "with Sara"
+      ],
+      [
+        "del viaggio",
+        "about the trip"
+      ],
+      [
+        "al telefono",
+        "on the phone"
+      ],
+      [
+        "con il medico",
+        "with the doctor"
+      ]
+    ]
+  },
+  {
+    "inf": "partire",
+    "policy": "sense-dependent",
+    "sense": "set off on a journey",
+    "note": "Sto partendo often focuses on departure just beginning or imminent, not the whole journey.",
+    "en": [
+      "leave",
+      "leaves",
+      "left",
+      "leaving"
+    ],
+    "frames": [
+      [
+        "per Roma",
+        "for Rome"
+      ],
+      [
+        "dalla stazione",
+        "from the station"
+      ],
+      [
+        "in treno",
+        "by train"
+      ],
+      [
+        "per le vacanze",
+        "for the holidays"
+      ]
+    ]
+  },
+  {
     "inf": "passare",
     "policy": "dynamic",
     "sense": "pass an object to someone",
@@ -7562,6 +5855,96 @@
       [
         "le chiavi al vicino",
         "the keys to the neighbour"
+      ]
+    ]
+  },
+  {
+    "inf": "passeggiare",
+    "policy": "dynamic",
+    "sense": "stroll",
+    "note": "A walk has duration; location or company makes the current outing clear.",
+    "en": [
+      "stroll",
+      "strolls",
+      "strolled",
+      "strolling"
+    ],
+    "frames": [
+      [
+        "in centro",
+        "around the centre"
+      ],
+      [
+        "lungo il fiume",
+        "along the river"
+      ],
+      [
+        "con Sara",
+        "with Sara"
+      ],
+      [
+        "nel parco",
+        "in the park"
+      ]
+    ]
+  },
+  {
+    "inf": "pattinare",
+    "policy": "dynamic",
+    "sense": "skate",
+    "note": "Skating is an ongoing activity; the setting specifies where it is happening.",
+    "en": [
+      "skate",
+      "skates",
+      "skated",
+      "skating"
+    ],
+    "frames": [
+      [
+        "sul ghiaccio",
+        "on the ice"
+      ],
+      [
+        "al parco",
+        "at the park"
+      ],
+      [
+        "con gli amici",
+        "with friends"
+      ],
+      [
+        "sulla pista",
+        "on the rink"
+      ]
+    ]
+  },
+  {
+    "inf": "pensare",
+    "policy": "sense-dependent",
+    "sense": "think through an idea",
+    "note": "Sto pensando a can describe active consideration; penso che and stable opinions are a different use.",
+    "en": [
+      "think about",
+      "thinks about",
+      "thought about",
+      "thinking about"
+    ],
+    "frames": [
+      [
+        "al viaggio",
+        "the trip"
+      ],
+      [
+        "a una soluzione",
+        "a solution"
+      ],
+      [
+        "alla proposta",
+        "the proposal"
+      ],
+      [
+        "a un amico",
+        "a friend"
       ]
     ]
   },
@@ -7716,6 +6099,123 @@
     ]
   },
   {
+    "inf": "pescare",
+    "policy": "dynamic",
+    "sense": "fish",
+    "note": "Fishing is an activity that unfolds over time; the place or object locates the outing.",
+    "en": [
+      "fish",
+      "fishes",
+      "fished",
+      "fishing"
+    ],
+    "frames": [
+      [
+        "al lago",
+        "at the lake"
+      ],
+      [
+        "nel fiume",
+        "in the river"
+      ],
+      [
+        "con un amico",
+        "with a friend"
+      ],
+      [
+        "dalla barca",
+        "from the boat"
+      ]
+    ]
+  },
+  {
+    "inf": "pettinarsi",
+    "policy": "dynamic",
+    "sense": "comb one’s hair",
+    "note": "The reflexive marks grooming oneself; the progressive focuses on that grooming underway.",
+    "en": [
+      "comb {poss} hair",
+      "combs {poss} hair",
+      "combed {poss} hair",
+      "combing {poss} hair"
+    ],
+    "frames": [
+      [
+        "davanti allo specchio",
+        "in front of the mirror"
+      ],
+      [
+        "prima di uscire",
+        "before going out"
+      ],
+      [
+        "con calma",
+        "slowly"
+      ],
+      [
+        "in bagno",
+        "in the bathroom"
+      ]
+    ]
+  },
+  {
+    "inf": "piacere",
+    "policy": "simple",
+    "sense": "be pleasing to someone",
+    "note": "The liked thing is the grammatical subject of piace or piacciono; ordinary liking is a state, not an unfolding action.",
+    "simpleExamples": [
+      {
+        "it": "Mi piace questo libro.",
+        "en": "I like this book.",
+        "answer": "piace",
+        "person": 2,
+        "past": {
+          "it": "Mi piaceva quel libro.",
+          "en": "I used to like that book.",
+          "answer": "piaceva"
+        }
+      },
+      {
+        "it": "Ti piace la musica italiana?",
+        "en": "Do you like Italian music?",
+        "answer": "piace",
+        "person": 2,
+        "past": {
+          "it": "Ti piaceva la musica italiana?",
+          "en": "Did you use to like Italian music?",
+          "answer": "piaceva"
+        }
+      },
+      {
+        "it": "Mi piacciono questi film.",
+        "en": "I like these films.",
+        "answer": "piacciono",
+        "person": 5,
+        "past": {
+          "it": "Mi piacevano quei film.",
+          "en": "I used to like those films.",
+          "answer": "piacevano"
+        }
+      },
+      {
+        "it": "A Sara piacciono i gatti.",
+        "en": "Sara likes cats.",
+        "answer": "piacciono",
+        "person": 5,
+        "past": {
+          "it": "A Sara piacevano i gatti.",
+          "en": "Sara used to like cats.",
+          "answer": "piacevano"
+        }
+      }
+    ],
+    "persons": [
+      2,
+      5
+    ],
+    "formal": false
+  },
+  {
     "inf": "piangere",
     "policy": "dynamic",
     "sense": "cry",
@@ -7816,6 +6316,126 @@
     }
   },
   {
+    "inf": "portare",
+    "policy": "dynamic",
+    "sense": "carry or take an object",
+    "note": "Carrying something to a destination can be underway; this sense differs from wearing something.",
+    "en": [
+      "carry",
+      "carries",
+      "carried",
+      "carrying"
+    ],
+    "frames": [
+      [
+        "le valigie in camera",
+        "the suitcases into the bedroom"
+      ],
+      [
+        "la spesa a casa",
+        "the groceries home"
+      ],
+      [
+        "una scatola in ufficio",
+        "a box into the office"
+      ],
+      [
+        "lo zaino sulle spalle",
+        "the backpack on the shoulders"
+      ]
+    ]
+  },
+  {
+    "inf": "potere",
+    "policy": "simple",
+    "sense": "have ability or permission",
+    "note": "Posso plus an infinitive states ability or permission; the modal meaning itself is not an event in progress.",
+    "en": [
+      "can",
+      "can",
+      "could",
+      ""
+    ],
+    "frames": [
+      [
+        "nuotare",
+        "swim"
+      ],
+      [
+        "entrare",
+        "come in"
+      ],
+      [
+        "aprire la finestra",
+        "open the window"
+      ],
+      [
+        "aiutare Sara",
+        "help Sara"
+      ]
+    ]
+  },
+  {
+    "inf": "pranzare",
+    "policy": "dynamic",
+    "sense": "have lunch",
+    "note": "A lunch is an event with duration; the place or company identifies this meal.",
+    "en": [
+      "have lunch",
+      "has lunch",
+      "had lunch",
+      "having lunch"
+    ],
+    "frames": [
+      [
+        "a casa",
+        "at home"
+      ],
+      [
+        "con i colleghi",
+        "with colleagues"
+      ],
+      [
+        "al bar",
+        "at the café"
+      ],
+      [
+        "fuori",
+        "out"
+      ]
+    ]
+  },
+  {
+    "inf": "preferire",
+    "policy": "simple",
+    "sense": "have a preference",
+    "note": "Preferisco expresses which choice is favoured; a stable preference is not an unfolding action.",
+    "en": [
+      "prefer",
+      "prefers",
+      "preferred",
+      ""
+    ],
+    "frames": [
+      [
+        "il tè al caffè",
+        "tea to coffee"
+      ],
+      [
+        "il treno all’aereo",
+        "the train to flying"
+      ],
+      [
+        "la pasta al riso",
+        "pasta to rice"
+      ],
+      [
+        "restare a casa",
+        "staying at home"
+      ]
+    ]
+  },
+  {
     "inf": "pregare",
     "policy": "dynamic",
     "sense": "pray",
@@ -7842,6 +6462,36 @@
       [
         "in silenzio",
         "silently"
+      ]
+    ]
+  },
+  {
+    "inf": "prendere",
+    "policy": "dynamic",
+    "sense": "take or pick up an object",
+    "note": "Prendere can focus on physically taking something now; other senses, such as ordering a drink, need separate context.",
+    "en": [
+      "take",
+      "takes",
+      "took",
+      "taking"
+    ],
+    "frames": [
+      [
+        "le chiavi",
+        "the keys"
+      ],
+      [
+        "un libro dallo scaffale",
+        "a book from the shelf"
+      ],
+      [
+        "l’autobus",
+        "the bus"
+      ],
+      [
+        "la borsa dal tavolo",
+        "the bag from the table"
       ]
     ]
   },
@@ -7906,6 +6556,36 @@
     ]
   },
   {
+    "inf": "preparare",
+    "policy": "dynamic",
+    "sense": "prepare food or materials",
+    "note": "Preparation unfolds over time; the object identifies what is being made ready.",
+    "en": [
+      "prepare",
+      "prepares",
+      "prepared",
+      "preparing"
+    ],
+    "frames": [
+      [
+        "la cena",
+        "dinner"
+      ],
+      [
+        "la colazione",
+        "breakfast"
+      ],
+      [
+        "una valigia",
+        "a suitcase"
+      ],
+      [
+        "il materiale per la lezione",
+        "the materials for the lesson"
+      ]
+    ]
+  },
+  {
     "inf": "prepararsi",
     "policy": "dynamic",
     "sense": "get ready for an event",
@@ -7932,6 +6612,96 @@
       [
         "per l’esame",
         "for the exam"
+      ]
+    ]
+  },
+  {
+    "inf": "presentare",
+    "policy": "dynamic",
+    "sense": "introduce someone to someone",
+    "note": "An introduction can be taking place now; use a direct object for the person introduced.",
+    "en": [
+      "introduce",
+      "introduces",
+      "introduced",
+      "introducing"
+    ],
+    "frames": [
+      [
+        "Sara ai colleghi",
+        "Sara to colleagues"
+      ],
+      [
+        "un amico alla famiglia",
+        "a friend to the family"
+      ],
+      [
+        "il nuovo direttore",
+        "the new director"
+      ],
+      [
+        "un collega agli ospiti",
+        "a colleague to the guests"
+      ]
+    ]
+  },
+  {
+    "inf": "presentarsi",
+    "policy": "sense-dependent",
+    "sense": "show up at a place or appointment",
+    "note": "Mi sto presentando can describe appearing at a scheduled place; this is distinct from saying one’s name.",
+    "en": [
+      "show up",
+      "shows up",
+      "showed up",
+      "showing up"
+    ],
+    "frames": [
+      [
+        "all’appuntamento",
+        "at the appointment"
+      ],
+      [
+        "in ufficio",
+        "at the office"
+      ],
+      [
+        "alla riunione",
+        "at the meeting"
+      ],
+      [
+        "all’esame",
+        "for the exam"
+      ]
+    ]
+  },
+  {
+    "inf": "prestare",
+    "policy": "dynamic",
+    "sense": "lend something to someone",
+    "note": "Lending is a handover in progress; say what is lent and to whom.",
+    "en": [
+      "lend",
+      "lends",
+      "lent",
+      "lending"
+    ],
+    "frames": [
+      [
+        "un libro a Sara",
+        "a book to Sara"
+      ],
+      [
+        "la penna a Marco",
+        "a pen to Marco"
+      ],
+      [
+        "la bici a un amico",
+        "the bike to a friend"
+      ],
+      [
+        "un ombrello al vicino",
+        "an umbrella to the neighbour"
       ]
     ]
   },
@@ -7966,6 +6736,36 @@
     ]
   },
   {
+    "inf": "pronunciare",
+    "policy": "dynamic",
+    "sense": "pronounce a word or phrase",
+    "note": "Pronouncing a word is an action one can hear unfolding; name the target word or phrase.",
+    "en": [
+      "pronounce",
+      "pronounces",
+      "pronounced",
+      "pronouncing"
+    ],
+    "frames": [
+      [
+        "questa parola",
+        "this word"
+      ],
+      [
+        "il nome di Sara",
+        "Sara’s name"
+      ],
+      [
+        "una frase italiana",
+        "an Italian sentence"
+      ],
+      [
+        "le vocali",
+        "the vowels"
+      ]
+    ]
+  },
+  {
     "inf": "protestare",
     "policy": "dynamic",
     "sense": "protest against something",
@@ -7992,6 +6792,66 @@
       [
         "davanti al municipio",
         "outside the town hall"
+      ]
+    ]
+  },
+  {
+    "inf": "provare",
+    "policy": "sense-dependent",
+    "sense": "try on clothing",
+    "note": "Sto provando focuses on trying a garment on now; provare a plus infinitive expresses attempting something else.",
+    "en": [
+      "try on",
+      "tries on",
+      "tried on",
+      "trying on"
+    ],
+    "frames": [
+      [
+        "una giacca",
+        "a jacket"
+      ],
+      [
+        "queste scarpe",
+        "these shoes"
+      ],
+      [
+        "un vestito",
+        "a dress"
+      ],
+      [
+        "un cappello",
+        "a hat"
+      ]
+    ]
+  },
+  {
+    "inf": "pulire",
+    "policy": "dynamic",
+    "sense": "clean a place or object",
+    "note": "Cleaning is an ongoing task; the object shows what is being cleaned.",
+    "en": [
+      "clean",
+      "cleans",
+      "cleaned",
+      "cleaning"
+    ],
+    "frames": [
+      [
+        "la cucina",
+        "the kitchen"
+      ],
+      [
+        "il tavolo",
+        "the table"
+      ],
+      [
+        "le finestre",
+        "the windows"
+      ],
+      [
+        "il pavimento",
+        "the floor"
       ]
     ]
   },
@@ -8206,6 +7066,130 @@
     ]
   },
   {
+    "inf": "respirare",
+    "policy": "dynamic",
+    "sense": "breathe",
+    "note": "Breathing is continuous; manner or setting makes a particular moment salient.",
+    "en": [
+      "breathe",
+      "breathes",
+      "breathed",
+      "breathing"
+    ],
+    "frames": [
+      [
+        "profondamente",
+        "deeply"
+      ],
+      [
+        "con calma",
+        "calmly"
+      ],
+      [
+        "aria fresca",
+        "fresh air"
+      ],
+      [
+        "lentamente",
+        "slowly"
+      ]
+    ]
+  },
+  {
+    "inf": "restare",
+    "policy": "simple",
+    "sense": "remain in a place",
+    "note": "Resto here states where someone remains; sto restando would shift toward a temporary decision or unfolding change.",
+    "en": [
+      "stay",
+      "stays",
+      "stayed",
+      ""
+    ],
+    "frames": [
+      [
+        "a casa",
+        "at home"
+      ],
+      [
+        "in ufficio",
+        "in the office"
+      ],
+      [
+        "con gli amici",
+        "with friends"
+      ],
+      [
+        "qui",
+        "here"
+      ]
+    ]
+  },
+  {
+    "inf": "restituire",
+    "policy": "dynamic",
+    "sense": "give an item back",
+    "note": "Restitution can be underway as a handover; the recipient and item are explicit.",
+    "en": [
+      "return",
+      "returns",
+      "returned",
+      "returning"
+    ],
+    "frames": [
+      [
+        "il libro a Sara",
+        "the book to Sara"
+      ],
+      [
+        "le chiavi al vicino",
+        "the keys to the neighbour"
+      ],
+      [
+        "un prestito alla biblioteca",
+        "a loan to the library"
+      ],
+      [
+        "il denaro a Marco",
+        "the money to Marco"
+      ]
+    ]
+  },
+  {
+    "inf": "riavere",
+    "policy": "simple",
+    "sense": "receive a returned object or state its restored possession",
+    "note": "These scenes use ordinary forms to state or request the return of a specific object. The imperfect describes a former repeated restitution (used to get back); the completed past got back belongs to passato prossimo. They do not describe a gradual recovery process: no progressive credit is available for this selected restitution sense. Other contextual uses, including pronominal riaversi, require separate review.",
+    "en": [
+      "get back",
+      "gets back",
+      "got back",
+      ""
+    ],
+    "imperfectEn": "used to get back",
+    "frames": [
+      [
+        "il libro prestato",
+        "the book lent out"
+      ],
+      [
+        "la cauzione",
+        "the deposit"
+      ],
+      [
+        "il documento",
+        "the document"
+      ],
+      [
+        "le chiavi",
+        "the keys"
+      ]
+    ],
+    "sources": [
+      "https://www.treccani.it/vocabolario/riavere/"
+    ]
+  },
+  {
     "inf": "ricaricare",
     "policy": "dynamic",
     "sense": "recharge a device",
@@ -8386,6 +7370,36 @@
     ]
   },
   {
+    "inf": "ricordare",
+    "policy": "simple",
+    "sense": "remember a person or fact",
+    "note": "Ricordo reports a memory held; remembering is not itself a visible action underway in this ordinary sense.",
+    "en": [
+      "remember",
+      "remembers",
+      "remembered",
+      ""
+    ],
+    "frames": [
+      [
+        "quel giorno",
+        "that day"
+      ],
+      [
+        "il suo nome",
+        "her name"
+      ],
+      [
+        "la risposta",
+        "the answer"
+      ],
+      [
+        "la strada",
+        "the way"
+      ]
+    ]
+  },
+  {
     "inf": "ricordarsi",
     "policy": "simple",
     "sense": "remember a person or fact",
@@ -8476,6 +7490,66 @@
     ]
   },
   {
+    "inf": "rientrare",
+    "policy": "dynamic",
+    "sense": "return inside or home",
+    "note": "Sto rientrando tracks movement back toward home or another place; rientro alle sette can instead give a schedule.",
+    "en": [
+      "return",
+      "returns",
+      "returned",
+      "returning"
+    ],
+    "frames": [
+      [
+        "a casa",
+        "home"
+      ],
+      [
+        "in ufficio",
+        "to the office"
+      ],
+      [
+        "in albergo",
+        "to the hotel"
+      ],
+      [
+        "dalla pausa",
+        "from the break"
+      ]
+    ]
+  },
+  {
+    "inf": "rilassarsi",
+    "policy": "dynamic",
+    "sense": "relax",
+    "note": "Relaxing can be unfolding; the reflexive pronoun is part of the Italian verb.",
+    "en": [
+      "relax",
+      "relaxes",
+      "relaxed",
+      "relaxing"
+    ],
+    "frames": [
+      [
+        "sul divano",
+        "on the sofa"
+      ],
+      [
+        "con la musica",
+        "with music"
+      ],
+      [
+        "in giardino",
+        "in the garden"
+      ],
+      [
+        "dopo il lavoro",
+        "after work"
+      ]
+    ]
+  },
+  {
     "inf": "rimanere",
     "policy": "simple",
     "sense": "remain in a place",
@@ -8502,6 +7576,36 @@
       [
         "qui",
         "here"
+      ]
+    ]
+  },
+  {
+    "inf": "ringraziare",
+    "policy": "dynamic",
+    "sense": "thank someone",
+    "note": "Thanking someone is a speech action; the person and reason can be stated directly.",
+    "en": [
+      "thank",
+      "thanks",
+      "thanked",
+      "thanking"
+    ],
+    "frames": [
+      [
+        "Sara per l’aiuto",
+        "Sara for the help"
+      ],
+      [
+        "gli ospiti",
+        "the guests"
+      ],
+      [
+        "un collega per il consiglio",
+        "a colleague for the advice"
+      ],
+      [
+        "il medico",
+        "the doctor"
       ]
     ]
   },
@@ -8596,6 +7700,36 @@
     ]
   },
   {
+    "inf": "ripassare",
+    "policy": "dynamic",
+    "sense": "review studied material",
+    "note": "Revision takes time; a specific set of material makes the session concrete.",
+    "en": [
+      "review",
+      "reviews",
+      "reviewed",
+      "reviewing"
+    ],
+    "frames": [
+      [
+        "i verbi",
+        "the verbs"
+      ],
+      [
+        "gli appunti",
+        "the notes"
+      ],
+      [
+        "la lezione",
+        "the lesson"
+      ],
+      [
+        "le parole nuove",
+        "the new words"
+      ]
+    ]
+  },
+  {
     "inf": "riposarsi",
     "policy": "dynamic",
     "sense": "rest",
@@ -8622,6 +7756,54 @@
       [
         "in giardino",
         "in the garden"
+      ]
+    ]
+  },
+  {
+    "inf": "rispondere",
+    "policy": "dynamic",
+    "sense": "reply to a message or person",
+    "note": "A reply can be in progress; Italian rispondere requires a before the recipient.",
+    "en": [
+      "reply to",
+      "replies to",
+      "replied to",
+      "replying to"
+    ],
+    "frames": [
+      [
+        "a Sara",
+        "Sara"
+      ],
+      [
+        "a un’email",
+        "an email"
+      ],
+      [
+        "a una domanda",
+        "a question"
+      ],
+      [
+        "al collega",
+        "the colleague"
+      ]
+    ],
+    "legacyFrames": [
+      [
+        "Sara",
+        "Sara"
+      ],
+      [
+        "un’email",
+        "an email"
+      ],
+      [
+        "una domanda",
+        "a question"
+      ],
+      [
+        "il collega",
+        "the colleague"
       ]
     ]
   },
@@ -8776,6 +7958,66 @@
     ]
   },
   {
+    "inf": "salutare",
+    "policy": "dynamic",
+    "sense": "greet someone",
+    "note": "A greeting can be happening now; salutare takes the person directly in Italian.",
+    "en": [
+      "greet",
+      "greets",
+      "greeted",
+      "greeting"
+    ],
+    "frames": [
+      [
+        "gli ospiti",
+        "the guests"
+      ],
+      [
+        "un amico",
+        "a friend"
+      ],
+      [
+        "i vicini",
+        "the neighbours"
+      ],
+      [
+        "il professore",
+        "the teacher"
+      ]
+    ]
+  },
+  {
+    "inf": "salvare",
+    "policy": "dynamic",
+    "sense": "save a file",
+    "note": "Saving a file is an action with a result; this computer sense is distinct from rescuing a person.",
+    "en": [
+      "save",
+      "saves",
+      "saved",
+      "saving"
+    ],
+    "frames": [
+      [
+        "il documento",
+        "the document"
+      ],
+      [
+        "una foto",
+        "a photo"
+      ],
+      [
+        "il file sul computer",
+        "the file on the computer"
+      ],
+      [
+        "una copia del progetto",
+        "a copy of the project"
+      ]
+    ]
+  },
+  {
     "inf": "sanguinare",
     "policy": "dynamic",
     "sense": "bleed",
@@ -8814,6 +8056,36 @@
         "The finger"
       ]
     }
+  },
+  {
+    "inf": "sapere",
+    "policy": "simple",
+    "sense": "know a fact or know how",
+    "note": "So reports knowledge or ability already held; sto sapendo is not the ordinary way to say this.",
+    "en": [
+      "know",
+      "knows",
+      "knew",
+      ""
+    ],
+    "frames": [
+      [
+        "la risposta",
+        "the answer"
+      ],
+      [
+        "il suo indirizzo",
+        "her address"
+      ],
+      [
+        "la verità",
+        "the truth"
+      ],
+      [
+        "come arrivare",
+        "how to get there"
+      ]
+    ]
   },
   {
     "inf": "sbagliare",
@@ -9101,6 +8373,66 @@
     ]
   },
   {
+    "inf": "scherzare",
+    "policy": "dynamic",
+    "sense": "joke with someone",
+    "note": "Joking is a communicative action underway; the complement can identify its audience or topic.",
+    "en": [
+      "joke",
+      "jokes",
+      "joked",
+      "joking"
+    ],
+    "frames": [
+      [
+        "con Sara",
+        "with Sara"
+      ],
+      [
+        "sul film",
+        "about the film"
+      ],
+      [
+        "con gli amici",
+        "with friends"
+      ],
+      [
+        "sulla situazione",
+        "about the situation"
+      ]
+    ]
+  },
+  {
+    "inf": "sciare",
+    "policy": "dynamic",
+    "sense": "ski",
+    "note": "Skiing has duration; its place or company establishes the particular outing.",
+    "en": [
+      "ski",
+      "skis",
+      "skied",
+      "skiing"
+    ],
+    "frames": [
+      [
+        "in montagna",
+        "in the mountains"
+      ],
+      [
+        "con gli amici",
+        "with friends"
+      ],
+      [
+        "sulla pista facile",
+        "on the easy slope"
+      ],
+      [
+        "sulle Alpi",
+        "in the Alps"
+      ]
+    ]
+  },
+  {
     "inf": "scivolare",
     "policy": "sense-dependent",
     "sense": "slip or slide",
@@ -9157,6 +8489,66 @@
       [
         "una vecchia lettera",
         "an old letter"
+      ]
+    ]
+  },
+  {
+    "inf": "scrivere",
+    "policy": "dynamic",
+    "sense": "write text",
+    "note": "Writing a message or document unfolds over time; name the text being written.",
+    "en": [
+      "write",
+      "writes",
+      "wrote",
+      "writing"
+    ],
+    "frames": [
+      [
+        "una mail",
+        "an email"
+      ],
+      [
+        "una lettera",
+        "a letter"
+      ],
+      [
+        "un messaggio",
+        "a message"
+      ],
+      [
+        "un articolo",
+        "an article"
+      ]
+    ]
+  },
+  {
+    "inf": "scusare",
+    "policy": "simple",
+    "sense": "excuse a person for a mistake",
+    "note": "Scusare here means forgiving a particular fault; the polite formulas scusa and scusi are separate uses, not progressive events.",
+    "en": [
+      "excuse",
+      "excuses",
+      "excused",
+      ""
+    ],
+    "frames": [
+      [
+        "Marco per il ritardo",
+        "Marco for being late"
+      ],
+      [
+        "un amico per l’errore",
+        "a friend for the mistake"
+      ],
+      [
+        "Sara per la dimenticanza",
+        "Sara for forgetting"
+      ],
+      [
+        "il collega per l’assenza",
+        "the colleague for the absence"
       ]
     ]
   },
@@ -9349,6 +8741,36 @@
         "The problem"
       ]
     }
+  },
+  {
+    "inf": "sentire",
+    "policy": "simple",
+    "sense": "hear a sound",
+    "note": "Sento reports immediate perception; ascoltare is the deliberate listening activity more naturally put in progress.",
+    "en": [
+      "hear",
+      "hears",
+      "heard",
+      ""
+    ],
+    "frames": [
+      [
+        "un rumore",
+        "a noise"
+      ],
+      [
+        "la musica",
+        "the music"
+      ],
+      [
+        "la voce di Sara",
+        "Sara’s voice"
+      ],
+      [
+        "il campanello",
+        "the doorbell"
+      ]
+    ]
   },
   {
     "inf": "sentirsi",
@@ -9763,6 +9185,36 @@
     ]
   },
   {
+    "inf": "spendere",
+    "policy": "dynamic",
+    "sense": "spend money",
+    "note": "Spending money can unfold over a shopping trip; the amount or purpose makes the episode specific.",
+    "en": [
+      "spend",
+      "spends",
+      "spent",
+      "spending"
+    ],
+    "frames": [
+      [
+        "troppi soldi",
+        "too much money"
+      ],
+      [
+        "venti euro",
+        "twenty euros"
+      ],
+      [
+        "molto per la spesa",
+        "a lot on groceries"
+      ],
+      [
+        "meno del previsto",
+        "less than expected"
+      ]
+    ]
+  },
+  {
     "inf": "sperare",
     "policy": "simple",
     "sense": "hope for an outcome",
@@ -10073,6 +9525,58 @@
     ]
   },
   {
+    "inf": "stare",
+    "policy": "simple",
+    "sense": "be somewhere or feel a certain way",
+    "note": "Stare in the senses of location and well-being uses sto, stai, sta; progressive stare belongs to another verb’s action, not to this state.",
+    "simpleExamples": [
+      {
+        "it": "Sto bene.",
+        "en": "I feel well.",
+        "answer": "sto",
+        "person": 0,
+        "past": {
+          "it": "Stavo bene durante il viaggio.",
+          "en": "I felt well during the trip.",
+          "answer": "stavo"
+        }
+      },
+      {
+        "it": "Stai a casa oggi?",
+        "en": "Are you staying at home today?",
+        "answer": "stai",
+        "person": 1,
+        "past": {
+          "it": "Stavi a casa ogni domenica.",
+          "en": "You used to stay at home every Sunday.",
+          "answer": "stavi"
+        }
+      },
+      {
+        "it": "Marco sta male.",
+        "en": "Marco feels unwell.",
+        "answer": "sta",
+        "person": 2,
+        "past": {
+          "it": "Marco stava male quella mattina.",
+          "en": "Marco felt unwell that morning.",
+          "answer": "stava"
+        }
+      },
+      {
+        "it": "Stiamo qui.",
+        "en": "We are staying here.",
+        "answer": "stiamo",
+        "person": 3,
+        "past": {
+          "it": "Stavamo qui prima della partenza.",
+          "en": "We were staying here before departure.",
+          "answer": "stavamo"
+        }
+      }
+    ]
+  },
+  {
     "inf": "starnutire",
     "policy": "sense-dependent",
     "sense": "sneeze repeatedly",
@@ -10129,6 +9633,36 @@
       [
         "una tovaglia",
         "a tablecloth"
+      ]
+    ]
+  },
+  {
+    "inf": "studiare",
+    "policy": "dynamic",
+    "sense": "study a subject",
+    "note": "Studying a subject is a sustained activity; the object or place anchors this session.",
+    "en": [
+      "study",
+      "studies",
+      "studied",
+      "studying"
+    ],
+    "frames": [
+      [
+        "italiano",
+        "Italian"
+      ],
+      [
+        "per l’esame",
+        "for the exam"
+      ],
+      [
+        "in biblioteca",
+        "in the library"
+      ],
+      [
+        "una nuova regola",
+        "a new rule"
       ]
     ]
   },
@@ -10203,6 +9737,66 @@
     ]
   },
   {
+    "inf": "suonare",
+    "policy": "dynamic",
+    "sense": "play a musical instrument",
+    "note": "Playing an instrument has duration; this differs from a bell ringing once.",
+    "en": [
+      "play",
+      "plays",
+      "played",
+      "playing"
+    ],
+    "frames": [
+      [
+        "il pianoforte",
+        "the piano"
+      ],
+      [
+        "la chitarra",
+        "the guitar"
+      ],
+      [
+        "il violino",
+        "the violin"
+      ],
+      [
+        "in un gruppo",
+        "in a band"
+      ]
+    ]
+  },
+  {
+    "inf": "svegliarsi",
+    "policy": "sense-dependent",
+    "sense": "wake up",
+    "note": "Mi sto svegliando focuses on the transition from sleep; mi sveglio alle sei gives a daily routine.",
+    "en": [
+      "wake up",
+      "wakes up",
+      "woke up",
+      "waking up"
+    ],
+    "frames": [
+      [
+        "lentamente",
+        "slowly"
+      ],
+      [
+        "dal sonno",
+        "from sleep"
+      ],
+      [
+        "al rumore",
+        "at the noise"
+      ],
+      [
+        "prima della sveglia",
+        "before the alarm"
+      ]
+    ]
+  },
+  {
     "inf": "svuotare",
     "policy": "dynamic",
     "sense": "empty a container",
@@ -10259,6 +9853,36 @@
       [
         "il tessuto",
         "the fabric"
+      ]
+    ]
+  },
+  {
+    "inf": "telefonare",
+    "policy": "dynamic",
+    "sense": "phone someone",
+    "note": "A phone call can be in progress; Italian telefonare takes a before its recipient.",
+    "en": [
+      "phone",
+      "phones",
+      "phoned",
+      "phoning"
+    ],
+    "frames": [
+      [
+        "a Sara",
+        "Sara"
+      ],
+      [
+        "all’albergo",
+        "the hotel"
+      ],
+      [
+        "al medico",
+        "the doctor"
+      ],
+      [
+        "a un amico",
+        "a friend"
       ]
     ]
   },
@@ -10443,6 +10067,36 @@
     ]
   },
   {
+    "inf": "tornare",
+    "policy": "dynamic",
+    "sense": "return to a place",
+    "note": "Sto tornando presents the trip back as underway; torno can also announce a regular return time.",
+    "en": [
+      "return",
+      "returns",
+      "returned",
+      "returning"
+    ],
+    "frames": [
+      [
+        "a casa",
+        "home"
+      ],
+      [
+        "in ufficio",
+        "to the office"
+      ],
+      [
+        "da Sara",
+        "to Sara’s place"
+      ],
+      [
+        "al negozio",
+        "to the shop"
+      ]
+    ]
+  },
+  {
     "inf": "tossire",
     "policy": "dynamic",
     "sense": "cough",
@@ -10573,6 +10227,66 @@
     ]
   },
   {
+    "inf": "trovare",
+    "policy": "simple",
+    "sense": "find a person or item",
+    "note": "Trovare in this sense marks successful discovery; sto trovando can instead describe repeated discoveries or solutions emerging.",
+    "en": [
+      "find",
+      "finds",
+      "found",
+      ""
+    ],
+    "frames": [
+      [
+        "le chiavi",
+        "the keys"
+      ],
+      [
+        "un libro interessante",
+        "an interesting book"
+      ],
+      [
+        "Sara al bar",
+        "Sara at the café"
+      ],
+      [
+        "la risposta",
+        "the answer"
+      ]
+    ]
+  },
+  {
+    "inf": "truccarsi",
+    "policy": "dynamic",
+    "sense": "put on make-up",
+    "note": "Putting on make-up takes time; the reflexive points to the person doing their own make-up.",
+    "en": [
+      "put on make-up",
+      "puts on make-up",
+      "put on make-up",
+      "putting on make-up"
+    ],
+    "frames": [
+      [
+        "davanti allo specchio",
+        "in front of the mirror"
+      ],
+      [
+        "prima della festa",
+        "before the party"
+      ],
+      [
+        "in bagno",
+        "in the bathroom"
+      ],
+      [
+        "con calma",
+        "slowly"
+      ]
+    ]
+  },
+  {
     "inf": "tuffarsi",
     "policy": "dynamic",
     "sense": "dive into water",
@@ -10633,6 +10347,258 @@
     ]
   },
   {
+    "inf": "usare",
+    "policy": "dynamic",
+    "sense": "use a tool or device",
+    "note": "Using a device is an action in progress; a named object prevents a vague use.",
+    "en": [
+      "use",
+      "uses",
+      "used",
+      "using"
+    ],
+    "frames": [
+      [
+        "il computer",
+        "the computer"
+      ],
+      [
+        "una penna",
+        "a pen"
+      ],
+      [
+        "il telefono",
+        "the phone"
+      ],
+      [
+        "una nuova app",
+        "a new app"
+      ]
+    ]
+  },
+  {
+    "inf": "uscire",
+    "policy": "dynamic",
+    "sense": "leave a place",
+    "note": "Sto uscendo focuses on leaving now or imminently; esco can also give a normal departure time.",
+    "en": [
+      "leave",
+      "leaves",
+      "left",
+      "leaving"
+    ],
+    "frames": [
+      [
+        "di casa",
+        "the house"
+      ],
+      [
+        "dall’ufficio",
+        "the office"
+      ],
+      [
+        "dal negozio",
+        "the shop"
+      ],
+      [
+        "dalla stazione",
+        "the station"
+      ]
+    ]
+  },
+  {
+    "inf": "vedere",
+    "policy": "simple",
+    "sense": "see a person or thing",
+    "note": "Vedo expresses perception; watching a film is a deliberate action better taught with guardare, or as a separate sense of vedere.",
+    "en": [
+      "see",
+      "sees",
+      "saw",
+      ""
+    ],
+    "frames": [
+      [
+        "la montagna",
+        "the mountain"
+      ],
+      [
+        "Sara alla finestra",
+        "Sara at the window"
+      ],
+      [
+        "un uccello",
+        "a bird"
+      ],
+      [
+        "la stazione da qui",
+        "the station from here"
+      ]
+    ]
+  },
+  {
+    "inf": "vendere",
+    "policy": "dynamic",
+    "sense": "sell an item",
+    "note": "Selling can be underway as a transaction; the object identifies the item offered.",
+    "en": [
+      "sell",
+      "sells",
+      "sold",
+      "selling"
+    ],
+    "frames": [
+      [
+        "una bicicletta",
+        "a bicycle"
+      ],
+      [
+        "la vecchia macchina",
+        "the old car"
+      ],
+      [
+        "libri usati",
+        "used books"
+      ],
+      [
+        "un tavolo",
+        "a table"
+      ]
+    ]
+  },
+  {
+    "inf": "venire",
+    "policy": "dynamic",
+    "sense": "come toward a person or place",
+    "note": "Sto venendo can track movement toward the speaker; vengo can also state a plan or repeated visit.",
+    "en": [
+      "come",
+      "comes",
+      "came",
+      "coming"
+    ],
+    "frames": [
+      [
+        "da Sara",
+        "to Sara’s place"
+      ],
+      [
+        "in centro",
+        "into town"
+      ],
+      [
+        "alla festa",
+        "to the party"
+      ],
+      [
+        "con gli amici",
+        "with friends"
+      ]
+    ]
+  },
+  {
+    "inf": "versare",
+    "policy": "dynamic",
+    "sense": "pour a liquid",
+    "note": "Pouring liquid is a visible action in progress; specify what is poured and where.",
+    "en": [
+      "pour",
+      "pours",
+      "poured",
+      "pouring"
+    ],
+    "frames": [
+      [
+        "l’acqua nel bicchiere",
+        "water into the glass"
+      ],
+      [
+        "il latte nella tazza",
+        "milk into the cup"
+      ],
+      [
+        "il vino nei calici",
+        "wine into the glasses"
+      ],
+      [
+        "il succo nella bottiglia",
+        "juice into the bottle"
+      ]
+    ]
+  },
+  {
+    "inf": "vestirsi",
+    "policy": "dynamic",
+    "sense": "get dressed",
+    "note": "Getting dressed is an action underway; the Italian reflexive pronoun changes with the person.",
+    "en": [
+      "get dressed",
+      "gets dressed",
+      "got dressed",
+      "getting dressed"
+    ],
+    "frames": [
+      [
+        "per la festa",
+        "for the party"
+      ],
+      [
+        "in camera",
+        "in the bedroom"
+      ],
+      [
+        "con calma",
+        "slowly"
+      ],
+      [
+        "prima di uscire",
+        "before going out"
+      ]
+    ]
+  },
+  {
+    "inf": "viaggiare",
+    "policy": "dynamic",
+    "sense": "travel on a journey",
+    "note": "Sto viaggiando focuses on a journey underway; viaggio often states how or where someone habitually travels.",
+    "en": [
+      "travel",
+      "travels",
+      "travelled",
+      "travelling"
+    ],
+    "frames": [
+      [
+        "in treno",
+        "by train"
+      ],
+      [
+        "verso Roma",
+        "toward Rome"
+      ],
+      [
+        "con un amico",
+        "with a friend"
+      ],
+      [
+        "per lavoro",
+        "for work"
+      ],
+      [
+        "sul treno delle otto e quindici",
+        "on the eight fifteen train"
+      ],
+      [
+        "attraverso l’Italia",
+        "across Italy"
+      ]
+    ],
+    "sources": [
+      "https://www.treccani.it/magazine/lingua_italiana/domande_e_risposte/grammatica/grammatica_764.html",
+      "https://www.treccani.it/vocabolario/viaggiare/"
+    ]
+  },
+  {
     "inf": "vincere",
     "policy": "sense-dependent",
     "sense": "be winning during a contest",
@@ -10659,6 +10625,66 @@
       [
         "al gioco",
         "at the game"
+      ]
+    ]
+  },
+  {
+    "inf": "visitare",
+    "policy": "dynamic",
+    "sense": "visit a place",
+    "note": "Visiting a site can be underway; this is distinct from the conversational phrase andare a trovare a person.",
+    "en": [
+      "visit",
+      "visits",
+      "visited",
+      "visiting"
+    ],
+    "frames": [
+      [
+        "il Duomo",
+        "the cathedral"
+      ],
+      [
+        "un museo",
+        "a museum"
+      ],
+      [
+        "Venezia",
+        "Venice"
+      ],
+      [
+        "il castello",
+        "the castle"
+      ]
+    ]
+  },
+  {
+    "inf": "vivere",
+    "policy": "simple",
+    "sense": "reside somewhere as a settled fact",
+    "note": "Vivo gives a usual home or life situation; sto vivendo would add a temporary or actively developing reading that needs its own context.",
+    "en": [
+      "live",
+      "lives",
+      "lived",
+      ""
+    ],
+    "frames": [
+      [
+        "a Roma",
+        "in Rome"
+      ],
+      [
+        "in una piccola città",
+        "in a small town"
+      ],
+      [
+        "con un amico",
+        "with a friend"
+      ],
+      [
+        "vicino al mare",
+        "near the sea"
       ]
     ]
   },
@@ -10748,5 +10774,35 @@
       5
     ],
     "formal": false
+  },
+  {
+    "inf": "volere",
+    "policy": "simple",
+    "sense": "want something",
+    "note": "Voglio states a desire; an ordinary wish is not an action that unfolds as sto volendo.",
+    "en": [
+      "want",
+      "wants",
+      "wanted",
+      ""
+    ],
+    "frames": [
+      [
+        "un caffè",
+        "a coffee"
+      ],
+      [
+        "una risposta",
+        "an answer"
+      ],
+      [
+        "un biglietto",
+        "a ticket"
+      ],
+      [
+        "più tempo",
+        "more time"
+      ]
+    ]
   }
 ]

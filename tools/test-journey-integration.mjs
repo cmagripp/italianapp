@@ -50,13 +50,17 @@ test('recommendations stay within the selected scope',()=>{
   assert.equal(recommendLesson(s,{now:NOW+DAY}).entry.id,word('casa').id);
   assert.equal(dueSkills(s,NOW+DAY).length,0);
 });
-test('review links preserve target and review mode',()=>{
+test('review links preserve the exact objective and enroll its case in a short review visit',()=>{
   const e=verb('credere'),s=fixture([e]),t=target(e,t=>t.skill==='conjugation');s.answer(e,t);
   s.complete(e,'present');
   const next=recommendLesson(s,{now:NOW+DAY});assert.equal(next.mode,'review');assert.equal(next.objectiveId,t.id);
   const href=practiceHref(next.entry,next.objectiveId,next.mode);
-  assert.equal(new URLSearchParams(href.split('?')[1]).get('objective'),t.id);
-  assert.equal(new URLSearchParams(href.split('?')[1]).get('mode'),'review');
+  assert.equal(href.split('?')[0],'#/review');
+  const query=new URLSearchParams(href.split('?')[1]);
+  assert.equal(query.get('objective'),t.id);
+  assert.equal(query.get('target'),`${e.id}|present`);
+  assert.equal(query.get('start'),'1');
+  assert.equal(query.size,3,'review links must not replay the full lesson');
 });
 test('helper facts and supplied construction parts never become independent due targets',()=>{
   const e=verb('piovere'),s=fixture([e]);

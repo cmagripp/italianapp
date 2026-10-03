@@ -2165,6 +2165,1276 @@
           ]
         }
       ]
+    },
+    {
+      "id": "v2-foundations-u4",
+      "title": "Use a first exchange",
+      "description": "Integrate known chunks, listen for a practical detail, and distinguish familiar c words by sound.",
+      "lessons": [
+        {
+          "id": "v2-f-supported-exchange",
+          "title": "Complete a first supported exchange",
+          "outcome": "I can greet a peer, give a name and origin, ask for repetition and close the exchange.",
+          "minutes": 9,
+          "prerequisites": [
+            "v2-f-greet",
+            "v2-f-name",
+            "v2-f-origin",
+            "v2-f-repair"
+          ],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Respond with your own information: An introduction gives your own name with mi chiamo and origin with sono di. E tu? gives the other person a turn. Piacere is a friendly meeting phrase, not a name or a place. Ask for help, then close: When you miss a message, ask for a repeat rather than guessing a name. Può ripetere, per favore? is a taught polite chunk. At the end, arrivederci is a polite goodbye; a domani is appropriate when you expect to meet tomorrow.",
+          "targets": [
+            {
+              "id": "v2-f-supported-exchange.introduce",
+              "label": "Respond with your own information",
+              "explanation": "An introduction gives your own name with mi chiamo and origin with sono di. E tu? gives the other person a turn. Piacere is a friendly meeting phrase, not a name or a place.",
+              "facets": [
+                "introduce"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Respond with your own information",
+                "body": "An introduction gives your own name with mi chiamo and origin with sono di. E tu? gives the other person a turn. Piacere is a friendly meeting phrase, not a name or a place.",
+                "examples": [
+                  {
+                    "it": "Mi chiamo Eva. Sono di Roma. E tu?",
+                    "en": "My name is Eva. I am from Rome. And you?"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close",
+              "label": "Ask for help, then close",
+              "explanation": "When you miss a message, ask for a repeat rather than guessing a name. Può ripetere, per favore? is a taught polite chunk. At the end, arrivederci is a polite goodbye; a domani is appropriate when you expect to meet tomorrow.",
+              "facets": [
+                "repair-close"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": true,
+              "modality": "language",
+              "repair": {
+                "title": "Ask for help, then close",
+                "body": "When you miss a message, ask for a repeat rather than guessing a name. Può ripetere, per favore? is a taught polite chunk. At the end, arrivederci is a polite goodbye; a domani is appropriate when you expect to meet tomorrow.",
+                "examples": [
+                  {
+                    "it": "Scusi, non capisco. Può ripetere, per favore? Arrivederci.",
+                    "en": "Excuse me, I do not understand. Could you repeat, please? Goodbye."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-supported-exchange.words",
+              "kind": "words",
+              "title": "Language for this situation",
+              "body": "Read the meanings and listen to the words before answering. Whole phrases are explained as chunks when their grammar comes later.",
+              "words": [
+                {
+                  "it": "e tu?",
+                  "en": "and you? (familiar)"
+                },
+                {
+                  "it": "piacere",
+                  "en": "nice to meet you"
+                },
+                {
+                  "it": "a domani",
+                  "en": "see you tomorrow"
+                },
+                {
+                  "it": "Sono di…",
+                  "en": "I am from…"
+                },
+                {
+                  "it": "Mi chiamo…",
+                  "en": "My name is…"
+                },
+                {
+                  "it": "Può ripetere, per favore?",
+                  "en": "Could you repeat, please? (polite)"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-supported-exchange.teach-introduce",
+              "kind": "teach",
+              "title": "Respond with your own information",
+              "body": "An introduction gives your own name with mi chiamo and origin with sono di. E tu? gives the other person a turn. Piacere is a friendly meeting phrase, not a name or a place.",
+              "examples": [
+                {
+                  "it": "Mi chiamo Eva. Sono di Roma. E tu?",
+                  "en": "My name is Eva. I am from Rome. And you?"
+                }
+              ],
+              "introduces": [
+                "v2-f-supported-exchange.introduce"
+              ]
+            },
+            {
+              "id": "v2-f-supported-exchange.introduce-guided",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.introduce",
+              "facet": "introduce",
+              "stage": "guided",
+              "contextKey": "v2-f-supported-exchange.introduce-guided",
+              "format": "choice",
+              "prompt": "Choose the reply or form that fits this situation.",
+              "context": "«Come ti chiami?» «___»",
+              "translation": "Your fictional name is Paolo.",
+              "answer": "Mi chiamo Paolo.",
+              "options": [
+                "Mi chiamo Paolo.",
+                "Come ti chiami?",
+                "Sono di Roma."
+              ],
+              "explanation": "The name question needs your own name.",
+              "hint": "The name question needs your own name.",
+              "speak": "«Come ti chiami?» «Mi chiamo Paolo.»"
+            },
+            {
+              "id": "v2-f-supported-exchange.teach-repair-close",
+              "kind": "teach",
+              "title": "Ask for help, then close",
+              "body": "When you miss a message, ask for a repeat rather than guessing a name. Può ripetere, per favore? is a taught polite chunk. At the end, arrivederci is a polite goodbye; a domani is appropriate when you expect to meet tomorrow.",
+              "examples": [
+                {
+                  "it": "Scusi, non capisco. Può ripetere, per favore? Arrivederci.",
+                  "en": "Excuse me, I do not understand. Could you repeat, please? Goodbye."
+                }
+              ],
+              "introduces": [
+                "v2-f-supported-exchange.repair-close"
+              ]
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close-guided",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.repair-close",
+              "facet": "repair-close",
+              "stage": "guided",
+              "contextKey": "v2-f-supported-exchange.repair-close-guided",
+              "format": "choice",
+              "prompt": "Choose the reply or form that fits this situation.",
+              "context": "Scusi, ___.",
+              "translation": "State that you do not understand.",
+              "answer": "non capisco",
+              "options": [
+                "non capisco",
+                "mi chiamo",
+                "piacere"
+              ],
+              "explanation": "Non capisco states the understanding problem.",
+              "hint": "Non capisco states the understanding problem.",
+              "speak": "Scusi, non capisco."
+            },
+            {
+              "id": "v2-f-supported-exchange.scene",
+              "kind": "passage",
+              "mode": "read",
+              "title": "One first exchange",
+              "it": "Eva: «Ciao! Mi chiamo Eva. Sono di Roma. E tu?»\nPaolo: «Mi chiamo Paolo. Sono di Napoli. Piacere!»",
+              "en": "Eva: “Hi! My name is Eva. I am from Rome. And you?”\nPaolo: “My name is Paolo. I am from Naples. Nice to meet you!”",
+              "task": "Notice the purpose of each sentence. This model is supported input; the fresh checks below assess the taught expression."
+            },
+            {
+              "id": "v2-f-supported-exchange.introduce-1",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.introduce",
+              "facet": "introduce",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.introduce-1",
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "Mi chiamo Eva. Sono ___ Roma.",
+              "translation": "My name is Eva. I am from Rome.",
+              "answer": "di",
+              "accepted": [],
+              "strict": true,
+              "explanation": "The introduced origin frame is sono di + city.",
+              "hint": "The introduced origin frame is sono di + city.",
+              "speak": "Mi chiamo Eva. Sono di Roma."
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close-1",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.repair-close",
+              "facet": "repair-close",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.repair-close-1",
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "___, per favore?",
+              "translation": "Could you repeat, please? Use the taught polite phrase.",
+              "answer": "Può ripetere",
+              "accepted": [],
+              "strict": true,
+              "explanation": "Può ripetere asks to hear the same message again.",
+              "hint": "Può ripetere asks to hear the same message again.",
+              "speak": "Può ripetere, per favore?"
+            },
+            {
+              "id": "v2-f-supported-exchange.introduce-2",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.introduce",
+              "facet": "introduce",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.introduce-2",
+              "format": "choice",
+              "prompt": "Choose the reply or form that fits this situation.",
+              "context": "«Sono di Roma. E tu?» «___»",
+              "translation": "Your fictional origin is Napoli.",
+              "answer": "Sono di Napoli.",
+              "options": [
+                "Sono di Napoli.",
+                "Mi chiamo Napoli.",
+                "Sono di Roma."
+              ],
+              "explanation": "Reply with your supplied city rather than copying the speaker’s origin.",
+              "hint": "Reply with your supplied city rather than copying the speaker’s origin.",
+              "speak": "«Sono di Roma. E tu?» «Sono di Napoli.»"
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close-2",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.repair-close",
+              "facet": "repair-close",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.repair-close-2",
+              "format": "choice",
+              "prompt": "Choose the reply or form that fits this situation.",
+              "context": "«Grazie. ___»",
+              "translation": "You end a polite exchange now.",
+              "answer": "Arrivederci!",
+              "options": [
+                "Arrivederci!",
+                "Buongiorno!",
+                "Come si chiama?"
+              ],
+              "explanation": "Arrivederci closes the exchange.",
+              "hint": "Arrivederci closes the exchange.",
+              "speak": "«Grazie. Arrivederci!»"
+            },
+            {
+              "id": "v2-f-supported-exchange.introduce-3",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.introduce",
+              "facet": "introduce",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.introduce-3",
+              "reserve": true,
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "___ Paolo.",
+              "translation": "My name is Paolo. Complete the whole name frame.",
+              "answer": "Mi chiamo",
+              "accepted": [],
+              "strict": true,
+              "explanation": "Mi chiamo introduces your name.",
+              "hint": "Mi chiamo introduces your name.",
+              "speak": "Mi chiamo Paolo."
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close-3",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.repair-close",
+              "facet": "repair-close",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.repair-close-3",
+              "reserve": true,
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "A ___!",
+              "translation": "See you tomorrow!",
+              "answer": "domani",
+              "accepted": [],
+              "strict": true,
+              "explanation": "A domani refers to the next day.",
+              "hint": "A domani refers to the next day.",
+              "speak": "A domani!"
+            },
+            {
+              "id": "v2-f-supported-exchange.introduce-4",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.introduce",
+              "facet": "introduce",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.introduce-4",
+              "reserve": true,
+              "format": "choice",
+              "prompt": "Choose the reply or form that fits this situation.",
+              "context": "«Ciao, sono Eva.» «___»",
+              "translation": "You meet Eva for the first time; say nice to meet you.",
+              "answer": "Piacere!",
+              "options": [
+                "Piacere!",
+                "Arrivederci!",
+                "Non capisco."
+              ],
+              "explanation": "Piacere is the taught friendly meeting reply.",
+              "hint": "Piacere is the taught friendly meeting reply.",
+              "speak": "«Ciao, sono Eva.» «Piacere!»"
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close-4",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.repair-close",
+              "facet": "repair-close",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.repair-close-4",
+              "reserve": true,
+              "format": "choice",
+              "prompt": "Choose the reply or form that fits this situation.",
+              "context": "«___»",
+              "translation": "You missed the spoken name; ask for repetition.",
+              "answer": "Può ripetere, per favore?",
+              "options": [
+                "Può ripetere, per favore?",
+                "Piacere!",
+                "Mi chiamo Eva."
+              ],
+              "explanation": "Request the missing information rather than inventing it.",
+              "hint": "Request the missing information rather than inventing it.",
+              "speak": "«Può ripetere, per favore?»"
+            },
+            {
+              "id": "v2-f-supported-exchange.introduce-5",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.introduce",
+              "facet": "introduce",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.introduce-5",
+              "reserve": true,
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "___ di Milano.",
+              "translation": "I am from Milan. Complete the speaker’s origin frame.",
+              "answer": "Sono",
+              "accepted": [],
+              "strict": true,
+              "explanation": "Sono identifies the speaker; keep di before the supplied city.",
+              "hint": "Sono identifies the speaker; keep di before the supplied city.",
+              "speak": "Sono di Milano."
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close-5",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.repair-close",
+              "facet": "repair-close",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.repair-close-5",
+              "reserve": true,
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "Scusi, non capisco. ___, per favore?",
+              "translation": "Ask politely for a repeat after stating the problem.",
+              "answer": "Può ripetere",
+              "accepted": [],
+              "strict": true,
+              "explanation": "Può ripetere requests the message again.",
+              "hint": "Può ripetere requests the message again.",
+              "speak": "Scusi, non capisco. Può ripetere, per favore?"
+            },
+            {
+              "id": "v2-f-supported-exchange.introduce-6",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.introduce",
+              "facet": "introduce",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.introduce-6",
+              "reserve": true,
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "___ Sara.",
+              "translation": "My name is Sara. Complete the name frame.",
+              "answer": "Mi chiamo",
+              "accepted": [],
+              "strict": true,
+              "explanation": "The name belongs after mi chiamo.",
+              "hint": "The name belongs after mi chiamo.",
+              "speak": "Mi chiamo Sara."
+            },
+            {
+              "id": "v2-f-supported-exchange.repair-close-6",
+              "kind": "question",
+              "target": "v2-f-supported-exchange.repair-close",
+              "facet": "repair-close",
+              "stage": "independent",
+              "contextKey": "v2-f-supported-exchange.repair-close-6",
+              "reserve": true,
+              "format": "type",
+              "prompt": "Complete the gap with the taught expression.",
+              "context": "Grazie, signora. ___!",
+              "translation": "Thank the woman and end the polite exchange.",
+              "answer": "Arrivederci",
+              "accepted": [],
+              "strict": true,
+              "explanation": "Arrivederci is the polite farewell.",
+              "hint": "Arrivederci is the polite farewell.",
+              "speak": "Grazie, signora. Arrivederci!"
+            },
+            {
+              "id": "v2-f-supported-exchange.application",
+              "kind": "portfolio",
+              "title": "Use it in a short exchange",
+              "mode": "interact",
+              "prompt": "Use fictional name Eva and city Roma. Begin, answer the partner’s questions, then close. This is optional practice with self-review; it does not certify writing, speaking or interaction.",
+              "model": "Ciao! Mi chiamo Eva. Sono di Roma. Piacere! A domani.",
+              "rubric": [
+                "Give the supplied name.",
+                "Give the supplied city.",
+                "Ask for repetition if needed.",
+                "Use a farewell."
+              ],
+              "partnerPrompt": "Ciao! Come ti chiami? Di dove sei?"
+            },
+            {
+              "id": "v2-f-supported-exchange.recap",
+              "kind": "teach",
+              "title": "Keep the useful contrast",
+              "body": "Respond with your own information. Ask for help, then close. Use the model if needed; a later fresh question checks recall.",
+              "examples": [
+                {
+                  "it": "Mi chiamo Eva. Sono di Roma. E tu?",
+                  "en": "My name is Eva. I am from Rome. And you?"
+                },
+                {
+                  "it": "Scusi, non capisco. Può ripetere, per favore? Arrivederci.",
+                  "en": "Excuse me, I do not understand. Could you repeat, please? Goodbye."
+                }
+              ],
+              "introduces": []
+            }
+          ],
+          "editorial": {
+            "version": "phase6-beginner-1",
+            "author": "Parola curriculum workstream",
+            "sourceRefs": [
+              "https://www.unistrapg.it/sites/default/files/docs/certificazioni/sillabo-4-enti-A1.pdf"
+            ],
+            "textOrigin": "Original authored teaching and fictional situations; no third-party text copied.",
+            "agentReview": "passed independent agent editorial review",
+            "agentReviewRecord": "docs/implementation/phase-6/beginner-independent-review.md",
+            "nativeItalianEducatorReview": "pending",
+            "learnerCalibration": "pending"
+          },
+          "curriculum": {
+            "domains": [
+              "first-contact",
+              "repair"
+            ],
+            "introducedSenses": [
+              {
+                "id": "phase6-beginner-sense:e-tu",
+                "it": "e tu?",
+                "en": "and you? (familiar)",
+                "firstStepId": "v2-f-supported-exchange.words"
+              },
+              {
+                "id": "phase6-beginner-sense:piacere",
+                "it": "piacere",
+                "en": "nice to meet you",
+                "firstStepId": "v2-f-supported-exchange.words"
+              },
+              {
+                "id": "phase6-beginner-sense:a-domani",
+                "it": "a domani",
+                "en": "see you tomorrow",
+                "firstStepId": "v2-f-supported-exchange.words"
+              },
+              {
+                "id": "phase6-beginner-sense:sono-di",
+                "it": "Sono di…",
+                "en": "I am from…",
+                "firstStepId": "v2-f-supported-exchange.words"
+              },
+              {
+                "id": "phase6-beginner-sense:mi-chiamo",
+                "it": "Mi chiamo…",
+                "en": "My name is…",
+                "firstStepId": "v2-f-supported-exchange.words"
+              },
+              {
+                "id": "phase6-beginner-sense:può-ripetere-per-favore",
+                "it": "Può ripetere, per favore?",
+                "en": "Could you repeat, please? (polite)",
+                "firstStepId": "v2-f-supported-exchange.words"
+              }
+            ],
+            "forms": [
+              {
+                "id": "v2-f-supported-exchange.introduce",
+                "modelStepId": "v2-f-supported-exchange.teach-introduce",
+                "description": "An introduction gives your own name with mi chiamo and origin with sono di. E tu? gives the other person a turn. Piacere is a friendly meeting phrase, not a name or a place."
+              },
+              {
+                "id": "v2-f-supported-exchange.repair-close",
+                "modelStepId": "v2-f-supported-exchange.teach-repair-close",
+                "description": "When you miss a message, ask for a repeat rather than guessing a name. Può ripetere, per favore? is a taught polite chunk. At the end, arrivederci is a polite goodbye; a domani is appropriate when you expect to meet tomorrow."
+              }
+            ],
+            "retrievalPolicy": "Existing exact-target review scheduler; the next cross-context encounter is listed in the band coverage report. Same-visit reserve questions are repair, not delayed retrieval."
+          }
+        },
+        {
+          "id": "v2-f-listen-first-contact",
+          "title": "Understand a first greeting",
+          "outcome": "I can identify a name, city or help request in a short clear exchange.",
+          "minutes": 9,
+          "prerequisites": [
+            "v2-f-supported-exchange"
+          ],
+          "related": [],
+          "legacyLessonIds": [],
+          "takeaway": "Listen for the question’s requested detail: a name, a city or a help request. You may replay. The transcript and English help make the task supported; they do not count as independent listening.",
+          "targets": [
+            {
+              "id": "v2-f-listen-first-contact.detail",
+              "label": "I can identify a name, city or help request in a short clear exchange.",
+              "explanation": "Listen for the question’s requested detail: a name, a city or a help request. You may replay. The transcript and English help make the task supported; they do not count as independent listening.",
+              "facets": [
+                "practical-detail"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "listening",
+              "repair": {
+                "title": "Find the requested detail",
+                "body": "Listen for the question’s requested detail: a name, a city or a help request. You may replay. The transcript and English help make the task supported; they do not count as independent listening.",
+                "examples": [
+                  {
+                    "it": "Mi chiamo Sara. Sono di Milano.",
+                    "en": "My name is Sara. I am from Milan."
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-listen-first-contact.words",
+              "kind": "words",
+              "title": "Language in these messages",
+              "words": [
+                {
+                  "it": "Eva",
+                  "en": "a fictional first name"
+                },
+                {
+                  "it": "Paolo",
+                  "en": "a fictional first name"
+                },
+                {
+                  "it": "Sara",
+                  "en": "a fictional first name"
+                },
+                {
+                  "it": "Roma",
+                  "en": "Rome"
+                },
+                {
+                  "it": "Napoli",
+                  "en": "Naples"
+                },
+                {
+                  "it": "Milano",
+                  "en": "Milan"
+                },
+                {
+                  "it": "non capisco",
+                  "en": "I do not understand"
+                },
+                {
+                  "it": "ciao",
+                  "en": "hi; bye"
+                },
+                {
+                  "it": "buongiorno",
+                  "en": "good morning; good day"
+                },
+                {
+                  "it": "scusi",
+                  "en": "excuse me (polite)"
+                },
+                {
+                  "it": "ripetere",
+                  "en": "to repeat"
+                }
+              ]
+            },
+            {
+              "id": "v2-f-listen-first-contact.model",
+              "kind": "teach",
+              "title": "Listen for one useful detail",
+              "body": "Listen for the question’s requested detail: a name, a city or a help request. You may replay. The transcript and English help make the task supported; they do not count as independent listening.",
+              "examples": [
+                {
+                  "it": "Mi chiamo Sara. Sono di Milano.",
+                  "en": "My name is Sara. I am from Milan."
+                }
+              ],
+              "introduces": [
+                "v2-f-listen-first-contact.detail"
+              ]
+            },
+            {
+              "id": "v2-f-listen-first-contact.source-0",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "One together",
+              "it": "Ciao! Mi chiamo Sara. Sono di Milano.",
+              "en": "Hi! My name is Sara. I am from Milan.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-first-contact.source-0"
+            },
+            {
+              "id": "v2-f-listen-first-contact.check-0",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-first-contact.detail",
+              "facet": "practical-detail",
+              "stage": "guided",
+              "contextKey": "v2-f-listen-first-contact.source-0",
+              "exposureGroup": "v2-f-listen-first-contact.source-0",
+              "modality": "listening",
+              "prompt": "What is the speaker’s name?",
+              "answer": "Sara",
+              "options": [
+                "Sara",
+                "Eva",
+                "Paolo"
+              ],
+              "explanation": "The speaker gives the name Sara after mi chiamo.",
+              "hint": "The speaker gives the name Sara after mi chiamo.",
+              "speak": "Ciao! Mi chiamo Sara. Sono di Milano.",
+              "audioId": "v2-f-listen-first-contact.source-0"
+            },
+            {
+              "id": "v2-f-listen-first-contact.source-1",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "Buongiorno. Mi chiamo Paolo. Sono di Napoli.",
+              "en": "Good morning. My name is Paolo. I am from Naples.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-first-contact.source-1"
+            },
+            {
+              "id": "v2-f-listen-first-contact.check-1",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-first-contact.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-first-contact.source-1",
+              "exposureGroup": "v2-f-listen-first-contact.source-1",
+              "modality": "listening",
+              "prompt": "Where is Paolo from?",
+              "answer": "Napoli",
+              "options": [
+                "Napoli",
+                "Roma",
+                "Milano"
+              ],
+              "explanation": "Sono di Napoli gives his origin.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "Buongiorno. Mi chiamo Paolo. Sono di Napoli.",
+              "audioId": "v2-f-listen-first-contact.source-1"
+            },
+            {
+              "id": "v2-f-listen-first-contact.source-2",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "Ciao! Sono di Roma. Mi chiamo Eva.",
+              "en": "Hi! I am from Rome. My name is Eva.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-first-contact.source-2"
+            },
+            {
+              "id": "v2-f-listen-first-contact.check-2",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-first-contact.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-first-contact.source-2",
+              "exposureGroup": "v2-f-listen-first-contact.source-2",
+              "modality": "listening",
+              "prompt": "What is the speaker’s name?",
+              "answer": "Eva",
+              "options": [
+                "Eva",
+                "Sara",
+                "Paolo"
+              ],
+              "explanation": "The name comes after the city: mi chiamo Eva.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "Ciao! Sono di Roma. Mi chiamo Eva.",
+              "audioId": "v2-f-listen-first-contact.source-2"
+            },
+            {
+              "id": "v2-f-listen-first-contact.source-3",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "Scusi, non capisco. Può ripetere, per favore?",
+              "en": "Excuse me, I do not understand. Could you repeat, please?",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-first-contact.source-3",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-first-contact.check-3",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-first-contact.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-first-contact.source-3",
+              "exposureGroup": "v2-f-listen-first-contact.source-3",
+              "modality": "listening",
+              "prompt": "What does the speaker need?",
+              "answer": "A repeat",
+              "options": [
+                "A repeat",
+                "A name question",
+                "A goodbye"
+              ],
+              "explanation": "Può ripetere requests repetition.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "Scusi, non capisco. Può ripetere, per favore?",
+              "audioId": "v2-f-listen-first-contact.source-3",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-first-contact.source-4",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "Ciao, mi chiamo Sara. Sono di Roma. A domani!",
+              "en": "Hi, my name is Sara. I am from Rome. See you tomorrow!",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-first-contact.source-4",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-first-contact.check-4",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-first-contact.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-first-contact.source-4",
+              "exposureGroup": "v2-f-listen-first-contact.source-4",
+              "modality": "listening",
+              "prompt": "Where is Sara from?",
+              "answer": "Roma",
+              "options": [
+                "Roma",
+                "Milano",
+                "Napoli"
+              ],
+              "explanation": "The origin is Roma, even though a different Sara example used Milano.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "Ciao, mi chiamo Sara. Sono di Roma. A domani!",
+              "audioId": "v2-f-listen-first-contact.source-4",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-first-contact.application",
+              "kind": "portfolio",
+              "mode": "speak",
+              "title": "Pass on the useful information",
+              "prompt": "Pass on the name and origin from one message. This is optional practice with self-review.",
+              "model": "Paolo è di Napoli.",
+              "rubric": [
+                "Use the given name.",
+                "Keep the stated city.",
+                "Do not copy a different example’s detail."
+              ]
+            },
+            {
+              "id": "v2-f-listen-first-contact.recap",
+              "kind": "teach",
+              "title": "Keep the information faithful",
+              "body": "Use the source to find the requested detail. Keep names, places, quantities and times; do not add a fact the message did not give. Reading the transcript of a listening source records support.",
+              "examples": [
+                {
+                  "it": "Mi chiamo Sara. Sono di Milano.",
+                  "en": "My name is Sara. I am from Milan."
+                }
+              ],
+              "introduces": []
+            }
+          ],
+          "editorial": {
+            "version": "phase6-beginner-1",
+            "author": "Parola curriculum workstream",
+            "sourceRefs": [
+              "https://www.unistrapg.it/sites/default/files/docs/certificazioni/sillabo-4-enti-A1.pdf"
+            ],
+            "textOrigin": "Original authored teaching and fictional situations; no third-party text copied.",
+            "agentReview": "passed independent agent editorial review",
+            "agentReviewRecord": "docs/implementation/phase-6/beginner-independent-review.md",
+            "nativeItalianEducatorReview": "pending",
+            "learnerCalibration": "pending"
+          },
+          "curriculum": {
+            "domains": [
+              "first-contact",
+              "listening"
+            ],
+            "introducedSenses": [
+              {
+                "id": "phase6-beginner-sense:eva",
+                "it": "Eva",
+                "en": "a fictional first name",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:paolo",
+                "it": "Paolo",
+                "en": "a fictional first name",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:sara",
+                "it": "Sara",
+                "en": "a fictional first name",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:roma",
+                "it": "Roma",
+                "en": "Rome",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:napoli",
+                "it": "Napoli",
+                "en": "Naples",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:milano",
+                "it": "Milano",
+                "en": "Milan",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:non-capisco",
+                "it": "non capisco",
+                "en": "I do not understand",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:ciao",
+                "it": "ciao",
+                "en": "hi; bye",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:buongiorno",
+                "it": "buongiorno",
+                "en": "good morning; good day",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:scusi",
+                "it": "scusi",
+                "en": "excuse me (polite)",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              },
+              {
+                "id": "phase6-beginner-sense:ripetere",
+                "it": "ripetere",
+                "en": "to repeat",
+                "firstStepId": "v2-f-listen-first-contact.words"
+              }
+            ],
+            "forms": [],
+            "retrievalPolicy": "Exact-source comprehension remains separate from later exact-target review and optional open mediation."
+          }
+        },
+        {
+          "id": "v2-f-listen-c-words",
+          "title": "Hear familiar hard and soft c words",
+          "outcome": "I can identify a familiar word from its sound before reading its spelling.",
+          "minutes": 9,
+          "prerequisites": [
+            "v2-f-sound-c",
+            "v2-f-keep-c-hard"
+          ],
+          "related": [
+            {
+              "entryId": "w:casa|noun"
+            }
+          ],
+          "legacyLessonIds": [],
+          "takeaway": "Listen to the familiar word, then choose what you heard. Casa begins with hard c; cena with soft c. Ch keeps c hard in chiave and chiesa. The known meanings let you focus on sound. This checks listening to words, not the quality of your own pronunciation.",
+          "targets": [
+            {
+              "id": "v2-f-listen-c-words.detail",
+              "label": "I can identify a familiar word from its sound before reading its spelling.",
+              "explanation": "Listen to the familiar word, then choose what you heard. Casa begins with hard c; cena with soft c. Ch keeps c hard in chiave and chiesa. The known meanings let you focus on sound. This checks listening to words, not the quality of your own pronunciation.",
+              "facets": [
+                "practical-detail"
+              ],
+              "minIndependent": 2,
+              "requiresProduction": false,
+              "modality": "listening",
+              "repair": {
+                "title": "Find the requested detail",
+                "body": "Listen to the familiar word, then choose what you heard. Casa begins with hard c; cena with soft c. Ch keeps c hard in chiave and chiesa. The known meanings let you focus on sound. This checks listening to words, not the quality of your own pronunciation.",
+                "examples": [
+                  {
+                    "it": "casa · cena · chiave · chiesa",
+                    "en": "house · dinner · key · church"
+                  }
+                ]
+              }
+            }
+          ],
+          "steps": [
+            {
+              "id": "v2-f-listen-c-words.words",
+              "kind": "words",
+              "title": "Language in these messages",
+              "words": [
+                {
+                  "it": "casa",
+                  "en": "house",
+                  "article": "la",
+                  "plural": "case"
+                },
+                {
+                  "it": "cena",
+                  "en": "dinner",
+                  "article": "la",
+                  "plural": "cene"
+                },
+                {
+                  "it": "chiave",
+                  "en": "key",
+                  "article": "la",
+                  "plural": "chiavi"
+                },
+                {
+                  "it": "chiesa",
+                  "en": "church",
+                  "article": "la",
+                  "plural": "chiese"
+                },
+                {
+                  "it": "ecco",
+                  "en": "here is"
+                },
+                {
+                  "it": "Ecco la casa.",
+                  "en": "Here is the house."
+                },
+                {
+                  "it": "qui",
+                  "en": "here"
+                },
+                {
+                  "it": "pronta",
+                  "en": "ready (feminine singular)"
+                },
+                {
+                  "it": "La cena è pronta.",
+                  "en": "Dinner is ready."
+                },
+                {
+                  "it": "grande",
+                  "en": "big (singular)"
+                },
+                {
+                  "it": "La casa è grande.",
+                  "en": "The house is big."
+                }
+              ]
+            },
+            {
+              "id": "v2-f-listen-c-words.model",
+              "kind": "teach",
+              "title": "Listen for one useful detail",
+              "body": "Listen to the familiar word, then choose what you heard. Casa begins with hard c; cena with soft c. Ch keeps c hard in chiave and chiesa. The known meanings let you focus on sound. This checks listening to words, not the quality of your own pronunciation.",
+              "examples": [
+                {
+                  "it": "casa · cena · chiave · chiesa",
+                  "en": "house · dinner · key · church"
+                }
+              ],
+              "introduces": [
+                "v2-f-listen-c-words.detail"
+              ]
+            },
+            {
+              "id": "v2-f-listen-c-words.source-0",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "One together",
+              "it": "Ecco la casa. La casa è grande. La casa è qui.",
+              "en": "Here is the house. The house is big. The house is here.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-c-words.source-0"
+            },
+            {
+              "id": "v2-f-listen-c-words.check-0",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-c-words.detail",
+              "facet": "practical-detail",
+              "stage": "guided",
+              "contextKey": "v2-f-listen-c-words.source-0",
+              "exposureGroup": "v2-f-listen-c-words.source-0",
+              "modality": "listening",
+              "prompt": "Which familiar object or place did you hear?",
+              "answer": "casa",
+              "options": [
+                "casa",
+                "cena",
+                "chiave"
+              ],
+              "explanation": "Casa, house, has the hard initial c sound.",
+              "hint": "Casa, house, has the hard initial c sound.",
+              "speak": "Ecco la casa. La casa è grande. La casa è qui.",
+              "audioId": "v2-f-listen-c-words.source-0"
+            },
+            {
+              "id": "v2-f-listen-c-words.source-1",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "Ecco la cena. La cena è pronta.",
+              "en": "Here is dinner. Dinner is ready.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-c-words.source-1"
+            },
+            {
+              "id": "v2-f-listen-c-words.check-1",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-c-words.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-c-words.source-1",
+              "exposureGroup": "v2-f-listen-c-words.source-1",
+              "modality": "listening",
+              "prompt": "Which familiar word did you hear?",
+              "answer": "cena",
+              "options": [
+                "cena",
+                "casa",
+                "chiesa"
+              ],
+              "explanation": "Cena, dinner, begins with soft c.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "Ecco la cena. La cena è pronta.",
+              "audioId": "v2-f-listen-c-words.source-1"
+            },
+            {
+              "id": "v2-f-listen-c-words.source-2",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "Ecco la chiave. La chiave è qui.",
+              "en": "Here is the key. The key is here.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-c-words.source-2"
+            },
+            {
+              "id": "v2-f-listen-c-words.check-2",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-c-words.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-c-words.source-2",
+              "exposureGroup": "v2-f-listen-c-words.source-2",
+              "modality": "listening",
+              "prompt": "Which familiar object did you hear?",
+              "answer": "chiave",
+              "options": [
+                "chiave",
+                "casa",
+                "cena"
+              ],
+              "explanation": "Chiave, key, has hard c kept by ch.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "Ecco la chiave. La chiave è qui.",
+              "audioId": "v2-f-listen-c-words.source-2"
+            },
+            {
+              "id": "v2-f-listen-c-words.source-3",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "Ecco la chiesa. La chiesa è a Roma.",
+              "en": "Here is the church. The church is in Rome.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-c-words.source-3",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-c-words.check-3",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-c-words.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-c-words.source-3",
+              "exposureGroup": "v2-f-listen-c-words.source-3",
+              "modality": "listening",
+              "prompt": "Which familiar place did you hear?",
+              "answer": "chiesa",
+              "options": [
+                "chiesa",
+                "casa",
+                "cena"
+              ],
+              "explanation": "Chiesa, church, has the hard c sound before i.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "Ecco la chiesa. La chiesa è a Roma.",
+              "audioId": "v2-f-listen-c-words.source-3",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-c-words.source-4",
+              "kind": "passage",
+              "mode": "listen",
+              "title": "A different situation",
+              "it": "La casa è qui. Ecco la casa.",
+              "en": "The house is here. Here is the house.",
+              "task": "Find the detail requested in the next question.",
+              "audioId": "v2-f-listen-c-words.source-4",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-c-words.check-4",
+              "kind": "question",
+              "format": "choice",
+              "target": "v2-f-listen-c-words.detail",
+              "facet": "practical-detail",
+              "stage": "independent",
+              "contextKey": "v2-f-listen-c-words.source-4",
+              "exposureGroup": "v2-f-listen-c-words.source-4",
+              "modality": "listening",
+              "prompt": "Which familiar place did you hear?",
+              "answer": "casa",
+              "options": [
+                "casa",
+                "chiesa",
+                "cena"
+              ],
+              "explanation": "The repeated familiar word is casa, with hard c.",
+              "hint": "Keep the stated person, place, time or quantity. Use the source again if you need support.",
+              "speak": "La casa è qui. Ecco la casa.",
+              "audioId": "v2-f-listen-c-words.source-4",
+              "reserve": true
+            },
+            {
+              "id": "v2-f-listen-c-words.application",
+              "kind": "portfolio",
+              "mode": "speak",
+              "title": "Pass on the useful information",
+              "prompt": "Repeat two known words after the sound models, then compare your recording if you wish. This is optional practice with self-review.",
+              "model": "casa · cena",
+              "rubric": [
+                "Compare the initial c sounds.",
+                "Keep the meanings separate.",
+                "Treat the recording as self-practice."
+              ]
+            },
+            {
+              "id": "v2-f-listen-c-words.recap",
+              "kind": "teach",
+              "title": "Keep the information faithful",
+              "body": "Use the source to find the requested detail. Keep names, places, quantities and times; do not add a fact the message did not give. Reading the transcript of a listening source records support.",
+              "examples": [
+                {
+                  "it": "casa · cena · chiave · chiesa",
+                  "en": "house · dinner · key · church"
+                }
+              ],
+              "introduces": []
+            }
+          ],
+          "editorial": {
+            "version": "phase6-beginner-1",
+            "author": "Parola curriculum workstream",
+            "sourceRefs": [
+              "https://www.unistrapg.it/sites/default/files/docs/certificazioni/sillabo-4-enti-A1.pdf"
+            ],
+            "textOrigin": "Original authored teaching and fictional situations; no third-party text copied.",
+            "agentReview": "passed independent agent editorial review",
+            "agentReviewRecord": "docs/implementation/phase-6/beginner-independent-review.md",
+            "nativeItalianEducatorReview": "pending",
+            "learnerCalibration": "pending"
+          },
+          "curriculum": {
+            "domains": [
+              "known-sounds",
+              "listening"
+            ],
+            "introducedSenses": [
+              {
+                "id": "phase6-beginner-sense:casa",
+                "it": "casa",
+                "en": "house",
+                "firstStepId": "v2-f-listen-c-words.words"
+              },
+              {
+                "id": "phase6-beginner-sense:cena",
+                "it": "cena",
+                "en": "dinner",
+                "firstStepId": "v2-f-listen-c-words.words"
+              },
+              {
+                "id": "phase6-beginner-sense:chiave",
+                "it": "chiave",
+                "en": "key",
+                "firstStepId": "v2-f-listen-c-words.words"
+              },
+              {
+                "id": "phase6-beginner-sense:chiesa",
+                "it": "chiesa",
+                "en": "church",
+                "firstStepId": "v2-f-listen-c-words.words"
+              },
+              {
+                "id": "phase6-beginner-sense:ecco",
+                "it": "ecco",
+                "en": "here is",
+                "firstStepId": "v2-f-listen-c-words.words"
+              },
+              {
+                "id": "phase6-beginner-sense:ecco-la-casa",
+                "it": "Ecco la casa.",
+                "en": "Here is the house.",
+                "firstStepId": "v2-f-listen-c-words.words"
+              }
+            ],
+            "forms": [],
+            "retrievalPolicy": "Exact-source comprehension remains separate from later exact-target review and optional open mediation."
+          }
+        }
+      ]
     }
-  ]
+  ],
+  "curriculumRelease": {
+    "version": "phase6-beginner-1",
+    "scope": "First supported exchange and source-linked beginner listening",
+    "nativeItalianEducatorReview": "pending",
+    "learnerCalibration": "pending",
+    "proficiencyClaim": "No certified CEFR proficiency claim; open production/interaction/mediation remain self-review."
+  }
 }

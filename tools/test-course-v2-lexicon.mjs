@@ -8,7 +8,7 @@ const lookup=createSentenceLookup({vocab:read('data/vocab.json'),verbs:read('dat
 const norm=s=>String(s||'').toLocaleLowerCase('it').replace(/[’‘]/g,"'").trim();
 const missing=new Map();let tokens=0,sentences=0;
 for(const level of ['Foundations','A1','A2','B1','B2','C1','C2'])for(const l of read('data/course-v2/'+level+'.json').units.flatMap(u=>u.lessons)){
- const glosses=new Set(l.steps.flatMap(s=>[...s.words||[],...s.background||[]]).flatMap(w=>[w.it,w.plural].filter(Boolean).map(s=>norm(s).replace(/^(il |lo |la |gli |le |i |l')/,''))));
+ const glosses=new Set(l.steps.flatMap(s=>[...s.words||[],...s.background||[]]).flatMap(w=>[w.it,w.plural].filter(Boolean).flatMap(s=>[norm(s),norm(s).replace(/^(il |lo |la |gli |le |i |l')/,'')])));
  for(const step of l.steps){
   const text=[...step.examples||[]].map(e=>e.it);
   if(step.kind==='words')text.push(...step.words.map(w=>w.it));
@@ -24,6 +24,13 @@ for(const level of ['Foundations','A1','A2','B1','B2','C1','C2'])for(const l of 
  }
 }
 assert.equal(missing.size,0,'Missing authored-course word help: '+JSON.stringify([...missing]));
+// This attested lexical adjective must resolve without restoring an unrelated
+// bare present participle for the reflexive verb limitarsi.
+for(const [word,sentence] of [['limitante','Nel sondaggio, 78 utenti su 120 giudicano limitante l’orario attuale.'],['limitanti','Le condizioni sono limitanti.']]){
+ const c=lookup(word,{sentence}).candidates.find(c=>c.id==='lookup:limitante|adj');
+ assert(c,word);assert.equal(c.pos,'adj');assert.equal(c.meaning,'limiting; restrictive');assert.equal(c.source,'curated');
+ assert.equal(c.word,'limitante');assert.match(c.note,/plural limitanti/);
+}
 // Independent morphology checks include ordinary, invariant and literary nouns.
 for(const [word,singular,plural] of [['chilo','il chilo','i chili'],['caffè','il caffè','i caffè'],['ascia','l’ascia','le asce'],['organizzatrice','l’organizzatrice','le organizzatrici']]){
  const c=lookup(word,{sentence:singular}).candidates.find(c=>c.pos==='noun');assert(c,word);assert.equal(norm(c.singular),norm(singular));assert.equal(norm(c.plural),norm(plural));

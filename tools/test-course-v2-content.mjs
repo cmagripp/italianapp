@@ -3,9 +3,15 @@
 // from linguistic review and the independent answer/evidence regression suite.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {createLearning,recordAttempt} from '../js/learning/model.js';
 import {createCourseSession,currentCourseStep,submitCourseAnswer,advanceCourse,courseSessionProgress} from '../js/learning/course-v2-engine.js';
-const levels=['Foundations','A1','A2','B1','B2','C1','C2'],unitCounts=[3,14,15,13,13,12,12];
+const levels=['Foundations','A1','A2','B1','B2','C1','C2'],baselineUnits=[3,14,15,13,13,12,12],addedLessons=[3,21,12,12,6,6,6];
+const addedUnitIds=[['v2-foundations-u4'],Array.from({length:10},(_,i)=>`v2-a1-u${i+15}`),Array.from({length:4},(_,i)=>`v2-a2-u${i+16}`),
+ ['v2-b1-followup-accounts','v2-b1-practical-viewpoints','v2-b1-collaborative-solutions','v2-b1-faithful-briefs'],
+ ['v2-b2-community-evidence','v2-b2-workshop-register','v2-b2-service-relay'],
+ ['v2-c1-evidence-proposal','v2-c1-interview-stance','v2-c1-reader-reformulation'],
+ ['v2-c2-editorial-interpretation','v2-c2-spoken-distance','v2-c2-comparative-brief']];
 const available=process.argv.includes('--available'),errors=[],lessons=[],ids=new Set(),stepIds=new Set();
 const ok=(condition,message)=>{if(!condition)errors.push(message);};
 const norm=s=>String(s||'').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g,"'").replace(/[.!?,;:]+$/g,'').trim().replace(/\s+/g,' ');
@@ -17,7 +23,14 @@ for(const [index,level] of levels.entries()){
  if(available&&!fs.existsSync(path))continue;
  const pack=JSON.parse(fs.readFileSync(path));
  ok(pack.version===2&&pack.level===level,`${level}: pack version/level`);
- if(!available)ok(pack.units.length===unitCounts[index],`${level}: expected ${unitCounts[index]} planned units`);
+ if(!available){
+  const baseline=JSON.parse(execFileSync('git',['show',`7eeeb36:data/course-v2/${level}.json`],{encoding:'utf8'})),oldIds=baseline.units.flatMap(u=>u.lessons.map(l=>l.id)),currentIds=pack.units.flatMap(u=>u.lessons.map(l=>l.id));
+  ok(baseline.units.length===baselineUnits[index],`${level}: baseline unit inventory changed`);
+  ok(pack.units.length===baselineUnits[index]+addedUnitIds[index].length,`${level}: expected baseline plus ${addedUnitIds[index].length} declared expansion units`);
+  ok(addedUnitIds[index].every(id=>pack.units.some(u=>u.id===id)),`${level}: a declared expansion unit is missing`);
+  ok(oldIds.every(id=>currentIds.includes(id)),`${level}: a baseline lesson identity is missing`);
+  ok(currentIds.length===oldIds.length+addedLessons[index],`${level}: expected baseline plus ${addedLessons[index]} authored additions`);
+ }
  ok(pack.sources?.length,`${level}: sources missing`);
  for(const unit of pack.units){
   ok(unit.title&&unit.description&&unit.lessons.length>=2,`${unit.id}: missing focused lessons`);

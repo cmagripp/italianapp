@@ -327,6 +327,10 @@ function build(infinitive, meta = {}, regular = false) {
   const { prefix, base: root, entry } = regular ? { prefix: '', base, entry: null } : resolve(base);
   let par = baseParadigm(root, { entry, isc: meta.isc });
   par = applyPrefix(prefix, par, root);
+  // Treccani riavere: unlike avere, modern present forms do not carry h.
+  // Correct the lexical derivative only; regularParadigm stays the teaching
+  // baseline, and the other prefixed avere forms retain their existing rules.
+  if (!regular && base === 'riavere') par = {...par,pres:['riò','riài','rià','riabbiamo','riavete','rianno']};
   if (prefix && PRES_PART[base]) par = { ...par, presPart: PRES_PART[base] };
   const cl = clitic ? cliticInfo(clitic) : null;
 
@@ -385,7 +389,10 @@ function build(infinitive, meta = {}, regular = false) {
     infinito: inf,
     infinitoPassato: '',
     participioPassato: par.pp,
-    participioPresente: par.presPart,
+    // A base participle does not retain a reflexive/pronominal construction.
+    // Actual clitic present participles are rare, register-specific lexical
+    // forms; do not invent them by attaching every possible clitic sequence.
+    participioPresente: cl ? MISSING : par.presPart,
     gerundio: cl ? attachClitic(par.ger, cl.ger) : par.ger,
     // the clitic attaches to the auxiliary gerund: essendosi alzato, avendocela fatta, essendosene andato
     gerundioPassato: noPP ? MISSING : compound((auxKey === 'essere' ? 'essendo' : 'avendo') + (cl ? cl.ger : ''), ppFor(0)) + (both ? '|' + compound('essendo', agreePP(par.pp, 0)) : ''),
@@ -402,6 +409,16 @@ function build(infinitive, meta = {}, regular = false) {
   const result = {
     inf, base, root, prefix, clitic, cls: par.cls, isc: par.isc, aux, auxBoth: both,
     irregular: par.irregular, defective: par.defective, tenses: t, nonFinite,
+    nonFiniteNotes: cl ? { participioPresente: {
+      status: 'unreviewed-pronominal-form',
+      text: 'This rare reflexive or pronominal form needs a reviewed example before it can be supplied here.',
+      source: 'https://accademiadellacrusca.it/it/consulenza/sul-participio-presente-di-verbi-riflessivi-e-pronominali/42855',
+    } } : inf === 'capire' ? { participioPresente: {
+      status: 'lexical-meaning-note',
+      text: 'Capiente describes capacity or room to contain something. It belongs to the older containment meaning of capire.',
+      source: 'https://www.treccani.it/vocabolario/capiente/',
+      sourceLabel: 'Treccani',
+    } } : {},
     group: par.cls === 'are' ? '-are' : par.cls === 'ere' ? (/rre$/.test(base) ? '-rre' : '-ere') : (par.isc ? '-ire (-isc-)' : '-ire'),
   };
   cache.set(key, result);

@@ -57,6 +57,15 @@
 .ref-id .tags > .lvl:not(:first-child) { margin-left: 12px; }
 .ref-target { scroll-margin-top: calc(var(--top-h) + var(--sat) + 74px); }
 .ref-jumps { margin-bottom: 14px; }
+.ref-id .hw-row { flex-wrap: wrap; }
+.ref-id [data-entry-star].is-starred { color: var(--gold-text); background: var(--gold-wash); }
+.entry-sense-list { display: grid; gap: 12px; }
+.entry-sense { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px; border: 1px solid var(--hairline); border-radius: 18px; }
+.entry-sense.on { border-color: var(--gold-text); }
+.entry-sense > a:first-child { display: grid; gap: 5px; min-width: 0; color: var(--ink); }
+.entry-sense strong { font-family: var(--font-display); font-size: 24px; }
+.entry-sense .chip { white-space: normal; flex: none; max-width: 42%; text-align: center; }
+[data-forms-card] [hidden] { display: none !important; }
 .ref-link { font-weight: 700; color: var(--gold-text); border-bottom: 1px solid color-mix(in srgb, var(--gold) 40%, transparent); }
 
 /* sticky mini header (appended to body, shown once the headword scrolls away) */

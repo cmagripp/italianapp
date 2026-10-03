@@ -44,7 +44,7 @@ async function saved() {
   return page.evaluate(async () => {
     const { store } = await import('./js/store.js'); await store.saveNow();
     const s = store.learning.session;
-    return { session: s, ids: Object.keys(store.learning.events).sort(), xp: store.current.stats.xp, learned: store.isLearned(s.entryId) };
+    return { session: s, ids: Object.keys(store.learning.events).sort(), xp: store.current.stats.xp, learned: store.isLearned(s?.entryId||decodeURIComponent(location.hash.split('?')[0].split('/')[3])) };
   });
 }
 async function spoken() { return page.evaluate(() => JSON.parse(sessionStorage.getItem('lesson-action-speech') || '[]')); }
@@ -144,7 +144,8 @@ try {
     await page.locator('[data-open-lesson=present]').evaluate(b => { b.click(); b.click(); });
     await assertPresentTeaching();
     const after = await saved();
-    assert.equal(after.session.id, before.session.id);
+    assert.equal(before.session, null, 'Overview preview creates no active lesson');
+    assert(after.session.id);
     assert.deepEqual(after.ids, before.ids); assert.equal(after.xp, before.xp); assert.equal(after.learned, false);
     assert.equal(after.session.journey.groupIndex, 0); assert.equal(after.session.journey.cardIndex, 0);
     await shot('meet-to-present');
@@ -263,20 +264,21 @@ try {
   });
   await check('Correct choices and typed answers speak Italian once, while wrong, reload and muted answers stay quiet', async () => {
     await fresh(); await gotoRoute(page, route('v:capire') + '?chapter=present'); await reachJourneyActivity(page, 'mc');
-    const q = await question(); assert(q.answer.includes('capisco'));
-    const index = q.choices.findIndex(c => (c.value || c.label) === 'capisco'); assert(index >= 0);
+    const q = await question(); const form=['capisco','capisci','capisce','capiamo','capite','capiscono'][q.meta.person];assert(q.answer.includes(form));
+    const index = q.choices.findIndex(c => (c.value || c.label) === form); assert(index >= 0);
+    const earlierSpeech=await spoken();assert(earlierSpeech.some(call=>call.text==='io'),'Matching pronoun tap speaks io');
     await page.locator(`[data-choice="${index}"]`).evaluate(b => { b.click(); b.click(); });
     await assertVisibleWithoutScroll('[data-feedback-bar] [data-continue]');
-    assert.deepEqual(await spoken(), [{ text: q.context.it, lang: 'it-IT' }]);
+    assert.deepEqual(await spoken(), [...earlierSpeech,{ text: q.context.it, lang: 'it-IT' }]);
     const feedback = await saved(); await reloadApp(page);
-    assert.deepEqual(await spoken(), [{ text: q.context.it, lang: 'it-IT' }]);
+    assert.deepEqual(await spoken(), [...earlierSpeech,{ text: q.context.it, lang: 'it-IT' }]);
     assert.deepEqual((await saved()).ids, feedback.ids);
     await gotoRoute(page, route('v:andare') + '?chapter=past'); await reachQuestion();
     assert.equal((await question()).type, 'type'); assert((await question()).answer.includes('sono'));
     await page.locator('[data-answer]').fill('sono');
     await page.locator('[data-check]').evaluate(b => { b.click(); b.click(); });
     await assertVisibleWithoutScroll('[data-feedback-bar] [data-continue]');
-    assert.deepEqual(await spoken(), [{ text: q.context.it, lang: 'it-IT' }, { text: 'sono', lang: 'it-IT' }]);
+    assert.deepEqual(await spoken(), [...earlierSpeech,{ text: q.context.it, lang: 'it-IT' }, { text: 'sono', lang: 'it-IT' }]);
     await page.locator('[data-continue]').click(); await reachJourneyActivity(page, 'type');
     const correctCalls = await spoken();
     assert.equal((await question()).type, 'type');

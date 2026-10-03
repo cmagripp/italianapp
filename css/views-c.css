@@ -133,6 +133,20 @@
 .me-streak .ic { width: 15px; height: 15px; color: var(--terracotta); }
 .me-streak i { font-style: normal; color: var(--ink-3); }
 .me-actions { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
+.me-learning-link { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; padding: 12px 0; border-top: 1px solid var(--glass-border); }
+.me-learning-link span { display: grid; gap: 5px; }
+.me-learning-link small { color: var(--ink-2); }
+.me button.me-learning-link { width:100%; color:var(--ink); background:none; border:0; border-top:1px solid var(--glass-border); border-radius:0; text-align:left; font:inherit; }
+.me-history-search { display:grid; gap:8px; margin:18px 0; }
+.me-history-search input { width:100%; min-width:0; font-size:16px; }
+.me-history-row { display:flex; flex-wrap:wrap; gap:10px 18px; justify-content:space-between; border-top:1px solid var(--hairline); padding:16px 0; }
+.me-history-row > div { display:grid; gap:5px; min-width:0; flex:1 1 150px; overflow-wrap:anywhere; }
+.me-history-row small,.me-history-row time { color:var(--ink-2); font-size:13px; }
+.me-history-state { color:var(--ink-2); font-size:14px; flex:0 1 45%; text-align:right; overflow-wrap:anywhere; }
+.me-history-answer { width:100%; margin:0; overflow-wrap:anywhere; }
+.me-settings-sheet .sheet-title { position: sticky; top: -1px; z-index: 2; background: var(--pane-bg); padding: 12px 0; }
+.me-settings-sheet [data-close-settings] { position: sticky; bottom: 0; z-index: 2; background: var(--pane-bg); margin-top: 16px; }
+.me-preferences .card { margin-bottom: 18px; }
 
 /* stat tiles */
 .me-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }

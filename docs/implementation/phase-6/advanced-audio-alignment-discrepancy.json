@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "sourceId": "v2-c2-listen-implicit-register.source-1",
+  "observed": {
+    "sha256": "8f7123808fc7df906b943de2924850cb7f0b9e31fafe11bb86938a82d4c5f050",
+    "textSha256": "2b9a5c32138be7a2551bccd1f362afb3348e1b9c8fef957c56c92aed7c9c9017",
+    "expected": "Poi niente, abbiamo mostre espositive, anche lì volendo parlare di metri quadri potrei dire forse altri duemila metri quadri, fra mostre espositive, sale incontri, sale conferenze, sale proiezioni. Per cui un programma ricchissimo, centinaia di eventi che si succedono a ogni minuto, ogni ora del giorno, per cui è qualcosa che veramente non può essere vissuto completamente da nessuno, in realtà. Ma anche meno da noi, per cui c’è sempre quel tornare a casa con un pochino di «accidenti, non sono riuscito a vedere tutto, magari mi sarebbe servito più tempo, più… come dire, sdoppiarsi», magari fosse possibile.",
+    "transcript": "Poi niente, abbiamo mostre espositive anche lì, volendo parlare di metri quadri, potrei dire forse alti 2.000 metri quadri fra mostre espositive, sale incontri, sale conferenze, sale proiezioni, per cui un programma ricchissimo, centinaia di eventi che si succedono ogni minuto, ogni ora del giorno, per cui è con qualcosa che veramente non può essere vissuto completamente da nessuno in realtà. ma anche meno da noi, per cui c'è sempre quel tornare a casa in realtà con un pochino di faccidenti, non sono riuscito a vedere tutto, magari mi sarebbe servito più tempo, più, come dire, sdoppiarzi, magari fosse possibile.",
+    "wordErrorRate": 0.091,
+    "characterErrorRate": 0.039,
+    "criticalPhrases": [
+      "sdoppiarsi"
+    ],
+    "criticalPhrasesPresent": false,
+    "passed": false,
+    "method": "faster-whisper small / Italian / beam5 / no prompt",
+    "humanAudioReview": "pending"
+  },
+  "decision": "Whisper writes source metaphor sdoppiarsi as sdoppiarzi. Keep the observed ASR discrepancy; verify the exact full assessed implication non può essere vissuto completamente da nessuno, rather than the one-word metaphor spelling. Independent agent approved this bounded cue; WER/CER thresholds unchanged. Human audio/pronunciation review remains pending."
+}

@@ -1,0 +1,26 @@
+{
+  "browser": "webkit",
+  "results": [
+    "120 committed turns and an unsent draft survive a fresh page exactly",
+    "A successful send can retry without duplicate messages or evidence; concurrent send conflicts",
+    "A changed submission using an existing message identity is not treated as a retry",
+    "Editing preserves original input and invalidates generated replies and source-linked notes",
+    "A summary cannot cite a nonexistent message or an omitted revision",
+    "An aborted quota write rolls back the full send and retains the saved draft",
+    "Learners are isolated and a changed owner cannot read or write an earlier learner",
+    "A profile change during the IndexedDB result cannot return the previous learner’s transcript",
+    "Recordings need explicit consent; transcript-only export excludes audio; hash-checked import restores it",
+    "Recording identities cannot overwrite another turn’s audio and derived notes need exact source words",
+    "Portable JSON backup round-trips optional binary audio and a single selected thread",
+    "An 8 MiB recording survives portable JSON without recursive-regex failure",
+    "Import keeps a recovery snapshot and deletion cannot be undone by an old merged backup",
+    "Malformed or conflicting imports leave the current conversation and draft unchanged",
+    "A longer divergent backup cannot overwrite local originals; a true descendant keeps an unsent draft",
+    "An older remote deletion removes a longer local conversation and redacts all recovery copies",
+    "Two different unsent drafts cannot overwrite each other during merge",
+    "Meaning selection keeps exact original text and revision provenance and refuses a stale choice",
+    "Deleting a local profile removes all imported learner identities and keeps other profiles intact",
+    "Partner joins and leaves are atomic history events; inactive partners cannot emit a new turn",
+    "Profile removal deletes conversations, recordings and recovery copies only for that owner"
+  ]
+}

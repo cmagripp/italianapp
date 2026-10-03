@@ -17,6 +17,8 @@ jobs:
       PGLITE_DIR: /tmp/parola-tools
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -27,11 +29,26 @@ jobs:
           node tools/build-course-index.mjs
           node tools/test-accent-policy.mjs
           node tools/test-phase-migration-fixtures.mjs
+          node tools/test-unified-learning.mjs
+          node tools/test-daily-course-path.mjs
+          node tools/test-journey-pacing.mjs
+          node tools/test-lexical-senses.mjs
+          node tools/test-lexical-frequency-senses.mjs
+          node tools/test-conversation-summary.mjs
+          node --test tests/conversation-study.test.mjs
+          node tools/test-phase6-beginner.mjs
+          node tools/test-phase6-intermediate.mjs
+          node tools/test-phase6-advanced.mjs
+          node tools/test-conversation-support.mjs
+          node tools/test-spoken-feedback.mjs
+          node tools/test-language-policy.mjs
+          node --test dev/phase-1-ai-trial/speech-session.test.mjs
+          node --test dev/phase-1-ai-trial/service.test.mjs
           node tools/test-phase-persistence.mjs
           node tools/test-learning-index.mjs
           node tools/test-lazy-course.mjs
           node tools/test-phase-content-fixes.mjs
-          node tools/audit-phase-curriculum.mjs --check
+          node tools/audit-phase-curriculum.mjs --programme --check
           node tools/test-noun-forms.mjs
           node tools/check-modules.mjs
           node tools/check-shell.mjs
@@ -51,6 +68,7 @@ jobs:
           node tools/test-assistant-guard.mjs
           node tools/test-grammar-course.mjs
           node tools/test-grammar-durability.mjs
+          node tools/test-grammar-evidence.mjs
           node tools/test-grammar-lexicon.mjs
           node tools/test-learning-model.mjs
           node tools/test-learning-questions.mjs

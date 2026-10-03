@@ -399,6 +399,7 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
   if (openDropdown) openDropdown.close();
   const layer = doc.createElement('div');
   layer.className = 'dropdown-layer';
+  layer.dataset.active = '';
   const panel = doc.createElement('div');
   panel.className = 'dropdown glass-strong';
   panel.setAttribute('role', 'menu');
@@ -443,6 +444,7 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
 
   const close = ({ restoreFocus = true } = {}) => {
     if (closed) return; closed = true;
+    delete layer.dataset.active;
     cancelAnimationFrame(placeFrame);clearTimeout(scrollTimer);clearTimeout(focusTimer);
     panel.classList.remove('open');
     anchorEl.setAttribute('aria-expanded', 'false');

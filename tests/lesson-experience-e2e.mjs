@@ -253,8 +253,9 @@ try {
     await fresh(); await gotoRoute(page, '/learn/verb/v:credere?chapter=present');
     assert.match(await page.locator('[data-form-card]').first().innerText(), /credo/);
     const before = await evidence();
-    const q = await reachJourneyActivity(page, 'mc');
-    assert(q.answer.includes('credo'));
+    await reachQuestion(); const q=await question();
+    const forms=['credo','credi','crede','crediamo','credete','credono'];
+    for(const target of q.type==='pairs'?q.pairs.map(p=>p.question):[q])assert(target.answer.includes(forms[target.meta.person]));
     assert((await session()).ui.assistance.includes('visible-form'), 'the form was visible at this same lesson step');
     assert.deepEqual(await evidence(), before);
     await solveJourneyQuestion(page, q);
