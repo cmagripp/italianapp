@@ -21,6 +21,8 @@ const chapterFor = (plan, session) => plan.chapters?.find(chapter => chapter.id 
 const targetFor = (plan, id) => allTargets(plan).find(target => target.id === id)
   || plan.questionHistory?.chapters?.flatMap(targets).find(target => target.id === id);
 const groupFor = (chapter, id) => groups(chapter).find(group => group.targets?.some(target => target.id === id));
+const activeFormRecipe = (plan, session) => session.journey?.current
+  ? journeyFormRecipe(plan, {...session.journey.current,chapterId:session.journey.chapterId}) : null;
 const changed = (session, now) => { session.updatedAt = Math.max(session.updatedAt || 0, now); return session; };
 const record = value => !!value && typeof value === 'object' && !Array.isArray(value)
   && [Object.prototype, null].includes(Object.getPrototypeOf(value));
@@ -257,7 +259,10 @@ function finishPass(plan, session, learning, now) {
   // A previously-ready form may have failed while serving as a contrast. Keep
   // that reopened target in this chapter even if it left the original queue.
   if (j.phase === 'checkpoint') {
-    const pending = chapter?.flowVersion===2 ? sectionPending(plan,session,learning,now) : eligibleTargets(plan, session).filter(target => !(chapter.id==='mixed'&&target.flowVersion&&journeyCaseProgress(plan,learning,null,now).cases.find(c=>c.id===target.sourceChapter)?.updateAvailable) && !readyForRun(learning, target, session, now,plan));
+    // Use the same enrollment gate as schedule. Otherwise mixed checkpoints
+    // repeatedly requeue forms from uncompleted cases that schedule removes.
+    const pending = (chapter?.flowVersion===2 ? sectionPending(plan,session,learning,now) : eligibleTargets(plan, session).filter(target => !readyForRun(learning, target, session, now,plan)))
+      .filter(target => reviewTargetAllowed(plan,session,learning,chapter,target,now));
     if (pending.length) return startPass(plan, session, learning, 'checkpoint', pending.map(target => target.id), now);
     if(j.checkpointNextGroup!=null){j.groupIndex=j.checkpointNextGroup;j.checkpointNextGroup=null;return startGroup(plan,session,learning,now);}
   }
@@ -544,7 +549,34 @@ export function reconcileJourneyReview(plan, oldSession, learning, { now = Date.
 
 export function advanceJourney(plan, oldSession, learning, { now = Date.now() } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION) return oldSession;
-  if(currentJourneyStep(plan,oldSession,learning,now).type==='corrected')return replaceRetiredJourneyScene(plan,oldSession,{now});
+  const activeStep=currentJourneyStep(plan,oldSession,learning,now);
+  if(activeStep.type==='unavailable')return oldSession;
+  if(activeStep.type==='corrected')return replaceRetiredJourneyScene(plan,oldSession,{now});
+  const priorRecipe=activeFormRecipe(plan,oldSession);
+  // A valid saved question may belong only to an older lesson. Let the learner
+  // answer it and read its feedback, then teach the current replacement group
+  // after Continue. Do not put retired objectives back into new practice or
+  // turn that historical answer into credit for a different current objective.
+  if(priorRecipe?.prior&&(oldSession.journey.awaitingContinue||oldSession.journey.phase==='repair-teach')
+    &&!allTargets(plan).some(t=>t.id===priorRecipe.target.id&&available(t))){
+    if(!activeSceneAllowed(plan,oldSession))return oldSession;
+    const session=copy(oldSession),j=session.journey,chapter=chapterFor(plan,session);
+    if(!chapter)return oldSession;
+    (session.sceneCorrectionRecovery||=[]).push({at:now,reason:'prior-target-finished',current:copy(j.current),journey:copy(j),ui:copy(session.ui||{})});
+    if(plan.flowVersion===2&&j.verbFlowVersion!==2){
+      session.verbFlowArchive||={journey:copy(j),ui:copy(session.ui||{})};
+      j.verbFlowVersion=2;j.checkpointNextGroup=null;j.legacyFlow=false;
+      session.objectiveIds=allTargets(plan).filter(available).map(t=>t.id);
+      for(const cursor of Object.values(j.caseCursors||{}))if(cursor.verbFlowVersion!==2)cursor.legacyFlow=true;
+    }
+    const oldGroup=groupFor(priorRecipe.chapter,priorRecipe.target.id),groupIndex=groups(chapter).findIndex(g=>g.id===oldGroup?.id);
+    j.groupIndex=groupIndex>=0?groupIndex:0;
+    j.current=null;j.awaitingContinue=false;j.lastAttempt=null;j.repairReturn=null;j.blocked=false;
+    j.queue=j.queue.filter(id=>targets(chapter).some(t=>t.id===id&&available(t)));
+    if(session.mode==='review'){j.phase='review';schedule(plan,session,learning,now);}
+    else startGroup(plan,session,learning,now);
+    return changed(session,now);
+  }
   if(oldSession.journey.wordShort)return advanceShortWord(plan,oldSession,learning,now);
   const session = copy(oldSession), j = session.journey, chapter = chapterFor(plan, session);
   if(plan.questionHistory&&j.awaitingContinue){const activeIds=new Set(allTargets(plan).filter(available).map(t=>t.id));j.queue=j.queue.filter(id=>activeIds.has(id));}
@@ -600,7 +632,8 @@ export function advanceJourney(plan, oldSession, learning, { now = Date.now() } 
 export function journeyAttempt(plan, session, question, grade, { assistance = [], now = Date.now() } = {}) {
   if (!compatible(plan, session) || !session.journey.current || session.journey.awaitingContinue) return null;
   if(!activeSceneAllowed(plan,session))return null;
-  const j = session.journey, current = j.current, target = targetFor(plan, current.targetId), chapter = chapterFor(plan, session);
+  const j = session.journey, current = j.current, recipe=activeFormRecipe(plan,session);
+  const target=recipe?.target||targetFor(plan,current.targetId),chapter=recipe?.chapter||chapterFor(plan,session);
   if (!target || question?.meta?.targetId && question.meta.targetId !== target.id) return null;
   // Decoy rows on a word's article board are matched in the activity only; the
   // board is complete once every evidence-bearing row was recorded.
@@ -628,7 +661,8 @@ export function journeyAttempt(plan, session, question, grade, { assistance = []
 export function journeyPairAttempt(plan, session, question, grade, { targetId, attempt = 0, now = Date.now() } = {}) {
   if (!compatible(plan, session) || session.journey.awaitingContinue || session.journey.current?.format !== 'pairs' || question?.type !== 'pairs' || !grade || !integer(attempt)) return null;
   if(!activeSceneAllowed(plan,session))return null;
-  const current = session.journey.current, pair = question.pairs?.find(row => row.targetId === targetId), target = targetFor(plan, targetId), chapter = chapterFor(plan, session);
+  const current = session.journey.current, pair = question.pairs?.find(row => row.targetId === targetId),recipe=activeFormRecipe(plan,session);
+  const chapter=recipe?.chapter||chapterFor(plan,session),target=recipe?targets(chapter).find(t=>t.id===targetId):targetFor(plan,targetId);
   const group = groupFor(chapter, current.targetId);
   // A decoy row (another noun's article on the word's board) belongs to the
   // activity, not to this word's evidence. The result carries no objective, so
@@ -654,7 +688,8 @@ export function recordJourneyPairAttempt(plan, oldSession, event, result) {
   const recovery = recoverStoredAttempt(event, result);
   if (!recovery) return oldSession;
   ({ event, result } = recovery);
-  const current = oldSession.journey.current, target = targetFor(plan, event.objectiveId), chapter = chapterFor(plan, oldSession);
+  const current = oldSession.journey.current,recipe=activeFormRecipe(plan,oldSession);
+  const chapter=recipe?.chapter||chapterFor(plan,oldSession),target=recipe?targets(chapter).find(t=>t.id===event.objectiveId):targetFor(plan,event.objectiveId);
   if (!target || event.sessionId !== oldSession.id || event.entryId !== plan.entryId || event.policy !== 'journey-v1'
     || !groupFor(chapter, current.targetId)?.targets?.some(t => t.id === target.id)
     || !event.id.startsWith(`${current.questionId}:pair:${encodeURIComponent(target.id)}:`) || event.mode !== 'recognition') return oldSession;

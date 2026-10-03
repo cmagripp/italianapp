@@ -326,7 +326,7 @@ T('incedere', { presente: ['incedo'], pp: '—', passatoRemoto: ['incedei', null
 T('irrompere', { passatoRemoto: ['irruppi', 'irrompesti', 'irruppe'], pp: '—', presente: ['irrompo'] });
 T('erompere', { passatoRemoto: ['eruppi'], pp: '—' });
 T('prorompere', { passatoRemoto: ['proruppi'], pp: 'prorotto' });
-T('concernere', { presente: ['concerno', null, 'concerne', null, null, 'concernono'], passatoRemoto: ['concernei', null, 'concerné'], pp: 'concernuto' });
+T('concernere', { presente: ['concerno', null, 'concerne', null, null, 'concernono'], pp: MISSING, passatoRemoto: Array(6).fill(MISSING), passatoProssimo: Array(6).fill(MISSING) });
 none('concernere', 'imperativo');
 T('solere', { presente: ['soglio', 'suoli', 'suole', 'sogliamo', 'solete', 'sogliono'], imperfetto: ['solevo'], congiuntivoPresente: ['soglia'], passatoRemoto: ['—'], futuro: ['—'], pp: '—' });
 none('solere', 'imperativo');

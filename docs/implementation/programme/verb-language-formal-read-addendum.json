@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "programme_curriculum author agent",
+  "id": "v:volerci",
+  "index": 337,
+  "status": "current helper vectors read with explicit impersonal scope; no formal-addressee assessment claimed",
+  "baseline": "8517db3",
+  "sourceUnchanged": true,
+  "policyAndNonfiniteFingerprintsUnchanged": true,
+  "sourceSHA256": "87767d62e0c1550f5c8a43489f1bbb6ce275103f3fa26113106417b9dbfb7860",
+  "policySHA256": "b84adecb6c258bb8ab023ad47e027aa83a6bc9f1fc39eb0d9355eee0ea3b1d87",
+  "compiledSHA256": "5b078a5a46e9ec1b8c580614ca7845d4eee54f4196ad4a23ae7ac34be5d22754",
+  "nonFiniteSHA256": "de836b64b3fc3b195070be8e0bbc0bce6237a3cf6e364048af0c533129fae7ce",
+  "currentFormalHelpers": [
+    {
+      "chapter": "present",
+      "formal": {
+        "male": [
+          "ci vuole"
+        ],
+        "female": [
+          "ci vuole"
+        ]
+      }
+    },
+    {
+      "chapter": "past",
+      "formal": {
+        "male": [
+          "c'è voluto",
+          "ci è voluto"
+        ],
+        "female": [
+          "c'è voluta",
+          "ci è voluta"
+        ]
+      }
+    },
+    {
+      "chapter": "background",
+      "formal": {
+        "male": [
+          "ci voleva"
+        ],
+        "female": [
+          "ci voleva"
+        ]
+      }
+    },
+    {
+      "chapter": "future",
+      "formal": {
+        "male": [
+          "ci vorrà"
+        ],
+        "female": [
+          "ci vorrà"
+        ]
+      }
+    },
+    {
+      "chapter": "condizionale",
+      "formal": {
+        "male": [
+          "ci vorrebbe"
+        ],
+        "female": [
+          "ci vorrebbe"
+        ]
+      }
+    }
+  ],
+  "checks": [
+    {
+      "legacy": false,
+      "targetsSHA256": "5eeb24040b58058b9ab00d90417d474a908c33870662959ab198dadacac2bd3c",
+      "formalAddressTargets": 0,
+      "sourceContextsEqual": true
+    },
+    {
+      "legacy": true,
+      "targetsSHA256": "50b578b8f96d309951bc3d12f0c553ec033a17823a666e4b68219c2dfa50d64b",
+      "formalAddressTargets": 0,
+      "sourceContextsEqual": true
+    }
+  ],
+  "scope": "Both masculine/feminine helper arrays in all five cases were read after the shared essere subject-agreement change. Volerci agrees with the thing required; no active formal-address target exists. These helper arrays are not evidence of a selected personal addressee sense and do not approve every generated question.",
+  "nativeHumanReview": "pending"
+}

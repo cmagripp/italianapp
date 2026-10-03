@@ -1,0 +1,2714 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "programme_learning independent agent, no native-human/educator claim",
+  "range": [
+    804,
+    843
+  ],
+  "count": 40,
+  "storedExamplesRead": 120,
+  "caseVectorRecordsRead": 200,
+  "formalVectorRecordsRead": 400,
+  "readSampleCount": 549,
+  "confirmedFindings": 4,
+  "canonicalEdits": false,
+  "runtimeEdits": false,
+  "ledgerEdits": false,
+  "modelRuns": false,
+  "downloads": false,
+  "sourceClaim": "Read-only scratch captures. Current canonical hashes must match before any ledger adoption. Actual question JSON contains generated evidence, not a claim that every recipe has been independently read.",
+  "referenceChecks": [
+    {
+      "entryId": "v:contravvenire",
+      "outcome": "Treccani explicitly supports avere. No auxiliary correction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/contravvenire/"
+      ]
+    },
+    {
+      "entryId": "v:concorrere",
+      "outcome": "Treccani supports avere and compete-for-post constructions.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/concorrere/"
+      ]
+    },
+    {
+      "entryId": "v:competere",
+      "outcome": "Treccani supports no past participle/compound tenses; empty past case is unavailable, not a missing invented form.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/competere/"
+      ]
+    },
+    {
+      "entryId": "v:conseguire",
+      "outcome": "Both auxiliary branches are supported across meanings. Live plan meaning includes achieve/obtain/follow-as-consequence, past table explicitly labels cross-construction possibilities, and doctorate context correctly accepts only ha conseguito. No definite form retirement proposed from bare table alone.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/conseguire/"
+      ]
+    },
+    {
+      "entryId": "v:agognare",
+      "outcome": "Agogniamo is the preferred transparent ending. Crusca tolerates gniamo/gnamo alternation generally; no unsupported categorical agognamo rejection proposed.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/agognare/",
+        "https://accademiadellacrusca.it/it/consulenza/sul-digramma-gn-e-sulla-presenza-della-i-in-forme-verbali-come-guadagniamo/155"
+      ]
+    },
+    {
+      "entryId": "v:assolvere",
+      "outcome": "Treccani supports current assolto, and archaic verbal assoluto is distinguished from modern practical default; no automatic addition of archaic answers.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/assolvere/"
+      ]
+    },
+    {
+      "entryId": "v:arrogarsi",
+      "outcome": "Reflexive indirect object sense and normal subject agreement supported; the separate fixed da solo scene is the exact error.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/arrogare/"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/tmp/parola-learning-verb-review-804-811.jsonl",
+      "bytes": 103424,
+      "sha256": "dec26f36c56d90cd54b4d564ba22559b1524178dc2906064bdbd1752c54c3d8f"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-804-811.audit.txt",
+      "bytes": 28761,
+      "sha256": "c11e097ab6b5fde83c08034a4d5b0ce68ff15cf66ef0c4c56885a3923653077f"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-812-819.jsonl",
+      "bytes": 111889,
+      "sha256": "9aa5653ac6456bc3a52ff747746bf96c0a5312b589cb485db67c16d9d50f5a85"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-812-819.audit.txt",
+      "bytes": 28503,
+      "sha256": "b2c4b6f617c2750a2c8401be7141f66bd206a1748e51ffcd86811bb4006048d4"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-820-827.jsonl",
+      "bytes": 113382,
+      "sha256": "1d9be155997ffd2e99d52d11ce8527b6ec03172b215e31d635ada491690f8b38"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-820-827.audit.txt",
+      "bytes": 28612,
+      "sha256": "f269cb2de94c081025765ce3e144f3381e35d7024b64c747c5e3363685dd54e0"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-828-835.jsonl",
+      "bytes": 109224,
+      "sha256": "bc05be2f6a6615830d6098ef983687e4ee0433f182a31ddb8b60f67f24c11ea1"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-828-835.audit.txt",
+      "bytes": 28857,
+      "sha256": "731be9f17a86f8f5a5f0d0494ee22c5185556358d5ef9c6ce10366e61c698456"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-836-843.jsonl",
+      "bytes": 106826,
+      "sha256": "30a16b6b993723b9832b6bc2c2149d2f9d5c646a8a5bbb1f9f1e00c8fcb87311"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-836-843.audit.txt",
+      "bytes": 28764,
+      "sha256": "fdbbc21e8ede8a0f5c26b4659b4b663d4bb0f014be791c6ac33f0fab774e0cae"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-804-843-source-pins.json",
+      "bytes": 147835,
+      "sha256": "75c75e9abf2b24e63d20030049c93c66b653e5135422aaeba279b47582b0547b"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-804-843-actual-questions.json",
+      "bytes": 5263653,
+      "sha256": "665f93a65b1e58ed3c24e4e8e5c6b421b21abefe6897d91664797a369962a251"
+    },
+    {
+      "path": "/tmp/parola-learning-verb-review-804-843-finding-questions.json",
+      "bytes": 43309,
+      "sha256": "b256b42a75a73da61b2ef558b69abb28c5eb92c492c37fa30c78a2f74a7423da"
+    },
+    {
+      "path": "/tmp/parola-learning-arrogarsi-invalid-frame-candidates.json",
+      "bytes": 7409,
+      "sha256": "edf2889844fa012c7a7675bfd4249a22df412a306e663dec977b48f280b8a6bd"
+    }
+  ],
+  "findings": [
+    {
+      "id": "allestire-object-specific-english",
+      "entryIds": [
+        "v:allestire"
+      ],
+      "severity": "confirmed current English model mismatch",
+      "scope": "Current frame1 physical stage and frame3 reception centre; Italian forms remain valid.",
+      "evidence": [
+        {
+          "id": "v:allestire:present:v2:simple:scene-1-0-ordinary",
+          "it": "Io allestisco il palco per il concerto.",
+          "en": "I stage the stage for the concert.",
+          "answer": "allestisco",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:present:v2:simple:scene-1-2-formal",
+          "it": "Signora Rossi, Lei allestisce il palco per il concerto.",
+          "en": "Ms Rossi, you stage the stage for the concert.",
+          "answer": "allestisce",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:present:v2:simple:scene-3-0-ordinary",
+          "it": "Io allestisco un centro di accoglienza.",
+          "en": "I stage a reception centre.",
+          "answer": "allestisco",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:present:v2:simple:scene-3-2-formal",
+          "it": "Signora Rossi, Lei allestisce un centro di accoglienza.",
+          "en": "Ms Rossi, you stage a reception centre.",
+          "answer": "allestisce",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:present:v2:progressive:scene-1-0-ordinary",
+          "it": "Io sto allestendo il palco per il concerto.",
+          "en": "I am staging the stage for the concert.",
+          "answer": "sto allestendo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:present:v2:progressive:scene-1-2-formal",
+          "it": "Signora Rossi, Lei sta allestendo il palco per il concerto.",
+          "en": "Ms Rossi, you are staging the stage for the concert.",
+          "answer": "sta allestendo",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:present:v2:progressive:scene-3-0-ordinary",
+          "it": "Io sto allestendo un centro di accoglienza.",
+          "en": "I am staging a reception centre.",
+          "answer": "sto allestendo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:present:v2:progressive:scene-3-2-formal",
+          "it": "Signora Rossi, Lei sta allestendo un centro di accoglienza.",
+          "en": "Ms Rossi, you are staging a reception centre.",
+          "answer": "sta allestendo",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:past:reviewed-frame-1:person-0",
+          "it": "Io ho allestito il palco per il concerto.",
+          "en": "I staged the stage for the concert.",
+          "answer": "ho allestito",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:past:reviewed-frame-1:formal",
+          "it": "Signora Rossi, Lei ha allestito il palco per il concerto?",
+          "en": "Ms Rossi, did you stage the stage for the concert?",
+          "answer": "ha allestito",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:background:v2:simple:scene-1-0-ordinary",
+          "it": "Io allestivo il palco per il concerto.",
+          "en": "I used to stage the stage for the concert.",
+          "answer": "allestivo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:background:v2:simple:scene-1-2-formal",
+          "it": "Signora Rossi, Lei allestiva il palco per il concerto.",
+          "en": "Ms Rossi, you used to stage the stage for the concert.",
+          "answer": "allestiva",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:background:v2:simple:scene-3-0-ordinary",
+          "it": "Io allestivo un centro di accoglienza.",
+          "en": "I used to stage a reception centre.",
+          "answer": "allestivo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:background:v2:simple:scene-3-2-formal",
+          "it": "Signora Rossi, Lei allestiva un centro di accoglienza.",
+          "en": "Ms Rossi, you used to stage a reception centre.",
+          "answer": "allestiva",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:background:v2:progressive:scene-1-0-ordinary",
+          "it": "Io stavo allestendo il palco per il concerto.",
+          "en": "I was staging the stage for the concert.",
+          "answer": "stavo allestendo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:background:v2:progressive:scene-1-2-formal",
+          "it": "Signora Rossi, Lei stava allestendo il palco per il concerto.",
+          "en": "Ms Rossi, you were staging the stage for the concert.",
+          "answer": "stava allestendo",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:background:v2:progressive:scene-3-0-ordinary",
+          "it": "Io stavo allestendo un centro di accoglienza.",
+          "en": "I was staging a reception centre.",
+          "answer": "stavo allestendo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:background:v2:progressive:scene-3-2-formal",
+          "it": "Signora Rossi, Lei stava allestendo un centro di accoglienza.",
+          "en": "Ms Rossi, you were staging a reception centre.",
+          "answer": "stava allestendo",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:future:reviewed-frame-1:person-0",
+          "it": "Io allestirò il palco per il concerto.",
+          "en": "I will stage the stage for the concert.",
+          "answer": "allestirò",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:future:reviewed-frame-1:formal",
+          "it": "Signora Rossi, Lei allestirà il palco per il concerto?",
+          "en": "Ms Rossi, will you stage the stage for the concert?",
+          "answer": "allestirà",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:allestire:condizionale:reviewed-frame-1:person-0",
+          "it": "Io allestirei il palco per il concerto.",
+          "en": "I would stage the stage for the concert.",
+          "answer": "allestirei",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:allestire:condizionale:reviewed-frame-1:formal",
+          "it": "Signora Rossi, Lei allestirebbe il palco per il concerto?",
+          "en": "Ms Rossi, would you stage the stage for the concert?",
+          "answer": "allestirebbe",
+          "person": 2,
+          "role": "formal"
+        }
+      ],
+      "reason": "The shared stage/stages/staged/staging predicate describes arranging an event, not setting up a physical platform or reception centre. Exact generated output includes I stage the stage for the concert and I stage a reception centre.",
+      "proposed": "Use set up or source-declared per-frame English predicates. Preserve exact old selected recipes/history under the declared revision mechanism; do not alter Italian paradigms.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/allestire/",
+        "https://dictionary.cambridge.org/dictionary/english/stage"
+      ]
+    },
+    {
+      "id": "arrogarsi-fixed-solo-agreement",
+      "entryIds": [
+        "v:arrogarsi"
+      ],
+      "severity": "confirmed current Italian gender/number mismatch",
+      "scope": "Only explicit formal feminine and plural uses of fixed frame3 la facoltà di decidere da solo; no blanket retirement of valid male singular or unlabelled io.",
+      "evidence": [
+        {
+          "targetId": "v:arrogarsi::lesson::present::v2-mixed-simple",
+          "variant": 11,
+          "questionId": "v:arrogarsi::lesson::present::v2-mixed-simple:v:arrogarsi:present:v2:simple:scene-3-2-formal:italian-gap",
+          "contextId": "v:arrogarsi:present:v2:simple:scene-3-2-formal",
+          "it": "Signora Rossi, Lei si arroga la facoltà di decidere da solo.",
+          "en": "Ms Rossi, you claim the authority to decide alone.",
+          "answer": [
+            "si arroga"
+          ]
+        },
+        {
+          "targetId": "v:arrogarsi::lesson::present::v2-mixed-progressive",
+          "variant": 11,
+          "questionId": "v:arrogarsi::lesson::present::v2-mixed-progressive:v:arrogarsi:present:v2:progressive:scene-3-2-formal:italian-gap",
+          "contextId": "v:arrogarsi:present:v2:progressive:scene-3-2-formal",
+          "it": "Signora Rossi, Lei si sta arrogando la facoltà di decidere da solo.",
+          "en": "Ms Rossi, you are claiming the authority to decide alone.",
+          "answer": [
+            "si sta arrogando",
+            "sta arrogandosi"
+          ]
+        },
+        {
+          "targetId": "v:arrogarsi::lesson::background::v2-mixed-simple",
+          "variant": 11,
+          "questionId": "v:arrogarsi::lesson::background::v2-mixed-simple:v:arrogarsi:background:v2:simple:scene-3-2-formal:italian-gap",
+          "contextId": "v:arrogarsi:background:v2:simple:scene-3-2-formal",
+          "it": "Signora Rossi, Lei si arrogava la facoltà di decidere da solo.",
+          "en": "Ms Rossi, you used to claim the authority to decide alone.",
+          "answer": [
+            "si arrogava"
+          ]
+        },
+        {
+          "targetId": "v:arrogarsi::lesson::background::v2-mixed-progressive",
+          "variant": 11,
+          "questionId": "v:arrogarsi::lesson::background::v2-mixed-progressive:v:arrogarsi:background:v2:progressive:scene-3-2-formal:italian-gap",
+          "contextId": "v:arrogarsi:background:v2:progressive:scene-3-2-formal",
+          "it": "Signora Rossi, Lei si stava arrogando la facoltà di decidere da solo.",
+          "en": "Ms Rossi, you were claiming the authority to decide alone.",
+          "answer": [
+            "si stava arrogando",
+            "stava arrogandosi"
+          ]
+        }
+      ],
+      "reason": "Da solo is adjectival in this construction and agrees with the person who decides. The real mixed-transfer player says Signora Rossi ... decidere da solo. Sixteen unique explicitly feminine/plural context candidates are captured separately.",
+      "proposed": "Author a neutral complement or controlled gender/number frames. Retire only exact invalid old-revision recipes, retain other historical contexts and all existing event/completion history.",
+      "candidateFile": "/tmp/parola-learning-arrogarsi-invalid-frame-candidates.json",
+      "sources": [
+        "https://www.treccani.it/vocabolario/solo/"
+      ]
+    },
+    {
+      "id": "comparire-valid-present-variants",
+      "entryIds": [
+        "v:comparire"
+      ],
+      "severity": "confirmed valid Italian answer rejection",
+      "scope": "Present targets for persons0/1/2/5, including ordinary selected courtroom contexts. No proposed changes to other tenses without separate source review.",
+      "evidence": [
+        {
+          "targetId": "v:comparire::lesson::present::form-0",
+          "questionId": "v:comparire::lesson::present::form-0:v:comparire:present:v2:simple:scene-0-0-ordinary:italian-gap",
+          "contextId": "v:comparire:present:v2:simple:scene-0-0-ordinary",
+          "answers": [
+            "compaio"
+          ],
+          "alternate": "comparisco",
+          "alternateOutcome": "incorrect",
+          "acceptedOutcome": "correct"
+        },
+        {
+          "targetId": "v:comparire::lesson::present::form-1",
+          "questionId": "v:comparire::lesson::present::form-1:v:comparire:present:v2:simple:scene-1-1-ordinary:italian-gap",
+          "contextId": "v:comparire:present:v2:simple:scene-1-1-ordinary",
+          "answers": [
+            "compari"
+          ],
+          "alternate": "comparisci",
+          "alternateOutcome": "incorrect",
+          "acceptedOutcome": "correct"
+        },
+        {
+          "targetId": "v:comparire::lesson::present::form-2",
+          "questionId": "v:comparire::lesson::present::form-2:v:comparire:present:v2:simple:scene-0-2-ordinary:italian-gap",
+          "contextId": "v:comparire:present:v2:simple:scene-0-2-ordinary",
+          "answers": [
+            "compare"
+          ],
+          "alternate": "comparisce",
+          "alternateOutcome": "incorrect",
+          "acceptedOutcome": "correct"
+        },
+        {
+          "targetId": "v:comparire::lesson::present::form-5",
+          "questionId": "v:comparire::lesson::present::form-5:v:comparire:present:v2:simple:scene-1-5-ordinary:italian-gap",
+          "contextId": "v:comparire:present:v2:simple:scene-1-5-ordinary",
+          "answers": [
+            "compaiono"
+          ],
+          "alternate": "compariscono",
+          "alternateOutcome": "incorrect",
+          "acceptedOutcome": "correct"
+        }
+      ],
+      "reason": "Treccani explicitly lists comparisco/comparisci alongside compaio/compari; the source usage already mentions comparisco. Exact gradeQuestion returns incorrect for comparisco/comparisci/comparisce/compariscono and correct for the sole accepted non-isc counterpart.",
+      "proposed": "Add only source-supported present alternatives to conjugator/question answer vectors while retaining the current common default and exact old question descriptor compatibility.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/comparire/"
+      ]
+    },
+    {
+      "id": "darsela-from-through-translation",
+      "entryIds": [
+        "v:darsela"
+      ],
+      "severity": "confirmed current Italian-English direction mismatch",
+      "scope": "simpleExamples[1] and generated present scene1 only; its explicitly authored background counterpart already says from the crowd.",
+      "evidence": [
+        {
+          "id": "v:darsela:present:v2:simple:scene-1",
+          "it": "Me la do a gambe dalla folla.",
+          "en": "I make a run for it through the crowd.",
+          "answer": "Me la do",
+          "person": 0,
+          "role": "ordinary"
+        }
+      ],
+      "reason": "Dalla folla states away/from the crowd, while through the crowd changes the path and meaning.",
+      "proposed": "Use I make a run for it away from the crowd, preserving the exact historical selected translation under source revision handling.",
+      "sources": []
+    },
+    {
+      "id": "comparire-today-habitual-cue",
+      "entryIds": [
+        "v:comparire"
+      ],
+      "severity": "bounded current English time/viewpoint repair candidate",
+      "scope": "Only background simple frame0 containing oggi. No claim that Italian imperfetto with oggi is itself invalid.",
+      "evidence": [
+        {
+          "id": "v:comparire:background:v2:simple:scene-0-0-ordinary",
+          "it": "Io comparivo davanti al giudice oggi.",
+          "en": "I used to appear before the judge today.",
+          "answer": "comparivo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:comparire:background:v2:simple:scene-0-2-formal",
+          "it": "Signora Rossi, Lei compariva davanti al giudice oggi.",
+          "en": "Ms Rossi, you used to appear before the judge today.",
+          "answer": "compariva",
+          "person": 2,
+          "role": "formal"
+        }
+      ],
+      "reason": "I used to appear before the judge today imposes habitual past on a deictic single-day cue. Italian comparivo can describe an earlier episode today; the English cue needs that viewpoint or explicit recurrent context.",
+      "proposed": "Author an episode translation (I was appearing...) or a recurring situation with a compatible time cue; preserve exact prior context IDs/revision.",
+      "sources": []
+    },
+    {
+      "id": "condonare-unqualified-protected-area-rule",
+      "entryIds": [
+        "v:condonare"
+      ],
+      "severity": "bounded factual scope correction candidate",
+      "scope": "Dictionary example1 only; no exact current assessed contextual question generated from its infinitive sentence in the sampled core cases.",
+      "evidence": [
+        {
+          "it": "Non si può condonare un abuso edilizio in area protetta.",
+          "en": "An illegal building in a protected area cannot be granted an amnesty."
+        }
+      ],
+      "reason": "The sentence presents a timeless rule for every protected-area abuse without identifying a condono regime, date, constraint or region. The Constitutional Court describes distinct national/regional regimes and conditions; this is not a verified comprehensive current legal proposition.",
+      "proposed": "Use a specific fictional refusal rather than a universal legal assertion (for example, Questo abuso non è stato condonato). Do not derive a legal recommendation from this audit.",
+      "sources": [
+        "https://www.cortecostituzionale.it/scheda-pronuncia/2021/181",
+        "https://www.cortecostituzionale.it/scheda-pronuncia/1998/85"
+      ]
+    },
+    {
+      "id": "accampare-undue-right-overstatement",
+      "entryIds": [
+        "v:accampare"
+      ],
+      "severity": "bounded usage-note qualification candidate",
+      "scope": "Usage assertion that accampare diritti means rights one is not really entitled to; selected dubious-claim scenes are coherent.",
+      "evidence": [
+        {
+          "usage": "Used almost only with 'scuse', 'pretesti', 'pretese' or 'diritti', and with a nuance of unjustified claim: 'accampare diritti' means to claim rights one is not really entitled to. The reflexive 'accamparsi' simply means to camp out. Regular."
+        }
+      ],
+      "reason": "De Mauro says especially indebitamente, and Treccani describes putting a right forward. A frequent negative implication should not become an unconditional semantic assertion.",
+      "proposed": "Say often with a negative or unjustified implication, while retaining the selected dubious-claim lesson sense.",
+      "sources": [
+        "https://dizionario.internazionale.it/parola/accampare",
+        "https://www.treccani.it/vocabolario/accampare/"
+      ]
+    },
+    {
+      "id": "convergere-rare-compound-teaching",
+      "entryIds": [
+        "v:convergere"
+      ],
+      "severity": "bounded pedagogy/default candidate; not a grammar defect",
+      "scope": "Mandatory past case explicitly teaches learn converso and generated sono converso su una proposta comune without the rare label in those cards.",
+      "evidence": [
+        {
+          "targetId": "v:convergere::lesson::past::form-0",
+          "answers": [
+            "sono converso",
+            "sono conversa"
+          ]
+        },
+        {
+          "id": "v:convergere:past:reviewed-frame-0:person-0",
+          "it": "Io sono converso su una proposta comune.",
+          "en": "I converged on a shared proposal.",
+          "answer": "sono converso",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:convergere:past:reviewed-frame-0:formal",
+          "it": "Signora Rossi, Lei è conversa su una proposta comune?",
+          "en": "Ms Rossi, did you converge on a shared proposal?",
+          "answer": "è conversa",
+          "person": 2,
+          "role": "formal"
+        }
+      ],
+      "reason": "Treccani supports converso but explicitly says the participle and compound tenses are rare. De Mauro supports essere for this intransitive sense. No blanket rejection of those reference forms is justified.",
+      "proposed": "Expose rarity at the actual teaching point and consider optional/exploratory rare compound practice. Do not fabricate an unavailable form or retire valid old evidence.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/convergere/",
+        "https://dizionario.internazionale.it/parola/convergere"
+      ]
+    },
+    {
+      "id": "attecchire-singular-imperfect-reading",
+      "entryIds": [
+        "v:attecchire"
+      ],
+      "severity": "bounded English viewpoint clarity candidate",
+      "scope": "Singular seedling background simple frames; plural habitual rooting contexts may be entirely natural.",
+      "evidence": [
+        {
+          "id": "v:attecchire:background:v2:simple:scene-0-2-ordinary",
+          "it": "La piantina attecchiva nel terreno umido.",
+          "en": "The seedling used to take root in the damp soil.",
+          "answer": "attecchiva",
+          "person": 2,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:attecchire:background:v2:simple:scene-1-2-ordinary",
+          "it": "La piantina attecchiva dopo il trapianto.",
+          "en": "The seedling used to take root after transplanting.",
+          "answer": "attecchiva",
+          "person": 2,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:attecchire:background:v2:simple:scene-2-2-ordinary",
+          "it": "La piantina attecchiva sul pendio riparato.",
+          "en": "The seedling used to take root on the sheltered slope.",
+          "answer": "attecchiva",
+          "person": 2,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:attecchire:background:v2:simple:scene-3-2-ordinary",
+          "it": "La piantina attecchiva malgrado il vento freddo.",
+          "en": "The seedling used to take root despite the cold wind.",
+          "answer": "attecchiva",
+          "person": 2,
+          "role": "ordinary"
+        }
+      ],
+      "reason": "The same singular seedling used to take root suggests repeated rooting without supplied repeat/transplant context. Italian imperfetto also permits the ongoing establishment episode.",
+      "proposed": "Use was taking root for the single episode or supply explicit recurring transplant context, keeping a meaningful simple/progressive contrast.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/attecchire/"
+      ]
+    },
+    {
+      "id": "object-specific-english-collocations",
+      "entryIds": [
+        "v:colmare",
+        "v:assecondare",
+        "v:contrarre"
+      ],
+      "severity": "bounded English editing candidates; not declared ungrammatical",
+      "scope": "Only staffing shortage, colleague’s choice and short-term loans frames; other frame English can stay appropriate.",
+      "evidence": [
+        {
+          "id": "v:colmare:present:v2:simple:scene-2-0-ordinary",
+          "it": "Io colmo la carenza di personale.",
+          "en": "I bridge the staffing shortage.",
+          "answer": "colmo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:colmare:present:v2:simple:scene-2-2-formal",
+          "it": "Signora Rossi, Lei colma la carenza di personale.",
+          "en": "Ms Rossi, you bridge the staffing shortage.",
+          "answer": "colma",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:assecondare:present:v2:simple:scene-2-0-ordinary",
+          "it": "Io assecondo la scelta del collega.",
+          "en": "I indulge the colleague’s choice.",
+          "answer": "assecondo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:assecondare:present:v2:simple:scene-2-2-formal",
+          "it": "Signora Rossi, Lei asseconda la scelta del collega.",
+          "en": "Ms Rossi, you indulge the colleague’s choice.",
+          "answer": "asseconda",
+          "person": 2,
+          "role": "formal"
+        },
+        {
+          "id": "v:contrarre:present:v2:simple:scene-2-0-ordinary",
+          "it": "Io contraggo prestiti a breve termine.",
+          "en": "I incur short-term loans.",
+          "answer": "contraggo",
+          "person": 0,
+          "role": "ordinary"
+        },
+        {
+          "id": "v:contrarre:present:v2:simple:scene-2-2-formal",
+          "it": "Signora Rossi, Lei contrae prestiti a breve termine.",
+          "en": "Ms Rossi, you incur short-term loans.",
+          "answer": "contrae",
+          "person": 2,
+          "role": "formal"
+        }
+      ],
+      "reason": "Bridge a staffing shortage / indulge a choice / incur loans are less direct learner models than fill/address the shortage / go along with a choice / take out loans. These are editing recommendations, not categorical invalid-language findings.",
+      "proposed": "Review per-frame English predicates for natural collocations instead of globally replacing the otherwise useful bridge/indulge/incur predicates.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/colmare/"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "index": 804,
+      "id": "v:accampare",
+      "inf": "accampare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 4,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 4
+      },
+      "sourceSHA256": "dd2290a94ec61f1ae43b5c9a01feee9ac3ac733546fc554cf90e2fbff512065f",
+      "policySHA256": "a6c61c2aa627dc2ef599ea5961ac5210cf4ebc823a13d3f27d78a32d1074db77",
+      "compiledSHA256": "a05bddedc0088d65b3ecb9e432bf8ecdcba4b2c14d621d03d87024d0260adea7",
+      "nonFiniteSHA256": "eb61aec444914300ad18a6d6c16835468e3f2d0256417bc0859e3e4d330c02d3",
+      "readSampleIds": [
+        "v:accampare:present:v2:simple:scene-0-0-ordinary",
+        "v:accampare:present:v2:simple:scene-0-2-formal",
+        "v:accampare:present:v2:progressive:scene-0-0-ordinary",
+        "v:accampare:present:v2:progressive:scene-0-2-formal",
+        "v:accampare:past:reviewed-frame-0:person-0",
+        "v:accampare:past:reviewed-frame-0:formal",
+        "v:accampare:background:v2:simple:scene-0-0-ordinary",
+        "v:accampare:background:v2:simple:scene-0-2-formal",
+        "v:accampare:background:v2:progressive:scene-0-0-ordinary",
+        "v:accampare:background:v2:progressive:scene-0-2-formal",
+        "v:accampare:future:reviewed-frame-0:person-0",
+        "v:accampare:future:reviewed-frame-0:formal",
+        "v:accampare:condizionale:reviewed-frame-0:person-0",
+        "v:accampare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "accampare-undue-right-overstatement"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 805,
+      "id": "v:accanirsi",
+      "inf": "accanirsi",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 5,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 5
+      },
+      "sourceSHA256": "ff837c1513b91d754efe7ba9fe4d15138e0b732dca45e84441665d42034813a5",
+      "policySHA256": "cd65e5dbeae0d080e2509956d5e083cbddafc5194c72771169cc36ffa4ed5f3c",
+      "compiledSHA256": "85f15444fdf58bd5fec58982a1cb6b8c4c0e07592b6d0d019911c0513da02126",
+      "nonFiniteSHA256": "998ab7b14b33a16b550b060b6a48df1050354c9bcf1f9bd169b6a5eb00a37e30",
+      "readSampleIds": [
+        "v:accanirsi:present:v2:simple:scene-0-0-ordinary",
+        "v:accanirsi:present:v2:simple:scene-0-2-formal",
+        "v:accanirsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:accanirsi:present:v2:progressive:scene-0-2-formal",
+        "v:accanirsi:past:reviewed-frame-0:person-0",
+        "v:accanirsi:past:reviewed-frame-0:formal",
+        "v:accanirsi:background:v2:simple:scene-0-0-ordinary",
+        "v:accanirsi:background:v2:simple:scene-0-2-formal",
+        "v:accanirsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:accanirsi:background:v2:progressive:scene-0-2-formal",
+        "v:accanirsi:future:reviewed-frame-0:person-0",
+        "v:accanirsi:future:reviewed-frame-0:formal",
+        "v:accanirsi:condizionale:reviewed-frame-0:person-0",
+        "v:accanirsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 806,
+      "id": "v:addurre",
+      "inf": "addurre",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 6,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 6
+      },
+      "sourceSHA256": "e5db60a5c269cc6c057d226508e3de5bb7d79bd84469bf0c75dc9e32fc7769bd",
+      "policySHA256": "082505e05d268aa4bbf4142fe9af7aa5bfc4744a7b5b3e8d60383c2432382b39",
+      "compiledSHA256": "8aa7f831de981d033612e8f393a70ec2e09d8981fb67d0ed2e02a44951c70f99",
+      "nonFiniteSHA256": "c908183e26ba6aeb839f2d20131798ae8542974fee538d7f09236ee7ebe626b9",
+      "readSampleIds": [
+        "v:addurre:present:v2:simple:scene-0-0-ordinary",
+        "v:addurre:present:v2:simple:scene-0-2-formal",
+        "v:addurre:present:v2:progressive:scene-0-0-ordinary",
+        "v:addurre:present:v2:progressive:scene-0-2-formal",
+        "v:addurre:past:reviewed-frame-0:person-0",
+        "v:addurre:past:reviewed-frame-0:formal",
+        "v:addurre:background:v2:simple:scene-0-0-ordinary",
+        "v:addurre:background:v2:simple:scene-0-2-formal",
+        "v:addurre:background:v2:progressive:scene-0-0-ordinary",
+        "v:addurre:background:v2:progressive:scene-0-2-formal",
+        "v:addurre:future:reviewed-frame-0:person-0",
+        "v:addurre:future:reviewed-frame-0:formal",
+        "v:addurre:condizionale:reviewed-frame-0:person-0",
+        "v:addurre:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 807,
+      "id": "v:aggirare",
+      "inf": "aggirare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 7,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 7
+      },
+      "sourceSHA256": "61966722bf42f1498dc0b8870d0446285f3320a7b28b36f67cf8c4e564034e98",
+      "policySHA256": "b75a2eb6c14e8784274ec9ce24cdf10a763ab06ee8e3e6c54d757911d7c95751",
+      "compiledSHA256": "3418b53aa4e5dd4ca74e4876cf790993599d7de5c666f6882653a3d3f58a9ce1",
+      "nonFiniteSHA256": "b5dff977d955ebfca1a5c1f790867f7b4d0b64c54c475a4c8cbc7bbfd7a6c520",
+      "readSampleIds": [
+        "v:aggirare:present:v2:simple:scene-0-0-ordinary",
+        "v:aggirare:present:v2:simple:scene-0-2-formal",
+        "v:aggirare:present:v2:progressive:scene-0-0-ordinary",
+        "v:aggirare:present:v2:progressive:scene-0-2-formal",
+        "v:aggirare:past:reviewed-frame-0:person-0",
+        "v:aggirare:past:reviewed-frame-0:formal",
+        "v:aggirare:background:v2:simple:scene-0-0-ordinary",
+        "v:aggirare:background:v2:simple:scene-0-2-formal",
+        "v:aggirare:background:v2:progressive:scene-0-0-ordinary",
+        "v:aggirare:background:v2:progressive:scene-0-2-formal",
+        "v:aggirare:future:reviewed-frame-0:person-0",
+        "v:aggirare:future:reviewed-frame-0:formal",
+        "v:aggirare:condizionale:reviewed-frame-0:person-0",
+        "v:aggirare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 808,
+      "id": "v:agognare",
+      "inf": "agognare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 8,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 8
+      },
+      "sourceSHA256": "47aa74378119376b29712b7180d882fcd7b9e2ed3e08dd7f582f18b16511bd4d",
+      "policySHA256": "ac992ebee11124b91c8dd0cbd2ee4bff742add55ff237151d00d8134fd24e55e",
+      "compiledSHA256": "2f2020c29232534cf56304c43d1caba83b11ee3069e6460f20d8b38ef5f05468",
+      "nonFiniteSHA256": "17a26437fdbe0b6dcb00f9f0696ca57df960969252d2232d4fabb9e04a3c659c",
+      "readSampleIds": [
+        "v:agognare:present:v2:simple:scene-0",
+        "v:agognare:background:v2:simple:scene-0"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 809,
+      "id": "v:allestire",
+      "inf": "allestire",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 9,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 9
+      },
+      "sourceSHA256": "c9bd95814979d3dc669140be075457eff040e96d921e0aac177b9a92b4765f6b",
+      "policySHA256": "06bf47a6b21e98c262b045593a2c40333448e0f0d62754171b9c358fe4042788",
+      "compiledSHA256": "88c33c619dd482d313d9c6dfb951203362714ef77950725f35931b6d8cfcd9e8",
+      "nonFiniteSHA256": "eeae36fa6878006a91c4472284331670e7c7cbce5d155c7640e0bc193b6084c3",
+      "readSampleIds": [
+        "v:allestire:present:v2:simple:scene-0-0-ordinary",
+        "v:allestire:present:v2:simple:scene-0-2-formal",
+        "v:allestire:present:v2:progressive:scene-0-0-ordinary",
+        "v:allestire:present:v2:progressive:scene-0-2-formal",
+        "v:allestire:past:reviewed-frame-0:person-0",
+        "v:allestire:past:reviewed-frame-0:formal",
+        "v:allestire:background:v2:simple:scene-0-0-ordinary",
+        "v:allestire:background:v2:simple:scene-0-2-formal",
+        "v:allestire:background:v2:progressive:scene-0-0-ordinary",
+        "v:allestire:background:v2:progressive:scene-0-2-formal",
+        "v:allestire:future:reviewed-frame-0:person-0",
+        "v:allestire:future:reviewed-frame-0:formal",
+        "v:allestire:condizionale:reviewed-frame-0:person-0",
+        "v:allestire:condizionale:reviewed-frame-0:formal",
+        "v:allestire:present:v2:simple:scene-1-0-ordinary",
+        "v:allestire:present:v2:simple:scene-1-2-formal",
+        "v:allestire:present:v2:simple:scene-3-0-ordinary",
+        "v:allestire:present:v2:simple:scene-3-2-formal",
+        "v:allestire:present:v2:progressive:scene-1-0-ordinary",
+        "v:allestire:present:v2:progressive:scene-1-2-formal",
+        "v:allestire:present:v2:progressive:scene-3-0-ordinary",
+        "v:allestire:present:v2:progressive:scene-3-2-formal",
+        "v:allestire:past:reviewed-frame-1:person-0",
+        "v:allestire:past:reviewed-frame-1:formal",
+        "v:allestire:background:v2:simple:scene-1-0-ordinary",
+        "v:allestire:background:v2:simple:scene-1-2-formal",
+        "v:allestire:background:v2:simple:scene-3-0-ordinary",
+        "v:allestire:background:v2:simple:scene-3-2-formal",
+        "v:allestire:background:v2:progressive:scene-1-0-ordinary",
+        "v:allestire:background:v2:progressive:scene-1-2-formal",
+        "v:allestire:background:v2:progressive:scene-3-0-ordinary",
+        "v:allestire:background:v2:progressive:scene-3-2-formal",
+        "v:allestire:future:reviewed-frame-1:person-0",
+        "v:allestire:future:reviewed-frame-1:formal",
+        "v:allestire:condizionale:reviewed-frame-1:person-0",
+        "v:allestire:condizionale:reviewed-frame-1:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "allestire-object-specific-english"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 810,
+      "id": "v:ammiccare",
+      "inf": "ammiccare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 10,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 10
+      },
+      "sourceSHA256": "c03791d49393800b5ddb0b66b9cb7c44151db08d582376b34c172c85d1362d3e",
+      "policySHA256": "d0ca443e23b6ee6aaba11aae07b04d0a247d9dd69bfb062d690de8eb6e918903",
+      "compiledSHA256": "c982db79c802383604c072abbd220df5b744c0e0181a6560dcc75bd7457901c7",
+      "nonFiniteSHA256": "ae94260ffd8a0d5ebf04febc5389c77af087a43aa8a75c312b5a1193bf432326",
+      "readSampleIds": [
+        "v:ammiccare:present:v2:simple:scene-0-0-ordinary",
+        "v:ammiccare:present:v2:simple:scene-0-2-formal",
+        "v:ammiccare:present:v2:progressive:scene-0-0-ordinary",
+        "v:ammiccare:present:v2:progressive:scene-0-2-formal",
+        "v:ammiccare:past:reviewed-frame-0:person-0",
+        "v:ammiccare:past:reviewed-frame-0:formal",
+        "v:ammiccare:background:v2:simple:scene-0-0-ordinary",
+        "v:ammiccare:background:v2:simple:scene-0-2-formal",
+        "v:ammiccare:background:v2:progressive:scene-0-0-ordinary",
+        "v:ammiccare:background:v2:progressive:scene-0-2-formal",
+        "v:ammiccare:future:reviewed-frame-0:person-0",
+        "v:ammiccare:future:reviewed-frame-0:formal",
+        "v:ammiccare:condizionale:reviewed-frame-0:person-0",
+        "v:ammiccare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 811,
+      "id": "v:ammortizzare",
+      "inf": "ammortizzare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 29,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 11
+      },
+      "sourceSHA256": "5ae00746236acefd7863df307721805a8cf6115e5e93a75b5f6e65374af2e708",
+      "policySHA256": "b1a25b792bc59b3f3c898d8d3ecba10de82f17685871683c800f976ae3ed3b2c",
+      "compiledSHA256": "0e86d8317345c9cf74c389e1946dad44e0db3761a568517aed40b89da7b00953",
+      "nonFiniteSHA256": "5dea41069f57ed86c9bd4fe3d7e6d814501c3dcdc4fe398d0bc3614afdd1236a",
+      "readSampleIds": [
+        "v:ammortizzare:present:v2:simple:scene-0-0-ordinary",
+        "v:ammortizzare:present:v2:simple:scene-0-2-formal",
+        "v:ammortizzare:present:v2:progressive:scene-0-0-ordinary",
+        "v:ammortizzare:present:v2:progressive:scene-0-2-formal",
+        "v:ammortizzare:past:reviewed-frame-0:person-0",
+        "v:ammortizzare:past:reviewed-frame-0:formal",
+        "v:ammortizzare:background:v2:simple:scene-0-0-ordinary",
+        "v:ammortizzare:background:v2:simple:scene-0-2-formal",
+        "v:ammortizzare:background:v2:progressive:scene-0-0-ordinary",
+        "v:ammortizzare:background:v2:progressive:scene-0-2-formal",
+        "v:ammortizzare:future:reviewed-frame-0:person-0",
+        "v:ammortizzare:future:reviewed-frame-0:formal",
+        "v:ammortizzare:condizionale:reviewed-frame-0:person-0",
+        "v:ammortizzare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 812,
+      "id": "v:annientare",
+      "inf": "annientare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 11,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 12
+      },
+      "sourceSHA256": "eb99accc51ed597273c88351c38a0ec3e4cb57bf8f8f576027e4fb7e83e7dab7",
+      "policySHA256": "45082de12711fdaa867f6aaf1fbb92cf9ad844d9d4687dd40def1c9d2e6529c5",
+      "compiledSHA256": "c81c707970f3838e7e6043756073f1102ca15e8bfb8ffc6eb5d4e1f1a8ca086e",
+      "nonFiniteSHA256": "acb3940756aa5c2b948270c4a9dd55889e91d16ee6250ac68f4ddc1aaa02efeb",
+      "readSampleIds": [
+        "v:annientare:present:v2:simple:scene-0-0-ordinary",
+        "v:annientare:present:v2:simple:scene-0-2-formal",
+        "v:annientare:present:v2:progressive:scene-0-0-ordinary",
+        "v:annientare:present:v2:progressive:scene-0-2-formal",
+        "v:annientare:past:reviewed-frame-0:person-0",
+        "v:annientare:past:reviewed-frame-0:formal",
+        "v:annientare:background:v2:simple:scene-0-0-ordinary",
+        "v:annientare:background:v2:simple:scene-0-2-formal",
+        "v:annientare:background:v2:progressive:scene-0-0-ordinary",
+        "v:annientare:background:v2:progressive:scene-0-2-formal",
+        "v:annientare:future:reviewed-frame-0:person-0",
+        "v:annientare:future:reviewed-frame-0:formal",
+        "v:annientare:condizionale:reviewed-frame-0:person-0",
+        "v:annientare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 813,
+      "id": "v:appianare",
+      "inf": "appianare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 12,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 13
+      },
+      "sourceSHA256": "fc390b618c6d573d0750a67c754cf9d0ccc409083389bf70cdb880c9be5daeb2",
+      "policySHA256": "858e92a8f7dcd200505dbc47dc5045c5d8d42891290e44d9b6277a13259e460a",
+      "compiledSHA256": "76b694d40f082035e92cb0b08ce99b08b48f446114359cae2cfc86849a7a7a5e",
+      "nonFiniteSHA256": "4e6c4f59bbff6a5e564589ee6df6b398e4b9ba4b0a915004f0d89ea4a4b914e8",
+      "readSampleIds": [
+        "v:appianare:present:v2:simple:scene-0-0-ordinary",
+        "v:appianare:present:v2:simple:scene-0-2-formal",
+        "v:appianare:present:v2:progressive:scene-0-0-ordinary",
+        "v:appianare:present:v2:progressive:scene-0-2-formal",
+        "v:appianare:past:reviewed-frame-0:person-0",
+        "v:appianare:past:reviewed-frame-0:formal",
+        "v:appianare:background:v2:simple:scene-0-0-ordinary",
+        "v:appianare:background:v2:simple:scene-0-2-formal",
+        "v:appianare:background:v2:progressive:scene-0-0-ordinary",
+        "v:appianare:background:v2:progressive:scene-0-2-formal",
+        "v:appianare:future:reviewed-frame-0:person-0",
+        "v:appianare:future:reviewed-frame-0:formal",
+        "v:appianare:condizionale:reviewed-frame-0:person-0",
+        "v:appianare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 814,
+      "id": "v:arginare",
+      "inf": "arginare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 13,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 14
+      },
+      "sourceSHA256": "9f8ba365601b54b759ebc03256afbc8e5434a5cce46d0618098e954af1b9888b",
+      "policySHA256": "333b64caa9ed3eab75188dd73c9071b13f5d6c9a2ff7e7e7b339f0ba25b1a998",
+      "compiledSHA256": "355a61856c07152466634fdd6e66f50022299b57acb4f53b048121403c651463",
+      "nonFiniteSHA256": "9593b513d4203a1229aa21f3628248a754a3bae3ef0ed7f2f004ec7288194287",
+      "readSampleIds": [
+        "v:arginare:present:v2:simple:scene-0-0-ordinary",
+        "v:arginare:present:v2:simple:scene-0-2-formal",
+        "v:arginare:present:v2:progressive:scene-0-0-ordinary",
+        "v:arginare:present:v2:progressive:scene-0-2-formal",
+        "v:arginare:past:reviewed-frame-0:person-0",
+        "v:arginare:past:reviewed-frame-0:formal",
+        "v:arginare:background:v2:simple:scene-0-0-ordinary",
+        "v:arginare:background:v2:simple:scene-0-2-formal",
+        "v:arginare:background:v2:progressive:scene-0-0-ordinary",
+        "v:arginare:background:v2:progressive:scene-0-2-formal",
+        "v:arginare:future:reviewed-frame-0:person-0",
+        "v:arginare:future:reviewed-frame-0:formal",
+        "v:arginare:condizionale:reviewed-frame-0:person-0",
+        "v:arginare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 815,
+      "id": "v:arrogarsi",
+      "inf": "arrogarsi",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 14,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 15
+      },
+      "sourceSHA256": "0fed6ab6db9563ce15dd1a57dadf0d9abf43a1f39dadbd6fdecad2733f94b248",
+      "policySHA256": "3d3a4b2a2202f05874f06056f2bb5ca9b272683046c2d3677933e7e4ab0d057c",
+      "compiledSHA256": "365693734dbf259b4ee72a6ef3720855ca4841362224dcbe27cccc32ec5a86e9",
+      "nonFiniteSHA256": "a2fe8371941a1a2d3769381af69a89f448e20885e3fb8a0496b1431ac0c4f814",
+      "readSampleIds": [
+        "v:arrogarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:arrogarsi:present:v2:simple:scene-0-2-formal",
+        "v:arrogarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:arrogarsi:present:v2:progressive:scene-0-2-formal",
+        "v:arrogarsi:past:reviewed-frame-0:person-0",
+        "v:arrogarsi:past:reviewed-frame-0:formal",
+        "v:arrogarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:arrogarsi:background:v2:simple:scene-0-2-formal",
+        "v:arrogarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:arrogarsi:background:v2:progressive:scene-0-2-formal",
+        "v:arrogarsi:future:reviewed-frame-0:person-0",
+        "v:arrogarsi:future:reviewed-frame-0:formal",
+        "v:arrogarsi:condizionale:reviewed-frame-0:person-0",
+        "v:arrogarsi:condizionale:reviewed-frame-0:formal",
+        "v:arrogarsi:present:v2:simple:scene-3-2-formal",
+        "v:arrogarsi:present:v2:progressive:scene-3-2-formal",
+        "v:arrogarsi:background:v2:simple:scene-3-2-formal",
+        "v:arrogarsi:background:v2:progressive:scene-3-2-formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "arrogarsi-fixed-solo-agreement"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 816,
+      "id": "v:assecondare",
+      "inf": "assecondare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 15,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 16
+      },
+      "sourceSHA256": "e590357620decf1ae680455326a84644343d3de02196c2500699111d960f64e6",
+      "policySHA256": "9395e26046c44c67ce53df183af48b2035c375277c238288471336d24ba2c286",
+      "compiledSHA256": "179a6ce97213987a459b2dc6ec3de3cc4ea20a1845f4a5286bbcdd1303795d54",
+      "nonFiniteSHA256": "9b4614df7cbc0baed47d6caa5fc7ee39482ecab2b64b85ce5f902e4ac6ab0570",
+      "readSampleIds": [
+        "v:assecondare:present:v2:simple:scene-0-0-ordinary",
+        "v:assecondare:present:v2:simple:scene-0-2-formal",
+        "v:assecondare:present:v2:progressive:scene-0-0-ordinary",
+        "v:assecondare:present:v2:progressive:scene-0-2-formal",
+        "v:assecondare:past:reviewed-frame-0:person-0",
+        "v:assecondare:past:reviewed-frame-0:formal",
+        "v:assecondare:background:v2:simple:scene-0-0-ordinary",
+        "v:assecondare:background:v2:simple:scene-0-2-formal",
+        "v:assecondare:background:v2:progressive:scene-0-0-ordinary",
+        "v:assecondare:background:v2:progressive:scene-0-2-formal",
+        "v:assecondare:future:reviewed-frame-0:person-0",
+        "v:assecondare:future:reviewed-frame-0:formal",
+        "v:assecondare:condizionale:reviewed-frame-0:person-0",
+        "v:assecondare:condizionale:reviewed-frame-0:formal",
+        "v:assecondare:present:v2:simple:scene-2-0-ordinary",
+        "v:assecondare:present:v2:simple:scene-2-2-formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "object-specific-english-collocations"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 817,
+      "id": "v:assolvere",
+      "inf": "assolvere",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 16,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 17
+      },
+      "sourceSHA256": "076dcd051a47fd401abdf30c314a384f21f0631c18d1495b137ec1f62e39a7e5",
+      "policySHA256": "0c38d2108867e048da5e99f658f97a1e3bcbed38380207d0faef8a5ade6fbbdd",
+      "compiledSHA256": "08127ae5f0f733df85b52127478cbfd86a43171bd27074855cc637f57b30ec78",
+      "nonFiniteSHA256": "92480e64fb382785b1848e28a532c7f39e88afa0063f6307cdfec48ed277a714",
+      "readSampleIds": [
+        "v:assolvere:present:v2:simple:scene-0-0-ordinary",
+        "v:assolvere:present:v2:simple:scene-0-2-formal",
+        "v:assolvere:present:v2:progressive:scene-0-0-ordinary",
+        "v:assolvere:present:v2:progressive:scene-0-2-formal",
+        "v:assolvere:past:reviewed-frame-0:person-0",
+        "v:assolvere:past:reviewed-frame-0:formal",
+        "v:assolvere:background:v2:simple:scene-0-0-ordinary",
+        "v:assolvere:background:v2:simple:scene-0-2-formal",
+        "v:assolvere:background:v2:progressive:scene-0-0-ordinary",
+        "v:assolvere:background:v2:progressive:scene-0-2-formal",
+        "v:assolvere:future:reviewed-frame-0:person-0",
+        "v:assolvere:future:reviewed-frame-0:formal",
+        "v:assolvere:condizionale:reviewed-frame-0:person-0",
+        "v:assolvere:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 818,
+      "id": "v:astenersi",
+      "inf": "astenersi",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 8,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 18
+      },
+      "sourceSHA256": "464ac738d953878f8ce6b390e4591948091e3d0081ee674d831a4ea648db3e1f",
+      "policySHA256": "92ddec100e29bbb4cda216d4e62e0a8f043348fc3993267f2cfe69544c203b1b",
+      "compiledSHA256": "5973dbbfd99e28ed8658ea03655792854600575bc43cc8b2ee377e465fb2cb40",
+      "nonFiniteSHA256": "75f68a16dfd1510ee3f6f276c1960b86cd468c48eeae20fbc36d264b406a0c7a",
+      "readSampleIds": [
+        "v:astenersi:present:v2:simple:scene-0-0-ordinary",
+        "v:astenersi:present:v2:simple:scene-0-2-formal",
+        "v:astenersi:present:v2:progressive:scene-0-0-ordinary",
+        "v:astenersi:present:v2:progressive:scene-0-2-formal",
+        "v:astenersi:past:reviewed-frame-0:person-0",
+        "v:astenersi:past:reviewed-frame-0:formal",
+        "v:astenersi:background:v2:simple:scene-0-0-ordinary",
+        "v:astenersi:background:v2:simple:scene-0-2-formal",
+        "v:astenersi:background:v2:progressive:scene-0-0-ordinary",
+        "v:astenersi:background:v2:progressive:scene-0-2-formal",
+        "v:astenersi:future:reviewed-frame-0:person-0",
+        "v:astenersi:future:reviewed-frame-0:formal",
+        "v:astenersi:condizionale:reviewed-frame-0:person-0",
+        "v:astenersi:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 819,
+      "id": "v:attecchire",
+      "inf": "attecchire",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 17,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 19
+      },
+      "sourceSHA256": "c8805fa4db22c8117ae05d187e3e89255ea0eb1090f311932ce8fa50e82da00b",
+      "policySHA256": "4d53211a27170db64e1a5ccb782dadc38fcf3813d0079ed2171550491a98b8ab",
+      "compiledSHA256": "82ccff10ffa2182bb61a1c023271c44b46b66e4d7d085530b5483d7451e61616",
+      "nonFiniteSHA256": "9ce817b333d7f6e1be80d7c881ad93d985a954aeeac22554b9a97507890a26e2",
+      "readSampleIds": [
+        "v:attecchire:present:v2:simple:scene-0-2-ordinary",
+        "v:attecchire:present:v2:progressive:scene-0-2-ordinary",
+        "v:attecchire:past:dictionary-0",
+        "v:attecchire:background:v2:simple:scene-0-2-ordinary",
+        "v:attecchire:background:v2:progressive:scene-0-2-ordinary",
+        "v:attecchire:future:reviewed-frame-0:person-2",
+        "v:attecchire:condizionale:reviewed-frame-0:person-2",
+        "v:attecchire:background:v2:simple:scene-1-2-ordinary",
+        "v:attecchire:background:v2:simple:scene-2-2-ordinary",
+        "v:attecchire:background:v2:simple:scene-3-2-ordinary"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "attecchire-singular-imperfect-reading"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 820,
+      "id": "v:attestare",
+      "inf": "attestare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 2,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 20
+      },
+      "sourceSHA256": "584d045ac70babce15668794633b16b759adc6a071d09ab648b9111a033d0ada",
+      "policySHA256": "8c435e0c1a437607b8b5bc33004d6cec00bbcb5bc1b04a376353e1a545f815f2",
+      "compiledSHA256": "28949db3f56d3c6c220d089fe6bbd519098256283cd1afc4458f4bcaf6364694",
+      "nonFiniteSHA256": "88b782682099f399a20bed2d884d45d8fd94c25da2d2efa2aa02a06e62e89b8c",
+      "readSampleIds": [
+        "v:attestare:present:v2:simple:scene-0-0-ordinary",
+        "v:attestare:present:v2:simple:scene-0-2-formal",
+        "v:attestare:present:v2:progressive:scene-0-0-ordinary",
+        "v:attestare:present:v2:progressive:scene-0-2-formal",
+        "v:attestare:past:reviewed-frame-0:person-0",
+        "v:attestare:past:reviewed-frame-0:formal",
+        "v:attestare:background:v2:simple:scene-0-0-ordinary",
+        "v:attestare:background:v2:simple:scene-0-2-formal",
+        "v:attestare:background:v2:progressive:scene-0-0-ordinary",
+        "v:attestare:background:v2:progressive:scene-0-2-formal",
+        "v:attestare:future:reviewed-frame-0:person-0",
+        "v:attestare:future:reviewed-frame-0:formal",
+        "v:attestare:condizionale:reviewed-frame-0:person-0",
+        "v:attestare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 821,
+      "id": "v:attuare",
+      "inf": "attuare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 3,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 21
+      },
+      "sourceSHA256": "1e5ede45c6772c83e6d3a941284ceeb01e721b51f41d512d16d234b29e272b45",
+      "policySHA256": "8cc94cba6fbe5adcdf5c4701dc5fb33202a36ece3e26d91f7455958cb43960ed",
+      "compiledSHA256": "acdf8088b680661f54901f1bd419b58ba39a16c0de63f923e5da10075d803b78",
+      "nonFiniteSHA256": "8cabad07e1cc72868b67c813aa8a7dffffa34696717e2fd0d9009e7d0ae34690",
+      "readSampleIds": [
+        "v:attuare:present:v2:simple:scene-0-0-ordinary",
+        "v:attuare:present:v2:simple:scene-0-2-formal",
+        "v:attuare:present:v2:progressive:scene-0-0-ordinary",
+        "v:attuare:present:v2:progressive:scene-0-2-formal",
+        "v:attuare:past:reviewed-frame-0:person-0",
+        "v:attuare:past:reviewed-frame-0:formal",
+        "v:attuare:background:v2:simple:scene-0-0-ordinary",
+        "v:attuare:background:v2:simple:scene-0-2-formal",
+        "v:attuare:background:v2:progressive:scene-0-0-ordinary",
+        "v:attuare:background:v2:progressive:scene-0-2-formal",
+        "v:attuare:future:reviewed-frame-0:person-0",
+        "v:attuare:future:reviewed-frame-0:formal",
+        "v:attuare:condizionale:reviewed-frame-0:person-0",
+        "v:attuare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 822,
+      "id": "v:avallare",
+      "inf": "avallare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 18,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 22
+      },
+      "sourceSHA256": "1ad5975c41ef2a8b7c861b7f506381d79e4034b8221a7a612768b096c2f16735",
+      "policySHA256": "7aa80c0b06ca734247cfceb0a2a2f2c565ee76f76f4b79de43df5c298e73d976",
+      "compiledSHA256": "0cb2573869a764ead837155a9c2d075c1c08f812efc12c2e84455b3f3db1967f",
+      "nonFiniteSHA256": "db86905137bcfd2d15ca59da97cd4965aacf338d5b1d5ea760f977019ccbfb74",
+      "readSampleIds": [
+        "v:avallare:present:v2:simple:scene-0-0-ordinary",
+        "v:avallare:present:v2:simple:scene-0-2-formal",
+        "v:avallare:present:v2:progressive:scene-0-0-ordinary",
+        "v:avallare:present:v2:progressive:scene-0-2-formal",
+        "v:avallare:past:reviewed-frame-0:person-0",
+        "v:avallare:past:reviewed-frame-0:formal",
+        "v:avallare:background:v2:simple:scene-0-0-ordinary",
+        "v:avallare:background:v2:simple:scene-0-2-formal",
+        "v:avallare:background:v2:progressive:scene-0-0-ordinary",
+        "v:avallare:background:v2:progressive:scene-0-2-formal",
+        "v:avallare:future:reviewed-frame-0:person-0",
+        "v:avallare:future:reviewed-frame-0:formal",
+        "v:avallare:condizionale:reviewed-frame-0:person-0",
+        "v:avallare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 823,
+      "id": "v:avvalorare",
+      "inf": "avvalorare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 4,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 23
+      },
+      "sourceSHA256": "e1c3a4be4093405deef1742e38234c0dc70b07ef809f241414917f2c51b5971f",
+      "policySHA256": "282bdeba3626cb2188b6f1f198c428a856c63eecf4c2556abe10fae7e6aaf434",
+      "compiledSHA256": "7e37f7af372e726994528d1aafdca15196b211c42f79138350306dc8c2ef5c63",
+      "nonFiniteSHA256": "cf8be957c1601bdeffc161826768ab3ce7da6f91d12dd9fa51cd0faea4b3306a",
+      "readSampleIds": [
+        "v:avvalorare:present:dictionary-0",
+        "v:avvalorare:present:v2:progressive:scene-0-2-ordinary",
+        "v:avvalorare:past:reviewed-frame-0:person-2",
+        "v:avvalorare:background:v2:simple:scene-0-2-ordinary",
+        "v:avvalorare:background:v2:progressive:scene-0-2-ordinary",
+        "v:avvalorare:future:reviewed-frame-0:person-2",
+        "v:avvalorare:condizionale:reviewed-frame-0:person-2"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 824,
+      "id": "v:biasimare",
+      "inf": "biasimare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 19,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 24
+      },
+      "sourceSHA256": "0598f78727d16e445171b5b85ea42bb989c94fe7fe0d06696b181f78f519ad19",
+      "policySHA256": "ffe399189ad4cb8e3ee9bfed9d7d3ff3374b31e350429062119c0cd43e73593f",
+      "compiledSHA256": "59571e6473e409359a8e6a000f0c61e0ca7421d4f27a11954d79bffad87a90be",
+      "nonFiniteSHA256": "4380b92cb65e1fb37b2a85e180ca5b8a61f4326bb7745e979b981024cbaae356",
+      "readSampleIds": [
+        "v:biasimare:present:dictionary-0",
+        "v:biasimare:present:v2:simple:scene-0-2-formal",
+        "v:biasimare:present:v2:progressive:scene-0-0-ordinary",
+        "v:biasimare:present:v2:progressive:scene-0-2-formal",
+        "v:biasimare:past:reviewed-frame-0:person-0",
+        "v:biasimare:past:reviewed-frame-0:formal",
+        "v:biasimare:background:v2:simple:scene-0-0-ordinary",
+        "v:biasimare:background:v2:simple:scene-0-2-formal",
+        "v:biasimare:background:v2:progressive:scene-0-0-ordinary",
+        "v:biasimare:background:v2:progressive:scene-0-2-formal",
+        "v:biasimare:future:reviewed-frame-0:person-0",
+        "v:biasimare:future:reviewed-frame-0:formal",
+        "v:biasimare:condizionale:reviewed-frame-0:person-0",
+        "v:biasimare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 825,
+      "id": "v:brancolare",
+      "inf": "brancolare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 20,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 25
+      },
+      "sourceSHA256": "aea119806daf9b8219696fb1c11154161c3c8f526d845ec5e61b9c6d7d6e4315",
+      "policySHA256": "8529fd6e9fd4993d23bc289afeda25afeabf8bb4d9670083756d27027139dddf",
+      "compiledSHA256": "71ce39d4b21c25e32e599c6d05bff16bc030f87cdfbbe4e9f96cc1fa2f1d053d",
+      "nonFiniteSHA256": "976908e33d2726a2156d64a5584db000cd6795231943e60b0fd3e02c2d241619",
+      "readSampleIds": [
+        "v:brancolare:present:v2:simple:scene-0-0-ordinary",
+        "v:brancolare:present:v2:simple:scene-0-2-formal",
+        "v:brancolare:present:v2:progressive:scene-0-0-ordinary",
+        "v:brancolare:present:v2:progressive:scene-0-2-formal",
+        "v:brancolare:past:reviewed-frame-0:person-0",
+        "v:brancolare:past:reviewed-frame-0:formal",
+        "v:brancolare:background:v2:simple:scene-0-0-ordinary",
+        "v:brancolare:background:v2:simple:scene-0-2-formal",
+        "v:brancolare:background:v2:progressive:scene-0-0-ordinary",
+        "v:brancolare:background:v2:progressive:scene-0-2-formal",
+        "v:brancolare:future:reviewed-frame-0:person-0",
+        "v:brancolare:future:reviewed-frame-0:formal",
+        "v:brancolare:condizionale:reviewed-frame-0:person-0",
+        "v:brancolare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 826,
+      "id": "v:circoscrivere",
+      "inf": "circoscrivere",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 21,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 26
+      },
+      "sourceSHA256": "6f0fc75936ded5657f0bdabcb2c06276d5fb7ffccecc529303e7f47360eac115",
+      "policySHA256": "f2c2ab030731f921871d0b627ea7c201ae5c458e65b2b700330cb7da3e91ce0b",
+      "compiledSHA256": "fc729cf47029793d798d4027a1c0f6ef0d935653bce6cbbabab4235747d19403",
+      "nonFiniteSHA256": "0e4bd50fc963a53057581544b538e9941fb1b02cd3d610905697714ab602792a",
+      "readSampleIds": [
+        "v:circoscrivere:present:v2:simple:scene-0-0-ordinary",
+        "v:circoscrivere:present:v2:simple:scene-0-2-formal",
+        "v:circoscrivere:present:v2:progressive:scene-0-0-ordinary",
+        "v:circoscrivere:present:v2:progressive:scene-0-2-formal",
+        "v:circoscrivere:past:reviewed-frame-0:person-0",
+        "v:circoscrivere:past:reviewed-frame-0:formal",
+        "v:circoscrivere:background:v2:simple:scene-0-0-ordinary",
+        "v:circoscrivere:background:v2:simple:scene-0-2-formal",
+        "v:circoscrivere:background:v2:progressive:scene-0-0-ordinary",
+        "v:circoscrivere:background:v2:progressive:scene-0-2-formal",
+        "v:circoscrivere:future:reviewed-frame-0:person-0",
+        "v:circoscrivere:future:reviewed-frame-0:formal",
+        "v:circoscrivere:condizionale:reviewed-frame-0:person-0",
+        "v:circoscrivere:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 827,
+      "id": "v:coadiuvare",
+      "inf": "coadiuvare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 22,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 27
+      },
+      "sourceSHA256": "17b270c2dc9fbe308fbe1a97b493f88552e272cc6f4ee25019d38a1b9a5c5294",
+      "policySHA256": "5bb5c6d645c3595878115c703cd05a3515799231548cb54a8d6bdfa3f3324953",
+      "compiledSHA256": "c74db3e4b3cacdff64f1f155733025b16ec7062e60e9e8ca85f16001b8059b37",
+      "nonFiniteSHA256": "36b8d06cc2e76acbd8bde34f8dadcd06df311378aa79152d51b9d292845f5319",
+      "readSampleIds": [
+        "v:coadiuvare:present:v2:simple:scene-0-0-ordinary",
+        "v:coadiuvare:present:v2:simple:scene-0-2-formal",
+        "v:coadiuvare:present:v2:progressive:scene-0-0-ordinary",
+        "v:coadiuvare:present:v2:progressive:scene-0-2-formal",
+        "v:coadiuvare:past:reviewed-frame-0:person-0",
+        "v:coadiuvare:past:reviewed-frame-0:formal",
+        "v:coadiuvare:background:v2:simple:scene-0-0-ordinary",
+        "v:coadiuvare:background:v2:simple:scene-0-2-formal",
+        "v:coadiuvare:background:v2:progressive:scene-0-0-ordinary",
+        "v:coadiuvare:background:v2:progressive:scene-0-2-formal",
+        "v:coadiuvare:future:reviewed-frame-0:person-0",
+        "v:coadiuvare:future:reviewed-frame-0:formal",
+        "v:coadiuvare:condizionale:reviewed-frame-0:person-0",
+        "v:coadiuvare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 828,
+      "id": "v:colmare",
+      "inf": "colmare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 23,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 28
+      },
+      "sourceSHA256": "b8b2729aa69b309127d9eff02c4d32076c96041970a1bf6861878010348a12f9",
+      "policySHA256": "dd4302a3a92143256e8c5efbd2643b37214b4624564a631a8a392cb236e5e197",
+      "compiledSHA256": "1833ffdde00fccf8194e7c518f4bc7efc1289871394867594d11e38a0fc2d707",
+      "nonFiniteSHA256": "7dc392f954cd5138aac6d75f97b0c7524bfa059f2ec56a852c80be7c63a76303",
+      "readSampleIds": [
+        "v:colmare:present:v2:simple:scene-0-0-ordinary",
+        "v:colmare:present:v2:simple:scene-0-2-formal",
+        "v:colmare:present:v2:progressive:scene-0-0-ordinary",
+        "v:colmare:present:v2:progressive:scene-0-2-formal",
+        "v:colmare:past:reviewed-frame-0:person-0",
+        "v:colmare:past:reviewed-frame-0:formal",
+        "v:colmare:background:v2:simple:scene-0-0-ordinary",
+        "v:colmare:background:v2:simple:scene-0-2-formal",
+        "v:colmare:background:v2:progressive:scene-0-0-ordinary",
+        "v:colmare:background:v2:progressive:scene-0-2-formal",
+        "v:colmare:future:reviewed-frame-0:person-0",
+        "v:colmare:future:reviewed-frame-0:formal",
+        "v:colmare:condizionale:reviewed-frame-0:person-0",
+        "v:colmare:condizionale:reviewed-frame-0:formal",
+        "v:colmare:present:v2:simple:scene-2-0-ordinary",
+        "v:colmare:present:v2:simple:scene-2-2-formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "object-specific-english-collocations"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 829,
+      "id": "v:comparire",
+      "inf": "comparire",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 24,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 29
+      },
+      "sourceSHA256": "6b84f5044cf6027aec97bd9b86bc6ad21522045e0ea60690847976ba85250f95",
+      "policySHA256": "bb903b4472dfd3483243f6b53c26fcf72bc6a2a39960976f08fa5e224970b151",
+      "compiledSHA256": "acaa3b9f46abbe3e75066e6221993d69f23c74ca7b87bb89acc72b0a303ee565",
+      "nonFiniteSHA256": "19f23d5c8f07e9bc16e82b99eb7d9224bc81e56361341dd141ca04951c2897cf",
+      "readSampleIds": [
+        "v:comparire:present:v2:simple:scene-0-0-ordinary",
+        "v:comparire:present:v2:simple:scene-0-2-formal",
+        "v:comparire:present:v2:progressive:scene-0-0-ordinary",
+        "v:comparire:present:v2:progressive:scene-0-2-formal",
+        "v:comparire:past:reviewed-frame-1:person-0",
+        "v:comparire:past:reviewed-frame-1:formal",
+        "v:comparire:background:v2:simple:scene-0-0-ordinary",
+        "v:comparire:background:v2:simple:scene-0-2-formal",
+        "v:comparire:background:v2:progressive:scene-0-0-ordinary",
+        "v:comparire:background:v2:progressive:scene-0-2-formal",
+        "v:comparire:future:reviewed-frame-1:person-0",
+        "v:comparire:future:reviewed-frame-1:formal",
+        "v:comparire:condizionale:reviewed-frame-1:person-0",
+        "v:comparire:condizionale:reviewed-frame-1:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "comparire-valid-present-variants",
+        "comparire-today-habitual-cue"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 830,
+      "id": "v:competere",
+      "inf": "competere",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 16,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 30
+      },
+      "sourceSHA256": "658267f9e864817443f1dd28a40f7003bea66c99df65921f65dd8f4ac640b44c",
+      "policySHA256": "ea8190a2cd25ab123bf61fbfaedb87f175cf100f4f1733306f494e314473b2b9",
+      "compiledSHA256": "cd7cabde32cb2c1780a28e98d5e4af4c591679f87fd16ae34b103dd1a5d2b1c6",
+      "nonFiniteSHA256": "a487e04167833552e0e7cba225721e863922b1cb5412bbccaad299cf3e688d4f",
+      "readSampleIds": [
+        "v:competere:present:v2:simple:scene-0-0-ordinary",
+        "v:competere:present:v2:simple:scene-0-2-formal",
+        "v:competere:present:v2:progressive:scene-0-0-ordinary",
+        "v:competere:present:v2:progressive:scene-0-2-formal",
+        "v:competere:background:v2:simple:scene-0-0-ordinary",
+        "v:competere:background:v2:simple:scene-0-2-formal",
+        "v:competere:background:v2:progressive:scene-0-0-ordinary",
+        "v:competere:background:v2:progressive:scene-0-2-formal",
+        "v:competere:future:reviewed-frame-0:person-0",
+        "v:competere:future:reviewed-frame-0:formal",
+        "v:competere:condizionale:reviewed-frame-0:person-0",
+        "v:competere:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 831,
+      "id": "v:comprovare",
+      "inf": "comprovare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 5,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 31
+      },
+      "sourceSHA256": "09d40e53b984af0f7a1c1ae66b0df64b4b7a827ad4a257573401c0d09cd38f47",
+      "policySHA256": "d2390adfa7a71c35947ec39a69b787ee06bf54af638548a70cbb0a9729214348",
+      "compiledSHA256": "fb2281f06877e733907b11ce0b5b1ff288dc58da6082767d971405ca809d8121",
+      "nonFiniteSHA256": "7ef3a4f36695364abf5f75d098ffd2b9544bb2aa751343228be0c7c512a9389d",
+      "readSampleIds": [
+        "v:comprovare:present:v2:simple:scene-0-0-ordinary",
+        "v:comprovare:present:v2:simple:scene-0-2-formal",
+        "v:comprovare:present:v2:progressive:scene-0-0-ordinary",
+        "v:comprovare:present:v2:progressive:scene-0-2-formal",
+        "v:comprovare:past:reviewed-frame-0:person-0",
+        "v:comprovare:past:reviewed-frame-0:formal",
+        "v:comprovare:background:v2:simple:scene-0-0-ordinary",
+        "v:comprovare:background:v2:simple:scene-0-2-formal",
+        "v:comprovare:background:v2:progressive:scene-0-0-ordinary",
+        "v:comprovare:background:v2:progressive:scene-0-2-formal",
+        "v:comprovare:future:reviewed-frame-0:person-0",
+        "v:comprovare:future:reviewed-frame-0:formal",
+        "v:comprovare:condizionale:reviewed-frame-0:person-0",
+        "v:comprovare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 832,
+      "id": "v:concorrere",
+      "inf": "concorrere",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 11,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 32
+      },
+      "sourceSHA256": "4c7fa2b29f6a8c5adf861c51551416ea60c910b9c2a8ad0313cb31085e9cda1a",
+      "policySHA256": "4fa4c4b3d46c1ad29185f0ce063e6f09f8a7574d951fc6dcd6d5a7d03a6e76ae",
+      "compiledSHA256": "231f95763406eb4f139d639a554ab5dc6d66a9132237847eada027b067491c8a",
+      "nonFiniteSHA256": "3d2f88e0f5596a7dd2187c1e97c7000f3d8990a75d68cefbc33d3efa4998663f",
+      "readSampleIds": [
+        "v:concorrere:present:v2:simple:scene-0-0-ordinary",
+        "v:concorrere:present:v2:simple:scene-0-2-formal",
+        "v:concorrere:present:v2:progressive:scene-0-0-ordinary",
+        "v:concorrere:present:v2:progressive:scene-0-2-formal",
+        "v:concorrere:past:reviewed-frame-0:person-0",
+        "v:concorrere:past:reviewed-frame-0:formal",
+        "v:concorrere:background:v2:simple:scene-0-0-ordinary",
+        "v:concorrere:background:v2:simple:scene-0-2-formal",
+        "v:concorrere:background:v2:progressive:scene-0-0-ordinary",
+        "v:concorrere:background:v2:progressive:scene-0-2-formal",
+        "v:concorrere:future:reviewed-frame-0:person-0",
+        "v:concorrere:future:reviewed-frame-0:formal",
+        "v:concorrere:condizionale:reviewed-frame-0:person-0",
+        "v:concorrere:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 833,
+      "id": "v:condonare",
+      "inf": "condonare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 24,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 33
+      },
+      "sourceSHA256": "d813ffac4ac14eebee73a1bc713421f4707c976dd86025c5426258a76a9dd640",
+      "policySHA256": "3901fd9954215a85e5ae4f404f51c86e9a8e241447cfbcfd120b9874a0004c53",
+      "compiledSHA256": "0fcc6b0f55b81f66c336602f78eb901ca2fc280bfb72b272b7ccbffe42bfc14a",
+      "nonFiniteSHA256": "4de332d2799b43fcf9e3ba079c3bde554d23f4cadfd501eec6d11471442e7cc4",
+      "readSampleIds": [
+        "v:condonare:present:v2:simple:scene-0-2-ordinary",
+        "v:condonare:present:v2:progressive:scene-0-2-ordinary",
+        "v:condonare:past:reviewed-frame-0:person-2",
+        "v:condonare:background:v2:simple:scene-0-2-ordinary",
+        "v:condonare:background:v2:progressive:scene-0-2-ordinary",
+        "v:condonare:future:reviewed-frame-0:person-2",
+        "v:condonare:condizionale:reviewed-frame-0:person-2"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "condonare-unqualified-protected-area-rule"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 834,
+      "id": "v:confutare",
+      "inf": "confutare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 25,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 34
+      },
+      "sourceSHA256": "cebe6e939bc80f48e6f602e1c1fb90505643efba93db50edaf8a5fb53fe15079",
+      "policySHA256": "6f058e18323ecf8ea5601099dc8a02d9957f71466ad622a05853beabd1cbba2c",
+      "compiledSHA256": "b774f1003661b29de505348cf8fe229960427a78e7a321286a12ea796daa3590",
+      "nonFiniteSHA256": "b1bfaa7b4db623b30c40762ea1483e68aa414a1fe4b0c032b1c79b49a8339d97",
+      "readSampleIds": [
+        "v:confutare:present:v2:simple:scene-0-0-ordinary",
+        "v:confutare:present:v2:simple:scene-0-2-formal",
+        "v:confutare:present:v2:progressive:scene-0-0-ordinary",
+        "v:confutare:present:v2:progressive:scene-0-2-formal",
+        "v:confutare:past:reviewed-frame-0:person-0",
+        "v:confutare:past:reviewed-frame-0:formal",
+        "v:confutare:background:v2:simple:scene-0-0-ordinary",
+        "v:confutare:background:v2:simple:scene-0-2-formal",
+        "v:confutare:background:v2:progressive:scene-0-0-ordinary",
+        "v:confutare:background:v2:progressive:scene-0-2-formal",
+        "v:confutare:future:reviewed-frame-0:person-0",
+        "v:confutare:future:reviewed-frame-0:formal",
+        "v:confutare:condizionale:reviewed-frame-0:person-0",
+        "v:confutare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 835,
+      "id": "v:conseguire",
+      "inf": "conseguire",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 26,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 35
+      },
+      "sourceSHA256": "72074600523e87c21e049cc02e582896697c42408d1d361bd97080b527abaaba",
+      "policySHA256": "31533ce21e9da5dd87043c60d558cba76177721062a81c63bb5b57a68e48a8ef",
+      "compiledSHA256": "63cafb33a1cd8dd82b9feeed82fca63887daaef01d83963d5716fd3b8daf6f41",
+      "nonFiniteSHA256": "e53a0929fc44c21ddbc0bb0707e0b46dee78a51d87ad9dfe663ccede5914ba63",
+      "readSampleIds": [
+        "v:conseguire:present:v2:simple:scene-0-0-ordinary",
+        "v:conseguire:present:v2:simple:scene-0-2-formal",
+        "v:conseguire:present:v2:progressive:scene-0-0-ordinary",
+        "v:conseguire:present:v2:progressive:scene-0-2-formal",
+        "v:conseguire:background:v2:simple:scene-0-0-ordinary",
+        "v:conseguire:background:v2:simple:scene-0-2-formal",
+        "v:conseguire:background:v2:progressive:scene-0-0-ordinary",
+        "v:conseguire:background:v2:progressive:scene-0-2-formal",
+        "v:conseguire:future:reviewed-frame-0:person-0",
+        "v:conseguire:future:reviewed-frame-0:formal",
+        "v:conseguire:condizionale:reviewed-frame-0:person-0",
+        "v:conseguire:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 836,
+      "id": "v:contrarre",
+      "inf": "contrarre",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 3,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 36
+      },
+      "sourceSHA256": "93b65185ba1ea821e062e0119731eaf755c3f9963e94934bd388df43f18d4bc6",
+      "policySHA256": "dc172940d8da8b31a06a110fdd04cb5eaeb6f2422f35d27cf2da5f31a27c3835",
+      "compiledSHA256": "addaf5928cf1914fa196ce75c2e812ff220857cc7419ae6c8d847e2a2df270d2",
+      "nonFiniteSHA256": "52aa97a604ef95019db4127bca0e6f4b930a7831d66f144dd4860ad1ac169cb6",
+      "readSampleIds": [
+        "v:contrarre:present:v2:simple:scene-0-0-ordinary",
+        "v:contrarre:present:v2:simple:scene-0-2-formal",
+        "v:contrarre:present:v2:progressive:scene-0-0-ordinary",
+        "v:contrarre:present:v2:progressive:scene-0-2-formal",
+        "v:contrarre:past:reviewed-frame-0:person-0",
+        "v:contrarre:past:reviewed-frame-0:formal",
+        "v:contrarre:background:v2:simple:scene-0-0-ordinary",
+        "v:contrarre:background:v2:simple:scene-0-2-formal",
+        "v:contrarre:background:v2:progressive:scene-0-0-ordinary",
+        "v:contrarre:background:v2:progressive:scene-0-2-formal",
+        "v:contrarre:future:reviewed-frame-0:person-0",
+        "v:contrarre:future:reviewed-frame-0:formal",
+        "v:contrarre:condizionale:reviewed-frame-0:person-0",
+        "v:contrarre:condizionale:reviewed-frame-0:formal",
+        "v:contrarre:present:v2:simple:scene-2-0-ordinary",
+        "v:contrarre:present:v2:simple:scene-2-2-formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "object-specific-english-collocations"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 837,
+      "id": "v:contravvenire",
+      "inf": "contravvenire",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 27,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 37
+      },
+      "sourceSHA256": "930668d05b1bb02ce77a9c2da35093ab6ab2619e5d4bfe0f1c5016517b47be5c",
+      "policySHA256": "d0340fd48990b6af7050e0092c4217328ad9c03b3d17663805786f9b45002b11",
+      "compiledSHA256": "8c679c07d94912389e68030a95a0b0ebdf5707958809c2f3cab668b25f9e78cb",
+      "nonFiniteSHA256": "de53305a24e7b509016b89aad1119d6366fb0cb7c663d144d134fd47703cb774",
+      "readSampleIds": [
+        "v:contravvenire:present:v2:simple:scene-0-0-ordinary",
+        "v:contravvenire:present:v2:simple:scene-0-2-formal",
+        "v:contravvenire:present:v2:progressive:scene-0-0-ordinary",
+        "v:contravvenire:present:v2:progressive:scene-0-2-formal",
+        "v:contravvenire:past:reviewed-frame-0:person-0",
+        "v:contravvenire:past:reviewed-frame-0:formal",
+        "v:contravvenire:background:v2:simple:scene-0-0-ordinary",
+        "v:contravvenire:background:v2:simple:scene-0-2-formal",
+        "v:contravvenire:background:v2:progressive:scene-0-0-ordinary",
+        "v:contravvenire:background:v2:progressive:scene-0-2-formal",
+        "v:contravvenire:future:reviewed-frame-0:person-0",
+        "v:contravvenire:future:reviewed-frame-0:formal",
+        "v:contravvenire:condizionale:dictionary-2",
+        "v:contravvenire:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 838,
+      "id": "v:convalidare",
+      "inf": "convalidare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 6,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 38
+      },
+      "sourceSHA256": "930c06b4498d7990f22c277fbd5f7232d16dba020212a55ecdb3e7a0024da85d",
+      "policySHA256": "d5644fd69512aa62c2daf6092729a816de5b4573f6106a287e6bdceaf2439450",
+      "compiledSHA256": "a0146d87f6495eb212baac63ea532abd67bfdbf0c2e5c9989c68e3bb1549d751",
+      "nonFiniteSHA256": "51cd3e6e615378e47233d301c7ccb2820f3a3a16abf01ef4ef08756485ad4895",
+      "readSampleIds": [
+        "v:convalidare:present:v2:simple:scene-0-0-ordinary",
+        "v:convalidare:present:v2:simple:scene-0-2-formal",
+        "v:convalidare:present:v2:progressive:scene-0-0-ordinary",
+        "v:convalidare:present:v2:progressive:scene-0-2-formal",
+        "v:convalidare:past:reviewed-frame-0:person-0",
+        "v:convalidare:past:reviewed-frame-0:formal",
+        "v:convalidare:background:v2:simple:scene-0-0-ordinary",
+        "v:convalidare:background:v2:simple:scene-0-2-formal",
+        "v:convalidare:background:v2:progressive:scene-0-0-ordinary",
+        "v:convalidare:background:v2:progressive:scene-0-2-formal",
+        "v:convalidare:future:reviewed-frame-0:person-0",
+        "v:convalidare:future:reviewed-frame-0:formal",
+        "v:convalidare:condizionale:reviewed-frame-0:person-0",
+        "v:convalidare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 839,
+      "id": "v:convergere",
+      "inf": "convergere",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 18,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 39
+      },
+      "sourceSHA256": "da10941026f5df116d880c1bf5a2b5515ce0c39c68379249967ab06687397a2e",
+      "policySHA256": "d1d8707f5f19cd58d3b0e67b03817a65b866c384d3ea4a3acbe87d0a877627c7",
+      "compiledSHA256": "90530051474a6d4455431473d98bfb0aeb3346fd5ac43fb6910f359c4ff31b26",
+      "nonFiniteSHA256": "0c17cf413f23a7518976101a450ed3d009009913f7a7f3f83cf3d0983e0b6226",
+      "readSampleIds": [
+        "v:convergere:present:v2:simple:scene-0-0-ordinary",
+        "v:convergere:present:v2:simple:scene-0-2-formal",
+        "v:convergere:present:v2:progressive:scene-0-0-ordinary",
+        "v:convergere:present:v2:progressive:scene-0-2-formal",
+        "v:convergere:past:reviewed-frame-0:person-0",
+        "v:convergere:past:reviewed-frame-0:formal",
+        "v:convergere:background:v2:simple:scene-0-0-ordinary",
+        "v:convergere:background:v2:simple:scene-0-2-formal",
+        "v:convergere:background:v2:progressive:scene-0-0-ordinary",
+        "v:convergere:background:v2:progressive:scene-0-2-formal",
+        "v:convergere:future:reviewed-frame-0:person-0",
+        "v:convergere:future:reviewed-frame-0:formal",
+        "v:convergere:condizionale:reviewed-frame-0:person-0",
+        "v:convergere:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "convergere-rare-compound-teaching"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 840,
+      "id": "v:corredare",
+      "inf": "corredare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 7,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 40
+      },
+      "sourceSHA256": "75c3f12124534ee9918bc69fe1c39f5bfb7115c02e8089a881b8076a96a7c570",
+      "policySHA256": "eb67b24f62fc74b0d5288c0bcee481f8f607caf44c8b344bddeb0f15be2efee0",
+      "compiledSHA256": "54e8037e729989169afcb80470c3f0c012e36f948504dec04e897d9dc30da906",
+      "nonFiniteSHA256": "e40e02134cc721c4e3d0c2acd60e88dc315877dc84dd56d25e68cf84b53c80ee",
+      "readSampleIds": [
+        "v:corredare:present:v2:simple:scene-0-0-ordinary",
+        "v:corredare:present:v2:simple:scene-0-2-formal",
+        "v:corredare:present:v2:progressive:scene-0-0-ordinary",
+        "v:corredare:present:v2:progressive:scene-0-2-formal",
+        "v:corredare:past:reviewed-frame-0:person-0",
+        "v:corredare:past:reviewed-frame-0:formal",
+        "v:corredare:background:v2:simple:scene-0-0-ordinary",
+        "v:corredare:background:v2:simple:scene-0-2-formal",
+        "v:corredare:background:v2:progressive:scene-0-0-ordinary",
+        "v:corredare:background:v2:progressive:scene-0-2-formal",
+        "v:corredare:future:reviewed-frame-0:person-0",
+        "v:corredare:future:reviewed-frame-0:formal",
+        "v:corredare:condizionale:reviewed-frame-0:person-0",
+        "v:corredare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 841,
+      "id": "v:corroborare",
+      "inf": "corroborare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 28,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 41
+      },
+      "sourceSHA256": "b1859df1d78ccac263f44e72ac7c6cdabdccd487645c061a6082e43ebda3737b",
+      "policySHA256": "ad0ba3188e8e0dc4e6308ce0d465e7dc3ca8df37fee8407eb4a7217b9fb37b12",
+      "compiledSHA256": "4f8e32cc3c6632fdaeaf306a168bd253ac01be8e9374530d4313641a55278447",
+      "nonFiniteSHA256": "7773b87c6f06e7aa68a101bf2dddaf7f3625dd4a90f1be9225876971bd6c93c3",
+      "readSampleIds": [
+        "v:corroborare:present:v2:simple:scene-0-0-ordinary",
+        "v:corroborare:present:v2:simple:scene-0-2-formal",
+        "v:corroborare:present:v2:progressive:scene-0-0-ordinary",
+        "v:corroborare:present:v2:progressive:scene-0-2-formal",
+        "v:corroborare:past:reviewed-frame-0:person-0",
+        "v:corroborare:past:reviewed-frame-0:formal",
+        "v:corroborare:background:v2:simple:scene-0-0-ordinary",
+        "v:corroborare:background:v2:simple:scene-0-2-formal",
+        "v:corroborare:background:v2:progressive:scene-0-0-ordinary",
+        "v:corroborare:background:v2:progressive:scene-0-2-formal",
+        "v:corroborare:future:reviewed-frame-0:person-0",
+        "v:corroborare:future:reviewed-frame-0:formal",
+        "v:corroborare:condizionale:reviewed-frame-0:person-0",
+        "v:corroborare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    },
+    {
+      "index": 842,
+      "id": "v:darsela",
+      "inf": "darsela",
+      "source": {
+        "file": "data/verbs/C1-4.json",
+        "index": 34,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 42
+      },
+      "sourceSHA256": "ffe453ccb3aa95b963d4221a45ee39a88466527863d29cb45bcdefe9b375e493",
+      "policySHA256": "5e7d121661797a79577a65777cf886c9015e3961f3b37f2d13418c198879c8fe",
+      "compiledSHA256": "50caaf6c5baa21ea94c7744bbab5e2ca2393d907217ad1ebb062100f72c212fa",
+      "nonFiniteSHA256": "b1ef9880e8a8c8be0ee0cd6588c24d919558e925882cf5df00970926f45d7fcb",
+      "readSampleIds": [
+        "v:darsela:present:v2:simple:scene-0",
+        "v:darsela:present:v2:progressive:scene-0",
+        "v:darsela:background:v2:simple:scene-0",
+        "v:darsela:background:v2:progressive:scene-0",
+        "v:darsela:present:v2:simple:scene-1"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [
+        "darsela-from-through-translation"
+      ],
+      "status": "scoped independent read with exact findings/candidates"
+    },
+    {
+      "index": 843,
+      "id": "v:debellare",
+      "inf": "debellare",
+      "source": {
+        "file": "data/verbs/C1-1.json",
+        "index": 29,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 43
+      },
+      "sourceSHA256": "aa9f7b4f6841b478eef48d52350fb1e59a6f2c64764c9d079f1cded9ae11cc5a",
+      "policySHA256": "db9cbfdf3fc290971d6a1350b890ea864554a4351829a0c87829237f7249f319",
+      "compiledSHA256": "ef2dfc08dbc5f22b698c17b2f5014cb153912e3f029b2f666b6aebbb785b3c42",
+      "nonFiniteSHA256": "053e41464e576634f5013a47459907dd1e99ec604cff51acd78d5b657888fa08",
+      "readSampleIds": [
+        "v:debellare:present:v2:simple:scene-0-0-ordinary",
+        "v:debellare:present:v2:simple:scene-0-2-formal",
+        "v:debellare:present:v2:progressive:scene-0-0-ordinary",
+        "v:debellare:present:v2:progressive:scene-0-2-formal",
+        "v:debellare:past:reviewed-frame-0:person-0",
+        "v:debellare:past:reviewed-frame-0:formal",
+        "v:debellare:background:v2:simple:scene-0-0-ordinary",
+        "v:debellare:background:v2:simple:scene-0-2-formal",
+        "v:debellare:background:v2:progressive:scene-0-0-ordinary",
+        "v:debellare:background:v2:progressive:scene-0-2-formal",
+        "v:debellare:future:reviewed-frame-0:person-0",
+        "v:debellare:future:reviewed-frame-0:formal",
+        "v:debellare:condizionale:reviewed-frame-0:person-0",
+        "v:debellare:condizionale:reviewed-frame-0:formal"
+      ],
+      "scope": {
+        "rawSourceFields": true,
+        "allStoredExamples": true,
+        "policyAllFramesPredicatesNotesRestrictionsAndCustomExamples": true,
+        "nonfiniteFormsAndNotes": true,
+        "fiveCoreSixPersonVectors": true,
+        "formalMaleFemaleVectors": true,
+        "representativeSimpleProgressiveContexts": true,
+        "sharedQuestionLessonTextDeduplicatedRead": true,
+        "allRenderedContexts": false,
+        "allQuestionRecipes": false,
+        "nativeHuman": false,
+        "pronunciation": false
+      },
+      "findings": [],
+      "status": "scoped independent read; no definite defect found in stated fields/samples"
+    }
+  ]
+}

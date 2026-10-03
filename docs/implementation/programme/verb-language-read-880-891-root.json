@@ -1,0 +1,308 @@
+{
+  "reviewer": "root",
+  "date": "2026-10-04",
+  "scope": "Actually read12source usage/pattern/example declarations, all policy frames/notes and subjects, five core finite/formalM/F vectors, nonfinite displays, and audit-selected ordinary/formal/simple/progressive samples. Only exact audit-selected IDs listed; extra inspected samples do not inflate coverage. Not whole generated question bank, optional paradigms, pronunciation or human approval.",
+  "rawPath": "/tmp/parola-root-verb-review-880-891.jsonl",
+  "rawSHA256": "8675080f93ca4b00852fbb3372c7ff29e66b60645135c979150778aa1ca05fd9",
+  "entries": [
+    {
+      "index": 880,
+      "id": "v:gioire",
+      "sourceSHA256": "d9b939ac5dd73add64a9985e8a974a3184d297a5504eb8b509c0f26abe01830a",
+      "policySHA256": "bee0478b7e76ed15de5742a67036099ff804998fe6643d4260069dacf69fc0ec",
+      "nonFiniteSHA256": "5e2cb39213ad5667093473ea951b2df9736f14e04eade33c47952f7e8199adfd",
+      "compiledSHA256": "f234713ed569c65610cf8a7f037decc632cd40af15e07c3719adbd8a36cfa167",
+      "readSampleIds": [
+        "v:gioire:present:dictionary-1",
+        "v:gioire:present:v2:simple:scene-0-2-formal",
+        "v:gioire:present:v2:progressive:scene-0-0-ordinary",
+        "v:gioire:present:v2:progressive:scene-0-2-formal",
+        "v:gioire:past:reviewed-frame-0:person-0",
+        "v:gioire:past:reviewed-frame-0:formal",
+        "v:gioire:background:v2:simple:scene-0-0-ordinary",
+        "v:gioire:background:v2:simple:scene-0-2-formal",
+        "v:gioire:background:v2:progressive:scene-0-0-ordinary",
+        "v:gioire:background:v2:progressive:scene-0-2-formal",
+        "v:gioire:future:reviewed-frame-0:person-0",
+        "v:gioire:future:reviewed-frame-0:formal",
+        "v:gioire:condizionale:reviewed-frame-0:person-0",
+        "v:gioire:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 881,
+      "id": "v:googlare",
+      "sourceSHA256": "4a69233b19620b94521400cfc5df8c11a93bb7758f16fb51ccd06140aedf6dff",
+      "policySHA256": "ba161442377c3e681dc2ea715909bcc62e0a442c7ac463ff5bc93fb690edac08",
+      "nonFiniteSHA256": "77a1f87c2bc38f9b8a82c115d866f19d6698d4dbec3f65e0b8d96ca77b82cc03",
+      "compiledSHA256": "aadf374e48d112cfb5ec830075c397f33c7c842909836834e33c8f9708413481",
+      "readSampleIds": [
+        "v:googlare:present:v2:simple:scene-0-0-ordinary",
+        "v:googlare:present:v2:simple:scene-0-2-formal",
+        "v:googlare:present:v2:progressive:scene-0-0-ordinary",
+        "v:googlare:present:v2:progressive:scene-0-2-formal",
+        "v:googlare:past:dictionary-1",
+        "v:googlare:past:reviewed-frame-0:formal",
+        "v:googlare:background:v2:simple:scene-0-0-ordinary",
+        "v:googlare:background:v2:simple:scene-0-2-formal",
+        "v:googlare:background:v2:progressive:scene-0-0-ordinary",
+        "v:googlare:background:v2:progressive:scene-0-2-formal",
+        "v:googlare:future:reviewed-frame-0:person-0",
+        "v:googlare:future:reviewed-frame-0:formal",
+        "v:googlare:condizionale:reviewed-frame-0:person-0",
+        "v:googlare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 882,
+      "id": "v:gravare",
+      "sourceSHA256": "0e3b7b4b0c1a4f86224d7f51980d8b4ab6e8047b9caeb3154c8b7bd58d4fb7e1",
+      "policySHA256": "9e775c5d06c578dc38b13c1e4965bc0ea15dbf62b3c4b414a15678af41943dac",
+      "nonFiniteSHA256": "ba468471002045d5f3f05f8fbbbb7b8b4978cfe4f2ac729b725b1c6775b254eb",
+      "compiledSHA256": "cd750d53b805f7c7bea0b0bce391e3fb0ac3deac8959d6e8e441e14bee522e2f",
+      "readSampleIds": [
+        "v:gravare:present:v2:simple:scene-0-2-ordinary",
+        "v:gravare:present:v2:progressive:scene-0-2-ordinary",
+        "v:gravare:past:reviewed-frame-0:person-2",
+        "v:gravare:background:dictionary-1",
+        "v:gravare:background:v2:progressive:scene-0-2-ordinary",
+        "v:gravare:future:reviewed-frame-0:person-2",
+        "v:gravare:condizionale:reviewed-frame-0:person-2"
+      ]
+    },
+    {
+      "index": 883,
+      "id": "v:imbattersi",
+      "sourceSHA256": "7fe349c1e1236d5e26418d4a45f977ca049889b7e52fe1de52ddf0c23d535445",
+      "policySHA256": "ba9a8c10f944693af98bd06cf722c1624cc76aa0a1b149b6f50f4ea7497be3c2",
+      "nonFiniteSHA256": "57026add25d0596cf58fe5436292a64d589c2be068fa2b188b2231ab35bb8a2c",
+      "compiledSHA256": "5624fb55f6b3a156b5d3af684596910bb8000d96a4cd06759bf2d5b0d68141e8",
+      "readSampleIds": [
+        "v:imbattersi:present:v2:simple:scene-0-0-ordinary",
+        "v:imbattersi:present:v2:simple:scene-0-2-formal",
+        "v:imbattersi:present:v2:progressive:scene-0-0-ordinary",
+        "v:imbattersi:present:v2:progressive:scene-0-2-formal",
+        "v:imbattersi:past:dictionary-0",
+        "v:imbattersi:past:reviewed-frame-0:formal",
+        "v:imbattersi:background:v2:simple:scene-0-0-ordinary",
+        "v:imbattersi:background:v2:simple:scene-0-2-formal",
+        "v:imbattersi:background:v2:progressive:scene-0-0-ordinary",
+        "v:imbattersi:background:v2:progressive:scene-0-2-formal",
+        "v:imbattersi:future:reviewed-frame-0:person-0",
+        "v:imbattersi:future:reviewed-frame-0:formal",
+        "v:imbattersi:condizionale:reviewed-frame-0:person-0",
+        "v:imbattersi:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 884,
+      "id": "v:immedesimarsi",
+      "sourceSHA256": "ad898a6e7843b1a3ad76a117df5b9b5d43a34c7de16a7efe39a23a36a3a353b3",
+      "policySHA256": "6c4403dbf9d92d0639438c995508d0b9083d1c093e0540531f938349d5b6bd30",
+      "nonFiniteSHA256": "cc2a2276b10efcc973b02520b3712a303d3c8de48ced3cb3a41a620c1ca0f6f9",
+      "compiledSHA256": "292b13bb74438b12f3d68f5f04d64fe7332e2afa039d6a5ab1193272e7036dd2",
+      "readSampleIds": [
+        "v:immedesimarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:immedesimarsi:present:v2:simple:scene-0-2-formal",
+        "v:immedesimarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:immedesimarsi:present:v2:progressive:scene-0-2-formal",
+        "v:immedesimarsi:past:reviewed-frame-0:person-0",
+        "v:immedesimarsi:past:reviewed-frame-0:formal",
+        "v:immedesimarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:immedesimarsi:background:v2:simple:scene-0-2-formal",
+        "v:immedesimarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:immedesimarsi:background:v2:progressive:scene-0-2-formal",
+        "v:immedesimarsi:future:reviewed-frame-0:person-0",
+        "v:immedesimarsi:future:reviewed-frame-0:formal",
+        "v:immedesimarsi:condizionale:reviewed-frame-0:person-0",
+        "v:immedesimarsi:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 885,
+      "id": "v:impartire",
+      "sourceSHA256": "8528bf6cc2a473fb01858f58a37efb264564780963fbb4ea76ba1d16a9b58636",
+      "policySHA256": "c17dc98e2e4aed7fc9023895713807a9f6666469843971daac2cca425b07254c",
+      "nonFiniteSHA256": "a760ae34ea06d79aaff51c3c93a85801b9e3f628dcfb2bf44083ebd0d3ea73e6",
+      "compiledSHA256": "f6d458f81255ca4cdb68f06427cc48b0ee59fad635313d14fda9c5d4ff5b4e19",
+      "readSampleIds": [
+        "v:impartire:present:v2:simple:scene-0-0-ordinary",
+        "v:impartire:present:v2:simple:scene-0-2-formal",
+        "v:impartire:present:v2:progressive:scene-0-0-ordinary",
+        "v:impartire:present:v2:progressive:scene-0-2-formal",
+        "v:impartire:past:reviewed-frame-0:person-0",
+        "v:impartire:past:reviewed-frame-0:formal",
+        "v:impartire:background:v2:simple:scene-0-0-ordinary",
+        "v:impartire:background:v2:simple:scene-0-2-formal",
+        "v:impartire:background:v2:progressive:scene-0-0-ordinary",
+        "v:impartire:background:v2:progressive:scene-0-2-formal",
+        "v:impartire:future:reviewed-frame-0:person-0",
+        "v:impartire:future:reviewed-frame-0:formal",
+        "v:impartire:condizionale:reviewed-frame-0:person-0",
+        "v:impartire:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 886,
+      "id": "v:imperversare",
+      "sourceSHA256": "ed6ae632e87896b90830f5db06fb23b8df7340bc38973a37d176708536652884",
+      "policySHA256": "835f921e4f54a5d0c45603b1bebf86fbf06cd3d2710d6c4dea634349c0c571e8",
+      "nonFiniteSHA256": "5f5ceeddc01018a67c827fbddf2674e4c07aa326c3604a1131b613dd55ed68cb",
+      "compiledSHA256": "2d37deb028948ad634c7c2fdae7bb41b92eebf8da25f2aa9f1a4eed1be560090",
+      "readSampleIds": [
+        "v:imperversare:present:v2:simple:scene-0-2-ordinary",
+        "v:imperversare:present:v2:progressive:scene-0-2-ordinary",
+        "v:imperversare:past:dictionary-0",
+        "v:imperversare:background:v2:simple:scene-0-2-ordinary",
+        "v:imperversare:background:v2:progressive:scene-0-2-ordinary",
+        "v:imperversare:future:reviewed-frame-1:person-2",
+        "v:imperversare:condizionale:reviewed-frame-1:person-2"
+      ]
+    },
+    {
+      "index": 887,
+      "id": "v:impugnare",
+      "sourceSHA256": "fa5047ff587a475b232540c44c072dfd00838d4d26ffb5cb2ae49528dddd241e",
+      "policySHA256": "d64d3db5f960c8408508c18339d11afdf5f16a612ae3874a8052917bf439c1f7",
+      "nonFiniteSHA256": "94f3e7cf27f1d5bc3e5e328c0f7e0266fa74c9c6682e050d5911a960eb8742b3",
+      "compiledSHA256": "75abadbca5fe660c9a6223451dcc118eb2b8f3368bce33754034361ada01e259",
+      "readSampleIds": [
+        "v:impugnare:present:v2:simple:scene-0-0-ordinary",
+        "v:impugnare:present:v2:simple:scene-0-2-formal",
+        "v:impugnare:present:v2:progressive:scene-0-0-ordinary",
+        "v:impugnare:present:v2:progressive:scene-0-2-formal",
+        "v:impugnare:past:reviewed-frame-0:person-0",
+        "v:impugnare:past:reviewed-frame-0:formal",
+        "v:impugnare:background:v2:simple:scene-0-0-ordinary",
+        "v:impugnare:background:v2:simple:scene-0-2-formal",
+        "v:impugnare:background:v2:progressive:scene-0-0-ordinary",
+        "v:impugnare:background:v2:progressive:scene-0-2-formal",
+        "v:impugnare:future:reviewed-frame-0:person-0",
+        "v:impugnare:future:reviewed-frame-0:formal",
+        "v:impugnare:condizionale:reviewed-frame-0:person-0",
+        "v:impugnare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 888,
+      "id": "v:inasprire",
+      "sourceSHA256": "97ba12bb8f003b768fac7c52886beba38c9b0fb582005a5be19be73e11b5aca3",
+      "policySHA256": "6a8e2467643d8dbab53afd2b4f5e4a25d777c23df265a2f304322b462638414f",
+      "nonFiniteSHA256": "bc08fe7d9fc3e5665904a1e72237b906d868463124c74f7718c5c1b5962afff1",
+      "compiledSHA256": "adc5335550adf9944d3937febb570f5cfacfefb9b6eda3c020249e245abe6b6a",
+      "readSampleIds": [
+        "v:inasprire:present:v2:simple:scene-0-0-ordinary",
+        "v:inasprire:present:v2:simple:scene-0-2-formal",
+        "v:inasprire:present:v2:progressive:scene-0-0-ordinary",
+        "v:inasprire:present:v2:progressive:scene-0-2-formal",
+        "v:inasprire:past:reviewed-frame-0:person-0",
+        "v:inasprire:past:reviewed-frame-0:formal",
+        "v:inasprire:background:v2:simple:scene-0-0-ordinary",
+        "v:inasprire:background:v2:simple:scene-0-2-formal",
+        "v:inasprire:background:v2:progressive:scene-0-0-ordinary",
+        "v:inasprire:background:v2:progressive:scene-0-2-formal",
+        "v:inasprire:future:reviewed-frame-0:person-0",
+        "v:inasprire:future:reviewed-frame-0:formal",
+        "v:inasprire:condizionale:reviewed-frame-0:person-0",
+        "v:inasprire:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 889,
+      "id": "v:incalzare",
+      "sourceSHA256": "ac3c180fa651652fae82933adb78967e829a7dad932bd72bb9cb131d4c8bbf12",
+      "policySHA256": "1448d94cd88d2684560643053880735e9b6079dac551f9b6511cd9e38e8679a5",
+      "nonFiniteSHA256": "5c470b80443edd0435a7043e2c4b69d1b60c24a07349c4969a3430f1b83a30c1",
+      "compiledSHA256": "759164267b596798e9eaf69816191f85bf0812590f613683760b60022585e3a8",
+      "readSampleIds": [
+        "v:incalzare:present:v2:simple:scene-0-0-ordinary",
+        "v:incalzare:present:v2:simple:scene-0-2-formal",
+        "v:incalzare:present:v2:progressive:scene-0-0-ordinary",
+        "v:incalzare:present:v2:progressive:scene-0-2-formal",
+        "v:incalzare:past:reviewed-frame-0:person-0",
+        "v:incalzare:past:reviewed-frame-0:formal",
+        "v:incalzare:background:v2:simple:scene-0-0-ordinary",
+        "v:incalzare:background:v2:simple:scene-0-2-formal",
+        "v:incalzare:background:v2:progressive:scene-0-0-ordinary",
+        "v:incalzare:background:v2:progressive:scene-0-2-formal",
+        "v:incalzare:future:reviewed-frame-0:person-0",
+        "v:incalzare:future:reviewed-frame-0:formal",
+        "v:incalzare:condizionale:reviewed-frame-0:person-0",
+        "v:incalzare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 890,
+      "id": "v:incentivare",
+      "sourceSHA256": "837c8e15cb90d46134b9a5440f7295f819ca7294373e7810abfa4b402b65802a",
+      "policySHA256": "89fd39ba18ef01207ebc7c06f1d0cac63ea6bf2ce17d027f0ffc8122df9110c7",
+      "nonFiniteSHA256": "9798a1fb0bd6e0afaaeee20516c88243c744cb1d902f3f43138adf1b3b6a76a9",
+      "compiledSHA256": "274f313be06bc12b1ae1448ebaf491fb4801381d808d77ccc341051a091e8da2",
+      "readSampleIds": [
+        "v:incentivare:present:v2:simple:scene-0-0-ordinary",
+        "v:incentivare:present:v2:simple:scene-0-2-formal",
+        "v:incentivare:present:v2:progressive:scene-0-0-ordinary",
+        "v:incentivare:present:v2:progressive:scene-0-2-formal",
+        "v:incentivare:past:reviewed-frame-0:person-0",
+        "v:incentivare:past:reviewed-frame-0:formal",
+        "v:incentivare:background:v2:simple:scene-0-0-ordinary",
+        "v:incentivare:background:v2:simple:scene-0-2-formal",
+        "v:incentivare:background:v2:progressive:scene-0-0-ordinary",
+        "v:incentivare:background:v2:progressive:scene-0-2-formal",
+        "v:incentivare:future:reviewed-frame-0:person-0",
+        "v:incentivare:future:reviewed-frame-0:formal",
+        "v:incentivare:condizionale:reviewed-frame-0:person-0",
+        "v:incentivare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 891,
+      "id": "v:incombere",
+      "sourceSHA256": "ffe5a2990af06dad2db3fd01e3469af68084d05a485f5f18b146e1e75e0260c9",
+      "policySHA256": "55b34c6a3223ca0d926b0fb1f1ad43a3e3c9562e97e7c7b67dcc01ea0747f184",
+      "nonFiniteSHA256": "db22cc243e4a8220ed9a997fcfc29f1f7de157f862613129088f6bfef1704252",
+      "compiledSHA256": "56d0109274bf2eae2c6c53486ed5958170907946c00f75aa4eb6a6c46419d5b3",
+      "readSampleIds": [
+        "v:incombere:present:dictionary-0",
+        "v:incombere:background:dictionary-1"
+      ]
+    }
+  ],
+  "declaredReadSampleCount": 142,
+  "findings": [
+    {
+      "id": "v:gioire",
+      "status": "verified reference defect; pending repair",
+      "detail": "The reference synthesizes present participle gioente. Treccani explicitly marks the present participle defective; retain gioito/gioendo and core forms but suppress this fabricated display.",
+      "source": "https://www.treccani.it/vocabolario/gioire/"
+    },
+    {
+      "id": "v:imperversare",
+      "status": "verified English time-span defect; pending repair",
+      "detail": "Frame0 da stamattina/since this morning combines with simple rages/is raging and used to rage. The first needs has been raging in English; the generic habitual past is incoherent with this one ongoing interval. Revise the frame or provide explicit tense-sensitive translations, preserving saved scenes."
+    },
+    {
+      "id": "v:impugnare",
+      "status": "verified qualification/editorial candidate; pending repair",
+      "detail": "The dictionary sentence presents a universal dismissal deadline/finality assertion. Art6 is more specific about written notification and additional procedure; teach a concrete individual appeal without asserting a universal legal rule. Ordinary lexical examples and selected challenge meaning otherwise retained.",
+      "source": "https://www.normattiva.it/uri-res/N2Ls?urn%3Anir%3Astato%3Alegge%3A1966-07-15%3B604~art6="
+    },
+    {
+      "id": "v:inasprire",
+      "status": "English collocation improvement candidate",
+      "detail": "Frame0 gives tighten penalties; make penalties harsher/increase penalties or toughen penalties is clearer. Other tighten access rules/border checks frames are appropriate; use frame-specific English instead of replacing all."
+    },
+    {
+      "id": "v:incentivare",
+      "status": "verified explanatory relation correction candidate",
+      "detail": "Usage claims incentivare is broader than incoraggiare because it implies concrete rewards. This rationale describes a more specific sense, not a broader one. Rephrase around concrete help/measures without a universal only-reward claim.",
+      "source": "https://www.treccani.it/vocabolario/incentivare/"
+    },
+    {
+      "id": "v:incombere",
+      "status": "keep supported defectivity; minor translation/editorial candidates",
+      "detail": "Treccani confirms absence of past participle and compound tenses: retain missing forms. Policy election singular vs Italian le elezioni is potentially idiomatic translation of one election, not automatically number error. Dictionary burden-of-proof sentence can be a concrete example rather than universal legal assertion.",
+      "source": "https://www.treccani.it/vocabolario/incombere/"
+    }
+  ]
+}

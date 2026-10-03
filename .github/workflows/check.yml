@@ -35,11 +35,16 @@ jobs:
           node tools/test-journey-scene.mjs
           node tools/test-journey-import-counter.mjs
           node tools/test-journey-form-history.mjs
+          node tools/test-formal-ci-agreement.mjs
+          node tools/test-impersonal-fixed-feedback.mjs
+          node tools/test-prior-only-journey-targets.mjs
           node tools/test-journey-builder-boundary.mjs
           node tools/test-journey-form-content-review.mjs
           node tools/build-verb-question-history.mjs --check
           node tools/test-verb-repairs-402.mjs
           node tools/test-verb-repairs-522.mjs
+          node tools/test-verb-repairs-764.mjs
+          node tools/test-verb-language-review-ledger.mjs
           node tools/test-verb-finite-spans.mjs
           node tools/test-verb-repairs-271.mjs
           node --test tests/ai-input-spelling.test.mjs

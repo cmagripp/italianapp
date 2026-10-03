@@ -1,0 +1,556 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "programme_curriculum author agent",
+  "status": "17 bounded source corrections and independent language/history gate passed; actual-route compatibility integration pending",
+  "baseline": "8517db3",
+  "scope": "Seventeen approved source repairs; current-only selected impersonal restriction and explicit one-entry defective reference exception. No whole-catalogue approval or educator claim.",
+  "priorFixture": "docs/implementation/programme/verb-repairs-764-prior.json",
+  "priorFixtureSHA256": "6088ab6088891c24f13a72cce91f2715ff705e1c686056f205e01c42f3cc9dc4",
+  "exactRawPriorScratch": {
+    "path": "/tmp/parola-verb-repairs-764-before.json",
+    "sha256": "51efc28e8cdd5715fff33149b8b5a1989aeb41380387f8553529ca34ac5d0b68"
+  },
+  "checks": {
+    "status": "passed",
+    "baseline": "8517db3",
+    "entries": 17,
+    "priorPools": 2117,
+    "preservedPriorSelections": 3891,
+    "retiredContextOccurrences": 105,
+    "currentSelections": 3996,
+    "priorFormCues": 46,
+    "trattarsiRecoveryTransitions": 192,
+    "validTrattarsiPriorSelections": 6,
+    "currentTrattarsiContextCues": 15,
+    "trattarsiPriorQuestionsExact": 1152,
+    "trattarsiPriorNullsExact": 368,
+    "currentTrattarsiFiniteTips": 124,
+    "uniqueRetiredContextIds": 49,
+    "trattarsiRetiredFormTargets": 12,
+    "unchangedOtherCoreParadigms": 1185,
+    "explicitDefectiveReferenceRepair": "v:concernere",
+    "independentAgentReview": "pending",
+    "nativeItalianEducatorReview": "pending",
+    "scope": "Declared corrections and exact prior/current source/prompt transitions; not every generated question or a whole-catalogue linguistic approval."
+  },
+  "records": [
+    {
+      "id": "v:trattarsi",
+      "index": 552,
+      "resolution": "Current impersonal si è trattato di fixes masculine singular regardless of feminine/plural di-complement. Explicit teaching/fact says the complement is not a grammatical subject. General personal reflexive reference stays unchanged. Exact actual expanded-v1 and ordinary recipes preserve valid old contexts/participle; 12 prior invalid bare compound/fact target cues use no-credit correction recovery.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/magazine/lingua_italiana/domande_e_risposte/grammatica/grammatica_807.html"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B1-more-1.json",
+        "index": 4,
+        "level": "B1"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 214
+      },
+      "sourceSHA256": "4281d1d3815490b3e62397278ffd99432b57f87e497ad81087cd4ac8b167e3f5",
+      "policySHA256": "91fa0c0e1a9b8bdcf8e5ee51d121895bf1f3e7f1073177ae41fc3ada2087f6a2",
+      "compiledSHA256": "cca0b1ea192b7431d44a9790d4654ddaf124b8c2c02164ec4a4cabcf12f02954",
+      "nonFiniteSHA256": "413ea7bb23d73c6a5f0faac60d63c54dcdef16a1e66713dc1da3251c7fef4a7e",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "trattarsi-impersonal-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:concernere",
+      "index": 606,
+      "resolution": "Primary Treccani attests no past participle and unused passato remoto. Reference pp, compound/nonfinite past and remoto become MISSING; concernente/concernendo and all four other core reference vectors stay exact. These forms were already unavailable in lesson practice, so no current lesson target is silently retired. Prior reference stays in exact fixture; old global hash assertions project only this explicit defect.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/concernere/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-1.json",
+        "index": 30,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 268
+      },
+      "sourceSHA256": "1a1f0904eb457a3f93a2c6fc1fb9207025ba9750679655f9a452495f4fe2e5ed",
+      "policySHA256": "3cd98d13aed196c6bd8e8c5f61411c92fcf282bfec329b49bdb70a32c84fb27c",
+      "compiledSHA256": "e9986e1f9271565cbbf3269d8740e2678990007c891f51364daa288cf24df717",
+      "nonFiniteSHA256": "295b245cd2ae45b4a1944e6ef270d86999c9aa13c073ddd9a674ea5f795e3c22",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": null,
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:discriminare",
+      "index": 637,
+      "resolution": "Current frame0 takes direct una minoranza; English against remains. Exact full prior frames/pools preserved; 49 previous frame0 source IDs retire only at actual prior revision, current same IDs execute. Other absolute contexts remain valid.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/discriminare/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 12,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 299
+      },
+      "sourceSHA256": "dfd95b1d8ead9b72c97a9cb83c1167518c5c977bc9e3eabd7d06fbbd4368b9a7",
+      "policySHA256": "fd921a1b4cf60d32ba15830bf5928cb3a1c30fc36a64cbd5418fcd4db1bd1d74",
+      "compiledSHA256": "b42744587564019b8cc8b6de59dfd200981d73fa289f6fc3b2f4012c09704d04",
+      "nonFiniteSHA256": "42040b1d4a6f6d4839a7be70a062eb5f995bc8ea971ca30b075a7f2069d388a6",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "discriminare-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:istituire",
+      "index": 688,
+      "resolution": "Reference models the 1949 law establishing2June as national holiday, distinct from the1946 referendum and1947 first-anniversary holiday. Replacement is reference-only; exact prior three examples remain declared.",
+      "primarySourcesRead": [
+        "https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=049U0260&atto.dataPubblicazioneGazzetta=1949-05-31",
+        "https://presidenza.governo.it/ufficio_cerimoniale/normativa/legge_19490527_260.pdf",
+        "https://www.gazzettaufficiale.it/gazzetta/serie_generale/caricaDettaglio?dataPubblicazioneGazzetta=1947-05-31&numeroGazzetta=123"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-3.json",
+        "index": 3,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 350
+      },
+      "sourceSHA256": "a5dc7a9cdf255fc981f8765bff7f08e7c87ddebce843102e7e413e8287654b74",
+      "policySHA256": "d6b3fdcf324731677b6dad3766a3952d5cfee739eaa438b95cec7561b4a38dd3",
+      "compiledSHA256": "13b17fd1d65b381c2a4c6d14da9e6b6d4c3b5203a7236cf27f148feb5ca5a66b",
+      "nonFiniteSHA256": "ce32045d512eea98bd1144090007f89291ce7173473cf315a853f67d48047fe8",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "istituire-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:preservare",
+      "index": 711,
+      "resolution": "Usage distinguishes usual food storage conservare from valid protection of food/crops preservare, with grain/humidity primary example. No blanket food prohibition remains; no questions/paradigms changed.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/preservare/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 4,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 373
+      },
+      "sourceSHA256": "73b92dbe2747f2f3b210f8ecfae7fe61e334d2553a1a1c77ac5c04d12f49f34f",
+      "policySHA256": "3588fdc92bfb9583e67f35389085e783ac99537d634efc3898a5ff822c093318",
+      "compiledSHA256": "8bc0f0c99109af7fb685d1cef6818b5739bff65f532c703d57e0313042f23565",
+      "nonFiniteSHA256": "894fe4c5e2769078f82c036030979903469205c1750762a98ffd3e2d4345e96d",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": null,
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:privare",
+      "index": 716,
+      "resolution": "False universal no deprivation of liberty before a trial is replaced by nonlegal personal rest-time example. Camera primary documents temporary restrictions under Constitution13. This language model is not legal advice; exact prior three examples retained.",
+      "primarySourcesRead": [
+        "https://documenti.camera.it/leg19/dossier/testi/Cost017.htm"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-3.json",
+        "index": 24,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 378
+      },
+      "sourceSHA256": "6ef88d4b534426cfcfe59680393abf06e4c30879aa346c5e007dab869c141bf4",
+      "policySHA256": "d1e211893eef1d5afb24de495fe316fc35a9a0c2eb046bdb9045db0b46d1aa43",
+      "compiledSHA256": "bf0c5cf62d080ee21e9d49006503979beb6f3a77f3206533171a159ee5cb0d9f",
+      "nonFiniteSHA256": "2b7f4eae4b1d2ebe533209f93d8e31a80524970e19543be54037a01f0f2116c2",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "privare-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:recarsi",
+      "index": 721,
+      "resolution": "Universal Questura requirement is replaced by a personal future plan. Current Poste primary confirms enabled post offices also accept release/renewal requests. New sentence stays reference-only; exact old examples retained.",
+      "primarySourcesRead": [
+        "https://www.poste.it/passaporto",
+        "https://www.posteitaliane.it/it/cs-poste-italiane-il-passaporto-si-puo-richiedere-in-circa-7500-uffici-postali-in-italia-30-aprile-2026"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-3.json",
+        "index": 27,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 383
+      },
+      "sourceSHA256": "34a74a4c684ce3cc5ea6dd4d142a128eb9b6507e46c38f28cc6d578c31130610",
+      "policySHA256": "89174f88249e4b8cf569e550e3f8f38f16ac0aafe0e918bf0308fc681c1e22b7",
+      "compiledSHA256": "a3832af46b57b42166daec479d0b27bec5e5204908128cfbc36bbefa713bff05",
+      "nonFiniteSHA256": "c4d3479c65aae0e9b39f97042681d7e9feabb2224545dad9912d474f4177c94e",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "recarsi-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:trattenere",
+      "index": 553,
+      "resolution": "Only breath frame uses hold/holds/held/holding +person-correct possessive breath; other hold-back frames remain. Full prior default/frame/predicate tables preserve earlier questions.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/trattenere/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B1-4.json",
+        "index": 30,
+        "level": "B1"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 215
+      },
+      "sourceSHA256": "537ead4ca907f75589a9919fbe0013dd9fd9f6b17bf3b8662ac8b9daa08bd244",
+      "policySHA256": "8f2812b2bd45b9b47e33bf0d628ef0512037257f0d1d0a760f9346a983196aca",
+      "compiledSHA256": "af31b801b6c139d4dc2697ad8c6b809470291579f719c90ff783075f909fde6a",
+      "nonFiniteSHA256": "d3d0cbee0d8d7613076d4e642a4f9ffcc7965116bbd17cc8f6747d9d16b952e2",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "trattenere-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:adempiere",
+      "index": 568,
+      "resolution": "Neutral a un dovere/a duty replaces plural self-relative ai propri doveri/a duty mismatch; primary permits a-complement though less preferred than transitive usage. No attested adempiere/adempire hybrid forms removed; prior frames exact.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/adempiere/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-1.json",
+        "index": 5,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 230
+      },
+      "sourceSHA256": "e5655fca0ea3aa74a2dc3aa67ff37302cc85f7a6e5b617f886a672bcf241726b",
+      "policySHA256": "088ffd16e09af5573fa31844c47c1827615d14511eb02e16129096a9b393b68a",
+      "compiledSHA256": "b1fbe154cd6330ce800f191198e67df8b52ddadc432fd2a1e674cfc05eb45eea",
+      "nonFiniteSHA256": "cb97a7ae340e5e07d773d590a0b23ffbf056ab3af30ccdcd6ecc407d3a952e81",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "adempiere-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:avviare",
+      "index": 595,
+      "resolution": "Only machine frame uses start; projects/research/programme retain launch. Exact prior frame/default tables preserved.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/avviare/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-1.json",
+        "index": 21,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 257
+      },
+      "sourceSHA256": "487f0295fd6c55c2884e763071fd9d4d13a4074ec682591d09feb6d8f740a52d",
+      "policySHA256": "016e7b191affe169d5baf2aff0a0c81482b0ffb29c7c8415de4c199927752ec5",
+      "compiledSHA256": "a78e3545f1c794861595ab2dca06529e8c4666fb730ae4ef944331896415e0e6",
+      "nonFiniteSHA256": "c5f77b0acee6ef9533ea08f16b6e02dcbbdb91df7169f41d8aabd2fcd7c2d1f3",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "avviare-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:candidarsi",
+      "index": 598,
+      "resolution": "Only election frame uses run; job/position/scholarship apply remains. Prior tables/pools exact.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/candidare/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 34,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 260
+      },
+      "sourceSHA256": "3069a94bcdfd03a458953f1a1d5134623a816d7d6ad80cb11d584ac220a10177",
+      "policySHA256": "a38a01fda4cd79df80b04c5cd7c72a251d79e0476e321efd2eee2c0a9eac8211",
+      "compiledSHA256": "31474f7143950ce16038325bf6ff96b88c21da6ba5db839b06ec933283032be8",
+      "nonFiniteSHA256": "f2264869e21b8eda4fbaa755fde6a05532332d6c053540d2c1636383656db7ae",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "candidarsi-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:cogliere",
+      "index": 600,
+      "resolution": "Only opportunity frame uses seize; flowers/apples/fruit retain pick. Prior tables/pools exact.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/cogliere/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-1.json",
+        "index": 24,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 262
+      },
+      "sourceSHA256": "18a7a604bedf75fc364c06d21cc66b861b4541c146abccbc9ff54aaeb3360cac",
+      "policySHA256": "c2c324f3889e73e2027cf97ce5a82d3bd19bd699d55a89681929de4702dec757",
+      "compiledSHA256": "6ea755e831ee2a78c5530313f48eb7f865547b3b5c2ba164850a1bb98397e912",
+      "nonFiniteSHA256": "adb7b02fee2218d46e16e2acabc8e534fd4845154b5bbf1ec7914a91e2d4a867",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "cogliere-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:esercitare",
+      "index": 651,
+      "resolution": "Profession frame uses practise; pressure uses exert; right/control retain exercise. Older valid/formal English readings are preserved rather than retired.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/esercitare/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-2.json",
+        "index": 17,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 313
+      },
+      "sourceSHA256": "84b100e1fe73186eb97fe5edbe1b546e42bad9e65be4b04badf419dbddf7c1e5",
+      "policySHA256": "e4cdfb088276f240a2809308ec7a1803d99db417d3fe78d8b2c521668f998341",
+      "compiledSHA256": "9e4f3065fcdddeeac3fd07d1c5475c6270c4a7adb6c3603628a4206210f7b68a",
+      "nonFiniteSHA256": "b267e5e17e1c75871c4acf60d3afed513c77bbf783e3b2fe607d748b347dd4d7",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "esercitare-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:estinguersi",
+      "index": 655,
+      "resolution": "Current simple imperfect illustrates an unfolding species decline, was/were dying out. Exact earlier habitual used-to English preserved; no claim that telic verbs cannot have progressive viewpoint.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/estinguere/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 6,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 317
+      },
+      "sourceSHA256": "5ee620aeb9f10a26e4d6b61c884ae10a142460b6f834972437b604b193c18fb5",
+      "policySHA256": "6bde5ba20d1574c98743a2fc36dfd8127e323c15c5eea3c0811bee07b62db038",
+      "compiledSHA256": "ede26236a51262310600c65b6430b7b5123f1abda51585ae38f9786463ec16cd",
+      "nonFiniteSHA256": "95b6b25c081a1db7c6e628393661fb5b149a8a61ac0c9bd9d97f5b274ae2b2e7",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "estinguersi-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:precipitare",
+      "index": 707,
+      "resolution": "Current stone-fall imperfect illustrates was/were plunging, avoiding unexplained same-stone habit. Earlier English preserved; no telic ban or broad auxiliary change.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/precipitare/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 27,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 369
+      },
+      "sourceSHA256": "4afa402181730e980e8cfd58ff598722a84203c21a5ea282e754201c7e6103b2",
+      "policySHA256": "31bfd70c77833eef7a6175246d69770e1e106e731d1eafc153059314f27944a3",
+      "compiledSHA256": "cc20badf1c3680e6642acf67cffa466f9b8b088a9791d2277fe3de0cf8d6b377",
+      "nonFiniteSHA256": "bc87f58a54024e8123146b0a16b7bcf4f600411ca6525801014ec09a3a719898",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": "precipitare-source-2026-10-04-1",
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:riferirsi",
+      "index": 737,
+      "resolution": "Chosen simple-only practice remains, but note explicitly admits ongoing speech-act mi sto riferendo a; general/statistical relation can remain simple. Does not declare progressive generally invalid or add unreviewed drills.",
+      "primarySourcesRead": [
+        "https://dizionario.internazionale.it/parola/riferirsi"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 5,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 399
+      },
+      "sourceSHA256": "2451a808d531b6c17450feb632e9808e2164a749a2f39a1880e49ae6354ad40b",
+      "policySHA256": "8a0a04ff1cba6eaa3fb4a0ca9f453175ef4aedf5de939631f6af77dc1c83d084",
+      "compiledSHA256": "57d2f840a31a9b515eaea44341a1154dbe7f224d6ed6d777ddc2a46263a46538",
+      "nonFiniteSHA256": "06862f2447dcb9e64dc085a35de3ad38171054fa673dfae602f227c8c0e3e597",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": null,
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "v:provvedere",
+      "index": 718,
+      "resolution": "Reference note identifies usual verbal compound participle provveduto and rarer attested provvisto. Existing primary/default order and all accepted forms remain unchanged; changing preference is separate possible work.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/vocabolario/provvedere/"
+      ],
+      "currentSource": {
+        "file": "data/verbs/B2-4.json",
+        "index": 35,
+        "level": "B2"
+      },
+      "currentPolicySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 380
+      },
+      "sourceSHA256": "618912f2fc12bbcf6efa2b1a5b3263d6eadf3f58c995950ece3b93a1e38eeb1d",
+      "policySHA256": "2b7df0e60a8f85e5091a37b30e10ad5129ffc4ab3a415d6b58b3351775442151",
+      "compiledSHA256": "d3dbc031c40b0cd25813c3d6ae888292dd1eac4f87aac750462b41a22de05a61",
+      "nonFiniteSHA256": "f080f4819187d3a01db946de1185c27f174c36fdfef1918cd533f217de3d2327",
+      "priorSceneRevision": "expanded-v1",
+      "currentSceneRevision": null,
+      "readScope": "Exact changed source/policy fields and declared meaning contrasts; representative generated frames and all declared preservation/recovery checks. Not all generated questions/contexts or independent primary attestation of every unchanged rare form.",
+      "reviewedSourceExampleIndexes": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "gates": {
+    "independentAgentLanguageReview": "passed for the named17 repairs at the independent report pins",
+    "nativeItalianEducator": "pending",
+    "allGeneratedQuestionFormats": "not fully reviewed",
+    "allRareMorphologyPrimaryAttestation": "pending",
+    "humanPronunciationAndAudio": "not reviewed",
+    "learnerCalibration": "pending",
+    "actualRouteCompatibility": "pending separate browser/controller gate; valid old-only ordinary progressive usage currently reopens but controller grading integration is being repaired"
+  },
+  "independentEvidence": {
+    "record": "docs/implementation/programme/verb-repairs-764-independent-review.json",
+    "sha256": "9eab004ce297f97711a46f61b26c858a95954dff06924e17f17e705cbc93f72b",
+    "reviewedAuthorReportSHA256": "3237760c2147de22703b514d21870746035d349afa52c67fe10a4cf6896c2c4e",
+    "scope": "Named source repairs, all51 stored examples/policy frames/notes and265 exact representative generated IDs, independently checked prior/current recipes. Does not validate every generated question or native educator quality."
+  },
+  "historicalCompatibility": {
+    "actual8517QuestionShapesExact": 1152,
+    "actual8517NullRecipesExact": 368,
+    "baseline": "8517db3",
+    "historicalFindings": "Missing usage/sourceChapter metadata and fabricated old-null matching shapes were corrected; before failures remain in the independent record."
+  }
+}

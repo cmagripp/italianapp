@@ -1,0 +1,554 @@
+{
+  "baseline": "8517db3",
+  "entryId": "v:trattarsi",
+  "sourceSHA256": {
+    "js/learning/lesson-content.js": "51753f0254f58da4ae99531430fe628bbf4b734124e37a0950621095f8d0d78d",
+    "js/learning/lesson-questions.js": "276aac3aceec165cc64ded78fd04c30b25b035257f34dfb6b88226377bb9ae44",
+    "data/verbs.json": "0a7668c64ce370844c664637c81d9adf25dc029af39f850f2cc9bf196d77b2f1"
+  },
+  "scope": "Actual 8517db3 builder/question formatter loaded independently from Git archive; exact available/absent recipe markers. Null is a recorded absence, never a renderer template.",
+  "records": [
+    {
+      "ordinary": true,
+      "chapterId": "present",
+      "targetId": "v:trattarsi::lesson::present::progressive-usage",
+      "format": "mc",
+      "variant": 0,
+      "phase": "guided",
+      "available": true,
+      "descriptor": {
+        "type": "mc",
+        "prompt": "<div class=\"big md\">Which meaning does stare + gerundio highlight?</div><div class=\"sub\"></div>",
+        "answer": [
+          "An action in progress"
+        ],
+        "say": "",
+        "example": "",
+        "exampleTranslation": "",
+        "tip": "Use the present of stare plus a gerundio to highlight an action in progress: sto parlando. The ordinary present can also describe what is happening now; the progressive makes the ongoing action explicit.",
+        "lesson": "Use the present of stare plus a gerundio to highlight an action in progress: sto parlando. The ordinary present can also describe what is happening now; the progressive makes the ongoing action explicit.",
+        "explanation": "trattarsi: An action in progress is the requested verb form.",
+        "context": null,
+        "meta": {
+          "skill": "progressiveUsage",
+          "tense": "presenteProgressivo",
+          "person": null,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::present::progressive-usage:usage",
+          "contextId": "v:trattarsi::lesson::present::progressive-usage:usage",
+          "evidenceScope": "progressiveUsage",
+          "scaffoldSkill": null,
+          "supportOnly": true,
+          "answerLanguage": "en"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "670e5ef3e94c99f21254a9a5ad0353c624bbfcc04f6dbf75cd9f62ee07ae5581",
+      "targetSHA256": "7884eab60a9e2cee478fc4fa5f29999b4d01652b6101f836ec6ba9c2983b2863"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "present",
+      "targetId": "v:trattarsi::lesson::present::progressive-usage",
+      "format": "mc",
+      "variant": 1,
+      "phase": "guided",
+      "available": true,
+      "descriptor": {
+        "type": "mc",
+        "prompt": "<div class=\"big md\">Which meaning does stare + gerundio highlight?</div><div class=\"sub\"></div>",
+        "answer": [
+          "An action in progress"
+        ],
+        "say": "",
+        "example": "",
+        "exampleTranslation": "",
+        "tip": "Use the present of stare plus a gerundio to highlight an action in progress: sto parlando. The ordinary present can also describe what is happening now; the progressive makes the ongoing action explicit.",
+        "lesson": "Use the present of stare plus a gerundio to highlight an action in progress: sto parlando. The ordinary present can also describe what is happening now; the progressive makes the ongoing action explicit.",
+        "explanation": "trattarsi: An action in progress is the requested verb form.",
+        "context": null,
+        "meta": {
+          "skill": "progressiveUsage",
+          "tense": "presenteProgressivo",
+          "person": null,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::present::progressive-usage:usage",
+          "contextId": "v:trattarsi::lesson::present::progressive-usage:usage",
+          "evidenceScope": "progressiveUsage",
+          "scaffoldSkill": null,
+          "supportOnly": true,
+          "answerLanguage": "en"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "670e5ef3e94c99f21254a9a5ad0353c624bbfcc04f6dbf75cd9f62ee07ae5581",
+      "targetSHA256": "7884eab60a9e2cee478fc4fa5f29999b4d01652b6101f836ec6ba9c2983b2863"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "background",
+      "targetId": "v:trattarsi::lesson::background::progressive-usage",
+      "format": "mc",
+      "variant": 0,
+      "phase": "guided",
+      "available": true,
+      "descriptor": {
+        "type": "mc",
+        "prompt": "<div class=\"big md\">Which meaning does stava + gerundio highlight?</div><div class=\"sub\"></div>",
+        "answer": [
+          "An action in progress at a past moment"
+        ],
+        "say": "",
+        "example": "",
+        "exampleTranslation": "",
+        "tip": "Use the imperfetto of stare plus a gerundio to focus on an action in progress at a past moment: stavo parlando. The simple imperfetto can also describe an ongoing action, as well as a past habit or background.",
+        "lesson": "Use the imperfetto of stare plus a gerundio to focus on an action in progress at a past moment: stavo parlando. The simple imperfetto can also describe an ongoing action, as well as a past habit or background.",
+        "explanation": "trattarsi: An action in progress at a past moment is the requested verb form.",
+        "context": null,
+        "meta": {
+          "skill": "progressiveUsage",
+          "tense": "imperfettoProgressivo",
+          "person": null,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::background::progressive-usage:usage",
+          "contextId": "v:trattarsi::lesson::background::progressive-usage:usage",
+          "evidenceScope": "progressiveUsage",
+          "scaffoldSkill": null,
+          "supportOnly": true,
+          "answerLanguage": "en"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "095e0039c83b4529ed71a1ad1f4474b1655c6287fb006d61f66ce4a7d5d4fd99",
+      "targetSHA256": "e2373f0c3d9fdd0d53fce8e97562de874d563f06deb294f1f610bb4f9e76e6ac"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "background",
+      "targetId": "v:trattarsi::lesson::background::progressive-usage",
+      "format": "mc",
+      "variant": 1,
+      "phase": "guided",
+      "available": true,
+      "descriptor": {
+        "type": "mc",
+        "prompt": "<div class=\"big md\">Which meaning does stava + gerundio highlight?</div><div class=\"sub\"></div>",
+        "answer": [
+          "An action in progress at a past moment"
+        ],
+        "say": "",
+        "example": "",
+        "exampleTranslation": "",
+        "tip": "Use the imperfetto of stare plus a gerundio to focus on an action in progress at a past moment: stavo parlando. The simple imperfetto can also describe an ongoing action, as well as a past habit or background.",
+        "lesson": "Use the imperfetto of stare plus a gerundio to focus on an action in progress at a past moment: stavo parlando. The simple imperfetto can also describe an ongoing action, as well as a past habit or background.",
+        "explanation": "trattarsi: An action in progress at a past moment is the requested verb form.",
+        "context": null,
+        "meta": {
+          "skill": "progressiveUsage",
+          "tense": "imperfettoProgressivo",
+          "person": null,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::background::progressive-usage:usage",
+          "contextId": "v:trattarsi::lesson::background::progressive-usage:usage",
+          "evidenceScope": "progressiveUsage",
+          "scaffoldSkill": null,
+          "supportOnly": true,
+          "answerLanguage": "en"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "095e0039c83b4529ed71a1ad1f4474b1655c6287fb006d61f66ce4a7d5d4fd99",
+      "targetSHA256": "e2373f0c3d9fdd0d53fce8e97562de874d563f06deb294f1f610bb4f9e76e6ac"
+    },
+    {
+      "ordinary": false,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::background",
+      "format": "type",
+      "variant": 0,
+      "phase": "independent",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"sub\">It was a simple misunderstanding.</div><div class=\"sentence\"><span class=\"blank\">…</span> di un semplice malinteso.</div><div class=\"sub\">lui/lei · Imperfetto</div>",
+        "answer": [
+          "si trattava"
+        ],
+        "say": "Si trattava di un semplice malinteso.",
+        "example": "Si trattava di un semplice malinteso.",
+        "exampleTranslation": "It was a simple misunderstanding.",
+        "tip": "Write the complete missing verb form, including its auxiliary or pronoun when needed. Match the person and tense shown.",
+        "lesson": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "explanation": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "context": {
+          "it": "Si trattava di un semplice malinteso.",
+          "en": "It was a simple misunderstanding."
+        },
+        "meta": {
+          "skill": "context",
+          "tense": "imperfetto",
+          "person": 2,
+          "role": "ordinary",
+          "variantId": "v:trattarsi:background:dictionary-1:italian-gap",
+          "contextId": "v:trattarsi:background:dictionary-1",
+          "evidenceScope": "construction",
+          "scaffoldSkill": null,
+          "supportOnly": null,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "4f1144175e8ae28b2eaf7838267880f93c646fca5757484d82a4a22cd72bd1b3",
+      "targetSHA256": "1de7051255e7024e3e11f90cef081ccd926228e58c253f8be5da595ea54d8a79"
+    },
+    {
+      "ordinary": false,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::background",
+      "format": "type",
+      "variant": 1,
+      "phase": "independent",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"big md\">It was a simple misunderstanding.</div><div class=\"sub\">lui/lei · Imperfetto</div>",
+        "answer": [
+          "si trattava"
+        ],
+        "say": "Si trattava di un semplice malinteso.",
+        "example": "Si trattava di un semplice malinteso.",
+        "exampleTranslation": "It was a simple misunderstanding.",
+        "tip": "Write the complete missing verb form, including its auxiliary or pronoun when needed. Match the person and tense shown.",
+        "lesson": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "explanation": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "context": {
+          "it": "Si trattava di un semplice malinteso.",
+          "en": "It was a simple misunderstanding."
+        },
+        "meta": {
+          "skill": "context",
+          "tense": "imperfetto",
+          "person": 2,
+          "role": "ordinary",
+          "variantId": "v:trattarsi:background:dictionary-1:english-retrieval",
+          "contextId": "v:trattarsi:background:dictionary-1",
+          "evidenceScope": "construction",
+          "scaffoldSkill": null,
+          "supportOnly": null,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "6a934c1474ceea929263d20b3ee94b6091d0948057cce3e5fa397b402ade1024",
+      "targetSHA256": "1de7051255e7024e3e11f90cef081ccd926228e58c253f8be5da595ea54d8a79"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::background",
+      "format": "type",
+      "variant": 0,
+      "phase": "independent",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"sub\">It was a simple misunderstanding.</div><div class=\"sentence\"><span class=\"blank\">…</span> di un semplice malinteso.</div><div class=\"sub\">lui/lei · Imperfetto</div>",
+        "answer": [
+          "si trattava"
+        ],
+        "say": "Si trattava di un semplice malinteso.",
+        "example": "Si trattava di un semplice malinteso.",
+        "exampleTranslation": "It was a simple misunderstanding.",
+        "tip": "Write the complete missing verb form, including its auxiliary or pronoun when needed. Match the person and tense shown.",
+        "lesson": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "explanation": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "context": {
+          "it": "Si trattava di un semplice malinteso.",
+          "en": "It was a simple misunderstanding."
+        },
+        "meta": {
+          "skill": "context",
+          "tense": "imperfetto",
+          "person": 2,
+          "role": "ordinary",
+          "variantId": "v:trattarsi:background:dictionary-1:italian-gap",
+          "contextId": "v:trattarsi:background:dictionary-1",
+          "evidenceScope": "construction",
+          "scaffoldSkill": null,
+          "supportOnly": null,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "4f1144175e8ae28b2eaf7838267880f93c646fca5757484d82a4a22cd72bd1b3",
+      "targetSHA256": "1e7723a3d9c5a6becde4f361d7f1004f0365b86e02d5dcdbba2e0c875c1542bf"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::background",
+      "format": "type",
+      "variant": 1,
+      "phase": "independent",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"big md\">It was a simple misunderstanding.</div><div class=\"sub\">lui/lei · Imperfetto</div>",
+        "answer": [
+          "si trattava"
+        ],
+        "say": "Si trattava di un semplice malinteso.",
+        "example": "Si trattava di un semplice malinteso.",
+        "exampleTranslation": "It was a simple misunderstanding.",
+        "tip": "Write the complete missing verb form, including its auxiliary or pronoun when needed. Match the person and tense shown.",
+        "lesson": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "explanation": "Si trattava di un semplice malinteso. — It was a simple misunderstanding.",
+        "context": {
+          "it": "Si trattava di un semplice malinteso.",
+          "en": "It was a simple misunderstanding."
+        },
+        "meta": {
+          "skill": "context",
+          "tense": "imperfetto",
+          "person": 2,
+          "role": "ordinary",
+          "variantId": "v:trattarsi:background:dictionary-1:english-retrieval",
+          "contextId": "v:trattarsi:background:dictionary-1",
+          "evidenceScope": "construction",
+          "scaffoldSkill": null,
+          "supportOnly": null,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "6a934c1474ceea929263d20b3ee94b6091d0948057cce3e5fa397b402ade1024",
+      "targetSHA256": "1e7723a3d9c5a6becde4f361d7f1004f0365b86e02d5dcdbba2e0c875c1542bf"
+    },
+    {
+      "ordinary": false,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::background",
+      "format": "match",
+      "variant": 0,
+      "phase": "independent",
+      "available": true,
+      "descriptor": null,
+      "descriptorSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "targetSHA256": "1de7051255e7024e3e11f90cef081ccd926228e58c253f8be5da595ea54d8a79"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::background",
+      "format": "match",
+      "variant": 0,
+      "phase": "independent",
+      "available": true,
+      "descriptor": null,
+      "descriptorSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "targetSHA256": "1e7723a3d9c5a6becde4f361d7f1004f0365b86e02d5dcdbba2e0c875c1542bf"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "present",
+      "targetId": "v:trattarsi::lesson::present::context",
+      "format": "type",
+      "variant": 0,
+      "phase": "independent",
+      "available": false,
+      "descriptor": null,
+      "descriptorSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "targetSHA256": "5e200190d730484cd34a74ebbf23c5ada14e6b6d6cad54401d64e8acccbeb3fe"
+    },
+    {
+      "ordinary": false,
+      "chapterId": "past",
+      "targetId": "v:trattarsi::lesson::past::auxiliary-part",
+      "format": "type",
+      "variant": 0,
+      "phase": "guided",
+      "available": false,
+      "descriptor": null,
+      "descriptorSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "targetSHA256": "4f2eac9d8a7778d726311c824cc66093d3928dcd5061c52ae437e22f7b64f34f"
+    },
+    {
+      "ordinary": false,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::past",
+      "format": "type",
+      "variant": 0,
+      "phase": "independent",
+      "available": false,
+      "descriptor": null,
+      "descriptorSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "targetSHA256": "f2a438176824424781f6367334d6f35cd05352a8c6d53a1b8443cda9861dafca"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "mixed",
+      "targetId": "v:trattarsi::lesson::mixed::past",
+      "format": "type",
+      "variant": 0,
+      "phase": "independent",
+      "available": false,
+      "descriptor": null,
+      "descriptorSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "targetSHA256": "f2a438176824424781f6367334d6f35cd05352a8c6d53a1b8443cda9861dafca"
+    },
+    {
+      "ordinary": false,
+      "chapterId": "past",
+      "targetId": "v:trattarsi::lesson::past::participle-part",
+      "format": "type",
+      "variant": 0,
+      "phase": "guided",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"big md\">trattarsi</div><div class=\"sub\">Write the past participle in its dictionary form (masculine singular).</div>",
+        "answer": [
+          "trattato"
+        ],
+        "say": "trattato",
+        "example": "trattarsi → trattato",
+        "exampleTranslation": "",
+        "tip": "Recall the past participle. For an irregular form, learn a short example as well as the infinitive.",
+        "lesson": "Build the passato prossimo with the present of avere or essere plus a past participle. Learn the auxiliary with the verb in its context. With essere, the participle agrees with the subject.",
+        "explanation": "trattato is the past participle of trattarsi. Combine it with the auxiliary for the intended person.",
+        "context": null,
+        "meta": {
+          "skill": "participle",
+          "tense": "passatoProssimo",
+          "person": null,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::past::participle-part:participle-citation",
+          "contextId": "v:trattarsi::lesson::past::participle-part:participle-citation",
+          "evidenceScope": "participle",
+          "scaffoldSkill": null,
+          "supportOnly": true,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "e8eac4070e15f5591bd7edc6b793ee01198a8b4af6a0817fa4643284b5017438",
+      "targetSHA256": "f4310074a508d1b05ca4a68c3f95da6900007ad0daa6de1c592bed8b5a3588e2"
+    },
+    {
+      "ordinary": false,
+      "chapterId": "past",
+      "targetId": "v:trattarsi::lesson::past::form-2",
+      "format": "type",
+      "variant": 0,
+      "phase": "independent",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"big md\">trattarsi</div><div class=\"sub\">impersonal: si tratta di · Passato prossimo</div>",
+        "answer": [
+          "si è trattato",
+          "si è trattata"
+        ],
+        "say": "si è trattato",
+        "example": "impersonal: si tratta di → si è trattato / si è trattata",
+        "exampleTranslation": "",
+        "tip": "Start with lui/lei, then build the Passato prossimo form. Include the pronoun.",
+        "lesson": "Build the passato prossimo with the present of avere or essere plus a past participle. Learn the auxiliary with the verb in its context. With essere, the participle agrees with the subject.",
+        "explanation": "trattarsi: si è trattato / si è trattata is the requested Passato prossimo form.",
+        "context": null,
+        "meta": {
+          "skill": "conjugation",
+          "tense": "passatoProssimo",
+          "person": 2,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::past::form-2:cue-0",
+          "contextId": "v:trattarsi::lesson::past::form-2:form-cue-0",
+          "evidenceScope": "form",
+          "scaffoldSkill": null,
+          "supportOnly": null,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "ed2ad74382c18952ae2801650ceecb17008685c80bd137900d5c97b939875367",
+      "targetSHA256": "5e09987f6cd39ef47bc7f6db0ccb63d3a9087efbde975b18ee0be34dcbc03174"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "past",
+      "targetId": "v:trattarsi::lesson::past::participle-part",
+      "format": "type",
+      "variant": 0,
+      "phase": "guided",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"big md\">trattarsi</div><div class=\"sub\">Write the past participle in its dictionary form (masculine singular).</div>",
+        "answer": [
+          "trattato"
+        ],
+        "say": "trattato",
+        "example": "trattarsi → trattato",
+        "exampleTranslation": "",
+        "tip": "Recall the past participle. For an irregular form, learn a short example as well as the infinitive.",
+        "lesson": "Build the passato prossimo with the present of avere or essere plus a past participle. Learn the auxiliary with the verb in its context. With essere, the participle agrees with the subject.",
+        "explanation": "trattato is the past participle of trattarsi. Combine it with the auxiliary for the intended person.",
+        "context": null,
+        "meta": {
+          "skill": "participle",
+          "tense": "passatoProssimo",
+          "person": null,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::past::participle-part:participle-citation",
+          "contextId": "v:trattarsi::lesson::past::participle-part:participle-citation",
+          "evidenceScope": "participle",
+          "scaffoldSkill": null,
+          "supportOnly": true,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "e8eac4070e15f5591bd7edc6b793ee01198a8b4af6a0817fa4643284b5017438",
+      "targetSHA256": "f4310074a508d1b05ca4a68c3f95da6900007ad0daa6de1c592bed8b5a3588e2"
+    },
+    {
+      "ordinary": true,
+      "chapterId": "past",
+      "targetId": "v:trattarsi::lesson::past::form-2",
+      "format": "type",
+      "variant": 0,
+      "phase": "independent",
+      "available": true,
+      "descriptor": {
+        "type": "type",
+        "prompt": "<div class=\"big md\">trattarsi</div><div class=\"sub\">impersonal: si tratta di · Passato prossimo</div>",
+        "answer": [
+          "si è trattato",
+          "si è trattata"
+        ],
+        "say": "si è trattato",
+        "example": "impersonal: si tratta di → si è trattato / si è trattata",
+        "exampleTranslation": "",
+        "tip": "Start with lui/lei, then build the Passato prossimo form. Include the pronoun.",
+        "lesson": "Build the passato prossimo with the present of avere or essere plus a past participle. Learn the auxiliary with the verb in its context. With essere, the participle agrees with the subject.",
+        "explanation": "trattarsi: si è trattato / si è trattata is the requested Passato prossimo form.",
+        "context": null,
+        "meta": {
+          "skill": "conjugation",
+          "tense": "passatoProssimo",
+          "person": 2,
+          "role": "ordinary",
+          "variantId": "v:trattarsi::lesson::past::form-2:cue-0",
+          "contextId": "v:trattarsi::lesson::past::form-2:form-cue-0",
+          "evidenceScope": "form",
+          "scaffoldSkill": null,
+          "supportOnly": null,
+          "answerLanguage": "it"
+        },
+        "pairs": []
+      },
+      "descriptorSHA256": "ed2ad74382c18952ae2801650ceecb17008685c80bd137900d5c97b939875367",
+      "targetSHA256": "5e09987f6cd39ef47bc7f6db0ccb63d3a9087efbde975b18ee0be34dcbc03174"
+    }
+  ]
+}

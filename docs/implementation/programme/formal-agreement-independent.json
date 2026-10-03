@@ -1,0 +1,1120 @@
+{
+  "date": "2026-10-04",
+  "reviewer": "programme_ai independent agent; no native human or educator approval",
+  "status": "passed for five named formal families and preserved selected question recipes",
+  "baseline": "8517db3",
+  "families": [
+    "entrarci",
+    "cascarci",
+    "restarci",
+    "starci",
+    "uscirne"
+  ],
+  "currentChecks": 350,
+  "exactAdditionalHistoricalMatching": 2294,
+  "pairRows": 70,
+  "negativeAgreement": 70,
+  "protectedFamilies": [
+    "farcela",
+    "cavarsela",
+    "avercela",
+    "pensarci",
+    "poterne",
+    "saperne",
+    "andarsene"
+  ],
+  "archivePins": [
+    {
+      "path": "data/verbs.json",
+      "sha256": "0a7668c64ce370844c664637c81d9adf25dc029af39f850f2cc9bf196d77b2f1",
+      "gitArchiveEqual": true
+    },
+    {
+      "path": "js/conjugator.js",
+      "sha256": "ab8fe9798aa76a9f5a865ae75e73bc5d3d88852000010565924155f3fe33d04d",
+      "gitArchiveEqual": true
+    },
+    {
+      "path": "js/irregular.js",
+      "sha256": "c5746b42ce247796817953ec80022f0be61c7a005e32f520a3c8ce1faecff2e7",
+      "gitArchiveEqual": true
+    },
+    {
+      "path": "js/learning/lesson-content.js",
+      "sha256": "51753f0254f58da4ae99531430fe628bbf4b734124e37a0950621095f8d0d78d",
+      "gitArchiveEqual": true
+    },
+    {
+      "path": "js/learning/lesson-questions.js",
+      "sha256": "276aac3aceec165cc64ded78fd04c30b25b035257f34dfb6b88226377bb9ae44",
+      "gitArchiveEqual": true
+    },
+    {
+      "path": "js/learning/lesson-activities.js",
+      "sha256": "0b0f728e0c36de2c47d364105cbcaea37d7e01f2b25dc3dfcd0853e22e9efc8b",
+      "gitArchiveEqual": true
+    },
+    {
+      "path": "js/learning/journey-form.js",
+      "sha256": "1b37af6bfdc581cc8cdc304941aaf327ec16f9741a858701b7b3cdd8dc9a3a0c",
+      "gitArchiveEqual": true
+    }
+  ],
+  "currentPins": [
+    {
+      "path": "js/learning/lesson-content.js",
+      "sha256": "9b6621107ac9b4583e545c6f0d48fdd2a15e6b139f09d544ce57089e9fa70ed1"
+    },
+    {
+      "path": "js/learning/lesson-questions.js",
+      "sha256": "af01749761e7d237e9298eef42666c076f931dd30302fd7194d913f3aa6ce622"
+    },
+    {
+      "path": "js/learning/diagnose.js",
+      "sha256": "f886c6c3ce4a3e070f46f9ec88393f8059cfaf89bdef8951b3d594ba854152b9"
+    },
+    {
+      "path": "js/learning/journey-form.js",
+      "sha256": "1b37af6bfdc581cc8cdc304941aaf327ec16f9741a858701b7b3cdd8dc9a3a0c"
+    },
+    {
+      "path": "js/learning/verb-question-history.js",
+      "sha256": "ec34981f2ff34476ccf0ded0dcd3f10f1f965489c5192a128dc866c36bcd2343"
+    },
+    {
+      "path": "data/verb-question-history.json",
+      "sha256": "6598f0f50e1ae89aedca66d5f0fa6133bb4424c97d9aa08a8fd1fd153dce7daa"
+    },
+    {
+      "path": "js/learning/verb-question-history-data.js",
+      "sha256": "9e7ad2b94879709dd95af070a39466f935a99a2f08b9214208b68ef6c315d0bc"
+    },
+    {
+      "path": "tools/test-formal-ci-agreement.mjs",
+      "sha256": "e1d09bc8a958edc3b21661041a4519cc9256615ac9f6a87143ce2ac23059d16c"
+    },
+    {
+      "path": "docs/implementation/programme/formal-ci-prior.json",
+      "sha256": "3dddc50a76b5bf4fcd754f8d4382a9505c5f52a360cf775c7d06d009ba9a2348"
+    }
+  ],
+  "historicalFindings": [
+    {
+      "status": "closed",
+      "before": "Chapter capture omitted optional:true, so non-core historical questions reconstructed as null.",
+      "after": "Exact baseline optional:true retained; original versus current historical matching semantics pass."
+    },
+    {
+      "status": "closed",
+      "before": "67 historical bare matching context questions lost alternative forms because their exact form cues were not captured.",
+      "reproduction": "/tmp/parola-ai-formal-matching-before.json",
+      "after": "Context fallback cues captured too; all 2,294 original-versus-historical guided matching cases now equal."
+    },
+    {
+      "status": "closed",
+      "before": "10 formal congiuntivoPassato opposite-gender answers were misdiagnosed as person errors despite matching auxiliary and pronoun.",
+      "reproduction": "/tmp/parola-ai-formal-grading-before.json",
+      "after": "Compound agreement fallthrough is narrowly selected by matching auxiliary/pronoun and participle root; all 70 current opposite-gender formal compounds diagnose agreement."
+    }
+  ],
+  "rootTargetedSuite": {
+    "status": "passed; independently executed without --report",
+    "priorDescriptors": 11470,
+    "currentGenderQuestions": 280,
+    "agreementDiagnoses": 70,
+    "recoveryTransitions": 140,
+    "pairFences": 70,
+    "unchangedFormalFamilies": 1178,
+    "historyBundleCheck": "8 recipes current; five-family review does not approve concurrent eighth trattarsi source"
+  },
+  "sourceReview": "The current helper filters subject-agreeing essere compound forms with si/sene/ci/vi/ne; protected avere+ne and object-clitic paradigms remain unchanged. New formCueAnswerFormsByVariant stores exact bare cue forms separately from contextual variants; only explicit historical rendering uses it. Existing succedere/bisognare prior records remain byte-structurally unchanged.",
+  "limits": [
+    "Original versus historical matching comparison and current format/grading are executable checks; 11,470 stored prior descriptor hashes and recovery behavior are separately covered by the independently rerun root targeted suite.",
+    "No entire generated conversation/verb catalogue language approval.",
+    "Markup/answer/speech declarations inspected here; browser route verification remains a separate integration gate.",
+    "Concurrent trattarsi/concernere source repairs are outside this five-family approval.",
+    "No source/runtime edits or provider activation."
+  ],
+  "examples": [
+    {
+      "inf": "entrarci",
+      "variant": 0,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrata",
+        "ci è entrata"
+      ],
+      "say": "Lei c'è entrata",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "entrarci",
+      "variant": 0,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrata",
+        "ci è entrata"
+      ],
+      "say": "Lei c'è entrata",
+      "choices": [
+        {
+          "label": "ci sono entrato",
+          "value": "ci sono entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sei entrato",
+          "value": "ci sei entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sono entrata",
+          "value": "ci sono entrata",
+          "correct": false
+        },
+        {
+          "label": "c'è entrata",
+          "value": "c'è entrata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "entrarci",
+      "variant": 0,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrata",
+        "ci è entrata"
+      ],
+      "say": "Lei c'è entrata",
+      "choices": [],
+      "canonical": "c'è entrata"
+    },
+    {
+      "inf": "entrarci",
+      "variant": 0,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrata",
+        "ci è entrata"
+      ],
+      "say": "Lei c'è entrata",
+      "choices": [
+        {
+          "label": "ci sono entrato",
+          "value": "ci sono entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sei entrato",
+          "value": "ci sei entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sono entrata",
+          "value": "ci sono entrata",
+          "correct": false
+        },
+        {
+          "label": "c'è entrata",
+          "value": "c'è entrata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "entrarci",
+      "variant": 1,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrato",
+        "ci è entrato"
+      ],
+      "say": "Lei c'è entrato",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "entrarci",
+      "variant": 1,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrato",
+        "ci è entrato"
+      ],
+      "say": "Lei c'è entrato",
+      "choices": [
+        {
+          "label": "ci sono entrato",
+          "value": "ci sono entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sei entrato",
+          "value": "ci sei entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sono entrata",
+          "value": "ci sono entrata",
+          "correct": false
+        },
+        {
+          "label": "c'è entrato",
+          "value": "c'è entrato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "entrarci",
+      "variant": 1,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrato",
+        "ci è entrato"
+      ],
+      "say": "Lei c'è entrato",
+      "choices": [],
+      "canonical": "c'è entrato"
+    },
+    {
+      "inf": "entrarci",
+      "variant": 1,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è entrato",
+        "ci è entrato"
+      ],
+      "say": "Lei c'è entrato",
+      "choices": [
+        {
+          "label": "ci sono entrato",
+          "value": "ci sono entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sei entrato",
+          "value": "ci sei entrato",
+          "correct": false
+        },
+        {
+          "label": "ci sono entrata",
+          "value": "ci sono entrata",
+          "correct": false
+        },
+        {
+          "label": "c'è entrato",
+          "value": "c'è entrato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "cascarci",
+      "variant": 0,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascata",
+        "ci è cascata"
+      ],
+      "say": "Lei c'è cascata",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "cascarci",
+      "variant": 0,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascata",
+        "ci è cascata"
+      ],
+      "say": "Lei c'è cascata",
+      "choices": [
+        {
+          "label": "ci sono cascato",
+          "value": "ci sono cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sei cascato",
+          "value": "ci sei cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sono cascata",
+          "value": "ci sono cascata",
+          "correct": false
+        },
+        {
+          "label": "c'è cascata",
+          "value": "c'è cascata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "cascarci",
+      "variant": 0,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascata",
+        "ci è cascata"
+      ],
+      "say": "Lei c'è cascata",
+      "choices": [],
+      "canonical": "c'è cascata"
+    },
+    {
+      "inf": "cascarci",
+      "variant": 0,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascata",
+        "ci è cascata"
+      ],
+      "say": "Lei c'è cascata",
+      "choices": [
+        {
+          "label": "ci sono cascato",
+          "value": "ci sono cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sei cascato",
+          "value": "ci sei cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sono cascata",
+          "value": "ci sono cascata",
+          "correct": false
+        },
+        {
+          "label": "c'è cascata",
+          "value": "c'è cascata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "cascarci",
+      "variant": 1,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascato",
+        "ci è cascato"
+      ],
+      "say": "Lei c'è cascato",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "cascarci",
+      "variant": 1,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascato",
+        "ci è cascato"
+      ],
+      "say": "Lei c'è cascato",
+      "choices": [
+        {
+          "label": "ci sono cascato",
+          "value": "ci sono cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sei cascato",
+          "value": "ci sei cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sono cascata",
+          "value": "ci sono cascata",
+          "correct": false
+        },
+        {
+          "label": "c'è cascato",
+          "value": "c'è cascato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "cascarci",
+      "variant": 1,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascato",
+        "ci è cascato"
+      ],
+      "say": "Lei c'è cascato",
+      "choices": [],
+      "canonical": "c'è cascato"
+    },
+    {
+      "inf": "cascarci",
+      "variant": 1,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è cascato",
+        "ci è cascato"
+      ],
+      "say": "Lei c'è cascato",
+      "choices": [
+        {
+          "label": "ci sono cascato",
+          "value": "ci sono cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sei cascato",
+          "value": "ci sei cascato",
+          "correct": false
+        },
+        {
+          "label": "ci sono cascata",
+          "value": "ci sono cascata",
+          "correct": false
+        },
+        {
+          "label": "c'è cascato",
+          "value": "c'è cascato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "restarci",
+      "variant": 0,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restata",
+        "ci è restata"
+      ],
+      "say": "Lei c'è restata",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "restarci",
+      "variant": 0,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restata",
+        "ci è restata"
+      ],
+      "say": "Lei c'è restata",
+      "choices": [
+        {
+          "label": "ci sono restato",
+          "value": "ci sono restato",
+          "correct": false
+        },
+        {
+          "label": "ci sei restato",
+          "value": "ci sei restato",
+          "correct": false
+        },
+        {
+          "label": "ci sono restata",
+          "value": "ci sono restata",
+          "correct": false
+        },
+        {
+          "label": "c'è restata",
+          "value": "c'è restata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "restarci",
+      "variant": 0,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restata",
+        "ci è restata"
+      ],
+      "say": "Lei c'è restata",
+      "choices": [],
+      "canonical": "c'è restata"
+    },
+    {
+      "inf": "restarci",
+      "variant": 0,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restata",
+        "ci è restata"
+      ],
+      "say": "Lei c'è restata",
+      "choices": [
+        {
+          "label": "ci sono restato",
+          "value": "ci sono restato",
+          "correct": false
+        },
+        {
+          "label": "ci sei restato",
+          "value": "ci sei restato",
+          "correct": false
+        },
+        {
+          "label": "ci sono restata",
+          "value": "ci sono restata",
+          "correct": false
+        },
+        {
+          "label": "c'è restata",
+          "value": "c'è restata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "restarci",
+      "variant": 1,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restato",
+        "ci è restato"
+      ],
+      "say": "Lei c'è restato",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "restarci",
+      "variant": 1,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restato",
+        "ci è restato"
+      ],
+      "say": "Lei c'è restato",
+      "choices": [
+        {
+          "label": "ci sono restato",
+          "value": "ci sono restato",
+          "correct": false
+        },
+        {
+          "label": "ci sei restato",
+          "value": "ci sei restato",
+          "correct": false
+        },
+        {
+          "label": "ci sono restata",
+          "value": "ci sono restata",
+          "correct": false
+        },
+        {
+          "label": "c'è restato",
+          "value": "c'è restato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "restarci",
+      "variant": 1,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restato",
+        "ci è restato"
+      ],
+      "say": "Lei c'è restato",
+      "choices": [],
+      "canonical": "c'è restato"
+    },
+    {
+      "inf": "restarci",
+      "variant": 1,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è restato",
+        "ci è restato"
+      ],
+      "say": "Lei c'è restato",
+      "choices": [
+        {
+          "label": "ci sono restato",
+          "value": "ci sono restato",
+          "correct": false
+        },
+        {
+          "label": "ci sei restato",
+          "value": "ci sei restato",
+          "correct": false
+        },
+        {
+          "label": "ci sono restata",
+          "value": "ci sono restata",
+          "correct": false
+        },
+        {
+          "label": "c'è restato",
+          "value": "c'è restato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "starci",
+      "variant": 0,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stata",
+        "ci è stata"
+      ],
+      "say": "Lei c'è stata",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "starci",
+      "variant": 0,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stata",
+        "ci è stata"
+      ],
+      "say": "Lei c'è stata",
+      "choices": [
+        {
+          "label": "ci sono stato",
+          "value": "ci sono stato",
+          "correct": false
+        },
+        {
+          "label": "ci sei stato",
+          "value": "ci sei stato",
+          "correct": false
+        },
+        {
+          "label": "ci sono stata",
+          "value": "ci sono stata",
+          "correct": false
+        },
+        {
+          "label": "c'è stata",
+          "value": "c'è stata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "starci",
+      "variant": 0,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stata",
+        "ci è stata"
+      ],
+      "say": "Lei c'è stata",
+      "choices": [],
+      "canonical": "c'è stata"
+    },
+    {
+      "inf": "starci",
+      "variant": 0,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stata",
+        "ci è stata"
+      ],
+      "say": "Lei c'è stata",
+      "choices": [
+        {
+          "label": "ci sono stato",
+          "value": "ci sono stato",
+          "correct": false
+        },
+        {
+          "label": "ci sei stato",
+          "value": "ci sei stato",
+          "correct": false
+        },
+        {
+          "label": "ci sono stata",
+          "value": "ci sono stata",
+          "correct": false
+        },
+        {
+          "label": "c'è stata",
+          "value": "c'è stata",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "starci",
+      "variant": 1,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stato",
+        "ci è stato"
+      ],
+      "say": "Lei c'è stato",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "starci",
+      "variant": 1,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stato",
+        "ci è stato"
+      ],
+      "say": "Lei c'è stato",
+      "choices": [
+        {
+          "label": "ci sono stato",
+          "value": "ci sono stato",
+          "correct": false
+        },
+        {
+          "label": "ci sei stato",
+          "value": "ci sei stato",
+          "correct": false
+        },
+        {
+          "label": "ci sono stata",
+          "value": "ci sono stata",
+          "correct": false
+        },
+        {
+          "label": "c'è stato",
+          "value": "c'è stato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "starci",
+      "variant": 1,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stato",
+        "ci è stato"
+      ],
+      "say": "Lei c'è stato",
+      "choices": [],
+      "canonical": "c'è stato"
+    },
+    {
+      "inf": "starci",
+      "variant": 1,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "c'è stato",
+        "ci è stato"
+      ],
+      "say": "Lei c'è stato",
+      "choices": [
+        {
+          "label": "ci sono stato",
+          "value": "ci sono stato",
+          "correct": false
+        },
+        {
+          "label": "ci sei stato",
+          "value": "ci sei stato",
+          "correct": false
+        },
+        {
+          "label": "ci sono stata",
+          "value": "ci sono stata",
+          "correct": false
+        },
+        {
+          "label": "c'è stato",
+          "value": "c'è stato",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "uscirne",
+      "variant": 0,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscita",
+        "ne è uscita"
+      ],
+      "say": "Lei n'è uscita",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "uscirne",
+      "variant": 0,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscita",
+        "ne è uscita"
+      ],
+      "say": "Lei n'è uscita",
+      "choices": [
+        {
+          "label": "ne sono uscito",
+          "value": "ne sono uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sei uscito",
+          "value": "ne sei uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sono uscita",
+          "value": "ne sono uscita",
+          "correct": false
+        },
+        {
+          "label": "n'è uscita",
+          "value": "n'è uscita",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "uscirne",
+      "variant": 0,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscita",
+        "ne è uscita"
+      ],
+      "say": "Lei n'è uscita",
+      "choices": [],
+      "canonical": "n'è uscita"
+    },
+    {
+      "inf": "uscirne",
+      "variant": 0,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signora Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscita",
+        "ne è uscita"
+      ],
+      "say": "Lei n'è uscita",
+      "choices": [
+        {
+          "label": "ne sono uscito",
+          "value": "ne sono uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sei uscito",
+          "value": "ne sei uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sono uscita",
+          "value": "ne sono uscita",
+          "correct": false
+        },
+        {
+          "label": "n'è uscita",
+          "value": "n'è uscita",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "uscirne",
+      "variant": 1,
+      "format": "type",
+      "type": "type",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscito",
+        "ne è uscito"
+      ],
+      "say": "Lei n'è uscito",
+      "choices": [],
+      "canonical": null
+    },
+    {
+      "inf": "uscirne",
+      "variant": 1,
+      "format": "mc",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscito",
+        "ne è uscito"
+      ],
+      "say": "Lei n'è uscito",
+      "choices": [
+        {
+          "label": "ne sono uscito",
+          "value": "ne sono uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sei uscito",
+          "value": "ne sei uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sono uscita",
+          "value": "ne sono uscita",
+          "correct": false
+        },
+        {
+          "label": "n'è uscito",
+          "value": "n'è uscito",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    },
+    {
+      "inf": "uscirne",
+      "variant": 1,
+      "format": "letters",
+      "type": "letters",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscito",
+        "ne è uscito"
+      ],
+      "say": "Lei n'è uscito",
+      "choices": [],
+      "canonical": "n'è uscito"
+    },
+    {
+      "inf": "uscirne",
+      "variant": 1,
+      "format": "match",
+      "type": "mc",
+      "prompt": "<div class=\"big md\">Signor Rossi · Lei</div><div class=\"sub\">formal · Passato prossimo</div>",
+      "answer": [
+        "n'è uscito",
+        "ne è uscito"
+      ],
+      "say": "Lei n'è uscito",
+      "choices": [
+        {
+          "label": "ne sono uscito",
+          "value": "ne sono uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sei uscito",
+          "value": "ne sei uscito",
+          "correct": false
+        },
+        {
+          "label": "ne sono uscita",
+          "value": "ne sono uscita",
+          "correct": false
+        },
+        {
+          "label": "n'è uscito",
+          "value": "n'è uscito",
+          "correct": true
+        }
+      ],
+      "canonical": null
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "reviewer": "root",
+  "date": "2026-10-04",
+  "scope": "Actually read all12 raw source/usage/example records and full policy/frame declarations, all5core finite andformalM/F vectors and nonfinite displays. At leastfirst2available representative samples percase were read; extra dilazionare scene1/2 samples read. Not all generated questions, advanced paradigms, pronunciation or native educator approval.",
+  "rawPath": "/tmp/parola-root-verb-review-844-855.jsonl",
+  "rawSHA256": "ed7d1cf07046df2990151cef841cfb446b2b5cfbed9e3145cf4d18a95aba9c30",
+  "entries": [
+    {
+      "index": 844,
+      "id": "v:decadere",
+      "sourceSHA256": "a1f95ba412d17128ca1313a02236d2350fa4d7e5bdd6d7d68c1fa429d6e0dddf",
+      "policySHA256": "b3c9c4bebed320bbfdd21493f787ca6a6e7c53d782d26acaa74774e21404509c",
+      "nonFiniteSHA256": "f70b9c64c5e3e8e20e67d8be516a8b83aae7adb0ea01aac5d2cd5e6a2e80722b",
+      "compiledSHA256": "aa6e1eda9b926e2d55123f96f7d844ea996eaaa1554619175c07913fd2143540",
+      "readSampleIds": [
+        "v:decadere:present:dictionary-1",
+        "v:decadere:present:v2:simple:scene-0",
+        "v:decadere:past:dictionary-0",
+        "v:decadere:background:v2:simple:scene-0",
+        "v:decadere:background:v2:simple:scene-1"
+      ]
+    },
+    {
+      "index": 845,
+      "id": "v:decorrere",
+      "sourceSHA256": "36a68818c0a3d3ba70dbc02dfa9707bf561a94a9c1caccab598707863ca82647",
+      "policySHA256": "1cf222bfdf24b610f557fc4f345d6b4a7f2220bcf089a478a91287fe60b0db93",
+      "nonFiniteSHA256": "916dad64836a1c87cc08e3fe22ccee42a9e0695b9710eacb2e0691e3bd8fde9d",
+      "compiledSHA256": "46b85ffa7d8e39b30991f57241f7976acc5e392eb11f9fe2a942b1a9ada8187a",
+      "readSampleIds": [
+        "v:decorrere:present:dictionary-0",
+        "v:decorrere:present:v2:simple:scene-0",
+        "v:decorrere:background:v2:simple:scene-0",
+        "v:decorrere:background:v2:simple:scene-1"
+      ]
+    },
+    {
+      "index": 846,
+      "id": "v:decretare",
+      "sourceSHA256": "b9cb0fd869b08eecfedafca611587a5564de93a0b2b9abb434a8c0aa0a7abf10",
+      "policySHA256": "3de1a052676a587b99e4f63f30fbcc36a6600c98cea3b7557a02079ec0dc0274",
+      "nonFiniteSHA256": "984b0c9e597681b81c3192689d42b94dc81d8e7f0a68b46f78bc9a76b5b5ab3b",
+      "compiledSHA256": "212beef5de3926c2d0cd325184187087ec2bfd525a91b192f192125971724bf6",
+      "readSampleIds": [
+        "v:decretare:present:v2:simple:scene-0-2-ordinary",
+        "v:decretare:present:v2:simple:scene-0-5-ordinary",
+        "v:decretare:past:dictionary-0",
+        "v:decretare:past:reviewed-frame-0:person-2",
+        "v:decretare:background:v2:simple:scene-0-2-ordinary",
+        "v:decretare:background:v2:simple:scene-0-5-ordinary",
+        "v:decretare:future:reviewed-frame-0:person-2",
+        "v:decretare:future:reviewed-frame-0:person-5",
+        "v:decretare:condizionale:reviewed-frame-0:person-2",
+        "v:decretare:condizionale:reviewed-frame-0:person-5"
+      ]
+    },
+    {
+      "index": 847,
+      "id": "v:demandare",
+      "sourceSHA256": "0d8b8cd04c76848eb55081e06872a19d7cb8e698c65e7e41f254c7ca6963c2ff",
+      "policySHA256": "22091359d91d007f74e96d40f0e11a7d237f8222e886cee72e1ac6cc78a4756a",
+      "nonFiniteSHA256": "0eddd5a777bd753a6e386e846f4e106b003e7d9373d02486042c4bcc49880dde",
+      "compiledSHA256": "9eb3634de66be5a011ba526c996204a8668bc944c7239d04d354e45f83ff7faf",
+      "readSampleIds": [
+        "v:demandare:present:v2:simple:scene-0-0-ordinary",
+        "v:demandare:present:v2:simple:scene-0-2-formal",
+        "v:demandare:past:reviewed-frame-0:person-0",
+        "v:demandare:past:reviewed-frame-0:formal",
+        "v:demandare:background:v2:simple:scene-0-0-ordinary",
+        "v:demandare:background:v2:simple:scene-0-2-formal",
+        "v:demandare:future:reviewed-frame-0:person-0",
+        "v:demandare:future:reviewed-frame-0:formal",
+        "v:demandare:condizionale:reviewed-frame-0:person-0",
+        "v:demandare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 848,
+      "id": "v:denigrare",
+      "sourceSHA256": "bbc96025d78217c32e8e737539e8ae24f39ed3c1099132e7cfbd660b4dc88c5e",
+      "policySHA256": "003b521256574a35bff63db24f1a897ee761e7c2458e8eb0df1d1e1483821df0",
+      "nonFiniteSHA256": "21aeff319258f2a5c0afb68d5dbd6f1a2206cdc641606d083da572dc1771c57f",
+      "compiledSHA256": "65abc815f347359b80f32064ca754b1f5d66b8d01c69630a6d0fcf930ced0c46",
+      "readSampleIds": [
+        "v:denigrare:present:v2:simple:scene-0-0-ordinary",
+        "v:denigrare:present:v2:simple:scene-0-2-formal",
+        "v:denigrare:past:reviewed-frame-0:person-0",
+        "v:denigrare:past:reviewed-frame-0:formal",
+        "v:denigrare:background:v2:simple:scene-0-0-ordinary",
+        "v:denigrare:background:v2:simple:scene-0-2-formal",
+        "v:denigrare:future:reviewed-frame-0:person-0",
+        "v:denigrare:future:reviewed-frame-0:formal",
+        "v:denigrare:condizionale:reviewed-frame-0:person-0",
+        "v:denigrare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 849,
+      "id": "v:deporre",
+      "sourceSHA256": "aa94bdac141b1037ebde72d09a1f2cbecd2f9816622a5fdbb032bee1e74c6106",
+      "policySHA256": "89c8f2cc6a3aae9e36de32de413f323d6a20d08977c8d10f25140aca2da9cc4f",
+      "nonFiniteSHA256": "41c3347e3ed5210abc6f1314422b132857e0aaea3e4e66255c7b026f40a22540",
+      "compiledSHA256": "97d6ebb276db0ca8815cd1ec3e70a294ed6007d30a2f674485d68b75d34f39d5",
+      "readSampleIds": [
+        "v:deporre:present:v2:simple:scene-0-0-ordinary",
+        "v:deporre:present:v2:simple:scene-0-2-formal",
+        "v:deporre:past:reviewed-frame-0:person-0",
+        "v:deporre:past:reviewed-frame-0:formal",
+        "v:deporre:background:v2:simple:scene-0-0-ordinary",
+        "v:deporre:background:v2:simple:scene-0-2-formal",
+        "v:deporre:future:reviewed-frame-0:person-0",
+        "v:deporre:future:reviewed-frame-0:formal",
+        "v:deporre:condizionale:reviewed-frame-0:person-0",
+        "v:deporre:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 850,
+      "id": "v:destare",
+      "sourceSHA256": "31cce9956cf763ae273a874837dcebb7a42ca7793826ef8739c860b82a1be668",
+      "policySHA256": "2bba55980483c08f8c596f028f1b7df6fd0d952ab8fc73d5e18efd748b3c22e2",
+      "nonFiniteSHA256": "2b8be37d72651cb2fa89736b0c466eed24fc754a2fe1f29fc229f5e56e15f7b8",
+      "compiledSHA256": "308ead266913a01a04940b697f2d98cac2ef33252b1e337b226e9851ce38ef2c",
+      "readSampleIds": [
+        "v:destare:present:v2:simple:scene-0-2-ordinary",
+        "v:destare:present:v2:simple:scene-0-5-ordinary",
+        "v:destare:past:dictionary-0",
+        "v:destare:past:reviewed-frame-0:person-2",
+        "v:destare:background:v2:simple:scene-0-2-ordinary",
+        "v:destare:background:v2:simple:scene-0-5-ordinary",
+        "v:destare:future:reviewed-frame-0:person-2",
+        "v:destare:future:reviewed-frame-0:person-5",
+        "v:destare:condizionale:reviewed-frame-0:person-2",
+        "v:destare:condizionale:reviewed-frame-0:person-5"
+      ]
+    },
+    {
+      "index": 851,
+      "id": "v:destreggiarsi",
+      "sourceSHA256": "c0696b01bd6c68e1256d6010c3a7e9d938ab456af663e4dc46b5dbf3fd1bd5fe",
+      "policySHA256": "811f1b6a9868e7c1708663bc58c0826d1e55c138dd32b61ec7adda66b63ab31a",
+      "nonFiniteSHA256": "6d2e6fdb35fba283907628b6b59d38798946dcbf64d8b6bc012f898cb2d33f1c",
+      "compiledSHA256": "202a9f8baafb9290d030dee24cc4de603c75abd900d0b4e973652624d021dc7a",
+      "readSampleIds": [
+        "v:destreggiarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:destreggiarsi:present:v2:simple:scene-0-2-formal",
+        "v:destreggiarsi:past:reviewed-frame-0:person-0",
+        "v:destreggiarsi:past:reviewed-frame-0:formal",
+        "v:destreggiarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:destreggiarsi:background:v2:simple:scene-0-2-formal",
+        "v:destreggiarsi:future:reviewed-frame-0:person-0",
+        "v:destreggiarsi:future:reviewed-frame-0:formal",
+        "v:destreggiarsi:condizionale:reviewed-frame-0:person-0",
+        "v:destreggiarsi:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 852,
+      "id": "v:desumere",
+      "sourceSHA256": "4fff455c8b4cec0d43c8e306a31b9d388f2327c0cacacc8e73bacbad514c7c2d",
+      "policySHA256": "e3e104d9765ff0fa38385d3186c0c1f9d3baf5312d37cb109e6abf19f8e57bb1",
+      "nonFiniteSHA256": "7cca53269b1fbad64bc56cda017848d2dd623343e52c90498d643c3463942221",
+      "compiledSHA256": "4565d9daf3e07f8015097c2a816cd833d0bec904cb25e150232d6569530b2490",
+      "readSampleIds": [
+        "v:desumere:present:v2:simple:scene-0-0-ordinary",
+        "v:desumere:present:v2:simple:scene-0-2-formal",
+        "v:desumere:past:reviewed-frame-0:person-0",
+        "v:desumere:past:reviewed-frame-0:formal",
+        "v:desumere:background:v2:simple:scene-0-0-ordinary",
+        "v:desumere:background:v2:simple:scene-0-2-formal",
+        "v:desumere:future:reviewed-frame-0:person-0",
+        "v:desumere:future:reviewed-frame-0:formal",
+        "v:desumere:condizionale:reviewed-frame-0:person-0",
+        "v:desumere:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 853,
+      "id": "v:dilazionare",
+      "sourceSHA256": "4a541d5252072f01b99d18f67d5649aadc560b637447b79c037c62bd52d225cb",
+      "policySHA256": "ecd1281780257c6ccc8721b7cd0c214aee15fa43ab19293da64c43e474719a9b",
+      "nonFiniteSHA256": "55da59896718caa7ae58795a78033a81440585f3056f01ba4a835a411cd8d196",
+      "compiledSHA256": "f87a5155560bab55bd9ee02d167d222a2b1b430360aa846d4ee4b93d94d7697c",
+      "readSampleIds": [
+        "v:dilazionare:present:v2:simple:scene-0-0-ordinary",
+        "v:dilazionare:present:v2:simple:scene-0-2-formal",
+        "v:dilazionare:past:reviewed-frame-0:person-0",
+        "v:dilazionare:past:reviewed-frame-0:formal",
+        "v:dilazionare:background:v2:simple:scene-0-0-ordinary",
+        "v:dilazionare:background:v2:simple:scene-0-2-formal",
+        "v:dilazionare:future:reviewed-frame-0:person-0",
+        "v:dilazionare:future:reviewed-frame-0:formal",
+        "v:dilazionare:condizionale:reviewed-frame-0:person-0",
+        "v:dilazionare:condizionale:reviewed-frame-0:formal",
+        "v:dilazionare:present:v2:simple:scene-1-0-ordinary",
+        "v:dilazionare:present:v2:simple:scene-1-2-formal",
+        "v:dilazionare:present:v2:simple:scene-2-0-ordinary",
+        "v:dilazionare:present:v2:simple:scene-2-2-formal",
+        "v:dilazionare:present:v2:progressive:scene-1-0-ordinary",
+        "v:dilazionare:present:v2:progressive:scene-1-2-formal",
+        "v:dilazionare:present:v2:progressive:scene-2-0-ordinary",
+        "v:dilazionare:present:v2:progressive:scene-2-2-formal"
+      ]
+    },
+    {
+      "index": 854,
+      "id": "v:diramare",
+      "sourceSHA256": "c30b2445557e2b423dcd302b9e39050723728e86c228f323a8d9ef781d77535c",
+      "policySHA256": "80d41d3546db2e8fa63df37ee8b6600e3f215f3b04686ae1d93b531392e25445",
+      "nonFiniteSHA256": "1a6d283ebbe48d8fc24a12a2c307a5477b175c4f10da966029d3d17d6772b3c1",
+      "compiledSHA256": "04000598b9f5c509f3fc012f4d5030398a3393ca0c85eb5a8b7f36b5d2b5cefb",
+      "readSampleIds": [
+        "v:diramare:present:v2:simple:scene-0-0-ordinary",
+        "v:diramare:present:v2:simple:scene-0-2-formal",
+        "v:diramare:past:reviewed-frame-0:person-0",
+        "v:diramare:past:reviewed-frame-0:formal",
+        "v:diramare:background:v2:simple:scene-0-0-ordinary",
+        "v:diramare:background:v2:simple:scene-0-2-formal",
+        "v:diramare:future:reviewed-frame-0:person-0",
+        "v:diramare:future:reviewed-frame-0:formal",
+        "v:diramare:condizionale:reviewed-frame-0:person-0",
+        "v:diramare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 855,
+      "id": "v:dirimere",
+      "sourceSHA256": "7f9d506533f5e61ecd0940320817c474adc61501277a83e53d495cc748fbf840",
+      "policySHA256": "4f3cdcaa83dd5073fdc3b3e8b6b5ec2b8cdced26273ec3d39c4b107ac9a6e758",
+      "nonFiniteSHA256": "778801ef545c2dd25e9624f3227af0efe976af9287c4845748433cfe5ccf46f5",
+      "compiledSHA256": "1d53a554748c9360ee1c872a45708eaa70d81dc868a1a44137812450f15ed19b",
+      "readSampleIds": [
+        "v:dirimere:present:v2:simple:scene-0-0-ordinary",
+        "v:dirimere:present:v2:simple:scene-0-2-formal",
+        "v:dirimere:background:v2:simple:scene-0-0-ordinary",
+        "v:dirimere:background:v2:simple:scene-0-2-formal",
+        "v:dirimere:future:reviewed-frame-0:person-0",
+        "v:dirimere:future:reviewed-frame-0:formal",
+        "v:dirimere:condizionale:reviewed-frame-0:person-0",
+        "v:dirimere:condizionale:reviewed-frame-0:formal"
+      ]
+    }
+  ],
+  "declaredReadSampleCount": 115,
+  "findings": [
+    {
+      "id": "v:dilazionare",
+      "status": "bounded translation correction candidate verified against source meaning",
+      "detail": "Frame1 untilDecember should use defer/postpone repayment, whileframe2 deadlines should use extend/postpone. Frame0 instalments andframe3 accounting periods can keep spread. Actual generated present simple/progressive text says spread the repayment untilDecember/spread the loan deadlines. Preserve validItalian source and accepted forms.",
+      "source": "https://www.treccani.it/vocabolario/dilazionare/"
+    },
+    {
+      "id": "v:decorrere",
+      "status": "qualified English refinement",
+      "detail": "Policy simpleExamples2 translates termini as deadlines, though time periods/time limits makes the run from construction clearer. Not a morphology defect.",
+      "source": "https://www.treccani.it/vocabolario/decorrere/"
+    },
+    {
+      "id": "v:demandare",
+      "status": "qualified English collocation refinement",
+      "detail": "Frame3 delegate the signature could become delegate signing/responsibility for signing. Italian demandare la firma is intelligible; not flagged as invalid."
+    },
+    {
+      "id": "v:dirimere",
+      "status": "confirmed existing handling",
+      "detail": "Treccani lacks past participle; currentmissing pp/compound display is appropriate. Do not invent a compound to filltable. Rarepassatoremoto not audited here.",
+      "source": "https://www.treccani.it/vocabolario/dirimere/"
+    }
+  ]
+}

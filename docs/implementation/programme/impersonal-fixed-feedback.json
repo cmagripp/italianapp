@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "questions": 56,
+  "endingErrors": 168,
+  "controls": 171,
+  "repairChecks": 49,
+  "tenses": [
+    "passatoProssimo",
+    "trapassatoProssimo",
+    "trapassatoRemoto",
+    "futuroAnteriore",
+    "condizionalePassato",
+    "congiuntivoPassato",
+    "congiuntivoTrapassato"
+  ],
+  "scope": "Meaning-specific fixed impersonal participle feedback; current questions and scaffolds only, with unrelated agreement controls."
+}

@@ -4,7 +4,7 @@ const root=new URL('../',import.meta.url),source=JSON.parse(fs.readFileSync(new 
 const check=process.argv.includes('--check');
 assert.equal(source.schemaVersion,1);
 const records=source.records;
-assert.deepEqual(records.map(r=>r.entryId),['v:succedere','v:bisognare']);
+assert.deepEqual(records.map(r=>r.entryId),['v:succedere','v:bisognare','v:entrarci','v:cascarci','v:restarci','v:starci','v:uscirne','v:trattarsi']);
 for(const r of records){
  assert.equal(r.entry.id,r.entryId);assert.equal(r.previousRevision,'expanded-v1');
  assert(r.currentRevision&&r.currentRevision!==r.previousRevision);

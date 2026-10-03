@@ -1,0 +1,163 @@
+{
+  "kind": "Development checkpoint; not a production release",
+  "createdAt": "2026-10-03T23:38:41.622244+00:00",
+  "branch": "codex/parola-full-programme",
+  "parentCommit": "8517db3",
+  "mainBaseline": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+  "build": "parola-v15-8e3f8e02740c",
+  "buildFiles": 435,
+  "buildBytes": 45400706,
+  "scope": "Five formal subject-clitic families; 17 bounded verb corrections; exact archived question availability; prior-only answer/Continue and case-switch recovery; mixed-review enrollment; canonical 892-verb read boundary.",
+  "checks": {
+    "formalPriorDescriptors": 11470,
+    "formalCurrentGenderChecks": 280,
+    "formalAgreementDiagnoses": 70,
+    "formalRecoveryTransitions": 140,
+    "formalPairFences": 70,
+    "formalBrowser": {
+      "chromium": 32,
+      "webkit": 32
+    },
+    "trattarsiBrowser": {
+      "chromium": 8,
+      "webkit": 8
+    },
+    "oldQuestionHistoryBrowser": {
+      "chromium": 10,
+      "webkit": 10
+    },
+    "priorOnlyLifecycle": {
+      "status": "passed",
+      "baseline": "8517db3",
+      "answers": 8,
+      "continuations": 12,
+      "tamperFences": 16,
+      "caseReopens": 8,
+      "mixedEnrollment": 4,
+      "scope": "Exact archived ordinary-only usage questions: actual answer events, no-credit current teaching transition, case-switch reopens, normalization/merge, wrong-answer recovery, mixed review enrollment, and unavailable imported-recipe fences."
+    },
+    "currentFixedImpersonalFeedback": {
+      "status": "passed",
+      "questions": 56,
+      "endingErrors": 168,
+      "controls": 171,
+      "repairChecks": 49,
+      "tenses": [
+        "passatoProssimo",
+        "trapassatoProssimo",
+        "trapassatoRemoto",
+        "futuroAnteriore",
+        "condizionalePassato",
+        "congiuntivoPassato",
+        "congiuntivoTrapassato"
+      ],
+      "scope": "Meaning-specific fixed impersonal participle feedback; current questions and scaffolds only, with unrelated agreement controls."
+    },
+    "affectedFinalCommands": [
+      {
+        "command": "node tools/test-prior-only-journey-targets.mjs",
+        "exitCode": 0,
+        "seconds": 0.35
+      },
+      {
+        "command": "node tools/test-journey-form-history.mjs",
+        "exitCode": 0,
+        "seconds": 6.0
+      },
+      {
+        "command": "node tools/test-formal-ci-agreement.mjs",
+        "exitCode": 0,
+        "seconds": 3.47
+      },
+      {
+        "command": "node tools/test-verb-repairs-764.mjs",
+        "exitCode": 0,
+        "seconds": 1.47
+      },
+      {
+        "command": "node tools/test-lesson-activities.mjs",
+        "exitCode": 0,
+        "seconds": 0.86
+      },
+      {
+        "command": "node tools/test-journey-pacing.mjs",
+        "exitCode": 0,
+        "seconds": 1.8
+      },
+      {
+        "command": "node tools/test-journey-scene.mjs",
+        "exitCode": 0,
+        "seconds": 1.03
+      },
+      {
+        "command": "node tools/test-journey-builder-boundary.mjs",
+        "exitCode": 0,
+        "seconds": 1.57
+      },
+      {
+        "command": "node tools/test-journey-import-counter.mjs",
+        "exitCode": 0,
+        "seconds": 0.5
+      },
+      {
+        "command": "node tools/test-unified-learning.mjs",
+        "exitCode": 0,
+        "seconds": 0.77
+      },
+      {
+        "command": "node tools/test-journey-model.mjs",
+        "exitCode": 0,
+        "seconds": 1.54
+      },
+      {
+        "command": "node tools/test-journey-integration.mjs",
+        "exitCode": 0,
+        "seconds": 0.37
+      },
+      {
+        "command": "node tools/test-verb-flow-v2.mjs",
+        "exitCode": 0,
+        "seconds": 0.58
+      }
+    ],
+    "assembledOfflineUpdate": 9,
+    "sourceModules": 155,
+    "shellAssets": 213,
+    "independentLifecycle": {
+      "reviewTransitions": 12,
+      "currentRows": 6,
+      "priorRows": 6,
+      "boardCompletions": 4,
+      "pairTamperFences": 6,
+      "mixedEnrollment": 6,
+      "focusedCaseReopens": 4
+    }
+  },
+  "evidence": [
+    "formal-agreement-independent.json",
+    "formal-ci-agreement-chromium.json",
+    "formal-ci-agreement-webkit.json",
+    "verb-repairs-764-independent-review.json",
+    "trattarsi-compatibility-chromium.json",
+    "trattarsi-compatibility-webkit.json",
+    "prior-only-journey-targets.json",
+    "formal-startup-check.json",
+    "verb-language-review-892.md",
+    "prior-target-lifecycle-independent.json"
+  ],
+  "scopeLimits": [
+    "No production model/provider or asset activated.",
+    "Existing native model/speech, Italian educator, learner and full programme release gates remain open.",
+    "Formal browser reports retain their earlier exact source pins; later isolated trattarsi/lifecycle changes have separate current independent/browser checks.",
+    "Earlier question-history browser checks preceded the final mixed enrollment fix; final affected deterministic suites and current trattarsi browser cover that change.",
+    "Installed simulator observation belongs to earlier 6f8191060b7b checkpoint; this build has assembled browser offline checks.",
+    "892 verb records cover declared source/policy/reference and representative questions, not all generated questions or native educator approval."
+  ],
+  "logs": [
+    "/tmp/parola-checkpoint7-final-stamp.log",
+    "/tmp/parola-checkpoint7-final-build.log",
+    "/tmp/parola-checkpoint7-final-offline.log",
+    "/tmp/parola-prior-target-checkpoint-integration.log",
+    "/tmp/parola-final-prior-webkit.log"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "baseline": "8517db3",
+  "entries": 17,
+  "priorPools": 2117,
+  "preservedPriorSelections": 3891,
+  "retiredContextOccurrences": 105,
+  "currentSelections": 3996,
+  "priorFormCues": 46,
+  "trattarsiRecoveryTransitions": 192,
+  "validTrattarsiPriorSelections": 6,
+  "currentTrattarsiContextCues": 15,
+  "trattarsiPriorQuestionsExact": 1152,
+  "trattarsiPriorNullsExact": 368,
+  "currentTrattarsiFiniteTips": 124,
+  "uniqueRetiredContextIds": 49,
+  "trattarsiRetiredFormTargets": 12,
+  "unchangedOtherCoreParadigms": 1185,
+  "explicitDefectiveReferenceRepair": "v:concernere",
+  "independentAgentReview": "pending",
+  "nativeItalianEducatorReview": "pending",
+  "scope": "Declared corrections and exact prior/current source/prompt transitions; not every generated question or a whole-catalogue linguistic approval."
+}

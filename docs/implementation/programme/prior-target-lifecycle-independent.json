@@ -1,0 +1,274 @@
+{
+  "date": "2026-10-04",
+  "status": "passed for tested lifecycle boundaries",
+  "counts": {
+    "reviewTransitions": 12,
+    "currentRows": 6,
+    "priorRows": 6,
+    "boardCompletions": 4,
+    "pairTamperFences": 6,
+    "mixedEnrollment": 6,
+    "focusedCaseReopens": 4
+  },
+  "cases": [
+    {
+      "kind": "review",
+      "chapter": "present",
+      "correct": true,
+      "queueState": "empty-focused",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "present",
+      "correct": true,
+      "queueState": "eligible-other",
+      "next": "question",
+      "nextTarget": "v:trattarsi::lesson::present::form-2",
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "present",
+      "correct": true,
+      "queueState": "ineligible-new",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "present",
+      "correct": false,
+      "queueState": "empty-focused",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "present",
+      "correct": false,
+      "queueState": "eligible-other",
+      "next": "question",
+      "nextTarget": "v:trattarsi::lesson::present::form-2",
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "present",
+      "correct": false,
+      "queueState": "ineligible-new",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "background",
+      "correct": true,
+      "queueState": "empty-focused",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "background",
+      "correct": true,
+      "queueState": "eligible-other",
+      "next": "question",
+      "nextTarget": "v:trattarsi::lesson::background::form-2",
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "background",
+      "correct": true,
+      "queueState": "ineligible-new",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "background",
+      "correct": false,
+      "queueState": "empty-focused",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "background",
+      "correct": false,
+      "queueState": "eligible-other",
+      "next": "question",
+      "nextTarget": "v:trattarsi::lesson::background::form-2",
+      "focusPreserved": true
+    },
+    {
+      "kind": "review",
+      "chapter": "background",
+      "correct": false,
+      "queueState": "ineligible-new",
+      "next": "recap",
+      "nextTarget": null,
+      "focusPreserved": true
+    },
+    {
+      "kind": "board",
+      "inf": "trattarsi",
+      "prior": false,
+      "ordinary": false,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "trattarsi",
+      "prior": true,
+      "ordinary": false,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "trattarsi",
+      "prior": true,
+      "ordinary": true,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "succedere",
+      "prior": false,
+      "ordinary": false,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "succedere",
+      "prior": true,
+      "ordinary": false,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "succedere",
+      "prior": true,
+      "ordinary": true,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "bisognare",
+      "prior": false,
+      "ordinary": false,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "bisognare",
+      "prior": true,
+      "ordinary": false,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "bisognare",
+      "prior": true,
+      "ordinary": true,
+      "status": "no valid present pair recipe; rejected or unsupported"
+    },
+    {
+      "kind": "board",
+      "inf": "entrarci",
+      "prior": false,
+      "ordinary": false,
+      "rows": 3,
+      "status": "passed"
+    },
+    {
+      "kind": "board",
+      "inf": "entrarci",
+      "prior": true,
+      "ordinary": false,
+      "rows": 3,
+      "status": "passed"
+    },
+    {
+      "kind": "board",
+      "inf": "entrarci",
+      "prior": true,
+      "ordinary": true,
+      "rows": 3,
+      "status": "passed"
+    },
+    {
+      "kind": "board",
+      "inf": "andarsene",
+      "prior": false,
+      "ordinary": false,
+      "rows": 3,
+      "status": "passed"
+    },
+    {
+      "kind": "mixed-enrollment",
+      "enrollment": "none",
+      "phase": "practice",
+      "next": "recap",
+      "nextTarget": null
+    },
+    {
+      "kind": "mixed-enrollment",
+      "enrollment": "none",
+      "phase": "checkpoint",
+      "next": "recap",
+      "nextTarget": null
+    },
+    {
+      "kind": "mixed-enrollment",
+      "enrollment": "prior-case",
+      "phase": "practice",
+      "next": "checkpoint",
+      "nextTarget": null
+    },
+    {
+      "kind": "mixed-enrollment",
+      "enrollment": "prior-case",
+      "phase": "checkpoint",
+      "next": "checkpoint",
+      "nextTarget": null
+    },
+    {
+      "kind": "mixed-enrollment",
+      "enrollment": "current-case",
+      "phase": "practice",
+      "next": "checkpoint",
+      "nextTarget": null
+    },
+    {
+      "kind": "mixed-enrollment",
+      "enrollment": "current-case",
+      "phase": "checkpoint",
+      "next": "checkpoint",
+      "nextTarget": null
+    }
+  ],
+  "sourcePins": {
+    "js/learning/journey.js": "b56d69f3a000bf4e50d28cc7daff9cca4687be63364ed05a757d641a6f6ad94a",
+    "js/learning/journey-form.js": "1b37af6bfdc581cc8cdc304941aaf327ec16f9741a858701b7b3cdd8dc9a3a0c",
+    "js/learning/lesson-content.js": "9b6621107ac9b4583e545c6f0d48fdd2a15e6b139f09d544ce57089e9fa70ed1",
+    "js/learning/lesson-questions.js": "af01749761e7d237e9298eef42666c076f931dd30302fd7194d913f3aa6ce622",
+    "js/learning/diagnose.js": "f886c6c3ce4a3e070f46f9ec88393f8059cfaf89bdef8951b3d594ba854152b9",
+    "data/verb-question-history.json": "6598f0f50e1ae89aedca66d5f0fa6133bb4424c97d9aa08a8fd1fd153dce7daa",
+    "tools/test-prior-only-journey-targets.mjs": "57993352c43d5ff2ad051bf70e415e2f1a9206564cec1e9f9ea6f66b8440bdfa"
+  },
+  "limits": [
+    "Independent deterministic lifecycle check, not browser re-run or whole catalogue language approval.",
+    "Focused historical review with no eligible remaining queue ends at recap; old focus is preserved, no current objective granted.",
+    "Exact source evidence remains separate from completion, which requires existing case evidence."
+  ]
+}

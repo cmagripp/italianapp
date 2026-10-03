@@ -11,7 +11,7 @@ import { buildShortWordQuestion } from './word-questions.js';
 import { journeySceneMatches, retiredJourneyScene } from './journey-scene.js';
 import {journeyFormMatches,journeyFormRecipe,retiredJourneyForm} from './journey-form.js';
 const esc=escapeHTML;
-const scopedSubject=(entry,target,person,options)=>options.historicalForms?null:entry.inf==='bisognare'?'impersonal necessity':entry.inf==='succedere'?(target.subjectLabel||(person===5?'more than one thing':'one thing or situation')):null;
+const scopedSubject=(entry,target,person,options)=>options.historicalForms?null:entry.inf==='bisognare'?'impersonal necessity':entry.inf==='trattarsi'?'impersonal: si tratta di':entry.inf==='succedere'?(target.subjectLabel||(person===5?'more than one thing':'one thing or situation')):null;
 const unique=xs=>[...new Set(xs.filter(Boolean))];
 const text=(a,b='')=>`<div class="big md">${esc(a)}</div><div class="sub">${esc(b)}</div>`;
 function seeded(n){let x=(Number(n)||0)+17;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296;};}
@@ -95,7 +95,8 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   choices(q,[...(q.meta.diagnostic.personForms||[]).map(x=>x.answer),...(q.meta.diagnostic.tenseForms||[]).map(x=>x.answer)],showChoices,rng);
  }else if(kind==='verb'&&target.skill==='address'&&!smallRepair){
   const female=v%2===0,c=conjugate(entry.inf,{aux:entry.aux,isc:entry.isc});
-  let answers=options.historicalForms?(target.answerFormsByVariant?.[v%(target.answerFormsByVariant?.length||1)]||target.answerForms||[]):formalLessonForms(entry,target.tense,female);if(!answers.length)return null;
+  const historicalCues=target.formCueAnswerFormsByVariant||target.answerFormsByVariant;
+  let answers=options.historicalForms?(historicalCues?.[v%(historicalCues?.length||1)]||target.answerForms||[]):formalLessonForms(entry,target.tense,female);if(!answers.length)return null;
   q=buildQuestion(entry,{...o,skill:'conjugation'},{mode:'production',repairPerson:2,allowedTenses:permitted,variant:v,rng});if(!q)return null;
   q.answer=answers;
   q.prompt=text(`${female?'Signora':'Signor'} Rossi · Lei`, `formal · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`);
@@ -111,7 +112,8 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   q.meta.supportOnly=true;
  }else if(kind==='verb'){
   const repairContext=smallRepair?fixedScene||contexts[v%contexts.length]:null,e=repairContext?.aux?{...entry,aux:repairContext.aux}:entry;
-  const person=repairContext?.person??target.person??(WEATHER_VERBS.has(entry.inf)?2:0),answers=options.historicalForms&&!smallRepair?(target.answerFormsByVariant?.[v%(target.answerFormsByVariant?.length||1)]||target.answerForms||[]):lessonForms(e,target.tense,person);if(!answers.length)return null;
+  const historicalCues=target.formCueAnswerFormsByVariant||target.answerFormsByVariant;
+  const person=repairContext?.person??target.person??(WEATHER_VERBS.has(entry.inf)?2:0),answers=options.historicalForms&&!smallRepair?(historicalCues?.[v%(historicalCues?.length||1)]||target.answerForms||[]):lessonForms(e,target.tense,person);if(!answers.length)return null;
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:smallRepair||showChoices?'recognition':'production',variant:v,repairPerson:person,repairTag:phase==='repair'?repairTag:null,allowedTenses:permitted,rng});if(!q)return null;
   if(!q.meta.scaffold){
    q.answer=answers;
@@ -146,6 +148,24 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   if(target.skill==='context'){q.meta.evidenceScope='context';q.context={it:entry.ex,en:entry.exEn||''};q.exampleTranslation=entry.exEn||'';}
   q.choices=(q.choices||[]).map(c=>({...c,value:c.label}));
  }
+ if(kind==='verb'&&entry.inf==='trattarsi'&&!options.historicalForms){
+  const fixedAgreement='In trattarsi di, keep the participle masculine singular: trattato. The word after di does not control its ending.';
+  if(q.meta?.scaffold&&TENSE_BY_KEY[target.tense]?.compound){
+   const full=lessonForms(entry,target.tense,2)[0],aux=full?.split(' ').slice(1,-1).join(' ');
+   if(full&&aux){
+    const component=q.meta.scaffoldSkill;
+    if(component==='agreement'){q.answer=['o'];q.prompt=text(`si ${aux} trattat…`,'Complete only the final letter of the fixed impersonal participle.');q.meta.diagnostic={...q.meta.diagnostic,agreementRule:'impersonal-fixed',agreementMessage:fixedAgreement};}
+    else if(component==='participle'){q.answer=['trattato'];q.prompt=text(`si ${aux} …`,'Complete only the fixed impersonal past participle.');}
+    else if(component==='auxiliary'){q.answer=[aux];q.prompt=text('si … trattato',`Complete only the auxiliary in ${TENSE_BY_KEY[target.tense].name}.`);}
+    else if(component==='clitic'){q.answer=['si'];q.prompt=text(`… ${aux} trattato`,'Restore only the impersonal pronoun.');}
+    q.say=q.answer[0];q.example=full;q.tip=fixedAgreement;q.lesson='Trattarsi di is impersonal and uses the third-person singular. '+fixedAgreement;
+    choices(q,(q.choices||[]).map(choice=>choice.label),showChoices,rng);
+   }
+  }else if(!q.context&&!q.meta?.scaffold&&q.meta?.skill==='conjugation'){
+   q.tip='Use impersonal si and the third-person singular for the requested tense. '+(TENSE_BY_KEY[target.tense]?.compound?fixedAgreement:'The complement after di is not its grammatical subject.');
+   q.lesson=q.tip;
+  }
+ }
  if(kind==='word'&&target.skill==='meaning'&&v%2&&entry.ex) q.prompt=q.prompt.replace('class="big md"','class="sentence"');
  if(format==='type'&&!q.meta?.supportOnly){q.type='type';q.choices=[];}
  if(q.type==='mc')q.prompt=q.prompt.replace(/Write the whole/gi,'Choose the whole').replace(/write the whole/gi,'choose the whole').replace(/Write only/gi,'Choose only').replace(/Write this/gi,'Choose this').replace(/Supply only/gi,'Choose').replace(/Give the/gi,'Choose the').replace(/Answer in English/gi,'Choose the English meaning');
@@ -158,6 +178,9 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
     `That progressive form can be valid Italian. This prompt asks for the simple ${source==='background'?'imperfetto':'present'} form.`};
  }
  q.id=`${target.id}:${q.meta.variantId}`;
+ if(kind==='verb'&&entry.inf==='trattarsi'&&!options.historicalForms&&!q.meta.scaffold&&q.meta.diagnostic?.compound){
+  q.meta.diagnostic.compound={...q.meta.diagnostic.compound,participles:unique(q.answer.map(answer=>answer.split(' ').at(-1))),checkAgreement:true,agreementRule:'impersonal-fixed',agreementMessage:'In trattarsi di, keep the participle masculine singular: trattato. The word after di does not control its ending.'};
+ }
  q.meta.exposureForms=lessonExposureForms(entry,q.answer,target.skill);
  q.meta.promptExposureForms=[];q.meta.feedbackExposureForms=[];
  if(kind==='word'&&!target.supplementalOnly){
@@ -180,7 +203,8 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   :target.skill==='address'?'Lei addresses the listener politely; its verb uses third-person singular grammar.'
   :kind==='verb'?`${entry.inf}: ${q.answer.join(' / ')} is the requested ${TENSE_BY_KEY[target.tense]?.name||'verb'} form.`
   :target.skill==='agreement'?`${q.answer.join(' / ')} is the ${target.formLabel||['masculine singular','feminine singular','masculine plural','feminine plural'][target.formIndex]} form. Match the adjective to the noun.`
-  :`${entry.it} — ${entry.en}. ${target.skill==='article'?'Learn this article with the noun.':target.skill==='plural'?entry.it===entry.pl?'The noun keeps its spelling; the article shows the plural.':'Notice the plural ending or spelling change.':''}`;
+ :`${entry.it} — ${entry.en}. ${target.skill==='article'?'Learn this article with the noun.':target.skill==='plural'?entry.it===entry.pl?'The noun keeps its spelling; the article shows the plural.':'Notice the plural ending or spelling change.':''}`;
+ if(kind==='verb'&&entry.inf==='trattarsi'&&!options.historicalForms&&q.meta.scaffold&&TENSE_BY_KEY[target.tense]?.compound)q.explanation=q.lesson;
  if(target.finalReview&&q.context)q.explanation+=target.progressive?' Stare carries the person; the gerundio highlights the ongoing action.':` Here the label requests the simple ${source==='background'?'imperfetto':'present'} form.`;
  if(format==='letters')return createLetterActivity(q,{seed:v});
  if(format==='pairs'){

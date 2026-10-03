@@ -1,3 +1,4 @@
+import {priorCoreVectorsWithConcernereException} from './verb-reference-baseline.mjs';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -37,6 +38,6 @@ assert.deepEqual(frameEnglishForms(progressiveSpec(verb('mantenere')),2),['keep'
 for(const ch of ['past','future','condizionale'])assert(lessonContexts(verb('esagerare'),ch).filter(c=>c.id.includes('reviewed-frame-0')).every(c=>c.en.includes(ch==='past'&&c.role==='ordinary'?'overdid':'overdo')));
 assert.match(verb('evitare').usage,/Evita!.*one person.*evitiamo!.*speaker and others/);assert.match(verb('mentire').usage,/Mento is the more frequent.*present indicative and subjunctive.*imperative.*third-person plural.*reference currently gives the mento series/);
 assert.equal(verb('rovinare').examples[1].it,'Non rovinare la sorpresa.');assert.equal(verb('rovinare').examples[1].en,"Don't spoil the surprise.");assert(!targets(buildLesson(verb('rovinare'))).some(t=>t.contexts?.some(c=>c.it===verb('rovinare').examples[1].it)),'Reference-only replacement does not create a new graded requirement');
-const forms=verbs.map(e=>({id:e.id,cases:['presente','passatoProssimo','imperfetto','futuro','condizionale'].map(k=>conjugate(e.inf,e).tenses[k])}));assert.equal(hash(forms),fixture.coreArraySHA256,'All1186 broad core paradigms unchanged');
-const report={status:'passed',pools,retiredOccurrences:retired,uniqueRetiredScenes:retiredIds.size,preservedValidOldSelections:preserved,currentSelections:current,unchangedCoreParadigms:verbs.length};console.log(JSON.stringify(report));
+const forms=verbs.map(e=>({id:e.id,cases:['presente','passatoProssimo','imperfetto','futuro','condizionale'].map(k=>conjugate(e.inf,e).tenses[k])}));assert.equal(hash(priorCoreVectorsWithConcernereException(forms)),fixture.coreArraySHA256,'All1185 other core paradigms unchanged; concernere explicit defective reference exception');
+const report={status:'passed',pools,retiredOccurrences:retired,uniqueRetiredScenes:retiredIds.size,preservedValidOldSelections:preserved,currentSelections:current,unchangedCoreParadigms:verbs.length-1,explicitReferenceRepair:"v:concernere"};console.log(JSON.stringify(report));
 if(process.argv.includes('--report'))fs.writeFileSync(new URL('docs/implementation/programme/verb-repairs-522-checks.json',root),JSON.stringify(report,null,2)+'\n');

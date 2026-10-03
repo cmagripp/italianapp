@@ -49,7 +49,7 @@
     },
     {
       "file": "data/verbs.json",
-      "sha256": "0a7668c64ce370844c664637c81d9adf25dc029af39f850f2cc9bf196d77b2f1"
+      "sha256": "d583faaeeab365e35651e9691b9b5f1d19c7c90ebef27ed634902890bbe77d71"
     },
     {
       "file": "data/grammar.json",
@@ -240474,7 +240474,9 @@
       "transitivity": "vt",
       "irregular": false,
       "defective": [
-        "imperativo"
+        "passatoRemoto",
+        "imperativo",
+        "participioPassato"
       ],
       "courseLinked": false,
       "fiveCoreCases": {
@@ -240490,15 +240492,15 @@
           "missingPersons": []
         },
         "passatoProssimo": {
-          "availablePersons": [
+          "availablePersons": [],
+          "missingPersons": [
             "io",
             "tu",
             "lui/lei",
             "noi",
             "voi",
             "loro"
-          ],
-          "missingPersons": []
+          ]
         },
         "imperfetto": {
           "availablePersons": [

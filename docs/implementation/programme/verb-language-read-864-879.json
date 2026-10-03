@@ -1,0 +1,708 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "programme_curriculum author agent",
+  "range": [
+    864,
+    879
+  ],
+  "count": 16,
+  "readSampleCount": 173,
+  "rawEvidence": [
+    {
+      "path": "/tmp/parola-verb-language-read-864-867.jsonl",
+      "sha256": "3d65f9ad5800758bcfa7adbb28fa165e9f24b46b8c91cf35464d1656f7ee662d"
+    },
+    {
+      "path": "/tmp/parola-verb-language-read-868-871.jsonl",
+      "sha256": "dcaf75fcaa976339b3d675a06428f56d971013127556fa74a837bc40d496b541"
+    },
+    {
+      "path": "/tmp/parola-verb-language-read-872-875.jsonl",
+      "sha256": "acf8c49fe3a081f0250c0f1754a3054b285b01f88740406572aea736d17e9ce3"
+    },
+    {
+      "path": "/tmp/parola-verb-language-read-876-879.jsonl",
+      "sha256": "16b1c55e0a0eecc3a661a364dd65dc93dc8ac573c19d8c86d8e56154adcf54d8"
+    }
+  ],
+  "truncatedOutputReread": [
+    "868 individually",
+    "876–877 separately after combined web/source output truncated"
+  ],
+  "records": [
+    {
+      "index": 864,
+      "id": "v:eludere",
+      "source": {
+        "file": "data/verbs/C1-2.json",
+        "index": 11,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 64
+      },
+      "sourceSHA256": "39ba188ce94f532b7db370d96528271688370b951014ea91c2388bac64f5f44a",
+      "policySHA256": "a483a507b014cbf0048ee3425814a77034db41e383354d251f2a5692f9adb7d5",
+      "compiledSHA256": "1e00f712fe07117085e4ea3e814ec7c42c1a2a081d331079c65e09056456f69f",
+      "nonFiniteSHA256": "3e6e10923ce7c4ed4c7b58512d4fb4280e75c2fb8beb91904d6f99d758a7cbd3",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:eludere:present:v2:simple:scene-0-0-ordinary",
+        "v:eludere:present:v2:simple:scene-0-2-formal",
+        "v:eludere:present:v2:progressive:scene-0-0-ordinary",
+        "v:eludere:present:v2:progressive:scene-0-2-formal",
+        "v:eludere:past:reviewed-frame-0:person-0",
+        "v:eludere:past:reviewed-frame-0:formal",
+        "v:eludere:background:v2:simple:scene-0-0-ordinary",
+        "v:eludere:background:v2:simple:scene-0-2-formal",
+        "v:eludere:background:v2:progressive:scene-0-0-ordinary",
+        "v:eludere:background:v2:progressive:scene-0-2-formal",
+        "v:eludere:future:reviewed-frame-0:person-0",
+        "v:eludere:future:reviewed-frame-0:formal",
+        "v:eludere:condizionale:reviewed-frame-0:person-0",
+        "v:eludere:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [
+        {
+          "status": "confirmed usage qualification needed",
+          "field": "sourceFields.usage",
+          "evidence": "The tax note categorically calls elusione legal avoidance.",
+          "reason": "Official Article10-bis interpretation includes formally compliant operations that obtain undue tax advantages; formally lawful steps do not make every elusione lawful.",
+          "sources": [
+            "https://def.finanze.it/DocTribFrontend/getPrassiDetail.do?id=%7BF3CB6CC4-35D0-45CC-A25D-BF02BEF8E2A4%7D"
+          ]
+        }
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 865,
+      "id": "v:erogare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 8,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 65
+      },
+      "sourceSHA256": "ebe80a1146d9a3ba70325ac2f30a4c55caed63b21d579c43bfcf94869d561ad5",
+      "policySHA256": "ae868425ca7846ff42ef7e7754a8d438668ac4ea0701ac1c5721140b37fa15b2",
+      "compiledSHA256": "5aea56fa8568cfdc377edcce3670e50955f4850f4861a5eabd1532a36dda17ce",
+      "nonFiniteSHA256": "61f3fdd32adfbb902a2a6ff8964c3049d95234a6c0c9aa6c0d281365e5b5aca6",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:erogare:present:dictionary-1",
+        "v:erogare:present:v2:progressive:scene-0-2-ordinary",
+        "v:erogare:past:dictionary-0",
+        "v:erogare:background:v2:simple:scene-0-2-ordinary",
+        "v:erogare:background:v2:progressive:scene-0-2-ordinary",
+        "v:erogare:future:reviewed-frame-0:person-2",
+        "v:erogare:condizionale:reviewed-frame-0:person-2"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 866,
+      "id": "v:esentare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 9,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 66
+      },
+      "sourceSHA256": "91ca4f58d7547fb055649e610696b33d91c7ec72869d9efb55a50cc64e71dfe5",
+      "policySHA256": "b9be434eab3c47458098b5a61a751b836d55afc7532a2c6a8629f25b6a24c70d",
+      "compiledSHA256": "dcd7ad6b29fe7356c40fbb90f5b146bdb67afb2272c51fa43933d214245b213d",
+      "nonFiniteSHA256": "d6cb1556b44aa8443785d0c2377cd95c543d9b0e91d43b4dc37a5b4b6e34a8aa",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:esentare:present:v2:simple:scene-0-0-ordinary",
+        "v:esentare:present:v2:simple:scene-0-2-formal",
+        "v:esentare:present:v2:progressive:scene-0-0-ordinary",
+        "v:esentare:present:v2:progressive:scene-0-2-formal",
+        "v:esentare:past:reviewed-frame-0:person-0",
+        "v:esentare:past:reviewed-frame-0:formal",
+        "v:esentare:background:v2:simple:scene-0-0-ordinary",
+        "v:esentare:background:v2:simple:scene-0-2-formal",
+        "v:esentare:background:v2:progressive:scene-0-0-ordinary",
+        "v:esentare:background:v2:progressive:scene-0-2-formal",
+        "v:esentare:future:reviewed-frame-0:person-0",
+        "v:esentare:future:reviewed-frame-0:formal",
+        "v:esentare:condizionale:reviewed-frame-0:person-0",
+        "v:esentare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 867,
+      "id": "v:esimersi",
+      "source": {
+        "file": "data/verbs/C1-2.json",
+        "index": 12,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 67
+      },
+      "sourceSHA256": "3c61090d00b44e8282d79090cb12db998b2e2d38ae0ce33843c82e371c7f8fdd",
+      "policySHA256": "fe330969eac1a55b8a39e00f29fe494cb384e0e94c868809568bfafa0a1db8a2",
+      "compiledSHA256": "dc45746b07b50ee6d2c62434483d0c3d1ea4bbc81f5200514c94f1f37a157ce7",
+      "nonFiniteSHA256": "8fecfce01346198eca26f0ac92e62258665ab5ffddcc57c0fd5b2749d74a03f0",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:esimersi:present:v2:simple:scene-0",
+        "v:esimersi:background:v2:simple:scene-0"
+      ],
+      "findings": [
+        {
+          "status": "qualified context clarity candidate, not declared invalid",
+          "field": "policy.simpleExamples[2]",
+          "evidence": "non si esime dalle critiche / does not avoid criticism contrasts with past does not refrain from criticism.",
+          "reason": "Clarify giving versus receiving criticism; no categorical Italian error asserted."
+        }
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 868,
+      "id": "v:esordire",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 19,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 68
+      },
+      "sourceSHA256": "8aa95758b32b55bab78e859edd261a7bc28a45f494953fc1be0ceea42ee672a9",
+      "policySHA256": "a1f1d545a38a1f612177820a83f9dcc836d55ebeba86614fee950cd50d90f78c",
+      "compiledSHA256": "b6e858da6703c11b73c3759e9279723849cb78abd7b23d1960d8b93e493e32fc",
+      "nonFiniteSHA256": "c81cc9702a1fe785657b549c88b9f78bbc45e12ea6ffd2a03d6aebb12d4eecb7",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:esordire:present:v2:simple:scene-0-0-ordinary",
+        "v:esordire:present:v2:simple:scene-0-2-formal",
+        "v:esordire:present:v2:progressive:scene-0-0-ordinary",
+        "v:esordire:present:v2:progressive:scene-0-2-formal",
+        "v:esordire:past:reviewed-frame-0:person-0",
+        "v:esordire:past:reviewed-frame-0:formal",
+        "v:esordire:background:v2:simple:scene-0-0-ordinary",
+        "v:esordire:background:v2:simple:scene-0-2-formal",
+        "v:esordire:background:v2:progressive:scene-0-0-ordinary",
+        "v:esordire:background:v2:progressive:scene-0-2-formal",
+        "v:esordire:future:reviewed-frame-0:person-0",
+        "v:esordire:future:reviewed-frame-0:formal",
+        "v:esordire:condizionale:reviewed-frame-0:person-0",
+        "v:esordire:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 869,
+      "id": "v:espletare",
+      "source": {
+        "file": "data/verbs/C1-2.json",
+        "index": 13,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 69
+      },
+      "sourceSHA256": "eb4e76838dcf785b1e27a70f8c3015707f2d1db8ef2fd45451a2a27b16ebfe7d",
+      "policySHA256": "004bf252097880241d6997a24cc881f1cb432e71910df660bfcd235c7d0f10db",
+      "compiledSHA256": "dd5bf0c5263555bf526d28a6e07fc20843921737f1b8e8baebaf2451a945fbd7",
+      "nonFiniteSHA256": "4cbc76be165e17a69adf1a746320a6c3c49d3a4e51b3a6ceb9119c6b772c981e",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:espletare:present:v2:simple:scene-0-0-ordinary",
+        "v:espletare:present:v2:simple:scene-0-2-formal",
+        "v:espletare:present:v2:progressive:scene-0-0-ordinary",
+        "v:espletare:present:v2:progressive:scene-0-2-formal",
+        "v:espletare:past:reviewed-frame-0:person-0",
+        "v:espletare:past:reviewed-frame-0:formal",
+        "v:espletare:background:v2:simple:scene-0-0-ordinary",
+        "v:espletare:background:v2:simple:scene-0-2-formal",
+        "v:espletare:background:v2:progressive:scene-0-0-ordinary",
+        "v:espletare:background:v2:progressive:scene-0-2-formal",
+        "v:espletare:future:reviewed-frame-0:person-0",
+        "v:espletare:future:reviewed-frame-0:formal",
+        "v:espletare:condizionale:reviewed-frame-0:person-0",
+        "v:espletare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 870,
+      "id": "v:estinguere",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 5,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 70
+      },
+      "sourceSHA256": "1ec4c2a33579a4dc29e08b859287c097898a3e52d28882c3b530b3d0c89c0188",
+      "policySHA256": "9cb8670d2c32a999b2d25e34fca1928bb1b692365bbc9193eaf1ff7a4a765717",
+      "compiledSHA256": "31fbf2c3430db7f794ddcd4f6b06208cbaa90929427c20f8462926683ef918f6",
+      "nonFiniteSHA256": "f189be3a1ff83048bdf564e3566627607c656096488f170a54974e94c5a4fd37",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:estinguere:present:v2:simple:scene-0-0-ordinary",
+        "v:estinguere:present:v2:simple:scene-0-2-formal",
+        "v:estinguere:present:v2:progressive:scene-0-0-ordinary",
+        "v:estinguere:present:v2:progressive:scene-0-2-formal",
+        "v:estinguere:past:reviewed-frame-0:person-0",
+        "v:estinguere:past:reviewed-frame-0:formal",
+        "v:estinguere:background:v2:simple:scene-0-0-ordinary",
+        "v:estinguere:background:v2:simple:scene-0-2-formal",
+        "v:estinguere:background:v2:progressive:scene-0-0-ordinary",
+        "v:estinguere:background:v2:progressive:scene-0-2-formal",
+        "v:estinguere:future:reviewed-frame-0:person-0",
+        "v:estinguere:future:reviewed-frame-0:formal",
+        "v:estinguere:condizionale:reviewed-frame-0:person-0",
+        "v:estinguere:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 871,
+      "id": "v:esulare",
+      "source": {
+        "file": "data/verbs/C1-2.json",
+        "index": 14,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 71
+      },
+      "sourceSHA256": "23cb608bf63cea4fe3761b099b87e5e8dd34a257e9903e0540db4e251fdc18eb",
+      "policySHA256": "0fe7922debbee3538fe68522ff16564ed43ef17a8899dfe6238793c452f2cb84",
+      "compiledSHA256": "755466c467054ac083688ec39cf5fcd48dc2ec2d68bc2ac4ef12db881847d5d3",
+      "nonFiniteSHA256": "8ba8e51da501a3c55b2e399aa70c6cc656bcd74b64a0cb4c9efed0e3081a3e17",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:esulare:present:dictionary-0",
+        "v:esulare:background:v2:simple:scene-0"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 872,
+      "id": "v:evincere",
+      "source": {
+        "file": "data/verbs/C1-2.json",
+        "index": 15,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 72
+      },
+      "sourceSHA256": "8f73daca50074dc7566b1367420bf2b65a5e61692a10de997d3ee39777171bfb",
+      "policySHA256": "201c56c3e92858e08866259c4cf1a35311e32520bb6b60cecffae4ff10b6dd3d",
+      "compiledSHA256": "558a499b95fdbddf5992a8b312143a67de022aeb6b0a991bf9003c6c35e46572",
+      "nonFiniteSHA256": "bfc2f1ccd3cec785bc14d21c09d09053521316dcfe864dae6ef8e6e51aef6f5a",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:evincere:present:v2:simple:scene-0-0-ordinary",
+        "v:evincere:present:v2:simple:scene-0-2-formal",
+        "v:evincere:present:v2:progressive:scene-0-0-ordinary",
+        "v:evincere:present:v2:progressive:scene-0-2-formal",
+        "v:evincere:past:reviewed-frame-0:person-0",
+        "v:evincere:past:reviewed-frame-0:formal",
+        "v:evincere:background:v2:simple:scene-0-0-ordinary",
+        "v:evincere:background:v2:simple:scene-0-2-formal",
+        "v:evincere:background:v2:progressive:scene-0-0-ordinary",
+        "v:evincere:background:v2:progressive:scene-0-2-formal",
+        "v:evincere:future:reviewed-frame-0:person-0",
+        "v:evincere:future:reviewed-frame-0:formal",
+        "v:evincere:condizionale:reviewed-frame-0:person-0",
+        "v:evincere:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [
+        {
+          "status": "register calibration pending, no definite defect",
+          "field": "policy",
+          "reason": "Personal progressive inference frames are formal and comparatively unusual; Treccani confirms evincere conjugates like vincere and explicitly attests evinto. No invented morphology fix.",
+          "sources": [
+            "https://www.treccani.it/vocabolario/evincere/"
+          ]
+        }
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 873,
+      "id": "v:fatturare",
+      "source": {
+        "file": "data/verbs/C1-more-1.json",
+        "index": 30,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 73
+      },
+      "sourceSHA256": "f877a54e18fe7ffe16ef9e9a269c71996b7cd0fcb89d92e8c0fbdcecb55903e7",
+      "policySHA256": "a21d013f7ba8becfad784a1b1432a36ea3babd848accc9c8eeb8ef0ea932d6d9",
+      "compiledSHA256": "ee1cf4e25eb38b54934f9518df3548637fcfe4eb45aea24c576a42a2a95d29b2",
+      "nonFiniteSHA256": "3eb80d0353c872d04fc1dc56a3fa7c86a812118353ebb53be96ad6d145f85a70",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:fatturare:present:dictionary-1",
+        "v:fatturare:present:v2:simple:scene-0-2-formal",
+        "v:fatturare:present:v2:progressive:scene-0-0-ordinary",
+        "v:fatturare:present:v2:progressive:scene-0-2-formal",
+        "v:fatturare:past:reviewed-frame-0:person-0",
+        "v:fatturare:past:reviewed-frame-0:formal",
+        "v:fatturare:background:v2:simple:scene-0-0-ordinary",
+        "v:fatturare:background:v2:simple:scene-0-2-formal",
+        "v:fatturare:background:v2:progressive:scene-0-0-ordinary",
+        "v:fatturare:background:v2:progressive:scene-0-2-formal",
+        "v:fatturare:future:reviewed-frame-0:person-0",
+        "v:fatturare:future:reviewed-frame-0:formal",
+        "v:fatturare:condizionale:reviewed-frame-0:person-0",
+        "v:fatturare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 874,
+      "id": "v:filarsela",
+      "source": {
+        "file": "data/verbs/C1-4.json",
+        "index": 28,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 74
+      },
+      "sourceSHA256": "aca10f4dde9dd96666f995aa7db34007671a310db9c0cc42fbd43814d498b692",
+      "policySHA256": "d116011fd5c7d0484376280a3caef1cfdbfe73c0fefc1d70929017ce30ccf6de",
+      "compiledSHA256": "99e73fa56c5abd7adc25e9a5d1bc9b74d98108bfe622edac21e3c1b578f4da99",
+      "nonFiniteSHA256": "33640e7fc145b37dc66702a153230ab98a294b4d398a199136882a78dce7e369",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:filarsela:present:v2:simple:scene-0",
+        "v:filarsela:present:v2:progressive:scene-0",
+        "v:filarsela:background:v2:simple:scene-0",
+        "v:filarsela:background:v2:progressive:scene-0"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 875,
+      "id": "v:fomentare",
+      "source": {
+        "file": "data/verbs/C1-2.json",
+        "index": 16,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 75
+      },
+      "sourceSHA256": "540a866cb2d1c1b0314642bc48625d10c5a1bf53cc2b2f7fd5d8cea72f69b4d2",
+      "policySHA256": "8ce117771c4bc885bbf786287697fbb9de2c66f0926aff650a519e3adb88e9e7",
+      "compiledSHA256": "3c798b6b96b422b1304f1c7751ceed8b6e461c6e52d506a065c0f8517642be1e",
+      "nonFiniteSHA256": "cb42c59d5ce408adc53dd9a3b86250af396f1f47c888881718ac8d138fa08fab",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:fomentare:present:v2:simple:scene-0-0-ordinary",
+        "v:fomentare:present:v2:simple:scene-0-2-formal",
+        "v:fomentare:present:v2:progressive:scene-0-0-ordinary",
+        "v:fomentare:present:v2:progressive:scene-0-2-formal",
+        "v:fomentare:past:reviewed-frame-0:person-0",
+        "v:fomentare:past:reviewed-frame-0:formal",
+        "v:fomentare:background:v2:simple:scene-0-0-ordinary",
+        "v:fomentare:background:v2:simple:scene-0-2-formal",
+        "v:fomentare:background:v2:progressive:scene-0-0-ordinary",
+        "v:fomentare:background:v2:progressive:scene-0-2-formal",
+        "v:fomentare:future:reviewed-frame-0:person-0",
+        "v:fomentare:future:reviewed-frame-0:formal",
+        "v:fomentare:condizionale:reviewed-frame-0:person-0",
+        "v:fomentare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [
+        {
+          "status": "confirmed usage qualification needed",
+          "field": "sourceFields.usage",
+          "evidence": "Always negative",
+          "reason": "Crusca explicitly recognizes rarer positive/literary uses; retain usual negative figurative teaching but avoid an absolute prohibition. Chosen negative models remain coherent.",
+          "sources": [
+            "https://accademiadellacrusca.it/it/consulenza/si-pu%C3%B2-fomentare-anche-il-bene-%C3%A8-soltanto-pi%C3%B9-raro/1768"
+          ]
+        }
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 876,
+      "id": "v:fraintendere",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 9,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 76
+      },
+      "sourceSHA256": "433eb6eb429cb92fd763e9a8ed706a366ca1fd37969caf3ae60b84e4d1af7b9a",
+      "policySHA256": "3df217c0838678dc1778eaee93d10c249d75dc4e694d46f3973bddf163be22a1",
+      "compiledSHA256": "ffb54f83f8c1d0fae0d9095d836eb1ced37ebd5b0b6f655ce553fdc1c96a2b91",
+      "nonFiniteSHA256": "2ce145dd60890264f6c9a5bcf519b1eabee7e0e69c7a7d76b03c416a9d27281f",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:fraintendere:present:v2:simple:scene-0-0-ordinary",
+        "v:fraintendere:present:v2:simple:scene-0-2-formal",
+        "v:fraintendere:present:v2:progressive:scene-0-0-ordinary",
+        "v:fraintendere:present:v2:progressive:scene-0-2-formal",
+        "v:fraintendere:past:reviewed-frame-0:person-0",
+        "v:fraintendere:past:reviewed-frame-0:formal",
+        "v:fraintendere:background:v2:simple:scene-0-0-ordinary",
+        "v:fraintendere:background:v2:simple:scene-0-2-formal",
+        "v:fraintendere:background:v2:progressive:scene-0-0-ordinary",
+        "v:fraintendere:background:v2:progressive:scene-0-2-formal",
+        "v:fraintendere:future:reviewed-frame-0:person-0",
+        "v:fraintendere:future:reviewed-frame-0:formal",
+        "v:fraintendere:condizionale:reviewed-frame-0:person-0",
+        "v:fraintendere:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 877,
+      "id": "v:fregarsene",
+      "source": {
+        "file": "data/verbs/C1-4.json",
+        "index": 23,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 77
+      },
+      "sourceSHA256": "d51a3e58f95ad011334b08b1c405aeeab792172b71169c906f681984542a4a48",
+      "policySHA256": "c1c1d630bbf909312fdf7a4b5066f3f05fb772afc1ce413bf705d7a83b3330cd",
+      "compiledSHA256": "364f5c15e5b9b13a6d80e458cd421042c18bd53adff4abac3d041604f3731dd4",
+      "nonFiniteSHA256": "087a51bd8613ce81f7c5a7ca7a8589e58cf4b0e1943cdffcea472b9339e28d99",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:fregarsene:present:v2:simple:scene-0",
+        "v:fregarsene:present:v2:progressive:scene-0",
+        "v:fregarsene:background:v2:simple:scene-0",
+        "v:fregarsene:background:v2:progressive:scene-0"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 878,
+      "id": "v:fruire",
+      "source": {
+        "file": "data/verbs/C1-more-2.json",
+        "index": 20,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 78
+      },
+      "sourceSHA256": "5c9f53d3e728fc47ad65bb7eba1cbd2d77e1c37690cbdab9d627f3425bccdb05",
+      "policySHA256": "2c27b505e09d9e9420c8dd3021ccf3e304d94a7a880eaa6ee35c5b79df77c8f7",
+      "compiledSHA256": "6af08e4757ed044f1b61185cfd5aee1c443e6337eca0ccd6bd47d80ccc4a6224",
+      "nonFiniteSHA256": "2220c442e242250e1930ffa1c79dbc2cdd7773d91af70cd727bf23b463e77402",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:fruire:present:v2:simple:scene-0-0-ordinary",
+        "v:fruire:present:v2:simple:scene-0-2-formal",
+        "v:fruire:present:v2:progressive:scene-0-0-ordinary",
+        "v:fruire:present:v2:progressive:scene-0-2-formal",
+        "v:fruire:past:reviewed-frame-0:person-0",
+        "v:fruire:past:reviewed-frame-0:formal",
+        "v:fruire:background:v2:simple:scene-0-0-ordinary",
+        "v:fruire:background:v2:simple:scene-0-2-formal",
+        "v:fruire:background:v2:progressive:scene-0-0-ordinary",
+        "v:fruire:background:v2:progressive:scene-0-2-formal",
+        "v:fruire:future:reviewed-frame-0:person-0",
+        "v:fruire:future:reviewed-frame-0:formal",
+        "v:fruire:condizionale:reviewed-frame-0:person-0",
+        "v:fruire:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [
+        {
+          "status": "confirmed usage qualification needed",
+          "field": "sourceFields.usage",
+          "evidence": "always with di",
+          "reason": "Treccani and De Mauro distinguish the usual intransitive di construction from a rarer transitive/literary use; current selected service/benefit frames with di remain coherent.",
+          "sources": [
+            "https://www.treccani.it/vocabolario/fruire/",
+            "https://dizionario.internazionale.it/parola/fruire"
+          ]
+        }
+      ],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    },
+    {
+      "index": 879,
+      "id": "v:fugare",
+      "source": {
+        "file": "data/verbs/C1-2.json",
+        "index": 17,
+        "level": "C1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/advanced.json",
+        "index": 79
+      },
+      "sourceSHA256": "ed92d5cbe3dc8438b14ba22276dba838d3754118fe006997a7b54a0ad93e5103",
+      "policySHA256": "475cf33cfdd5ebe38aab46a3c66c65d9f144418c0615c8421b5f12074785c2a9",
+      "compiledSHA256": "d125ccab04d49c8b991bff7c3e16b65b25249aec386ec342e3d00d78b2214609",
+      "nonFiniteSHA256": "9b3fe652c1cfb331fffb082ac93c2afbefe1aed7ce2d2a95d3c61e54fbb6ed95",
+      "reviewer": "programme_curriculum author agent",
+      "readScope": "All source fields/three examples/translations/full selected-sense policy and custom examples, rendered nonfinite qualifications, five six-person lesson vectors and formal m/f vectors, plus only the explicitly listed representative generated IDs.",
+      "readSampleIds": [
+        "v:fugare:present:v2:simple:scene-0-0-ordinary",
+        "v:fugare:present:v2:simple:scene-0-2-formal",
+        "v:fugare:present:v2:progressive:scene-0-0-ordinary",
+        "v:fugare:present:v2:progressive:scene-0-2-formal",
+        "v:fugare:past:reviewed-frame-0:person-0",
+        "v:fugare:past:reviewed-frame-0:formal",
+        "v:fugare:background:v2:simple:scene-0-0-ordinary",
+        "v:fugare:background:v2:simple:scene-0-2-formal",
+        "v:fugare:background:v2:progressive:scene-0-0-ordinary",
+        "v:fugare:background:v2:progressive:scene-0-2-formal",
+        "v:fugare:future:reviewed-frame-0:person-0",
+        "v:fugare:future:reviewed-frame-0:formal",
+        "v:fugare:condizionale:reviewed-frame-0:person-0",
+        "v:fugare:condizionale:reviewed-frame-0:formal"
+      ],
+      "findings": [],
+      "scope": {
+        "allRenderedContexts": false,
+        "allQuestions": false,
+        "individualNonFinitePrimaryAttestation": false,
+        "nativeHuman": false
+      }
+    }
+  ],
+  "gates": {
+    "fullGeneratedContextsAndQuestions": "pending",
+    "nativeEducator": "pending",
+    "rareNonfinitePrimaryAttestation": "pending beyond explicitly cited forms"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "baseline": "8517db3",
+  "entries": [
+    "v:entrarci",
+    "v:cascarci",
+    "v:restarci",
+    "v:starci",
+    "v:uscirne"
+  ],
+  "priorDescriptors": 11470,
+  "currentGenderQuestions": 280,
+  "agreementDiagnoses": 70,
+  "recoveryTransitions": 140,
+  "pairFences": 70,
+  "unchangedFormalFamilies": 1178,
+  "scope": "Exact authored form agreement and source-bound legacy recovery; not whole-catalogue linguistic approval or native human review."
+}

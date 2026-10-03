@@ -195,7 +195,7 @@ export const IRREGULAR = {
   fendere: { pp: 'fenduto|fesso' },
   trudere: { pr: 'trus', pp: 'truso' },
   // defective verbs (Treccani): no participio passato / compound tenses, sometimes no passato remoto or imperative
-  concernere: { imp: null },
+  concernere: { pp: null, pr: null, imp: null },
   dirimere: { pp: null, imp: null },
   esimere: { pp: null },
   incombere: { pp: null, imp: null },

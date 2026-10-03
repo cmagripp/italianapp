@@ -124,9 +124,11 @@
         "docs/implementation/programme/journey-pacing-full.json",
         "tools/test-journey-pacing.mjs",
         "tests/report-lesson-overview.json",
-        "tests/report-lesson-overview-targeted-webkit.json"
+        "tests/report-lesson-overview-targeted-webkit.json",
+        "tools/test-formal-ci-agreement.mjs",
+        "tools/test-impersonal-fixed-feedback.mjs"
       ],
-      "implementationNotes": "Finite visits and declared case coverage reduce ordinary present/progressive from 42 to 24 questions (16 typed); simpler cases take 10\u201313. Current 1,186 verbs provide 5,930 case descriptors: all 5,908 available cases traverse successfully and 22 unsupported remain exempt. Required earlier skips defer mixed transfer to an incomplete partial recap; ten deterministic checks, all 18 Chromium overview checks and three targeted WebKit partial/full checks pass. 25 cases still take four visits; individual linguistic catalogue review and release integration remain."
+      "implementationNotes": "Finite visits and declared case coverage reduce ordinary present/progressive from 42 to 24 questions (16 typed); simpler cases take 10–13. Current 1,186 verbs provide 5,930 case descriptors: all 5,908 available cases traverse successfully and 22 unsupported remain exempt. Required earlier skips defer mixed transfer to an incomplete partial recap; ten deterministic checks, all 18 Chromium overview checks and three targeted WebKit partial/full checks pass. 25 cases still take four visits; individual linguistic catalogue review and release integration remain. Five subject-clitic families now match formal Lei participles to the named addressee across35 compound targets. Seventeen additional language repairs include fixed impersonal trattarsi teaching/feedback and supported concernere defectivity. These are bounded corrections; the full catalogue gate remains open."
     },
     {
       "id": "P3-games",
@@ -201,9 +203,12 @@
         "tools/test-verb-repairs-271.mjs",
         "tools/test-journey-form-history.mjs",
         "tools/test-journey-form-content-review.mjs",
-        "docs/implementation/programme/journey-form-history-contract.json"
+        "docs/implementation/programme/journey-form-history-contract.json",
+        "tools/test-prior-only-journey-targets.mjs",
+        "docs/implementation/programme/trattarsi-compatibility-chromium.json",
+        "docs/implementation/programme/trattarsi-compatibility-webkit.json"
       ],
-      "implementationNotes": "Physically separate v6 storage and recovery copies protect already-open v5 clients; thirteen actual-baseline/current-client checks pass per engine. Exact selected scene revisions now include bounded explicitly declared aliases for preserved prior pools. Seventeen scene checks and fourteen browser checks per engine pass. Seven bounded language repairs preserve 802 prior pools and 1,464 valid saved selections; eighteen occurrences of sixteen invalid scene IDs require explicit correction without fabricated credit. All 1,186 existing five-case completion arrays are unchanged. Imported form-question semantic revision/history and final release paths remain. Selected-form history now preserves256 prior descriptors and fences194 invalid variants. Exact old question text is rebuilt from trusted prior recipes; corrected scenes require explicit Continue and never manufacture credit. Imported variant counters initialize narrowly. Startup binding regression and final release remain separately recorded."
+      "implementationNotes": "Physically separate v6 storage and recovery copies protect already-open v5 clients; thirteen actual-baseline/current-client checks pass per engine. Exact selected scene revisions now include bounded explicitly declared aliases for preserved prior pools. Seventeen scene checks and fourteen browser checks per engine pass. Seven bounded language repairs preserve 802 prior pools and 1,464 valid saved selections; eighteen occurrences of sixteen invalid scene IDs require explicit correction without fabricated credit. All 1,186 existing five-case completion arrays are unchanged. Imported form-question semantic revision/history and final release paths remain. Selected-form history now preserves256 prior descriptors and fences194 invalid variants. Exact old question text is rebuilt from trusted prior recipes; corrected scenes require explicit Continue and never manufacture credit. Imported variant counters initialize narrowly. Startup binding regression and final release remain separately recorded. The seventh slice preserves 11,470 prior formal descriptors and exact prior-only usage availability. Eight actual-route checks per engine cover old answer/feedback/Back/reload and explicit no-credit transitions. Active legacy markers clear after migration while still-old inactive cursors remain marked. Mixed checkpoints apply the same completed-case enrollment gate as scheduling, eliminating recursive retries of unfinished cases. Exact current correction/recovery and final release remain separately evidenced."
     },
     {
       "id": "P4-model",
@@ -352,7 +357,7 @@
         "tests/conversation-player-e2e.mjs",
         "js/conversations/controller.js"
       ],
-      "implementationNotes": "Stable1\u20133partner identities and explicit joins/leaves are committed with system history. Inactive partners cannot reply; addressed participant is constrained at service boundary. Saved UI/player checks cover setup and changes; explicit per-turn addressee selection and model behavior remain."
+      "implementationNotes": "Stable1–3partner identities and explicit joins/leaves are committed with system history. Inactive partners cannot reply; addressed participant is constrained at service boundary. Saved UI/player checks cover setup and changes; explicit per-turn addressee selection and model behavior remain."
     },
     {
       "id": "P5-summary",
@@ -476,7 +481,7 @@
     {
       "id": "P5-quality",
       "phase": 5,
-      "requirement": "Per-level independent generated exchange review, 100+turn exactresume, 30\u201360minute combined stability, meaningful Italian error/speech corpus; no scripted substitute for dynamic conversation.",
+      "requirement": "Per-level independent generated exchange review, 100+turn exactresume, 30–60minute combined stability, meaningful Italian error/speech corpus; no scripted substitute for dynamic conversation.",
       "status": "pending",
       "owner": "root",
       "evidence": []
@@ -541,9 +546,11 @@
         "docs/implementation/programme/verb-repairs-402.json",
         "docs/implementation/programme/verb-repairs-402-baseline-review.json",
         "docs/implementation/programme/verb-repairs-522.json",
-        "docs/implementation/programme/verb-repairs-522-independent-review.json"
+        "docs/implementation/programme/verb-repairs-522-independent-review.json",
+        "tools/test-verb-language-review-ledger.mjs",
+        "docs/implementation/programme/verb-repairs-764-independent-review.json"
       ],
-      "implementationNotes": "Published individual review records cover522/1186 verbs;664 remain outside the published boundary. Seven bounded corrections preserve973 prior source pools and2052 valid prior question selections;20 invalid fingere question IDs (30 occurrences) retire explicitly,2082 current selections pass and all1186 core reference arrays stay unchanged. Independent agent review passes. Whole generated question banks, remaining words/references, native educator and learner gates remain open."
+      "implementationNotes": "Published scoped individual review records now cover892/1186 verbs;294 remain outside this recorded boundary. Records list12,851 distinct representative IDs and22 explicitly reviewed fingerprint updates. This is source/policy/five-case/formal/nonfinite and declared sample coverage, not all generated questions or native approval. Seventeen bounded source corrections preserve2,117 prior context pools and3,891 valid saved selections;49 invalid context IDs (105 occurrences) retire explicitly,3,996 current selections pass, and1,185 unrelated core reference arrays remain unchanged. Concernere defectivity is an explicit reference correction. Independent source/form-history review passes; new actual-route prior-only target recovery passes eight checks per browser engine. Remaining catalogue findings, words/references, native educator and learner gates stay open."
     },
     {
       "id": "P6-authoring",
@@ -569,7 +576,7 @@
     {
       "id": "P7-integration",
       "phase": 7,
-      "requirement": "Course\u2192word/case\u2192workshop\u2192written/spokenchat\u2192summary\u2192targetpractice\u2192delayedreview\u2192resume/export/offline full flows.",
+      "requirement": "Course→word/case→workshop→written/spokenchat→summary→targetpractice→delayedreview→resume/export/offline full flows.",
       "status": "in_progress",
       "owner": "root",
       "evidence": [
@@ -582,9 +589,10 @@
         "docs/implementation/programme/integration-checkpoint-lifecycle-grounding.json",
         "docs/implementation/programme/integration-checkpoint-forms-offline.json",
         "docs/implementation/programme/integration-checkpoint-accents-workshop.json",
-        "docs/implementation/programme/integration-checkpoint-workshop-revision.json"
+        "docs/implementation/programme/integration-checkpoint-workshop-revision.json",
+        "docs/implementation/programme/integration-checkpoint-formal-language.json"
       ],
-      "implementationNotes": "This development checkpoint passes79 registered deterministic suites, followed by99 affected AI and7 summary checks after final review corrections,9 rebuilt offline/update and7 grammar offline checks. Source-bound spelling, atomic cancellation, exact authored Workshop contexts,522verb review boundary and enlarged-text layouts are integrated. Model/speech, editorial and final programme release gates remain open. Subsequent bounded Workshop revision passes50engine and52affected AI checks,9revision browser cases and19assistance checks per engine,10existing Workshop WebKit and9assembled offline checks; build1dce36c125d3 remains development-only."
+      "implementationNotes": "This development checkpoint passes79 registered deterministic suites, followed by99 affected AI and7 summary checks after final review corrections,9 rebuilt offline/update and7 grammar offline checks. Source-bound spelling, atomic cancellation, exact authored Workshop contexts,522verb review boundary and enlarged-text layouts are integrated. Model/speech, editorial and final programme release gates remain open. Subsequent bounded Workshop revision passes50engine and52affected AI checks,9revision browser cases and19assistance checks per engine,10existing Workshop WebKit and9assembled offline checks; build1dce36c125d3 remains development-only. Seventh bounded checkpoint adds five formal families, 17 language repairs, 892 individually recorded verbs, 32 formal browser checks per engine and eight final trattarsi checks per engine. Thirteen affected deterministic suites and nine rebuilt offline/update checks pass. Current build parola-v15-8e3f8e02740c remains development-only."
     },
     {
       "id": "P7-recovery",
@@ -642,7 +650,7 @@
       "evidence": []
     }
   ],
-  "updatedAt": "2026-10-03T22:32:29.445456+00:00",
+  "updatedAt": "2026-10-03T23:38:41.622244+00:00",
   "testedDeviceConfiguration": {
     "device": "iPhone 16 Pro Max simulator",
     "iOS": "26.5",
@@ -655,13 +663,13 @@
     }
   ],
   "checkpoint": {
-    "kind": "Sixth recoverable development checkpoint",
+    "kind": "Seventh recoverable development checkpoint",
     "branch": "codex/parola-full-programme",
-    "parentCommit": "e14366b",
+    "parentCommit": "8517db3",
     "previousCheckpointPushed": true,
     "productionRelease": false,
-    "build": "parola-v15-1dce36c125d3",
-    "validation": "50template engine,52affected AI,9revision+19assistance cases per browser,10existing Workshop WebKit,9assembled offline/update.",
-    "open": "Production contextual registry/model/speech; remaining catalogue/curriculum review; educator/learner and full release gates."
+    "build": "parola-v15-8e3f8e02740c",
+    "validation": "32 formal browser checks per engine; 8 final trattarsi lifecycle checks per engine; 13 affected deterministic suites; 9 assembled offline/update checks; 892 verb review records.",
+    "open": "Production contextual registry/model/speech; remaining catalogue/curriculum corrections; educator/learner and full release gates."
   }
 }

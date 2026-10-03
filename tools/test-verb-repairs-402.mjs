@@ -1,3 +1,4 @@
+import {priorCoreVectorsWithConcernereException} from './verb-reference-baseline.mjs';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -81,6 +82,6 @@ assert.equal(curarsi.examples[0].it,'Se ti curerai in ospedale, porterò io la t
 assert(!['present','past','background','future','condizionale'].flatMap(ch=>lessonContexts(curarsi,ch)).some(c=>c.it===curarsi.examples[0].it),'Neutral reference example does not silently expand active source pools');
 assert(!targets(buildLesson(curarsi))[0].retiredExpandedContextIds?.length,'Treatment wording refinement preserves valid prior questions');
 const core=verbs.map(e=>({id:e.id,cases:['presente','passatoProssimo','imperfetto','futuro','condizionale'].map(k=>conjugate(e.inf,e).tenses[k])}));
-assert.equal(hash(core),fixture.baselineReferenceCasesSHA256,'All 1186 broad five-case paradigms remain exact');
+assert.equal(hash(priorCoreVectorsWithConcernereException(core)),fixture.baselineReferenceCasesSHA256,'All1185 other broad five-case paradigms remain exact; concernere explicit reference exception');
 console.log(`${pools} old context pools/order, ${recipes} full prior target vectors, ${descriptors} captured form cues and all ordinary saved requirements preserved.`);
-console.log('Exact selected-sense retirement declarations (90 + 7), five bounded linguistic changes, and all 1186 broad core paradigms pass. Controller recovery/human review are separate gates.');
+console.log('Exact selected-sense retirement declarations (90 + 7), five bounded linguistic changes, and 1185 other broad core paradigms and the explicit concernere reference exception pass. Controller recovery/human review are separate gates.');

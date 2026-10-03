@@ -1,0 +1,176 @@
+{
+  "reviewer": "root",
+  "date": "2026-10-04",
+  "scope": "Actually read8raw source/usage/examples and fullpolicy/frame declarations, all5core finite/formalM/F vectors, nonfinite displays, first2available representative samples percase. Notall generated questions, advanced paradigms, pronunciation or humaneditorial approval.",
+  "rawPath": "/tmp/parola-root-verb-review-856-863.jsonl",
+  "rawSHA256": "d8ef08cd57ecb47847edc208eec943df100bf085d561631478b8ce09f4b1e1c1",
+  "entries": [
+    {
+      "index": 856,
+      "id": "v:disattendere",
+      "sourceSHA256": "4e9db574953ae0bb5112928079ef4943172752aa86f06924cb01fd36a728d603",
+      "policySHA256": "b630c009e31fada59f0f883c3a1f71e7a7df28709dd599296457adb54cba88f2",
+      "nonFiniteSHA256": "8856fcc367b1fcfe69c55a05131ed7ed68f97744e0c4106852fa95c893e5d502",
+      "compiledSHA256": "d8e809b0bce75fe8c0f4057f3ddbe36041232e59ff620148ec9b7c2eed8e50c6",
+      "readSampleIds": [
+        "v:disattendere:present:v2:simple:scene-0-0-ordinary",
+        "v:disattendere:present:v2:simple:scene-0-2-formal",
+        "v:disattendere:past:reviewed-frame-0:person-0",
+        "v:disattendere:past:reviewed-frame-0:formal",
+        "v:disattendere:background:v2:simple:scene-0-0-ordinary",
+        "v:disattendere:background:v2:simple:scene-0-2-formal",
+        "v:disattendere:future:reviewed-frame-0:person-0",
+        "v:disattendere:future:reviewed-frame-0:formal",
+        "v:disattendere:condizionale:reviewed-frame-0:person-0",
+        "v:disattendere:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 857,
+      "id": "v:discostarsi",
+      "sourceSHA256": "6fe6be4d5c78a571e4a63f3bd33624a5083ef224d57a15d5a242e09d271b21d9",
+      "policySHA256": "351562b1a03fa270af2376c59089ceee5a17db92d357bc33d10cf8779dfd17ee",
+      "nonFiniteSHA256": "ab9cc4b264b415bf4d3aa30d27af5c2dba2d0ddd64024a4cb9677e906888a40a",
+      "compiledSHA256": "60460888be004c156cfec8bcd402db6cea4423748b543a2993dd3fbbdffb75db",
+      "readSampleIds": [
+        "v:discostarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:discostarsi:present:v2:simple:scene-0-2-formal",
+        "v:discostarsi:past:reviewed-frame-0:person-0",
+        "v:discostarsi:past:reviewed-frame-0:formal",
+        "v:discostarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:discostarsi:background:v2:simple:scene-0-2-formal",
+        "v:discostarsi:future:reviewed-frame-0:person-0",
+        "v:discostarsi:future:reviewed-frame-0:formal",
+        "v:discostarsi:condizionale:reviewed-frame-0:person-0",
+        "v:discostarsi:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 858,
+      "id": "v:disdegnare",
+      "sourceSHA256": "600177d682ebc2a36298072dda4f779cce75999545f78c409e25e5d716929205",
+      "policySHA256": "be6b7fb6b91c7246025cfe1a523edce79ed75200b7bbcaf2b7d712e6a0b72a7e",
+      "nonFiniteSHA256": "eb2b0c83872fc5fbdfe08998b261ac55c09612d18f5ac926f94e714a5170784c",
+      "compiledSHA256": "2fd6dee2edf1b2a4094cf52a05e02dfae719b779d761e27605c03a0651df5a9f",
+      "readSampleIds": [
+        "v:disdegnare:present:v2:simple:scene-0",
+        "v:disdegnare:background:v2:simple:scene-0",
+        "v:disdegnare:condizionale:dictionary-2"
+      ]
+    },
+    {
+      "index": 859,
+      "id": "v:dissipare",
+      "sourceSHA256": "ae00666d5bb43e4b15e07535501b0336e31a248fc614f8fdb58535d900e866b2",
+      "policySHA256": "4c9e90df8660846aa2178dc1f8da3e7723e1e6e8f979a8a408e83443104b9fe3",
+      "nonFiniteSHA256": "cfc97b8f008034778801d8dbaa9a30f643dcac60fd4f41a34a00bfeab887cda6",
+      "compiledSHA256": "7845997bc16e33342797deab9c20ffd0005c59344333d7288d62b9ee7ce13f9c",
+      "readSampleIds": [
+        "v:dissipare:present:v2:simple:scene-0-0-ordinary",
+        "v:dissipare:present:v2:simple:scene-0-2-formal",
+        "v:dissipare:past:reviewed-frame-0:person-0",
+        "v:dissipare:past:reviewed-frame-0:formal",
+        "v:dissipare:background:v2:simple:scene-0-0-ordinary",
+        "v:dissipare:background:v2:simple:scene-0-2-formal",
+        "v:dissipare:future:reviewed-frame-0:person-0",
+        "v:dissipare:future:reviewed-frame-0:formal",
+        "v:dissipare:condizionale:reviewed-frame-0:person-0",
+        "v:dissipare:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 860,
+      "id": "v:dissolversi",
+      "sourceSHA256": "22700784333242d8da6e2a93c7fb9e7126e60021b9038837fbda5e269aa19a61",
+      "policySHA256": "0be7152f6838c0478be72b59fa72e902f32a1ec0a4ab89449be5c53c1dbf94ef",
+      "nonFiniteSHA256": "acc4155a326c9514bfe7a8ad9bc3ecdef0224a8b63624c1569ef3798ebd30411",
+      "compiledSHA256": "3ada7e7e5ee1eb61eac0c813a2deaf972a37ac10e7c9d1db3e84908aadb3c6f9",
+      "readSampleIds": [
+        "v:dissolversi:present:v2:simple:scene-0-2-ordinary",
+        "v:dissolversi:present:v2:simple:scene-0-5-ordinary",
+        "v:dissolversi:past:dictionary-0",
+        "v:dissolversi:background:v2:simple:scene-0-2-ordinary",
+        "v:dissolversi:background:v2:simple:scene-0-5-ordinary",
+        "v:dissolversi:future:reviewed-frame-0:person-2",
+        "v:dissolversi:future:reviewed-frame-0:person-5",
+        "v:dissolversi:condizionale:reviewed-frame-0:person-2",
+        "v:dissolversi:condizionale:reviewed-frame-0:person-5"
+      ]
+    },
+    {
+      "index": 861,
+      "id": "v:distogliere",
+      "sourceSHA256": "38dbc25199ca82c433dc1d97dd9c5c08820c55d1623445ed3a97e05843b3523f",
+      "policySHA256": "c7117c80a9911e2ed63e22c18520b0be0870acdc07e6a95fbb9c9ddff7556eb1",
+      "nonFiniteSHA256": "d7dbf070d1ee101a34c9bfdf6a625bf266a3220c576b5a782b28de78094a4cfe",
+      "compiledSHA256": "5dbb6be8a85b109b1f37f5c2deaad38517635e13c94cb276f90a24d040e52570",
+      "readSampleIds": [
+        "v:distogliere:present:v2:simple:scene-0-0-ordinary",
+        "v:distogliere:present:v2:simple:scene-0-2-formal",
+        "v:distogliere:past:reviewed-frame-0:person-0",
+        "v:distogliere:past:reviewed-frame-0:formal",
+        "v:distogliere:background:v2:simple:scene-0-0-ordinary",
+        "v:distogliere:background:v2:simple:scene-0-2-formal",
+        "v:distogliere:future:reviewed-frame-0:person-0",
+        "v:distogliere:future:reviewed-frame-0:formal",
+        "v:distogliere:condizionale:reviewed-frame-0:person-0",
+        "v:distogliere:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 862,
+      "id": "v:eccellere",
+      "sourceSHA256": "d2f5ae64e47b97263a945f79aa96b5606ce50be1661b8f74506e588365225372",
+      "policySHA256": "fe78d450365b215c2d500aebac4e2c87124727118a3a3c1c6978f76ce0b412d0",
+      "nonFiniteSHA256": "dbdb3e4f87fe0b2a9b2ed1d950890402ebd02f2c2806ce6a9762cb3990eb3b58",
+      "compiledSHA256": "fab78f5e029ad58a0ad2a8af53e60a19d3410f5626b4a8578dcfe85c48072ac9",
+      "readSampleIds": [
+        "v:eccellere:present:v2:simple:scene-0-0-ordinary",
+        "v:eccellere:present:v2:simple:scene-0-2-formal",
+        "v:eccellere:past:reviewed-frame-0:person-0",
+        "v:eccellere:past:reviewed-frame-0:formal",
+        "v:eccellere:background:v2:simple:scene-0-0-ordinary",
+        "v:eccellere:background:v2:simple:scene-0-2-formal",
+        "v:eccellere:future:reviewed-frame-0:person-0",
+        "v:eccellere:future:reviewed-frame-0:formal",
+        "v:eccellere:condizionale:reviewed-frame-0:person-0",
+        "v:eccellere:condizionale:reviewed-frame-0:formal"
+      ]
+    },
+    {
+      "index": 863,
+      "id": "v:eccepire",
+      "sourceSHA256": "ce9439e33bbde7fc50bc39ddec3c6becbb7313edeeb9505257f303ce24a25d18",
+      "policySHA256": "7a9bbffb15ad3cee0bd92f53492d477aebfb2a09742a50a6ae2775a0cee04c88",
+      "nonFiniteSHA256": "5178c15aa9f172bc9de56f16e2d0706ab69cfaceeadf8861bf5e93bdf13b53c4",
+      "compiledSHA256": "5cf2472a0b53797aee7e78a7b777c1734479af0ae2b148346d0bf04f13facf5e",
+      "readSampleIds": [
+        "v:eccepire:present:v2:simple:scene-0-0-ordinary",
+        "v:eccepire:present:v2:simple:scene-0-2-formal",
+        "v:eccepire:past:reviewed-frame-0:person-0",
+        "v:eccepire:past:reviewed-frame-0:formal",
+        "v:eccepire:background:v2:simple:scene-0-0-ordinary",
+        "v:eccepire:background:v2:simple:scene-0-2-formal",
+        "v:eccepire:future:reviewed-frame-0:person-0",
+        "v:eccepire:future:reviewed-frame-0:formal",
+        "v:eccepire:condizionale:reviewed-frame-0:person-0",
+        "v:eccepire:condizionale:reviewed-frame-0:formal"
+      ]
+    }
+  ],
+  "declaredReadSampleCount": 72,
+  "findings": [
+    {
+      "id": "v:eccellere",
+      "status": "verified reference coverage/pacing candidate; not invalidating existing avere examples",
+      "detail": "Treccani accepts essere or avere; both compounded forms veryrare. Current table onlyavere is grammatical, but fuller reference should acknowledge essere and lesson should disclose rarity rather than require an ordinary common-past visit. Does not justify replacing every avere withessere.",
+      "source": "https://www.treccani.it/vocabolario/eccellere/"
+    },
+    {
+      "id": "v:eccepire",
+      "status": "qualified government-pattern editorial candidate; absence is not proof of error",
+      "detail": "Treccani explicitly models eccepire su/circa; current frame0alla procedura andframe2contro la richiesta would benefit from an independently reviewed well-attested government form. No definite invalidity claimed without further primary verification.",
+      "source": "https://www.treccani.it/vocabolario/eccepire/"
+    }
+  ]
+}

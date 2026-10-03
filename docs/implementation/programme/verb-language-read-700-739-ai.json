@@ -1,0 +1,2259 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "independent AI agent programme_ai; no native-human/educator approval",
+  "range": [
+    700,
+    739
+  ],
+  "count": 40,
+  "readSampleCount": 505,
+  "canonicalEdits": false,
+  "ledgerEdits": false,
+  "sourceClaim": "Exact scratch snapshots; hashes must still match canonical before any review ledger adoption.",
+  "findings": [
+    {
+      "id": "restarci-formal-agreement",
+      "entryId": "v:restarci",
+      "index": 728,
+      "severity": "definite current question/answer mismatch",
+      "scope": "current formal compound question, not broad gender-unspecified conjugator reference",
+      "evidence": "variant0 addresses Signora Rossi but accepts c’è restato / ci è restato and say is Lei c’è restato; variant1 accepts both genders too",
+      "cause": "formalLessonForms returns unfiltered forms for ci clitic before essere subject-agreement filtering",
+      "proposed": "Keep reference alternatives; filter selected formal addressee gender for essere ci constructions and preserve the exact old selected descriptors as history if retired.",
+      "reproduction": "/tmp/parola-ai-restarci-formal-reproduction.json"
+    },
+    {
+      "id": "preservare-food-blanket",
+      "entryId": "v:preservare",
+      "index": 711,
+      "severity": "definite overbroad usage exclusion",
+      "scope": "source usage sentence only; current reviewed protective frames remain valid",
+      "evidence": "Note that food is 'conservato', not 'preservato'.",
+      "reason": "Treccani explicitly licenses protecting grain from humidity; the note forbids a legitimate protective sense involving food.",
+      "proposed": "Qualify conservare as the usual food-storage/preservation term; allow preservare qualcosa da deterioration/damage.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/preservare/"
+      ]
+    },
+    {
+      "id": "privare-trial-universal",
+      "entryId": "v:privare",
+      "index": 716,
+      "severity": "definite unqualified factual-example claim",
+      "scope": "source example1, Italian-English pair grammatically aligned",
+      "evidence": "Nessuno può essere privato della libertà senza un processo. / No one can be deprived of liberty without a trial.",
+      "reason": "The universal claim confuses trial with legally authorized judicial restrictions and exceptional provisional detention; art13 permits restrictions before a trial.",
+      "proposed": "Use a fictional/person-specific sentence or precise legal-safeguard wording without equating it to a trial.",
+      "sources": [
+        "https://www.senato.it/istituzione/la-costituzione/parte-i/titolo-i/articolo-13",
+        "https://www.cortecostituzionale.it/scheda-pronuncia/ECLI:IT:COST:1971:173"
+      ]
+    },
+    {
+      "id": "recarsi-passport-universal",
+      "entryId": "v:recarsi",
+      "index": 721,
+      "severity": "definite overbroad current procedural-example claim",
+      "scope": "source example1, not grammar or generated destination frames",
+      "evidence": "Per il rinnovo del passaporto è necessario recarsi in questura. / To renew your passport you need to go to police headquarters.",
+      "reason": "Poste’s current primary page explicitly provides Questura or enabled post offices for request/renewal.",
+      "proposed": "Make this one person’s planned visit rather than a universal requirement.",
+      "sources": [
+        "https://www.poste.it/passaporto/"
+      ]
+    },
+    {
+      "id": "provvedere-rare-first-answer",
+      "entryId": "v:provvedere",
+      "index": 718,
+      "severity": "bounded pedagogy/default recommendation; not declared ungrammatical",
+      "scope": "reviewed-frame past answers beginning provvisto",
+      "sampleIds": [
+        "v:provvedere:past:reviewed-frame-0:person-0",
+        "v:provvedere:past:reviewed-frame-0:formal"
+      ],
+      "evidence": "Io ho provvisto alle spese. / Signora Rossi, Lei ha provvisto alle spese?",
+      "reason": "Treccani says provveduto is nearly exclusive in compound verb tenses and provvisto rare as a verbal form; it does not support falsely rejecting all rare provvisto verb uses.",
+      "proposed": "Choose provveduto for current common practical-need teaching and output; retain rare valid reference/old descriptor provenance as appropriate.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/provvedere/"
+      ]
+    },
+    {
+      "id": "precipitare-singular-background",
+      "entryId": "v:precipitare",
+      "index": 707,
+      "severity": "bounded episode/translation clarity candidate",
+      "scope": "selected singular-stone simple imperfect frame0; not a rejection of habitual imperfetto or all auxiliary forms",
+      "sampleIds": [
+        "v:precipitare:background:v2:simple:scene-0-2-ordinary"
+      ],
+      "evidence": "Un sasso precipitava verso il basso. / A stone used to plunge downward.",
+      "reason": "Without repeated falling context the same singular stone sounds like an ongoing episode; habitual English introduces an unsupported repeated-event reading. Italian imperfect admits both readings with context.",
+      "proposed": "Use A stone was plunging downward for an episode, or author explicit repeatable habitual context. Inspect all selected singular frames before retiring their exact prior IDs."
+    },
+    {
+      "id": "riferirsi-progressive-qualification",
+      "entryId": "v:riferirsi",
+      "index": 737,
+      "severity": "bounded policy-note qualification candidate; current simple examples valid",
+      "scope": "simple-only policy note, not assessed form exclusion proven here",
+      "evidence": "Stare + gerundio would shift the viewpoint or suggest a different sense.",
+      "reason": "Progressive can retain the current-disourse refer-to sense; primary Treccani attests mi sto riferendo to a named matter. Do not turn teaching preference into a blanket grammar verdict.",
+      "proposed": "Say simple present is the focus of this lesson and that progressive can mark what the speaker is referring to now.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/antimprenditoriale_%28Neologismi%29/"
+      ]
+    }
+  ],
+  "referenceChecks": [
+    {
+      "entryId": "v:perseguire",
+      "outcome": "Treccani supports perseguo, not an -isc- defect",
+      "url": "https://www.treccani.it/vocabolario/perseguire/"
+    },
+    {
+      "entryId": "v:prevalere",
+      "outcome": "Treccani explicitly supports both essere and avere; no auxiliary defect inferred",
+      "url": "https://www.treccani.it/vocabolario/prevalere/"
+    },
+    {
+      "entryId": "v:rassegnarsi",
+      "outcome": "No categorical rassegnamo rejection made; common preferred -iamo spelling noted only, broad variants were not retired"
+    }
+  ],
+  "raw": [
+    {
+      "path": "/tmp/parola-ai-verb-review-700-707.jsonl",
+      "bytes": 98896,
+      "sha256": "b3bb5f162139092a409b4cc36c34caae8e150b2c55cfdf91922aa4b76506ef95"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-700-707.audit.txt",
+      "bytes": 23758,
+      "sha256": "babd13d91b0a9e5908a97b4459c39e6ffb4c7a2ef309611f990eeb137304457a"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-708-715.jsonl",
+      "bytes": 90297,
+      "sha256": "a917d6d0138ae6bcd8dfd4954cada820b38012fffa7cf374f1fe3146a988020a"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-708-715.audit.txt",
+      "bytes": 23776,
+      "sha256": "b805d461705261a4807793259462beb60c7a44727d8e75cfaa12e67c276ece40"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-716-723.jsonl",
+      "bytes": 102035,
+      "sha256": "601e102abb5aba4d82de657aab0436b5f463893f3843e17164ef4f7883a7bf75"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-716-723.audit.txt",
+      "bytes": 25122,
+      "sha256": "2e08dceb09c27813a12e2429efa2ce75610c9201a8d48cb36b965227b51db94c"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-724-731.jsonl",
+      "bytes": 93568,
+      "sha256": "c1c071f6d7f0f6fe51ddd5edc5c3e868877de84859451cc5ffd7b041ffaff935"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-724-731.audit.txt",
+      "bytes": 23608,
+      "sha256": "d236eab588b6448cd25f8cd9a8f037f1a7af490c63956eca0fb1bd9d5f067938"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-732-739.jsonl",
+      "bytes": 100911,
+      "sha256": "01912005c58e0ea012624c3d8930b8df00da206954de5c549622a4efbe633bb5"
+    },
+    {
+      "path": "/tmp/parola-ai-verb-review-732-739.audit.txt",
+      "bytes": 25020,
+      "sha256": "b002d28073a920f6c851da89ea31ad60888ebb86d17341e4d4168e72a83820e6"
+    }
+  ],
+  "records": [
+    {
+      "index": 700,
+      "id": "v:ostinarsi",
+      "inf": "ostinarsi",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 1,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 362
+      },
+      "sourceSHA256": "1a937c7250e10eb888cec70b61bad48f5b41eab027d60e6fe09209e6f3199046",
+      "policySHA256": "80cb40263211d055625c282ee7018c6ccb62ff0000177ea04a94e920180e8c0f",
+      "compiledSHA256": "8df7a4392cfd883287a2425f916a5d070070fdf25a701cdd0bf8d025bc34e32a",
+      "nonFiniteSHA256": "e3f3c0b929f4aee6e46519bed44b8a45d69793a202e0ff5728d0b911da4bdf9b",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:ostinarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:ostinarsi:present:v2:simple:scene-0-2-formal",
+        "v:ostinarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:ostinarsi:present:v2:progressive:scene-0-2-formal",
+        "v:ostinarsi:past:reviewed-frame-0:person-0",
+        "v:ostinarsi:past:reviewed-frame-0:formal",
+        "v:ostinarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:ostinarsi:background:v2:simple:scene-0-2-formal",
+        "v:ostinarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:ostinarsi:background:v2:progressive:scene-0-2-formal",
+        "v:ostinarsi:future:reviewed-frame-0:person-0",
+        "v:ostinarsi:future:reviewed-frame-0:formal",
+        "v:ostinarsi:condizionale:reviewed-frame-0:person-0",
+        "v:ostinarsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 701,
+      "id": "v:percepire",
+      "inf": "percepire",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 21,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 363
+      },
+      "sourceSHA256": "8c4a02cfe142ea36e070b29a305cf15b7d8bdc7f3aef75ec6fe99092f4cb2e35",
+      "policySHA256": "437b55de5bf331112bf06171d52f082134b449c12aecaeaca727db1cb870b4c3",
+      "compiledSHA256": "eaedec1e9e7388f7f21887481410e727dd2738276eb86c15202ba9fc7bcdf015",
+      "nonFiniteSHA256": "04a3e5980f579357bde6a7f5f21d095540adc5ae321230a0f1e3d3c10cb9ac0b",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:percepire:present:v2:simple:scene-0-0-ordinary",
+        "v:percepire:present:v2:simple:scene-0-2-formal",
+        "v:percepire:present:v2:progressive:scene-0-0-ordinary",
+        "v:percepire:present:v2:progressive:scene-0-2-formal",
+        "v:percepire:past:dictionary-0",
+        "v:percepire:past:reviewed-frame-0:formal",
+        "v:percepire:background:v2:simple:scene-0-0-ordinary",
+        "v:percepire:background:v2:simple:scene-0-2-formal",
+        "v:percepire:background:v2:progressive:scene-0-0-ordinary",
+        "v:percepire:background:v2:progressive:scene-0-2-formal",
+        "v:percepire:future:reviewed-frame-0:person-0",
+        "v:percepire:future:reviewed-frame-0:formal",
+        "v:percepire:condizionale:reviewed-frame-0:person-0",
+        "v:percepire:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 702,
+      "id": "v:perseguire",
+      "inf": "perseguire",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 14,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 364
+      },
+      "sourceSHA256": "9ba38e033d71c935e4ad6769cfe3f8a0096a30c3fe99ff76df516eb00e0382ec",
+      "policySHA256": "be413cceb6b3bc4cb87db0d7b18b313cb30aa44c88ee0fd7b43f0104685f0552",
+      "compiledSHA256": "7e2b59dd885df8b7c18e1ce59638398f09f946392b45e66fabd33d197a49f39a",
+      "nonFiniteSHA256": "12e581eca0178750f1e831b0bdf22d43b7c4cd5303b78c0975fe2872eb39ed98",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:perseguire:present:v2:simple:scene-0-0-ordinary",
+        "v:perseguire:present:v2:simple:scene-0-2-formal",
+        "v:perseguire:present:v2:progressive:scene-0-0-ordinary",
+        "v:perseguire:present:v2:progressive:scene-0-2-formal",
+        "v:perseguire:past:reviewed-frame-0:person-0",
+        "v:perseguire:past:reviewed-frame-0:formal",
+        "v:perseguire:background:v2:simple:scene-0-0-ordinary",
+        "v:perseguire:background:v2:simple:scene-0-2-formal",
+        "v:perseguire:background:v2:progressive:scene-0-0-ordinary",
+        "v:perseguire:background:v2:progressive:scene-0-2-formal",
+        "v:perseguire:future:reviewed-frame-0:person-0",
+        "v:perseguire:future:reviewed-frame-0:formal",
+        "v:perseguire:condizionale:reviewed-frame-0:person-0",
+        "v:perseguire:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 703,
+      "id": "v:persuadere",
+      "inf": "persuadere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 15,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 365
+      },
+      "sourceSHA256": "f88607eb15c58305ce0197aec560a3624a4f8fde2cab4bc1b8497caae614e432",
+      "policySHA256": "7575a3fe50d5ecb3267615ed147b0eea6ce30cfa2e4fd6b251e8a5722df82a60",
+      "compiledSHA256": "0c68d1a210de0353b1d18d7fbafcc8c991bc31c01ddd885be9a9219febddaece",
+      "nonFiniteSHA256": "21470748af358a39b3b07f8a0211b04878277cfdec86fb666bfe52380667e2bd",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:persuadere:present:v2:simple:scene-0-0-ordinary",
+        "v:persuadere:present:v2:simple:scene-0-2-formal",
+        "v:persuadere:present:v2:progressive:scene-0-0-ordinary",
+        "v:persuadere:present:v2:progressive:scene-0-2-formal",
+        "v:persuadere:past:reviewed-frame-0:person-0",
+        "v:persuadere:past:reviewed-frame-0:formal",
+        "v:persuadere:background:v2:simple:scene-0-0-ordinary",
+        "v:persuadere:background:v2:simple:scene-0-2-formal",
+        "v:persuadere:background:v2:progressive:scene-0-0-ordinary",
+        "v:persuadere:background:v2:progressive:scene-0-2-formal",
+        "v:persuadere:future:reviewed-frame-0:person-0",
+        "v:persuadere:future:reviewed-frame-0:formal",
+        "v:persuadere:condizionale:reviewed-frame-0:person-0",
+        "v:persuadere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 704,
+      "id": "v:plasmare",
+      "inf": "plasmare",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 16,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 366
+      },
+      "sourceSHA256": "13a620f8f157b7f7e72a1c5a36ce1550f36805909db5fb896f0e12f7ce746d7d",
+      "policySHA256": "aabc15e86fc3ad637f454d6c16db616c0a9e2e4c33e76541ce72cc4db378d54b",
+      "compiledSHA256": "cd8bcfe751909d4eb9495d3f45600ebf61e9e9547894f87a515d87efe6f59924",
+      "nonFiniteSHA256": "05542e3b1653b5d9594e3c75823e12c8d1e852a6d0865656870fdece2ee54dfb",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:plasmare:present:v2:simple:scene-0-0-ordinary",
+        "v:plasmare:present:v2:simple:scene-0-2-formal",
+        "v:plasmare:present:v2:progressive:scene-0-0-ordinary",
+        "v:plasmare:present:v2:progressive:scene-0-2-formal",
+        "v:plasmare:past:reviewed-frame-0:person-0",
+        "v:plasmare:past:reviewed-frame-0:formal",
+        "v:plasmare:background:v2:simple:scene-0-0-ordinary",
+        "v:plasmare:background:v2:simple:scene-0-2-formal",
+        "v:plasmare:background:v2:progressive:scene-0-0-ordinary",
+        "v:plasmare:background:v2:progressive:scene-0-2-formal",
+        "v:plasmare:future:reviewed-frame-0:person-0",
+        "v:plasmare:future:reviewed-frame-0:formal",
+        "v:plasmare:condizionale:reviewed-frame-0:person-0",
+        "v:plasmare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 705,
+      "id": "v:porgere",
+      "inf": "porgere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 17,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 367
+      },
+      "sourceSHA256": "87c0ee09719e3b4600a8a0400aa4d56e88066ce7a69f3a463151e836d9db0d3d",
+      "policySHA256": "20ae64ea87953e14a62fd0e1afae081dfee71fd5f3dc613756142bc45a3ec8e8",
+      "compiledSHA256": "3d5a4e1739b1080b64e89782b4d805b56ffec3c825406f7cff6777462ae7e0a4",
+      "nonFiniteSHA256": "92cc15cca41f1b0d064f2e54a5fb232c10cf60af78fca7e539251939cd650887",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:porgere:present:v2:simple:scene-0-0-ordinary",
+        "v:porgere:present:v2:simple:scene-0-2-formal",
+        "v:porgere:present:v2:progressive:scene-0-0-ordinary",
+        "v:porgere:present:v2:progressive:scene-0-2-formal",
+        "v:porgere:past:reviewed-frame-0:person-0",
+        "v:porgere:past:reviewed-frame-0:formal",
+        "v:porgere:background:v2:simple:scene-0-0-ordinary",
+        "v:porgere:background:v2:simple:scene-0-2-formal",
+        "v:porgere:background:v2:progressive:scene-0-0-ordinary",
+        "v:porgere:background:v2:progressive:scene-0-2-formal",
+        "v:porgere:future:reviewed-frame-0:person-0",
+        "v:porgere:future:reviewed-frame-0:formal",
+        "v:porgere:condizionale:reviewed-frame-0:person-0",
+        "v:porgere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 706,
+      "id": "v:porre",
+      "inf": "porre",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 18,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 368
+      },
+      "sourceSHA256": "76d0818d891f500a5da35c67c1c0c2c17263fd4a9940f33bb80a466aaa3f8b20",
+      "policySHA256": "c9e7f679dd1ae187540a0877884be6880308f0c8bbb7bbd5d00a53b96e06b18b",
+      "compiledSHA256": "d8e787b9ce3f5532c8bd8cb200c0dbb87fa490d07f7cb03dfe8e0836f2c389e1",
+      "nonFiniteSHA256": "3ecf57296e243f91bb6569709af22338ba0d116341c336f63690aed58034285d",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:porre:present:v2:simple:scene-0-0-ordinary",
+        "v:porre:present:v2:simple:scene-0-2-formal",
+        "v:porre:present:v2:progressive:scene-0-0-ordinary",
+        "v:porre:present:v2:progressive:scene-0-2-formal",
+        "v:porre:past:reviewed-frame-0:person-0",
+        "v:porre:past:reviewed-frame-0:formal",
+        "v:porre:background:v2:simple:scene-0-0-ordinary",
+        "v:porre:background:v2:simple:scene-0-2-formal",
+        "v:porre:background:v2:progressive:scene-0-0-ordinary",
+        "v:porre:background:v2:progressive:scene-0-2-formal",
+        "v:porre:future:reviewed-frame-0:person-0",
+        "v:porre:future:reviewed-frame-0:formal",
+        "v:porre:condizionale:reviewed-frame-0:person-0",
+        "v:porre:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 707,
+      "id": "v:precipitare",
+      "inf": "precipitare",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 27,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 369
+      },
+      "sourceSHA256": "4afa402181730e980e8cfd58ff598722a84203c21a5ea282e754201c7e6103b2",
+      "policySHA256": "fe6bb7b72eb42581adb766c8cb9dd00a253758c09342669d1d2409e3c7f15439",
+      "compiledSHA256": "ffb22d8e146f4265fb04d43384ea3f23cca98ad1d7527ee30041bdd47977d333",
+      "nonFiniteSHA256": "bc87f58a54024e8123146b0a16b7bcf4f600411ca6525801014ec09a3a719898",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:precipitare:present:v2:simple:scene-0-2-ordinary",
+        "v:precipitare:present:v2:progressive:scene-0-2-ordinary",
+        "v:precipitare:past:dictionary-2",
+        "v:precipitare:background:v2:simple:scene-0-2-ordinary",
+        "v:precipitare:background:v2:progressive:scene-0-2-ordinary",
+        "v:precipitare:future:reviewed-frame-0:person-2",
+        "v:precipitare:condizionale:reviewed-frame-0:person-2"
+      ],
+      "status": "scoped read with finding/candidate",
+      "findings": [
+        "precipitare-singular-background"
+      ]
+    },
+    {
+      "index": 708,
+      "id": "v:precisare",
+      "inf": "precisare",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 24,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 370
+      },
+      "sourceSHA256": "e7214f0c88ae065b9f466d72efa2d988f691621abad7698fec32c72dca3462a1",
+      "policySHA256": "05d1c87462e89926b4d6d8b09844c3cda4059e780bf61a322725f90b600ea601",
+      "compiledSHA256": "02254979fc994eda99b6a1238163fe796b924dfba48eda7e1e16364d50bb2e12",
+      "nonFiniteSHA256": "443ef2f8abf673bf32a0331f2cdd6671e458b607ea409ad89d314dca409d5b19",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:precisare:present:v2:simple:scene-0-0-ordinary",
+        "v:precisare:present:v2:simple:scene-0-2-formal",
+        "v:precisare:present:v2:progressive:scene-0-0-ordinary",
+        "v:precisare:present:v2:progressive:scene-0-2-formal",
+        "v:precisare:past:reviewed-frame-0:person-0",
+        "v:precisare:past:reviewed-frame-0:formal",
+        "v:precisare:background:v2:simple:scene-0-0-ordinary",
+        "v:precisare:background:v2:simple:scene-0-2-formal",
+        "v:precisare:background:v2:progressive:scene-0-0-ordinary",
+        "v:precisare:background:v2:progressive:scene-0-2-formal",
+        "v:precisare:future:reviewed-frame-0:person-0",
+        "v:precisare:future:reviewed-frame-0:formal",
+        "v:precisare:condizionale:reviewed-frame-0:person-0",
+        "v:precisare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 709,
+      "id": "v:predisporre",
+      "inf": "predisporre",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 19,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 371
+      },
+      "sourceSHA256": "812d69ebbd1104fc85f7a4b6a82863ffa06dfe64df7db3119c533b3f4635b062",
+      "policySHA256": "50f587d987dcf77f0f6fa2e21c122629c25e982010616483b3c05c7ac9fb7676",
+      "compiledSHA256": "86c1896113e79fff13e7347f2e54b30c950b3b103c8f2a93f23140bd751ffa0b",
+      "nonFiniteSHA256": "5f848024e5eaed2415ba17a1094b2344c8320319836b0e5aa71fe8bc0b1349f1",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:predisporre:present:v2:simple:scene-0-0-ordinary",
+        "v:predisporre:present:v2:simple:scene-0-2-formal",
+        "v:predisporre:present:v2:progressive:scene-0-0-ordinary",
+        "v:predisporre:present:v2:progressive:scene-0-2-formal",
+        "v:predisporre:past:reviewed-frame-0:person-0",
+        "v:predisporre:past:reviewed-frame-0:formal",
+        "v:predisporre:background:v2:simple:scene-0-0-ordinary",
+        "v:predisporre:background:v2:simple:scene-0-2-formal",
+        "v:predisporre:background:v2:progressive:scene-0-0-ordinary",
+        "v:predisporre:background:v2:progressive:scene-0-2-formal",
+        "v:predisporre:future:reviewed-frame-0:person-0",
+        "v:predisporre:future:reviewed-frame-0:formal",
+        "v:predisporre:condizionale:reviewed-frame-0:person-0",
+        "v:predisporre:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 710,
+      "id": "v:prescindere",
+      "inf": "prescindere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 20,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 372
+      },
+      "sourceSHA256": "d6504a1fb56648fd21a89eab1a297946171b3d0dcfe4b9b733a861f5ee0c7944",
+      "policySHA256": "06db24486d1cae0a639abc3387967856bb4be4f9a928b76fc5ff5a2d5ae7f417",
+      "compiledSHA256": "c36cb82dd1cf28e747a67ba11741d3c0f424c6530e779b256914ef9b6b073e35",
+      "nonFiniteSHA256": "1b428f32dc116b97731d0d0fb083a2f88e3b7e6296e04613638ab54ea954d6af",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:prescindere:present:v2:simple:scene-0-0-ordinary",
+        "v:prescindere:present:v2:simple:scene-0-2-formal",
+        "v:prescindere:past:reviewed-frame-0:person-0",
+        "v:prescindere:past:reviewed-frame-0:formal",
+        "v:prescindere:background:v2:simple:scene-0-0-ordinary",
+        "v:prescindere:background:v2:simple:scene-0-2-formal",
+        "v:prescindere:future:reviewed-frame-0:person-0",
+        "v:prescindere:future:reviewed-frame-0:formal",
+        "v:prescindere:condizionale:reviewed-frame-0:person-0",
+        "v:prescindere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 711,
+      "id": "v:preservare",
+      "inf": "preservare",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 4,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 373
+      },
+      "sourceSHA256": "8892c6cb6d820404655bfa0df48503f781c03c75e7755194759f2d5453fef8f8",
+      "policySHA256": "3588fdc92bfb9583e67f35389085e783ac99537d634efc3898a5ff822c093318",
+      "compiledSHA256": "8bc0f0c99109af7fb685d1cef6818b5739bff65f532c703d57e0313042f23565",
+      "nonFiniteSHA256": "894fe4c5e2769078f82c036030979903469205c1750762a98ffd3e2d4345e96d",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:preservare:present:v2:simple:scene-0-0-ordinary",
+        "v:preservare:present:v2:simple:scene-0-2-formal",
+        "v:preservare:present:v2:progressive:scene-0-0-ordinary",
+        "v:preservare:present:v2:progressive:scene-0-2-formal",
+        "v:preservare:past:reviewed-frame-0:person-0",
+        "v:preservare:past:reviewed-frame-0:formal",
+        "v:preservare:background:v2:simple:scene-0-0-ordinary",
+        "v:preservare:background:v2:simple:scene-0-2-formal",
+        "v:preservare:background:v2:progressive:scene-0-0-ordinary",
+        "v:preservare:background:v2:progressive:scene-0-2-formal",
+        "v:preservare:future:reviewed-frame-0:person-0",
+        "v:preservare:future:reviewed-frame-0:formal",
+        "v:preservare:condizionale:reviewed-frame-0:person-0",
+        "v:preservare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read with finding/candidate",
+      "findings": [
+        "preservare-food-blanket"
+      ]
+    },
+    {
+      "index": 712,
+      "id": "v:presiedere",
+      "inf": "presiedere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 21,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 374
+      },
+      "sourceSHA256": "6a794fa6cd93d0ac4c2510e9889edd86719d2aa52f56ab5317904563ecb42cdd",
+      "policySHA256": "a41ad2edbc60f0e4bfda655ce2b7cf1fdc34786fd2c39faeb92c97d6884539b6",
+      "compiledSHA256": "22fa1b4a6aab5591de534a60eb0e3f18f0b545dc5da15a12da8ef18543e9e535",
+      "nonFiniteSHA256": "5eff8f9cc50048c6e33c7c0de4d73fc6c8ef59d49eef1a6150d2458936bbd7f9",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:presiedere:present:v2:simple:scene-0-0-ordinary",
+        "v:presiedere:present:v2:simple:scene-0-2-formal",
+        "v:presiedere:present:v2:progressive:scene-0-0-ordinary",
+        "v:presiedere:present:v2:progressive:scene-0-2-formal",
+        "v:presiedere:past:reviewed-frame-0:person-0",
+        "v:presiedere:past:reviewed-frame-0:formal",
+        "v:presiedere:background:v2:simple:scene-0-0-ordinary",
+        "v:presiedere:background:v2:simple:scene-0-2-formal",
+        "v:presiedere:background:v2:progressive:scene-0-0-ordinary",
+        "v:presiedere:background:v2:progressive:scene-0-2-formal",
+        "v:presiedere:future:reviewed-frame-0:person-0",
+        "v:presiedere:future:reviewed-frame-0:formal",
+        "v:presiedere:condizionale:reviewed-frame-0:person-0",
+        "v:presiedere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 713,
+      "id": "v:presumere",
+      "inf": "presumere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 22,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 375
+      },
+      "sourceSHA256": "31466a8cda6d86d935980be0d535f02b3959888b04cd51b98ef352c46e50ecdd",
+      "policySHA256": "08d201e0dd7ec9c826316db3f361aaaa008017073a03e2e7bda33897696b9846",
+      "compiledSHA256": "6542b9f6649bfc752773a13ca11699e2a533c2ec8e675bb3e146651a7a732e61",
+      "nonFiniteSHA256": "3aa772461ed74bf02d40460a1f139a142f7e3437357e4307adaa150a5f124b9c",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:presumere:present:dictionary-0",
+        "v:presumere:present:v2:simple:scene-0-2-formal",
+        "v:presumere:past:reviewed-frame-0:person-0",
+        "v:presumere:past:reviewed-frame-0:formal",
+        "v:presumere:background:v2:simple:scene-0-0-ordinary",
+        "v:presumere:background:v2:simple:scene-0-2-formal",
+        "v:presumere:future:reviewed-frame-0:person-0",
+        "v:presumere:future:reviewed-frame-0:formal",
+        "v:presumere:condizionale:reviewed-frame-0:person-0",
+        "v:presumere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 714,
+      "id": "v:prevalere",
+      "inf": "prevalere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 23,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 376
+      },
+      "sourceSHA256": "d65c9f4d8a320eb054f8b6b97b4c83a25416c2fede85b01db909030a85c04e2d",
+      "policySHA256": "e159a5cf24240e608121220aaf623ab87dc2b3d36feeeae873a6b3d1d806fa01",
+      "compiledSHA256": "4461b292669af98d90218052910355311397d2eea6921766d360f2a8a92b56db",
+      "nonFiniteSHA256": "3f4541366120df7e955ae09cca5a6a992c37ed694647fc02860a6001e28b0ffc",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:prevalere:present:v2:simple:scene-0-2-ordinary",
+        "v:prevalere:background:v2:simple:scene-0-2-ordinary",
+        "v:prevalere:future:reviewed-frame-0:person-2",
+        "v:prevalere:condizionale:reviewed-frame-0:person-2"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 715,
+      "id": "v:prevenire",
+      "inf": "prevenire",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 38,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 377
+      },
+      "sourceSHA256": "ea2f304aa39a97d319eaa3cf2528a4eed05dc5f421942ef50606b2e9de5e7fe8",
+      "policySHA256": "b1241715704a90d9d5cbf8a127321774167b8835e748ce9396584a6fd936517f",
+      "compiledSHA256": "dd741919a4b73882ac7b7b437748a6e19485755b429c6184d38199f99441d08e",
+      "nonFiniteSHA256": "b58a20d4ea2cd444ff0262c00d165256b9d2b9afb692a61de6b9532e3eba1c62",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:prevenire:present:v2:simple:scene-0-0-ordinary",
+        "v:prevenire:present:v2:simple:scene-0-2-formal",
+        "v:prevenire:present:v2:progressive:scene-0-0-ordinary",
+        "v:prevenire:present:v2:progressive:scene-0-2-formal",
+        "v:prevenire:past:reviewed-frame-0:person-0",
+        "v:prevenire:past:reviewed-frame-0:formal",
+        "v:prevenire:background:v2:simple:scene-0-0-ordinary",
+        "v:prevenire:background:v2:simple:scene-0-2-formal",
+        "v:prevenire:background:v2:progressive:scene-0-0-ordinary",
+        "v:prevenire:background:v2:progressive:scene-0-2-formal",
+        "v:prevenire:future:reviewed-frame-0:person-0",
+        "v:prevenire:future:reviewed-frame-0:formal",
+        "v:prevenire:condizionale:reviewed-frame-0:person-0",
+        "v:prevenire:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 716,
+      "id": "v:privare",
+      "inf": "privare",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 24,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 378
+      },
+      "sourceSHA256": "b05702e4c23704d2deecf816f47c5607511880f12d4b21f2139a81ed461320ca",
+      "policySHA256": "1f9759dff8c0590e1adfaa6ecd7f5a229f4b9d827354ca13335f60e6bbc351bc",
+      "compiledSHA256": "bf0c5cf62d080ee21e9d49006503979beb6f3a77f3206533171a159ee5cb0d9f",
+      "nonFiniteSHA256": "2b7f4eae4b1d2ebe533209f93d8e31a80524970e19543be54037a01f0f2116c2",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:privare:present:v2:simple:scene-0-0-ordinary",
+        "v:privare:present:v2:simple:scene-0-2-formal",
+        "v:privare:present:v2:progressive:scene-0-0-ordinary",
+        "v:privare:present:v2:progressive:scene-0-2-formal",
+        "v:privare:past:reviewed-frame-0:person-0",
+        "v:privare:past:reviewed-frame-0:formal",
+        "v:privare:background:v2:simple:scene-0-0-ordinary",
+        "v:privare:background:v2:simple:scene-0-2-formal",
+        "v:privare:background:v2:progressive:scene-0-0-ordinary",
+        "v:privare:background:v2:progressive:scene-0-2-formal",
+        "v:privare:future:reviewed-frame-0:person-0",
+        "v:privare:future:reviewed-frame-0:formal",
+        "v:privare:condizionale:reviewed-frame-0:person-0",
+        "v:privare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read with finding/candidate",
+      "findings": [
+        "privare-trial-universal"
+      ]
+    },
+    {
+      "index": 717,
+      "id": "v:promuovere",
+      "inf": "promuovere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 25,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 379
+      },
+      "sourceSHA256": "5b58661aa6360999daf943d3566f54e7ff60d0defb983058a02c14ab7fc4fa57",
+      "policySHA256": "d4ba1cb46ef92c9e470261137d5e1eca6880fa803288eedfb04064d35c90d722",
+      "compiledSHA256": "30ff1428addb9e17fdba6199e31afcefa1fd86f451df6bc818103fe4eccdc757",
+      "nonFiniteSHA256": "e862b002fe4f31dca14ece5de1b7f0020ec12c14536520264c5d7b927da5a2da",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:promuovere:present:v2:simple:scene-0-0-ordinary",
+        "v:promuovere:present:v2:simple:scene-0-2-formal",
+        "v:promuovere:present:v2:progressive:scene-0-0-ordinary",
+        "v:promuovere:present:v2:progressive:scene-0-2-formal",
+        "v:promuovere:past:reviewed-frame-0:person-0",
+        "v:promuovere:past:reviewed-frame-0:formal",
+        "v:promuovere:background:v2:simple:scene-0-0-ordinary",
+        "v:promuovere:background:v2:simple:scene-0-2-formal",
+        "v:promuovere:background:v2:progressive:scene-0-0-ordinary",
+        "v:promuovere:background:v2:progressive:scene-0-2-formal",
+        "v:promuovere:future:reviewed-frame-0:person-0",
+        "v:promuovere:future:reviewed-frame-0:formal",
+        "v:promuovere:condizionale:reviewed-frame-0:person-0",
+        "v:promuovere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 718,
+      "id": "v:provvedere",
+      "inf": "provvedere",
+      "source": {
+        "file": "data/verbs/B2-4.json",
+        "index": 35,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 380
+      },
+      "sourceSHA256": "3c55d524cd7fd002682fedeac1c167b99b365286ec18f27b0a229c817de3bd46",
+      "policySHA256": "2b7df0e60a8f85e5091a37b30e10ad5129ffc4ab3a415d6b58b3351775442151",
+      "compiledSHA256": "d3dbc031c40b0cd25813c3d6ae888292dd1eac4f87aac750462b41a22de05a61",
+      "nonFiniteSHA256": "f080f4819187d3a01db946de1185c27f174c36fdfef1918cd533f217de3d2327",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:provvedere:present:v2:simple:scene-0-0-ordinary",
+        "v:provvedere:present:v2:simple:scene-0-2-formal",
+        "v:provvedere:present:v2:progressive:scene-0-0-ordinary",
+        "v:provvedere:present:v2:progressive:scene-0-2-formal",
+        "v:provvedere:past:reviewed-frame-0:person-0",
+        "v:provvedere:past:reviewed-frame-0:formal",
+        "v:provvedere:background:v2:simple:scene-0-0-ordinary",
+        "v:provvedere:background:v2:simple:scene-0-2-formal",
+        "v:provvedere:background:v2:progressive:scene-0-0-ordinary",
+        "v:provvedere:background:v2:progressive:scene-0-2-formal",
+        "v:provvedere:future:reviewed-frame-0:person-0",
+        "v:provvedere:future:reviewed-frame-0:formal",
+        "v:provvedere:condizionale:reviewed-frame-0:person-0",
+        "v:provvedere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read with finding/candidate",
+      "findings": [
+        "provvedere-rare-first-answer"
+      ]
+    },
+    {
+      "index": 719,
+      "id": "v:radicarsi",
+      "inf": "radicarsi",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 26,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 381
+      },
+      "sourceSHA256": "1658b345fe048bc9fc0256430bdbcacecb7d532d67c9a225bf18fc20f8c7a3c2",
+      "policySHA256": "0684a16669faf1a190be56ed778d1478dc5b9ea2ac0901433b92ca6cd851e3e2",
+      "compiledSHA256": "024ae8fcef823ed6843a7cec67f58e6553a8bac7dfab69037c5bfd5e03c5266d",
+      "nonFiniteSHA256": "76ecbc91142da3dc2a320f23427163b7cb12341c941477de082d2e6acb73f81b",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:radicarsi:present:v2:simple:scene-0-2-ordinary",
+        "v:radicarsi:present:v2:progressive:scene-0-2-ordinary",
+        "v:radicarsi:background:v2:simple:scene-0-2-ordinary",
+        "v:radicarsi:background:v2:progressive:scene-0-2-ordinary",
+        "v:radicarsi:future:reviewed-frame-0:person-2",
+        "v:radicarsi:condizionale:reviewed-frame-0:person-2"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 720,
+      "id": "v:rassegnarsi",
+      "inf": "rassegnarsi",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 0,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 382
+      },
+      "sourceSHA256": "ff41d2460c9df6707109b9a6a39e5bb62c08c645c762bb4e65d67d5641fdd69e",
+      "policySHA256": "a71a000106e3a0096b02a365e505c7cfa3c528b2ff2789a6dd25bae5ee2da0dd",
+      "compiledSHA256": "21dafb22689fb2dd27454a08462e86a8a8f769a8ef80125bc4a5179a5cd0b95a",
+      "nonFiniteSHA256": "6ed877eb6ca90f91868ae00fe46a293f2d2715bb5c5875d4a833be64f6d4854b",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:rassegnarsi:present:dictionary-0",
+        "v:rassegnarsi:present:v2:simple:scene-0-2-formal",
+        "v:rassegnarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:rassegnarsi:present:v2:progressive:scene-0-2-formal",
+        "v:rassegnarsi:past:reviewed-frame-0:person-0",
+        "v:rassegnarsi:past:reviewed-frame-0:formal",
+        "v:rassegnarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:rassegnarsi:background:v2:simple:scene-0-2-formal",
+        "v:rassegnarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:rassegnarsi:background:v2:progressive:scene-0-2-formal",
+        "v:rassegnarsi:future:reviewed-frame-0:person-0",
+        "v:rassegnarsi:future:reviewed-frame-0:formal",
+        "v:rassegnarsi:condizionale:reviewed-frame-0:person-0",
+        "v:rassegnarsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 721,
+      "id": "v:recarsi",
+      "inf": "recarsi",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 27,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 383
+      },
+      "sourceSHA256": "b708b86fbdfab4bded711f3d1916188261336884fd0aeefd329207fbf90cf616",
+      "policySHA256": "71d805c7c7564f76c55a933f07b5578b971ece7e7c8dfb4673cec2b2c7176269",
+      "compiledSHA256": "a3832af46b57b42166daec479d0b27bec5e5204908128cfbc36bbefa713bff05",
+      "nonFiniteSHA256": "c4d3479c65aae0e9b39f97042681d7e9feabb2224545dad9912d474f4177c94e",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:recarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:recarsi:present:v2:simple:scene-0-2-formal",
+        "v:recarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:recarsi:present:v2:progressive:scene-0-2-formal",
+        "v:recarsi:past:reviewed-frame-0:person-0",
+        "v:recarsi:past:reviewed-frame-0:formal",
+        "v:recarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:recarsi:background:v2:simple:scene-0-2-formal",
+        "v:recarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:recarsi:background:v2:progressive:scene-0-2-formal",
+        "v:recarsi:future:reviewed-frame-0:person-0",
+        "v:recarsi:future:reviewed-frame-0:formal",
+        "v:recarsi:condizionale:reviewed-frame-0:person-0",
+        "v:recarsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read with finding/candidate",
+      "findings": [
+        "recarsi-passport-universal"
+      ]
+    },
+    {
+      "index": 722,
+      "id": "v:recensire",
+      "inf": "recensire",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 3,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 384
+      },
+      "sourceSHA256": "db231012df11b47c04e9ccc29e6fc91bbe282c9f765df7ca0434bf0f48bd5084",
+      "policySHA256": "883e6876a3e869c3b70044a96517a6ef704d14f8c2e994ab5c31f13024448e21",
+      "compiledSHA256": "9c5b6cf937faa4137682e2abe872608df62a258ddc3ba756b0dcdce0feb2ec90",
+      "nonFiniteSHA256": "f9ef5e47e90aa9cfb972755c9179e4f8bc9b357cf578de30ab907102600ce8ab",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:recensire:present:v2:simple:scene-0-0-ordinary",
+        "v:recensire:present:v2:simple:scene-0-2-formal",
+        "v:recensire:present:v2:progressive:scene-0-0-ordinary",
+        "v:recensire:present:v2:progressive:scene-0-2-formal",
+        "v:recensire:past:reviewed-frame-0:person-0",
+        "v:recensire:past:reviewed-frame-0:formal",
+        "v:recensire:background:v2:simple:scene-0-0-ordinary",
+        "v:recensire:background:v2:simple:scene-0-2-formal",
+        "v:recensire:background:v2:progressive:scene-0-0-ordinary",
+        "v:recensire:background:v2:progressive:scene-0-2-formal",
+        "v:recensire:future:reviewed-frame-0:person-0",
+        "v:recensire:future:reviewed-frame-0:formal",
+        "v:recensire:condizionale:reviewed-frame-0:person-0",
+        "v:recensire:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 723,
+      "id": "v:redigere",
+      "inf": "redigere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 28,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 385
+      },
+      "sourceSHA256": "dadccbe019877419be55b290d3dd30c23356dae87337ba16b2a71baeb4f95847",
+      "policySHA256": "ee554267d6cadad7f53a7a1ed8e12534f3b23729f236b6712624e05b5cf7f026",
+      "compiledSHA256": "ef55098948d1f08de04521df458f59a721db2466ab85de4404aa1ab30a4203e5",
+      "nonFiniteSHA256": "5159205d8b268806c55aef1d76aea62b9149c3e00ed3ad07ae04e39bc38c74e7",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:redigere:present:v2:simple:scene-0-0-ordinary",
+        "v:redigere:present:v2:simple:scene-0-2-formal",
+        "v:redigere:present:v2:progressive:scene-0-0-ordinary",
+        "v:redigere:present:v2:progressive:scene-0-2-formal",
+        "v:redigere:past:reviewed-frame-0:person-0",
+        "v:redigere:past:reviewed-frame-0:formal",
+        "v:redigere:background:v2:simple:scene-0-0-ordinary",
+        "v:redigere:background:v2:simple:scene-0-2-formal",
+        "v:redigere:background:v2:progressive:scene-0-0-ordinary",
+        "v:redigere:background:v2:progressive:scene-0-2-formal",
+        "v:redigere:future:reviewed-frame-0:person-0",
+        "v:redigere:future:reviewed-frame-0:formal",
+        "v:redigere:condizionale:reviewed-frame-0:person-0",
+        "v:redigere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 724,
+      "id": "v:regolare",
+      "inf": "regolare",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 29,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 386
+      },
+      "sourceSHA256": "d6412afc5fa166f1e7bbfb3ede053418e1173044f3ecf8b1b79ff18f9cc89531",
+      "policySHA256": "b03d49ae5eb8b3acd38ea3f4f3adaf9041d8c6cf5399f6d7a1cb8ac57d90cdf7",
+      "compiledSHA256": "ff4d17550e89405e135d51408eaa5713ce4814b3828727526c26336418fb374d",
+      "nonFiniteSHA256": "9735eb84affdcc8bddfc2f8f230a0b2ae51a56fab8b6eb00cd38b710d7031505",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:regolare:present:v2:simple:scene-0-0-ordinary",
+        "v:regolare:present:v2:simple:scene-0-2-formal",
+        "v:regolare:present:v2:progressive:scene-0-0-ordinary",
+        "v:regolare:present:v2:progressive:scene-0-2-formal",
+        "v:regolare:past:dictionary-1",
+        "v:regolare:past:reviewed-frame-0:formal",
+        "v:regolare:background:v2:simple:scene-0-0-ordinary",
+        "v:regolare:background:v2:simple:scene-0-2-formal",
+        "v:regolare:background:v2:progressive:scene-0-0-ordinary",
+        "v:regolare:background:v2:progressive:scene-0-2-formal",
+        "v:regolare:future:reviewed-frame-0:person-0",
+        "v:regolare:future:reviewed-frame-0:formal",
+        "v:regolare:condizionale:reviewed-frame-0:person-0",
+        "v:regolare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 725,
+      "id": "v:reperire",
+      "inf": "reperire",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 30,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 387
+      },
+      "sourceSHA256": "f7d537e17459a771ae9486f896ca5f7fa1d6d4f05bc6bb94e5d57bd64e9bac1c",
+      "policySHA256": "d9825f2a61586e8be6e0e750ec776f42aaea1667e23ae0fc7961b5aebfb2cb00",
+      "compiledSHA256": "8226e9ccc0959276abb94f0b114c115a5ca8c384ac3e9d3afeadc80f9fd551f4",
+      "nonFiniteSHA256": "b0c744744e37fc32f7c988cf79eaf4e0666bf7f7c07943b0e9230ad786164f81",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:reperire:present:v2:simple:scene-0-0-ordinary",
+        "v:reperire:present:v2:simple:scene-0-2-formal",
+        "v:reperire:present:v2:progressive:scene-0-0-ordinary",
+        "v:reperire:present:v2:progressive:scene-0-2-formal",
+        "v:reperire:past:reviewed-frame-0:person-0",
+        "v:reperire:past:reviewed-frame-0:formal",
+        "v:reperire:background:v2:simple:scene-0-0-ordinary",
+        "v:reperire:background:v2:simple:scene-0-2-formal",
+        "v:reperire:background:v2:progressive:scene-0-0-ordinary",
+        "v:reperire:background:v2:progressive:scene-0-2-formal",
+        "v:reperire:future:reviewed-frame-0:person-0",
+        "v:reperire:future:reviewed-frame-0:formal",
+        "v:reperire:condizionale:reviewed-frame-0:person-0",
+        "v:reperire:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 726,
+      "id": "v:reprimere",
+      "inf": "reprimere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 31,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 388
+      },
+      "sourceSHA256": "90e455c07e79abc82a17959ad3903f1c93e49e283d96b05b0338748d1ee4932e",
+      "policySHA256": "11d25eb1d9e23914df74a13ffd94d4a3848e1e950d3ea8aa07fc27e1756c99b5",
+      "compiledSHA256": "1b3ad07ec0bf920683c989e81542a44544c26eefdaa9789ea0cf84aa600d672c",
+      "nonFiniteSHA256": "81165ab6014f31f41f23f38f485bf900a928e82b80c6f40c3ac5221d33f9aaf7",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:reprimere:present:v2:simple:scene-0-0-ordinary",
+        "v:reprimere:present:v2:simple:scene-0-2-formal",
+        "v:reprimere:present:v2:progressive:scene-0-0-ordinary",
+        "v:reprimere:present:v2:progressive:scene-0-2-formal",
+        "v:reprimere:past:reviewed-frame-0:person-0",
+        "v:reprimere:past:reviewed-frame-0:formal",
+        "v:reprimere:background:v2:simple:scene-0-0-ordinary",
+        "v:reprimere:background:v2:simple:scene-0-2-formal",
+        "v:reprimere:background:v2:progressive:scene-0-0-ordinary",
+        "v:reprimere:background:v2:progressive:scene-0-2-formal",
+        "v:reprimere:future:reviewed-frame-0:person-0",
+        "v:reprimere:future:reviewed-frame-0:formal",
+        "v:reprimere:condizionale:reviewed-frame-0:person-0",
+        "v:reprimere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 727,
+      "id": "v:respingere",
+      "inf": "respingere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 32,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 389
+      },
+      "sourceSHA256": "a7a991f2f66e7a3ac73b021bc41180390e43a0dbf4f82b26053a7384f2d5f3af",
+      "policySHA256": "7552d2bbce144bad9591d73944a2f3f59a21359fddf8d8bc989a90205844f914",
+      "compiledSHA256": "4b34ef9017032cb8b1d65de5e88ca11503485b3636ef69a8156884cfc949ee22",
+      "nonFiniteSHA256": "5944c86730aa92845f1cf74679a1014cfbd5f08e04f2ce2a7c79b63698da24e3",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:respingere:present:v2:simple:scene-0-0-ordinary",
+        "v:respingere:present:v2:simple:scene-0-2-formal",
+        "v:respingere:present:v2:progressive:scene-0-0-ordinary",
+        "v:respingere:present:v2:progressive:scene-0-2-formal",
+        "v:respingere:past:reviewed-frame-0:person-0",
+        "v:respingere:past:reviewed-frame-0:formal",
+        "v:respingere:background:v2:simple:scene-0-0-ordinary",
+        "v:respingere:background:v2:simple:scene-0-2-formal",
+        "v:respingere:background:v2:progressive:scene-0-0-ordinary",
+        "v:respingere:background:v2:progressive:scene-0-2-formal",
+        "v:respingere:future:reviewed-frame-0:person-0",
+        "v:respingere:future:reviewed-frame-0:formal",
+        "v:respingere:condizionale:reviewed-frame-0:person-0",
+        "v:respingere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 728,
+      "id": "v:restarci",
+      "inf": "restarci",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 27,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 390
+      },
+      "sourceSHA256": "9bbbbbbdaf4c2ac53de617ee4dc03e90d03be9e762a9d5c9f705b33947da25b8",
+      "policySHA256": "3533a248be10b33b66a5af06a134732c127ed25a879d3ba903cad3d31c1357c8",
+      "compiledSHA256": "d1e006b7405c73c1c0c901f6206635a8135c52c8a9b2315b82bb21853da11303",
+      "nonFiniteSHA256": "0235ec7634fed296a95d07bc6ccad0b6523da6767eedc441dbf6c8c756587c72",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:restarci:present:v2:simple:scene-0",
+        "v:restarci:past:dictionary-0",
+        "v:restarci:background:v2:simple:scene-0"
+      ],
+      "status": "scoped read with finding/candidate",
+      "findings": [
+        "restarci-formal-agreement"
+      ]
+    },
+    {
+      "index": 729,
+      "id": "v:restringere",
+      "inf": "restringere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 33,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 391
+      },
+      "sourceSHA256": "43126d2360f362baba4be9b6e09696abb58828891c11fbd52ae59ff8baac829e",
+      "policySHA256": "e7945b62b948c98b7292a5d50532e30c50c3ec6c0e645665a6e1bcd1bebd1658",
+      "compiledSHA256": "fc1ddda58d7527a5bcbd361ae290ac63e6efe48741c33fe58a96ffd9d88d3c51",
+      "nonFiniteSHA256": "cb0b00bcfa43a88ef6f1a960061a295ba58f485c2b299d7a3d50864f0dd7f48f",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:restringere:present:v2:simple:scene-0-0-ordinary",
+        "v:restringere:present:v2:simple:scene-0-2-formal",
+        "v:restringere:present:v2:progressive:scene-0-0-ordinary",
+        "v:restringere:present:v2:progressive:scene-0-2-formal",
+        "v:restringere:past:reviewed-frame-0:person-0",
+        "v:restringere:past:reviewed-frame-0:formal",
+        "v:restringere:background:v2:simple:scene-0-0-ordinary",
+        "v:restringere:background:v2:simple:scene-0-2-formal",
+        "v:restringere:background:v2:progressive:scene-0-0-ordinary",
+        "v:restringere:background:v2:progressive:scene-0-2-formal",
+        "v:restringere:future:reviewed-frame-0:person-0",
+        "v:restringere:future:reviewed-frame-0:formal",
+        "v:restringere:condizionale:reviewed-frame-0:person-0",
+        "v:restringere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 730,
+      "id": "v:ribadire",
+      "inf": "ribadire",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 34,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 392
+      },
+      "sourceSHA256": "89781cfa8dc8b2e4e0d2c253cade9909be3d987f71a4c189d88cb418d0c5a89f",
+      "policySHA256": "0bef7473d5fd8ff4dc3567b31fdbafb7a72caa0b1208659c6dd57ef3c7b6db00",
+      "compiledSHA256": "4ac5b6afe2baf106afa23102da1b5087c7b564de5b9542cf4ca160a84f9d9110",
+      "nonFiniteSHA256": "212dd6e6f45cc42e812db55f824fbff177185ef8e4ca5c03a3035e3486177fc0",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:ribadire:present:dictionary-1",
+        "v:ribadire:present:v2:simple:scene-0-2-formal",
+        "v:ribadire:present:v2:progressive:scene-0-0-ordinary",
+        "v:ribadire:present:v2:progressive:scene-0-2-formal",
+        "v:ribadire:past:reviewed-frame-0:person-0",
+        "v:ribadire:past:reviewed-frame-0:formal",
+        "v:ribadire:background:v2:simple:scene-0-0-ordinary",
+        "v:ribadire:background:v2:simple:scene-0-2-formal",
+        "v:ribadire:background:v2:progressive:scene-0-0-ordinary",
+        "v:ribadire:background:v2:progressive:scene-0-2-formal",
+        "v:ribadire:future:reviewed-frame-0:person-0",
+        "v:ribadire:future:reviewed-frame-0:formal",
+        "v:ribadire:condizionale:reviewed-frame-0:person-0",
+        "v:ribadire:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 731,
+      "id": "v:ribattere",
+      "inf": "ribattere",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 22,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 393
+      },
+      "sourceSHA256": "ac3cbd9036581d51189547f8f7dcd68b0dc5c31f980002364c653e632415adc0",
+      "policySHA256": "ba7391036744cf9a0fd2e91d48a18916023c0cef20a4ef62d19a38370d7f72ae",
+      "compiledSHA256": "2f5c0d3f55374e5d9e960b8e2ecd5f96096377c51328d97d4450d5b02a90050f",
+      "nonFiniteSHA256": "8f7beaaa9f9453b12917bcaa25591d43b0880e39e6661c380b2fdd4728960cd8",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:ribattere:present:v2:simple:scene-0-0-ordinary",
+        "v:ribattere:present:v2:simple:scene-0-2-formal",
+        "v:ribattere:present:v2:progressive:scene-0-0-ordinary",
+        "v:ribattere:present:v2:progressive:scene-0-2-formal",
+        "v:ribattere:past:reviewed-frame-0:person-0",
+        "v:ribattere:past:reviewed-frame-0:formal",
+        "v:ribattere:background:v2:simple:scene-0-0-ordinary",
+        "v:ribattere:background:v2:simple:scene-0-2-formal",
+        "v:ribattere:background:v2:progressive:scene-0-0-ordinary",
+        "v:ribattere:background:v2:progressive:scene-0-2-formal",
+        "v:ribattere:future:reviewed-frame-0:person-0",
+        "v:ribattere:future:reviewed-frame-0:formal",
+        "v:ribattere:condizionale:reviewed-frame-0:person-0",
+        "v:ribattere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 732,
+      "id": "v:ricavare",
+      "inf": "ricavare",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 35,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 394
+      },
+      "sourceSHA256": "9f31e567c32bf119db764944d28a7971550c0b5ee8a882adb917f34b7e2014bb",
+      "policySHA256": "24f52e4beecc9ed07055f34f327062929551f558d343c38a62a5a88ac392e10a",
+      "compiledSHA256": "4284fe0d906b85bffbcf0d1aad01fde09b8d91ba28112426eb0ee78ee260af6f",
+      "nonFiniteSHA256": "eecd1c49b94c29e110f03cc4f13a237d502653e9507adb89fec44ec572671e5c",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:ricavare:present:v2:simple:scene-0-0-ordinary",
+        "v:ricavare:present:v2:simple:scene-0-2-formal",
+        "v:ricavare:present:v2:progressive:scene-0-0-ordinary",
+        "v:ricavare:present:v2:progressive:scene-0-2-formal",
+        "v:ricavare:past:reviewed-frame-0:person-0",
+        "v:ricavare:past:reviewed-frame-0:formal",
+        "v:ricavare:background:v2:simple:scene-0-0-ordinary",
+        "v:ricavare:background:v2:simple:scene-0-2-formal",
+        "v:ricavare:background:v2:progressive:scene-0-0-ordinary",
+        "v:ricavare:background:v2:progressive:scene-0-2-formal",
+        "v:ricavare:future:reviewed-frame-0:person-0",
+        "v:ricavare:future:reviewed-frame-0:formal",
+        "v:ricavare:condizionale:reviewed-frame-0:person-0",
+        "v:ricavare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 733,
+      "id": "v:riconciliarsi",
+      "inf": "riconciliarsi",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 9,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 395
+      },
+      "sourceSHA256": "482acdfd16e4161b5fdff854a89bf0c7997eb5374504ff2c559314545878e29b",
+      "policySHA256": "ec7b77d8a1ceb0fd59fba8af8d08915451b286d4ee84732f95ec888c9f4f45a6",
+      "compiledSHA256": "350d2ecc1a4bc9b4e25f407bd9d8c5aa9f274f061fa8788ad62c69b5952e406c",
+      "nonFiniteSHA256": "770d0edc1c322193051c6cc3da567b2ef6dc2bf7df23b8e09e4bb7e4f6117311",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:riconciliarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:riconciliarsi:present:v2:simple:scene-0-2-formal",
+        "v:riconciliarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:riconciliarsi:present:v2:progressive:scene-0-2-formal",
+        "v:riconciliarsi:past:reviewed-frame-0:person-0",
+        "v:riconciliarsi:past:reviewed-frame-0:formal",
+        "v:riconciliarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:riconciliarsi:background:v2:simple:scene-0-2-formal",
+        "v:riconciliarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:riconciliarsi:background:v2:progressive:scene-0-2-formal",
+        "v:riconciliarsi:future:reviewed-frame-0:person-0",
+        "v:riconciliarsi:future:reviewed-frame-0:formal",
+        "v:riconciliarsi:condizionale:reviewed-frame-0:person-0",
+        "v:riconciliarsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 734,
+      "id": "v:ricorrere",
+      "inf": "ricorrere",
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 36,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 396
+      },
+      "sourceSHA256": "7714c729cfb68549a1638aa0f7a42d0989fc66daae8707ae5074806898aba378",
+      "policySHA256": "4bea760973b63277b0b07a0a342434472679539b657ac78b2486b1f7f40e61b2",
+      "compiledSHA256": "46bbfc5d91528ae055ae95af58baeceada2eb5d61c1f6cf09d2321bc8a0fcbab",
+      "nonFiniteSHA256": "30a13e334f26453326a9684839c11aeddcbe84139a805289fb22169c53817eef",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:ricorrere:present:v2:simple:scene-0-0-ordinary",
+        "v:ricorrere:present:v2:simple:scene-0-2-formal",
+        "v:ricorrere:present:v2:progressive:scene-0-0-ordinary",
+        "v:ricorrere:present:v2:progressive:scene-0-2-formal",
+        "v:ricorrere:past:reviewed-frame-0:person-0",
+        "v:ricorrere:past:reviewed-frame-0:formal",
+        "v:ricorrere:background:v2:simple:scene-0-0-ordinary",
+        "v:ricorrere:background:v2:simple:scene-0-2-formal",
+        "v:ricorrere:background:v2:progressive:scene-0-0-ordinary",
+        "v:ricorrere:background:v2:progressive:scene-0-2-formal",
+        "v:ricorrere:future:reviewed-frame-0:person-0",
+        "v:ricorrere:future:reviewed-frame-0:formal",
+        "v:ricorrere:condizionale:reviewed-frame-0:person-0",
+        "v:ricorrere:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 735,
+      "id": "v:ricoverare",
+      "inf": "ricoverare",
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 36,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 397
+      },
+      "sourceSHA256": "0338899f3cc591d97f2203499999fa42faf5d726dbfa096d93bace331dd926c5",
+      "policySHA256": "0a88a881d87a5c4aa52583e95f220f11dc1d8b96c31ffa212202485f43624ac1",
+      "compiledSHA256": "fc9e12e12717395dd97f9e85e6882ae1bd513e2cb7b0e85d6551e4c13be91c24",
+      "nonFiniteSHA256": "5491ef4320451a5bcd1e518d2ab3cdd393762a4bf2f532d8fd55bbd621383439",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:ricoverare:present:v2:simple:scene-0-0-ordinary",
+        "v:ricoverare:present:v2:simple:scene-0-2-formal",
+        "v:ricoverare:present:v2:progressive:scene-0-0-ordinary",
+        "v:ricoverare:present:v2:progressive:scene-0-2-formal",
+        "v:ricoverare:past:reviewed-frame-0:person-0",
+        "v:ricoverare:past:reviewed-frame-0:formal",
+        "v:ricoverare:background:v2:simple:scene-0-0-ordinary",
+        "v:ricoverare:background:v2:simple:scene-0-2-formal",
+        "v:ricoverare:background:v2:progressive:scene-0-0-ordinary",
+        "v:ricoverare:background:v2:progressive:scene-0-2-formal",
+        "v:ricoverare:future:reviewed-frame-0:person-0",
+        "v:ricoverare:future:reviewed-frame-0:formal",
+        "v:ricoverare:condizionale:reviewed-frame-0:person-0",
+        "v:ricoverare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 736,
+      "id": "v:riferire",
+      "inf": "riferire",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 14,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 398
+      },
+      "sourceSHA256": "9ab8ec8ef64de4be19079192956de85d5bbfb801169319af2ca5327374fb8ae0",
+      "policySHA256": "30a4afe52fd04c3a31a5d920b029fc91d4fb40fa6344618240990ad6ae6d2968",
+      "compiledSHA256": "87f49838f0b67c5939027953e63c3a3ac02ecad9628d5e892a89f3ab7e105a37",
+      "nonFiniteSHA256": "7d31ef112868b1927e4ac36c08f4177a314ea375a458e340ff8fd44b70a947c2",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:riferire:present:v2:simple:scene-0-0-ordinary",
+        "v:riferire:present:v2:simple:scene-0-2-formal",
+        "v:riferire:present:v2:progressive:scene-0-0-ordinary",
+        "v:riferire:present:v2:progressive:scene-0-2-formal",
+        "v:riferire:past:reviewed-frame-0:person-0",
+        "v:riferire:past:reviewed-frame-0:formal",
+        "v:riferire:background:v2:simple:scene-0-0-ordinary",
+        "v:riferire:background:v2:simple:scene-0-2-formal",
+        "v:riferire:background:v2:progressive:scene-0-0-ordinary",
+        "v:riferire:background:v2:progressive:scene-0-2-formal",
+        "v:riferire:future:dictionary-2",
+        "v:riferire:future:reviewed-frame-0:formal",
+        "v:riferire:condizionale:reviewed-frame-0:person-0",
+        "v:riferire:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 737,
+      "id": "v:riferirsi",
+      "inf": "riferirsi",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 5,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 399
+      },
+      "sourceSHA256": "2451a808d531b6c17450feb632e9808e2164a749a2f39a1880e49ae6354ad40b",
+      "policySHA256": "395f147547b70e938f74102001243bf9d001acd0055b27ef8ecd28379ddee6b4",
+      "compiledSHA256": "57d2f840a31a9b515eaea44341a1154dbe7f224d6ed6d777ddc2a46263a46538",
+      "nonFiniteSHA256": "06862f2447dcb9e64dc085a35de3ad38171054fa673dfae602f227c8c0e3e597",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:riferirsi:present:v2:simple:scene-0-0-ordinary",
+        "v:riferirsi:present:v2:simple:scene-0-2-formal",
+        "v:riferirsi:past:reviewed-frame-0:person-0",
+        "v:riferirsi:past:reviewed-frame-0:formal",
+        "v:riferirsi:background:dictionary-0",
+        "v:riferirsi:background:v2:simple:scene-0-2-formal",
+        "v:riferirsi:future:reviewed-frame-0:person-0",
+        "v:riferirsi:future:reviewed-frame-0:formal",
+        "v:riferirsi:condizionale:reviewed-frame-0:person-0",
+        "v:riferirsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read with finding/candidate",
+      "findings": [
+        "riferirsi-progressive-qualification"
+      ]
+    },
+    {
+      "index": 738,
+      "id": "v:rilasciare",
+      "inf": "rilasciare",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 38,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 400
+      },
+      "sourceSHA256": "c029ca739b77d43dc0b0a07252d71f681a4f242e587b1b51eae856652d48444f",
+      "policySHA256": "ef2d43dee200799dcb4270528caa9e4d2462154305ff30c0fd90aaf6687a6686",
+      "compiledSHA256": "be407025c2bba54af559f756da42e0652b4cb0abe61a13ff50f12adbe5efb6cd",
+      "nonFiniteSHA256": "8f12d821535fbeecfcd43d923173efeecf882676170271fd45dc00e2b6af2df6",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:rilasciare:present:v2:simple:scene-0-0-ordinary",
+        "v:rilasciare:present:v2:simple:scene-0-2-formal",
+        "v:rilasciare:present:v2:progressive:scene-0-0-ordinary",
+        "v:rilasciare:present:v2:progressive:scene-0-2-formal",
+        "v:rilasciare:past:reviewed-frame-0:person-0",
+        "v:rilasciare:past:reviewed-frame-0:formal",
+        "v:rilasciare:background:v2:simple:scene-0-0-ordinary",
+        "v:rilasciare:background:v2:simple:scene-0-2-formal",
+        "v:rilasciare:background:v2:progressive:scene-0-0-ordinary",
+        "v:rilasciare:background:v2:progressive:scene-0-2-formal",
+        "v:rilasciare:future:reviewed-frame-0:person-0",
+        "v:rilasciare:future:reviewed-frame-0:formal",
+        "v:rilasciare:condizionale:reviewed-frame-0:person-0",
+        "v:rilasciare:condizionale:reviewed-frame-0:formal"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    },
+    {
+      "index": 739,
+      "id": "v:rimetterci",
+      "inf": "rimetterci",
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 25,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 401
+      },
+      "sourceSHA256": "c72c9f72e381054fb9d78f480e397355bbf779c68ad37c371de252d401e78a43",
+      "policySHA256": "0cd584314755c996c937f2329be138c90e65b24957c828eb7c1918d4b84a70a3",
+      "compiledSHA256": "3e7bce4a3fe8b6711ddb9d39e96e4820130db426e680cfa6f46f9ee8ff75132c",
+      "nonFiniteSHA256": "665c0d8eb9c2b74773164b96665c59a0e9d5f9d4a9a3f24cc6966922c572b8ab",
+      "scope": {
+        "sourceFields": [
+          "en",
+          "aux",
+          "trans",
+          "isc",
+          "irregular",
+          "usage",
+          "patterns",
+          "all stored examples"
+        ],
+        "policyFields": "policy/sense/note/English predicates/all selected frames/custom simple examples/subjects/persons/formal restrictions",
+        "forms": "all six-person vectors for presente/passato prossimo/imperfetto/futuro/condizionale; formal M/F vectors; printed nonfinite forms",
+        "generated": "only exact audit-selected representative simple/progressive/formal contexts",
+        "allRenderedContexts": false,
+        "nativeHuman": false
+      },
+      "readSampleIds": [
+        "v:rimetterci:present:v2:simple:scene-0",
+        "v:rimetterci:present:v2:progressive:scene-24",
+        "v:rimetterci:present:v2:progressive:scene-0",
+        "v:rimetterci:past:dictionary-0",
+        "v:rimetterci:background:v2:simple:scene-0",
+        "v:rimetterci:background:v2:progressive:scene-24",
+        "v:rimetterci:background:v2:progressive:scene-0"
+      ],
+      "status": "scoped read; no definite defect found in stated fields/samples",
+      "findings": []
+    }
+  ]
+}

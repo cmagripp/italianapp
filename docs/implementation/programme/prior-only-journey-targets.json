@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "baseline": "8517db3",
+  "answers": 8,
+  "continuations": 12,
+  "tamperFences": 16,
+  "caseReopens": 8,
+  "mixedEnrollment": 4,
+  "scope": "Exact archived ordinary-only usage questions: actual answer events, no-credit current teaching transition, case-switch reopens, normalization/merge, wrong-answer recovery, mixed review enrollment, and unavailable imported-recipe fences."
+}

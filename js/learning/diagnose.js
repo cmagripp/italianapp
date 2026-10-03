@@ -82,7 +82,19 @@ function diagnoseWrong(q, given, answers) {
   if (d.kind === 'verb') {
     const samePerson = (d.personForms || []).filter(x => equal(x.answer, given));
     const sameTense = (d.tenseForms || []).filter(x => equal(x.answer, given));
-    if (samePerson.length && !sameTense.length) return failure('person', [component(skill, false, 'person'), component('person', false, 'person')]);
+    // Sia (and some other auxiliaries) is shared by several persons. If the
+    // requested auxiliary and pronoun are already present and only the
+    // participle ending differs, that overlap is not evidence of a wrong
+    // subject. Let the compound analysis explain the agreement instead.
+    const actualCompound = d.compound?.checkAgreement ? compoundParts(given) : null;
+    const agreementOnly = actualCompound && answers.some(answer => {
+      const expected = compoundParts(answer);
+      return actualCompound.aux && equal(actualCompound.aux, expected.aux)
+        && equal(actualCompound.prefix, expected.prefix)
+        && rootParticiple(actualCompound.participle) === rootParticiple(expected.participle)
+        && !equal(actualCompound.participle, expected.participle);
+    });
+    if (samePerson.length && !sameTense.length && !agreementOnly) return failure('person', [component(skill, false, 'person'), component('person', false, 'person')]);
     if (sameTense.length && !samePerson.length) return failure('tense', [component(skill, false, 'tense'), component('tense', false, 'tense')]);
     if (d.compound) {
       const c = d.compound, actual = compoundParts(given);
@@ -108,7 +120,7 @@ function diagnoseWrong(q, given, answers) {
       if (!lexicalPP) tags.push('participle');
       if (c.checkAgreement && lexicalPP) { components.push(component('agreement', participleOK, 'agreement')); if (!participleOK) tags.push('agreement'); }
       if (c.clitic) { components.push(component('clitic', cliticOK, 'clitic')); if (!cliticOK) tags.push('clitic'); }
-      if (tags.length) return { errorTags: [...new Set(tags)], components, feedback: [...new Set(tags)].slice(0, 2).map(t => ERROR_TIPS[t]).join(' ') };
+      if (tags.length) return { errorTags: [...new Set(tags)], components, feedback: [...new Set(tags)].slice(0, 2).map(t => t === 'agreement' && c.agreementRule === 'impersonal-fixed' ? c.agreementMessage : ERROR_TIPS[t]).join(' ') };
     }
     if (d.clitic) {
       // If only the leading clitic differs, the finite form is identifiable.
@@ -126,7 +138,7 @@ function diagnoseWrong(q, given, answers) {
   }
   if (d.kind === 'participle') return failure('participle', [component('participle', false, 'participle')]);
   if (d.kind === 'adjective') return failure('agreement', [component('agreement', false, 'agreement')], 'Match the adjective to the requested gender and number; some forms stay the same.');
-  if (d.kind === 'component') return failure(d.component, [component(d.component, false, d.component)]);
+  if (d.kind === 'component') return failure(d.component, [component(d.component, false, d.component)], d.component === 'agreement' && d.agreementRule === 'impersonal-fixed' ? d.agreementMessage : null);
   if (d.kind === 'recall' && d.noun && any(stripArticle(given), d.bareAnswers)) return failure('article', [component('recall', true), component('article', false, 'article')]);
   if (d.kind === 'meaning') return failure('meaning', [component(skill, false, 'meaning')]);
   if (d.kind === 'listening') return failure('spelling', [component(skill, false, 'spelling')]);

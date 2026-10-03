@@ -1,0 +1,1214 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "programme_ai independent agent; not native-human/educator approval",
+  "status": "passed for the 17 named source repairs and bounded preserved/current question checks",
+  "baseline": "8517db3",
+  "scope": "17 named corrective entries and selected source-policy contrasts; 51 stored examples, all declared policy frames/notes, five finite-case arrays and formal m/f declarations read, nonfinite declarations read, 265 exact generated representative IDs read. Full raw recipes mechanically reconstructed, not a claim every historical/current question was independently read.",
+  "baselineVerification": {
+    "status": "passed",
+    "baseline": "8517db3",
+    "archivePins": [
+      {
+        "path": "data/verbs.json",
+        "sha256": "0a7668c64ce370844c664637c81d9adf25dc029af39f850f2cc9bf196d77b2f1",
+        "gitArchiveEqual": true
+      },
+      {
+        "path": "js/conjugator.js",
+        "sha256": "ab8fe9798aa76a9f5a865ae75e73bc5d3d88852000010565924155f3fe33d04d",
+        "gitArchiveEqual": true
+      },
+      {
+        "path": "js/irregular.js",
+        "sha256": "c5746b42ce247796817953ec80022f0be61c7a005e32f520a3c8ce1faecff2e7",
+        "gitArchiveEqual": true
+      },
+      {
+        "path": "js/learning/lesson-content.js",
+        "sha256": "51753f0254f58da4ae99531430fe628bbf4b734124e37a0950621095f8d0d78d",
+        "gitArchiveEqual": true
+      },
+      {
+        "path": "js/learning/lesson-questions.js",
+        "sha256": "276aac3aceec165cc64ded78fd04c30b25b035257f34dfb6b88226377bb9ae44",
+        "gitArchiveEqual": true
+      },
+      {
+        "path": "js/learning/progressive-content.js",
+        "sha256": "eb9f510032afa3e6b801f04229d1490ff3cece790b31b3cb020a1bc804cca283",
+        "gitArchiveEqual": true
+      },
+      {
+        "path": "js/learning/verb-progressive-data.js",
+        "sha256": "6b545377f58eecdda4f17b0574ee12e36e06fc10c525f2ee99ad151e87693b3c",
+        "gitArchiveEqual": true
+      }
+    ],
+    "entries": 17,
+    "rawSourceSpecPlansAndReferenceEqual": 17,
+    "authorCurrentFourFingerprintsEqual": 68,
+    "records": [
+      {
+        "index": 552,
+        "id": "v:trattarsi",
+        "sourceSHA256": "4281d1d3815490b3e62397278ffd99432b57f87e497ad81087cd4ac8b167e3f5",
+        "policySHA256": "91fa0c0e1a9b8bdcf8e5ee51d121895bf1f3e7f1073177ae41fc3ada2087f6a2",
+        "compiledSHA256": "cca0b1ea192b7431d44a9790d4654ddaf124b8c2c02164ec4a4cabcf12f02954",
+        "nonFiniteSHA256": "413ea7bb23d73c6a5f0faac60d63c54dcdef16a1e66713dc1da3251c7fef4a7e"
+      },
+      {
+        "index": 606,
+        "id": "v:concernere",
+        "sourceSHA256": "1a1f0904eb457a3f93a2c6fc1fb9207025ba9750679655f9a452495f4fe2e5ed",
+        "policySHA256": "3cd98d13aed196c6bd8e8c5f61411c92fcf282bfec329b49bdb70a32c84fb27c",
+        "compiledSHA256": "e9986e1f9271565cbbf3269d8740e2678990007c891f51364daa288cf24df717",
+        "nonFiniteSHA256": "295b245cd2ae45b4a1944e6ef270d86999c9aa13c073ddd9a674ea5f795e3c22"
+      },
+      {
+        "index": 637,
+        "id": "v:discriminare",
+        "sourceSHA256": "dfd95b1d8ead9b72c97a9cb83c1167518c5c977bc9e3eabd7d06fbbd4368b9a7",
+        "policySHA256": "fd921a1b4cf60d32ba15830bf5928cb3a1c30fc36a64cbd5418fcd4db1bd1d74",
+        "compiledSHA256": "b42744587564019b8cc8b6de59dfd200981d73fa289f6fc3b2f4012c09704d04",
+        "nonFiniteSHA256": "42040b1d4a6f6d4839a7be70a062eb5f995bc8ea971ca30b075a7f2069d388a6"
+      },
+      {
+        "index": 688,
+        "id": "v:istituire",
+        "sourceSHA256": "a5dc7a9cdf255fc981f8765bff7f08e7c87ddebce843102e7e413e8287654b74",
+        "policySHA256": "d6b3fdcf324731677b6dad3766a3952d5cfee739eaa438b95cec7561b4a38dd3",
+        "compiledSHA256": "13b17fd1d65b381c2a4c6d14da9e6b6d4c3b5203a7236cf27f148feb5ca5a66b",
+        "nonFiniteSHA256": "ce32045d512eea98bd1144090007f89291ce7173473cf315a853f67d48047fe8"
+      },
+      {
+        "index": 711,
+        "id": "v:preservare",
+        "sourceSHA256": "73b92dbe2747f2f3b210f8ecfae7fe61e334d2553a1a1c77ac5c04d12f49f34f",
+        "policySHA256": "3588fdc92bfb9583e67f35389085e783ac99537d634efc3898a5ff822c093318",
+        "compiledSHA256": "8bc0f0c99109af7fb685d1cef6818b5739bff65f532c703d57e0313042f23565",
+        "nonFiniteSHA256": "894fe4c5e2769078f82c036030979903469205c1750762a98ffd3e2d4345e96d"
+      },
+      {
+        "index": 716,
+        "id": "v:privare",
+        "sourceSHA256": "6ef88d4b534426cfcfe59680393abf06e4c30879aa346c5e007dab869c141bf4",
+        "policySHA256": "d1e211893eef1d5afb24de495fe316fc35a9a0c2eb046bdb9045db0b46d1aa43",
+        "compiledSHA256": "bf0c5cf62d080ee21e9d49006503979beb6f3a77f3206533171a159ee5cb0d9f",
+        "nonFiniteSHA256": "2b7f4eae4b1d2ebe533209f93d8e31a80524970e19543be54037a01f0f2116c2"
+      },
+      {
+        "index": 721,
+        "id": "v:recarsi",
+        "sourceSHA256": "34a74a4c684ce3cc5ea6dd4d142a128eb9b6507e46c38f28cc6d578c31130610",
+        "policySHA256": "89174f88249e4b8cf569e550e3f8f38f16ac0aafe0e918bf0308fc681c1e22b7",
+        "compiledSHA256": "a3832af46b57b42166daec479d0b27bec5e5204908128cfbc36bbefa713bff05",
+        "nonFiniteSHA256": "c4d3479c65aae0e9b39f97042681d7e9feabb2224545dad9912d474f4177c94e"
+      },
+      {
+        "index": 553,
+        "id": "v:trattenere",
+        "sourceSHA256": "537ead4ca907f75589a9919fbe0013dd9fd9f6b17bf3b8662ac8b9daa08bd244",
+        "policySHA256": "8f2812b2bd45b9b47e33bf0d628ef0512037257f0d1d0a760f9346a983196aca",
+        "compiledSHA256": "af31b801b6c139d4dc2697ad8c6b809470291579f719c90ff783075f909fde6a",
+        "nonFiniteSHA256": "d3d0cbee0d8d7613076d4e642a4f9ffcc7965116bbd17cc8f6747d9d16b952e2"
+      },
+      {
+        "index": 568,
+        "id": "v:adempiere",
+        "sourceSHA256": "e5655fca0ea3aa74a2dc3aa67ff37302cc85f7a6e5b617f886a672bcf241726b",
+        "policySHA256": "088ffd16e09af5573fa31844c47c1827615d14511eb02e16129096a9b393b68a",
+        "compiledSHA256": "b1fbe154cd6330ce800f191198e67df8b52ddadc432fd2a1e674cfc05eb45eea",
+        "nonFiniteSHA256": "cb97a7ae340e5e07d773d590a0b23ffbf056ab3af30ccdcd6ecc407d3a952e81"
+      },
+      {
+        "index": 595,
+        "id": "v:avviare",
+        "sourceSHA256": "487f0295fd6c55c2884e763071fd9d4d13a4074ec682591d09feb6d8f740a52d",
+        "policySHA256": "016e7b191affe169d5baf2aff0a0c81482b0ffb29c7c8415de4c199927752ec5",
+        "compiledSHA256": "a78e3545f1c794861595ab2dca06529e8c4666fb730ae4ef944331896415e0e6",
+        "nonFiniteSHA256": "c5f77b0acee6ef9533ea08f16b6e02dcbbdb91df7169f41d8aabd2fcd7c2d1f3"
+      },
+      {
+        "index": 598,
+        "id": "v:candidarsi",
+        "sourceSHA256": "3069a94bcdfd03a458953f1a1d5134623a816d7d6ad80cb11d584ac220a10177",
+        "policySHA256": "a38a01fda4cd79df80b04c5cd7c72a251d79e0476e321efd2eee2c0a9eac8211",
+        "compiledSHA256": "31474f7143950ce16038325bf6ff96b88c21da6ba5db839b06ec933283032be8",
+        "nonFiniteSHA256": "f2264869e21b8eda4fbaa755fde6a05532332d6c053540d2c1636383656db7ae"
+      },
+      {
+        "index": 600,
+        "id": "v:cogliere",
+        "sourceSHA256": "18a7a604bedf75fc364c06d21cc66b861b4541c146abccbc9ff54aaeb3360cac",
+        "policySHA256": "c2c324f3889e73e2027cf97ce5a82d3bd19bd699d55a89681929de4702dec757",
+        "compiledSHA256": "6ea755e831ee2a78c5530313f48eb7f865547b3b5c2ba164850a1bb98397e912",
+        "nonFiniteSHA256": "adb7b02fee2218d46e16e2acabc8e534fd4845154b5bbf1ec7914a91e2d4a867"
+      },
+      {
+        "index": 651,
+        "id": "v:esercitare",
+        "sourceSHA256": "84b100e1fe73186eb97fe5edbe1b546e42bad9e65be4b04badf419dbddf7c1e5",
+        "policySHA256": "e4cdfb088276f240a2809308ec7a1803d99db417d3fe78d8b2c521668f998341",
+        "compiledSHA256": "9e4f3065fcdddeeac3fd07d1c5475c6270c4a7adb6c3603628a4206210f7b68a",
+        "nonFiniteSHA256": "b267e5e17e1c75871c4acf60d3afed513c77bbf783e3b2fe607d748b347dd4d7"
+      },
+      {
+        "index": 655,
+        "id": "v:estinguersi",
+        "sourceSHA256": "5ee620aeb9f10a26e4d6b61c884ae10a142460b6f834972437b604b193c18fb5",
+        "policySHA256": "6bde5ba20d1574c98743a2fc36dfd8127e323c15c5eea3c0811bee07b62db038",
+        "compiledSHA256": "ede26236a51262310600c65b6430b7b5123f1abda51585ae38f9786463ec16cd",
+        "nonFiniteSHA256": "95b6b25c081a1db7c6e628393661fb5b149a8a61ac0c9bd9d97f5b274ae2b2e7"
+      },
+      {
+        "index": 707,
+        "id": "v:precipitare",
+        "sourceSHA256": "4afa402181730e980e8cfd58ff598722a84203c21a5ea282e754201c7e6103b2",
+        "policySHA256": "31bfd70c77833eef7a6175246d69770e1e106e731d1eafc153059314f27944a3",
+        "compiledSHA256": "cc20badf1c3680e6642acf67cffa466f9b8b088a9791d2277fe3de0cf8d6b377",
+        "nonFiniteSHA256": "bc87f58a54024e8123146b0a16b7bcf4f600411ca6525801014ec09a3a719898"
+      },
+      {
+        "index": 737,
+        "id": "v:riferirsi",
+        "sourceSHA256": "2451a808d531b6c17450feb632e9808e2164a749a2f39a1880e49ae6354ad40b",
+        "policySHA256": "8a0a04ff1cba6eaa3fb4a0ca9f453175ef4aedf5de939631f6af77dc1c83d084",
+        "compiledSHA256": "57d2f840a31a9b515eaea44341a1154dbe7f224d6ed6d777ddc2a46263a46538",
+        "nonFiniteSHA256": "06862f2447dcb9e64dc085a35de3ad38171054fa673dfae602f227c8c0e3e597"
+      },
+      {
+        "index": 718,
+        "id": "v:provvedere",
+        "sourceSHA256": "618912f2fc12bbcf6efa2b1a5b3263d6eadf3f58c995950ece3b93a1e38eeb1d",
+        "policySHA256": "2b7df0e60a8f85e5091a37b30e10ad5129ffc4ab3a415d6b58b3351775442151",
+        "compiledSHA256": "d3dbc031c40b0cd25813c3d6ae888292dd1eac4f87aac750462b41a22de05a61",
+        "nonFiniteSHA256": "f080f4819187d3a01db946de1185c27f174c36fdfef1918cd533f217de3d2327"
+      }
+    ]
+  },
+  "referenceCheck": {
+    "status": "passed",
+    "checks": [
+      {
+        "id": "v:trattarsi",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:concernere",
+        "status": "explicit defective reference exception only"
+      },
+      {
+        "id": "v:discriminare",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:istituire",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:preservare",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:privare",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:recarsi",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:trattenere",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:adempiere",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:avviare",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:candidarsi",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:cogliere",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:esercitare",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:estinguersi",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:precipitare",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:riferirsi",
+        "status": "entire reference object unchanged"
+      },
+      {
+        "id": "v:provvedere",
+        "status": "entire reference object unchanged"
+      }
+    ]
+  },
+  "currentPins": [
+    {
+      "path": "docs/implementation/programme/verb-repairs-764.json",
+      "sha256": "3237760c2147de22703b514d21870746035d349afa52c67fe10a4cf6896c2c4e"
+    },
+    {
+      "path": "docs/implementation/programme/verb-repairs-764-prior.json",
+      "sha256": "6088ab6088891c24f13a72cce91f2715ff705e1c686056f205e01c42f3cc9dc4"
+    },
+    {
+      "path": "data/verbs.json",
+      "sha256": "d583faaeeab365e35651e9691b9b5f1d19c7c90ebef27ed634902890bbe77d71"
+    },
+    {
+      "path": "data/verb-progressive/intermediate.json",
+      "sha256": "1e1f1c1db7007c53c308f871463913c4a141923bb7bd88646b965fa864ba5d3a"
+    },
+    {
+      "path": "data/verbs/B1-more-1.json",
+      "sha256": "2aa791ff6dbb95d864f9144d705dd1413ecdd8bc4de010c94e268dea1513bb47"
+    },
+    {
+      "path": "data/verbs/B2-1.json",
+      "sha256": "ed14193902501f42252745a6d796e73a487f68fea5ca1ca3102004dd36805856"
+    },
+    {
+      "path": "data/verbs/B2-3.json",
+      "sha256": "75025d85c102b728b461013aed833777366cfd393cc99a80dcc1b29e8d2a0392"
+    },
+    {
+      "path": "data/verbs/B2-4.json",
+      "sha256": "abab0f6de50867433581c378ff23c59bceca1aae93a0296c184e5b4e825cfe69"
+    },
+    {
+      "path": "data/verbs/B2-more-2.json",
+      "sha256": "6b5f9e14f36d8183b9e8c3ad3990b8bf0b7fd014df7e27785d804c6cce0393f7"
+    },
+    {
+      "path": "js/irregular.js",
+      "sha256": "e9fc13b0720a11239469c7cebaab076dbd6cbcbf68a996ee105e0298e294fded"
+    },
+    {
+      "path": "js/learning/lesson-content.js",
+      "sha256": "9b6621107ac9b4583e545c6f0d48fdd2a15e6b139f09d544ce57089e9fa70ed1"
+    },
+    {
+      "path": "js/learning/lesson-questions.js",
+      "sha256": "af01749761e7d237e9298eef42666c076f931dd30302fd7194d913f3aa6ce622"
+    },
+    {
+      "path": "js/learning/diagnose.js",
+      "sha256": "f886c6c3ce4a3e070f46f9ec88393f8059cfaf89bdef8951b3d594ba854152b9"
+    },
+    {
+      "path": "data/verb-question-history.json",
+      "sha256": "6598f0f50e1ae89aedca66d5f0fa6133bb4424c97d9aa08a8fd1fd153dce7daa"
+    },
+    {
+      "path": "js/learning/verb-question-history-data.js",
+      "sha256": "9e7ad2b94879709dd95af070a39466f935a99a2f08b9214208b68ef6c315d0bc"
+    },
+    {
+      "path": "tools/test-verb-repairs-764.mjs",
+      "sha256": "410ff875cb8c4d1f273eaa6654931acb471e5c8e0f28b7883e613753fd96cb01"
+    },
+    {
+      "path": "tools/verb-reference-baseline.mjs",
+      "sha256": "898fae4b133a2033e419dd740c261724cfa452c9eaf5f20209e17b94b052766c"
+    },
+    {
+      "path": "tools/test-impersonal-fixed-feedback.mjs",
+      "sha256": "b59612e983c9934913a152e5fa9f76cbc3b0f0a67af4610addc6971bdcf29552"
+    },
+    {
+      "path": "tests/fixtures/trattarsi-compatibility-legacy.json",
+      "sha256": "38c72388ead51babbd6001905cd3de71828c66fb234975ccc5d590a5c469d946"
+    }
+  ],
+  "records": [
+    {
+      "id": "v:trattarsi",
+      "index": 552,
+      "source": {
+        "file": "data/verbs/B1-more-1.json",
+        "index": 4,
+        "level": "B1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 214
+      },
+      "sourceSHA256": "4281d1d3815490b3e62397278ffd99432b57f87e497ad81087cd4ac8b167e3f5",
+      "policySHA256": "91fa0c0e1a9b8bdcf8e5ee51d121895bf1f3e7f1073177ae41fc3ada2087f6a2",
+      "compiledSHA256": "cca0b1ea192b7431d44a9790d4654ddaf124b8c2c02164ec4a4cabcf12f02954",
+      "nonFiniteSHA256": "413ea7bb23d73c6a5f0faac60d63c54dcdef16a1e66713dc1da3251c7fef4a7e",
+      "conclusion": "Current impersonal usage, fixed si è trattato and no grammatical subject are supported. Personal reflexive reference remains distinct. Five reproduced compatibility/current-teaching findings are closed at final pins; exact old 1,520 shapes retained.",
+      "readSampleIds": [
+        "v:trattarsi:present:v2:simple:scene-0",
+        "v:trattarsi:background:dictionary-1"
+      ],
+      "readSamplesSHA256": "35a708fd0b69da692e2a75649d758d9c1896e42fd3b3089610d3fd9688baae3a"
+    },
+    {
+      "id": "v:concernere",
+      "index": 606,
+      "source": {
+        "file": "data/verbs/B2-1.json",
+        "index": 30,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 268
+      },
+      "sourceSHA256": "1a1f0904eb457a3f93a2c6fc1fb9207025ba9750679655f9a452495f4fe2e5ed",
+      "policySHA256": "3cd98d13aed196c6bd8e8c5f61411c92fcf282bfec329b49bdb70a32c84fb27c",
+      "compiledSHA256": "e9986e1f9271565cbbf3269d8740e2678990007c891f51364daa288cf24df717",
+      "nonFiniteSHA256": "295b245cd2ae45b4a1944e6ef270d86999c9aa13c073ddd9a674ea5f795e3c22",
+      "conclusion": "Missing past participle, compound/nonfinite past and unused remoto agree with primary dictionary. Other tense vectors/nonfinites unchanged.",
+      "readSampleIds": [
+        "v:concernere:present:dictionary-1",
+        "v:concernere:background:dictionary-2",
+        "v:concernere:future:reviewed-frame-0:person-2",
+        "v:concernere:condizionale:reviewed-frame-0:person-2"
+      ],
+      "readSamplesSHA256": "617a74269b9be6508be54de201a96f7cf1949b8cd672162bc050350763601907"
+    },
+    {
+      "id": "v:discriminare",
+      "index": 637,
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 12,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 299
+      },
+      "sourceSHA256": "dfd95b1d8ead9b72c97a9cb83c1167518c5c977bc9e3eabd7d06fbbd4368b9a7",
+      "policySHA256": "fd921a1b4cf60d32ba15830bf5928cb3a1c30fc36a64cbd5418fcd4db1bd1d74",
+      "compiledSHA256": "b42744587564019b8cc8b6de59dfd200981d73fa289f6fc3b2f4012c09704d04",
+      "nonFiniteSHA256": "42040b1d4a6f6d4839a7be70a062eb5f995bc8ea971ca30b075a7f2069d388a6",
+      "conclusion": "Current direct-object minority frame matches selected transitive discriminatory sense; all 49 old source IDs are retired only at old revision. No blanket judgment about every uncommon construction.",
+      "readSampleIds": [
+        "v:discriminare:present:v2:simple:scene-0-0-ordinary",
+        "v:discriminare:present:v2:simple:scene-0-2-formal",
+        "v:discriminare:present:v2:progressive:scene-0-0-ordinary",
+        "v:discriminare:present:v2:progressive:scene-0-2-formal",
+        "v:discriminare:past:reviewed-frame-0:person-0",
+        "v:discriminare:past:reviewed-frame-0:formal",
+        "v:discriminare:background:v2:simple:scene-0-0-ordinary",
+        "v:discriminare:background:v2:simple:scene-0-2-formal",
+        "v:discriminare:background:v2:progressive:scene-0-0-ordinary",
+        "v:discriminare:background:v2:progressive:scene-0-2-formal",
+        "v:discriminare:future:reviewed-frame-0:person-0",
+        "v:discriminare:future:reviewed-frame-0:formal",
+        "v:discriminare:condizionale:reviewed-frame-0:person-0",
+        "v:discriminare:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "6b0d44c0220319984df822b0f13f7aa2c0d3e10e00e9316b59fd9c359f698365"
+    },
+    {
+      "id": "v:istituire",
+      "index": 688,
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 3,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 350
+      },
+      "sourceSHA256": "a5dc7a9cdf255fc981f8765bff7f08e7c87ddebce843102e7e413e8287654b74",
+      "policySHA256": "d6b3fdcf324731677b6dad3766a3952d5cfee739eaa438b95cec7561b4a38dd3",
+      "compiledSHA256": "13b17fd1d65b381c2a4c6d14da9e6b6d4c3b5203a7236cf27f148feb5ca5a66b",
+      "nonFiniteSHA256": "ce32045d512eea98bd1144090007f89291ce7173473cf315a853f67d48047fe8",
+      "conclusion": "1949 law/national-holiday sentence is specific and supported; reference-only and exact old example retained.",
+      "readSampleIds": [
+        "v:istituire:present:v2:simple:scene-0-0-ordinary",
+        "v:istituire:present:v2:simple:scene-0-2-formal",
+        "v:istituire:present:v2:progressive:scene-0-0-ordinary",
+        "v:istituire:present:v2:progressive:scene-0-2-formal",
+        "v:istituire:past:reviewed-frame-0:person-0",
+        "v:istituire:past:reviewed-frame-0:formal",
+        "v:istituire:background:v2:simple:scene-0-0-ordinary",
+        "v:istituire:background:v2:simple:scene-0-2-formal",
+        "v:istituire:background:v2:progressive:scene-0-0-ordinary",
+        "v:istituire:background:v2:progressive:scene-0-2-formal",
+        "v:istituire:future:reviewed-frame-0:person-0",
+        "v:istituire:future:reviewed-frame-0:formal",
+        "v:istituire:condizionale:reviewed-frame-0:person-0",
+        "v:istituire:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "88c1496bd075c63dda92ce3b08f0a0ace0af386ee5c397798c9e39740d1c465c"
+    },
+    {
+      "id": "v:preservare",
+      "index": 711,
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 4,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 373
+      },
+      "sourceSHA256": "73b92dbe2747f2f3b210f8ecfae7fe61e334d2553a1a1c77ac5c04d12f49f34f",
+      "policySHA256": "3588fdc92bfb9583e67f35389085e783ac99537d634efc3898a5ff822c093318",
+      "compiledSHA256": "8bc0f0c99109af7fb685d1cef6818b5739bff65f532c703d57e0313042f23565",
+      "nonFiniteSHA256": "894fe4c5e2769078f82c036030979903469205c1750762a98ffd3e2d4345e96d",
+      "conclusion": "Replaces unsupported blanket food prohibition with precise protection-versus-storage distinction.",
+      "readSampleIds": [
+        "v:preservare:present:v2:simple:scene-0-0-ordinary",
+        "v:preservare:present:v2:simple:scene-0-2-formal",
+        "v:preservare:present:v2:progressive:scene-0-0-ordinary",
+        "v:preservare:present:v2:progressive:scene-0-2-formal",
+        "v:preservare:past:reviewed-frame-0:person-0",
+        "v:preservare:past:reviewed-frame-0:formal",
+        "v:preservare:background:v2:simple:scene-0-0-ordinary",
+        "v:preservare:background:v2:simple:scene-0-2-formal",
+        "v:preservare:background:v2:progressive:scene-0-0-ordinary",
+        "v:preservare:background:v2:progressive:scene-0-2-formal",
+        "v:preservare:future:reviewed-frame-0:person-0",
+        "v:preservare:future:reviewed-frame-0:formal",
+        "v:preservare:condizionale:reviewed-frame-0:person-0",
+        "v:preservare:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "c4261381e70fa3a00693eb190f25639be90e37d2ba339678c92c4ffd326e8174"
+    },
+    {
+      "id": "v:privare",
+      "index": 716,
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 24,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 378
+      },
+      "sourceSHA256": "6ef88d4b534426cfcfe59680393abf06e4c30879aa346c5e007dab869c141bf4",
+      "policySHA256": "d1e211893eef1d5afb24de495fe316fc35a9a0c2eb046bdb9045db0b46d1aa43",
+      "compiledSHA256": "bf0c5cf62d080ee21e9d49006503979beb6f3a77f3206533171a159ee5cb0d9f",
+      "nonFiniteSHA256": "2b7f4eae4b1d2ebe533209f93d8e31a80524970e19543be54037a01f0f2116c2",
+      "conclusion": "New personal rest-time example removes the unqualified legal assertion; Italian/English meaning matches.",
+      "readSampleIds": [
+        "v:privare:present:v2:simple:scene-0-0-ordinary",
+        "v:privare:present:v2:simple:scene-0-2-formal",
+        "v:privare:present:v2:progressive:scene-0-0-ordinary",
+        "v:privare:present:v2:progressive:scene-0-2-formal",
+        "v:privare:past:reviewed-frame-0:person-0",
+        "v:privare:past:reviewed-frame-0:formal",
+        "v:privare:background:v2:simple:scene-0-0-ordinary",
+        "v:privare:background:v2:simple:scene-0-2-formal",
+        "v:privare:background:v2:progressive:scene-0-0-ordinary",
+        "v:privare:background:v2:progressive:scene-0-2-formal",
+        "v:privare:future:reviewed-frame-0:person-0",
+        "v:privare:future:reviewed-frame-0:formal",
+        "v:privare:condizionale:reviewed-frame-0:person-0",
+        "v:privare:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "ad42edf77b40ba3e5123047cab5656dbba8d3daee1a9c3e74440128ff0197cba"
+    },
+    {
+      "id": "v:recarsi",
+      "index": 721,
+      "source": {
+        "file": "data/verbs/B2-3.json",
+        "index": 27,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 383
+      },
+      "sourceSHA256": "34a74a4c684ce3cc5ea6dd4d142a128eb9b6507e46c38f28cc6d578c31130610",
+      "policySHA256": "89174f88249e4b8cf569e550e3f8f38f16ac0aafe0e918bf0308fc681c1e22b7",
+      "compiledSHA256": "a3832af46b57b42166daec479d0b27bec5e5204908128cfbc36bbefa713bff05",
+      "nonFiniteSHA256": "c4d3479c65aae0e9b39f97042681d7e9feabb2224545dad9912d474f4177c94e",
+      "conclusion": "New personal future plan removes universal procedural necessity; Italian/English meaning matches.",
+      "readSampleIds": [
+        "v:recarsi:present:v2:simple:scene-0-0-ordinary",
+        "v:recarsi:present:v2:simple:scene-0-2-formal",
+        "v:recarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:recarsi:present:v2:progressive:scene-0-2-formal",
+        "v:recarsi:past:reviewed-frame-0:person-0",
+        "v:recarsi:past:reviewed-frame-0:formal",
+        "v:recarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:recarsi:background:v2:simple:scene-0-2-formal",
+        "v:recarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:recarsi:background:v2:progressive:scene-0-2-formal",
+        "v:recarsi:future:reviewed-frame-0:person-0",
+        "v:recarsi:future:reviewed-frame-0:formal",
+        "v:recarsi:condizionale:reviewed-frame-0:person-0",
+        "v:recarsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "3a6188b0acce47107b6799ddb035fe05c0d6e91d867c73fbbe85c182646a558e"
+    },
+    {
+      "id": "v:trattenere",
+      "index": 553,
+      "source": {
+        "file": "data/verbs/B1-4.json",
+        "index": 30,
+        "level": "B1"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 215
+      },
+      "sourceSHA256": "537ead4ca907f75589a9919fbe0013dd9fd9f6b17bf3b8662ac8b9daa08bd244",
+      "policySHA256": "8f2812b2bd45b9b47e33bf0d628ef0512037257f0d1d0a760f9346a983196aca",
+      "compiledSHA256": "af31b801b6c139d4dc2697ad8c6b809470291579f719c90ff783075f909fde6a",
+      "nonFiniteSHA256": "d3d0cbee0d8d7613076d4e642a4f9ffcc7965116bbd17cc8f6747d9d16b952e2",
+      "conclusion": "Breath frame uses hold and person-correct possessive; other sense frames retained. Source usage shorthand hold-back grouping was unchanged.",
+      "readSampleIds": [
+        "v:trattenere:present:v2:simple:scene-0-0-ordinary",
+        "v:trattenere:present:v2:simple:scene-0-2-formal",
+        "v:trattenere:present:v2:progressive:scene-0-0-ordinary",
+        "v:trattenere:present:v2:progressive:scene-0-2-formal",
+        "v:trattenere:present:v2:simple:scene-3-0-ordinary",
+        "v:trattenere:present:v2:simple:scene-3-2-formal",
+        "v:trattenere:present:v2:progressive:scene-3-0-ordinary",
+        "v:trattenere:present:v2:progressive:scene-3-2-formal",
+        "v:trattenere:past:reviewed-frame-0:person-0",
+        "v:trattenere:past:reviewed-frame-0:formal",
+        "v:trattenere:background:v2:simple:scene-0-0-ordinary",
+        "v:trattenere:background:v2:simple:scene-0-2-formal",
+        "v:trattenere:background:v2:progressive:scene-0-0-ordinary",
+        "v:trattenere:background:v2:progressive:scene-0-2-formal",
+        "v:trattenere:background:v2:simple:scene-3-0-ordinary",
+        "v:trattenere:background:v2:simple:scene-3-2-formal",
+        "v:trattenere:background:v2:progressive:scene-3-0-ordinary",
+        "v:trattenere:background:v2:progressive:scene-3-2-formal",
+        "v:trattenere:future:dictionary-1",
+        "v:trattenere:future:reviewed-frame-0:formal",
+        "v:trattenere:condizionale:reviewed-frame-0:person-0",
+        "v:trattenere:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "bab20cdbca69753866b96c2e092f49a685d2d2d2e2a124f59d8ea4e47d50a236"
+    },
+    {
+      "id": "v:adempiere",
+      "index": 568,
+      "source": {
+        "file": "data/verbs/B2-1.json",
+        "index": 5,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 230
+      },
+      "sourceSHA256": "e5655fca0ea3aa74a2dc3aa67ff37302cc85f7a6e5b617f886a672bcf241726b",
+      "policySHA256": "088ffd16e09af5573fa31844c47c1827615d14511eb02e16129096a9b393b68a",
+      "compiledSHA256": "b1fbe154cd6330ce800f191198e67df8b52ddadc432fd2a1e674cfc05eb45eea",
+      "nonFiniteSHA256": "cb97a7ae340e5e07d773d590a0b23ffbf056ab3af30ccdcd6ecc407d3a952e81",
+      "conclusion": "Singular duty matches neutral Italian a un dovere; a-complement is attested, not declared uniquely correct or preferred. Hybrid attested forms not removed.",
+      "readSampleIds": [
+        "v:adempiere:present:v2:simple:scene-0-0-ordinary",
+        "v:adempiere:present:v2:simple:scene-0-2-formal",
+        "v:adempiere:present:v2:progressive:scene-0-0-ordinary",
+        "v:adempiere:present:v2:progressive:scene-0-2-formal",
+        "v:adempiere:past:reviewed-frame-0:person-0",
+        "v:adempiere:past:reviewed-frame-0:formal",
+        "v:adempiere:background:v2:simple:scene-0-0-ordinary",
+        "v:adempiere:background:v2:simple:scene-0-2-formal",
+        "v:adempiere:background:v2:progressive:scene-0-0-ordinary",
+        "v:adempiere:background:v2:progressive:scene-0-2-formal",
+        "v:adempiere:future:reviewed-frame-0:person-0",
+        "v:adempiere:future:reviewed-frame-0:formal",
+        "v:adempiere:condizionale:reviewed-frame-0:person-0",
+        "v:adempiere:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "92ff87b8f470987130f71c548f220e7e937ec9a3453b06907d8df31609603726"
+    },
+    {
+      "id": "v:avviare",
+      "index": 595,
+      "source": {
+        "file": "data/verbs/B2-1.json",
+        "index": 21,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 257
+      },
+      "sourceSHA256": "487f0295fd6c55c2884e763071fd9d4d13a4074ec682591d09feb6d8f740a52d",
+      "policySHA256": "016e7b191affe169d5baf2aff0a0c81482b0ffb29c7c8415de4c199927752ec5",
+      "compiledSHA256": "a78e3545f1c794861595ab2dca06529e8c4666fb730ae4ef944331896415e0e6",
+      "nonFiniteSHA256": "c5f77b0acee6ef9533ea08f16b6e02dcbbdb91df7169f41d8aabd2fcd7c2d1f3",
+      "conclusion": "Machine frame start is appropriate; process/project launch retained.",
+      "readSampleIds": [
+        "v:avviare:present:v2:simple:scene-0-0-ordinary",
+        "v:avviare:present:v2:simple:scene-0-2-formal",
+        "v:avviare:present:v2:progressive:scene-0-0-ordinary",
+        "v:avviare:present:v2:progressive:scene-0-2-formal",
+        "v:avviare:present:v2:simple:scene-2-0-ordinary",
+        "v:avviare:present:v2:simple:scene-2-2-formal",
+        "v:avviare:present:v2:progressive:scene-2-0-ordinary",
+        "v:avviare:present:v2:progressive:scene-2-2-formal",
+        "v:avviare:past:reviewed-frame-0:person-0",
+        "v:avviare:past:reviewed-frame-0:formal",
+        "v:avviare:background:v2:simple:scene-0-0-ordinary",
+        "v:avviare:background:v2:simple:scene-0-2-formal",
+        "v:avviare:background:v2:progressive:scene-0-0-ordinary",
+        "v:avviare:background:v2:progressive:scene-0-2-formal",
+        "v:avviare:background:v2:simple:scene-2-0-ordinary",
+        "v:avviare:background:v2:simple:scene-2-2-formal",
+        "v:avviare:background:v2:progressive:scene-2-0-ordinary",
+        "v:avviare:background:v2:progressive:scene-2-2-formal",
+        "v:avviare:future:reviewed-frame-0:person-0",
+        "v:avviare:future:reviewed-frame-0:formal",
+        "v:avviare:condizionale:reviewed-frame-0:person-0",
+        "v:avviare:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "5a3da7e43f58264fba0246003e707770485ae02b991e8ffff8e6f9b24e1cd7ef"
+    },
+    {
+      "id": "v:candidarsi",
+      "index": 598,
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 34,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 260
+      },
+      "sourceSHA256": "3069a94bcdfd03a458953f1a1d5134623a816d7d6ad80cb11d584ac220a10177",
+      "policySHA256": "a38a01fda4cd79df80b04c5cd7c72a251d79e0476e321efd2eee2c0a9eac8211",
+      "compiledSHA256": "31474f7143950ce16038325bf6ff96b88c21da6ba5db839b06ec933283032be8",
+      "nonFiniteSHA256": "f2264869e21b8eda4fbaa755fde6a05532332d6c053540d2c1636383656db7ae",
+      "conclusion": "Election frame run is appropriate; applying for jobs/scholarships retained.",
+      "readSampleIds": [
+        "v:candidarsi:present:dictionary-1",
+        "v:candidarsi:present:v2:simple:scene-0-2-formal",
+        "v:candidarsi:present:v2:progressive:scene-0-0-ordinary",
+        "v:candidarsi:present:v2:progressive:scene-0-2-formal",
+        "v:candidarsi:present:v2:simple:scene-2-0-ordinary",
+        "v:candidarsi:present:v2:simple:scene-2-2-formal",
+        "v:candidarsi:present:v2:progressive:scene-2-0-ordinary",
+        "v:candidarsi:present:v2:progressive:scene-2-2-formal",
+        "v:candidarsi:past:reviewed-frame-0:person-0",
+        "v:candidarsi:past:reviewed-frame-0:formal",
+        "v:candidarsi:background:v2:simple:scene-0-0-ordinary",
+        "v:candidarsi:background:v2:simple:scene-0-2-formal",
+        "v:candidarsi:background:v2:progressive:scene-0-0-ordinary",
+        "v:candidarsi:background:v2:progressive:scene-0-2-formal",
+        "v:candidarsi:background:v2:simple:scene-2-0-ordinary",
+        "v:candidarsi:background:v2:simple:scene-2-2-formal",
+        "v:candidarsi:background:v2:progressive:scene-2-0-ordinary",
+        "v:candidarsi:background:v2:progressive:scene-2-2-formal",
+        "v:candidarsi:future:reviewed-frame-0:person-0",
+        "v:candidarsi:future:reviewed-frame-0:formal",
+        "v:candidarsi:condizionale:reviewed-frame-0:person-0",
+        "v:candidarsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "65b0b272964dd91065c0a76a884d990b02390bd239ef745f577da9a7ba390f3e"
+    },
+    {
+      "id": "v:cogliere",
+      "index": 600,
+      "source": {
+        "file": "data/verbs/B2-1.json",
+        "index": 24,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 262
+      },
+      "sourceSHA256": "18a7a604bedf75fc364c06d21cc66b861b4541c146abccbc9ff54aaeb3360cac",
+      "policySHA256": "c2c324f3889e73e2027cf97ce5a82d3bd19bd699d55a89681929de4702dec757",
+      "compiledSHA256": "6ea755e831ee2a78c5530313f48eb7f865547b3b5c2ba164850a1bb98397e912",
+      "nonFiniteSHA256": "adb7b02fee2218d46e16e2acabc8e534fd4845154b5bbf1ec7914a91e2d4a867",
+      "conclusion": "Opportunity frame seize is appropriate; literal fruit/flower pick retained.",
+      "readSampleIds": [
+        "v:cogliere:present:dictionary-0",
+        "v:cogliere:present:v2:simple:scene-0-2-formal",
+        "v:cogliere:present:v2:progressive:scene-0-0-ordinary",
+        "v:cogliere:present:v2:progressive:scene-0-2-formal",
+        "v:cogliere:present:v2:simple:scene-2-0-ordinary",
+        "v:cogliere:present:v2:simple:scene-2-2-formal",
+        "v:cogliere:present:v2:progressive:scene-2-0-ordinary",
+        "v:cogliere:present:v2:progressive:scene-2-2-formal",
+        "v:cogliere:past:reviewed-frame-0:person-0",
+        "v:cogliere:past:reviewed-frame-0:formal",
+        "v:cogliere:background:v2:simple:scene-0-0-ordinary",
+        "v:cogliere:background:v2:simple:scene-0-2-formal",
+        "v:cogliere:background:v2:progressive:scene-0-0-ordinary",
+        "v:cogliere:background:v2:progressive:scene-0-2-formal",
+        "v:cogliere:background:v2:simple:scene-2-0-ordinary",
+        "v:cogliere:background:v2:simple:scene-2-2-formal",
+        "v:cogliere:background:v2:progressive:scene-2-0-ordinary",
+        "v:cogliere:background:v2:progressive:scene-2-2-formal",
+        "v:cogliere:future:reviewed-frame-0:person-0",
+        "v:cogliere:future:reviewed-frame-0:formal",
+        "v:cogliere:condizionale:reviewed-frame-0:person-0",
+        "v:cogliere:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "6e0bd4c899ac2b80360c5c6cb2110ae84dbf6304ecdb356938cb42fb7b773234"
+    },
+    {
+      "id": "v:esercitare",
+      "index": 651,
+      "source": {
+        "file": "data/verbs/B2-2.json",
+        "index": 17,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 313
+      },
+      "sourceSHA256": "84b100e1fe73186eb97fe5edbe1b546e42bad9e65be4b04badf419dbddf7c1e5",
+      "policySHA256": "e4cdfb088276f240a2809308ec7a1803d99db417d3fe78d8b2c521668f998341",
+      "compiledSHA256": "9e4f3065fcdddeeac3fd07d1c5475c6270c4a7adb6c3603628a4206210f7b68a",
+      "nonFiniteSHA256": "b267e5e17e1c75871c4acf60d3afed513c77bbf783e3b2fe607d748b347dd4d7",
+      "conclusion": "Profession practise and pressure exert appropriate; rights/control exercise retained.",
+      "readSampleIds": [
+        "v:esercitare:present:v2:simple:scene-0-0-ordinary",
+        "v:esercitare:present:v2:simple:scene-0-2-formal",
+        "v:esercitare:present:v2:progressive:scene-0-0-ordinary",
+        "v:esercitare:present:v2:progressive:scene-0-2-formal",
+        "v:esercitare:present:v2:simple:scene-2-0-ordinary",
+        "v:esercitare:present:v2:simple:scene-2-2-formal",
+        "v:esercitare:present:v2:progressive:scene-2-0-ordinary",
+        "v:esercitare:present:v2:progressive:scene-2-2-formal",
+        "v:esercitare:past:reviewed-frame-0:person-0",
+        "v:esercitare:past:reviewed-frame-0:formal",
+        "v:esercitare:background:v2:simple:scene-0-0-ordinary",
+        "v:esercitare:background:v2:simple:scene-0-2-formal",
+        "v:esercitare:background:v2:progressive:scene-0-0-ordinary",
+        "v:esercitare:background:v2:progressive:scene-0-2-formal",
+        "v:esercitare:background:v2:simple:scene-2-0-ordinary",
+        "v:esercitare:background:v2:simple:scene-2-2-formal",
+        "v:esercitare:background:v2:progressive:scene-2-0-ordinary",
+        "v:esercitare:background:v2:progressive:scene-2-2-formal",
+        "v:esercitare:future:reviewed-frame-0:person-0",
+        "v:esercitare:future:reviewed-frame-0:formal",
+        "v:esercitare:condizionale:reviewed-frame-0:person-0",
+        "v:esercitare:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "c44e4976196532128751ce064bd0ae12d9798cac789268aab9267b2f44f81783"
+    },
+    {
+      "id": "v:estinguersi",
+      "index": 655,
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 6,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 317
+      },
+      "sourceSHA256": "5ee620aeb9f10a26e4d6b61c884ae10a142460b6f834972437b604b193c18fb5",
+      "policySHA256": "6bde5ba20d1574c98743a2fc36dfd8127e323c15c5eea3c0811bee07b62db038",
+      "compiledSHA256": "ede26236a51262310600c65b6430b7b5123f1abda51585ae38f9786463ec16cd",
+      "nonFiniteSHA256": "95b6b25c081a1db7c6e628393661fb5b149a8a61ac0c9bd9d97f5b274ae2b2e7",
+      "conclusion": "Simple imperfect was/were dying out suits evolving decline; prior habitual viewpoint remains possible and saved.",
+      "readSampleIds": [
+        "v:estinguersi:present:v2:simple:scene-0-2-ordinary",
+        "v:estinguersi:present:v2:progressive:scene-0-2-ordinary",
+        "v:estinguersi:background:v2:simple:scene-0-2-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-0-2-ordinary",
+        "v:estinguersi:background:v2:simple:scene-0-5-ordinary",
+        "v:estinguersi:background:v2:simple:scene-1-2-ordinary",
+        "v:estinguersi:background:v2:simple:scene-1-5-ordinary",
+        "v:estinguersi:background:v2:simple:scene-2-2-ordinary",
+        "v:estinguersi:background:v2:simple:scene-2-5-ordinary",
+        "v:estinguersi:background:v2:simple:scene-3-2-ordinary",
+        "v:estinguersi:background:v2:simple:scene-3-5-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-0-5-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-1-2-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-1-5-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-2-2-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-2-5-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-3-2-ordinary",
+        "v:estinguersi:background:v2:progressive:scene-3-5-ordinary",
+        "v:estinguersi:future:reviewed-frame-0:person-2",
+        "v:estinguersi:condizionale:reviewed-frame-0:person-2"
+      ],
+      "readSamplesSHA256": "c0da8c141ba42bca478171d11df983dc44d29e9ec276413eafea04bce5254016"
+    },
+    {
+      "id": "v:precipitare",
+      "index": 707,
+      "source": {
+        "file": "data/verbs/B2-more-2.json",
+        "index": 27,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 369
+      },
+      "sourceSHA256": "4afa402181730e980e8cfd58ff598722a84203c21a5ea282e754201c7e6103b2",
+      "policySHA256": "31bfd70c77833eef7a6175246d69770e1e106e731d1eafc153059314f27944a3",
+      "compiledSHA256": "cc20badf1c3680e6642acf67cffa466f9b8b088a9791d2277fe3de0cf8d6b377",
+      "nonFiniteSHA256": "bc87f58a54024e8123146b0a16b7bcf4f600411ca6525801014ec09a3a719898",
+      "conclusion": "Simple imperfect was/were plunging suits particular unfolding fall; no broad telic/progressive prohibition or auxiliary change.",
+      "readSampleIds": [
+        "v:precipitare:present:v2:simple:scene-0-2-ordinary",
+        "v:precipitare:present:v2:progressive:scene-0-2-ordinary",
+        "v:precipitare:past:dictionary-2",
+        "v:precipitare:background:v2:simple:scene-0-2-ordinary",
+        "v:precipitare:background:v2:progressive:scene-0-2-ordinary",
+        "v:precipitare:background:v2:simple:scene-0-5-ordinary",
+        "v:precipitare:background:v2:simple:scene-1-2-ordinary",
+        "v:precipitare:background:v2:simple:scene-1-5-ordinary",
+        "v:precipitare:background:v2:simple:scene-2-2-ordinary",
+        "v:precipitare:background:v2:simple:scene-2-5-ordinary",
+        "v:precipitare:background:v2:simple:scene-3-2-ordinary",
+        "v:precipitare:background:v2:simple:scene-3-5-ordinary",
+        "v:precipitare:background:v2:progressive:scene-0-5-ordinary",
+        "v:precipitare:background:v2:progressive:scene-1-2-ordinary",
+        "v:precipitare:background:v2:progressive:scene-1-5-ordinary",
+        "v:precipitare:background:v2:progressive:scene-2-2-ordinary",
+        "v:precipitare:background:v2:progressive:scene-2-5-ordinary",
+        "v:precipitare:background:v2:progressive:scene-3-2-ordinary",
+        "v:precipitare:background:v2:progressive:scene-3-5-ordinary",
+        "v:precipitare:future:reviewed-frame-0:person-2",
+        "v:precipitare:condizionale:reviewed-frame-0:person-2"
+      ],
+      "readSamplesSHA256": "0cb599e36a025453a7516d6f6fadae6769d1d3b42117b8ca9aa3567cc7bc3659"
+    },
+    {
+      "id": "v:riferirsi",
+      "index": 737,
+      "source": {
+        "file": "data/verbs/B2-more-1.json",
+        "index": 5,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 399
+      },
+      "sourceSHA256": "2451a808d531b6c17450feb632e9808e2164a749a2f39a1880e49ae6354ad40b",
+      "policySHA256": "8a0a04ff1cba6eaa3fb4a0ca9f453175ef4aedf5de939631f6af77dc1c83d084",
+      "compiledSHA256": "57d2f840a31a9b515eaea44341a1154dbe7f224d6ed6d777ddc2a46263a46538",
+      "nonFiniteSHA256": "06862f2447dcb9e64dc085a35de3ad38171054fa673dfae602f227c8c0e3e597",
+      "conclusion": "Qualified note recognizes ongoing referring speech act; simple practice remains bounded and does not claim all progressives invalid.",
+      "readSampleIds": [
+        "v:riferirsi:present:v2:simple:scene-0-0-ordinary",
+        "v:riferirsi:present:v2:simple:scene-0-2-formal",
+        "v:riferirsi:past:reviewed-frame-0:person-0",
+        "v:riferirsi:past:reviewed-frame-0:formal",
+        "v:riferirsi:background:dictionary-0",
+        "v:riferirsi:background:v2:simple:scene-0-2-formal",
+        "v:riferirsi:future:reviewed-frame-0:person-0",
+        "v:riferirsi:future:reviewed-frame-0:formal",
+        "v:riferirsi:condizionale:reviewed-frame-0:person-0",
+        "v:riferirsi:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "2563d0ab73af7d4397001ce646a3a588f699141aa61fdd36619852b7c68adf1c"
+    },
+    {
+      "id": "v:provvedere",
+      "index": 718,
+      "source": {
+        "file": "data/verbs/B2-4.json",
+        "index": 35,
+        "level": "B2"
+      },
+      "policySource": {
+        "file": "data/verb-progressive/intermediate.json",
+        "index": 380
+      },
+      "sourceSHA256": "618912f2fc12bbcf6efa2b1a5b3263d6eadf3f58c995950ece3b93a1e38eeb1d",
+      "policySHA256": "2b7df0e60a8f85e5091a37b30e10ad5129ffc4ab3a415d6b58b3351775442151",
+      "compiledSHA256": "d3dbc031c40b0cd25813c3d6ae888292dd1eac4f87aac750462b41a22de05a61",
+      "nonFiniteSHA256": "f080f4819187d3a01db946de1185c27f174c36fdfef1918cd533f217de3d2327",
+      "conclusion": "Usual verbal provveduto versus rarer provvisto accurately stated. Existing first answer/default preference remains unchanged and is not closed as improved.",
+      "readSampleIds": [
+        "v:provvedere:present:v2:simple:scene-0-0-ordinary",
+        "v:provvedere:present:v2:simple:scene-0-2-formal",
+        "v:provvedere:present:v2:progressive:scene-0-0-ordinary",
+        "v:provvedere:present:v2:progressive:scene-0-2-formal",
+        "v:provvedere:past:reviewed-frame-0:person-0",
+        "v:provvedere:past:reviewed-frame-0:formal",
+        "v:provvedere:background:v2:simple:scene-0-0-ordinary",
+        "v:provvedere:background:v2:simple:scene-0-2-formal",
+        "v:provvedere:background:v2:progressive:scene-0-0-ordinary",
+        "v:provvedere:background:v2:progressive:scene-0-2-formal",
+        "v:provvedere:future:reviewed-frame-0:person-0",
+        "v:provvedere:future:reviewed-frame-0:formal",
+        "v:provvedere:condizionale:reviewed-frame-0:person-0",
+        "v:provvedere:condizionale:reviewed-frame-0:formal"
+      ],
+      "readSamplesSHA256": "9b45e2e0e5882cfdd7e10136f3aa6991a3c739230ef617d62feafbaeb1dda836"
+    }
+  ],
+  "primarySourcesIndependentlyRead": [
+    {
+      "claim": "trattarsi",
+      "url": "https://www.treccani.it/magazine/lingua_italiana/domande_e_risposte/grammatica/grammatica_807.html"
+    },
+    {
+      "claim": "personal versus impersonal trattare",
+      "url": "https://www.treccani.it/vocabolario/trattare/"
+    },
+    {
+      "claim": "concernere",
+      "url": "https://www.treccani.it/vocabolario/concernere/"
+    },
+    {
+      "claim": "discriminare",
+      "url": "https://www.treccani.it/vocabolario/discriminare/"
+    },
+    {
+      "claim": "1949 holiday law",
+      "url": "https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=049U0260&atto.dataPubblicazioneGazzetta=1949-05-31"
+    },
+    {
+      "claim": "preservare",
+      "url": "https://www.treccani.it/vocabolario/preservare/"
+    },
+    {
+      "claim": "trattenere",
+      "url": "https://www.treccani.it/vocabolario/trattenere/"
+    },
+    {
+      "claim": "adempiere",
+      "url": "https://www.treccani.it/vocabolario/adempiere/"
+    },
+    {
+      "claim": "avviare",
+      "url": "https://www.treccani.it/vocabolario/avviare/"
+    },
+    {
+      "claim": "candidare",
+      "url": "https://www.treccani.it/vocabolario/candidare/"
+    },
+    {
+      "claim": "cogliere",
+      "url": "https://www.treccani.it/vocabolario/cogliere/"
+    },
+    {
+      "claim": "esercitare",
+      "url": "https://www.treccani.it/vocabolario/esercitare/"
+    },
+    {
+      "claim": "estinguere",
+      "url": "https://www.treccani.it/vocabolario/estinguere/"
+    },
+    {
+      "claim": "precipitare",
+      "url": "https://www.treccani.it/vocabolario/precipitare/"
+    },
+    {
+      "claim": "riferirsi published speech-act attestation",
+      "url": "https://www.treccani.it/vocabolario/antimprenditoriale_%28Neologismi%29/"
+    },
+    {
+      "claim": "provvedere",
+      "url": "https://www.treccani.it/vocabolario/provvedere/"
+    }
+  ],
+  "authorTargetedSuite": {
+    "independentlyExecuted": true,
+    "writeReportFlag": false,
+    "status": "passed",
+    "baseline": "8517db3",
+    "entries": 17,
+    "priorPools": 2117,
+    "preservedPriorSelections": 3891,
+    "retiredContextOccurrences": 105,
+    "currentSelections": 3996,
+    "priorFormCues": 46,
+    "trattarsiRecoveryTransitions": 192,
+    "validTrattarsiPriorSelections": 6,
+    "currentTrattarsiContextCues": 15,
+    "uniqueRetiredContextIds": 49,
+    "trattarsiRetiredFormTargets": 12,
+    "unchangedOtherCoreParadigms": 1185,
+    "explicitDefectiveReferenceRepair": "v:concernere",
+    "independentAgentReview": "passed only the named bounded scope in this report",
+    "nativeItalianEducatorReview": "pending",
+    "scope": "Declared corrections and exact prior/current source/prompt transitions; not every generated question or a whole-catalogue linguistic approval.",
+    "trattarsiPriorQuestionsExact": 1152,
+    "trattarsiPriorNullsExact": 368,
+    "currentTrattarsiFiniteTips": 124
+  },
+  "additionalTrattarsiMatrix": {
+    "status": "passed",
+    "equalQuestions": 1152,
+    "equalNulls": 368,
+    "differences": 0,
+    "exceptions": 0,
+    "currentQuestionFormats": 290,
+    "evidence": "/tmp/parola-ai-trattarsi-independent-questions.json",
+    "beforeEvidence": "/tmp/parola-ai-trattarsi-independent-questions-before.json"
+  },
+  "findings": [
+    {
+      "id": "prior-progressive-usage",
+      "status": "closed",
+      "priority": 1,
+      "detail": "Actual available old ordinary present/background guided progressive-usage loses usageQuestion/usageAnswers/usageDistractors/explanation in the new history recipe. Forty matrix reconstructions throw undefined answer.map; original actual-8517 questions exist.",
+      "evidence": "/tmp/parola-ai-trattarsi-independent-questions.json",
+      "beforeDetail": "Actual available old ordinary present/background guided progressive-usage loses usageQuestion/usageAnswers/usageDistractors/explanation in the new history recipe. Forty matrix reconstructions throw undefined answer.map; original actual-8517 questions exist.",
+      "after": "Exact full target metadata retained in the eighth history recipe. Both actual stored-session reopen fixtures and all 1,520 archived semantics/availability cases pass."
+    },
+    {
+      "id": "prior-mixed-source",
+      "status": "closed",
+      "priority": 1,
+      "detail": "Old ordinary mixed background sourceChapter/legacyAuthoredContexts omitted. Sixteen existing non-match question shapes change their full original source into io→si trattava while audio says mi trattavo. Four more old-null matching shapes materialize.",
+      "evidence": "/tmp/parola-ai-trattarsi-independent-questions.json",
+      "beforeDetail": "Old ordinary mixed background sourceChapter/legacyAuthoredContexts omitted. Sixteen existing non-match question shapes change their full original source into io→si trattava while audio says mi trattavo. Four more old-null matching shapes materialize.",
+      "after": "Source chapter and exact ordinary/expanded context references retained. Actual mixed review reopens with the original full sentence, accepted form and full-sentence speech."
+    },
+    {
+      "id": "prior-empty-bare-cues",
+      "status": "closed",
+      "priority": 2,
+      "detail": "Twenty-four other historical context/mixed match matrix shapes originally null now materialize with contextual answer and first-person audio. Explicit empty archived bare-cue vectors must not fall back to contextual forms.",
+      "evidence": "/tmp/parola-ai-trattarsi-independent-questions.json",
+      "beforeDetail": "Twenty-four other historical context/mixed match matrix shapes originally null now materialize with contextual answer and first-person audio. Explicit empty archived bare-cue vectors must not fall back to contextual forms.",
+      "after": "Explicit empty archived bare cue vectors retained. All 368 old-null shapes remain unavailable and all 1,152 old questions match exactly."
+    },
+    {
+      "id": "current-person-tip",
+      "status": "closed",
+      "priority": 2,
+      "detail": "Current bare impersonal finite tips still say Start with lui/lei; this contradicts the new no-grammatical-subject instruction.",
+      "evidence": "/tmp/parola-ai-trattarsi-independent-questions.json",
+      "beforeDetail": "Current bare impersonal finite tips still say Start with lui/lei; this contradicts the new no-grammatical-subject instruction.",
+      "after": "Current bare finite hints now state impersonal si and third-person singular; independently rerun 124 current tip checks pass. Old historical prompts remain exact."
+    },
+    {
+      "id": "current-fixed-participle-feedback",
+      "status": "closed",
+      "priority": 2,
+      "detail": "Seven current fixed compound targets reject feminine trattata but label the regular verb irregular and advise try a new person. Correct responses pass; no false acceptance. Feedback must describe fixed impersonal trattato.",
+      "evidence": "/tmp/parola-ai-trattarsi-current-grades.json",
+      "beforeDetail": "Seven current fixed compound targets reject feminine trattata but label the regular verb irregular and advise try a new person. Correct responses pass; no false acceptance. Feedback must describe fixed impersonal trattato.",
+      "after": "Only explicit trusted impersonal-fixed metadata changes feedback. Independently rerun 56 question cases, 168 a/i/e ending errors, 171 auxiliary/clitic/participle/unrelated controls and 49 repair checks pass. Seven independent feminine-error fixtures now give the correct fixed-participle message."
+    }
+  ],
+  "remaining": {
+    "nativeEducator": "pending",
+    "allGeneratedQuestionFormats": "not fully independently reviewed",
+    "rareMorphology": "not all individually primary-attested",
+    "audio": "not human-pronunciation reviewed",
+    "model": "production gate closed; no model runs/downloads",
+    "separateAccentMixedError": "Parent-reported c'e restato with strict accents off gives spurious auxiliary/clitic diagnostics in a wrong-gender formal answer; planned next slice, not claimed fixed here.",
+    "ordinaryPriorLifecycle": {
+      "status": "closed for independent deterministic boundary; browser verification separately root-owned",
+      "report": "/tmp/parola-ai-prior-target-lifecycle-review.json",
+      "rootChecks": {
+        "answers": 8,
+        "continuations": 12,
+        "tamperFences": 16,
+        "caseReopens": 8,
+        "mixedEnrollment": 4
+      },
+      "independentChecks": {
+        "reviewTransitions": 12,
+        "currentRows": 6,
+        "priorRows": 6,
+        "boardCompletions": 4,
+        "pairTamperFences": 6,
+        "mixedEnrollment": 6,
+        "focusedCaseReopens": 4
+      },
+      "lessonCaseReopen": {
+        "status": "passed",
+        "report": "/tmp/parola-ai-prior-legacy-flag-repro.json",
+        "before": "/tmp/parola-ai-prior-legacy-flag-repro-before.json"
+      },
+      "scope": "Verified prior-only attempt metadata and explicit no-credit Continue; focused review uses eligible remaining queue or recap; exact original cursor/UI receipt; current and genuine 8517 matching rows; unknown revision/altered descriptors blocked; active legacy marker cleared with original archived; mixed enrollment current/prior/no-case boundary does not loop or create current credit."
+    }
+  },
+  "finalDate": "2026-10-04",
+  "historicalBeforeEvidence": "/tmp/parola-ai-verb-repairs-764-independent-report-before.json",
+  "actualRuntimeReopens": {
+    "status": "passed",
+    "cases": 3,
+    "evidence": "/tmp/parola-ai-trattarsi-runtime-repro.json",
+    "beforeEvidence": "/tmp/parola-ai-trattarsi-runtime-repro-before.json"
+  },
+  "impersonalFeedback": {
+    "independentlyExecuted": true,
+    "status": "passed",
+    "questions": 56,
+    "endingErrors": 168,
+    "controls": 171,
+    "repairChecks": 49,
+    "ownSevenCompoundGrades": "/tmp/parola-ai-trattarsi-current-grades.json",
+    "beforeEvidence": "/tmp/parola-ai-trattarsi-current-grades-before.json",
+    "scope": "Meaning-specific metadata only; restarci/andarsene/lavarsi subject-agreement controls do not acquire the impersonal message."
+  },
+  "sevenEarlierRecipes": {
+    "status": "passed",
+    "twoActual8517RecipesEqual": 2,
+    "fivePriorScratchRecipesEqual": 5,
+    "fivePriorScratchSHA256": "59c4c6d6f688770e2e082a61b8a3861890047112a3856f7e913bf036fbcbc8d3"
+  },
+  "unrelatedFormalRegression": {
+    "status": "passed",
+    "currentChecks": 350,
+    "exactAdditionalHistoricalMatching": 2294,
+    "pairRows": 70,
+    "negativeAgreement": 70,
+    "protectedFamilies": 7,
+    "evidence": "/tmp/parola-ai-formal-agreement-independent.json",
+    "scope": "Independent previous five-family script rerun after shared formatter/diagnostic changes."
+  },
+  "lifecycleAddendumPins": {
+    "js/learning/journey.js": "b56d69f3a000bf4e50d28cc7daff9cca4687be63364ed05a757d641a6f6ad94a",
+    "js/learning/journey-form.js": "1b37af6bfdc581cc8cdc304941aaf327ec16f9741a858701b7b3cdd8dc9a3a0c",
+    "js/learning/lesson-content.js": "9b6621107ac9b4583e545c6f0d48fdd2a15e6b139f09d544ce57089e9fa70ed1",
+    "js/learning/lesson-questions.js": "af01749761e7d237e9298eef42666c076f931dd30302fd7194d913f3aa6ce622",
+    "js/learning/diagnose.js": "f886c6c3ce4a3e070f46f9ec88393f8059cfaf89bdef8951b3d594ba854152b9",
+    "data/verb-question-history.json": "6598f0f50e1ae89aedca66d5f0fa6133bb4424c97d9aa08a8fd1fd153dce7daa",
+    "tools/test-prior-only-journey-targets.mjs": "57993352c43d5ff2ad051bf70e415e2f1a9206564cec1e9f9ea6f66b8440bdfa"
+  },
+  "lifecycleFindings": [
+    {
+      "status": "closed",
+      "before": "Old ordinary-only valid usage prompt rendered but attempt target was absent from the current plan; incorrect-answer repair could fail too.",
+      "after": "Full trusted active recipe supplies target/chapter only after activeSceneAllowed; explicit Continue archives old cursor/UI and starts current same-ID group teaching, or schedules eligible review."
+    },
+    {
+      "status": "closed",
+      "before": "Explicit prior-only Continue first started current teaching without flow marker, so generic view upgrade replaced it with pending checkpoint.",
+      "after": "Same explicit transaction records exact old archive then stamps current flow/version/objectiveIds without evidence changes."
+    },
+    {
+      "status": "closed",
+      "before": "An active legacyFlow:true marker survived conversion; case-switch reopen deleted current version and generic migration replaced teaching with checkpoint.",
+      "reproduction": "/tmp/parola-ai-prior-legacy-flag-repro-before.json",
+      "after": "Clear active legacyFlow; only older inactive cursors retain legacy markers. Independent lesson/focused-review round trips pass."
+    },
+    {
+      "status": "closed for bounded mixed enrollment",
+      "before": "Mixed checkpoint pending requeued unfinished cases excluded by schedule, causing recursion.",
+      "after": "finishPass uses the same reviewTargetAllowed enrollment filter. No-case recap/retry terminates; completed source case stays eligible; a needed context/variant pause remains explicit and awards no completion."
+    }
+  ]
+}

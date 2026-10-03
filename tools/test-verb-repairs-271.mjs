@@ -1,3 +1,4 @@
+import {priorCoreVectorsWithConcernereException} from './verb-reference-baseline.mjs';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -66,6 +67,6 @@ for(const inf of ['controllare','raccontare','dimagrire'])assert(!['present','pa
 const note=conjugate('riconoscere').nonFiniteNotes.participioPresente;
 assert.equal(conjugate('riconoscere').nonFinite.participioPresente,'riconoscente');assert.match(note.text,/grateful.*historical/);assert.equal(note.source,'https://www.treccani.it/vocabolario/riconoscente/');
 const forms=verbs.map(e=>({id:e.id,cases:['presente','passatoProssimo','imperfetto','futuro','condizionale'].map(k=>conjugate(e.inf,e).tenses[k])}));
-assert.equal(hash(forms),'2f8f8a32bd3fe0cb65378f43c75e85879ab4f911c897376278f18d378393ff3f','All five core paradigms of every verb stay exact');
+assert.equal(hash(priorCoreVectorsWithConcernereException(forms)),'2f8f8a32bd3fe0cb65378f43c75e85879ab4f911c897376278f18d378393ff3f','All other five-core vectors stay exact, with the explicit concernere missing-participle exception');
 console.log(`${pools} prior target-pool hashes/order and ordinary completion sets preserved; ${retired} target/variant occurrences of the 16 exact invalid old scenes blocked, ${preserved} valid old selections preserved, and every current selection remains executable.`);
-console.log('Seven language fixes match their intended meaning/aspect; all 1186 five-case paradigms are unchanged. This is bounded regression evidence, not full linguistic or human review.');
+console.log('Seven language fixes match their intended meaning/aspect; 1185 other five-case paradigms are unchanged, with the explicit concernere reference repair. This is bounded regression evidence, not full linguistic or human review.');

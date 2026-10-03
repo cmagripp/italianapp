@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-04",
+  "engine": "webkit",
+  "status": "passed",
+  "checks": 8,
+  "results": [
+    "Both ordinary progressive-usage chapters retain their exact old available prompts, choices and saved feedback",
+    "Incorrect old-only usage feedback also archives exactly before current teaching, without fabricating repair credit",
+    "Ordinary and expanded mixed background retain exact old context/cue and Back/reload receipt",
+    "Valid old guided participle shapes remain exact and answerable under both old policies",
+    "All six actual old-null recipes stay unavailable without materializing a new question or losing saved state",
+    "Previously accepted feminine compound receipts are preserved until explicit corrected Continue",
+    "Every core current finite case and both cue variants identify the impersonal construction",
+    "Current compound and participle feedback explain fixed trattato instead of inventing feminine agreement"
+  ],
+  "counts": {
+    "priorUsage": 4,
+    "priorWrongUsage": 2,
+    "priorMixedContext": 4,
+    "priorParticiple": 2,
+    "priorNull": 6,
+    "retiredForms": 2,
+    "currentFinite": 10,
+    "fixedFeedback": 2
+  },
+  "baseline": "8517db3",
+  "fixtureRecords": 18,
+  "sourceSHA256": {
+    "js/learning/lesson-content.js": "9b6621107ac9b4583e545c6f0d48fdd2a15e6b139f09d544ce57089e9fa70ed1",
+    "js/learning/lesson-questions.js": "af01749761e7d237e9298eef42666c076f931dd30302fd7194d913f3aa6ce622",
+    "js/learning/diagnose.js": "f886c6c3ce4a3e070f46f9ec88393f8059cfaf89bdef8951b3d594ba854152b9",
+    "js/learning/journey-form.js": "1b37af6bfdc581cc8cdc304941aaf327ec16f9741a858701b7b3cdd8dc9a3a0c",
+    "js/learning/journey.js": "b56d69f3a000bf4e50d28cc7daff9cca4687be63364ed05a757d641a6f6ad94a",
+    "js/views/learnJourney.js": "a6f20734c1caf245a1f2c7ab758c69487117fdf49de806c2fb430ff6d315193d",
+    "js/learning/verb-question-history-data.js": "9e7ad2b94879709dd95af070a39466f935a99a2f08b9214208b68ef6c315d0bc"
+  },
+  "fixtureSHA256": "38c72388ead51babbd6001905cd3de71828c66fb234975ccc5d590a5c469d946",
+  "testSHA256": "389732a951c0dcd7559ace8d14cfb9b01516dc88ca37904f7789e79ffc6cdf9a",
+  "errors": [],
+  "scope": "Bounded archived recipe/actual route/controller/local persistence checks with synthetic learners. No whole-catalogue linguistic, native-human or release claim."
+}

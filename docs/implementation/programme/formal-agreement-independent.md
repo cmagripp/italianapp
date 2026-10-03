@@ -1,0 +1,7 @@
+# Independent formal-address source check
+
+Passed for entrarci, cascarci, restarci, starci and uscirne at the exact current pins in the JSON companion. 350 current format cases, including 70 formal matching rows and 70 opposite-gender grading cases, passed. 2294 additional original-8517 versus current historical bare matching cues are exactly equal. All archived files checked against actual git 8517db3 bytes. Seven protected clitic families retain their complete formal helper vectors.
+
+Three reproduced findings are now closed: omitted optional:true; 67 context bare-matching cues losing alternatives; 10 compound-subjunctive opposite-gender answers receiving wrong-person feedback. Before evidence remains in the named scratch companions. Keeping exact bare-cue forms separate from contextual variants restores the previous formatter without weakening current named gender checks. The two existing prior recipes remain unchanged. Root’s targeted suite independently rerun now passes 11,470 old descriptor hashes, 280 current gender questions, 70 agreement diagnoses, 140 recovery transitions, 70 pair fences and 1,178 unrelated formal families. The eight-recipe bundle also passes its consistency check.
+
+This approval is scoped to these five formal families/recipe preservation, not concurrent impersonal-source repairs, whole-catalogue language review, rendered browser routes or native-human approval. No source/runtime changes by this reviewer.
