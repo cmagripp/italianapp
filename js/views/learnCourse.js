@@ -1,6 +1,6 @@
 import {mountActivityViewport} from '../learning/activity-viewport.js';
 import { announceAnswer, html, raw, icon, speak, speakBtn, toast } from '../ui.js';
-import { setTitle, setChrome } from '../app.js';
+import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, headword, shortEn } from '../data.js';
 import { dropdown, setScene } from '../fx.js';
@@ -10,6 +10,8 @@ import { grammarCourse, grammarLesson, grammarHref, grammarProgress, relatedVoca
 import { createCourseSession, compatibleCourseSession, currentCourseStep, advanceCourse, submitCourseAnswer, deferCourseTarget, courseSessionProgress, courseBack, courseReturnLive, resumeCourseTargets, recordCoursePairMismatch, recordCoursePairMatch } from '../learning/course-v2-engine.js';
 import { courseButton as button, courseExamples, courseWords, courseWordsCheck, courseTeaching, courseQuestion, coursePortfolio } from '../learning/course-v2-activities.js';
 import { loadCourseAudio, courseAudioAsset, downloadUnitAudio, removeUnitAudio, saveCourseRecording, getCourseRecording, deleteCourseRecordings } from '../learning/course-v2-media.js';
+import {assistanceAvailable} from '../learning/ai-assistance.js';
+import {createPracticeHelp} from '../learning/practice-help.js';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 const normalized=text=>String(text||'').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g,"'").trim();
@@ -24,6 +26,7 @@ export function courseAttributionHTML(source,{label='Source'}={}) {
   return html`<aside class="course-attribution" aria-label="${label} attribution"><div class="course-attribution-heading"><span>${label}</span>${url?raw(html`<a href="${url}" target="_blank" rel="noopener noreferrer">${title||'Original source'}</a>`):raw(html`<strong>${title||'Source credit'}</strong>`)}</div>${author||date?raw(html`<p>${[author,date].filter(Boolean).join(' · ')}</p>`):''}${license?raw(html`<p>${licenseUrl?raw(html`<a href="${licenseUrl}" target="_blank" rel="noopener noreferrer">${license}</a>`):license}</p>`):''}${changes?raw(html`<details><summary>Adaptation notes</summary><p>${changes}</p></details>`):''}</aside>`;
 }
 export async function render(root,lesson,query={}) {
+  const owned=captureViewOwnership(root);
   const owner=store.current.id,ownerLearner=store.current.learnerId,ownerEpoch=store.learning.epoch.id,mode=query.mode==='review'?'review':'lesson';
   const sameOwner=()=>store.current.id===owner&&store.current.learnerId===ownerLearner&&store.learning.epoch.id===ownerEpoch;
   const prior=store.learning.sessions[`g:${lesson.id}|${mode}`];
@@ -31,7 +34,7 @@ export async function render(root,lesson,query={}) {
   if(prior?.courseV2&&session.id!==prior.id){session.courseV2.portfolios=clone(prior.courseV2.portfolios||{});session.courseV2.flags=clone(prior.courseV2.flags||[]);}
   let disposed=false,recorder=null,recordingTimer=null,recordingURL='',recordingMessage='',recordingStep=null,recordingKey=null;
   const manifest=await loadCourseAudio();
-  if(!sameOwner())return;
+  if(!owned()||!sameOwner())return;
   const g=()=>session.courseV2;
   const save=()=>{if(!disposed&&sameOwner())store.saveLearningSession(session);};
   const current=()=>currentCourseStep(lesson,session);
@@ -43,6 +46,18 @@ export async function render(root,lesson,query={}) {
   const preparedWords=lesson.steps.flatMap(step=>[...step.words||[],...step.background||[]]);
   const prerequisites=(lesson.prerequisites||[]).map(grammarLesson).filter(Boolean);
   const returnLesson=query.fromCourseLesson?grammarLesson(query.fromCourseLesson):null;
+  const help=createPracticeHelp({getSession:()=>session,isCurrent:()=>!disposed&&sameOwner(),getSource:()=>{
+    const view=current(),step=view?.step;if(!step||g().paused||g().historyCursor!==null)return null;
+    const passage=lesson.steps.find(item=>item.id===step.passageId||item.kind==='passage'&&item.audioId===step.audioId);
+    return {sourceId:`course:${lesson.id}:${step.id}`,sessionId:session.id,index:session.index,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,level:lesson.level,
+      prompt:String(step.prompt||step.task||step.body||step.title||lesson.title).slice(0,4000),context:JSON.stringify({body:step.body,context:step.context,translation:step.translation,examples:step.examples,source:passage?{it:passage.it,en:passage.en}:null}).slice(0,4000),
+      canonical:clone(step),target:clone(view.target||null),requestedIds:lesson.wordEntryIds||[],answers:[step.answer,...step.accepted||[],...(step.pairs||[]).map(pair=>pair.right)].filter(value=>typeof value==='string'),
+      inputLanguage:'en',originalInput:step.kind==='portfolio'?portfolio(step).draft:g().draft||'',result:clone(g().result||null)};
+   },persist:async()=>{if(disposed||!sameOwner())throw new DOMException('This practice step changed.','AbortError');save();await store.saveNow();},
+   onViewed:receipt=>{if(liveStep()?.kind==='question'&&!g().result)markHelp('hint');else if(liveStep()?.kind==='portfolio')portfolio(liveStep()).aiHelp=receipt;},
+   onUse:async({text,provenance})=>{if(liveStep()?.kind!=='portfolio')throw new DOMException('This practice step changed.','AbortError');const work=portfolio(liveStep());work.draft=text;work.aiHelp=provenance;save();draw();await store.saveNow();},
+   onRefresh:()=>draw(),
+  });
   function gloss(token){
     const word=preparedWords.find(w=>normalized(w.it)===normalized(token)||normalized(w.it).replace(/^(il|lo|la|gli|le|i|l')\s*/, '')===normalized(token));
     if(!word)return null;
@@ -142,7 +157,13 @@ export async function render(root,lesson,query={}) {
     const pct=phase==='complete'?100:Math.min(99,Math.max(0,progress.percent??Math.round((g().stepIndex||0)/lesson.steps.length*100)));
     const stage=step?.kind==='question'?'Practise':step?.kind==='words-check'?'Words':step?.kind==='portfolio'?'Use it':phase==='repair'?'A closer look':['complete','paused'].includes(phase)?'Saved':'Learn';
     root.innerHTML=html`<div class="grammar-shell course-v2-shell" data-course-lesson="${lesson.id}" data-phase="${g().paused?'paused':phase}" data-step="${step?.id||''}" data-history="${past}"><header class="grammar-header"><button type="button" class="btn ghost" data-course-back ${!g().history?.length?raw('disabled'):''}>${raw(icon('chevron',{size:16}))} Back</button><span class="kicker">${lesson.level} · ${g().paused?'Paused':stage}</span><button type="button" class="btn ghost" data-pause>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header><main class="grammar-scroll">${raw(content)}</main>${footer?raw(html`<footer class="grammar-footer ${feedback?'has-feedback':''}">${raw(footer)}</footer>`):''}</div>`;
-    panel.decorate();save();if(focus)root.querySelector('[data-focus]')?.focus({preventScroll:true});
+    if(!g().paused&&!past&&assistanceAvailable()&&['teach','question','repair','portfolio'].includes(step?.kind)){
+      const tools=document.createElement('div');tools.className='journey-tools';tools.dataset.aiLessonTools='';
+      const tasks=step.kind==='portfolio'?['intent']:step.kind==='question'&&!state.result?['hint','explain']:['explain'];
+      tools.innerHTML=tasks.map(task=>html`<button type="button" class="btn ghost" data-ai-lesson-help="${task}">${task==='intent'?'Help me say it':task==='hint'?'Another hint':'Help me understand'}</button>`).join('');root.querySelector('.grammar-scroll').append(tools);
+    }
+    if(step?.kind==='portfolio'&&portfolio(step).aiHelp?.originalText)root.querySelector('.grammar-scroll').insertAdjacentHTML('beforeend',html`<details><summary>Your original idea</summary><p>${portfolio(step).aiHelp.originalText}</p><p class="small muted">Wording help keeps this as assisted practice.</p></details>`);
+    help.check();panel.decorate();save();if(focus)root.querySelector('[data-focus]')?.focus({preventScroll:true});
   }
   function targetSummary(){return html`<ul class="course-targets">${raw(grammarProgress(lesson,store.learning).skills.map(target=>html`<li><span>${target.label}</span><small>${target.remembered?'Remembered':target.ready?'Checked in practice':'Keep practising'}</small></li>`).join(''))}</ul>`;}
   function wordSummary(){
@@ -229,6 +250,7 @@ export async function render(root,lesson,query={}) {
     if(b.hasAttribute('data-course-back')){stopRecording();session=courseBack(lesson,session);save();draw();return;}
     if(b.hasAttribute('data-return-live')){session=courseReturnLive(lesson,session);save();draw();return;}
     if(g().historyCursor!==null||g().paused)return;
+    if(b.hasAttribute('data-ai-lesson-help')){void help.open(b.dataset.aiLessonHelp,b).catch(error=>{if(!disposed&&sameOwner()&&error.name!=='AbortError')toast(error.message);});return;}
     const step=liveStep();
     if(b.hasAttribute('data-retry-targets')){session=resumeCourseTargets(lesson,session,store.learning);save();draw(true);return;}
     if(b.hasAttribute('data-course-next')){stopRecording();session=advanceCourse(lesson,session,store.learning);
@@ -271,8 +293,8 @@ export async function render(root,lesson,query={}) {
   const form=event=>{if(event.target.matches('[data-course-form]')){event.preventDefault();check();}};
   const audioPlayed=event=>{if(disposed||!sameOwner())return;if(event.target.matches?.('[data-course-audio]')){g().audioPlayed=[...new Set([...(g().audioPlayed||[]),event.target.dataset.courseAudio])];save();}};
   const audioError=event=>{if(disposed||!sameOwner())return;if(event.target.matches?.('[data-course-audio]')){g().audioPlayed=(g().audioPlayed||[]).filter(id=>id!==event.target.dataset.courseAudio);save();toast('Audio could not play. Reconnect, or use the transcript for supported practice.',{ms:4000});}};
-  const offOwner=store.on('profile',()=>{if(!sameOwner()){stopRecording();info.disabled=true;}});
+  const offOwner=store.on('profile',()=>{if(!sameOwner()){help.close();stopRecording();info.disabled=true;}});
   const englishToggle=()=>draw();document.querySelector('#enToggle').addEventListener('click',englishToggle);
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('ended',audioPlayed,true);root.addEventListener('error',audioError,true);save();draw();
-  return ()=>{offOwner();stopRecording();save();disposed=true;panel.destroy();info.remove();document.querySelector('#enToggle').removeEventListener('click',englishToggle);if(recordingURL)URL.revokeObjectURL(recordingURL);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('ended',audioPlayed,true);root.removeEventListener('error',audioError,true);viewport.destroy();setChrome({tabs:true});};
+  return ()=>{offOwner();help.dispose();stopRecording();save();disposed=true;panel.destroy();info.remove();document.querySelector('#enToggle').removeEventListener('click',englishToggle);if(recordingURL)URL.revokeObjectURL(recordingURL);root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('ended',audioPlayed,true);root.removeEventListener('error',audioError,true);viewport.destroy();setChrome({tabs:true});};
 }

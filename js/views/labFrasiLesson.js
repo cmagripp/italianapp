@@ -5,7 +5,7 @@ import {mountActivityViewport} from '../learning/activity-viewport.js';
 // drills of a free-entry word, records their journey events, saves "Le mie frasi" and completes the lesson (15 XP).
 // Optional reply selection is imported lazily; authored conversation replies work without it.
 import { html, raw, esc, icon, speak, toast, sheet, submissionNote, announceAnswer } from '../ui.js';
-import { setTitle, setChrome } from '../app.js';
+import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { data, getEntry, headword, shortEn, withArticle, isPluralOnly, distractors, shuffle, fold } from '../data.js';
 import { setScene, confetti, reducedMotion } from '../fx.js';
@@ -15,6 +15,8 @@ import { lessonPlan, lessonObjectives } from '../learning/integration.js';
 import { grammarLesson, grammarHref } from '../learning/grammar-course.js';
 import { createLabSession, compatibleLabSession, currentLabStep, answerLab, advanceLab, resolveFreeEntry, composeBuild, labSessionProgress, normalizeLab, assessLabBlank } from '../learning/sentence-lab.js';
 import { compareSubmission } from '../learning/answer-policy.js';
+import {assistanceAvailable} from '../learning/ai-assistance.js';
+import {createPracticeHelp} from '../learning/practice-help.js';
 import { loadSentenceLab, labLesson, labNextLesson, labLessonIndex, readLabSession, writeLabSession, clearLabSession, LAB_KEY } from '../learning/sentence-lab-data.js';
 import { labButton, labModel, labOrder, orderTokens, labCloze, labDialogue, labBuild, labComplete, labPaused, labDrill, labPicker } from '../learning/sentence-lab-activities.js';
 
@@ -61,10 +63,11 @@ export function buildDrills(entry) {
 const typedSubmission = (value, answers) => compareSubmission(value,answers,{accentStrict:store.settings.accentStrict===true,inputMode:'typed'});
 
 export async function render(root, params, query = {}) {
+  const owned=captureViewOwnership(root);
   const owner=store.current.id,ownerLearner=store.current.learnerId,ownerEpoch=store.learning.epoch.id;
   const sameOwner=()=>store.current.id===owner&&store.current.learnerId===ownerLearner&&store.learning.epoch.id===ownerEpoch;
   await loadSentenceLab();
-  if(!sameOwner())return;
+  if(!owned()||!sameOwner())return;
   const lesson = labLesson(params.id);
   if (!lesson) { setTitle('Officina delle frasi'); root.innerHTML = html`<div class="empty"><p>Lesson not found.</p><a class="btn primary" href="#/lab/frasi">Back to the workshop</a></div>`; return; }
   const place = labLessonIndex(lesson.id), stageName = place?.stage?.stage || 'presente';
@@ -90,7 +93,19 @@ export async function render(root, params, query = {}) {
   const valid=token=>alive()&&session.id===token.id&&session.index===token.index&&session.state===token.state;
   const touch=()=>{ui().touched=true;save();};
   const release=()=>{assistantService?.releaseAssistant().catch(()=>{});};
-  const offProfile=store.on('profile',()=>{if(!sameOwner()){activeSheet?.close({silent:true});release();}});
+  const offProfile=store.on('profile',()=>{if(!sameOwner()){activeSheet?.close({silent:true});help.close();release();}});
+  let helpBlank=0;
+  const help=createPracticeHelp({getSession:()=>session,isCurrent:alive,getSource:()=>{
+    const view=step(),blanks=currentBlanks(),u=ui(),blank=blanks?.blanks?.[helpBlank];
+    if(session.paused||view.result||!blank?.free)return null;
+    return {sourceId:`lab:${lesson.id}:${session.index}:${view.state.current?.index??'cloze'}:${helpBlank}`,sessionId:session.id,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,
+      level:lesson.level||STAGE_TINT[stageName]||'A1',prompt:`Find just the wording for this blank in the sentence: ${blanks.template}. ${blanks.en||''}`,context:JSON.stringify({slot:blank.slot,help:blank.freePrompt||'',lesson:lesson.title}),
+      canonical:clone(view.activity),blankIndex:helpBlank,values:clone(u.values||[]),originalInput:u.drafts?.[helpBlank]||'',inputLanguage:'en'};
+   },persist:async()=>{if(!alive())throw new DOMException('This practice step changed.','AbortError');touch();await store.saveNow();},
+   onViewed:receipt=>{blankUi(ui());ui().aiHelpSources[helpBlank]=receipt;},
+   onUse:async({text,provenance})=>{if(!alive())return;const u=blankUi(ui());u.aiHelpSources[helpBlank]=provenance;u.drafts[helpBlank]=text;u.freeOpen[helpBlank]=true;u.messages[helpBlank]=null;touch();draw();focusFree(helpBlank);await store.saveNow();},
+   onRefresh:()=>draw(),
+  });
 
   // ---------- drawing ----------
   function shell({ content, footer = '', feedback = false, kind, activityId, phase }) {
@@ -106,7 +121,7 @@ export async function render(root, params, query = {}) {
   const detailOf = (result, explanation = '') => `${result.sentence ? `<p lang="it" data-italian-sentence data-english="${esc(result.en || '')}">${esc(result.sentence)}</p>` : ''}${result.en ? `<p>${result.glossIsPattern?'Pattern meaning: ':''}${esc(result.en)}</p>` : ''}${(result.wordGlosses||[]).map(w=>`<p>${esc(w.it)} · ${esc(w.en)}</p>`).join('')}${(result.blanks||[]).map(g=>submissionNote(g.submission)).join('')}${result.assistance?.length?`<p>Assisted practice: ${esc(result.explanation||'the workshop supplied the wording.')}</p>`:''}${explanation ? `<p>${esc(explanation)}</p>` : ''}`;
   // the per-blank maps every blank handler writes to
   const blankUi = u => {
-    for (const k of ['bankOpen', 'freeOpen', 'drafts', 'messages', 'inputSources']) u[k] ||= {};
+    for (const k of ['bankOpen', 'freeOpen', 'drafts', 'messages', 'inputSources', 'aiHelpSources']) u[k] ||= {};
     // Older free-entry drafts kept the dictionary's supplied wording without
     // the original input. Preserve that wording as explicit assisted practice;
     // never invent an original response or independent production evidence.
@@ -168,7 +183,7 @@ export async function render(root, params, query = {}) {
       else footer = labButton('Check', `data-lab-check${u.values.every(v => v) ? '' : ' disabled'}`, 'primary');
     } else if (kind === 'dialogue') {
       const state = view.state, current = state.current;
-      if (current && u.turn !== current.index) Object.assign(u, { turn: current.index, values: current.blanks.map(() => ''), active: 0, bankOpen: {}, freeOpen: {}, drafts: {}, messages: {}, inputSources: {}, seenMiss: 0, hint: false });
+      if (current && u.turn !== current.index) Object.assign(u, { turn: current.index, values: current.blanks.map(() => ''), active: 0, bankOpen: {}, freeOpen: {}, drafts: {}, messages: {}, inputSources: {}, aiHelpSources:{}, seenMiss: 0, hint: false });
       if (current && (!Array.isArray(u.values) || u.values.length !== current.blanks.length)) u.values = current.blanks.map(() => '');
       blankUi(u);
       content = labDialogue(activity, state, u, { locked: !current });
@@ -185,6 +200,11 @@ export async function render(root, params, query = {}) {
       else footer = html`<div class="lab-build-actions"><button type="button" class="btn ghost" data-lab-another ${Object.keys(u.choice).length ? '' : raw('disabled')}>Another</button><button type="button" class="btn primary grow" data-lab-keep ${composed.ok ? '' : raw('disabled')}>Keep this sentence</button></div>`;
     }
     root.innerHTML = shell({ content, footer, feedback, kind: session.paused ? 'paused' : kind, activityId: activity?.id, phase: session.paused ? 'paused' : session.phase });
+    if(!session.paused&&!view.result&&assistanceAvailable()&&currentBlanks()?.blanks?.[u.active]?.free){
+      const tools=root.querySelector('[data-lab-controls]');if(tools){const button=document.createElement('button');button.type='button';button.className='btn ghost';button.dataset.labAiHelp=String(u.active);button.textContent='Help me say it';tools.append(button);}
+    }
+    const source=u.aiHelpSources?.[u.active];if(source?.originalText){const tools=root.querySelector('[data-lab-controls]');if(tools)tools.insertAdjacentHTML('beforeend',html`<details data-lab-ai-source><summary>Your original idea</summary><p>${source.originalText}</p><p class="small muted">Wording help keeps this as assisted practice.</p></details>`);}
+    help.check();
     save();
     if (focus) root.querySelector('[data-focus]')?.focus({ preventScroll: true });
     if (scrollChat) { const scroller = root.querySelector('[data-lab-scroll]'); if (scroller) scroller.scrollTop = scroller.scrollHeight; }
@@ -329,9 +349,10 @@ export async function render(root, params, query = {}) {
     if(!blank||!originalText.trim())return;
     u.drafts[i]=originalText;touch();
     let assessed;
-    try{assessed=assessLabBlank(blank,originalText,{...ctx(),inputMode:'typed'});}catch(err){console.warn(err);assessed={outcome:'incorrect',explanation:'That word could not be checked.'};}
+    const aiSource=u.aiHelpSources[i],assistance=aiSource?['ai-intent']:[];
+    try{assessed=assessLabBlank(blank,originalText,{...ctx(),inputMode:'typed',assistance});}catch(err){console.warn(err);assessed={outcome:'incorrect',explanation:'That word could not be checked.'};}
     u.submissions||={};u.submissions[i]=assessed.submission;touch();
-    const source={inputMode:'typed',originalText,assistance:assessed.assistance||[],submission:assessed.submission};
+    const source={inputMode:'typed',originalText,assistance:[...new Set([...(assessed.assistance||[]),...assistance])],submission:assessed.submission,...aiSource?{originalIntention:aiSource.originalText,aiHelp:aiSource}:{}};
     const r=assessed.resolution;
     if(assessed.outcome!=='incorrect'){
       if(r?.status==='learn'){learnThenInsert(i,{...r,display:assessed.filled},source);return;}
@@ -362,7 +383,7 @@ export async function render(root, params, query = {}) {
     runDrills(entry, ({ passed }) => {
       if (!valid(token)) return;
       // a verb is learned through its own tense chapters, never by three quick drills: the drills still run as a check
-      if (passed) { if (entry.kind !== 'verb') { store.markLearned(entry.id, 'word'); toast(`${sayForm(entry)} · learned`, { kind: 'ok' }); } insertWord(i, info.display, { entryId: entry.id, it: info.it, en: info.en },source); }
+      if (passed) { if (entry.kind !== 'verb'&&!source?.assistance?.includes('ai-intent')) { store.markLearned(entry.id, 'word'); toast(`${sayForm(entry)} · learned`, { kind: 'ok' }); } insertWord(i, info.display, { entryId: entry.id, it: info.it, en: info.en },source); }
       else { const u = ui(); u.messages[i] = { text: `${sayForm(entry)} is not in your words yet. Pick an option, or try it again later.` }; draw(); }
     },{blankIndex:i,info,source});
   }
@@ -383,7 +404,7 @@ export async function render(root, params, query = {}) {
       view.ok = ok;view.submission=submission;
       announceAnswer({ok,outcome:ok?'correct':'incorrect',submission});
       if(submission?.ok)view.draft=submission.displayText;
-      recordDrill(entry, drills[view.index], ok, { repeat: view.repeat,submission });
+      recordDrill(entry, drills[view.index], ok, { repeat: view.repeat,submission,assistance:meta.source?.assistance?.includes('ai-intent')?['ai-intent']:[] });
       if (ok) right[view.index] = true;
       if (ok || view.repeat) speak(drills[view.index].say);
       paint();
@@ -410,7 +431,7 @@ export async function render(root, params, query = {}) {
     paint();
   }
   // One journey-v1 event per drill answer, on the word's own lesson objective when it has one, so Review sees the word.
-  function recordDrill(entry, drill, ok, { repeat = false,submission=null } = {}) {
+  function recordDrill(entry, drill, ok, { repeat = false,submission=null,assistance=[] } = {}) {
     if(!alive())return;
     session.drillSeq = (session.drillSeq || 0) + 1;
     let objective = null, version = 1;
@@ -422,7 +443,7 @@ export async function render(root, params, query = {}) {
         policy: 'journey-v1', wordPolicy: 'word-lab-drill-v1', targetId: objectiveId, objectiveId, entryId: entry.id, kind: entry.kind === 'verb' ? 'verb' : 'word',
         chapterId: objective?.chapterId || 'lab', contentVersion: version, role: null, skill: drill.skill, tense: null, person: null,
         activityKind: 'guided', mode: drill.type === 'type' ? 'production' : 'recognition', variantId: `lab:${drill.skill}:${drill.type}`, contextId: `lab:${lesson.id}`,
-        ok, submission,outcome: ok ? 'correct' : 'incorrect', assistance: [], firstAttempt: !repeat, errorTags: ok ? [] : [drill.skill], components: [],
+        ok, submission,outcome: ok ? 'correct' : 'incorrect', assistance, firstAttempt: !repeat, errorTags: ok ? [] : [drill.skill], components: [],
       });
     } catch (err) { console.warn(err); }
   }
@@ -436,6 +457,7 @@ export async function render(root, params, query = {}) {
     if (b.hasAttribute('data-lab-pause')) { session.paused = true; save(); draw({ focus: true }); return; }
     if (b.hasAttribute('data-lab-resume')) { session.paused = false; save(); draw({ focus: true });const draft=ui().activeDrill;if(draft)learnThenInsert(draft.blankIndex,draft.info,draft.source); return; }
     if (session.paused) return;
+    if(b.hasAttribute('data-lab-ai-help')){helpBlank=Number(b.dataset.labAiHelp);void help.open('intent',b).catch(error=>{if(alive()&&error.name!=='AbortError')toast(error.message);});return;}
     if (b.hasAttribute('data-lab-next')) { next(); return; }
     if (b.hasAttribute('data-lab-retry')) { u.seenMiss = step().state?.misses || 0; draw({ focus: true }); return; }
     if (b.hasAttribute('data-lab-check')) { check(); return; }
@@ -445,7 +467,7 @@ export async function render(root, params, query = {}) {
     if (b.hasAttribute('data-lab-token')) { (u.picked ||= []).push(Number(b.dataset.labToken)); save(); draw(); return; }
     if (b.hasAttribute('data-lab-remove')) { (u.picked ||= []).splice(Number(b.dataset.labRemove), 1); save(); draw(); return; }
     if (b.hasAttribute('data-lab-blank')) { u.active = Number(b.dataset.labBlank); draw(); return; }
-    if (b.hasAttribute('data-lab-option')) { const i = Number(b.dataset.blank); u.values[i] = b.dataset.labOption; u.inputSources[i]={inputMode:'choice',assistance:[]}; u.messages[i] = null; const empty = u.values.findIndex((v, k) => !v && k !== i); if (empty >= 0) u.active = empty; save(); draw(); return; }
+    if (b.hasAttribute('data-lab-option')) { const i = Number(b.dataset.blank); u.values[i] = b.dataset.labOption; u.inputSources[i]={inputMode:'choice',assistance:u.aiHelpSources[i]?['ai-intent']:[],...u.aiHelpSources[i]?{aiHelp:u.aiHelpSources[i]}:{}}; u.messages[i] = null; const empty = u.values.findIndex((v, k) => !v && k !== i); if (empty >= 0) u.active = empty; save(); draw(); return; }
     if (b.hasAttribute('data-lab-bank')) { const i = Number(b.dataset.labBank); u.bankOpen[i] = !u.bankOpen[i]; draw(); return; }
     if (b.hasAttribute('data-lab-free')) { const i = Number(b.dataset.labFree); u.freeOpen[i] = !u.freeOpen[i]; draw(); if (u.freeOpen[i]) focusFree(i); return; }
     if (b.hasAttribute('data-lab-free-submit')) { event.preventDefault(); const i = Number(b.dataset.labFreeSubmit); useFreeWord(i, root.querySelector(`[data-lab-free-input="${i}"]`)?.value || u.drafts[i]); return; }
@@ -464,7 +486,7 @@ export async function render(root, params, query = {}) {
   if(draft&&!session.paused)setTimeout(()=>{if(alive())learnThenInsert(draft.blankIndex,draft.info,draft.source);},0);
 
   return () => {
-    save();disposed=true;activeSheet?.close({silent:true});offProfile();release();
+    save();disposed=true;help.dispose();activeSheet?.close({silent:true});offProfile();release();
     store.saveNow().catch(err=>console.warn('Workshop draft could not be saved.',err));
     root.removeEventListener('click', click); root.removeEventListener('input', input); root.removeEventListener('submit', form);
     root.removeEventListener('focusin', fit); root.removeEventListener('focusout', fit);

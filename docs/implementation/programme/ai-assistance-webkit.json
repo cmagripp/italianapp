@@ -1,0 +1,20 @@
+{
+  "browser": "webkit",
+  "passed": true,
+  "scope": "Explicit test-only provider and language-policy fixture; validates persistence, source leases and assisted-only integration, not real Italian model quality.",
+  "checks": [
+    "Unavailable production help stays hidden while authored workshop and lesson help remain available",
+    "The original workshop intention persists on reopen without generation, evidence or restored-output trust",
+    "Validated wording is explicitly inserted as an unsent draft, retains intention and produces only assisted workshop practice",
+    "A new suggested word uses real canonical drills but keeps their answers assisted and cannot mark the word learned",
+    "An edited source or navigation cancels late wording before receipts or input writes",
+    "Provider removal and learning epoch reset revoke open help and reject late output",
+    "Course hint exposure is ungraded and a subsequent canonical answer records assistance with one spoken sentence",
+    "A hint containing the canonical answer is rejected before display or assistance receipt",
+    "Explanation cards copy verified source material and the model does not become the lesson reference",
+    "Course portfolio wording preserves its original intention and remains an editable ungraded draft across reopen",
+    "Legacy Grammar help retains the exact original question and closes on learner replacement",
+    "Delayed initial workshop, Course audio and retained Grammar loads cannot replace a screen already left"
+  ],
+  "errors": []
+}

@@ -40,6 +40,10 @@ jobs:
           node tools/test-phase-migration-fixtures.mjs
           node tools/test-unified-learning.mjs
           node tools/test-daily-course-path.mjs
+          node tools/test-conversation-continuation.mjs
+          node tools/test-journey-scene.mjs
+          node tools/test-verb-finite-spans.mjs
+          node --test tests/ai-assistance.test.mjs
           node tools/test-journey-pacing.mjs
           node tools/test-lexical-senses.mjs
           node tools/test-lexical-frequency-senses.mjs

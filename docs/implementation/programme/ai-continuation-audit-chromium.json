@@ -1,0 +1,42 @@
+{
+  "browser": "chromium",
+  "scope": "Independent delayed native IndexedDB inventory probe, no model fixture or storage writes by the bridge.",
+  "passed": false,
+  "results": [
+    {
+      "case": "Late home inventory after navigation",
+      "passed": false,
+      "actual": {
+        "route": "#/profile",
+        "profile": false,
+        "home": false,
+        "learn": false
+      },
+      "profileUnchanged": true
+    },
+    {
+      "case": "Late learn inventory after navigation",
+      "passed": false,
+      "actual": {
+        "route": "#/profile",
+        "profile": false,
+        "home": false,
+        "learn": true
+      },
+      "profileUnchanged": true
+    },
+    {
+      "case": "Late home inventory after epoch reset",
+      "passed": false,
+      "profileUnchanged": false,
+      "route": "#/home"
+    },
+    {
+      "case": "Late learn inventory after epoch reset",
+      "passed": false,
+      "profileUnchanged": false,
+      "route": "#/learn"
+    }
+  ],
+  "errors": []
+}

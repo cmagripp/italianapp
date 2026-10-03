@@ -2,6 +2,7 @@
 // independent evidence; the event reducer remains the only source of readiness.
 import { createSession, applySessionAttempt, skillState, completionRecord, LEARNING_VERSION } from './model.js';
 import {CASE_COVERAGE_POLICY,caseCoverage} from './case-coverage.js';
+import {createJourneyScene,validJourneyScene,journeySceneMatches,retiredJourneyQuestion,journeySceneContexts} from './journey-scene.js';
 
 export const JOURNEY_VERSION = 1;
 export const CORE_JOURNEY_CASES = ['present', 'past', 'background', 'future', 'condizionale'];
@@ -26,6 +27,14 @@ const clock = value => typeof value === 'number' && Number.isFinite(value) && va
 const stringList = value => Array.isArray(value) && value.every(item => typeof item === 'string');
 const mapOf = (value, valid) => record(value) && Object.entries(value).every(([key, item]) => !['__proto__', 'constructor', 'prototype'].includes(key) && valid(item));
 const phases = new Set(['teach', 'guided', 'practice', 'checkpoint', 'review', 'repair-teach', 'repair', 'recap', 'complete']);
+const activeSceneAllowed = (plan,session) => {
+  const current=session?.journey?.current;if(!current)return true;
+  const target=targetFor(plan,current.targetId);
+  if(retiredJourneyQuestion(current,target))return false;
+  if(!current.sceneSnapshot)return current.sceneRevision===undefined||current.sceneRevision===(target?.sceneRevision||'expanded-v1');
+  return journeySceneMatches(current.sceneSnapshot,{entryId:plan.entryId,chapterId:session.journey.chapterId,target,variant:current.variant})
+    &&(current.sceneRevision===undefined||current.sceneRevision===current.sceneSnapshot.sourceRevision);
+};
 
 // A supported version number alone does not make an imported cursor executable.
 // Preserve malformed payloads for export/recovery and show the unavailable state;
@@ -41,11 +50,14 @@ function compatible(plan, session) {
     || !mapOf(j.variants, value => record(value) && ['guided', 'independent', 'repair'].every(key => integer(value[key])))
     || !mapOf(j.lastAnswered, integer) || !mapOf(j.failures, integer) || !mapOf(j.skipped, clock) || !mapOf(j.covered, clock)
     || typeof j.awaitingContinue !== 'boolean' || !(j.focusTargetId === null || typeof j.focusTargetId === 'string')) return false;
+  if(session.sceneCorrectionRecovery!==undefined&&!Array.isArray(session.sceneCorrectionRecovery))return false;
   if (j.current !== null && (!record(j.current) || !text(j.current.targetId) || !text(j.current.questionId)
     || !['guided', 'independent', 'repair'].includes(j.current.phase) || !['type', 'mc', 'match', 'letters', 'pairs'].includes(j.current.format)
     || !integer(j.current.variant) || typeof j.current.supplemental !== 'boolean'
     || !(j.current.repairTag == null || typeof j.current.repairTag === 'string')
-    || !(j.current.scenePolicy === undefined || j.current.scenePolicy === 'expanded-v1'))) return false;
+    || !(j.current.scenePolicy === undefined || j.current.scenePolicy === 'expanded-v1')
+    || (j.current.sceneRevision!==undefined&&(!text(j.current.sceneRevision)||j.current.sceneRevision.length>500))
+    || (j.current.sceneSnapshot !== undefined && !validJourneyScene(j.current.sceneSnapshot)))) return false;
   if (j.lastAttempt !== null && (!record(j.lastAttempt) || !text(j.lastAttempt.id) || !text(j.lastAttempt.targetId)
     || typeof j.lastAttempt.ok !== 'boolean' || !['correct', 'incorrect', 'revealed', 'skipped'].includes(j.lastAttempt.outcome)
     || !stringList(j.lastAttempt.errorTags) || !(j.lastAttempt.variant === undefined || integer(j.lastAttempt.variant))
@@ -169,7 +181,11 @@ function setQuestion(plan, session, target, phase, { supplemental = false, repai
   j.current = { targetId: target.id, phase, format,
     variant, questionId: `${session.id}:journey:${j.serial}`, supplemental, repairTag,
     ...(plan.kind === 'verb' && (phase !== 'repair' || j.lastAttempt?.scenePolicy === 'expanded-v1')
-      ? { scenePolicy: 'expanded-v1' } : {}) };
+      ? { scenePolicy: 'expanded-v1',sceneRevision:target.sceneRevision||'expanded-v1' } : {}) };
+  if(j.current.scenePolicy==='expanded-v1'){
+    const scene=createJourneyScene({entryId:plan.entryId,chapterId:chapterFor(plan,session)?.id,target,variant});
+    if(scene)j.current.sceneSnapshot=scene;
+  }
   j.awaitingContinue = false;
   session.activeObjectiveId = target.id;
 }
@@ -430,6 +446,11 @@ export function currentJourneyStep(plan, session, learning = null, now = Date.no
   const base = { chapter, group, target, awaitingContinue: j.awaitingContinue, phase: j.current?.phase || j.phase,
     scenePolicy: j.current?.scenePolicy,
     ...(j.current || {}), helpSuggested: !!target && (j.failures[target.id] || 0) >= 2 };
+  if(j.current?.sceneSnapshot&&!journeySceneMatches(j.current.sceneSnapshot,{entryId:plan.entryId,chapterId:chapter?.id,target,variant:j.current.variant}))
+    return {...base,type:'unavailable',reason:'scene-snapshot-mismatch'};
+  if(j.current?.sceneRevision!==undefined&&j.current.sceneRevision!==(j.current.sceneSnapshot?.sourceRevision||target?.sceneRevision||'expanded-v1'))
+    return {...base,type:'unavailable',reason:'scene-revision-mismatch'};
+  if(retiredJourneyQuestion(j.current,target))return {...base,type:'corrected',reason:'retired-scene'};
   if (j.phase === 'complete') return { ...base, type: 'complete' };
   if (!chapter) return { ...base, type: 'unavailable', reason: 'chapter-unavailable' };
   if (j.blocked) return { ...base, target: targetFor(plan, j.queue[0]), type: 'blocked', reason: j.blocked, progress: journeyProgress(plan, session, learning, now) };
@@ -440,6 +461,39 @@ export function currentJourneyStep(plan, session, learning = null, now = Date.no
   if (j.phase === 'repair-teach') return { ...base, phase: 'repair', type: 'repair', repairTag: j.lastAttempt?.errorTags?.[0] || 'uncertain' };
   if (!target) return { ...base, type: 'unavailable', reason: 'target-unavailable' };
   return { ...base, type: 'question' };
+}
+
+// Upgrade only the active presentation descriptor. Keep question identity,
+// draft, feedback, events and all completion/evidence counters unchanged.
+export function pinJourneyScene(plan,session){
+  if(!compatible(plan,session)||plan.kind!=='verb'||session.journey.current?.scenePolicy!=='expanded-v1'
+    ||session.journey.current.sceneSnapshot!==undefined)return session;
+  const current=session.journey.current,target=targetFor(plan,current.targetId);
+  if(current.sceneRevision!==undefined&&![target?.sceneRevision||'expanded-v1',target?.legacyExpandedRevision].includes(current.sceneRevision))return session;
+  const legacy=current.sceneRevision!==(target?.sceneRevision||'expanded-v1');
+  const scene=createJourneyScene({entryId:plan.entryId,chapterId:session.journey.chapterId,target,variant:current.variant,legacy});
+  if(!scene)return session;
+  const next=copy(session);next.journey.current.sceneSnapshot=scene;return next;
+}
+
+export function replaceRetiredJourneyScene(plan,oldSession,{now=Date.now()}={}){
+  if(currentJourneyStep(plan,oldSession).type!=='corrected')return oldSession;
+  const session=copy(oldSession),j=session.journey,current=j.current,oldTarget=targetFor(plan,current.targetId);
+  const oldPerson=current.sceneSnapshot?.context?.person??oldTarget.person
+    ??oldTarget.legacyAuthoredContexts?.[current.variant%(oldTarget.legacyAuthoredContexts?.length||1)]?.person;
+  const target=available(oldTarget)?oldTarget:targets(chapterFor(plan,session)).find(t=>available(t)&&t.skill==='conjugation'&&t.person===oldPerson);
+  if(!target)return oldSession;
+  session.sceneCorrectionRecovery ||= [];
+  session.sceneCorrectionRecovery.push({at:now,current:copy(current),journey:copy(j),ui:copy(session.ui||{})});
+  const phase=current.phase==='guided'?'guided':'independent';
+  j.phase=phase==='guided'?'guided':['checkpoint','review','practice'].includes(j.phase)?j.phase:'practice';
+  j.current=null;j.awaitingContinue=false;j.lastAttempt=null;j.repairReturn=null;j.blocked=false;
+  if(target.id!==oldTarget.id){j.queue=j.queue.filter(id=>id!==oldTarget.id);if(!j.queue.includes(target.id))j.queue.unshift(target.id);}
+  const oldScene=current.sceneSnapshot?.context||oldTarget.legacyAuthoredContexts?.[current.variant%(oldTarget.legacyAuthoredContexts?.length||1)];
+  const pool=journeySceneContexts(target),sameScene=pool.findIndex(context=>context.id===oldScene?.id);
+  if(sameScene>=0){const counts=j.variants[target.id]||={guided:0,independent:0,repair:0};counts[phase]=sameScene;}
+  setQuestion(plan,session,target,phase,{supplemental:current.supplemental});
+  return changed(session,now);
 }
 
 // Imported and saved review cursors can retain a prompt that predates a content
@@ -457,6 +511,7 @@ export function reconcileJourneyReview(plan, oldSession, learning, { now = Date.
 
 export function advanceJourney(plan, oldSession, learning, { now = Date.now() } = {}) {
   if (!compatible(plan, oldSession) || learning?.version > LEARNING_VERSION) return oldSession;
+  if(currentJourneyStep(plan,oldSession,learning,now).type==='corrected')return replaceRetiredJourneyScene(plan,oldSession,{now});
   if(oldSession.journey.wordShort)return advanceShortWord(plan,oldSession,learning,now);
   const session = copy(oldSession), j = session.journey, chapter = chapterFor(plan, session);
   if (j.phase === 'teach') {
@@ -510,6 +565,7 @@ export function advanceJourney(plan, oldSession, learning, { now = Date.now() } 
 // and rewards; no raw answer or generated HTML enters the shared evidence log.
 export function journeyAttempt(plan, session, question, grade, { assistance = [], now = Date.now() } = {}) {
   if (!compatible(plan, session) || !session.journey.current || session.journey.awaitingContinue) return null;
+  if(!activeSceneAllowed(plan,session))return null;
   const j = session.journey, current = j.current, target = targetFor(plan, current.targetId), chapter = chapterFor(plan, session);
   if (!target || question?.meta?.targetId && question.meta.targetId !== target.id) return null;
   // Decoy rows on a word's article board are matched in the activity only; the
@@ -537,6 +593,7 @@ export function journeyAttempt(plan, session, question, grade, { assistance = []
 // stays current. Its single completion event owns XP; sub-attempts cannot farm it.
 export function journeyPairAttempt(plan, session, question, grade, { targetId, attempt = 0, now = Date.now() } = {}) {
   if (!compatible(plan, session) || session.journey.awaitingContinue || session.journey.current?.format !== 'pairs' || question?.type !== 'pairs' || !grade || !integer(attempt)) return null;
+  if(!activeSceneAllowed(plan,session))return null;
   const current = session.journey.current, pair = question.pairs?.find(row => row.targetId === targetId), target = targetFor(plan, targetId), chapter = chapterFor(plan, session);
   const group = groupFor(chapter, current.targetId);
   // A decoy row (another noun's article on the word's board) belongs to the
@@ -559,6 +616,7 @@ export function journeyPairAttempt(plan, session, question, grade, { targetId, a
 export function recordJourneyPairAttempt(plan, oldSession, event, result) {
   if (!compatible(plan, oldSession) || !event || event.decoy || oldSession.journey.current?.format !== 'pairs' || oldSession.journey.awaitingContinue
     || oldSession.answeredEventIds.includes(event.id)) return oldSession;
+  if(!activeSceneAllowed(plan,oldSession))return oldSession;
   const recovery = recoverStoredAttempt(event, result);
   if (!recovery) return oldSession;
   ({ event, result } = recovery);
@@ -595,6 +653,7 @@ function recoverStoredAttempt(event, result) {
 export function recordJourneyAttempt(plan, oldSession, event, result) {
   if (!compatible(plan, oldSession) || !event || event.id !== oldSession.journey.current?.questionId
     || oldSession.answeredEventIds.includes(event.id)) return oldSession;
+  if(!activeSceneAllowed(plan,oldSession))return oldSession;
   const recovery = recoverStoredAttempt(event, result);
   if (!recovery) return oldSession;
   ({ event, result } = recovery);

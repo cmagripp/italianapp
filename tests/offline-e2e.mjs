@@ -5,8 +5,10 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, loadPlaywright, launchBrowser, contextOptions, boot, gotoRoute, reloadApp } from './lib.mjs';
+import {reachJourneyActivity,solveJourneyQuestion} from './journey-driver.mjs';
 
-const actualWorker = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+const siteRoot=path.resolve(ROOT,process.env.SITE_ROOT || '.');
+const actualWorker = fs.readFileSync(path.join(siteRoot, 'sw.js'), 'utf8');
 const currentVersion = actualWorker.match(/const VERSION = '([^']+)'/)[1];
 const oldWorker = `self.addEventListener('install',e=>e.waitUntil(caches.open('parola-v5-adaptive').then(c=>c.put('./old-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
 let workerSource = oldWorker;
@@ -18,8 +20,8 @@ const server = http.createServer((req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (name === 'sw.js') { res.setHeader('Content-Type', mime['.js']); res.end(workerSource); return; }
   if (broken && name === 'css/adaptive.css') { res.statusCode = 503; res.end('Simulated interrupted deployment'); return; }
-  const file = path.resolve(ROOT, name);
-  if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.statusCode = 404; res.end(); return; }
+  const file = path.resolve(siteRoot, name);
+  if (!file.startsWith(siteRoot + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.statusCode = 404; res.end(); return; }
   res.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream');
   res.end(fs.readFileSync(file));
 });
@@ -98,7 +100,7 @@ try {
     await context.setOffline(true);
     const status=await page.evaluate(async()=>(await fetch('./css/adaptive.css')).status);assert.equal(status,503);
     await context.setOffline(false);
-    const repaired=await page.evaluate(async()=>(await fetch('./css/adaptive.css')).text());assert.equal(repaired,fs.readFileSync(path.join(ROOT,'css/adaptive.css'),'utf8'));
+    const repaired=await page.evaluate(async()=>(await fetch('./css/adaptive.css')).text());assert.equal(repaired,fs.readFileSync(path.join(siteRoot,'css/adaptive.css'),'utf8'));
   });
   await check('optional self-hosted assistant runtime survives a cold offline import',async()=>{
     const files=JSON.parse(actualWorker.match(/const ASSISTANT_RUNTIME_FILES = (\{.*\});/)[1]),asset=Object.keys(files)[0];
@@ -119,9 +121,8 @@ try {
     assert(await page.locator('#path-title').isVisible());
     assert(await page.evaluate(async () => { const { store } = await import('./js/store.js'); return store.isLearned('v:essere') && store.inList('bank', 'v:essere'); }));
     await gotoRoute(page, '/learn/verb/v:mangiare?chapter=present');
-    for (let i=0; i<10 && await page.locator('[data-journey]').getAttribute('data-phase') === 'teach'; i++) await page.locator('[data-continue]').click();
-    if (await page.locator('[data-choice]').count()) await page.locator('[data-choice]').first().click();
-    else { await page.locator('[data-answer]').fill('sbagliato'); await page.locator('[data-check]').click(); }
+    const question=await reachJourneyActivity(page,'mc');
+    await solveJourneyQuestion(page,question);
     await page.locator('[data-journey][data-phase="feedback"]').waitFor();
   });
   await check('an offline answer and exact feedback resume after reload without duplicate XP', async () => {
@@ -132,6 +133,21 @@ try {
     assert.equal(await page.locator('[data-journey]').getAttribute('data-phase'), 'feedback');
     assert.deepEqual(errors, []);
   });
-  fs.writeFileSync(path.join(ROOT, 'tests/report-offline.json'), JSON.stringify({ results, errors }, null, 2));
+  await check('Saved conversation drafts reopen offline independently of model availability',async()=>{
+    const id=await page.evaluate(async()=>{
+      const {store}=await import('./js/store.js'),{createConversationRepository}=await import('./js/conversations/storage.js');
+      const repo=createConversationRepository({profileId:store.current.id,learnerId:store.current.learnerId});
+      try{const thread=await repo.createThread({name:'Ada',level:'A1',topic:'general',participants:[{id:'partner-1',name:'Marco'}]},{title:'Offline conversation'});await repo.saveDraft(thread.threadId,{typedText:'Vorrei un caffè.',turnId:'offline-draft'},{expectedRevision:0});return thread.threadId;}finally{repo.close();}
+    });
+    const proof=()=>page.evaluate(async()=>{const {store}=await import('./js/store.js');return {xp:store.current.stats.xp,events:Object.keys(store.learning.events).sort(),session:store.learning.session.id,completions:store.learning.completions};});
+    const before=await proof();
+    await gotoRoute(page,'/conversations/'+encodeURIComponent(id));
+    await page.waitForFunction(()=>document.querySelector('[data-conversation-draft]')?.value==='Vorrei un caffè.');
+    await reloadApp(page);await page.waitForFunction(()=>document.querySelector('[data-conversation-draft]')?.value==='Vorrei un caffè.');
+    assert.deepEqual(await proof(),before);
+    assert.match(await page.locator('[data-conversation-status]').innerText(),/offline conversation pack/);
+  });
+  assert.deepEqual(errors,[]);
+  fs.writeFileSync(path.join(ROOT, 'tests/report-offline.json'), JSON.stringify({ siteRoot, currentVersion, results, errors }, null, 2));
   console.log(`${results.length} offline/update checks passed.`);
 } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }

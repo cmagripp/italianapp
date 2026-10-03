@@ -42,9 +42,11 @@
       "owner": "root",
       "evidence": [
         "tests/programme-navigation-e2e.mjs",
-        "js/learning/plan-panel.js"
+        "js/learning/plan-panel.js",
+        "js/learning/conversation-continuation.js",
+        "tools/test-conversation-continuation.mjs"
       ],
-      "implementationNotes": "Shared continuation and time-budget plan implemented. Course-linked vocabulary and prerequisite-qualified workshop suggestions pass six checks; merged session continuation uses newest state. Conversation continuation and release integration remain."
+      "implementationNotes": "Shared continuation and time-budget plan implemented. Course-linked vocabulary and prerequisite-qualified workshop suggestions pass six checks; merged lesson sessions use newest saved state. Conversation continuation now includes exact active saved drafts and turns, is identity-scoped/read-only, ignores archived/deleted/empty setup threads and passes five Node checks plus ten navigation/history/owner checks per browser. Production release integration remains."
     },
     {
       "id": "P3-settings",
@@ -181,9 +183,10 @@
         "tests/mixed-client-migration-e2e.mjs",
         "docs/implementation/programme/mixed-client-migration-chromium.json",
         "docs/implementation/programme/mixed-client-migration-webkit.json",
-        "docs/implementation/programme/mixed-client-migration-design-review.md"
+        "docs/implementation/programme/mixed-client-migration-design-review.md",
+        "docs/implementation/programme/journey-scene-contract.md"
       ],
-      "implementationNotes": "Physically separate v6 profile database, fallback, roster and pending mirror prevent already-open actual v5 clients from overwriting v6. Verified initial source and alternative copies, previous migration recoveries and later old-tab exports are kept separately. Current fallback-to-IndexedDB promotion is conditional/verified; deletion clears both backends.13 same-origin actual-baseline/current-client cases pass in each browser; installed worker activation and wider release paths remain."
+      "implementationNotes": "Physically separate v6 profile database, fallback, roster and pending mirror prevent already-open actual v5 clients from overwriting v6. Verified initial source and alternative copies, previous migration recoveries and later old-tab exports are kept separately. Current fallback-to-IndexedDB promotion is conditional/verified; deletion clears both backends.13 same-origin actual-baseline/current-client cases pass in each browser; installed worker activation and wider release paths remain. Selected verb scenes now bind to exact authored revisions; retired invalid contexts require an explicit corrected-example transition, preserve previous UI/events and gain no credit automatically. Fifteen scene checks and twelve browser cases per engine pass."
     },
     {
       "id": "P4-model",
@@ -349,9 +352,14 @@
       "id": "P5-study",
       "phase": 5,
       "requirement": "Summary Learn/Practise/list/star/manual completion connect exact targets and return to same thread, short selected-item drills, unlearned cases remain out of review.",
-      "status": "pending",
+      "status": "in_progress",
       "owner": "root",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/programme/ai-conversation-study.md",
+        "docs/implementation/programme/ai-conversation-study-chromium.json",
+        "docs/implementation/programme/ai-conversation-study-webkit.json"
+      ],
+      "implementationNotes": "Selected conversation study is implemented for one to sixteen encountered canonical items: choices, matching and flashcards, exact source/identity/revision guards, no exposure credit, no automatic mastery and no unlearned-case review enrollment. Ten Node checks and twelve browser checks per engine pass, including durable retry, canonical audio and lifecycle isolation. Production generation and final assembled release integration remain."
     },
     {
       "id": "P5-recorded",
@@ -395,9 +403,15 @@
       "id": "P5-assistance",
       "phase": 5,
       "requirement": "Same validated AI service in workshop intent construction and lesson explanations/hints/optionalpractice; uncertain generated drills never determine mastery.",
-      "status": "pending",
+      "status": "in_progress",
       "owner": "root",
-      "evidence": []
+      "evidence": [
+        "js/learning/ai-assistance.js",
+        "js/learning/practice-help.js",
+        "tests/ai-assistance.test.mjs",
+        "docs/implementation/programme/ai-assistance.md"
+      ],
+      "implementationNotes": "Shared source-scoped local assistance is implemented in workshop, current Course and retained Grammar. Ten controller checks, thirty service checks and twelve controlled browser cases per engine pass. Original intention remains saved; explicit-use wording remains editable/unsent; assessed work stays assisted. Journey integration and production source grounding/model quality remain open; no provider enabled."
     },
     {
       "id": "P5-retention",
@@ -471,9 +485,13 @@
       "id": "P6-catalogue",
       "phase": 6,
       "requirement": "Individual meaning/form/usage review of allverbs highfrequency/irregular/reflexive/impersonal/dualauxiliary/progressivesensitive and fullword/referencecoverage.",
-      "status": "pending",
+      "status": "in_progress",
       "owner": "programme_curriculum",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/programme/verb-language-reviews.json",
+        "docs/implementation/programme/verb-language-inventory.json"
+      ],
+      "implementationNotes": "Individual semantic review is underway; the review inventory records exactly which verbs and source fingerprints have been inspected. Whole-catalogue structural traversal passes, but it does not substitute for the remaining individual language review or independent educator validation."
     },
     {
       "id": "P6-authoring",
@@ -500,25 +518,37 @@
       "id": "P7-integration",
       "phase": 7,
       "requirement": "Course→word/case→workshop→written/spokenchat→summary→targetpractice→delayedreview→resume/export/offline full flows.",
-      "status": "pending",
+      "status": "in_progress",
       "owner": "root",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/programme/integration-checkpoint-2026-10-03.json",
+        "docs/implementation/programme/ai-continuation-independent-review.md"
+      ],
+      "implementationNotes": "Integrated development checkpoint passes63 deterministic suites after one obsolete legacy-question fixture correction,9assembled offline/update and7grammar offline checks. Independent delayed continuation probe exposed and verified repair of stale Home/Learn painting; shared ownership guard is also in three assistance hosts. Other deferred-render entry points remain under audit. Full AI/speech and final programme release gates remain open."
     },
     {
       "id": "P7-recovery",
       "phase": 7,
       "requirement": "Oldprofiles/manualunchecks/cloudconflicts/deletions/reset/checkpoints/storagefailures/corruptpacks/backgroundtermination, compatible recovery/export/rollback.",
-      "status": "pending",
+      "status": "in_progress",
       "owner": "root",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/programme/assembled-checkpoint-validation.json"
+      ],
+      "implementationNotes": "Checkpoint build passes nine assembled offline/update checks and seven grammar/audio offline checks. Existing installed Home Screen candidate updates and restores a saved credere draft/feedback while the origin is unavailable in the approved simulator. Later source changes still require rebuilding/revalidation; the entire programme recovery gate remains open."
     },
     {
       "id": "P7-accessibility",
       "phase": 7,
       "requirement": "Both themes, large text, keyboard and VoiceOver, safeareas/internalscroll/reachableactions, simulatoriPhone16ProMaxiOS26.5 and honest environmentlimits.",
-      "status": "pending",
+      "status": "in_progress",
       "owner": "root",
-      "evidence": []
+      "evidence": [
+        "tests/layout-audit.mjs",
+        "docs/implementation/programme/assembled-checkpoint-validation.json",
+        "docs/implementation/programme/layout-integration-review.json"
+      ],
+      "implementationNotes": "Current source layout sweep passes300 cases (50routes,3phoneviewports,2themes), including Conversations/settings. Real dial spacing and settings footer overlap fixed; audit now accounts for clipped/inert/layered content with five geometric self-checks. The rebuilt installed simulator preserves exact feedback and shows separated visit count, reachable Continue and no bottom black strip. VoiceOver, wider keyboard/large-text and final full-release gates remain open."
     },
     {
       "id": "P7-retirement",
@@ -537,11 +567,11 @@
       "evidence": []
     }
   ],
-  "updatedAt": "2026-10-03T18:37:04.278Z",
+  "updatedAt": "2026-10-03T19:28:15.082675+00:00",
   "testedDeviceConfiguration": {
     "device": "iPhone 16 Pro Max simulator",
     "iOS": "26.5",
-    "status": "approved configuration; current programme integration device run pending"
+    "status": "Checkpoint installed Home Screen update, exact saved-answer resume and origin-unavailable cold reopen observed; later source changes and full AI/speech integration remain unvalidated."
   },
   "decisions": [
     {
@@ -550,10 +580,13 @@
     }
   ],
   "checkpoint": {
-    "kind": "recoverable development checkpoint",
+    "kind": "Second recoverable development checkpoint",
     "branch": "codex/parola-full-programme",
     "productionRelease": false,
-    "validation": "57 deterministic CI suites pass after the limitante lookup repair; 10 conversation study checks, 11 bounded language-policy checks, 6 daily-path checks, browser reports retained. Source/module/build integrity checked. No new live deployment.",
-    "open": "Expanded-v1 scene continuity, individual full-catalogue language audit, workshop assistance, approved model/runtime and speech, human educator/learner gates, assembled offline/device/release integration remain."
+    "validation": "63 deterministic suites pass after the current-scene test fixture correction; 300layout cases;9assembled offline/update +7grammaroffline; scene/assistance/owner/continuation/navigation controlled browser checks in both engines. Installed simulator update retains feedback and verifies layout repair.",
+    "open": "Full catalogue/curriculum editorial review; other async render ownership; Journey assistance; production source grounding; approved model/runtime and speech; human educator/learner gates; final full-programme release.",
+    "pushed": false,
+    "parentCommit": "2c8dfd0",
+    "build": "parola-v15-8fb61524c01c"
   }
 }

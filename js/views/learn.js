@@ -4,12 +4,13 @@
 // view. Switching keeps the route; the chosen view is remembered per profile. The next screen's setTitle() puts the
 // text title back, so nothing here restores the top bar.
 import { html, toast, icon } from '../ui.js';
-import { setTitleNode } from '../app.js';
+import { setTitleNode, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { data, itemsForScope, describeScope, LEVELS, LEVEL_INFO } from '../data.js';
 import { setScene, dropdown, mount, reducedMotion } from '../fx.js';
 import { bindCourseMenu } from './course.js';
 import { loadGrammarCourse } from '../learning/grammar-course.js';
+import {loadConversationContinuation} from '../learning/conversation-continuation.js';
 import { learnModel, LEARN_VIEW_KEY, QUEUE_KEY, readPref, writePref } from './learnData.js';
 
 export { nextNew } from './learnData.js';
@@ -78,7 +79,9 @@ function labelTitle(btn, key, animate = false) {
 }
 
 export async function render(root) {
-  await loadGrammarCourse();
+  const owned=captureViewOwnership(root);
+  await Promise.all([loadGrammarCourse(),loadConversationContinuation(store)]);
+  if(!owned())return;
   let viewCleanup = null, seq = 0;
   const bound = [];
   const stopView = () => { if (typeof viewCleanup === 'function') { try { viewCleanup(); } catch { /* ignore */ } } viewCleanup = null; };
@@ -111,14 +114,14 @@ export async function render(root) {
     // the old view leaves the way the finger went (a fade under reduced motion) while the next one loads
     if (dir) { body.classList.add('leaving'); body.style.transform = slide ? `translateX(${dir * -56}px)` : ''; body.style.opacity = '0'; }
     const [renderView] = await Promise.all([loaders[view]().catch(err => { console.error(err); return null; }), dir ? wait(reducedMotion() ? 120 : 160) : null]);
-    if (mine !== seq || !body.isConnected) return;
+    if (mine !== seq || !body.isConnected || !owned()) return;
     body.classList.remove('leaving');
     body.innerHTML = '';
     body.dataset.view = view;
     let out = null;
     if (renderView) { try { out = await renderView(body, model, ctx); } catch (err) { console.error(err); body.innerHTML = html`<div class="empty"><p>This view could not load.</p><a class="btn secondary sm" href="#/course">Open your course</a></div>`; } }
     else body.innerHTML = html`<div class="empty"><p>This view could not load.</p><a class="btn secondary sm" href="#/course">Open your course</a></div>`;
-    if (mine !== seq) { if (typeof out === 'function') { try { out(); } catch { /* ignore */ } } return; }
+    if (mine !== seq || !owned()) { if (typeof out === 'function') { try { out(); } catch { /* ignore */ } } return; }
     viewCleanup = out;
     bindCourseMenu(body, redraw);
     body.querySelectorAll('[data-scope-menu]').forEach(bindScopeMenu);
@@ -137,6 +140,7 @@ export async function render(root) {
   }
 
   function draw() {
+    if(!owned())return;
     cleanup();
     const model = learnModel(store);
     const lvl = model.stage.level;

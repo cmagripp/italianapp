@@ -1,0 +1,78 @@
+{
+  "browser": "webkit",
+  "scope": "Independent delayed native IndexedDB inventory probe. Only the first, stale request is released after an owner change; any new owner render remains pending. Normal Home today initialization can change fresh day counters, so the historical initial epoch probe that released the newest request was not evidence of bridge writes. No model fixture.",
+  "passed": true,
+  "results": [
+    {
+      "case": "Late home inventory after navigation",
+      "passed": true,
+      "actual": {
+        "route": "#/profile",
+        "profile": true,
+        "home": false,
+        "learn": false
+      },
+      "profileUnchanged": true
+    },
+    {
+      "case": "Late learn inventory after navigation",
+      "passed": true,
+      "actual": {
+        "route": "#/profile",
+        "profile": true,
+        "home": false,
+        "learn": false
+      },
+      "profileUnchanged": true
+    },
+    {
+      "case": "Late home inventory after epoch change",
+      "passed": true,
+      "profileUnchanged": true,
+      "route": "#/home"
+    },
+    {
+      "case": "Late home inventory after profile change",
+      "passed": true,
+      "profileUnchanged": true,
+      "route": "#/home"
+    },
+    {
+      "case": "Late home inventory after learner change",
+      "passed": true,
+      "profileUnchanged": true,
+      "route": "#/home"
+    },
+    {
+      "case": "Late learn inventory after epoch change",
+      "passed": true,
+      "profileUnchanged": true,
+      "route": "#/learn"
+    },
+    {
+      "case": "Late learn inventory after profile change",
+      "passed": true,
+      "profileUnchanged": true,
+      "route": "#/learn"
+    },
+    {
+      "case": "Late learn inventory after learner change",
+      "passed": true,
+      "profileUnchanged": true,
+      "route": "#/learn"
+    },
+    {
+      "case": "Old home inventory after leaving and returning to the same route",
+      "passed": true,
+      "profileUnchanged": true,
+      "currentWait": true
+    },
+    {
+      "case": "Old learn inventory after leaving and returning to the same route",
+      "passed": true,
+      "profileUnchanged": true,
+      "currentWait": true
+    }
+  ],
+  "errors": []
+}

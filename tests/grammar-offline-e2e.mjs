@@ -7,7 +7,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {ROOT, loadPlaywright, launchBrowser, contextOptions, boot, gotoRoute, reloadApp} from './lib.mjs';
 
-const actualWorker=fs.readFileSync(path.join(ROOT,'sw.js'),'utf8');
+const siteRoot=path.resolve(ROOT,process.env.SITE_ROOT || '.');
+const actualWorker=fs.readFileSync(path.join(siteRoot,'sw.js'),'utf8');
 const currentVersion=actualWorker.match(/const VERSION = '([^']+)'/)?.[1];
 assert(currentVersion,'The app service worker needs a named cache version');
 let workerSource=`self.addEventListener('install',e=>e.waitUntil(caches.open('parola-grammar-previous').then(c=>c.put('./previous-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
@@ -19,8 +20,8 @@ const server=http.createServer((req,res)=>{
   res.setHeader('Cache-Control','no-store');
   if(name==='sw.js'){res.setHeader('Content-Type',mime['.js']);res.end(workerSource);return;}
   if(failInstall&&name==='data/course-v2/A2.json'){res.statusCode=503;res.end('Simulated interrupted install');return;}
-  const file=path.resolve(ROOT,name);
-  if(!file.startsWith(ROOT+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.statusCode=404;res.end();return;}
+  const file=path.resolve(siteRoot,name);
+  if(!file.startsWith(siteRoot+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.statusCode=404;res.end();return;}
   res.setHeader('Content-Type',mime[path.extname(file)]||'application/octet-stream');
   res.end(fs.readFileSync(file));
 });

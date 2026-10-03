@@ -443,6 +443,7 @@ body.journey-viewport #view.scene-in { animation-name:journeyViewIn; }
 .journey-header { padding:8px var(--journey-inset); border:0; background:none; }
 .journey-top { gap:8px; min-height:40px; }
 .journey-location { flex:1; min-width:0; text-align:center; font-size:12px; line-height:1.3; color:var(--ink-2); overflow-wrap:anywhere; }
+.journey-location [data-visit-count] { display:block; margin-top:3px; color:var(--ink-3); font:500 10px/1.4 var(--font-mono); }
 .journey-progress-line { display:flex; align-items:center; gap:12px; }
 .journey-progress-line .journey-stages { flex:1; min-width:0; gap:5px; }
 .journey-progress-line .journey-stages li { padding:5px 7px; font-size:11px; line-height:1.4; }

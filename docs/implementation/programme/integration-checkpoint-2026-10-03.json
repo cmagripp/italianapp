@@ -1,0 +1,407 @@
+{
+  "kind": "Development integration checkpoint, not a production release",
+  "createdAt": "2026-10-03T19:28:15.082675+00:00",
+  "branch": "codex/parola-full-programme",
+  "parentCommit": "2c8dfd0",
+  "mainBaseline": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+  "build": "parola-v15-8fb61524c01c",
+  "deterministicSuites": {
+    "initial": [
+      {
+        "command": "node tools/test-accent-policy.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-phase-migration-fixtures.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-unified-learning.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-daily-course-path.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-conversation-continuation.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-journey-scene.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-verb-finite-spans.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node --test tests/ai-assistance.test.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-journey-pacing.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-lexical-senses.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-lexical-frequency-senses.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-conversation-summary.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node --test tests/conversation-study.test.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-phase6-beginner.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-phase6-intermediate.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-phase6-advanced.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-conversation-support.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-spoken-feedback.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-language-policy.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-phase-persistence.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-learning-index.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-lazy-course.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-phase-content-fixes.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/audit-phase-curriculum.mjs --programme --check",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-noun-forms.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/check-modules.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/check-shell.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-conjugator.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-course-v2-content.mjs --recovery",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-course-v2-engine.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-course-v2-durability.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-course-v2-assets.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-course-v2-lexicon.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-course-v2-editorial.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-course-words.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-sentence-lab.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-phase-workshop.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-ai-trial.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-useful-words.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-fit-scorer.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-assistant-guard.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-grammar-course.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-grammar-durability.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-grammar-evidence.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-grammar-lexicon.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-learning-model.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-learning-questions.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-learning-store-sync.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-store-durability.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-learning-integration.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-learning-completion.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-lesson-content.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-sentence-lookup.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-word-questions.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-short-word-model.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-journey-model.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-lesson-activities.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/build-verb-progressive.mjs --check",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-progressive-content.mjs",
+        "ok": false,
+        "status": 1
+      },
+      {
+        "command": "node tools/test-verb-flow-v2.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-verb-pacing.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-verb-scene-variety.mjs",
+        "ok": true,
+        "status": 0
+      },
+      {
+        "command": "node tools/test-journey-integration.mjs",
+        "ok": true,
+        "status": 0
+      }
+    ],
+    "finalPassed": 63,
+    "total": 63,
+    "reruns": [
+      {
+        "command": "node tools/test-progressive-content.mjs",
+        "passed": true,
+        "reason": "Catalogue question test now selects the actual current expanded scene policy; semantically retired legacy questions are separately expected to be unavailable. All 11 checks pass."
+      }
+    ]
+  },
+  "assembled": {
+    "files": 435,
+    "bytes": 128249729,
+    "shellFiles": 204,
+    "parsedModules": 145,
+    "offlineUpdateChecks": 9,
+    "grammarOfflineChecks": 7,
+    "results": "passed"
+  },
+  "controlledBrowsers": {
+    "sceneRevision": {
+      "chromium": 12,
+      "webkit": 12
+    },
+    "aiAssistance": {
+      "chromium": 12,
+      "webkit": 12
+    },
+    "asyncOwnership": {
+      "chromium": 4,
+      "webkit": 4
+    },
+    "continuationIndependent": {
+      "chromium": 10,
+      "webkit": 10
+    },
+    "navigation": {
+      "chromium": 10,
+      "webkit": 10
+    }
+  },
+  "layout": {
+    "routes": 50,
+    "viewports": [
+      "390x664",
+      "375x667",
+      "430x932"
+    ],
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "cases": 300,
+    "failures": 0,
+    "geometryFixtures": 5,
+    "report": "layout-integration-review.json"
+  },
+  "simulator": {
+    "device": "iPhone 16 Pro Max",
+    "iOS": "26.5",
+    "mode": "Existing localhost candidate Home Screen installation",
+    "observed": [
+      "Existing installation fetched the new assembled assets and updated on navigation without reinstalling.",
+      "Home retained 5 XP and resumed the exact saved credere feedback and answer.",
+      "Present title and 1/8 this visit display on separate lines.",
+      "Full sentence and bottom Continue remain visible, with the application background reaching the bottom safe area."
+    ],
+    "limits": [
+      "Simulator observation, not physical device validation.",
+      "This pass was online; current assembled offline behavior is covered by the separate browser suites.",
+      "No production model or speech pack enabled.",
+      "VoiceOver and human listening/teaching validation remain open."
+    ]
+  },
+  "remaining": [
+    "Full programme phases remain active.",
+    "Individual verb/word and retained curriculum semantic review, human educator and learner gates.",
+    "Further async view ownership audit and Journey assistance hook.",
+    "Source-bound production grounding, approved adequate local model and combined voice runtime.",
+    "Full final assembled integration and production deployment."
+  ]
+}

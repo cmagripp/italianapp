@@ -82,6 +82,14 @@ function applyScene(tab, parts) {
 }
 
 let renderSeq = 0;
+// Views awaiting optional local data must recheck ownership before painting.
+// The router's post-render check can clean up listeners, but cannot undo a late
+// innerHTML write over a newer screen or a different learner's session.
+export function captureViewOwnership(root) {
+  const seq=renderSeq, profile=store.current?.id, learner=store.current?.learnerId, epoch=store.learning?.epoch?.id;
+  return () => seq===renderSeq && root.isConnected && profile===store.current?.id
+    && learner===store.current?.learnerId && epoch===store.learning?.epoch?.id;
+}
 // A deploy that lands while the app is open: the new service worker takes over at once (skipWaiting + claim) and JS is
 // network-first, so the next lazily imported screen would come from the new build while the modules already in memory
 // are the old one ("does not provide an export named …", until the app is force-quit). The next navigation reloads instead.

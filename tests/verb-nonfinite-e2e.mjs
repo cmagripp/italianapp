@@ -23,5 +23,10 @@ try{
  assert.match(await page.locator('[data-present-participle-note]').innerText(),/older containment meaning of capire/);
  assert.equal(await page.locator('[data-present-participle-note]').getByRole('link',{name:'Treccani'}).getAttribute('href'),'https://www.treccani.it/vocabolario/capiente/');
  console.log('PASS capire shows the lexical participle’s containment meaning and primary source');
+ await gotoRoute(page,'/reference/'+encodeURIComponent('v:cuocere'));
+ assert.equal(await page.locator('[data-present-participle] .val').innerText(),'cocente');
+ assert.match(await page.locator('[data-present-participle-note]').innerText(),/adjective meaning scalding or intensely hot/);
+ assert.equal(await page.locator('[data-present-participle-note]').getByRole('link',{name:'Treccani'}).getAttribute('href'),'https://www.treccani.it/vocabolario/cocente/');
+ console.log('PASS cuocere shows the lexical adjective’s heat meaning and primary source');
  assert.deepEqual(errors,[]);
 }finally{await context.close();await browser.close();await stop();}

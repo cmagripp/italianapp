@@ -64,7 +64,7 @@ function englishSimple(subject,person,spec,past,formal){
   const predicate=/^be(?: |$)/.test(base)?base.replace(/^be\b/,person===0?'am':person===2&&!formal?'is':'are'):person===2&&!formal?spec.en[1]:base;
   return `${subject} ${predicate}`;
 }
-function authoredContexts(entry,{chapter='present',progressive=false,section='practice',legacySelection=false}={}){
+function authoredContexts(entry,{chapter='present',progressive=false,section='practice',legacySelection=false,legacyExpanded=false}={}){
   const spec=progressiveSpec(entry);if(!spec||progressive&&spec.policy==='simple')return [];
   const past=chapter==='background',family=progressive?'progressive':'simple',exact=spec[progressive?'progressiveExamples':'simpleExamples'];
   const make=(scene,index)=>({...scene,answers:scene.answers||[scene.answer],role:scene.role||'ordinary',
@@ -92,7 +92,7 @@ function authoredContexts(entry,{chapter='present',progressive=false,section='pr
   let c;try{c=conjugate(entry.inf,{aux:entry.aux,isc:entry.isc});}catch{return [];}
   const people=spec.persons||[0,1,2,3,4,5],roles=people.map(person=>({person,role:'ordinary'}));
   if(spec.formal!==false&&people.includes(2))roles.push({person:2,role:'formal'});
-  const frames=legacySelection&&spec.legacyFrames?spec.legacyFrames:spec.frames;
+  const frames=legacyExpanded&&spec.legacyExpandedFrames?spec.legacyExpandedFrames:legacySelection&&spec.legacyFrames?spec.legacyFrames:spec.frames;
   return frames.flatMap(([itSuffix,enSuffix],index)=>!selected(index)?[]:roles.flatMap(({person,role})=>{
     const formal=role==='formal',subject=formal?['Signora Rossi, Lei','Ms Rossi, you']:spec.subjects?.[person]||SUBJECTS[person];
     const frameSpec=!legacySelection&&entry.inf==='dire'&&index===0?{...spec,en:['tell','tells','told','telling']}:spec;
@@ -131,10 +131,10 @@ function contextTarget(entry,chapter,suffix,contexts,{progressive=false,person=n
     explanation:progressiveSpec(entry)?.note||'',answerForms:[...new Set(answers.flat())],answerFormsByVariant:answers,
     exposureFormsByVariant:answers,personsByVariant:ordered.map(c=>c.person),independentVariantCount:new Set(ordered.map(c=>c.id)).size};
 }
-export function buildProgressiveGroup(entry,{chapter='present'}={}){
+export function buildProgressiveGroup(entry,{chapter='present',legacyExpanded=false}={}){
   const info=progressiveInfo(entry,{chapter}),past=chapter==='background';
   if(!entry?.id||!info.reviewed)return null;
-  const contexts=progressiveContexts(entry,{chapter}),legacyContexts=progressiveContexts(entry,{chapter,legacySelection:true}),simple=simpleVerbContexts(entry,{chapter});
+  const contexts=progressiveContexts(entry,{chapter,legacyExpanded}),legacyContexts=progressiveContexts(entry,{chapter,legacySelection:true}),simple=simpleVerbContexts(entry,{chapter,legacyExpanded});
   const group={id:'progressive',stage:'progressive',title:info.supported?(past?'Happening then':'Happening now'):'Choosing the natural form',cards:[],targets:[]};
   if(!info.supported){
     group.cards.push(card('simple-usage',`${entry.inf} · natural usage`,past?`For ${entry.inf} in the sense “${info.sense}”, use the simple imperfetto for the past state or situation. A different sense can behave differently.`:info.limitation,asExamples(simple.slice(0,2)),[],[
@@ -165,9 +165,9 @@ export function buildProgressiveGroup(entry,{chapter='present'}={}){
   return group;
 }
 function specSubject(entry,person){return progressiveSpec(entry)?.subjects?.[person]?.[1]||SUBJECTS[person][1];}
-export function buildVerbMixedGroup(entry,{chapter='present',groups=[],fallbackSimple=[]}={}){
+export function buildVerbMixedGroup(entry,{chapter='present',groups=[],fallbackSimple=[],legacyExpanded=false}={}){
   const info=progressiveInfo(entry,{chapter});if(!info.reviewed)return null;
-  const simple=simpleVerbContexts(entry,{chapter,section:'mixed'}),progressive=progressiveContexts(entry,{chapter,section:'mixed'});
+  const simple=simpleVerbContexts(entry,{chapter,section:'mixed',legacyExpanded}),progressive=progressiveContexts(entry,{chapter,section:'mixed',legacyExpanded});
   const oldSimple=simpleVerbContexts(entry,{chapter,section:'mixed',legacySelection:true}),oldProgressive=progressiveContexts(entry,{chapter,section:'mixed',legacySelection:true});
   const group={id:'mixed-review',stage:'mixed',finalReview:true,title:info.supported?'Use both forms':'Use it in context',cards:[],targets:[]};
   group.cards.push(card('mixed-intro',info.supported?'Now use both forms':'Put it into practice',info.supported?

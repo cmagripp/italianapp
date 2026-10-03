@@ -4909,6 +4909,26 @@
   },
   {
     "inf": "peggiorare",
+    "sceneRevision": "peggiorare-finite-span-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1-before-peggiorare-finite-span-2026-10-03-1",
+    "retiredExpandedContextIds": ["v:peggiorare:present:dictionary-0"],
+    "legacyExpandedSourceContexts": [
+      {
+        "chapter": "present",
+        "id": "v:peggiorare:present:dictionary-0",
+        "it": "Le condizioni del paziente sono peggiorate durante la notte.",
+        "en": "The patient's condition got worse during the night.",
+        "answer": "peggiorate",
+        "answers": [
+          "peggiorate"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      }
+    ],
     "policy": "dynamic",
     "sense": "make a problem worse",
     "note": "In the sense “make a problem worse”, stare + gerundio highlights this action while it is underway. Use the simple present for a routine or broader fact.",
@@ -7186,6 +7206,26 @@
   },
   {
     "inf": "sparire",
+    "sceneRevision": "sparire-finite-span-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1-before-sparire-finite-span-2026-10-03-1",
+    "retiredExpandedContextIds": ["v:sparire:present:dictionary-0"],
+    "legacyExpandedSourceContexts": [
+      {
+        "chapter": "present",
+        "id": "v:sparire:present:dictionary-0",
+        "it": "Sono sparite le chiavi della macchina, le hai viste?",
+        "en": "The car keys have disappeared, have you seen them?",
+        "answer": "sparite",
+        "answers": [
+          "sparite"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      }
+    ],
     "policy": "dynamic",
     "sense": "disappear from view",
     "note": "In the sense “disappear from view”, stare + gerundio highlights this action while it is underway. Use the simple present for a routine or broader fact.",
@@ -11018,6 +11058,26 @@
   },
   {
     "inf": "emanare",
+    "sceneRevision": "emanare-finite-span-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1-before-emanare-finite-span-2026-10-03-1",
+    "retiredExpandedContextIds": ["v:emanare:present:dictionary-2"],
+    "legacyExpandedSourceContexts": [
+      {
+        "chapter": "present",
+        "id": "v:emanare:present:dictionary-2",
+        "it": "Le nuove linee guida saranno emanate entro il mese prossimo.",
+        "en": "The new guidelines will be issued by next month.",
+        "answer": "emanate",
+        "answers": [
+          "emanate"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      }
+    ],
     "policy": "dynamic",
     "sense": "issue an official measure",
     "note": "In the sense “issue an official measure”, stare + gerundio highlights this action while it is underway. Use the simple present for a routine or broader fact.",

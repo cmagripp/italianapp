@@ -26,10 +26,13 @@ import { createJourneySession, currentJourneyStep, advanceJourney, recordJourney
   skipJourneyTarget, chooseJourneyChapter, upgradeShortWordSession, upgradeVerbJourneySession, reconcileJourneyReview, journeyStageProgress, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
 import { recommendLesson as recommend, practiceHref } from '../learning/integration.js';
 import {journeyVisit,recordJourneyVisit,nextJourneyVisit} from '../learning/journey-visit.js';
+import {createJourneyScene,validJourneyScene,journeySceneMatches} from '../learning/journey-scene.js';
+import {pinJourneyScene} from '../learning/journey.js';
 
 const uid = () => globalThis.crypto?.randomUUID?.() || `journey-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 const clone = x => JSON.parse(JSON.stringify(x));
 const normalize = x => String(x || '').normalize('NFC').trim().toLocaleLowerCase('it').replace(/[’‘]/g, "'").replace(/\s+/g, ' ');
+const resultComponents = values => JSON.stringify((values||[]).map(value=>[value.skill,value.ok]).sort((a,b)=>a[0].localeCompare(b[0])||Number(a[1])-Number(b[1])));
 const nameOf = e => e.inf || e.it;
 const texts = x => Array.isArray(x) ? x : x ? [x] : [];
 const phaseName = step => ['teach','repair'].includes(step.type) ? 'Learn'
@@ -208,6 +211,14 @@ export async function render(root, params = {}, query = {}) {
     if(snapshot.wordSlotId&&!plan.wordLesson?.slots.some(s=>s.id===snapshot.wordSlotId&&s.targetId===snapshot.targetId))return null;
     const restored=historyStep(snapshot);
     if(!restored.chapter || source.type==='teach'&&!restored.card || ['question','repair'].includes(source.type)&&!restored.target)return null;
+    if(source.sceneSnapshot!==undefined){
+      if(!validJourneyScene(source.sceneSnapshot))return null;
+      snapshot.sceneSnapshot=clone(source.sceneSnapshot);
+      if(!journeySceneMatches(snapshot.sceneSnapshot,{entryId:entry.id,chapterId:restored.chapter?.id,target:restored.target,variant:snapshot.variant}))return null;
+    }else if(snapshot.scenePolicy==='expanded-v1'&&restored.target){
+      const scene=createJourneyScene({entryId:entry.id,chapterId:restored.chapter.id,target:restored.target,variant:snapshot.variant,legacy:true});
+      if(scene)snapshot.sceneSnapshot=scene;
+    }
     return snapshot;
   };
   ui.history=Array.isArray(ui.history)?ui.history.slice(-40).map(safeSnapshot).filter(Boolean):[];
@@ -311,7 +322,7 @@ export async function render(root, params = {}, query = {}) {
       if(session.journey.awaitingContinue&&session.answeredEventIds.includes(event.id)
         &&(!ui.result||ui.result.ok!==event.ok||ui.result.outcome!==event.outcome
           ||JSON.stringify(ui.result.errorTags||[])!==JSON.stringify(event.errorTags||[])
-          ||JSON.stringify(ui.result.components||[])!==JSON.stringify(event.components||[]))) {
+          ||resultComponents(ui.result.components)!==resultComponents(event.components))) {
         ui.result={ok:event.ok,outcome:event.outcome,errorTags:event.errorTags||[],components:event.components||[],
           submission:savedSubmission(event.submission),feedback:event.ok?'':`Use ${question.answer[0]}. ${question.explanation||''}`};
         // A canonical event survives even if the optional saved draft did not.
@@ -327,6 +338,7 @@ export async function render(root, params = {}, query = {}) {
     step=stepNow();
   }
   function prepare() {
+    session=pinJourneyScene(plan,session);
     step = stepNow();
     if(session.journey.wordShort && step.type==='recap') {
       session=advanceJourney(plan,session,store.learning,{now:Date.now()});
@@ -340,7 +352,7 @@ export async function render(root, params = {}, query = {}) {
     if (step.type === 'question') {
       question = buildJourneyQuestion(entry, step.chapter, step.target, {
         variant: step.variant || 0, format: step.format || 'type', phase: step.phase, repairTag: step.repairTag,
-        scenePolicy: step.scenePolicy,
+        scenePolicy: step.scenePolicy, sceneSnapshot: step.sceneSnapshot,
       });
       if (question && ui.questionId !== step.questionId) {
         ui.questionId = step.questionId; ui.draft = ''; ui.given = ''; ui.result = null; ui.activity=null;
@@ -467,7 +479,7 @@ export async function render(root, params = {}, query = {}) {
     const snapshot = safeSnapshot({version:1,entryId:entry.id,contentVersion:plan.version,...(plan.flowVersion===2?{verbFlowVersion:2}:{}),
       type:step.type,chapterId:step.chapter?.id,groupId:step.group?.id,cardId:step.card?.id,targetId:step.target?.id,wordSlotId:step.target?.wordSlotId,
       phase:step.phase,questionId:step.questionId,variant:step.type==='repair'?session.journey.lastAttempt?.variant:step.variant,
-      format:step.format,repairTag:step.repairTag,scenePolicy:step.scenePolicy,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
+      format:step.format,repairTag:step.repairTag,scenePolicy:step.scenePolicy,sceneSnapshot:step.sceneSnapshot,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
       given:ui.given||ui.draft,result:ui.result,activity:ui.activity,pendingCount:pending.length,index:session.index||0,
       scrollTop:root.querySelector('.journey-main')?.scrollTop||0});
     if (!snapshot) return;
@@ -478,7 +490,7 @@ export async function render(root, params = {}, query = {}) {
   }
   function snapshotQuestion(snapshot) {
     return snapshot.target ? buildJourneyQuestion(entry,snapshot.chapter,snapshot.target,{
-      variant:snapshot.variant,format:snapshot.format,phase:snapshot.phase,repairTag:snapshot.repairTag,scenePolicy:snapshot.scenePolicy,
+      variant:snapshot.variant,format:snapshot.format,phase:snapshot.phase,repairTag:snapshot.repairTag,scenePolicy:snapshot.scenePolicy,sceneSnapshot:snapshot.sceneSnapshot,
     }) : null;
   }
   function exposeHistory(snapshot) {
@@ -819,6 +831,7 @@ export async function render(root, params = {}, query = {}) {
     else if (step.type === 'repair') content = repairHTML();
     else if (step.type === 'recap' || step.type === 'complete') content = summaryHTML(step.type === 'complete');
     else if (step.type === 'unavailable') content = html`<h1 data-focus tabindex="-1">This saved lesson cannot open yet</h1><p>Its saved progress is preserved. Reload the app to check for an update, or return to your other lessons.</p><a class="btn primary" href="#/learn">Back to Learn</a>`;
+    else if (step.type === 'corrected') content = html`<h1 data-focus tabindex="-1">This example has been corrected</h1><p>Your saved answer and earlier progress are kept. Continue to try the corrected example.</p>${ui.draft||ui.given?raw(html`<p class="journey-given"><span>Your saved answer</span><span lang="it">${ui.given||ui.draft}</span></p>`):''}${raw(primary('Continue','data-continue'))}`;
     else content = html`<h1 data-focus tabindex="-1">Save this part for later</h1><p>We need another useful example before checking this part again. Your practice so far is saved.</p>${raw(primary('Continue with this part saved', 'data-skip'))}<a class="btn ghost" href="#/reference/${encodeURIComponent(entry.id)}">Read the available examples</a>`;
     const lessonHeader=overview?html`<header class="journey-header is-overview"><div class="journey-overview-top"><span class="journey-kicker">Choose your next step</span><a href="#/learn">All lessons ${raw(icon('chevronRight',{size:16}))}</a></div></header>`:html`<header class="journey-header"><div class="journey-top"><div class="journey-history-controls"><button type="button" data-lesson-back aria-label="Previous lesson page" ${paused||!ui.history.length||past&&ui.historyCursor===0?raw('disabled'):''}>${raw(icon('chevron',{size:16}))}<span>Back</span></button></div>
       <span class="journey-location">${progress.wordShort?'Word lesson':displayStep.chapter?.title||'Lesson recap'}${boundedVisit&&!past?raw(html`<small data-visit-count>${currentVisit().eventIds.length}/${currentVisit().limit} this visit</small>`):''}</span>

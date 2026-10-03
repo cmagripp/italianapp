@@ -8,18 +8,22 @@ import { createLetterActivity, createPairActivity } from './lesson-activities.js
 import { progressiveForms, progressiveInfo } from './progressive-content.js';
 import { progressiveForms as legacyForms, progressiveInfo as legacyInfo } from './legacy-progressive-content.js';
 import { buildShortWordQuestion } from './word-questions.js';
+import { journeySceneMatches, retiredJourneyScene } from './journey-scene.js';
 const esc=escapeHTML;
 const unique=xs=>[...new Set(xs.filter(Boolean))];
 const text=(a,b='')=>`<div class="big md">${esc(a)}</div><div class="sub">${esc(b)}</div>`;
 function seeded(n){let x=(Number(n)||0)+17;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296;};}
 function choices(q,wrong,recognition,rng){const keys=new Set(q.answer.map(x=>x.toLocaleLowerCase('it')));const pool=unique(wrong).filter(x=>!keys.has(x.toLocaleLowerCase('it'))).slice(0,3);q.type=recognition&&pool.length?'mc':'type';q.choices=q.type==='mc'?[{label:q.answer[0],value:q.answer[0],correct:true},...pool.map(label=>({label,value:label,correct:false}))]:[];for(let i=q.choices.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[q.choices[i],q.choices[j]]=[q.choices[j],q.choices[i]];}return q;}
 export function buildJourneyQuestion(entry,chapter,target,options={}){
- const {variant=0,format='type',phase='independent',repairTag=null,scenePolicy}=options;
+ const {variant=0,format='type',phase='independent',repairTag=null,scenePolicy,sceneSnapshot}=options;
  const expandedScenes=scenePolicy==='expanded-v1';
  if(!entry?.id||!chapter?.id||!target?.id||target.available===false)return null;
  if(target.shortWord)return buildShortWordQuestion(entry,target,{variant,format,phase,pool:data.vocab||[],pairTargets:target.wordPairTargets||[],chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION});
  entry=lessonEntry(entry);
  const v=Math.abs(Math.floor(Number(variant)||0)),rng=seeded(v),kind=entry.inf?'verb':'word';
+ if(sceneSnapshot!==undefined&&(!expandedScenes||!journeySceneMatches(sceneSnapshot,{entryId:entry.id,chapterId:chapter.id,target,variant:v})))return null;
+ if(retiredJourneyScene(sceneSnapshot,target))return null;
+ const fixedScene=sceneSnapshot?.context;
  const supported=phase!=='independent'||format!=='type';
  const showChoices=supported&&!['type','letters','pairs'].includes(format);
  const core=['presente','passatoProssimo','imperfetto','futuro','condizionale'];
@@ -30,16 +34,17 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
  const source=target.sourceChapter||chapter.id;
  const selectedContexts=expandedScenes?target.contexts:target.legacyAuthoredContexts??target.contexts;
  const contexts=kind==='verb'&&['conjugation','context','address'].includes(target.skill)?(selectedContexts??lessonContexts(entry,source,{expanded:expandedScenes})).filter(c=>target.skill==='context'||c.person===target.person&&c.role===(target.role||'ordinary')):[];
+ if(!expandedScenes&&target.retiredExpandedContextIds?.includes(contexts[v%contexts.length]?.id))return null;
  const smallRepair=phase==='repair'&&['auxiliary','auxiliaryPerson','participle','agreement','clitic'].includes(repairTag);
  if(target.progressive){
   const formsFor=target.flowVersion===2?progressiveForms:legacyForms, infoFor=target.flowVersion===2?progressiveInfo:legacyInfo;
   const situations=expandedScenes?target.contexts||[]:target.legacyAuthoredContexts??target.contexts??[];
-  const info=infoFor(entry,{chapter:source}),person=situations[v%situations.length]?.person??target.person??0;
+  const info=infoFor(entry,{chapter:source}),person=fixedScene?.person??situations[v%situations.length]?.person??target.person??0;
   if(target.skill==='progressiveUsage'){
    q={prompt:text(target.usageQuestion),answer:target.usageAnswers,tip:target.explanation,lesson:target.explanation,say:'',meta:{supportOnly:true,answerLanguage:'en',diagnostic:{kind:'component',component:'progressiveUsage'},variantId:`${target.id}:usage`,contextId:`${target.id}:usage`}};
    choices(q,target.usageDistractors||[],true,rng);
   }else{
-   const context=situations[v%situations.length],englishCue=situations.length&&Math.floor(v/situations.length)%2===1;
+   const context=fixedScene||situations[v%situations.length],englishCue=sceneSnapshot?.englishCue??(situations.length&&Math.floor(v/situations.length)%2===1);
    const answers=context?.answers||formsFor(entry,person,{chapter:source});if(!answers.length)return null;
    const tenseCue=source==='background'?'stare (imperfetto) + gerundio':'stare (present) + gerundio';
    const who=context?.subjectLabel||((context?.role||target.role)==='formal'?'Lei · formal':person===1?'tu · informal':person===4?'voi · plural':info.weather?'impersonal weather use':PERSONS[person]);
@@ -67,7 +72,7 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   q={prompt:text(prompt),answer:[answer],choices:[],say:'',tip:answer,lesson:answer,example:'',meta:{diagnostic:{kind:'component',component:target.skill},variantId:`${target.id}:fact`,contextId:`${target.id}:fact`,supportOnly:true,answerLanguage:target.answerLanguage||'en'}};
   choices(q,target.distractors||wrong,true,rng);
  }else if(kind==='verb'&&contexts.length&&format!=='match'&&!smallRepair){
-  const context=contexts[v%contexts.length],englishCue=Math.floor(v/contexts.length)%2===1;
+  const context=fixedScene||contexts[v%contexts.length],englishCue=sceneSnapshot?.englishCue??(Math.floor(v/contexts.length)%2===1);
   const at=context.it.toLocaleLowerCase('it').indexOf(context.answer.toLocaleLowerCase('it'));if(at<0)return null;
   const e=context.aux?{...entry,aux:context.aux}:entry;
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:'production',repairPerson:context.person,allowedTenses:permitted,variant:v,rng});if(!q)return null;
@@ -97,7 +102,7 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   if(target.skill==='participle'){q.answer=lessonParticiples(entry);q.say=q.answer[0]||'';}
   q.meta.supportOnly=true;
  }else if(kind==='verb'){
-  const repairContext=smallRepair?contexts[v%contexts.length]:null,e=repairContext?.aux?{...entry,aux:repairContext.aux}:entry;
+  const repairContext=smallRepair?fixedScene||contexts[v%contexts.length]:null,e=repairContext?.aux?{...entry,aux:repairContext.aux}:entry;
   const person=repairContext?.person??target.person??(WEATHER_VERBS.has(entry.inf)?2:0),answers=lessonForms(e,target.tense,person);if(!answers.length)return null;
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:smallRepair||showChoices?'recognition':'production',variant:v,repairPerson:person,repairTag:phase==='repair'?repairTag:null,allowedTenses:permitted,rng});if(!q)return null;
   if(!q.meta.scaffold){
@@ -137,7 +142,7 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
  if(format==='type'&&!q.meta?.supportOnly){q.type='type';q.choices=[];}
  if(q.type==='mc')q.prompt=q.prompt.replace(/Write the whole/gi,'Choose the whole').replace(/write the whole/gi,'choose the whole').replace(/Write only/gi,'Choose only').replace(/Write this/gi,'Choose this').replace(/Supply only/gi,'Choose').replace(/Give the/gi,'Choose the').replace(/Answer in English/gi,'Choose the English meaning');
  const recognition=supported||!!q.meta?.scaffold||!!q.meta?.supportOnly;
- q.meta={...q.meta,...(target.contextPolicy?{contextPolicy:target.contextPolicy}:{}),...(scenePolicy?{scenePolicy}:{}),entryId:entry.id,objectiveId:target.id,targetId:target.id,chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION,kind,skill:q.meta?.skill||target.skill,tense:target.tense||null,person:q.meta?.person??target.person??null,role:q.meta?.role||target.role||'ordinary',mode:recognition?'recognition':'production',evidenceMode:recognition?'recognition':'production',activityKind:format==='match'?'matching':phase,evidenceScope:q.meta?.evidenceScope||target.evidenceScope||target.skill};
+ q.meta={...q.meta,...(target.contextPolicy?{contextPolicy:target.contextPolicy}:{}),...(scenePolicy?{scenePolicy}:{}),...(sceneSnapshot?{sceneRevision:sceneSnapshot.sourceRevision}:{}),entryId:entry.id,objectiveId:target.id,targetId:target.id,chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION,kind,skill:q.meta?.skill||target.skill,tense:target.tense||null,person:q.meta?.person??target.person??null,role:q.meta?.role||target.role||'ordinary',mode:recognition?'recognition':'production',evidenceMode:recognition?'recognition':'production',activityKind:format==='match'?'matching':phase,evidenceScope:q.meta?.evidenceScope||target.evidenceScope||target.skill};
  if(kind==='verb'&&target.authoredContexts&&!q.meta.scaffold&&Number.isInteger(q.meta.person)){
   const counterparts=target.progressive?lessonForms(entry,source==='background'?'imperfetto':'presente',q.meta.person):progressiveForms(entry,q.meta.person,{chapter:source});
   q.meta.diagnostic={...q.meta.diagnostic,counterpartForms:counterparts,viewpointMessage:target.progressive?

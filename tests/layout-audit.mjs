@@ -13,6 +13,7 @@ import {
   loadPlaywright, launchBrowser, contextOptions, ensureServer, BASE, allRoutes, cliFilters, matches, routeSlug,
   makeSink, attachCollectors, boot, gotoRoute, settle, viewText, seedProgress, shot, writeReport, wait, pad,
 } from './lib.mjs';
+import assert from 'node:assert/strict';
 
 const filters = cliFilters();
 const SOFT = new Set((process.env.SOFT || '').split(',').map(s => s.trim()).filter(Boolean));
@@ -43,7 +44,7 @@ const AUDIT = ({ mode, phase, isCrossword, minTap, maxList }) => {
     const text = (el.getAttribute('aria-label') || el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 32);
     return `${tag}${id}${cls}${data}${text ? ` "${text}"` : ''}`;
   };
-  const skip = (el) => !!el.closest('#toast, .aurora, .xp-float, [aria-hidden="true"]');
+  const skip = (el) => !!el.closest('#toast, .aurora, .xp-float, [aria-hidden="true"], [inert]');
   const visMemo = new Map();
   const visible = (el) => {
     if (!el || el === document.documentElement) return true;
@@ -59,6 +60,25 @@ const AUDIT = ({ mode, phase, isCrossword, minTap, maxList }) => {
   const shown = (el) => { if (!visible(el)) return false; const r = el.getBoundingClientRect(); return r.width >= 1 && r.height >= 1; };
   const clippedByAncestor = (el) => { let p = el.parentElement; while (p && p !== document.body) { if (/(auto|scroll|hidden|clip)/.test(style(p).overflowX)) return true; p = p.parentElement; } return false; };
   const isChrome = (el) => { let e = el; while (e && e !== document.body) { const p = style(e).position; if (p === 'fixed' || p === 'sticky') return true; e = e.parentElement; } return false; };
+  // A scroll child's layout rectangle continues outside its painted region.
+  // Compare only the portion actually exposed by its clipping ancestors.
+  const paintedRects = el => [...el.getClientRects()].map(rect => {
+    let {left, right, top, bottom} = rect;
+    for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      const cs = style(p), bounds = p.getBoundingClientRect();
+      if (/(auto|scroll|hidden|clip)/.test(cs.overflowX)) { left = Math.max(left, bounds.left); right = Math.min(right, bounds.right); }
+      if (/(auto|scroll|hidden|clip)/.test(cs.overflowY)) { top = Math.max(top, bounds.top); bottom = Math.min(bottom, bounds.bottom); }
+    }
+    return {left:Math.max(0,left), right:Math.min(vw,right), top:Math.max(0,top), bottom:Math.min(vh,bottom)};
+  }).filter(r => r.right-r.left >= 1 && r.bottom-r.top >= 1);
+  const receivesCenter = el => { const r=el.getBoundingClientRect(), hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return hit===el || el.contains(hit); };
+  const cardControlLayer = (a,b) => {
+    const control = a.closest('.flash-card-tools') ? a : b.closest('.flash-card-tools') ? b : null;
+    const flip = a.matches('.flash-flip') ? a : b.matches('.flash-flip') ? b : null;
+    // These are deliberately on-card controls above a full-card flip surface.
+    // Exempt only a same-card pair when both actual tap centres are reachable.
+    return control && flip && control.closest('.flash')===flip.closest('.flash') && receivesCenter(control) && receivesCenter(flip);
+  };
   const out = { vw, vh, scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight, counts: {}, overflow: null, wide: [], taps: [], overlaps: [], crossword: null, inputs: [], headings: [] };
   const push = (cat, item) => { out.counts[cat] = (out.counts[cat] || 0) + 1; if (out[cat].length < maxList) out[cat].push(item); };
 
@@ -67,12 +87,13 @@ const AUDIT = ({ mode, phase, isCrossword, minTap, maxList }) => {
   const items = [...document.querySelectorAll(INTERACTIVE)]
     .filter(el => !skip(el) && !el.closest('.fan, .deck, .reel, .stack') && shown(el) && style(el).pointerEvents !== 'none')
     .slice(0, 700)
-    .map(el => ({ el, rects: [...el.getClientRects()].filter(r => r.width >= 1 && r.height >= 1), chrome: isChrome(el) }));
+    .map(el => ({ el, rects: paintedRects(el), chrome: isChrome(el) }));
   const bottomChrome = (it) => { const r = it.el.getBoundingClientRect(); return (r.top + r.bottom) / 2 > vh / 2; };
   for (let i = 0; i < items.length; i++) {
     for (let j = i + 1; j < items.length; j++) {
       const A = items[i], B = items[j];
       if (A.el.contains(B.el) || B.el.contains(A.el)) continue;
+      if (cardControlLayer(A.el,B.el)) continue;
       if (A.chrome !== B.chrome) { // fixed/sticky chrome vs content: only where the content cannot scroll out from under it
         const bc = bottomChrome(A.chrome ? A : B);
         if (phase === 'top' && bc) continue;
@@ -93,7 +114,7 @@ const AUDIT = ({ mode, phase, isCrossword, minTap, maxList }) => {
 
   // elements wider than the viewport (top-most offender only; children of scroll/clip containers are skipped)
   const flagged = new Set();
-  for (const el of document.querySelectorAll('#view, #view *, #topbar, #topbar *, #tabs, #tabs *')) {
+  for (const el of document.querySelectorAll('#view, #view *, #topbar, #topbar *, #tabs, #tabs *, .sheet, .sheet *')) {
     if (skip(el) || !shown(el)) continue;
     const r = el.getBoundingClientRect();
     if (r.right <= vw + 1 && r.left >= -1) continue;
@@ -138,10 +159,19 @@ async function auditRoute(page, route) {
   await wait(350); // let pop-in / stamp animations finish before measuring
   await page.evaluate(() => window.scrollTo(0, 0));
   const top = await page.evaluate(AUDIT, { mode: 'full', phase: 'top', isCrossword, minTap: MIN_TAP, maxList: MAX_LIST });
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  const positions = await page.evaluate(() => {
+    const nodes=[...document.querySelectorAll('#view, #view *, .sheet, .sheet *')].filter(e=>!e.closest('[inert]')&&/(auto|scroll)/.test(getComputedStyle(e).overflowY)&&e.scrollHeight>e.clientHeight+1);
+    const positions=nodes.map(e=>({element:e,top:e.scrollTop}));
+    // Retain references in the test page only, never in application state.
+    window.__layoutScrollPositions=positions;
+    nodes.forEach(e=>e.scrollTop=e.scrollHeight);
+    window.scrollTo(0, document.documentElement.scrollHeight);
+    return positions.length;
+  });
   await wait(250);
   const bottom = await page.evaluate(AUDIT, { mode: 'overlaps', phase: 'bottom', isCrossword, minTap: MIN_TAP, maxList: MAX_LIST });
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(() => { for(const {element,top} of window.__layoutScrollPositions||[])element.scrollTop=top; delete window.__layoutScrollPositions; window.scrollTo(0, 0); });
+  top.internalScrollersChecked=positions;
   const seen = new Set(top.overlaps.map(o => o.a + '|' + o.b));
   for (const o of bottom.overlaps) { const k = o.a + '|' + o.b; if (!seen.has(k)) { seen.add(k); top.overlaps.push(o); } }
   if (seen.size) top.counts.overlaps = seen.size; else delete top.counts.overlaps;
@@ -206,8 +236,24 @@ const report = { suite: 'layout', generatedAt: new Date().toISOString(), base: B
 let exitCode = 0;
 console.log(`Parola layout audit · ${BASE} · ${VIEWPORTS.map(v => `${v.name} ${v.options.viewport.width}×${v.options.viewport.height}`).join(', ')} · themes ${THEMES.join('/')} · playwright from ${from}${filters.length ? ` · filters: ${filters.join(', ')}` : ''}`);
 try {
+  // Prove the geometric exceptions do not hide a real overlap. These fixtures
+  // run in an isolated page and contain no application or profile state.
+  const geometryPage = await browser.newPage({viewport:{width:390,height:664}});
+  const measure = () => geometryPage.evaluate(AUDIT,{mode:'overlaps',phase:'top',isCrossword:false,minTap:MIN_TAP,maxList:MAX_LIST});
+  await geometryPage.setContent('<button style="position:absolute;left:10px;top:10px;width:100px;height:50px">One</button><button style="position:absolute;left:50px;top:20px;width:100px;height:50px">Two</button>');
+  assert.equal((await measure()).counts.overlaps,1,'ordinary overlapping targets must fail');
+  await geometryPage.setContent('<div inert><button style="position:absolute;left:10px;top:10px;width:100px;height:50px">Behind modal</button></div><button style="position:absolute;left:50px;top:20px;width:100px;height:50px">Modal control</button>');
+  assert.equal((await measure()).counts.overlaps||0,0,'inert background controls cannot compete with a modal');
+  await geometryPage.setContent('<div style="position:absolute;left:10px;top:10px;width:100px;height:50px;overflow:auto"><button style="margin-top:70px;width:90px;height:50px">Clipped</button></div><button style="position:absolute;left:10px;top:80px;width:100px;height:50px">Visible</button>');
+  assert.equal((await measure()).counts.overlaps||0,0,'a clipped scroll child is not painted over its neighbour');
+  await geometryPage.setContent('<section class="flash" style="position:relative;width:300px;height:200px"><button class="flash-flip" style="position:absolute;inset:0;width:100%;height:100%">Flip</button><div class="flash-card-tools" style="position:absolute;z-index:2;top:8px;left:8px"><button style="width:80px;height:40px">Hear</button></div></section>');
+  assert.equal((await measure()).counts.overlaps||0,0,'on-card controls and the exposed flip surface remain independently reachable');
+  await geometryPage.addStyleTag({content:'.flash-flip{z-index:3}'});
+  assert.equal((await measure()).counts.overlaps,1,'a flip surface covering its tool must still fail');
+  await geometryPage.close();
+  report.geometryChecks=5;
   let routesPromise = null;
-  const routesFor = (page) => (routesPromise ||= allRoutes(page));
+  const routesFor = (page) => (routesPromise ||= allRoutes(page).then(routes=>[...routes,'/conversations','/profile?settings=1']));
   await Promise.all(VIEWPORTS.map(vp => runViewport(browser, routesFor, vp)));
 } catch (err) { console.log('\nFATAL', err); report.fatal = String(err && err.stack || err); exitCode = 2; }
 finally { await browser.close().catch(() => {}); stopServer(); }

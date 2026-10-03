@@ -12,7 +12,7 @@ export async function journeyQuestion(page) {
     const { buildJourneyQuestion } = await import('./js/learning/lesson-questions.js');
     const session = store.learning.session, entry = getEntry(session.entryId);
     const step = currentJourneyStep(buildLesson(entry), session, store.learning, Date.now());
-    return buildJourneyQuestion(entry, step.chapter, step.target, { variant: step.variant, format: step.format, phase: step.phase, repairTag: step.repairTag, scenePolicy: step.scenePolicy });
+    return buildJourneyQuestion(entry, step.chapter, step.target, { variant: step.variant, format: step.format, phase: step.phase, repairTag: step.repairTag, scenePolicy: step.scenePolicy, sceneSnapshot: step.sceneSnapshot });
   });
 }
 

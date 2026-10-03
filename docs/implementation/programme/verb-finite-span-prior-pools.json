@@ -1,0 +1,2758 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "description": "Exact prior-expanded pools captured before the auxiliary-containment correction; hashes cover complete context arrays and ordering, not a claim that the retired answer was linguistically valid.",
+  "records": [
+    {
+      "id": "v:fiorire",
+      "sourceContext": {
+        "id": "v:fiorire:present:dictionary-1",
+        "it": "Le rose sono fiorite presto quest'anno.",
+        "en": "The roses bloomed early this year.",
+        "answer": "fiorite",
+        "answers": [
+          "fiorite"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      },
+      "legacyRequired": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "targets": [
+            "v:fiorire::lesson::present::form-0",
+            "v:fiorire::lesson::present::form-1",
+            "v:fiorire::lesson::present::form-2",
+            "v:fiorire::lesson::present::formal",
+            "v:fiorire::lesson::present::form-3",
+            "v:fiorire::lesson::present::form-4",
+            "v:fiorire::lesson::present::form-5",
+            "v:fiorire::lesson::present::context"
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            "v:fiorire::lesson::past::form-0",
+            "v:fiorire::lesson::past::form-1",
+            "v:fiorire::lesson::past::form-2",
+            "v:fiorire::lesson::past::formal",
+            "v:fiorire::lesson::past::form-3",
+            "v:fiorire::lesson::past::form-4",
+            "v:fiorire::lesson::past::form-5",
+            "v:fiorire::lesson::past::context"
+          ]
+        },
+        {
+          "id": "background",
+          "targets": [
+            "v:fiorire::lesson::background::form-0",
+            "v:fiorire::lesson::background::form-1",
+            "v:fiorire::lesson::background::form-2",
+            "v:fiorire::lesson::background::formal",
+            "v:fiorire::lesson::background::form-3",
+            "v:fiorire::lesson::background::form-4",
+            "v:fiorire::lesson::background::form-5"
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            "v:fiorire::lesson::future::form-0",
+            "v:fiorire::lesson::future::form-1",
+            "v:fiorire::lesson::future::form-2",
+            "v:fiorire::lesson::future::formal",
+            "v:fiorire::lesson::future::form-3",
+            "v:fiorire::lesson::future::form-4",
+            "v:fiorire::lesson::future::form-5"
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            "v:fiorire::lesson::condizionale::form-0",
+            "v:fiorire::lesson::condizionale::form-1",
+            "v:fiorire::lesson::condizionale::form-2",
+            "v:fiorire::lesson::condizionale::formal",
+            "v:fiorire::lesson::condizionale::form-3",
+            "v:fiorire::lesson::condizionale::form-4",
+            "v:fiorire::lesson::condizionale::form-5"
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            "v:fiorire::lesson::mixed::present",
+            "v:fiorire::lesson::mixed::past"
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": [
+            "v:fiorire::lesson::trapassatoProssimo::form-0",
+            "v:fiorire::lesson::trapassatoProssimo::form-1",
+            "v:fiorire::lesson::trapassatoProssimo::form-2",
+            "v:fiorire::lesson::trapassatoProssimo::formal",
+            "v:fiorire::lesson::trapassatoProssimo::form-3",
+            "v:fiorire::lesson::trapassatoProssimo::form-4",
+            "v:fiorire::lesson::trapassatoProssimo::form-5"
+          ]
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": [
+            "v:fiorire::lesson::passatoRemoto::form-0",
+            "v:fiorire::lesson::passatoRemoto::form-1",
+            "v:fiorire::lesson::passatoRemoto::form-2",
+            "v:fiorire::lesson::passatoRemoto::formal",
+            "v:fiorire::lesson::passatoRemoto::form-3",
+            "v:fiorire::lesson::passatoRemoto::form-4",
+            "v:fiorire::lesson::passatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": [
+            "v:fiorire::lesson::trapassatoRemoto::form-0",
+            "v:fiorire::lesson::trapassatoRemoto::form-1",
+            "v:fiorire::lesson::trapassatoRemoto::form-2",
+            "v:fiorire::lesson::trapassatoRemoto::formal",
+            "v:fiorire::lesson::trapassatoRemoto::form-3",
+            "v:fiorire::lesson::trapassatoRemoto::form-4",
+            "v:fiorire::lesson::trapassatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": [
+            "v:fiorire::lesson::futuroAnteriore::form-0",
+            "v:fiorire::lesson::futuroAnteriore::form-1",
+            "v:fiorire::lesson::futuroAnteriore::form-2",
+            "v:fiorire::lesson::futuroAnteriore::formal",
+            "v:fiorire::lesson::futuroAnteriore::form-3",
+            "v:fiorire::lesson::futuroAnteriore::form-4",
+            "v:fiorire::lesson::futuroAnteriore::form-5"
+          ]
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": [
+            "v:fiorire::lesson::condizionalePassato::form-0",
+            "v:fiorire::lesson::condizionalePassato::form-1",
+            "v:fiorire::lesson::condizionalePassato::form-2",
+            "v:fiorire::lesson::condizionalePassato::formal",
+            "v:fiorire::lesson::condizionalePassato::form-3",
+            "v:fiorire::lesson::condizionalePassato::form-4",
+            "v:fiorire::lesson::condizionalePassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": [
+            "v:fiorire::lesson::congiuntivoPresente::form-0",
+            "v:fiorire::lesson::congiuntivoPresente::form-1",
+            "v:fiorire::lesson::congiuntivoPresente::form-2",
+            "v:fiorire::lesson::congiuntivoPresente::formal",
+            "v:fiorire::lesson::congiuntivoPresente::form-3",
+            "v:fiorire::lesson::congiuntivoPresente::form-4",
+            "v:fiorire::lesson::congiuntivoPresente::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": [
+            "v:fiorire::lesson::congiuntivoPassato::form-0",
+            "v:fiorire::lesson::congiuntivoPassato::form-1",
+            "v:fiorire::lesson::congiuntivoPassato::form-2",
+            "v:fiorire::lesson::congiuntivoPassato::formal",
+            "v:fiorire::lesson::congiuntivoPassato::form-3",
+            "v:fiorire::lesson::congiuntivoPassato::form-4",
+            "v:fiorire::lesson::congiuntivoPassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": [
+            "v:fiorire::lesson::congiuntivoImperfetto::form-0",
+            "v:fiorire::lesson::congiuntivoImperfetto::form-1",
+            "v:fiorire::lesson::congiuntivoImperfetto::form-2",
+            "v:fiorire::lesson::congiuntivoImperfetto::formal",
+            "v:fiorire::lesson::congiuntivoImperfetto::form-3",
+            "v:fiorire::lesson::congiuntivoImperfetto::form-4",
+            "v:fiorire::lesson::congiuntivoImperfetto::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": [
+            "v:fiorire::lesson::congiuntivoTrapassato::form-0",
+            "v:fiorire::lesson::congiuntivoTrapassato::form-1",
+            "v:fiorire::lesson::congiuntivoTrapassato::form-2",
+            "v:fiorire::lesson::congiuntivoTrapassato::formal",
+            "v:fiorire::lesson::congiuntivoTrapassato::form-3",
+            "v:fiorire::lesson::congiuntivoTrapassato::form-4",
+            "v:fiorire::lesson::congiuntivoTrapassato::form-5"
+          ]
+        },
+        {
+          "id": "imperativo",
+          "targets": [
+            "v:fiorire::lesson::imperativo::form-1",
+            "v:fiorire::lesson::imperativo::form-2",
+            "v:fiorire::lesson::imperativo::form-3",
+            "v:fiorire::lesson::imperativo::form-4",
+            "v:fiorire::lesson::imperativo::form-5"
+          ]
+        }
+      ],
+      "chapters": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "legacyRequirements": [
+            {
+              "id": "v:fiorire::lesson::present::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::context",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::present::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:fiorire::lesson::present::form-2",
+              "poolSize": 2,
+              "poolSHA256": "83ac8ce0c4e5f6be223dbd42dfee36e1987c5c2048ebbfffc7966a5ebc74f96f",
+              "legacyAuthoredSHA256": "83ac8ce0c4e5f6be223dbd42dfee36e1987c5c2048ebbfffc7966a5ebc74f96f"
+            },
+            {
+              "id": "v:fiorire::lesson::present::form-4",
+              "poolSize": 1,
+              "poolSHA256": "adf9fb25ccfbb2c344ddc98ca49337d60e9f27f32f2e005dc434c5b58ba8cce6",
+              "legacyAuthoredSHA256": "adf9fb25ccfbb2c344ddc98ca49337d60e9f27f32f2e005dc434c5b58ba8cce6"
+            },
+            {
+              "id": "v:fiorire::lesson::present::form-5",
+              "poolSize": 2,
+              "poolSHA256": "8b1ed587875716f4c43c362b7bda5758347077bae00d90d00a209e8bca0438c0",
+              "legacyAuthoredSHA256": "e848b19a291b24f7426b2b2bc1f69afdbd61290f9f34756837e362e0759ccc54"
+            },
+            {
+              "id": "v:fiorire::lesson::present::context",
+              "poolSize": 5,
+              "poolSHA256": "d4cc9afab63c58f033e37a30a1d1f36de27a8595d10e08b51e4d8a153dac4f4a",
+              "legacyAuthoredSHA256": "b12abd38d7ec788413d660327a7d741a155ecd97f10c8520837f39d33c01c65b"
+            },
+            {
+              "id": "v:fiorire::lesson::present::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "de3efce175e09d1e1c83d92ac17216e07a8dca41097505c75eef52a80f84a69d",
+              "legacyAuthoredSHA256": "de3efce175e09d1e1c83d92ac17216e07a8dca41097505c75eef52a80f84a69d"
+            },
+            {
+              "id": "v:fiorire::lesson::present::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "11c24eaf2216bfff7739aaab8f74d0c3e22130d288ab56fc24e9dbe2e25deed5",
+              "legacyAuthoredSHA256": "11c24eaf2216bfff7739aaab8f74d0c3e22130d288ab56fc24e9dbe2e25deed5"
+            },
+            {
+              "id": "v:fiorire::lesson::present::v2-mixed-simple",
+              "poolSize": 4,
+              "poolSHA256": "341e46d65d8e6a29eadb8e8834066ed75d244d3d8d22838efe9d6c411f4a7d61",
+              "legacyAuthoredSHA256": "513fd6ffca26f0eb61c519dc99f1aab7b96420afe0512abddef8323e06edf50d"
+            },
+            {
+              "id": "v:fiorire::lesson::present::v2-mixed-progressive",
+              "poolSize": 4,
+              "poolSHA256": "34af47011c1cc82fc53c9f1e5283dced14a35674d4d3468a6128387a25f7dd4a",
+              "legacyAuthoredSHA256": "6f4caedede202fbf51c68eb38ba26cdd7511eff5772dc4e552c7ba732b2886db"
+            }
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            {
+              "id": "v:fiorire::lesson::past::form-5",
+              "poolSize": 1,
+              "poolSHA256": "18f676cbf065252aa61b28867c6653fffea192a30a0ac18cbd951f6d93495dab",
+              "legacyAuthoredSHA256": "18f676cbf065252aa61b28867c6653fffea192a30a0ac18cbd951f6d93495dab"
+            },
+            {
+              "id": "v:fiorire::lesson::past::context",
+              "poolSize": 1,
+              "poolSHA256": "18f676cbf065252aa61b28867c6653fffea192a30a0ac18cbd951f6d93495dab",
+              "legacyAuthoredSHA256": "18f676cbf065252aa61b28867c6653fffea192a30a0ac18cbd951f6d93495dab"
+            }
+          ]
+        },
+        {
+          "id": "background",
+          "legacyRequirements": [
+            {
+              "id": "v:fiorire::lesson::background::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::context",
+              "required": false,
+              "available": false,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:fiorire::lesson::background::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:fiorire::lesson::background::form-2",
+              "poolSize": 2,
+              "poolSHA256": "f4d69f6cbba12ebbe8f6a191a3db42bcffb3135b68345ed28cffb52ff54171bd",
+              "legacyAuthoredSHA256": "f4d69f6cbba12ebbe8f6a191a3db42bcffb3135b68345ed28cffb52ff54171bd"
+            },
+            {
+              "id": "v:fiorire::lesson::background::form-5",
+              "poolSize": 2,
+              "poolSHA256": "f2507abca7ed82894cc9504ea3a12a48f64c9483747b1012f6b8d2589231b51b",
+              "legacyAuthoredSHA256": "5a856ec04f0cf0c668025ebb40b68dcfc3d3417be755f05fe1680d3e2e2bf1e5"
+            },
+            {
+              "id": "v:fiorire::lesson::background::context",
+              "poolSize": 4,
+              "poolSHA256": "381fa1a1d1142763f6f193a1f4aaeb0002d50b1086cd5df37575d8a1b633d0cc",
+              "legacyAuthoredSHA256": "a346bee2fda7f7c26978a592b4c4bebcc8d0baf804812df278f935cd6569be8c"
+            },
+            {
+              "id": "v:fiorire::lesson::background::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "fae9bf1182e8f13079fddb309a71536d56fc17e3c334ab1b43db251708414f84",
+              "legacyAuthoredSHA256": "fae9bf1182e8f13079fddb309a71536d56fc17e3c334ab1b43db251708414f84"
+            },
+            {
+              "id": "v:fiorire::lesson::background::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "e191150229ff7f7c2753b37dd8eb9476891fdb80fec39c8a1dd22ee52e44ff49",
+              "legacyAuthoredSHA256": "e191150229ff7f7c2753b37dd8eb9476891fdb80fec39c8a1dd22ee52e44ff49"
+            },
+            {
+              "id": "v:fiorire::lesson::background::v2-mixed-simple",
+              "poolSize": 4,
+              "poolSHA256": "9b69bc23f7d41da0ae9a7658305344f2ea576870c44d1ed0d6f3020f4a9605e1",
+              "legacyAuthoredSHA256": "10dcc96d1bf81343e1e96274392bbaff19c6342ff2f01a99bf9eb12deac2373d"
+            },
+            {
+              "id": "v:fiorire::lesson::background::v2-mixed-progressive",
+              "poolSize": 4,
+              "poolSHA256": "186512211bd4c22f4c7113a6b1c0cfde7a607821e9321e97a20c3139b01d0a93",
+              "legacyAuthoredSHA256": "5d330c8f625fca3bdb07864bdd0dcc15c629f9ebb09715e02dcc73f11f45444e"
+            }
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            {
+              "id": "v:fiorire::lesson::future::form-2",
+              "poolSize": 2,
+              "poolSHA256": "d84055553e201ddb017329d04ebab4e3dfed9e53504458c37b7295ce728f538e",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:fiorire::lesson::future::form-5",
+              "poolSize": 2,
+              "poolSHA256": "5065e7ea1a0a1f694d520519c5251faeb0ae24e5a3b13e630970dd72d7140e60",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:fiorire::lesson::future::context",
+              "poolSize": 4,
+              "poolSHA256": "cba4e02b83779036b2c796af51ca15b54688c9c8346c0280b1a100dd45153793",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            {
+              "id": "v:fiorire::lesson::condizionale::form-2",
+              "poolSize": 2,
+              "poolSHA256": "2a2ab15975a03e5ee1d7a30772d832346ec2432b62d0a8e3cf01f27e80875a40",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:fiorire::lesson::condizionale::form-5",
+              "poolSize": 2,
+              "poolSHA256": "e89df21bee4de45ec0118df13ab280c4fef31779f145fe579b60ec5863b35044",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:fiorire::lesson::condizionale::context",
+              "poolSize": 4,
+              "poolSHA256": "9a35b5d3012318cf468fc726ed0524b4593a17154e44909bcae4e8168151a68b",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            {
+              "id": "v:fiorire::lesson::mixed::present",
+              "poolSize": 1,
+              "poolSHA256": "adf9fb25ccfbb2c344ddc98ca49337d60e9f27f32f2e005dc434c5b58ba8cce6",
+              "legacyAuthoredSHA256": "adf9fb25ccfbb2c344ddc98ca49337d60e9f27f32f2e005dc434c5b58ba8cce6"
+            },
+            {
+              "id": "v:fiorire::lesson::mixed::past",
+              "poolSize": 1,
+              "poolSHA256": "18f676cbf065252aa61b28867c6653fffea192a30a0ac18cbd951f6d93495dab",
+              "legacyAuthoredSHA256": "18f676cbf065252aa61b28867c6653fffea192a30a0ac18cbd951f6d93495dab"
+            },
+            {
+              "id": "v:fiorire::lesson::mixed::future",
+              "poolSize": 4,
+              "poolSHA256": "cba4e02b83779036b2c796af51ca15b54688c9c8346c0280b1a100dd45153793",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:fiorire::lesson::mixed::condizionale",
+              "poolSize": 4,
+              "poolSHA256": "9a35b5d3012318cf468fc726ed0524b4593a17154e44909bcae4e8168151a68b",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:fiorire::lesson::mixed::v2-present-progressive",
+              "poolSize": 4,
+              "poolSHA256": "34af47011c1cc82fc53c9f1e5283dced14a35674d4d3468a6128387a25f7dd4a",
+              "legacyAuthoredSHA256": "6f4caedede202fbf51c68eb38ba26cdd7511eff5772dc4e552c7ba732b2886db"
+            },
+            {
+              "id": "v:fiorire::lesson::mixed::v2-background-progressive",
+              "poolSize": 4,
+              "poolSHA256": "186512211bd4c22f4c7113a6b1c0cfde7a607821e9321e97a20c3139b01d0a93",
+              "legacyAuthoredSHA256": "5d330c8f625fca3bdb07864bdd0dcc15c629f9ebb09715e02dcc73f11f45444e"
+            }
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": []
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": []
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": []
+        },
+        {
+          "id": "imperativo",
+          "targets": []
+        }
+      ]
+    },
+    {
+      "id": "v:peggiorare",
+      "sourceContext": {
+        "id": "v:peggiorare:present:dictionary-0",
+        "it": "Le condizioni del paziente sono peggiorate durante la notte.",
+        "en": "The patient's condition got worse during the night.",
+        "answer": "peggiorate",
+        "answers": [
+          "peggiorate"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      },
+      "legacyRequired": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "targets": [
+            "v:peggiorare::lesson::present::form-0",
+            "v:peggiorare::lesson::present::form-1",
+            "v:peggiorare::lesson::present::form-2",
+            "v:peggiorare::lesson::present::formal",
+            "v:peggiorare::lesson::present::form-3",
+            "v:peggiorare::lesson::present::form-4",
+            "v:peggiorare::lesson::present::form-5",
+            "v:peggiorare::lesson::present::context"
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            "v:peggiorare::lesson::past::form-0",
+            "v:peggiorare::lesson::past::form-1",
+            "v:peggiorare::lesson::past::form-2",
+            "v:peggiorare::lesson::past::formal",
+            "v:peggiorare::lesson::past::form-3",
+            "v:peggiorare::lesson::past::form-4",
+            "v:peggiorare::lesson::past::form-5",
+            "v:peggiorare::lesson::past::context"
+          ]
+        },
+        {
+          "id": "background",
+          "targets": [
+            "v:peggiorare::lesson::background::form-0",
+            "v:peggiorare::lesson::background::form-1",
+            "v:peggiorare::lesson::background::form-2",
+            "v:peggiorare::lesson::background::formal",
+            "v:peggiorare::lesson::background::form-3",
+            "v:peggiorare::lesson::background::form-4",
+            "v:peggiorare::lesson::background::form-5"
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            "v:peggiorare::lesson::future::form-0",
+            "v:peggiorare::lesson::future::form-1",
+            "v:peggiorare::lesson::future::form-2",
+            "v:peggiorare::lesson::future::formal",
+            "v:peggiorare::lesson::future::form-3",
+            "v:peggiorare::lesson::future::form-4",
+            "v:peggiorare::lesson::future::form-5"
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            "v:peggiorare::lesson::condizionale::form-0",
+            "v:peggiorare::lesson::condizionale::form-1",
+            "v:peggiorare::lesson::condizionale::form-2",
+            "v:peggiorare::lesson::condizionale::formal",
+            "v:peggiorare::lesson::condizionale::form-3",
+            "v:peggiorare::lesson::condizionale::form-4",
+            "v:peggiorare::lesson::condizionale::form-5"
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            "v:peggiorare::lesson::mixed::present",
+            "v:peggiorare::lesson::mixed::past"
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": [
+            "v:peggiorare::lesson::trapassatoProssimo::form-0",
+            "v:peggiorare::lesson::trapassatoProssimo::form-1",
+            "v:peggiorare::lesson::trapassatoProssimo::form-2",
+            "v:peggiorare::lesson::trapassatoProssimo::formal",
+            "v:peggiorare::lesson::trapassatoProssimo::form-3",
+            "v:peggiorare::lesson::trapassatoProssimo::form-4",
+            "v:peggiorare::lesson::trapassatoProssimo::form-5"
+          ]
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": [
+            "v:peggiorare::lesson::passatoRemoto::form-0",
+            "v:peggiorare::lesson::passatoRemoto::form-1",
+            "v:peggiorare::lesson::passatoRemoto::form-2",
+            "v:peggiorare::lesson::passatoRemoto::formal",
+            "v:peggiorare::lesson::passatoRemoto::form-3",
+            "v:peggiorare::lesson::passatoRemoto::form-4",
+            "v:peggiorare::lesson::passatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": [
+            "v:peggiorare::lesson::trapassatoRemoto::form-0",
+            "v:peggiorare::lesson::trapassatoRemoto::form-1",
+            "v:peggiorare::lesson::trapassatoRemoto::form-2",
+            "v:peggiorare::lesson::trapassatoRemoto::formal",
+            "v:peggiorare::lesson::trapassatoRemoto::form-3",
+            "v:peggiorare::lesson::trapassatoRemoto::form-4",
+            "v:peggiorare::lesson::trapassatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": [
+            "v:peggiorare::lesson::futuroAnteriore::form-0",
+            "v:peggiorare::lesson::futuroAnteriore::form-1",
+            "v:peggiorare::lesson::futuroAnteriore::form-2",
+            "v:peggiorare::lesson::futuroAnteriore::formal",
+            "v:peggiorare::lesson::futuroAnteriore::form-3",
+            "v:peggiorare::lesson::futuroAnteriore::form-4",
+            "v:peggiorare::lesson::futuroAnteriore::form-5"
+          ]
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": [
+            "v:peggiorare::lesson::condizionalePassato::form-0",
+            "v:peggiorare::lesson::condizionalePassato::form-1",
+            "v:peggiorare::lesson::condizionalePassato::form-2",
+            "v:peggiorare::lesson::condizionalePassato::formal",
+            "v:peggiorare::lesson::condizionalePassato::form-3",
+            "v:peggiorare::lesson::condizionalePassato::form-4",
+            "v:peggiorare::lesson::condizionalePassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": [
+            "v:peggiorare::lesson::congiuntivoPresente::form-0",
+            "v:peggiorare::lesson::congiuntivoPresente::form-1",
+            "v:peggiorare::lesson::congiuntivoPresente::form-2",
+            "v:peggiorare::lesson::congiuntivoPresente::formal",
+            "v:peggiorare::lesson::congiuntivoPresente::form-3",
+            "v:peggiorare::lesson::congiuntivoPresente::form-4",
+            "v:peggiorare::lesson::congiuntivoPresente::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": [
+            "v:peggiorare::lesson::congiuntivoPassato::form-0",
+            "v:peggiorare::lesson::congiuntivoPassato::form-1",
+            "v:peggiorare::lesson::congiuntivoPassato::form-2",
+            "v:peggiorare::lesson::congiuntivoPassato::formal",
+            "v:peggiorare::lesson::congiuntivoPassato::form-3",
+            "v:peggiorare::lesson::congiuntivoPassato::form-4",
+            "v:peggiorare::lesson::congiuntivoPassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": [
+            "v:peggiorare::lesson::congiuntivoImperfetto::form-0",
+            "v:peggiorare::lesson::congiuntivoImperfetto::form-1",
+            "v:peggiorare::lesson::congiuntivoImperfetto::form-2",
+            "v:peggiorare::lesson::congiuntivoImperfetto::formal",
+            "v:peggiorare::lesson::congiuntivoImperfetto::form-3",
+            "v:peggiorare::lesson::congiuntivoImperfetto::form-4",
+            "v:peggiorare::lesson::congiuntivoImperfetto::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": [
+            "v:peggiorare::lesson::congiuntivoTrapassato::form-0",
+            "v:peggiorare::lesson::congiuntivoTrapassato::form-1",
+            "v:peggiorare::lesson::congiuntivoTrapassato::form-2",
+            "v:peggiorare::lesson::congiuntivoTrapassato::formal",
+            "v:peggiorare::lesson::congiuntivoTrapassato::form-3",
+            "v:peggiorare::lesson::congiuntivoTrapassato::form-4",
+            "v:peggiorare::lesson::congiuntivoTrapassato::form-5"
+          ]
+        },
+        {
+          "id": "imperativo",
+          "targets": [
+            "v:peggiorare::lesson::imperativo::form-1",
+            "v:peggiorare::lesson::imperativo::form-2",
+            "v:peggiorare::lesson::imperativo::form-3",
+            "v:peggiorare::lesson::imperativo::form-4",
+            "v:peggiorare::lesson::imperativo::form-5"
+          ]
+        }
+      ],
+      "chapters": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "legacyRequirements": [
+            {
+              "id": "v:peggiorare::lesson::present::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::context",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::present::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:peggiorare::lesson::present::form-0",
+              "poolSize": 2,
+              "poolSHA256": "104d89ce89757451e3746aa9c2e0245d89f39a6236c4ec1dc2dcb97262c13704",
+              "legacyAuthoredSHA256": "104d89ce89757451e3746aa9c2e0245d89f39a6236c4ec1dc2dcb97262c13704"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-1",
+              "poolSize": 2,
+              "poolSHA256": "3af217e9bf994cb1fa0af3e51e6fd6337db01678e65c9a3b90d7608804e66299",
+              "legacyAuthoredSHA256": "20b2c3925e7be623b7fe7b09f7a5dd3a82d4f8d6950f11fa9331c9d54751e6e1"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-2",
+              "poolSize": 2,
+              "poolSHA256": "8edb729f521dfd27cff8fb4b96c4c9dc8c23c1d889e2ab45450d620ad6b167a5",
+              "legacyAuthoredSHA256": "8edb729f521dfd27cff8fb4b96c4c9dc8c23c1d889e2ab45450d620ad6b167a5"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::formal",
+              "poolSize": 2,
+              "poolSHA256": "89dd476073f4e98cecccd8e411626c30fe1fd8e64fcc5b5f190d5371880f5d73",
+              "legacyAuthoredSHA256": "89dd476073f4e98cecccd8e411626c30fe1fd8e64fcc5b5f190d5371880f5d73"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-3",
+              "poolSize": 2,
+              "poolSHA256": "c72abcc8f7dd2aa05dbb26d870a1b4ba02b8efca324f0da646aa4ce9af0091cb",
+              "legacyAuthoredSHA256": "495fc9a4243395228b260031d5224f2d753ddeb64332d878709fb479337cbc7e"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-4",
+              "poolSize": 3,
+              "poolSHA256": "5cefb900954ae6ca17ab7c8b97907b700f23e1c9e9894b246edf5379bed6dff3",
+              "legacyAuthoredSHA256": "3734ae99b489a8a0b0bba771da5e82d6da0b75e5d33b124cef7a75a6c8329dbf"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::form-5",
+              "poolSize": 2,
+              "poolSHA256": "982625ba9229653392ced6db1b37f29e357db5f0e21cd0360ac3a21886a1e773",
+              "legacyAuthoredSHA256": "a3b771f4544f44ddef414582dc3c8c93ec3cb6dbb707648676191f34b8e9ee3f"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::context",
+              "poolSize": 15,
+              "poolSHA256": "590c1e356ac29438eca3bbcc692ef7b7abe4061178a95b4d0b1f85199d10715b",
+              "legacyAuthoredSHA256": "3fa0c656bfcab4c7edb9c7cf14eec219b80e9257f0a432612fcbf5f5613e9a19"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-progressive-form-0",
+              "poolSize": 2,
+              "poolSHA256": "8bbc07e8a79d1caad370e99caf8a8304a8f4f9c2c991375b3f76c7b4c7580f36",
+              "legacyAuthoredSHA256": "8bbc07e8a79d1caad370e99caf8a8304a8f4f9c2c991375b3f76c7b4c7580f36"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-progressive-form-1",
+              "poolSize": 2,
+              "poolSHA256": "d79943fc4f0fd9198bca3e08d7caad9f34fdf12c437eba2d96edae36c9caab8d",
+              "legacyAuthoredSHA256": "d79943fc4f0fd9198bca3e08d7caad9f34fdf12c437eba2d96edae36c9caab8d"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "9d506641f8fcb8a90af22486f10366e48c8cc6969f3f0cb18016d614df8daa7b",
+              "legacyAuthoredSHA256": "9d506641f8fcb8a90af22486f10366e48c8cc6969f3f0cb18016d614df8daa7b"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-progressive-form-3",
+              "poolSize": 2,
+              "poolSHA256": "57ed825c27c3ca97274a68041371784716c785729f1808a152f3bb1a26546482",
+              "legacyAuthoredSHA256": "57ed825c27c3ca97274a68041371784716c785729f1808a152f3bb1a26546482"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-progressive-form-4",
+              "poolSize": 2,
+              "poolSHA256": "7f34ceca3ca417e245dc6276171ae9088c56d7244284c06493e1786ff8752021",
+              "legacyAuthoredSHA256": "7f34ceca3ca417e245dc6276171ae9088c56d7244284c06493e1786ff8752021"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "e8d7cce0158a47827068ab327a6252337d74b760d7596d7d58687bb062395ce2",
+              "legacyAuthoredSHA256": "e8d7cce0158a47827068ab327a6252337d74b760d7596d7d58687bb062395ce2"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-progressive-formal",
+              "poolSize": 2,
+              "poolSHA256": "971846bc6cc069953d9b63e5414584e2777afb487a4592768b2428e0aaaeaecd",
+              "legacyAuthoredSHA256": "971846bc6cc069953d9b63e5414584e2777afb487a4592768b2428e0aaaeaecd"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-mixed-simple",
+              "poolSize": 14,
+              "poolSHA256": "48b9e498ec7a5dac4828589e398e6a099486048508e2e87e9f1b0196c87eb5e7",
+              "legacyAuthoredSHA256": "368eb6b9a6f11cf601c191c00eabef48268b3219964462007f0105eb3949a3b9"
+            },
+            {
+              "id": "v:peggiorare::lesson::present::v2-mixed-progressive",
+              "poolSize": 14,
+              "poolSHA256": "009193ef2e22759866d5f33f6304576782576adee42e044da7acf21180ec498c",
+              "legacyAuthoredSHA256": "4c11e3000d742afc8cc249b5ac1cca79fd5d215903a3d072d50bf5910333f285"
+            }
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            {
+              "id": "v:peggiorare::lesson::past::form-5",
+              "poolSize": 1,
+              "poolSHA256": "fb2ed76760cb8fa11cdf128a963036e8c43c22146d01af10ae0aeffa2b222b2e",
+              "legacyAuthoredSHA256": "fb2ed76760cb8fa11cdf128a963036e8c43c22146d01af10ae0aeffa2b222b2e"
+            },
+            {
+              "id": "v:peggiorare::lesson::past::context",
+              "poolSize": 1,
+              "poolSHA256": "fb2ed76760cb8fa11cdf128a963036e8c43c22146d01af10ae0aeffa2b222b2e",
+              "legacyAuthoredSHA256": "fb2ed76760cb8fa11cdf128a963036e8c43c22146d01af10ae0aeffa2b222b2e"
+            }
+          ]
+        },
+        {
+          "id": "background",
+          "legacyRequirements": [
+            {
+              "id": "v:peggiorare::lesson::background::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::context",
+              "required": false,
+              "available": false,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:peggiorare::lesson::background::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:peggiorare::lesson::background::form-0",
+              "poolSize": 2,
+              "poolSHA256": "eb1823ae92253ab8a1a95ae1d742a47930acadc35e34e30f06664f2ec2204a66",
+              "legacyAuthoredSHA256": "eb1823ae92253ab8a1a95ae1d742a47930acadc35e34e30f06664f2ec2204a66"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-1",
+              "poolSize": 2,
+              "poolSHA256": "cdd6fd6158d1f0d0531322e2f225b38c3874f0f93cc6162c076c48406ae7fc0e",
+              "legacyAuthoredSHA256": "15d34b96196995a083bd138b94c9e4c54a5cc7ad0ccbc67743d31ad1fb8e05d6"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-2",
+              "poolSize": 2,
+              "poolSHA256": "82bb62ea1f03a5d8c030cac9e718ae19947d8f9420a494410387f663e4982be1",
+              "legacyAuthoredSHA256": "82bb62ea1f03a5d8c030cac9e718ae19947d8f9420a494410387f663e4982be1"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::formal",
+              "poolSize": 2,
+              "poolSHA256": "660a0459507091b7771a215c9af221f5e5bbc7db649f075ae933f7736a745a50",
+              "legacyAuthoredSHA256": "660a0459507091b7771a215c9af221f5e5bbc7db649f075ae933f7736a745a50"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-3",
+              "poolSize": 2,
+              "poolSHA256": "efc11874ee4867ebe53430aade72457ac266c801317546b899358cd259f08986",
+              "legacyAuthoredSHA256": "4c517afea888ce8e132977b687629079a2c484244ac1d006020f503f117221eb"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-4",
+              "poolSize": 2,
+              "poolSHA256": "621b81a6976a9fc5d0fac74b4c2783854d3d5c12c0d83db5e29dafdddbf04b07",
+              "legacyAuthoredSHA256": "621b81a6976a9fc5d0fac74b4c2783854d3d5c12c0d83db5e29dafdddbf04b07"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::form-5",
+              "poolSize": 2,
+              "poolSHA256": "6dc44c6123fdc33b46c918f7dd89d41f62cd3d7eb27fd961bee03952ddb84ddf",
+              "legacyAuthoredSHA256": "12ee1fdb2c9239d7c468fba3525d5241fdf6f076753b867e57bd839d92cc6a56"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::context",
+              "poolSize": 14,
+              "poolSHA256": "0bc3bd45cde1c64bf7777a92880a3b586a2d4768ed4e9a43d222a17e57164b98",
+              "legacyAuthoredSHA256": "a94396d6449852195d33a24c69e7f968626a82069d3b73cccc91e7b9567710dd"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-progressive-form-0",
+              "poolSize": 2,
+              "poolSHA256": "ab9f5bb8514239be66810a6e0ce6014ac84425abec22fa043fb7d503480ae2d3",
+              "legacyAuthoredSHA256": "ab9f5bb8514239be66810a6e0ce6014ac84425abec22fa043fb7d503480ae2d3"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-progressive-form-1",
+              "poolSize": 2,
+              "poolSHA256": "91009b9929560a2145e37261ed4f68999144e8a6f67ef116bc2a0033b57b9c8c",
+              "legacyAuthoredSHA256": "91009b9929560a2145e37261ed4f68999144e8a6f67ef116bc2a0033b57b9c8c"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "c6f95308b5b12df6b3daf4b223acd5e1446bc6bcd0ed66bedd1c6c2de645696d",
+              "legacyAuthoredSHA256": "c6f95308b5b12df6b3daf4b223acd5e1446bc6bcd0ed66bedd1c6c2de645696d"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-progressive-form-3",
+              "poolSize": 2,
+              "poolSHA256": "ca3755bd25bbf48b4ea9c85c388357a2119b16924bf5b3583babd3ba42ef1713",
+              "legacyAuthoredSHA256": "ca3755bd25bbf48b4ea9c85c388357a2119b16924bf5b3583babd3ba42ef1713"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-progressive-form-4",
+              "poolSize": 2,
+              "poolSHA256": "909074ebbb8e357b10be03a6feed58ce4b7e93643e4db4ef4bcf4ea8bae51d7b",
+              "legacyAuthoredSHA256": "909074ebbb8e357b10be03a6feed58ce4b7e93643e4db4ef4bcf4ea8bae51d7b"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "6250968808d891f756b4fa7faa65b582ebce7ae5c2a4413115230109d073d835",
+              "legacyAuthoredSHA256": "6250968808d891f756b4fa7faa65b582ebce7ae5c2a4413115230109d073d835"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-progressive-formal",
+              "poolSize": 2,
+              "poolSHA256": "0cf65ce66d6851ec83cc36e3f5fc1f35953203ef178a2676d079570b26513b6a",
+              "legacyAuthoredSHA256": "0cf65ce66d6851ec83cc36e3f5fc1f35953203ef178a2676d079570b26513b6a"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-mixed-simple",
+              "poolSize": 14,
+              "poolSHA256": "6e1ae3e70c25764348523443e529f99e7e724c68a10eeb081bc10a0fbe0c65aa",
+              "legacyAuthoredSHA256": "81a61fd43f887e8eb1d52bc543aa46e22d0f91a6bede1c46be5904bc5c157d75"
+            },
+            {
+              "id": "v:peggiorare::lesson::background::v2-mixed-progressive",
+              "poolSize": 14,
+              "poolSHA256": "8cc37eeaf0086dd31747a89998c469d4281cfa9451a282251ae03d0ddcff87af",
+              "legacyAuthoredSHA256": "fa13b74a885ef3ba97ef5be19f0b2ab9b5166a3fa92bbae0c15883fcdde20c3e"
+            }
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            {
+              "id": "v:peggiorare::lesson::future::form-0",
+              "poolSize": 2,
+              "poolSHA256": "a89aac7c359d296a00bbc15274262f7cb58ff8969e570c9513cc29750ea0f295",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::future::form-1",
+              "poolSize": 2,
+              "poolSHA256": "3602c51900ceab843811383049948b3c6b957d9745e35803ccea57c33e576c47",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::future::form-2",
+              "poolSize": 2,
+              "poolSHA256": "e465bcf71929259b2151b791ef8f5dda5bffdcf3cfcde4db401efd4310e59c0d",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::future::formal",
+              "poolSize": 2,
+              "poolSHA256": "70419cb86615aac3a96239fd71ea0d103932d16271982745ac0434ad9c80778c",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::future::form-3",
+              "poolSize": 2,
+              "poolSHA256": "3368b8b0038f6cf41c721688c95fde6e4b8d916e6b39305e073c1894dae511ed",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::future::form-4",
+              "poolSize": 2,
+              "poolSHA256": "2ea3d89d33d68afbaa01715da4b7186362ee0b71e3b5e0f8659bfbcf75ce9222",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::future::form-5",
+              "poolSize": 2,
+              "poolSHA256": "e94c5c8db258ccdea02eb48d66b4eddb6c98c06f4e0c04edafec9da97199d965",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::future::context",
+              "poolSize": 14,
+              "poolSHA256": "345b669488267cf25fa21f244c720f01b05af2553d80e333ef70310fb3d6f8bc",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            {
+              "id": "v:peggiorare::lesson::condizionale::form-0",
+              "poolSize": 2,
+              "poolSHA256": "e36feac779e77bcb223e7f86e9d562b46480d5fa6ce48c81568fdfb2d9077cf9",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::condizionale::form-1",
+              "poolSize": 2,
+              "poolSHA256": "8b2c13320407e5bb679927f33f45d515f225d29f096d39cf0ec70098934e796e",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::condizionale::form-2",
+              "poolSize": 2,
+              "poolSHA256": "62b4ddc86ad58f8754e28ff768caf4519655f3fd65542b46d9a06ec1144396c5",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::condizionale::formal",
+              "poolSize": 2,
+              "poolSHA256": "fd0a78ab181837f5f5798c1ea0ac6109d657da87b89eedaa7b09ccd250d749e4",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::condizionale::form-3",
+              "poolSize": 2,
+              "poolSHA256": "12424a3267c6f1a6438b8aa584919b204a51bbd41a7e56c3f4d309a1fc1fbdf3",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::condizionale::form-4",
+              "poolSize": 2,
+              "poolSHA256": "5bf769e0f1a78ae7d9896c00f9ec77a5080e688e69c9164ca451706fdad57f49",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::condizionale::form-5",
+              "poolSize": 2,
+              "poolSHA256": "29085a8c19d84c274b5936952e15d967066cfad0d7199d508f8b93044669fbcf",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::condizionale::context",
+              "poolSize": 14,
+              "poolSHA256": "63f69218c0ceb3a2cc3672a8331e35c36f2b2f15caf9969458763cbbd33d021b",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            {
+              "id": "v:peggiorare::lesson::mixed::present",
+              "poolSize": 1,
+              "poolSHA256": "1097cf2ba53447d3836785c5d17451c4afbcc055023cc9f01f9fa00c289a99ae",
+              "legacyAuthoredSHA256": "1097cf2ba53447d3836785c5d17451c4afbcc055023cc9f01f9fa00c289a99ae"
+            },
+            {
+              "id": "v:peggiorare::lesson::mixed::past",
+              "poolSize": 1,
+              "poolSHA256": "fb2ed76760cb8fa11cdf128a963036e8c43c22146d01af10ae0aeffa2b222b2e",
+              "legacyAuthoredSHA256": "fb2ed76760cb8fa11cdf128a963036e8c43c22146d01af10ae0aeffa2b222b2e"
+            },
+            {
+              "id": "v:peggiorare::lesson::mixed::future",
+              "poolSize": 14,
+              "poolSHA256": "345b669488267cf25fa21f244c720f01b05af2553d80e333ef70310fb3d6f8bc",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::mixed::condizionale",
+              "poolSize": 14,
+              "poolSHA256": "63f69218c0ceb3a2cc3672a8331e35c36f2b2f15caf9969458763cbbd33d021b",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:peggiorare::lesson::mixed::v2-present-progressive",
+              "poolSize": 14,
+              "poolSHA256": "009193ef2e22759866d5f33f6304576782576adee42e044da7acf21180ec498c",
+              "legacyAuthoredSHA256": "4c11e3000d742afc8cc249b5ac1cca79fd5d215903a3d072d50bf5910333f285"
+            },
+            {
+              "id": "v:peggiorare::lesson::mixed::v2-background-progressive",
+              "poolSize": 14,
+              "poolSHA256": "8cc37eeaf0086dd31747a89998c469d4281cfa9451a282251ae03d0ddcff87af",
+              "legacyAuthoredSHA256": "fa13b74a885ef3ba97ef5be19f0b2ab9b5166a3fa92bbae0c15883fcdde20c3e"
+            }
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": []
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": []
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": []
+        },
+        {
+          "id": "imperativo",
+          "targets": []
+        }
+      ]
+    },
+    {
+      "id": "v:sparire",
+      "sourceContext": {
+        "id": "v:sparire:present:dictionary-0",
+        "it": "Sono sparite le chiavi della macchina, le hai viste?",
+        "en": "The car keys have disappeared, have you seen them?",
+        "answer": "sparite",
+        "answers": [
+          "sparite"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      },
+      "legacyRequired": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "targets": [
+            "v:sparire::lesson::present::form-0",
+            "v:sparire::lesson::present::form-1",
+            "v:sparire::lesson::present::form-2",
+            "v:sparire::lesson::present::formal",
+            "v:sparire::lesson::present::form-3",
+            "v:sparire::lesson::present::form-4",
+            "v:sparire::lesson::present::form-5",
+            "v:sparire::lesson::present::context"
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            "v:sparire::lesson::past::form-0",
+            "v:sparire::lesson::past::form-1",
+            "v:sparire::lesson::past::form-2",
+            "v:sparire::lesson::past::formal",
+            "v:sparire::lesson::past::form-3",
+            "v:sparire::lesson::past::form-4",
+            "v:sparire::lesson::past::form-5",
+            "v:sparire::lesson::past::context"
+          ]
+        },
+        {
+          "id": "background",
+          "targets": [
+            "v:sparire::lesson::background::form-0",
+            "v:sparire::lesson::background::form-1",
+            "v:sparire::lesson::background::form-2",
+            "v:sparire::lesson::background::formal",
+            "v:sparire::lesson::background::form-3",
+            "v:sparire::lesson::background::form-4",
+            "v:sparire::lesson::background::form-5"
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            "v:sparire::lesson::future::form-0",
+            "v:sparire::lesson::future::form-1",
+            "v:sparire::lesson::future::form-2",
+            "v:sparire::lesson::future::formal",
+            "v:sparire::lesson::future::form-3",
+            "v:sparire::lesson::future::form-4",
+            "v:sparire::lesson::future::form-5"
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            "v:sparire::lesson::condizionale::form-0",
+            "v:sparire::lesson::condizionale::form-1",
+            "v:sparire::lesson::condizionale::form-2",
+            "v:sparire::lesson::condizionale::formal",
+            "v:sparire::lesson::condizionale::form-3",
+            "v:sparire::lesson::condizionale::form-4",
+            "v:sparire::lesson::condizionale::form-5"
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            "v:sparire::lesson::mixed::present",
+            "v:sparire::lesson::mixed::past"
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": [
+            "v:sparire::lesson::trapassatoProssimo::form-0",
+            "v:sparire::lesson::trapassatoProssimo::form-1",
+            "v:sparire::lesson::trapassatoProssimo::form-2",
+            "v:sparire::lesson::trapassatoProssimo::formal",
+            "v:sparire::lesson::trapassatoProssimo::form-3",
+            "v:sparire::lesson::trapassatoProssimo::form-4",
+            "v:sparire::lesson::trapassatoProssimo::form-5"
+          ]
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": [
+            "v:sparire::lesson::passatoRemoto::form-0",
+            "v:sparire::lesson::passatoRemoto::form-1",
+            "v:sparire::lesson::passatoRemoto::form-2",
+            "v:sparire::lesson::passatoRemoto::formal",
+            "v:sparire::lesson::passatoRemoto::form-3",
+            "v:sparire::lesson::passatoRemoto::form-4",
+            "v:sparire::lesson::passatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": [
+            "v:sparire::lesson::trapassatoRemoto::form-0",
+            "v:sparire::lesson::trapassatoRemoto::form-1",
+            "v:sparire::lesson::trapassatoRemoto::form-2",
+            "v:sparire::lesson::trapassatoRemoto::formal",
+            "v:sparire::lesson::trapassatoRemoto::form-3",
+            "v:sparire::lesson::trapassatoRemoto::form-4",
+            "v:sparire::lesson::trapassatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": [
+            "v:sparire::lesson::futuroAnteriore::form-0",
+            "v:sparire::lesson::futuroAnteriore::form-1",
+            "v:sparire::lesson::futuroAnteriore::form-2",
+            "v:sparire::lesson::futuroAnteriore::formal",
+            "v:sparire::lesson::futuroAnteriore::form-3",
+            "v:sparire::lesson::futuroAnteriore::form-4",
+            "v:sparire::lesson::futuroAnteriore::form-5"
+          ]
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": [
+            "v:sparire::lesson::condizionalePassato::form-0",
+            "v:sparire::lesson::condizionalePassato::form-1",
+            "v:sparire::lesson::condizionalePassato::form-2",
+            "v:sparire::lesson::condizionalePassato::formal",
+            "v:sparire::lesson::condizionalePassato::form-3",
+            "v:sparire::lesson::condizionalePassato::form-4",
+            "v:sparire::lesson::condizionalePassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": [
+            "v:sparire::lesson::congiuntivoPresente::form-0",
+            "v:sparire::lesson::congiuntivoPresente::form-1",
+            "v:sparire::lesson::congiuntivoPresente::form-2",
+            "v:sparire::lesson::congiuntivoPresente::formal",
+            "v:sparire::lesson::congiuntivoPresente::form-3",
+            "v:sparire::lesson::congiuntivoPresente::form-4",
+            "v:sparire::lesson::congiuntivoPresente::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": [
+            "v:sparire::lesson::congiuntivoPassato::form-0",
+            "v:sparire::lesson::congiuntivoPassato::form-1",
+            "v:sparire::lesson::congiuntivoPassato::form-2",
+            "v:sparire::lesson::congiuntivoPassato::formal",
+            "v:sparire::lesson::congiuntivoPassato::form-3",
+            "v:sparire::lesson::congiuntivoPassato::form-4",
+            "v:sparire::lesson::congiuntivoPassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": [
+            "v:sparire::lesson::congiuntivoImperfetto::form-0",
+            "v:sparire::lesson::congiuntivoImperfetto::form-1",
+            "v:sparire::lesson::congiuntivoImperfetto::form-2",
+            "v:sparire::lesson::congiuntivoImperfetto::formal",
+            "v:sparire::lesson::congiuntivoImperfetto::form-3",
+            "v:sparire::lesson::congiuntivoImperfetto::form-4",
+            "v:sparire::lesson::congiuntivoImperfetto::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": [
+            "v:sparire::lesson::congiuntivoTrapassato::form-0",
+            "v:sparire::lesson::congiuntivoTrapassato::form-1",
+            "v:sparire::lesson::congiuntivoTrapassato::form-2",
+            "v:sparire::lesson::congiuntivoTrapassato::formal",
+            "v:sparire::lesson::congiuntivoTrapassato::form-3",
+            "v:sparire::lesson::congiuntivoTrapassato::form-4",
+            "v:sparire::lesson::congiuntivoTrapassato::form-5"
+          ]
+        },
+        {
+          "id": "imperativo",
+          "targets": [
+            "v:sparire::lesson::imperativo::form-1",
+            "v:sparire::lesson::imperativo::form-2",
+            "v:sparire::lesson::imperativo::form-3",
+            "v:sparire::lesson::imperativo::form-4",
+            "v:sparire::lesson::imperativo::form-5"
+          ]
+        }
+      ],
+      "chapters": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "legacyRequirements": [
+            {
+              "id": "v:sparire::lesson::present::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::context",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::present::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:sparire::lesson::present::form-0",
+              "poolSize": 2,
+              "poolSHA256": "926697cbbdfe376ba875d6bec6a55381a1291df3fcd5acc46948b43c05ad1b07",
+              "legacyAuthoredSHA256": "926697cbbdfe376ba875d6bec6a55381a1291df3fcd5acc46948b43c05ad1b07"
+            },
+            {
+              "id": "v:sparire::lesson::present::form-1",
+              "poolSize": 2,
+              "poolSHA256": "9a2ec38cdd2c59690a937c017248ae4bb73c74a812b6d702844cd6cc8dbb8bf1",
+              "legacyAuthoredSHA256": "e1bdd48d0e5b3d15a852d758f3bae002bb510d7a76282ea0fc6cbc12fac2303f"
+            },
+            {
+              "id": "v:sparire::lesson::present::form-2",
+              "poolSize": 2,
+              "poolSHA256": "4c6b1d5cc4082e677aa152ae39ca235e3737700ea799a192236407895c36384d",
+              "legacyAuthoredSHA256": "4c6b1d5cc4082e677aa152ae39ca235e3737700ea799a192236407895c36384d"
+            },
+            {
+              "id": "v:sparire::lesson::present::formal",
+              "poolSize": 2,
+              "poolSHA256": "bfa95f74f5ea5330aba27f896c7d03c864613a61ab3128c51719c0d8cd20a282",
+              "legacyAuthoredSHA256": "bfa95f74f5ea5330aba27f896c7d03c864613a61ab3128c51719c0d8cd20a282"
+            },
+            {
+              "id": "v:sparire::lesson::present::form-3",
+              "poolSize": 2,
+              "poolSHA256": "5334e14ba4553736ff41ccfbc366170667b12519874fbb1f9409d2717a9bc013",
+              "legacyAuthoredSHA256": "a8fc4e3e6101e7c775de01a8b0f2c2af53170f6edf84fa716fe86754d78b6f3a"
+            },
+            {
+              "id": "v:sparire::lesson::present::form-4",
+              "poolSize": 3,
+              "poolSHA256": "df8b92fabf1841af567dd1e0182f57c5eafc92a275dd2bda65f6a2d5eaaa6054",
+              "legacyAuthoredSHA256": "9f2901b8f98f948fe235955921295b83b75626b372a181cc12d9f5b0d00974e8"
+            },
+            {
+              "id": "v:sparire::lesson::present::form-5",
+              "poolSize": 2,
+              "poolSHA256": "4548f22cfaaa47937fd5dfa5e3407003f1cbf483e29e0ce85a4286dbdd42f2b3",
+              "legacyAuthoredSHA256": "a4066f52f16e24b0d347aba181fe8ea24d133590acbace74f8031d4008238b94"
+            },
+            {
+              "id": "v:sparire::lesson::present::context",
+              "poolSize": 15,
+              "poolSHA256": "4812f847ee1999bdedf250e4b602c25cbb7f5e114705bd14176884b48a3490d6",
+              "legacyAuthoredSHA256": "282a0ed5399b06e8a88943ea11bd8bad978286eee051e2d18f87449bd1e1c88d"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-progressive-form-0",
+              "poolSize": 2,
+              "poolSHA256": "3f5b0a8b0a9433ad020078aafc294739a5791fcd9cf400d0a1b8ec4e1dfb3929",
+              "legacyAuthoredSHA256": "3f5b0a8b0a9433ad020078aafc294739a5791fcd9cf400d0a1b8ec4e1dfb3929"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-progressive-form-1",
+              "poolSize": 2,
+              "poolSHA256": "9aaacca7f45c7953790b67dabb5e21505e59bc7503c1dfd6920f9b4321682240",
+              "legacyAuthoredSHA256": "9aaacca7f45c7953790b67dabb5e21505e59bc7503c1dfd6920f9b4321682240"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "5dbf0e923ce717e22eb7d65f226aeac690a9bb2de3b01d9b457da110cacb972a",
+              "legacyAuthoredSHA256": "5dbf0e923ce717e22eb7d65f226aeac690a9bb2de3b01d9b457da110cacb972a"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-progressive-form-3",
+              "poolSize": 2,
+              "poolSHA256": "da53e5d20227c86b75a34dd6fde2931e7597692b4755f28c2f411b05502853eb",
+              "legacyAuthoredSHA256": "da53e5d20227c86b75a34dd6fde2931e7597692b4755f28c2f411b05502853eb"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-progressive-form-4",
+              "poolSize": 2,
+              "poolSHA256": "db1c7bf38b677c7108392b6a133552f2ed3774591b04386d40714cddba61c3ed",
+              "legacyAuthoredSHA256": "db1c7bf38b677c7108392b6a133552f2ed3774591b04386d40714cddba61c3ed"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "bfdf24c6df05fae112b4ab0a0eeded677f2040da421204182554c9b009418207",
+              "legacyAuthoredSHA256": "bfdf24c6df05fae112b4ab0a0eeded677f2040da421204182554c9b009418207"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-progressive-formal",
+              "poolSize": 2,
+              "poolSHA256": "298b1875e866e8c3656f552edd4e375252731d2390f76db0a3bfca2ab199c8de",
+              "legacyAuthoredSHA256": "298b1875e866e8c3656f552edd4e375252731d2390f76db0a3bfca2ab199c8de"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-mixed-simple",
+              "poolSize": 14,
+              "poolSHA256": "6553dd6343f7896ee680be8896320bc63f64d91570dece577c07761589b38def",
+              "legacyAuthoredSHA256": "af7d7027139b973be8091484938dec6f2ddf026a2437fc9976a7fa9d019fe1e7"
+            },
+            {
+              "id": "v:sparire::lesson::present::v2-mixed-progressive",
+              "poolSize": 14,
+              "poolSHA256": "7cf66c015b165028cd8a8fbb762c1ce3bfb7cea61dbe838a9d2233838a9372aa",
+              "legacyAuthoredSHA256": "71f3295abfc5437f7eb6ae8b218fa93cc6d093ec15ffcef36fb96230c66704df"
+            }
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            {
+              "id": "v:sparire::lesson::past::form-0",
+              "poolSize": 2,
+              "poolSHA256": "a01194bd52ccc1ffd38fb233b32393704056f0868dd34a47e1541511dc55d6ce",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::past::form-1",
+              "poolSize": 2,
+              "poolSHA256": "d7ae8f12995d21f40152612980222cd674e592b8341ebcf6ddfbec946cbe4ca1",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::past::form-2",
+              "poolSize": 2,
+              "poolSHA256": "f2c7d0eb8eca6166b5c3e5ce02032762f871f35f355aded9d93e137d16b14df8",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::past::formal",
+              "poolSize": 2,
+              "poolSHA256": "201fa53238f9cb2f88cf5ac761854d16d453148367c9adb19b5bea89db00d3b9",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::past::form-3",
+              "poolSize": 2,
+              "poolSHA256": "101079dc027e772d3d7c5115ea21944b0668b5046ef2f51ebfdabfff931c6125",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::past::form-4",
+              "poolSize": 2,
+              "poolSHA256": "97c3b35b1252ffb435e495edbca5fb64e15b104c2094f91e01d11753600aa2ab",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::past::form-5",
+              "poolSize": 3,
+              "poolSHA256": "f7f7eb861847b9e2eb76dde4237b1a0f1e8fcff1ac4d3edaaa89785beb12a89e",
+              "legacyAuthoredSHA256": "104744afac1ffed2b0d89ab21bcf14ad1c3c7b690701e5ce4857b51066b1fc04"
+            },
+            {
+              "id": "v:sparire::lesson::past::context",
+              "poolSize": 15,
+              "poolSHA256": "b4e7cdb4a7071245ca568678732c8da793cc2b76e2bb0ff5c4e399aec27dda1a",
+              "legacyAuthoredSHA256": "104744afac1ffed2b0d89ab21bcf14ad1c3c7b690701e5ce4857b51066b1fc04"
+            }
+          ]
+        },
+        {
+          "id": "background",
+          "legacyRequirements": [
+            {
+              "id": "v:sparire::lesson::background::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::context",
+              "required": false,
+              "available": false,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:sparire::lesson::background::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:sparire::lesson::background::form-0",
+              "poolSize": 2,
+              "poolSHA256": "93620c5f72e8449aa2bf17d46e31012aee8bc02b61ae79705ab2969f79c3fd05",
+              "legacyAuthoredSHA256": "93620c5f72e8449aa2bf17d46e31012aee8bc02b61ae79705ab2969f79c3fd05"
+            },
+            {
+              "id": "v:sparire::lesson::background::form-1",
+              "poolSize": 2,
+              "poolSHA256": "b0b1b6518277083ea1b357f2f5a28e05f953ea0e9128f7061831448a41bc0cd9",
+              "legacyAuthoredSHA256": "b697cab55054185af5cc006dc12d5f12104e3c841e2f63a4dc3faee054f89b9d"
+            },
+            {
+              "id": "v:sparire::lesson::background::form-2",
+              "poolSize": 2,
+              "poolSHA256": "5b9d803a2186fe75a6a0f1de35b83885b8d51eca0beb9d4dc92cde0a0ee4e8e1",
+              "legacyAuthoredSHA256": "5b9d803a2186fe75a6a0f1de35b83885b8d51eca0beb9d4dc92cde0a0ee4e8e1"
+            },
+            {
+              "id": "v:sparire::lesson::background::formal",
+              "poolSize": 2,
+              "poolSHA256": "1d809525a1b72365e75bb841a4da2093e5db2930ba3d4f1782a84382ed950ac5",
+              "legacyAuthoredSHA256": "1d809525a1b72365e75bb841a4da2093e5db2930ba3d4f1782a84382ed950ac5"
+            },
+            {
+              "id": "v:sparire::lesson::background::form-3",
+              "poolSize": 2,
+              "poolSHA256": "ebdd4336772d01a1a4996551a5fe2cd51b35b58f061688dadafc0db55e844f96",
+              "legacyAuthoredSHA256": "3c4358f6d342a0e04fbcde42cbc0848640e110039c9f72520e64dca70410e120"
+            },
+            {
+              "id": "v:sparire::lesson::background::form-4",
+              "poolSize": 2,
+              "poolSHA256": "bb38e5c70125bfd7dbfb4a1200b8268e3dd1eef43adb32757fefea3338ffd20b",
+              "legacyAuthoredSHA256": "bb38e5c70125bfd7dbfb4a1200b8268e3dd1eef43adb32757fefea3338ffd20b"
+            },
+            {
+              "id": "v:sparire::lesson::background::form-5",
+              "poolSize": 2,
+              "poolSHA256": "ea7d9841a9ab68fd960bb2467b9401884415e5ed7d51b159cd95477a73bbf886",
+              "legacyAuthoredSHA256": "fcf721e0a7f067fba5dc2e80494f71ac459c6ed6b995d02866c863023756a778"
+            },
+            {
+              "id": "v:sparire::lesson::background::context",
+              "poolSize": 14,
+              "poolSHA256": "4d5737905f3a48be9b5565e31dcb511e732d7a5e9d0e695ae190a480f272891a",
+              "legacyAuthoredSHA256": "4067e088a1869aa86459b7daea1de85df49c35172a1fff0d06a572c703967d02"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-progressive-form-0",
+              "poolSize": 2,
+              "poolSHA256": "289742cb15749c72628646a0d8f982752798e7f214d85546607bc30b678b805d",
+              "legacyAuthoredSHA256": "289742cb15749c72628646a0d8f982752798e7f214d85546607bc30b678b805d"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-progressive-form-1",
+              "poolSize": 2,
+              "poolSHA256": "aa10fdcdfa84bf1d030fdbe4919065f39527584a1d60d4b39e336cd6add766b5",
+              "legacyAuthoredSHA256": "aa10fdcdfa84bf1d030fdbe4919065f39527584a1d60d4b39e336cd6add766b5"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "5f7ca5f1cbb7bbe48564c31ea1403c0c9327007475906e107db78fde8ce8dd00",
+              "legacyAuthoredSHA256": "5f7ca5f1cbb7bbe48564c31ea1403c0c9327007475906e107db78fde8ce8dd00"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-progressive-form-3",
+              "poolSize": 2,
+              "poolSHA256": "c21b4a152b4455004ffe54a1f16540e5dae7846b4dd258d3e26e1ba0591177ec",
+              "legacyAuthoredSHA256": "c21b4a152b4455004ffe54a1f16540e5dae7846b4dd258d3e26e1ba0591177ec"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-progressive-form-4",
+              "poolSize": 2,
+              "poolSHA256": "48617c15ff4b618529048f59eb7e656a0402e8695af2f9d889c666138f47aa94",
+              "legacyAuthoredSHA256": "48617c15ff4b618529048f59eb7e656a0402e8695af2f9d889c666138f47aa94"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "77e59f5401208377b92d701bc31209e1e109029cd1997e2021a400e32af01edc",
+              "legacyAuthoredSHA256": "77e59f5401208377b92d701bc31209e1e109029cd1997e2021a400e32af01edc"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-progressive-formal",
+              "poolSize": 2,
+              "poolSHA256": "a063b7c22b9c189b8bf814cb71ff7a13b8dfd2d3006570aafac7d013f6688c7d",
+              "legacyAuthoredSHA256": "a063b7c22b9c189b8bf814cb71ff7a13b8dfd2d3006570aafac7d013f6688c7d"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-mixed-simple",
+              "poolSize": 14,
+              "poolSHA256": "830a82e74fa7d6d7ed1fa8a0cd631d33e748c93373a0c4be738a6b8418a96e54",
+              "legacyAuthoredSHA256": "b00006931935f9e25fab0e1b63aab2175f28c85ccfa938ce1fcf50c130fab489"
+            },
+            {
+              "id": "v:sparire::lesson::background::v2-mixed-progressive",
+              "poolSize": 14,
+              "poolSHA256": "a832e7c38241228e5b6635fb105b85655d454ba7210b8ab47676043a7c8febaa",
+              "legacyAuthoredSHA256": "ab393ef47f97b296a86517681f9459f2d381c49b207c0f0f0ab45013fc0e7fd0"
+            }
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            {
+              "id": "v:sparire::lesson::future::form-0",
+              "poolSize": 2,
+              "poolSHA256": "78ff1b7bb60253eca5bf80ffa73e6505ba80b90dfbd7fc7995a3f638b2c08874",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::future::form-1",
+              "poolSize": 2,
+              "poolSHA256": "6c43760e3bc0f8f6b971de99f8be61a52201f9871a001ae55a79520d78f65714",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::future::form-2",
+              "poolSize": 2,
+              "poolSHA256": "2edce2c47cbe9f0bee45b599cc55c6b7c3133489f9b64c18f83357ebd20e4540",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::future::formal",
+              "poolSize": 2,
+              "poolSHA256": "2c2f405c5d60cb56a15ec8917e7b50b85a2de3521ab99370692cb4faf152ba41",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::future::form-3",
+              "poolSize": 2,
+              "poolSHA256": "edad76e8fd4b375faf1585e468d122788a192c98c71f23d29c8e04ad247cacb7",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::future::form-4",
+              "poolSize": 2,
+              "poolSHA256": "ca9ce42e0c60171a10f4c4db9f6e97d6e553f16cbc44c5a07a2713ed99e766ec",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::future::form-5",
+              "poolSize": 2,
+              "poolSHA256": "7c90f291c9958787575c502c51c5cbef5cff77ab731aba2e823dac59b8127fa0",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::future::context",
+              "poolSize": 14,
+              "poolSHA256": "83c585d242432a9f5f8cecf18f9dcd4bebfebb08441a898e7e86c6b77ed622e2",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            {
+              "id": "v:sparire::lesson::condizionale::form-0",
+              "poolSize": 2,
+              "poolSHA256": "4f93e02c5216613af889244828e52826ba8f84068726e975e7dd0bbc7012f1f5",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::condizionale::form-1",
+              "poolSize": 2,
+              "poolSHA256": "c810ad58f6726980ddbab67743b5ff24cb98e63b5043a4b0b3c235d32f9d03bb",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::condizionale::form-2",
+              "poolSize": 2,
+              "poolSHA256": "2c1fe63be4ccbfa61faa3a15a4ae07e0e9e19b554d82e75e343740072a9e9285",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::condizionale::formal",
+              "poolSize": 2,
+              "poolSHA256": "ec0179d5af9e7e451ee6dccffafe16d525642507d2fd62a7230968a069b1eb09",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::condizionale::form-3",
+              "poolSize": 2,
+              "poolSHA256": "0eea37170cb2a8d25914c67af6281b4444dc43c381f18868565ac2afcf694cfa",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::condizionale::form-4",
+              "poolSize": 2,
+              "poolSHA256": "3d92e1f637f3434471d7a585286a84974c48d4f762bedf7f2491f67e7265efca",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::condizionale::form-5",
+              "poolSize": 2,
+              "poolSHA256": "0f96ec541a87d271a4926aa7ecdaf902db07c4c2048c5faf4dd3e04e597138f6",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::condizionale::context",
+              "poolSize": 14,
+              "poolSHA256": "0304f147e2b21b49a224f5878d5685e04f8c851cd61ea912d204f4a32481d250",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            {
+              "id": "v:sparire::lesson::mixed::present",
+              "poolSize": 1,
+              "poolSHA256": "cd37d1d310216182e7e3c04ec0ed962d4794a5ac93c75be096e11186277cfdb5",
+              "legacyAuthoredSHA256": "cd37d1d310216182e7e3c04ec0ed962d4794a5ac93c75be096e11186277cfdb5"
+            },
+            {
+              "id": "v:sparire::lesson::mixed::past",
+              "poolSize": 15,
+              "poolSHA256": "b4e7cdb4a7071245ca568678732c8da793cc2b76e2bb0ff5c4e399aec27dda1a",
+              "legacyAuthoredSHA256": "104744afac1ffed2b0d89ab21bcf14ad1c3c7b690701e5ce4857b51066b1fc04"
+            },
+            {
+              "id": "v:sparire::lesson::mixed::future",
+              "poolSize": 14,
+              "poolSHA256": "83c585d242432a9f5f8cecf18f9dcd4bebfebb08441a898e7e86c6b77ed622e2",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::mixed::condizionale",
+              "poolSize": 14,
+              "poolSHA256": "0304f147e2b21b49a224f5878d5685e04f8c851cd61ea912d204f4a32481d250",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:sparire::lesson::mixed::v2-present-progressive",
+              "poolSize": 14,
+              "poolSHA256": "7cf66c015b165028cd8a8fbb762c1ce3bfb7cea61dbe838a9d2233838a9372aa",
+              "legacyAuthoredSHA256": "71f3295abfc5437f7eb6ae8b218fa93cc6d093ec15ffcef36fb96230c66704df"
+            },
+            {
+              "id": "v:sparire::lesson::mixed::v2-background-progressive",
+              "poolSize": 14,
+              "poolSHA256": "a832e7c38241228e5b6635fb105b85655d454ba7210b8ab47676043a7c8febaa",
+              "legacyAuthoredSHA256": "ab393ef47f97b296a86517681f9459f2d381c49b207c0f0f0ab45013fc0e7fd0"
+            }
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": []
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": []
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": []
+        },
+        {
+          "id": "imperativo",
+          "targets": []
+        }
+      ]
+    },
+    {
+      "id": "v:emanare",
+      "sourceContext": {
+        "id": "v:emanare:present:dictionary-2",
+        "it": "Le nuove linee guida saranno emanate entro il mese prossimo.",
+        "en": "The new guidelines will be issued by next month.",
+        "answer": "emanate",
+        "answers": [
+          "emanate"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      },
+      "legacyRequired": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "targets": [
+            "v:emanare::lesson::present::form-0",
+            "v:emanare::lesson::present::form-1",
+            "v:emanare::lesson::present::form-2",
+            "v:emanare::lesson::present::formal",
+            "v:emanare::lesson::present::form-3",
+            "v:emanare::lesson::present::form-4",
+            "v:emanare::lesson::present::form-5",
+            "v:emanare::lesson::present::context"
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            "v:emanare::lesson::past::form-0",
+            "v:emanare::lesson::past::form-1",
+            "v:emanare::lesson::past::form-2",
+            "v:emanare::lesson::past::formal",
+            "v:emanare::lesson::past::form-3",
+            "v:emanare::lesson::past::form-4",
+            "v:emanare::lesson::past::form-5",
+            "v:emanare::lesson::past::context"
+          ]
+        },
+        {
+          "id": "background",
+          "targets": [
+            "v:emanare::lesson::background::form-0",
+            "v:emanare::lesson::background::form-1",
+            "v:emanare::lesson::background::form-2",
+            "v:emanare::lesson::background::formal",
+            "v:emanare::lesson::background::form-3",
+            "v:emanare::lesson::background::form-4",
+            "v:emanare::lesson::background::form-5"
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            "v:emanare::lesson::future::form-0",
+            "v:emanare::lesson::future::form-1",
+            "v:emanare::lesson::future::form-2",
+            "v:emanare::lesson::future::formal",
+            "v:emanare::lesson::future::form-3",
+            "v:emanare::lesson::future::form-4",
+            "v:emanare::lesson::future::form-5"
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            "v:emanare::lesson::condizionale::form-0",
+            "v:emanare::lesson::condizionale::form-1",
+            "v:emanare::lesson::condizionale::form-2",
+            "v:emanare::lesson::condizionale::formal",
+            "v:emanare::lesson::condizionale::form-3",
+            "v:emanare::lesson::condizionale::form-4",
+            "v:emanare::lesson::condizionale::form-5"
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            "v:emanare::lesson::mixed::present",
+            "v:emanare::lesson::mixed::past",
+            "v:emanare::lesson::mixed::background"
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": [
+            "v:emanare::lesson::trapassatoProssimo::form-0",
+            "v:emanare::lesson::trapassatoProssimo::form-1",
+            "v:emanare::lesson::trapassatoProssimo::form-2",
+            "v:emanare::lesson::trapassatoProssimo::formal",
+            "v:emanare::lesson::trapassatoProssimo::form-3",
+            "v:emanare::lesson::trapassatoProssimo::form-4",
+            "v:emanare::lesson::trapassatoProssimo::form-5"
+          ]
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": [
+            "v:emanare::lesson::passatoRemoto::form-0",
+            "v:emanare::lesson::passatoRemoto::form-1",
+            "v:emanare::lesson::passatoRemoto::form-2",
+            "v:emanare::lesson::passatoRemoto::formal",
+            "v:emanare::lesson::passatoRemoto::form-3",
+            "v:emanare::lesson::passatoRemoto::form-4",
+            "v:emanare::lesson::passatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": [
+            "v:emanare::lesson::trapassatoRemoto::form-0",
+            "v:emanare::lesson::trapassatoRemoto::form-1",
+            "v:emanare::lesson::trapassatoRemoto::form-2",
+            "v:emanare::lesson::trapassatoRemoto::formal",
+            "v:emanare::lesson::trapassatoRemoto::form-3",
+            "v:emanare::lesson::trapassatoRemoto::form-4",
+            "v:emanare::lesson::trapassatoRemoto::form-5"
+          ]
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": [
+            "v:emanare::lesson::futuroAnteriore::form-0",
+            "v:emanare::lesson::futuroAnteriore::form-1",
+            "v:emanare::lesson::futuroAnteriore::form-2",
+            "v:emanare::lesson::futuroAnteriore::formal",
+            "v:emanare::lesson::futuroAnteriore::form-3",
+            "v:emanare::lesson::futuroAnteriore::form-4",
+            "v:emanare::lesson::futuroAnteriore::form-5"
+          ]
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": [
+            "v:emanare::lesson::condizionalePassato::form-0",
+            "v:emanare::lesson::condizionalePassato::form-1",
+            "v:emanare::lesson::condizionalePassato::form-2",
+            "v:emanare::lesson::condizionalePassato::formal",
+            "v:emanare::lesson::condizionalePassato::form-3",
+            "v:emanare::lesson::condizionalePassato::form-4",
+            "v:emanare::lesson::condizionalePassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": [
+            "v:emanare::lesson::congiuntivoPresente::form-0",
+            "v:emanare::lesson::congiuntivoPresente::form-1",
+            "v:emanare::lesson::congiuntivoPresente::form-2",
+            "v:emanare::lesson::congiuntivoPresente::formal",
+            "v:emanare::lesson::congiuntivoPresente::form-3",
+            "v:emanare::lesson::congiuntivoPresente::form-4",
+            "v:emanare::lesson::congiuntivoPresente::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": [
+            "v:emanare::lesson::congiuntivoPassato::form-0",
+            "v:emanare::lesson::congiuntivoPassato::form-1",
+            "v:emanare::lesson::congiuntivoPassato::form-2",
+            "v:emanare::lesson::congiuntivoPassato::formal",
+            "v:emanare::lesson::congiuntivoPassato::form-3",
+            "v:emanare::lesson::congiuntivoPassato::form-4",
+            "v:emanare::lesson::congiuntivoPassato::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": [
+            "v:emanare::lesson::congiuntivoImperfetto::form-0",
+            "v:emanare::lesson::congiuntivoImperfetto::form-1",
+            "v:emanare::lesson::congiuntivoImperfetto::form-2",
+            "v:emanare::lesson::congiuntivoImperfetto::formal",
+            "v:emanare::lesson::congiuntivoImperfetto::form-3",
+            "v:emanare::lesson::congiuntivoImperfetto::form-4",
+            "v:emanare::lesson::congiuntivoImperfetto::form-5"
+          ]
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": [
+            "v:emanare::lesson::congiuntivoTrapassato::form-0",
+            "v:emanare::lesson::congiuntivoTrapassato::form-1",
+            "v:emanare::lesson::congiuntivoTrapassato::form-2",
+            "v:emanare::lesson::congiuntivoTrapassato::formal",
+            "v:emanare::lesson::congiuntivoTrapassato::form-3",
+            "v:emanare::lesson::congiuntivoTrapassato::form-4",
+            "v:emanare::lesson::congiuntivoTrapassato::form-5"
+          ]
+        },
+        {
+          "id": "imperativo",
+          "targets": [
+            "v:emanare::lesson::imperativo::form-1",
+            "v:emanare::lesson::imperativo::form-2",
+            "v:emanare::lesson::imperativo::form-3",
+            "v:emanare::lesson::imperativo::form-4",
+            "v:emanare::lesson::imperativo::form-5"
+          ]
+        }
+      ],
+      "chapters": [
+        {
+          "id": "meet",
+          "targets": []
+        },
+        {
+          "id": "present",
+          "legacyRequirements": [
+            {
+              "id": "v:emanare::lesson::present::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::context",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::present::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:emanare::lesson::present::form-2",
+              "poolSize": 2,
+              "poolSHA256": "891e988248ff8f0897aa4c92b5a6bfeeed11abd5ac40f7e1514fa163c4b7db11",
+              "legacyAuthoredSHA256": "891e988248ff8f0897aa4c92b5a6bfeeed11abd5ac40f7e1514fa163c4b7db11"
+            },
+            {
+              "id": "v:emanare::lesson::present::form-4",
+              "poolSize": 1,
+              "poolSHA256": "1694042b87def4914d4df21d71c3f4f36261243c474a9ad00a104f3d894bbadb",
+              "legacyAuthoredSHA256": "1694042b87def4914d4df21d71c3f4f36261243c474a9ad00a104f3d894bbadb"
+            },
+            {
+              "id": "v:emanare::lesson::present::form-5",
+              "poolSize": 2,
+              "poolSHA256": "47d56c004632833b07ffd7d19a64ac057db9ae3482bbd8ae8c4fc00f89d53b83",
+              "legacyAuthoredSHA256": "0bc772556a407aff0e957fc15f576021aa2f84a0c7f608a5f237a5dada67bf5c"
+            },
+            {
+              "id": "v:emanare::lesson::present::context",
+              "poolSize": 5,
+              "poolSHA256": "87f1028d0a6e9ba10d32fe8865945a3200de7c945e859dd18ee7d8655476f602",
+              "legacyAuthoredSHA256": "0fb8e37c52fb0f2cf68dc6c574d99fbac2d88b1527dd197bcf38c151ddf7ae8e"
+            },
+            {
+              "id": "v:emanare::lesson::present::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "82c94f80565f397cd52ec08e45a628d588a6597d73c92e031be98380d8a0b096",
+              "legacyAuthoredSHA256": "82c94f80565f397cd52ec08e45a628d588a6597d73c92e031be98380d8a0b096"
+            },
+            {
+              "id": "v:emanare::lesson::present::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "2198db31747eff19f3cdd7b2bddd5f3c986ad6f7f434ce695c77949fb4737fe5",
+              "legacyAuthoredSHA256": "2198db31747eff19f3cdd7b2bddd5f3c986ad6f7f434ce695c77949fb4737fe5"
+            },
+            {
+              "id": "v:emanare::lesson::present::v2-mixed-simple",
+              "poolSize": 4,
+              "poolSHA256": "8e68f0127d2c5dc7c433cb3f313bf7910f24ff905ba26a64a6e3063f73c0b926",
+              "legacyAuthoredSHA256": "bd685e3e12588043838debaea32da5b521371f8511aaacaf87f528f94d8de37c"
+            },
+            {
+              "id": "v:emanare::lesson::present::v2-mixed-progressive",
+              "poolSize": 4,
+              "poolSHA256": "7fd967c9bca6d230c0c413960576e6f09fb772021006b5491f4b020cc8b54922",
+              "legacyAuthoredSHA256": "154fc5b773afe49526dd52f5ff9b736db542c49eb6683096fc2202291a2ca6e0"
+            }
+          ]
+        },
+        {
+          "id": "past",
+          "targets": [
+            {
+              "id": "v:emanare::lesson::past::form-2",
+              "poolSize": 1,
+              "poolSHA256": "4857d7664c0deddb322b56a9bc5c037c265e3def075133525907ed21e6ba6744",
+              "legacyAuthoredSHA256": "4857d7664c0deddb322b56a9bc5c037c265e3def075133525907ed21e6ba6744"
+            },
+            {
+              "id": "v:emanare::lesson::past::context",
+              "poolSize": 1,
+              "poolSHA256": "4857d7664c0deddb322b56a9bc5c037c265e3def075133525907ed21e6ba6744",
+              "legacyAuthoredSHA256": "4857d7664c0deddb322b56a9bc5c037c265e3def075133525907ed21e6ba6744"
+            }
+          ]
+        },
+        {
+          "id": "background",
+          "legacyRequirements": [
+            {
+              "id": "v:emanare::lesson::background::form-0",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::form-1",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::form-2",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::formal",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::form-3",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::form-4",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::form-5",
+              "required": true,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::context",
+              "required": false,
+              "available": true,
+              "completionRequired": false,
+              "supplementalOnly": false
+            },
+            {
+              "id": "v:emanare::lesson::background::progressive-usage",
+              "required": false,
+              "available": true,
+              "completionRequired": true,
+              "supplementalOnly": false
+            }
+          ],
+          "targets": [
+            {
+              "id": "v:emanare::lesson::background::form-2",
+              "poolSize": 3,
+              "poolSHA256": "c28955fc5b3689785372f4068f82c6d3f4e1620c98cbf944b6a8fb43c6236d5d",
+              "legacyAuthoredSHA256": "1408ea34421961f9f5aade5f03728ca816651687b6479475de52a65b28942dbb"
+            },
+            {
+              "id": "v:emanare::lesson::background::form-5",
+              "poolSize": 2,
+              "poolSHA256": "99f091b1c0b486813c0b255ba1ca30f9a45afa639f7642d384c85284b6412dc4",
+              "legacyAuthoredSHA256": "116239dc5cb226c0c2a168aa46fb588e0ea8cca5d7ec97878d79c0d764e86203"
+            },
+            {
+              "id": "v:emanare::lesson::background::context",
+              "poolSize": 5,
+              "poolSHA256": "977299f9b5ee492442c29a1c6f51c8b9fc979962af6725b099964807a8d95f2a",
+              "legacyAuthoredSHA256": "7e031aa4a668f5b1cb38ea82532d6fe3cc4121800624c6e0f9ae1537d5e889e1"
+            },
+            {
+              "id": "v:emanare::lesson::background::v2-progressive-form-2",
+              "poolSize": 2,
+              "poolSHA256": "72a8c855b2cb4a16901403b72011b060860aab50074708785ce2fa1f7132a9fb",
+              "legacyAuthoredSHA256": "72a8c855b2cb4a16901403b72011b060860aab50074708785ce2fa1f7132a9fb"
+            },
+            {
+              "id": "v:emanare::lesson::background::v2-progressive-form-5",
+              "poolSize": 2,
+              "poolSHA256": "cec980cb49d69c0fe776457a5b087ce00a5d8173d3a64ff64c58ee3ac7668815",
+              "legacyAuthoredSHA256": "cec980cb49d69c0fe776457a5b087ce00a5d8173d3a64ff64c58ee3ac7668815"
+            },
+            {
+              "id": "v:emanare::lesson::background::v2-mixed-simple",
+              "poolSize": 4,
+              "poolSHA256": "5f56c3e4c7f702dcb2af42846a96fc239f9c31740c42cbd2c58ac1d95c563c95",
+              "legacyAuthoredSHA256": "77c17abe785c994472c72c2b66c6ddd5fa13b45fa570e8cbf08f3708e8326229"
+            },
+            {
+              "id": "v:emanare::lesson::background::v2-mixed-progressive",
+              "poolSize": 4,
+              "poolSHA256": "80b05b371f6ef07782d5f1b5cc5eb0587855c454294207e951b6b2746eb03b0d",
+              "legacyAuthoredSHA256": "3a773ec8d9a26714741a76e1573eb641648c26364abafd1a4501b7e6cf12663c"
+            }
+          ]
+        },
+        {
+          "id": "future",
+          "targets": [
+            {
+              "id": "v:emanare::lesson::future::form-2",
+              "poolSize": 2,
+              "poolSHA256": "3a2fbcbe13479dbe4a72a1df4112f8f104c9e9720e4134e7f49bec49d2f1fda6",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:emanare::lesson::future::form-5",
+              "poolSize": 2,
+              "poolSHA256": "4b5eeb1965cbd0d467340ef5a49ebb25d2901885292db9d4a90186bd5a48bcb5",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:emanare::lesson::future::context",
+              "poolSize": 4,
+              "poolSHA256": "5cad3a917ecf9ed98743afbaeb13785839dde70374802502733cc3fb5d304e7e",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "condizionale",
+          "targets": [
+            {
+              "id": "v:emanare::lesson::condizionale::form-2",
+              "poolSize": 2,
+              "poolSHA256": "cfd05d95cde21d60c095d12b4a37c20b812544e76498d7f99f5e900ab93ec8ad",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:emanare::lesson::condizionale::form-5",
+              "poolSize": 2,
+              "poolSHA256": "29757b4e75acd4d857a9da9836873dd094a29c638e6cb91f8b9c9d9a9523f56b",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:emanare::lesson::condizionale::context",
+              "poolSize": 4,
+              "poolSHA256": "8b00d398a8b002ab67abfe0dcb39ebffba759ad5fc77ba2b08c37aa221bcf224",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            }
+          ]
+        },
+        {
+          "id": "mixed",
+          "targets": [
+            {
+              "id": "v:emanare::lesson::mixed::present",
+              "poolSize": 1,
+              "poolSHA256": "1694042b87def4914d4df21d71c3f4f36261243c474a9ad00a104f3d894bbadb",
+              "legacyAuthoredSHA256": "1694042b87def4914d4df21d71c3f4f36261243c474a9ad00a104f3d894bbadb"
+            },
+            {
+              "id": "v:emanare::lesson::mixed::past",
+              "poolSize": 1,
+              "poolSHA256": "4857d7664c0deddb322b56a9bc5c037c265e3def075133525907ed21e6ba6744",
+              "legacyAuthoredSHA256": "4857d7664c0deddb322b56a9bc5c037c265e3def075133525907ed21e6ba6744"
+            },
+            {
+              "id": "v:emanare::lesson::mixed::background",
+              "poolSize": 1,
+              "poolSHA256": "6eba0c582742713e09761520d0b550d1f87673994336d75784151d399047e0f8",
+              "legacyAuthoredSHA256": "6eba0c582742713e09761520d0b550d1f87673994336d75784151d399047e0f8"
+            },
+            {
+              "id": "v:emanare::lesson::mixed::future",
+              "poolSize": 4,
+              "poolSHA256": "5cad3a917ecf9ed98743afbaeb13785839dde70374802502733cc3fb5d304e7e",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:emanare::lesson::mixed::condizionale",
+              "poolSize": 4,
+              "poolSHA256": "8b00d398a8b002ab67abfe0dcb39ebffba759ad5fc77ba2b08c37aa221bcf224",
+              "legacyAuthoredSHA256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+            },
+            {
+              "id": "v:emanare::lesson::mixed::v2-present-progressive",
+              "poolSize": 4,
+              "poolSHA256": "7fd967c9bca6d230c0c413960576e6f09fb772021006b5491f4b020cc8b54922",
+              "legacyAuthoredSHA256": "154fc5b773afe49526dd52f5ff9b736db542c49eb6683096fc2202291a2ca6e0"
+            },
+            {
+              "id": "v:emanare::lesson::mixed::v2-background-progressive",
+              "poolSize": 4,
+              "poolSHA256": "80b05b371f6ef07782d5f1b5cc5eb0587855c454294207e951b6b2746eb03b0d",
+              "legacyAuthoredSHA256": "3a773ec8d9a26714741a76e1573eb641648c26364abafd1a4501b7e6cf12663c"
+            }
+          ]
+        },
+        {
+          "id": "trapassatoProssimo",
+          "targets": []
+        },
+        {
+          "id": "passatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "trapassatoRemoto",
+          "targets": []
+        },
+        {
+          "id": "futuroAnteriore",
+          "targets": []
+        },
+        {
+          "id": "condizionalePassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPresente",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoPassato",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoImperfetto",
+          "targets": []
+        },
+        {
+          "id": "congiuntivoTrapassato",
+          "targets": []
+        },
+        {
+          "id": "imperativo",
+          "targets": []
+        }
+      ]
+    }
+  ]
+}

@@ -113,5 +113,19 @@ try{
   assert.equal(await page.locator('[data-history-row]').count(),0);
   await page.keyboard.press('Escape');
  });
+ await check('Home and Learn resume the same saved conversation draft without awarding learning',async()=>{
+  const id=await page.evaluate(async()=>{
+   const {store}=await import('./js/store.js'),{createConversationRepository}=await import('./js/conversations/storage.js');
+   const repo=createConversationRepository({profileId:store.current.id,learnerId:store.current.learnerId});
+   try{const thread=await repo.createThread({name:'Ada',level:'A1',topic:'general',participants:[{id:'partner-1',name:'Marco'}]},{title:'Weekend plans'});await repo.saveDraft(thread.threadId,{typedText:'Vorrei un caffè.',turnId:'resume-draft'},{expectedRevision:0});window.__conversationLearning=JSON.stringify(store.learning);return thread.threadId;}finally{repo.close();}
+  });
+  const href='#/conversations/'+encodeURIComponent(id);
+  await gotoRoute(page,'/home');assert.equal(await page.locator('[data-continue-shared]').getAttribute('href'),href);
+  await gotoRoute(page,'/learn');const start=page.locator('[data-start][data-continue-shared]');assert.equal(await start.getAttribute('href'),href);assert.equal(await page.locator('[data-hero] [data-title]').innerText(),'Weekend plans');
+  await start.click();await page.waitForFunction(()=>document.querySelector('[data-conversation-draft]')?.value==='Vorrei un caffè.');assert.equal(await page.locator('[data-conversation-draft]').inputValue(),'Vorrei un caffè.');
+  assert.equal(await page.evaluate(async()=>JSON.stringify((await import('./js/store.js')).store.learning)===window.__conversationLearning),true);
+  await page.evaluate(async id=>{const {store}=await import('./js/store.js'),{createConversationRepository}=await import('./js/conversations/storage.js');const repo=createConversationRepository({profileId:store.current.id,learnerId:store.current.learnerId});try{await repo.updateThread(id,{archived:true});}finally{repo.close();}},id);
+  await gotoRoute(page,'/home');assert.notEqual(await page.locator('[data-continue-shared]').getAttribute('href'),href);
+ });
  assert.deepEqual(errors,[]);
 }finally{fs.writeFileSync(new URL('./report-programme-navigation.json',import.meta.url),JSON.stringify({results,errors},null,2));await browser.close();stop();}

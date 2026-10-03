@@ -2394,6 +2394,13 @@
   },
   {
     "inf": "controllare",
+    "sceneRevision": "controllare-closed-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1-before-controllare-closed-2026-10-03-1",
+    "legacyExpandedExamples": [
+      {"it":"Controllo l'email ogni mattina.","en":"I check my email every morning."},
+      {"it":"Hai controllato che la porta sia chiusa?","en":"Did you check that the door is locked?"},
+      {"it":"Il controllore ha controllato tutti i biglietti.","en":"The ticket inspector checked all the tickets."}
+    ],
     "policy": "dynamic",
     "sense": "check an item",
     "note": "Checking an email, ticket or list can be underway; the object anchors the inspection.",
@@ -3415,6 +3422,66 @@
     "sources": [
       "https://www.treccani.it/vocabolario/domandare/"
     ],
+    "retiredExpandedFrameIndexes": [1],
+    "retiredExpandedContextIds": [
+          "v:domandare:present:v2:simple:scene-1-0-ordinary",
+          "v:domandare:present:v2:simple:scene-1-1-ordinary",
+          "v:domandare:present:v2:simple:scene-1-2-ordinary",
+          "v:domandare:present:v2:simple:scene-1-2-formal",
+          "v:domandare:present:v2:simple:scene-1-3-ordinary",
+          "v:domandare:present:v2:simple:scene-1-4-ordinary",
+          "v:domandare:present:v2:simple:scene-1-5-ordinary",
+          "v:domandare:present:v2:progressive:scene-1-0-ordinary",
+          "v:domandare:present:v2:progressive:scene-1-1-ordinary",
+          "v:domandare:present:v2:progressive:scene-1-2-ordinary",
+          "v:domandare:present:v2:progressive:scene-1-3-ordinary",
+          "v:domandare:present:v2:progressive:scene-1-4-ordinary",
+          "v:domandare:present:v2:progressive:scene-1-5-ordinary",
+          "v:domandare:present:v2:progressive:scene-1-2-formal",
+          "v:domandare:past:reviewed-frame-1:person-0",
+          "v:domandare:past:reviewed-frame-1:person-1",
+          "v:domandare:past:reviewed-frame-1:person-2",
+          "v:domandare:past:reviewed-frame-1:formal",
+          "v:domandare:past:reviewed-frame-1:person-3",
+          "v:domandare:past:reviewed-frame-1:person-4",
+          "v:domandare:past:reviewed-frame-1:person-5",
+          "v:domandare:background:v2:simple:scene-1-0-ordinary",
+          "v:domandare:background:v2:simple:scene-1-1-ordinary",
+          "v:domandare:background:v2:simple:scene-1-2-ordinary",
+          "v:domandare:background:v2:simple:scene-1-2-formal",
+          "v:domandare:background:v2:simple:scene-1-3-ordinary",
+          "v:domandare:background:v2:simple:scene-1-4-ordinary",
+          "v:domandare:background:v2:simple:scene-1-5-ordinary",
+          "v:domandare:background:v2:progressive:scene-1-0-ordinary",
+          "v:domandare:background:v2:progressive:scene-1-1-ordinary",
+          "v:domandare:background:v2:progressive:scene-1-2-ordinary",
+          "v:domandare:background:v2:progressive:scene-1-3-ordinary",
+          "v:domandare:background:v2:progressive:scene-1-4-ordinary",
+          "v:domandare:background:v2:progressive:scene-1-5-ordinary",
+          "v:domandare:background:v2:progressive:scene-1-2-formal",
+          "v:domandare:future:reviewed-frame-1:person-0",
+          "v:domandare:future:reviewed-frame-1:person-1",
+          "v:domandare:future:reviewed-frame-1:person-2",
+          "v:domandare:future:reviewed-frame-1:formal",
+          "v:domandare:future:reviewed-frame-1:person-3",
+          "v:domandare:future:reviewed-frame-1:person-4",
+          "v:domandare:future:reviewed-frame-1:person-5",
+          "v:domandare:condizionale:reviewed-frame-1:person-0",
+          "v:domandare:condizionale:reviewed-frame-1:person-1",
+          "v:domandare:condizionale:reviewed-frame-1:person-2",
+          "v:domandare:condizionale:reviewed-frame-1:formal",
+          "v:domandare:condizionale:reviewed-frame-1:person-3",
+          "v:domandare:condizionale:reviewed-frame-1:person-4",
+          "v:domandare:condizionale:reviewed-frame-1:person-5"
+    ],
+    "sceneRevision": "domandare-usage-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1-before-domandare-usage-2026-10-03-1",
+    "legacyExpandedFrames": [
+      ["una cosa", "one thing"],
+      ["una domanda", "a question"],
+      ["un’informazione", "for some information"],
+      ["il prezzo", "the price"]
+    ],
     "legacyFrames": [
       [
         "una cosa",
@@ -3774,6 +3841,26 @@
   },
   {
     "inf": "fiorire",
+    "sceneRevision": "fiorire-finite-span-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1-before-fiorire-finite-span-2026-10-03-1",
+    "retiredExpandedContextIds": ["v:fiorire:present:dictionary-1"],
+    "legacyExpandedSourceContexts": [
+      {
+        "chapter": "present",
+        "id": "v:fiorire:present:dictionary-1",
+        "it": "Le rose sono fiorite presto quest'anno.",
+        "en": "The roses bloomed early this year.",
+        "answer": "fiorite",
+        "answers": [
+          "fiorite"
+        ],
+        "person": 4,
+        "role": "ordinary",
+        "aux": null,
+        "source": "dictionary-exact",
+        "reviewed": false
+      }
+    ],
     "policy": "sense-dependent",
     "sense": "bloom",
     "note": "Flowers opening give fiorire an unfolding reading; fioriscono in aprile can state a seasonal pattern.",
@@ -5545,6 +5632,21 @@
   },
   {
     "inf": "odiare",
+    "sceneRevision": "odiare-neutral-frame-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1-before-odiare-neutral-frame-2026-10-03-1",
+    "legacyExpandedFrames": [
+      ["il freddo", "the cold"],
+      ["le bugie", "lies"],
+      ["la pioggia", "the rain"],
+      ["alzarmi presto", "getting up early"]
+    ],
+    "legacyFrames": [
+      ["il freddo", "the cold"],
+      ["le bugie", "lies"],
+      ["la pioggia", "the rain"],
+      ["alzarmi presto", "getting up early"]
+    ],
+    "legacyFrameCount": 4,
     "policy": "simple",
     "sense": "hate someone or something",
     "note": "Odio states an attitude toward a person or thing; do not turn that stable attitude into an unfolding activity.",

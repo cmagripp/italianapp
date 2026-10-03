@@ -418,6 +418,11 @@ function build(infinitive, meta = {}, regular = false) {
       text: 'Capiente describes capacity or room to contain something. It belongs to the older containment meaning of capire.',
       source: 'https://www.treccani.it/vocabolario/capiente/',
       sourceLabel: 'Treccani',
+    } } : inf === 'cuocere' ? { participioPresente: {
+      status: 'lexical-meaning-note',
+      text: 'Cocente is used as an adjective meaning scalding or intensely hot, and figuratively acute or painful. It is not the ordinary way to say that food is cooking.',
+      source: 'https://www.treccani.it/vocabolario/cocente/',
+      sourceLabel: 'Treccani',
     } } : {},
     group: par.cls === 'are' ? '-are' : par.cls === 'ere' ? (/rre$/.test(base) ? '-rre' : '-ere') : (par.isc ? '-ire (-isc-)' : '-ire'),
   };

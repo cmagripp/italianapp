@@ -1,7 +1,7 @@
 // Home: greeting, ticker of recent words, TODAY pane (counters + weekly rail + Continue), level ribbon (homeLevels.js),
 // word & verb of the day, reel of game posters.
 import { html, raw, tr, speakBtn, levelBadge, secHead, fmtNum, toast, icon } from '../ui.js';
-import { setTitle } from '../app.js';
+import { setTitle, captureViewOwnership } from '../app.js';
 import { store, todayKey } from '../store.js';
 import { data, LEVELS, LEVEL_INFO, dailyPick, headword, getEntry, withArticle, article, isPluralOnly, nounNumberNote, CATS, itemsForScope } from '../data.js';
 import { IT_POS } from '../components.js';
@@ -14,6 +14,7 @@ import { homeLearning } from '../learning/home-learning.js';
 import {dailyPlan} from '../learning/daily-plan.js';
 import {loadGrammarCourse} from '../learning/grammar-course.js';
 import {planPanelHTML,openPlanBudget} from '../learning/plan-panel.js';
+import {loadConversationContinuation} from '../learning/conversation-continuation.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const REEL_GAMES = ['flashcards', 'quiz', 'conj-drill', 'crossword', 'speed'];
@@ -103,7 +104,9 @@ function fitDayCards(container) {
 }
 
 export async function render(root) {
-  await Promise.all([homeLearning(store),loadGrammarCourse().catch(() => null)]);
+  const owned=captureViewOwnership(root);
+  await Promise.all([homeLearning(store),loadGrammarCourse().catch(() => null),loadConversationContinuation(store)]);
+  if(!owned())return;
   const plan=dailyPlan(store);
   setTitle(''); // the top bar shows "Parola" on its own; 'Parola' here made the document title "Parola · Parola"
   const p = store.current;
@@ -172,7 +175,7 @@ export async function render(root) {
   try { document.fonts?.ready?.then(() => { if (home.isConnected) fitDayCards(home.querySelector('[data-night]')); }); } catch { /* no Font Loading API */ }
 
   function setLevel(L) {
-    if (!LEVELS.includes(L)) return;
+    if (!owned() || !LEVELS.includes(L)) return;
     const changed = L !== lvl;
     lvl = L;
     store.setSetting('level', L);
@@ -188,8 +191,9 @@ export async function render(root) {
   }
 
   home.addEventListener('click', (ev) => {
+    if(!owned())return;
     const budget=ev.target.closest('[data-plan-budget]');
-    if(budget){openPlanBudget(budget,store,()=>{home.querySelector('[data-plan-host]').innerHTML=planPanelHTML(dailyPlan(store));});return;}
+    if(budget){openPlanBudget(budget,store,()=>{if(owned())home.querySelector('[data-plan-host]').innerHTML=planPanelHTML(dailyPlan(store));});return;}
     const card = ev.target.closest('[data-href]');
     if (card && !ev.target.closest('a, button, .itx, input')) location.hash = card.dataset.href;
   });

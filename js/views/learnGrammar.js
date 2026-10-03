@@ -1,7 +1,7 @@
 import {mountActivityViewport} from '../learning/activity-viewport.js';
 import { render as renderCourse } from './learnCourse.js';
 import { announceAnswer, html, raw, icon, speak, speakBtn } from '../ui.js';
-import { setTitle, setChrome } from '../app.js';
+import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { LEARNING_VERSION } from '../learning/model.js';
 import { shuffle, getEntry } from '../data.js';
@@ -10,30 +10,47 @@ import { feedbackHTML } from '../games/engine.js';
 import { createSentencePanel } from '../learning/sentence-panel.js';
 import { loadGrammarCourse, loadGrammarLesson, grammarCourse, grammarLesson, grammarHref, grammarProgress, relatedVocabulary } from '../learning/grammar-course.js';
 import { createGrammarSession, compatibleGrammarSession, grammarObjective, currentGrammarQuestion, advanceGrammar, grammarAttempt, checkGrammarAnswer } from '../learning/grammar-journey.js';
+import {assistanceAvailable} from '../learning/ai-assistance.js';
+import {createPracticeHelp} from '../learning/practice-help.js';
 
 const button=(label,attr,cls='secondary')=>html`<button type="button" class="btn ${cls} block" ${raw(attr)}>${label}</button>`;
 const exercisePrompt=prompt=>({'Choose the form that completes the sentence.':'Complete the sentence','Put the words in the correct order.':'Build the sentence'}[prompt] || prompt);
 const vocabHref=(x,lesson,courseSession)=>`#/learn/${x.entry.kind==='verb'?'verb':'word'}/${encodeURIComponent(x.entry.id)}?${new URLSearchParams({fromGrammar:lesson.id,...x.caseId?{chapter:x.caseId}:{},...courseSession?{courseSession:'1'}:{}})}`;
 export async function render(root,params,query={}) {
+  const owned=captureViewOwnership(root);
+  const owner=store.current.id,ownerLearner=store.current.learnerId,ownerEpoch=store.learning.epoch.id;
+  const sameOwner=()=>store.current.id===owner&&store.current.learnerId===ownerLearner&&store.learning.epoch.id===ownerEpoch;
   if(store.learning.version>LEARNING_VERSION){root.innerHTML=html`<div class="empty"><h1>Update Parola to continue</h1><p>Your saved progress is safe. Reopen the app online to get the latest version.</p><a href="#/learn">Back to Learn</a></div>`;return;}
   let lesson;
-  try{lesson=await loadGrammarLesson(params.id);}catch(error){root.innerHTML=html`<div class="empty"><p>${error.message}</p><button class="btn primary" data-course-retry>Retry this lesson</button><a class="btn ghost" href="#/course">Your course</a></div>`;root.querySelector('[data-course-retry]').addEventListener('click',()=>render(root,params,query));return;}
+  try{lesson=await loadGrammarLesson(params.id);}catch(error){if(!owned()||!sameOwner())return;root.innerHTML=html`<div class="empty"><p>${error.message}</p><button class="btn primary" data-course-retry>Retry this lesson</button><a class="btn ghost" href="#/course">Your course</a></div>`;root.querySelector('[data-course-retry]').addEventListener('click',()=>render(root,params,query));return;}
+  if(!owned()||!sameOwner())return;
   if(!lesson){root.innerHTML=html`<div class="empty"><p>This lesson is unavailable.</p><a class="btn primary" href="#/course">Your course</a></div>`;return;}
   if(lesson.contentVersion===2)return renderCourse(root,lesson,query);
-  const owner=store.current.id, mode=query.mode==='review'?'review':'lesson';
+  const mode=query.mode==='review'?'review':'lesson';
   const prior=store.learning.sessions[`g:${lesson.id}|${mode}`];
   let session=compatibleGrammarSession(lesson,prior) && (prior.grammar.phase!=='complete'||query.recap==='1') && (!query.objective || prior.objectiveIds.includes(query.objective) && grammarObjective(lesson,prior)?.id===query.objective)
     ? JSON.parse(JSON.stringify(prior)) : createGrammarSession(lesson,{mode,objective:query.objective});
   let disposed=false;
   const g=()=>session.grammar;
-  const save=()=>{if(!disposed&&store.current.id===owner){store.saveLearningSession(session);}};
+  const save=()=>{if(!disposed&&sameOwner()){store.saveLearningSession(session);}};
+  const help=createPracticeHelp({getSession:()=>session,isCurrent:()=>!disposed&&sameOwner(),getSource:()=>{
+    if(g().paused||g().historyCursor!==null||g().phase==='complete')return null;
+    const objective=grammarObjective(lesson,session),q=g().phase==='question'?currentGrammarQuestion(lesson,session):null,card=g().phase==='teach'?objective.teach[g().teachIndex]:null;
+    const canonical=q||card||{label:objective.label,explanation:objective.explanation};
+    return {sourceId:`grammar:${lesson.id}:${objective.id}:${q?.id||g().phase+':'+g().teachIndex}`,sessionId:session.id,index:session.index,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,level:lesson.level,
+      prompt:canonical.prompt||canonical.body||canonical.explanation||canonical.label||lesson.title,context:JSON.stringify({context:q?.context,translation:q?.translation,examples:card?.examples}),canonical:JSON.parse(JSON.stringify(canonical)),
+      answers:[q?.answer,...q?.accepted||[],...(q?.pairs||[]).map(pair=>pair.right)].filter(value=>typeof value==='string'),originalInput:g().draft,result:g().result,inputLanguage:'en'};
+   },persist:async()=>{if(disposed||!sameOwner())throw new DOMException('This practice step changed.','AbortError');save();await store.saveNow();},
+   onViewed:()=>{if(g().phase==='question'&&!g().result)g().assistance=[...new Set([...g().assistance,'hint'])];},onRefresh:()=>draw(),
+  });
+  const offOwner=store.on('profile',()=>{if(!sameOwner())help.close();});
   setTitle(lesson.title);setScene(lesson.level);setChrome({tabs:false,back:false});
   const viewport=mountActivityViewport(root);
   const fit=viewport.fit;
   const info=document.createElement('button');info.className='journey-info-toggle icon-btn';info.type='button';info.setAttribute('aria-label','Lesson reference');info.setAttribute('aria-haspopup','menu');info.setAttribute('aria-expanded','false');info.innerHTML='<span aria-hidden="true" style="font-family:Georgia,serif;font-style:italic;font-size:21px">i</span>';
   document.querySelector('#enToggle').before(info);
-  info.addEventListener('click',()=>dropdown(info,[{value:'outline',label:'Course outline',sub:lesson.unitTitle},...(lesson.referenceTopics || []).map(id=>({value:id,label:id.split('-').join(' '),sub:'Grammar reference'}))],{align:'end',width:285,onSelect:value=>{save();location.hash=value==='outline'?'#/course':'#/grammar/'+value;}}));
-  const panel=createSentencePanel(root,{context:el=>({sentence:{it:el?.textContent || '',en:el?.dataset.english || ''}}),onReveal:()=>{if(g().phase==='question'&&!g().result && g().historyCursor===null){g().assistance=[...new Set([...g().assistance,'lookup'])];save();}}});
+  info.addEventListener('click',()=>{if(disposed||!sameOwner())return;dropdown(info,[{value:'outline',label:'Course outline',sub:lesson.unitTitle},...(lesson.referenceTopics || []).map(id=>({value:id,label:id.split('-').join(' '),sub:'Grammar reference'}))],{align:'end',width:285,onSelect:value=>{if(disposed||!sameOwner())return;save();location.hash=value==='outline'?'#/course':'#/grammar/'+value;}});});
+  const panel=createSentencePanel(root,{context:el=>({sentence:{it:el?.textContent || '',en:el?.dataset.english || ''}}),onReveal:()=>{if(!disposed&&sameOwner()&&g().phase==='question'&&!g().result && g().historyCursor===null){g().assistance=[...new Set([...g().assistance,'lookup'])];save();}}});
   function questionHTML(q,state,past) {
     const answered=!!state.result;
     let activity='';
@@ -51,7 +68,7 @@ export async function render(root,params,query={}) {
     return html`<section class="grammar-question"><span class="kicker">${state.guided?'Try it together':'Your turn'}</span><h1 tabindex="-1" data-focus>${exercisePrompt(q.prompt)}</h1>${q.translation?raw(html`<p class="grammar-translation">${q.translation}</p>`):''}${q.context?raw(html`<p class="grammar-sentence" lang="it" data-italian-sentence data-english="${q.translation || ''}">${q.context}</p>`):''}${raw(activity)}${!answered&&!past?raw(html`${state.assistance.includes('hint')?raw(html`<aside class="grammar-hint">${q.hint || grammarObjective(lesson,session).explanation}</aside>`):''}<div class="journey-tools"><button type="button" class="btn ghost" data-hint>Help me</button><button type="button" class="btn ghost" data-reveal>Show answer</button><button type="button" class="btn ghost" data-pause>Save for later</button></div>`):''}</section>`;
   }
   function draw(focus=false) {
-    if(disposed||store.current.id!==owner)return;
+    if(disposed||!sameOwner())return;
     const state=g().historyCursor!==null?g().history[g().historyCursor]:g(),past=state!==g();
     const objective=lesson.objectives[state.objectiveIndex],progress=grammarProgress(lesson,store.learning);
     const q=state.phase==='question'?(objective.questions.find(x=>x.id===state.questionId)||objective.questions[state.questionIndex%objective.questions.length]):null;
@@ -81,11 +98,15 @@ export async function render(root,params,query={}) {
     if(past){content=html`<div class="grammar-history-note">Earlier in this lesson · answers are not recorded here</div>${raw(content)}`;footer=button('Return to your place','data-return-live','primary');}
     const pct=state.phase==='complete'?100:Math.min(95,Math.round((progress.completed+Math.min(.9,(state.teachIndex+state.questionIndex+1)/7))/progress.total*100));
     root.innerHTML=html`<div class="grammar-shell" data-grammar-lesson="${lesson.id}" data-phase="${g().paused?'paused':state.phase}" data-history="${past}"><header class="grammar-header"><button type="button" class="btn ghost" data-grammar-back ${!g().history.length?raw('disabled'):''}>${raw(icon('chevron',{size:16}))} Back</button><span class="kicker">${lesson.level} · ${g().paused?'Paused':state.phase==='complete'?'Complete':state.phase==='teach'?'Learn':state.phase==='repair'?'A closer look':'Practise'}</span><button type="button" class="btn ghost" data-pause>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header><main class="grammar-scroll">${raw(content)}</main>${footer?raw(html`<footer class="grammar-footer ${state.result&&!past?'has-feedback':''}">${raw(footer)}</footer>`):''}</div>`;
-    panel.decorate();save();
+    if(!g().paused&&!past&&state.phase!=='complete'&&assistanceAvailable()){
+      const tools=document.createElement('div');tools.className='journey-tools';tools.dataset.aiLessonTools='';
+      tools.innerHTML=(q&&!state.result?['hint','explain']:['explain']).map(task=>html`<button type="button" class="btn ghost" data-ai-lesson-help="${task}">${task==='hint'?'Another hint':'Help me understand'}</button>`).join('');root.querySelector('.grammar-scroll').append(tools);
+    }
+    help.check();panel.decorate();save();
     if(focus)root.querySelector('[data-focus]')?.focus({preventScroll:true});
   }
   function submit(value,{reveal=false}={}) {
-    if(g().result||g().historyCursor!==null||g().paused||g().phase!=='question')return;
+    if(disposed||!sameOwner()||g().result||g().historyCursor!==null||g().paused||g().phase!=='question')return;
     const q=currentGrammarQuestion(lesson,session),attempt=grammarAttempt(lesson,session,q,value,{reveal,accentStrict:store.settings.accentStrict});
     store.recordLearningAttempt(attempt);announceAnswer(attempt);
     g().result={ok:attempt.ok,assisted:!!attempt.assistance.length,given:attempt.submission?.displayText || (typeof value==='string'?value:''),submission:attempt.submission,questionId:q.id};
@@ -95,12 +116,13 @@ export async function render(root,params,query={}) {
   }
   function check(){const q=currentGrammarQuestion(lesson,session);if(q)submit(q.format==='order'?g().tokens.map(i=>q.tokens[i]).join(' '):g().draft);}
   const click=event=>{
-    const b=event.target.closest('button');if(!b||disposed||store.current.id!==owner)return;
+    const b=event.target.closest('button');if(!b||disposed||!sameOwner())return;
     if(b.hasAttribute('data-pause')){g().paused=true;save();draw();return;}
     if(b.hasAttribute('data-resume')){g().paused=false;save();draw();return;}
     if(b.hasAttribute('data-grammar-back')){if(g().phase==='question'&&!g().result)g().assistance=[...new Set([...g().assistance,'history'])];if(g().history.length)g().historyCursor=g().historyCursor===null?g().history.length-1:Math.max(0,g().historyCursor-1);save();draw();return;}
     if(b.hasAttribute('data-return-live')){g().historyCursor=null;save();draw();return;}
     if(g().historyCursor!==null||g().paused)return;
+    if(b.hasAttribute('data-ai-lesson-help')){void help.open(b.dataset.aiLessonHelp,b).catch(error=>{if(!disposed&&sameOwner()&&error.name!=='AbortError')console.warn(error.message);});return;}
     if(b.hasAttribute('data-grammar-next')){session=advanceGrammar(lesson,session,store.learning);delete g().optionOrder;delete g().tokenOrder;delete g().rightOrder;g().pairMessage='';save();draw(true);return;}
     const q=currentGrammarQuestion(lesson,session);if(!q||g().result)return;
     if(b.hasAttribute('data-choice'))submit(q.options[Number(b.dataset.choice)]);
@@ -117,8 +139,8 @@ export async function render(root,params,query={}) {
       save();draw();
     } else if(b.hasAttribute('data-accent')){const input=root.querySelector('[data-grammar-input]');if(input){input.setRangeText(b.dataset.accent,input.selectionStart,input.selectionEnd,'end');g().draft=input.value;save();input.focus({preventScroll:true});root.querySelector('[data-check-grammar]')?.removeAttribute('disabled');}}
   };
-  const input=event=>{if(event.target.matches('[data-grammar-input]')){g().draft=event.target.value.slice(0,600);save();root.querySelector('[data-check-grammar]')?.toggleAttribute('disabled',!g().draft.trim());}};
-  const form=event=>{if(event.target.matches('[data-grammar-form]')){event.preventDefault();check();}};
+  const input=event=>{if(!disposed&&sameOwner()&&event.target.matches('[data-grammar-input]')){g().draft=event.target.value.slice(0,600);save();help.check();root.querySelector('[data-check-grammar]')?.toggleAttribute('disabled',!g().draft.trim());}};
+  const form=event=>{if(!disposed&&sameOwner()&&event.target.matches('[data-grammar-form]')){event.preventDefault();check();}};
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);save();draw();
-  return ()=>{save();disposed=true;panel.destroy();info.remove();root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);viewport.destroy();setChrome({tabs:true});};
+  return ()=>{save();disposed=true;offOwner();help.dispose();panel.destroy();info.remove();root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);viewport.destroy();setChrome({tabs:true});};
 }

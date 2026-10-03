@@ -1,0 +1,76 @@
+{
+  "build": "parola-v15-d3129e9c1332",
+  "sourceCommit": "2c8dfd0",
+  "kind": "Assembled development checkpoint; not final programme release",
+  "offlineUpdateChecks": [
+    {
+      "name": "early optional runtime opt-in persists before first worker control",
+      "ok": true
+    },
+    {
+      "name": "an existing installation upgrades its complete offline shell",
+      "ok": true
+    },
+    {
+      "name": "a hash-identical update reuses every required asset without network downloads",
+      "ok": true
+    },
+    {
+      "name": "a corrupt cached asset is rejected offline and repaired when online",
+      "ok": true
+    },
+    {
+      "name": "optional self-hosted assistant runtime survives a cold offline import",
+      "ok": true
+    },
+    {
+      "name": "an incomplete update cannot replace the working offline worker",
+      "ok": true
+    },
+    {
+      "name": "course and lesson load offline while old learned items remain intact",
+      "ok": true
+    },
+    {
+      "name": "an offline answer and exact feedback resume after reload without duplicate XP",
+      "ok": true
+    },
+    {
+      "name": "Saved conversation drafts reopen offline independently of model availability",
+      "ok": true
+    }
+  ],
+  "offlineErrors": [],
+  "grammarOfflineChecks": 7,
+  "grammarOfflineResult": "passed; all seven stages, downloaded audio ranges, migration, interrupted updates and saved grammar drafts/feedback",
+  "conversationContinuation": {
+    "node": 5,
+    "browser": {
+      "chromium": 10,
+      "webkit": 10
+    },
+    "sourceNewerThanCheckpoint": true
+  },
+  "finalReleaseValidated": false,
+  "simulator": {
+    "device": "iPhone 16 Pro Max",
+    "iOS": "26.5",
+    "host": "macOS Simulator",
+    "mode": "existing installed Home Screen candidate at localhost:8165/candidate/",
+    "observed": [
+      "Old installed shell displayed saved credere draft and4XP before update",
+      "After closing/reopening via app switcher, current daily plan appeared without reinstalling",
+      "Continue restored the existing Tu credi al racconto di Sara question and saved credi draft",
+      "Correct answer produced full sentence feedback with reachable bottom Continue and no bottom black strip",
+      "Stopped candidate origin server; fully closed/reopened candidate; Home loaded locally with5XP; Continue restored exact feedback and1/8 visit count",
+      "Restarted owned test server afterward"
+    ],
+    "limits": [
+      "Origin-unavailable cold reopen, not physical-phone airplane-mode validation",
+      "No production AI or speech pack enabled or evaluated in this UI run",
+      "Native accessibility tree exposed simulator chrome but not web content; screenshots do not establish VoiceOver qualification",
+      "Current source includes later work not yet in this assembled checkpoint"
+    ],
+    "finding": "Visit count ran together with chapter label; source CSS now places it on a separate line, pending rebuilt-device check"
+  }
+}

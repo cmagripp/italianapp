@@ -1,0 +1,19 @@
+{
+  "engine": "chromium",
+  "checks": 12,
+  "results": [
+    "A real saved expanded question pins its old sentence and exact unfinished draft",
+    "Submitted feedback and full sentence playback survive reload without new evidence",
+    "Continue selects current content; Back and reload retain the old feedback page and current draft",
+    "A fresh scene shows the corrected sentence from first paint and retains its exact draft",
+    "A saved progressive question preserves its original construction, answer and full-sentence audio",
+    "An imported malformed scene is preserved unavailable without replacing its draft or awarding evidence",
+    "Retired fiorire source waits for explicit Continue and preserves its old receipt without credit",
+    "Retired peggiorare source waits for explicit Continue and preserves its old receipt without credit",
+    "Retired sparire source waits for explicit Continue and preserves its old receipt without credit",
+    "Retired emanare source waits for explicit Continue and preserves its old receipt without credit",
+    "Domandare retires only the old wording and uses the corrected sentence with the same source ID",
+    "An ordinary v1 false-tense cursor also transitions explicitly instead of grading its retired sentence"
+  ],
+  "pageErrors": []
+}

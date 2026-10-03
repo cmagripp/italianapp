@@ -144,8 +144,12 @@
 .me-history-row small,.me-history-row time { color:var(--ink-2); font-size:13px; }
 .me-history-state { color:var(--ink-2); font-size:14px; flex:0 1 45%; text-align:right; overflow-wrap:anywhere; }
 .me-history-answer { width:100%; margin:0; overflow-wrap:anywhere; }
-.me-settings-sheet .sheet-title { position: sticky; top: -1px; z-index: 2; background: var(--pane-bg); padding: 12px 0; }
-.me-settings-sheet [data-close-settings] { position: sticky; bottom: 0; z-index: 2; background: var(--pane-bg); margin-top: 16px; }
+.me-settings-sheet { display:flex; flex-direction:column; height:88vh; height:88dvh; overflow:hidden; }
+.me-settings-sheet .sheet-handle,.me-settings-sheet .sheet-title { flex:none; }
+.me-settings-sheet .sheet-title { padding:12px 0; }
+.me-settings-sheet .sheet-body,.me-settings-sheet .me-preferences { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; }
+.me-preferences-content { min-height:0; flex:1; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+.me-settings-sheet [data-close-settings] { position:static; flex:none; background:var(--pane-bg); margin-top:16px; }
 .me-preferences .card { margin-bottom: 18px; }
 
 /* stat tiles */

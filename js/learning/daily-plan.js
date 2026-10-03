@@ -4,6 +4,7 @@ import { getEntry, itemsForScope } from '../data.js';
 import { ANCHOR_VERBS } from './curriculum.js';
 import { entryCompletion, completionPlan } from './completion-state.js';
 import { grammarLesson, grammarEntry, grammarHref, nextGrammarLesson, grammarCourse, grammarProgress } from './grammar-course.js';
+import {conversationContinuation} from './conversation-continuation.js';
 
 const name=e=>e.inf || e.it;
 let services=null;
@@ -62,7 +63,7 @@ export function continuation(store,{now=Date.now()}={}) {
     const previous=unique.get(session.id);
     if(!previous || (session.updatedAt || 0)>(previous.updatedAt || 0))unique.set(session.id,session);
   }
-  return [...unique.values()].map(s=>sessionActivity(store,s,now)).filter(Boolean)
+  return [...[...unique.values()].map(s=>sessionActivity(store,s,now)),conversationContinuation(store)].filter(Boolean)
     .sort((a,b)=>(b.updatedAt || 0)-(a.updatedAt || 0)||a.id.localeCompare(b.id))[0] || null;
 }
 function newActivities(store,now) {

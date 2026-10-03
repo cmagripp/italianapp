@@ -101,12 +101,14 @@ check('Every catalogue verb has a selected sense, specific explanation and usabl
    }
    for(const chapter of p.chapters.filter(c=>['present','background'].includes(c.id)))for(const target of chapter.groups.flatMap(g=>g.targets).filter(t=>t.available&&t.authoredContexts)){
     for(let variant=0;variant<target.contexts.length;variant++){
-     const q=buildJourneyQuestion(e,chapter,target,{variant});assert(q,e.inf+' question');assert(q.context,e.inf+' meaningful context');assert(q.answer.every(x=>typeof x==='string'&&x.trim()));
+     // New questions use the current expanded pool. Retired legacy contexts are
+     // intentionally not gradable; their recovery is tested in journey-scene.
+     const q=buildJourneyQuestion(e,chapter,target,{variant,scenePolicy:'expanded-v1'});assert(q,e.inf+' question');assert(q.context,e.inf+' meaningful context');assert(q.answer.every(x=>typeof x==='string'&&x.trim()));
      assert(!/used to (?:can|must|should)\b/.test(q.context.en),q.context.en);
     }
    }
   }catch(error){failures.push(e.inf+': '+error.message);}
  }
- assert.deepEqual(failures,[]);console.log(`  ${verbs.length} reviewed verbs; ${dynamic} progressive senses; ${scenes} practice contexts plus held-out reviews.`);
+ assert.deepEqual(failures,[]);console.log(`  ${verbs.length} catalogue verbs; ${dynamic} progressive senses; ${scenes} structurally checked practice contexts plus held-out reviews.`);
 });
 console.log(`${passed} progressive content checks passed.`);

@@ -14,12 +14,39 @@ for(const [batch,levels] of Object.entries(batches)){
     assert(!data[record.inf],`Duplicate ${record.inf}`);
     assert(['dynamic','sense-dependent','simple'].includes(record.policy),record.inf+' policy');
     assert(record.sense?.trim()&&record.note?.trim(),record.inf+' explanation');
+    if(record.legacyExpandedExamples){
+      assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' distinct source scene revisions');
+      assert(record.legacyExpandedExamples.length===entry.examples.length&&record.legacyExpandedExamples.every(e=>e.it?.trim()&&e.en?.trim()),record.inf+' prior source examples');
+    }
+    if(record.legacyExpandedSourceContexts){
+      assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' distinct span scene revisions');
+      assert(new Set(record.legacyExpandedSourceContexts.map(c=>c.id)).size===record.legacyExpandedSourceContexts.length,record.inf+' duplicate prior source context');
+      for(const c of record.legacyExpandedSourceContexts){
+        assert(c.id.startsWith(entry.id+':'+c.chapter+':dictionary-')&&['present','past','background','future','condizionale'].includes(c.chapter),record.inf+' prior source context identity');
+        assert(c.it?.trim()&&c.en?.trim()&&c.answer?.trim()&&c.it.includes(c.answer)&&c.answers?.includes(c.answer)&&Number.isInteger(c.person)&&c.person>=0&&c.person<=5&&c.role==='ordinary'&&c.source==='dictionary-exact',record.inf+' prior source context fields');
+      }
+    }
+    if(record.retiredExpandedContextIds){
+      assert(record.legacyExpandedRevision&&record.retiredExpandedContextIds.length&&new Set(record.retiredExpandedContextIds).size===record.retiredExpandedContextIds.length,record.inf+' retired source identities');
+      const frameIndexes=record.retiredExpandedFrameIndexes||[];
+      assert(new Set(frameIndexes).size===frameIndexes.length&&frameIndexes.every(index=>Number.isInteger(index)&&record.legacyExpandedFrames?.[index]&&record.frames?.[index]),record.inf+' retired frame lacks exact current/prior record');
+      const priorFrameId=id=>{
+        const prefix=entry.id+':';if(!id.startsWith(prefix))return false;
+        const suffix=id.slice(prefix.length),authored=suffix.match(/^(present|background):v2:(simple|progressive):scene-(\d+)-([0-5])-(ordinary|formal)$/),finite=suffix.match(/^(past|future|condizionale):reviewed-frame-(\d+):(person-[0-5]|formal)$/);
+        return authored?frameIndexes.includes(Number(authored[3]))&&(authored[5]!=='formal'||authored[4]==='2'):finite?frameIndexes.includes(Number(finite[2])):false;
+      };
+      assert(record.retiredExpandedContextIds.every(id=>record.legacyExpandedSourceContexts?.some(c=>c.id===id)||priorFrameId(id)),record.inf+' retirement lacks exact prior source/frame identity');
+    }
     if(record.frames){
       assert(record.frames.length>=4,record.inf+' needs four situations');
       if(record.legacyFrameCount!==undefined)assert(Number.isInteger(record.legacyFrameCount)&&record.legacyFrameCount>=4&&record.legacyFrameCount<=record.frames.length,record.inf+' legacy frame count');
       assert(new Set(record.frames.map(f=>f[0])).size===record.frames.length,record.inf+' repeated Italian frames');
       assert(record.frames.every(f=>Array.isArray(f)&&f.length===2&&f.every(x=>typeof x==='string')),record.inf+' frames');
       if(record.legacyFrames)assert(record.legacyFrames.length===(record.legacyFrameCount??record.frames.length)&&record.legacyFrames.every(f=>Array.isArray(f)&&f.length===2&&f.every(x=>typeof x==='string')),record.inf+' legacy frames');
+      if(record.legacyExpandedFrames){
+        assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' distinct scene revisions');
+        assert(record.legacyExpandedFrames.length===record.frames.length&&record.legacyExpandedFrames.every(f=>Array.isArray(f)&&f.length===2&&f.every(x=>typeof x==='string')),record.inf+' legacy expanded frames');
+      }
       assert(Array.isArray(record.en)&&record.en.length===4,record.inf+' English predicates');
       assert(record.en.slice(0,3).every(x=>typeof x==='string'&&x.trim()),record.inf+' English finite predicates');
       if(record.policy!=='simple')assert(record.en[3]?.trim(),record.inf+' progressive predicate');

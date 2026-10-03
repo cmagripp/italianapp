@@ -124,7 +124,7 @@ export async function render(root, params = {}, query = {}) {
       </section>
       <p class="me-foot">Parola · ${fmtNum(data.vocab.length)} words · ${fmtNum(data.verbs.length)} verbs · offline-ready</p>`;
 
-    preferences.innerHTML = html`      <div class="card">
+    preferences.innerHTML = html`<div class="me-preferences-content"><div class="card">
         ${raw(secHeadIt('Goals', 'Obiettivi', 'Goals'))}
         ${raw(GOALS.map(g => html`<div class="set-row"><div class="set-main"><div class="lab">${g.label}</div><div class="sub">${g.sub}</div></div>${raw(pickerHTML(g.key, goalValue(g, s[g.key]), g.label))}</div>`).join(''))}
       </div>
@@ -171,7 +171,7 @@ export async function render(root, params = {}, query = {}) {
         <p>Clears every answer, streak and XP of this user. Lists and custom words stay.</p>
         <button type="button" class="btn danger block" data-reset>${ic('trash', { size: 18 })}Reset my progress</button>
       </div>
-<button type="button" class="btn secondary block" data-close-settings>Done</button>`;
+</div><button type="button" class="btn secondary block" data-close-settings>Done</button>`;
     fitControls();
     if(settingsSheet)void refreshBackupPending();
     bindSync(preferences, draw);

@@ -16,8 +16,9 @@ const target=chapter.groups.flatMap(g=>g.targets).find(t=>t.id.endsWith('::form-
 const legacy=target.legacyAuthoredContexts.find(s=>s.it.includes('una domanda'));
 assert(legacy,'Old raw frame remains available to a baseline cursor');
 const saved=buildJourneyQuestion(d,chapter,target,{variant:target.legacyAuthoredContexts.indexOf(legacy),format:'type',phase:'independent'});
-assert.equal(saved.context.it,'Io domando una domanda.');assert.equal(saved.context.en,'I ask a question.');assert.deepEqual(saved.answer,['domando']);
+assert.equal(legacy.it,'Io domando una domanda.');assert.equal(legacy.en,'I ask a question.');assert.deepEqual(legacy.answers,['domando']);
+assert.equal(saved,null,'The exact old descriptor is recoverable but its retired model cannot be graded');
 const freshIndex=target.contexts.findIndex(s=>s.it==='Io domando a Sara come sta.');assert(freshIndex>=0);
 const fresh=buildJourneyQuestion(d,chapter,target,{variant:freshIndex,format:'type',phase:'independent',scenePolicy:'expanded-v1'});
-assert.equal(fresh.context.it,'Io domando a Sara come sta.');assert.equal(fresh.context.en,'I ask Sara how she is.');assert.deepEqual(fresh.answer,saved.answer);
-console.log('Baciare baseline required target sets and teaching-only example preserved; domandare original raw cursor and corrected fresh frame verified. Saved expanded-v1 cursors require the separately tested revision fence.');
+assert.equal(fresh.context.it,'Io domando a Sara come sta.');assert.equal(fresh.context.en,'I ask Sara how she is.');assert.deepEqual(fresh.answer,['domando']);
+console.log('Baciare baseline required target sets and teaching-only example preserved; domandare exact prior raw fields remain recoverable without grading, and its corrected fresh frame remains usable. Saved-cursor transitions require the separately tested revision fence.');

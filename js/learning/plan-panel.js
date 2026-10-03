@@ -1,7 +1,7 @@
 // Read-only plan presentation. Opening this panel never starts or completes work.
 import {html,raw,icon} from '../ui.js';
 import {dropdown} from '../fx.js';
-const labels={grammar:'Course',course:'Session',verb:'Verb',word:'Word',workshop:'Workshop',review:'Review',session:'Session'};
+const labels={grammar:'Course',course:'Session',verb:'Verb',word:'Word',workshop:'Workshop',review:'Review',session:'Session',conversation:'Conversation'};
 export function planPanelHTML(plan,{showContinue=true,showSteps=true}={}){
  const next=plan.continuation || plan.steps[0];
  return html`<div class="daily-plan" data-daily-plan>
