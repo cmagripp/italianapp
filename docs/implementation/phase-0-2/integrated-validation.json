@@ -556,5 +556,12 @@
     }
   ],
   "releaseStamp": "parola-v15-a9cf12a5a28d",
-  "browserCoverage": "All 24 shared Chromium browser suites passed using original runs plus documented targeted retries. Four WebKit suites passed, including the seven accent/UI checks. Structured WebKit/course targeted reports are separate linked evidence."
+  "browserCoverage": "All 24 shared Chromium browser suites passed using original runs plus documented targeted retries. Four WebKit suites passed, including the seven accent/UI checks. Structured WebKit/course targeted reports are separate linked evidence.",
+  "ciFollowup": {
+    "run": 37125444821,
+    "finding": "Linux WebKit waited for Retry after an earlier queued successful save had legitimately cleared the injected banner.",
+    "change": "Flush outstanding saves before injecting the simulated error; retain all visibility, layout and Retry assertions.",
+    "localVerification": "Seven WebKit accent/UI checks passed after the fixture synchronization.",
+    "applicationChange": false
+  }
 }

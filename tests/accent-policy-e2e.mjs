@@ -31,7 +31,7 @@ try{
   await page.reload({waitUntil:'domcontentloaded'});await page.waitForSelector('[data-course-input]');await page.locator('[data-course-input]').fill(seeded.typed);await page.locator('[data-check-course]').click();assert.equal(await page.locator('[data-course-input]').inputValue(),seeded.typed);assert.equal(await page.locator('[data-feedback-state="incorrect"]').count(),1);
  });
  await check('Save failure remains visible without covering Continue and clears on retry',async()=>{
-  await page.evaluate(async()=>{const {store}=await import('./js/store.js');store._failedSave(new Error('Storage is full.'),store.current.id);});
+  await page.evaluate(async()=>{const {store}=await import('./js/store.js');await store.saveNow();store._failedSave(new Error('Storage is full.'),store.current.id);});
   assert.equal(await page.locator('#save-status').isVisible(),true);
   const layout=await page.evaluate(()=>({banner:document.querySelector('#save-status').getBoundingClientRect().toJSON(),next:document.querySelector('[data-course-next]').getBoundingClientRect().toJSON(),height:innerHeight}));assert(layout.next.top>=layout.banner.bottom);assert(layout.next.bottom<=layout.height+1);
   await page.getByRole('button',{name:'Retry save',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#save-status').hidden);
