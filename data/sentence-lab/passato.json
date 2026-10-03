@@ -63,7 +63,10 @@
               "bank": ["vedere", "guardare"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-              "explanation": "Io takes ho. Vedere has the irregular participle visto; guardare is regular: guardato."
+              "explanation": "Io takes ho. Vedere has the irregular participle visto; guardare is regular: guardato.",
+              "sourceExamples": [
+                {"agreement":"any","values":["ho visto"],"en":"Last night I watched a good film.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Ieri sera ho visto un bel film.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Who watched the film? You did."
@@ -103,7 +106,10 @@
                   "bank": ["leggere", "studiare", "cucinare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-                  "explanation": "Talking about yourself: ho + participle. Fare has the irregular participle fatto."
+                  "explanation": "Talking about yourself: ho + participle. Fare has the irregular participle fatto.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["ho fatto la spesa"],"en":"Yesterday I did the grocery shopping.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Ieri ho fatto la spesa.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -126,7 +132,10 @@
                   "bank": ["prendere", "bere"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-                  "explanation": "Prendere → preso and bere → bevuto are irregular participles; the auxiliary is still ho."
+                  "explanation": "Prendere → preso and bere → bevuto are irregular participles; the auxiliary is still ho.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["ho bevuto"],"en":"Yes, I have had a cappuccino.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Sì, ho bevuto un cappuccino.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -163,7 +172,10 @@
               "bank": ["comprare", "prendere"],
               "free": true,
               "slot": { "pos": "verb", "person": 3, "tense": "passatoProssimo" },
-              "explanation": "Noi takes abbiamo: abbiamo comprato."
+              "explanation": "Noi takes abbiamo: abbiamo comprato.",
+              "sourceExamples": [
+                {"agreement":"any","values":["abbiamo comprato","hanno comprato"],"en":"We bought the bread and they bought the wine.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Noi abbiamo comprato il pane e loro hanno comprato il vino.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             },
             {
               "accept": ["hanno comprato"],
@@ -171,7 +183,10 @@
               "bank": ["comprare", "bere"],
               "free": true,
               "slot": { "pos": "verb", "person": 5, "tense": "passatoProssimo" },
-              "explanation": "Loro takes hanno: hanno comprato."
+              "explanation": "Loro takes hanno: hanno comprato.",
+              "sourceExamples": [
+                {"agreement":"any","values":["abbiamo comprato","hanno comprato"],"en":"We bought the bread and they bought the wine.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Noi abbiamo comprato il pane e loro hanno comprato il vino.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ]
         },
@@ -308,7 +323,11 @@
                   "bank": ["andare", "uscire", "tornare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-                  "explanation": "A man says sono andato / sono uscito, a woman sono andata / sono uscita."
+                  "explanation": "A man says sono andato / sono uscito, a woman sono andata / sono uscita.",
+                  "sourceExamples": [
+                    {"agreement":"m","values":["sono andato al cinema"],"en":"Sorry! I went to the cinema.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Scusa! sono andato al cinema.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"f","values":["sono andata al cinema"],"en":"Sorry! I went to the cinema.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Scusa! sono andata al cinema.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -329,7 +348,11 @@
                   "bank": ["tornare", "arrivare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-                  "explanation": "With essere the participle agrees with you: tornato for a man, tornata for a woman."
+                  "explanation": "With essere the participle agrees with you: tornato for a man, tornata for a woman.",
+                  "sourceExamples": [
+                    {"agreement":"m","values":["sono tornato"],"en":"Yes, I came home at midnight.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Sì, sono tornato a casa a mezzanotte.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"f","values":["sono tornata"],"en":"Yes, I came home at midnight.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Sì, sono tornata a casa a mezzanotte.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -391,7 +414,11 @@
               "bank": ["andare", "tornare", "essere"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-              "explanation": "Andare takes essere. Say andato or andata depending on who you are; andati is for a group."
+              "explanation": "Andare takes essere. Say andato or andata depending on who you are; andati is for a group.",
+              "sourceExamples": [
+                {"agreement":"m","values":["sono andato"],"en":"On Saturday I went to the seaside with my family.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Sabato sono andato al mare con la famiglia.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                {"agreement":"f","values":["sono andata"],"en":"On Saturday I went to the seaside with my family.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Sabato sono andata al mare con la famiglia.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ]
         },
@@ -571,7 +598,10 @@
                   "bank": ["vedere", "visitare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-                  "explanation": "Vedere → visto (irregular), visitare → visitato. Abbiamo if you went with someone."
+                  "explanation": "Vedere → visto (irregular), visitare → visitato. Abbiamo if you went with someone.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["ho visitato"],"en":"In Rome I visited many museums and many churches.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"A Roma ho visitato tanti musei e tante chiese.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -803,7 +833,10 @@
                   "bank": ["giocare", "studiare", "parlare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "imperfetto" },
-                  "explanation": "A habit in the past (what you used to do) takes the imperfetto: giocavo, studiavo."
+                  "explanation": "A habit in the past (what you used to do) takes the imperfetto: giocavo, studiavo.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["giocavo"],"en":"After school I used to play with my friends.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Dopo la scuola giocavo con gli amici.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -848,7 +881,10 @@
               "bank": ["dormire", "leggere", "studiare"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "imperfetto" },
-              "explanation": "Mentre + imperfetto for the action in progress: mentre dormivo."
+              "explanation": "Mentre + imperfetto for the action in progress: mentre dormivo.",
+              "sourceExamples": [
+                {"agreement":"any","values":["dormivo","è arrivato"],"en":"While I was sleeping, Marco arrived.","subjectAgreement":"m","subjectScope":"other","sourceNote":"Arrivato describes Marco; dormivo describes the speaker and has no gender ending.","it":"Mentre dormivo, è arrivato Marco.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             },
             {
               "accept": ["è arrivato"],
@@ -1005,7 +1041,11 @@
                   "bank": ["alzarsi", "lavorare", "uscire"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-                  "explanation": "Alzarsi and uscire take essere and agree with you (alzato / alzata); lavorare takes avere."
+                  "explanation": "Alzarsi and uscire take essere and agree with you (alzato / alzata); lavorare takes avere.",
+                  "sourceExamples": [
+                    {"agreement":"m","values":["mi sono alzato"],"en":"Good! Yesterday morning I got up early.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Bene! Ieri mattina mi sono alzato presto.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"f","values":["mi sono alzata"],"en":"Good! Yesterday morning I got up early.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Bene! Ieri mattina mi sono alzata presto.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -1028,7 +1068,10 @@
                   "bank": ["pranzare", "uscire", "parlare", "studiare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "passatoProssimo" },
-                  "explanation": "Pranzare, parlare and studiare take avere; uscire takes essere and agrees with you."
+                  "explanation": "Pranzare, parlare and studiare take avere; uscire takes essere and agrees with you.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["ho pranzato"],"en":"Afterwards I had lunch with Marco.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Dopo ho pranzato con Marco.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -1071,7 +1114,10 @@
                   "bank": ["tornare", "restare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 3, "tense": "passatoProssimo" },
-                  "explanation": "Noi with an essere verb: tornati for a mixed or male group, tornate for women only."
+                  "explanation": "Noi with an essere verb: tornati for a mixed or male group, tornate for women only.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["siamo tornati","abbiamo visto"],"en":"In the evening we came home and watched a film.","subjectAgreement":"male-or-mixed-group","subjectScope":"group","sourceNote":"This model uses tornati for a male or mixed group. A woman in a mixed group also uses tornati; her personal speaker preference does not decide the whole group’s gender.","it":"La sera siamo tornati a casa e abbiamo visto un film.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 },
                 {
                   "accept": ["abbiamo visto", "abbiamo guardato"],
@@ -1079,7 +1125,10 @@
                   "bank": ["vedere", "guardare"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 3, "tense": "passatoProssimo" },
-                  "explanation": "Vedere → visto, guardare → guardato, both with avere: abbiamo visto."
+                  "explanation": "Vedere → visto, guardare → guardato, both with avere: abbiamo visto.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["siamo tornati","abbiamo visto"],"en":"In the evening we came home and watched a film.","subjectAgreement":"male-or-mixed-group","subjectScope":"group","sourceNote":"The first verb describes a male or mixed group; the selected avere phrase abbiamo visto is unchanged by speaker gender.","it":"La sera siamo tornati a casa e abbiamo visto un film.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [

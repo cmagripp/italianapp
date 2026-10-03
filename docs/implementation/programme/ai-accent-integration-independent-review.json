@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-04",
+  "scope": "Independent bounded source review and actual imported-record Chromium reproduction. No production spelling registry/provider installed; not a model quality or physical-device approval.",
+  "sourcePins": [
+    {
+      "path": "js/conversations/controller.js",
+      "sha256": "543db5765548cc3658f7bb510b1471edded0fea3def8fc8ea168d66fac317296"
+    },
+    {
+      "path": "js/conversations/storage.js",
+      "sha256": "4bb720df493fa926a64d0f39d22c0a49d08114d7060498fed6bac37f36c09a39"
+    },
+    {
+      "path": "js/conversations/summary.js",
+      "sha256": "696ae6beb1086cb731322a4ef44b3020f86e835200b9e928176f6f83c6e12c63"
+    },
+    {
+      "path": "js/views/conversations.js",
+      "sha256": "43ee85be2383b20a8bfe40f65896475fc662b85c16db28a99ee1d2cb80ed3ad4"
+    },
+    {
+      "path": "js/ai/index.js",
+      "sha256": "e0c8cf8ff36951f511129c3e85300bcd25dc24c051b32cb1243c79fd77075b46"
+    },
+    {
+      "path": "js/ai/input-spelling.js",
+      "sha256": "7bc97c15ee354f43fb41cc8545b449afa0c1665a58ee1cbb32af9746d587f939"
+    },
+    {
+      "path": "js/ai/validation.js",
+      "sha256": "b4d28146ea2476e734822d48d9dd347ca6228709fc05f361b9bf4b5a46f041eb"
+    },
+    {
+      "path": "tests/conversation-accents-e2e.mjs",
+      "sha256": "fdeaaf648900585d8b6a6e2d80ab073144ebd9800deade9969e9c9937f278fd2"
+    },
+    {
+      "path": "dev/phase-1-ai-trial/accent-note-independent.mjs",
+      "sha256": "61b80abb95c90cca8b5e08d831297a81e7149fbc0ce3dd330bc2831bc8b84c6f"
+    }
+  ],
+  "confirmedBoundaries": [
+    "Controller carries exact seven-field saved input descriptor and saved strictness.",
+    "Service currentness remains tied to original request; candidate effective text reaches grounding/generation/correction-original validation.",
+    "Storage brand assertion binds exact live owner/thread/source descriptor and pending revision.",
+    "Restored learner display and partner commit together; corrected sourceTurnRevision points to final learner revision.",
+    "Strict-on receipt remains on partner, preserving unchanged learner lexical choices and note sources.",
+    "Imported/cloned plain receipt data does not gain brand or authorize new storage rewrites.",
+    "Root historical ASR summary hook independently rechecked: previous one correction item now zero."
+  ],
+  "findings": [
+    {
+      "id": "imported-impossible-receipt-ui",
+      "status": "fixed-independently-rechecked-both-engines",
+      "scope": "actual import and Conversation UI",
+      "evidence": "ai-accent-note-before-chromium.json",
+      "fixture": "dev/phase-1-ai-trial/accent-note-independent.mjs",
+      "details": "Both effectiveText != candidateNFC and candidateNFC == saved display (no accent change) render Accent added on a tea bubble. Exact source descriptor matching and accent-fold equality alone do not establish receipt consistency.",
+      "required": "Reject impossible saved receipt invariants before rendering a candidate; keep plain imported metadata labelled as recorded history, not fresh verification.",
+      "afterEvidence": [
+        "ai-accent-note-after-chromium.json",
+        "ai-accent-note-after-webkit.json"
+      ],
+      "after": "Both unchanged frozen malformed imported records no longer render a note, and imported tea bubble remains unchanged."
+    },
+    {
+      "id": "decomposed-protected-name",
+      "status": "fixed-independent-regression-passed",
+      "details": "preservesProtectedMeaning(Parlo con Jos\u00e9., Parlo con Jos\u00e8., [Jose + combining acute]) returns true because raw protected name does not occur in normalized strings.",
+      "required": "NFC-normalize both sentences and each protected name for exact occurrence checks; do not accent-fold names.",
+      "after": "NFC-equivalent protected names match; Jos\u00e9 to Jos\u00e8 now rejects in spelling and ordinary validated rule correction. Raw original text is unchanged."
+    }
+  ],
+  "registryLimitation": "Receipt snapshots and version checks cover lookup/interpretation. Mutation behind unchanged version, and a registry replacement after receipt minting without provider/currentness epoch change, remain explicitly installed-adapter responsibilities; no such production adapter exists.",
+  "checks": {
+    "aiNode": 99,
+    "studySummary": 7,
+    "importedNoteAfter": {
+      "chromium": {
+        "malformedImportedNotesRendered": 0,
+        "cases": 2
+      },
+      "webkit": {
+        "malformedImportedNotesRendered": 0,
+        "cases": 2
+      }
+    }
+  }
+}

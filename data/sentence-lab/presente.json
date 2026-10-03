@@ -87,7 +87,11 @@
               "bank": ["americano", "americana", "spagnolo", "francese"],
               "free": true,
               "slot": { "pos": "adj", "agree": "speaker", "category": ["people"], "wrap": null },
-              "explanation": "A nationality is an adjective and agrees with you: italiano for a man, italiana for a woman. Inglese and francese have one form for both."
+              "explanation": "A nationality is an adjective and agrees with you: italiano for a man, italiana for a woman. Inglese and francese have one form for both.",
+              "sourceExamples": [
+                {"agreement":"m","values":["italiano"],"en":"I am from Rome and I am Italian.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Sono di Roma e sono italiano.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                {"agreement":"f","values":["italiana"],"en":"I am from Rome and I am Italian.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Sono di Roma e sono italiana.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Type any nationality you like; it must agree with you."
@@ -122,7 +126,11 @@
                   "bank": ["spagnolo", "francese", "tedesco"],
                   "free": true,
                   "slot": { "pos": "adj", "agree": "speaker", "category": ["people"], "wrap": null },
-                  "explanation": "A nationality is an adjective: it agrees with you (italiano / italiana)."
+                  "explanation": "A nationality is an adjective: it agrees with you (italiano / italiana).",
+                  "sourceExamples": [
+                    {"agreement":"m","values":["italiano","ho"],"en":"I am Italian and I am twenty-eight years old.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Sono italiano e ho ventotto anni.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"f","values":["italiana","ho"],"en":"I am Italian and I am twenty-eight years old.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Sono italiana e ho ventotto anni.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 },
                 { "accept": ["ho"], "options": ["ho", "sono", "hai"], "bank": [], "free": false, "slot": null, "explanation": "Age takes avere: ho ventotto anni." }
               ],
@@ -145,7 +153,12 @@
                   "bank": ["medico", "cameriere", "cameriera"],
                   "free": true,
                   "slot": { "pos": "noun", "number": "sg", "article": "none", "category": ["work", "school"], "wrap": null },
-                  "explanation": "After sono a job has no article: sono studente, sono insegnante."
+                  "explanation": "After sono a job has no article: sono studente, sono insegnante.",
+                  "sourceExamples": [
+                    {"agreement":"m","values":["studente"],"en":"I am a student.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Sono studente.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"f","values":["studentessa"],"en":"I am a student.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Sono studentessa.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"any","values":["insegnante"],"en":"I am a teacher.","subjectAgreement":null,"subjectScope":"speaker","sourceNote":"Insegnante has the same singular form for a man or a woman; this unmodified job description has no article after sono.","it":"Sono insegnante.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -288,7 +301,10 @@
               "bank": ["prende", "compra", "preferisce"],
               "free": true,
               "slot": { "pos": "verb", "person": 2, "tense": "presente", "wrap": null },
-              "explanation": "Marco is lui, so an -are verb ends in -a (mangia, compra) and an -ere or -ire verb in -e (prende, preferisce)."
+              "explanation": "Marco is lui, so an -are verb ends in -a (mangia, compra) and an -ere or -ire verb in -e (prende, preferisce).",
+              "sourceExamples": [
+                {"agreement":"any","values":["mangia"],"en":"Marco eats pizza.","subjectAgreement":"m","subjectScope":"other","sourceNote":"The subject is Marco, so the verb is third-person singular; it does not change with the viewer’s speaker preference.","it":"Marco mangia la pizza.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Type any verb that fits: it will be conjugated for Marco."
@@ -323,7 +339,10 @@
                   "bank": ["beve", "prendi"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "presente", "wrap": null },
-                  "explanation": "Io takes the -o ending: bevo or prendo un caffè."
+                  "explanation": "Io takes the -o ending: bevo or prendo un caffè.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["bevo"],"en":"In the morning I drink a coffee and then I work.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"La mattina bevo un caffè e poi lavoro.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -499,7 +518,10 @@
               "bank": ["il gelato", "lo sport", "il cinema"],
               "free": true,
               "slot": { "pos": "noun", "number": "sg", "article": "definite", "category": ["food", "arts", "sports", "nature"], "wrap": null },
-              "explanation": "After mi piace the thing takes its article: la pizza, il mare, la musica."
+              "explanation": "After mi piace the thing takes its article: la pizza, il mare, la musica.",
+              "sourceExamples": [
+                {"agreement":"any","values":["la musica"],"en":"I really like music.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Mi piace molto la musica.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Type any singular thing you like; it gets its article."
@@ -534,7 +556,10 @@
                   "bank": ["il pesce", "la carne", "il pane"],
                   "free": true,
                   "slot": { "pos": "noun", "number": "sg", "article": "definite", "category": ["food"], "wrap": null },
-                  "explanation": "One thing with its article: mi piace la pizza."
+                  "explanation": "One thing with its article: mi piace la pizza.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["la pizza"],"en":"I like pizza.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Mi piace la pizza.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -701,7 +726,10 @@
               "bank": ["oggi", "domani", "sempre"],
               "free": true,
               "slot": { "pos": "adv", "category": ["time"], "wrap": null },
-              "explanation": "A time word or phrase closes the sentence: la sera, il lunedì, stasera, oggi, domani."
+              "explanation": "A time word or phrase closes the sentence: la sera, il lunedì, stasera, oggi, domani.",
+              "sourceExamples": [
+                {"agreement":"any","values":["la sera"],"en":"I study Italian in the evening.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Studio l'italiano la sera.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Type a time word like oggi or domani if you prefer."
@@ -757,7 +785,10 @@
                   "bank": ["domani", "oggi"],
                   "free": true,
                   "slot": { "pos": "adv", "category": ["time"], "wrap": null },
-                  "explanation": "A time phrase at the end: la sera, il sabato, stasera."
+                  "explanation": "A time phrase at the end: la sera, il sabato, stasera.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["stasera"],"en":"I am at home tonight.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Sono a casa stasera.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -959,7 +990,10 @@
                   "bank": ["guarda"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "presente", "wrap": null },
-                  "explanation": "Io takes -o: guardo or vedo un film."
+                  "explanation": "Io takes -o: guardo or vedo un film.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["guardo"],"en":"Tonight I am watching a film at home. Are you coming?","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Stasera guardo un film a casa. Vieni?","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -1135,7 +1169,12 @@
                   "bank": ["sono stanca", "ho sete"],
                   "free": true,
                   "slot": { "pos": "adj", "agree": "speaker", "wrap": "sono {}" },
-                  "explanation": "Sono + an adjective that agrees with you (stanco / stanca), or ho + fame, sete, sonno."
+                  "explanation": "Sono + an adjective that agrees with you (stanco / stanca), or ho + fame, sete, sonno.",
+                  "sourceExamples": [
+                    {"agreement":"m","values":["sono stanco"],"en":"Fine thanks, but I am tired.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Bene grazie, ma sono stanco.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"f","values":["sono stanca"],"en":"Fine thanks, but I am tired.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Bene grazie, ma sono stanca.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"any","values":["ho fame"],"en":"Fine thanks, but I am hungry.","subjectAgreement":null,"subjectScope":"speaker","sourceNote":"Ho fame is an accepted whole phrase, not an adjective inserted into sono.","it":"Bene grazie, ma ho fame.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -1212,7 +1251,12 @@
               "bank": ["libero", "libera"],
               "free": true,
               "slot": { "pos": "adj", "agree": "speaker", "category": ["emotions"], "wrap": null },
-              "explanation": "The adjective agrees with you: contento or libero for a man, contenta or libera for a woman. Felice is the same for both."
+              "explanation": "The adjective agrees with you: contento or libero for a man, contenta or libera for a woman. Felice is the same for both.",
+              "sourceExamples": [
+                {"agreement":"m","values":["contento"],"en":"Today I am happy because it is Saturday.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Oggi sono contento perché è sabato.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                {"agreement":"f","values":["contenta"],"en":"Today I am happy because it is Saturday.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Oggi sono contenta perché è sabato.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                {"agreement":"any","values":["felice"],"en":"Today I am happy because it is Saturday.","subjectAgreement":null,"subjectScope":"speaker","sourceNote":"Felice has the same singular form for a man or a woman.","it":"Oggi sono felice perché è sabato.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Type any adjective that describes how you feel."

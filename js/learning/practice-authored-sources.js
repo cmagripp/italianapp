@@ -3,6 +3,7 @@ import {currentCourseStep} from './course-v2-engine.js';
 import {labLesson,labStageOf} from './sentence-lab-data.js';
 import {sourceFingerprint} from '../ai/source-fingerprint.js';
 import {COURSE_SENSE_LINKS} from './course-sense-links.js';
+import {fillTemplate} from './sentence-lab.js';
 
 const copy=value=>structuredClone(value),equal=(a,b)=>sourceFingerprint(a)===sourceFingerprint(b);
 const record=value=>value&&typeof value==='object'&&!Array.isArray(value);
@@ -35,6 +36,33 @@ const compactReferences=values=>values.filter(Boolean).slice(0,2);
 const bindingSource=source=>({sourceId:source.sourceId,canonical:source.canonical,references:source.references,revisionScope:source.revisionScope});
 const sourcesFor=lesson=>{const packs=lesson.contentVersion===2?grammarCourse.levels:grammarCourse.legacyLevels,pack=packs.find(pack=>pack.level===lesson.level);return {version:lesson.contentVersion,path:pack?.path||`${lesson.contentVersion===2?'data/course-v2':'data/grammar-course'}/${lesson.level}.json`,editorialVersion:lesson.editorial?.version||null};};
 
+function explicitWorkshopExamples({activity,blanks,blank,selection,revision,level,lesson}){
+ const authored=blank.sourceExamples;
+ if(!Array.isArray(authored)||!authored.length||authored.length>8)return [];
+ const fields=['agreement','values','en','subjectAgreement','subjectScope','sourceNote','it','reviewStatus','reviewRecord','reviewScope','nativeItalianEducatorReview'];
+ const applicable=[];
+ for(const [index,ex] of authored.entries()){
+  if(!record(ex)||Object.keys(ex).length!==fields.length||fields.some(field=>!Object.hasOwn(ex,field))||
+   !['m','f','any'].includes(ex.agreement)||!Array.isArray(ex.values)||ex.values.length!==blanks.blanks.length||
+   ex.values.some((value,at)=>typeof value!=='string'||!(blanks.blanks[at].accept||[]).includes(value))||
+   typeof ex.it!=='string'||ex.it.length>1800||ex.it!==fillTemplate(blanks.template,ex.values)||
+   typeof ex.en!=='string'||!ex.en.trim()||ex.en.length>1800||
+   ![null,'m','f','male-or-mixed-group','f-group'].includes(ex.subjectAgreement)||![null,'speaker','group','other'].includes(ex.subjectScope)||
+   !(ex.sourceNote===null||typeof ex.sourceNote==='string'&&ex.sourceNote.length<=1000)||
+   ex.reviewStatus!=='independent-agent-review'||ex.reviewScope!=='chosen-form-translation-agreement'||
+   typeof ex.reviewRecord!=='string'||!ex.reviewRecord.startsWith('docs/implementation/')||ex.reviewRecord.length>300||
+   ex.nativeItalianEducatorReview!=='pending')return [];
+  // An invariant blank cannot turn a fixed male quote into the feminine
+  // learner's own sentence. Group and other subjects remain independent.
+  if(ex.subjectScope==='speaker'&&['m','f'].includes(ex.subjectAgreement)&&ex.agreement!==ex.subjectAgreement)return [];
+  if(ex.agreement!=='any'&&ex.agreement!==selection.agreement)continue;
+  const id=activity.id+':turn-'+(selection.turnIndex??'cloze')+':blank-'+selection.blankIndex+':example-'+index;
+  const ref=example({id,it:ex.it,en:ex.en,revision,level,lesson,locator:{activityId:activity.id,turnIndex:selection.turnIndex,blankIndex:selection.blankIndex,field:'sourceExamples',index}});
+  applicable.push({...ref,reviewStatus:ex.reviewStatus,reviewRecord:ex.reviewRecord,reviewScope:ex.reviewScope,nativeItalianEducatorReview:ex.nativeItalianEducatorReview,
+   applicability:ex.agreement,subjectAgreement:ex.subjectAgreement,subjectScope:ex.subjectScope,sourceNote:ex.sourceNote});
+ }
+ return compactReferences(applicable);
+}
 function courseSelection(lesson,selection){
  if(!record(selection)||!['step','guided','recheck','repair'].includes(selection.phase)||!Number.isSafeInteger(selection.stepIndex)||selection.stepIndex<0||selection.stepIndex>=lesson.steps.length)return null;
  const view=currentCourseStep(lesson,{courseV2:{...selection,historyCursor:null,history:[],result:null}});
@@ -91,13 +119,18 @@ export function createGrammarPracticeBinding({lesson,session}){
 }
 
 function workshopSource(lesson,stage,selection){
- if(!record(selection)||!Number.isSafeInteger(selection.activityIndex)||!Number.isSafeInteger(selection.blankIndex)||!['m','f'].includes(selection.agreement))return null;
- const activity=lesson.activities?.[selection.activityIndex];if(!activity||!['cloze','dialogue'].includes(activity.kind))return null;
+ if(!record(selection)||Object.keys(selection).length!==4||!['activityIndex','turnIndex','blankIndex','agreement'].every(key=>Object.hasOwn(selection,key))||!Number.isSafeInteger(selection.activityIndex)||selection.activityIndex<0||!Number.isSafeInteger(selection.blankIndex)||selection.blankIndex<0||!['m','f'].includes(selection.agreement))return null;
+ const activity=lesson.activities?.[selection.activityIndex];if(!activity||!['cloze','dialogue'].includes(activity.kind)||activity.kind==='cloze'&&selection.turnIndex!==null||activity.kind==='dialogue'&&(!Number.isSafeInteger(selection.turnIndex)||selection.turnIndex<0||selection.turnIndex>=activity.turns.length))return null;
  const turn=activity.kind==='dialogue'&&Number.isSafeInteger(selection.turnIndex)?activity.turns[selection.turnIndex]:null;
  const blanks=activity.kind==='cloze'?activity:turn?.speaker==='you'?turn:null,blank=blanks?.blanks?.[selection.blankIndex];if(!blank?.free)return null;
- const model=lesson.activities.slice(0,selection.activityIndex+1).filter(activity=>activity.kind==='model').at(-1);
- const allExamples=(activity.examples||model?.examples||[]).map((ex,index)=>({ex,index})),matched=allExamples.filter(({ex})=>relevantWorkshopExample(ex,blank,blanks.template,selection.blankIndex));
- const revision=`workshop:${stage.version}:${activity.id}`,level=lesson.level||stageLevel[stage.stage],references=compactReferences(matched.map(({ex,index})=>example({id:(activity.examples?activity:model)?.id||activity.id,it:ex.it,en:ex.en||'',revision,level,lesson,locator:{activityId:(activity.examples?activity:model)?.id||activity.id,field:'examples',index}})));
+ const revision='workshop:'+stage.version+':'+activity.id,level=lesson.level||stageLevel[stage.stage];
+ let references;
+ if(Object.hasOwn(blank,'sourceExamples'))references=explicitWorkshopExamples({activity,blanks,blank,selection,revision,level,lesson});
+ else{
+  const model=lesson.activities.slice(0,selection.activityIndex+1).filter(activity=>activity.kind==='model').at(-1);
+  const allExamples=(activity.examples||model?.examples||[]).map((ex,index)=>({ex,index})),matched=allExamples.filter(({ex})=>relevantWorkshopExample(ex,blank,blanks.template,selection.blankIndex));
+  references=compactReferences(matched.map(({ex,index})=>example({id:(activity.examples?activity:model)?.id||activity.id,it:ex.it,en:ex.en||'',revision,level,lesson,locator:{activityId:(activity.examples?activity:model)?.id||activity.id,field:'examples',index}})));
+ }
  return {sourceId:`lab:${lesson.id}:${selection.activityIndex}:${activity.kind==='dialogue'?selection.turnIndex:'cloze'}:${selection.blankIndex}`,
   prompt:`Find just the wording for this blank in the sentence: ${blanks.template}. ${blanks.en||''}`,context:JSON.stringify({slot:blank.slot,help:blank.freePrompt||'',lesson:lesson.title,speakerAgreement:selection.agreement}),canonical:copy(activity),references,
   revisionScope:{version:stage.version,path:`data/sentence-lab/${stage.stage}.json`,stage:stage.stage}};

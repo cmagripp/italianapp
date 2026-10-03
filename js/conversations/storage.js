@@ -1,6 +1,7 @@
 // Conversations are local records, separate from the profile's progress JSON
 // and from downloaded models. Successful writes mean a completed transaction.
 export const CONVERSATION_SCHEMA_VERSION=1;
+import {assertValidatedInputSpelling} from '../ai/input-spelling.js';
 import {clearProfileDraftRecovery,createDraftRecovery,draftStorage} from './draft-recovery.js';
 const DB='parola-conversations',STORES=['threads','turns','drafts','summaries','recordings','snapshots'];
 const LEVELS=['A1','A2','B1','B2','C1','C2'];
@@ -13,6 +14,7 @@ const uuid=()=>crypto.randomUUID();
 const TURN_CONTENT=['turnId','role','participantId','originalText','displayText','submittedText','inputProvenance','acceptedEdits','correctionRefs','policySnapshot','modelVersion','sourceContext','revision','sequence','at'];
 const canonical=value=>value&&typeof value==='object'?Array.isArray(value)?value.map(canonical):Object.fromEntries(Object.keys(value).sort().filter(k=>value[k]!==undefined).map(k=>[k,canonical(value[k])])):value;
 const stable=value=>JSON.stringify(canonical(value));
+const inputSubmissionOf=turn=>Object.fromEntries(['turnId','revision','originalText','submittedText','displayText','policySnapshot','inputProvenance'].map(key=>[key,turn[key]??null]));
 const sameTurn=(a,b)=>stable(Object.fromEntries(TURN_CONTENT.map(k=>[k,a[k]])))===stable(Object.fromEntries(TURN_CONTENT.map(k=>[k,b[k]])));
 const sameSubmission=(a,b)=>{const fields=TURN_CONTENT.filter(k=>!['revision','sequence','at'].includes(k));return stable(Object.fromEntries(fields.map(k=>[k,k==='displayText'?a.displayText??a.originalText:a[k]])))===stable(Object.fromEntries(fields.map(k=>[k,k==='displayText'?b.displayText??b.originalText:b[k]])));};
 const sameDraft=(a,b)=>stable(Object.fromEntries(Object.entries(a).filter(([k])=>!['ownerId','revision','updatedAt'].includes(k))))===stable(Object.fromEntries(Object.entries(b).filter(([k])=>!['ownerId','revision','updatedAt'].includes(k))));
@@ -87,16 +89,24 @@ export function createConversationRepository({profileId,learnerId,indexedDB=glob
   }).catch(error=>{opening=null;throw error;});
   return opening;
  }
- async function transaction(names,mode,work){
+ async function transaction(names,mode,work,{signal,guard:requestGuard}={}){
+  // Owner checks protect a mounted repository. Reply guards additionally bind
+  // this transaction to one generation and provider, right through commit.
+  const guard=()=>{assertOwner();if(signal?.aborted)throw new DOMException('Reply cancelled.','AbortError');requestGuard?.();};
   try{
-   const database=await db();assertOwner();
+   guard();const database=await db();guard();
    return await new Promise((resolve,reject)=>{
     const tx=database.transaction(names,mode);active.add(tx);let result,failure;
-    const request=req=>new Promise((yes,no)=>{req.onsuccess=()=>yes(req.result);req.onerror=()=>no(req.error);});
-    const api={get:(name,k)=>request(tx.objectStore(name).get(k)),all:(name,index,k)=>request(tx.objectStore(name).index(index).getAll(k)),put:(name,value)=>{assertOwner();return request(tx.objectStore(name).put(value));},del:(name,k)=>{assertOwner();return request(tx.objectStore(name).delete(k));},guard:assertOwner};
-    tx.oncomplete=()=>{active.delete(tx);try{assertOwner();resolve(result);}catch(error){reject(error);}};
-    tx.onerror=tx.onabort=()=>{active.delete(tx);reject(failure||tx.error||new Error('This conversation could not be saved. Your draft is kept.'));};
-    Promise.resolve().then(()=>work(api)).then(value=>{assertOwner();result=value;}).catch(error=>{failure=error;try{tx.abort();}catch{active.delete(tx);reject(error);}});
+    const cleanup=()=>{active.delete(tx);signal?.removeEventListener('abort',abort);};
+    const abort=()=>{failure ||= new DOMException('Reply cancelled.','AbortError');try{tx.abort();}catch{cleanup();reject(failure);}};
+    const request=operation=>{guard();return new Promise((yes,no)=>{
+     const req=operation();req.onsuccess=()=>{try{guard();yes(req.result);}catch(error){no(error);}};req.onerror=()=>no(req.error);
+    });};
+    const api={get:(name,k)=>request(()=>tx.objectStore(name).get(k)),all:(name,index,k)=>request(()=>tx.objectStore(name).index(index).getAll(k)),put:(name,value)=>request(()=>tx.objectStore(name).put(value)),del:(name,k)=>request(()=>tx.objectStore(name).delete(k)),guard};
+    tx.oncomplete=()=>{cleanup();try{guard();resolve(result);}catch(error){reject(error);}};
+    tx.onerror=tx.onabort=()=>{cleanup();reject(failure||tx.error||new Error('This conversation could not be saved. Your draft is kept.'));};
+    signal?.addEventListener('abort',abort,{once:true});
+    Promise.resolve().then(()=>{guard();return work(api);}).then(value=>{guard();result=value;}).catch(error=>{failure=error;abort();});
    });
   }catch(error){if(mode==='readwrite'&&error.name!=='AbortError'&&!(error instanceof ConversationConflict))onError(error);throw error;}
  }
@@ -163,28 +173,54 @@ export function createConversationRepository({profileId,learnerId,indexedDB=glob
     await tx.put('drafts',row);await tx.put('threads',{...thread,updatedAt:row.updatedAt});return row;
    });
   },
-  async commitTurn(threadId,input,{expectedRevision,draftRevision,requestId}={}){
+  async commitTurn(threadId,input,{expectedRevision,draftRevision,requestId,inputSpelling,signal,guard}={}){
    safe(input);const turnId=id(input.turnId),role=input.role;
    if(Object.keys(input).some(k=>!['turnId','role','participantId','originalText','displayText','submittedText','inputProvenance','acceptedEdits','correctionRefs','policySnapshot','modelVersion','sourceContext'].includes(k)))throw new TypeError('Unsupported message field');
    if(!['learner','partner','system'].includes(role))throw new TypeError('Invalid conversation role');
    const originalText=text(input.originalText),displayText=text(input.displayText??originalText);
+   if(inputSpelling&&role!=='partner')throw new TypeError('Spelling receipts belong to a checked reply');
+   const spellingScope=`conversation:${profileId}:${learnerId}:${threadId}`;
+   const preparedInput=(receipt,sourceTurnRevision)=>receipt?{...input,sourceContext:{...input.sourceContext,inputSpelling:clone(receipt),inputSpellingSourceRevision:sourceTurnRevision},correctionRefs:(input.correctionRefs||[]).map(c=>c.sourceTurnId===receipt.source.inputSubmission.turnId&&c.sourceTurnRevision===receipt.source.inputSubmission.revision?{...c,sourceTurnRevision}:c)}:input;
    return transaction(['threads','turns','drafts','summaries'],'readwrite',async tx=>{
     // Check duplicate identity before the expected revision: a retry after a
     // successful commit returns that same turn, without advancing the thread.
     const thread=await threadIn(tx,threadId),existing=await tx.get('turns',[ownerId,threadId,turnId]);
-    if(existing){const submitted=existing.revision===1?existing:existing.history?.find(row=>row.revision===1);if(!submitted||!sameSubmission(submitted,input))throw new ConversationConflict('A different message already uses this identity.');return existing;}
+    if(existing){
+     const submitted=existing.revision===1?existing:existing.history?.find(row=>row.revision===1);
+     if(inputSpelling){
+      const saved=submitted?.sourceContext?.inputSpelling;
+      if(!saved)throw new ConversationConflict('This reply has different spelling sources');
+      assertValidatedInputSpelling(inputSpelling,{inputSubmission:saved.source.inputSubmission,scope:spellingScope,sourceRevision:saved.source.sourceRevision});
+     }
+     if(!submitted||!sameSubmission(submitted,preparedInput(inputSpelling,submitted.sourceContext?.inputSpellingSourceRevision)))throw new ConversationConflict('A different message already uses this identity.');return existing;
+    }
     if(expectedRevision!=null&&thread.revision!==expectedRevision)throw new ConversationConflict();
     if(requestId&&(thread.pending?.status!=='pending'||thread.pending.id!==requestId||thread.pending.sourceRevision!==thread.contentRevision))throw new ConversationConflict('This reply belongs to an earlier version of the conversation.');
     if(role==='partner'&&!thread.setup.participants.some(p=>p.id===input.participantId&&p.active!==false))throw new TypeError('Unknown or inactive conversation partner');
     if(role==='learner'&&input.participantId!=='learner')throw new TypeError('Invalid learner identity');
     const draft=role==='learner'?await tx.get('drafts',key(threadId)):null;
     if(draftRevision!=null&&draft?.revision!==draftRevision)throw new ConversationConflict('Your draft changed before Send.');
-    const row={...clone(input),ownerId,threadId,turnId,role,originalText,displayText,revision:1,sequence:thread.nextSequence,at:now(),history:[]};
+    let sourceTurnRevision=null,changedTurnId=null;
+    if(inputSpelling){
+     if(!requestId)throw new ConversationConflict('Spelling checking needs the current reply');
+     const source=await tx.get('turns',[ownerId,threadId,id(inputSpelling.source?.inputSubmission?.turnId)]);
+     if(!source||source.role!=='learner')throw new ConversationConflict('The checked message is unavailable');
+     assertValidatedInputSpelling(inputSpelling,{inputSubmission:inputSubmissionOf(source),scope:spellingScope,sourceRevision:thread.pending.sourceRevision});
+     sourceTurnRevision=source.revision;
+     if(inputSpelling.outcome==='restore-display'){
+      const {history=[],...prior}=source;sourceTurnRevision++;
+      await tx.put('turns',{...source,displayText:inputSpelling.effectiveText,revision:sourceTurnRevision,editedAt:now(),
+       history:[...history,{...prior,editReason:'accent-restoration'}],
+       sourceContext:{...source.sourceContext,inputSpelling:clone(inputSpelling),inputSpellingRevision:sourceTurnRevision}});
+      changedTurnId=source.turnId;
+     }
+    }
+    const row={...clone(preparedInput(inputSpelling,sourceTurnRevision)),ownerId,threadId,turnId,role,originalText,displayText,revision:1,sequence:thread.nextSequence,at:now(),history:[]};
     const next={...touch(thread,{content:true}),nextSequence:thread.nextSequence+1,pending:null};
     await tx.put('turns',row);await tx.put('threads',next);
     if(draft&&draft.turnId===turnId)await tx.del('drafts',key(threadId));
-    await invalidateSummary(tx,next);return row;
-   });
+    await invalidateSummary(tx,next,changedTurnId);return row;
+   },{signal,guard});
   },
   async reviseTurn(threadId,turnId,{displayText,submittedText,reason='learner-edit',expectedRevision}={}){
    text(displayText);if(submittedText!=null)text(submittedText);
@@ -196,8 +232,8 @@ export function createConversationRepository({profileId,learnerId,indexedDB=glob
     const next={...touch(thread,{content:true}),pending:null};await tx.put('turns',row);await tx.put('threads',next);await invalidateSummary(tx,next,turnId);return row;
    });
   },
-  async beginGeneration(threadId,{requestId=uuid(),modelVersion,policyVersion}={}){
-   return transaction(['threads'],'readwrite',async tx=>{const thread=await threadIn(tx,threadId),pending={id:id(requestId),sourceRevision:thread.contentRevision,status:'pending',startedAt:now(),modelVersion,policyVersion};await tx.put('threads',{...thread,pending});return pending;});
+  async beginGeneration(threadId,{requestId=uuid(),modelVersion,policyVersion,signal,guard}={}){
+   return transaction(['threads'],'readwrite',async tx=>{const thread=await threadIn(tx,threadId),pending={id:id(requestId),sourceRevision:thread.contentRevision,status:'pending',startedAt:now(),modelVersion,policyVersion};await tx.put('threads',{...thread,pending});return pending;},{signal,guard});
   },
   async chooseMeaning(threadId,turnId,choice,{expectedRevision}={}){
    safe(choice);id(choice.entryId);if(choice.senseId!=null)id(choice.senseId);

@@ -42,6 +42,15 @@ check('A permissive verifier cannot authorize a meaning reversal or an unsourced
  response.correctionRefs[0].replacement=source.displayText;
  assert(!build([source,response],{resolveRule:()=>({...rule,source:null})}).items.some(i=>i.kind==='correction'));
 });
+check('Confirmed recognition never creates an accent-spelling correction note; supported grammar feedback remains',()=>{
+ const rule={id:'verified-fixture',verified:true,source:'test-only',explanation:'A source-backed fixture.',confirmCorrection:()=>true};
+ const response=(original,replacement)=>turn('Va bene.',{turnId:'two',role:'partner',correctionRefs:[{sourceTurnId:'one',sourceTurnRevision:1,ruleId:rule.id,original,replacement}]});
+ for(const provenance of [{mode:'recorded',recognitionUncertain:false,recognizedText:'Vorrei un caffe.'},{mode:'written',recognizedText:'Vorrei un caffe.',transcriptEdits:[{before:'Vorrei un caffe.',after:'Vorrei un caffe. Grazie.'}]}]){
+  assert(!build([turn('Vorrei un caffe.',{inputProvenance:provenance}),response('caffe','caffè')],{resolveRule:()=>rule}).items.some(item=>item.kind==='correction'));
+ }
+ assert(build([turn('Vorrei un caffe.',{inputProvenance:{mode:'written'}}),response('caffe','caffè')],{resolveRule:()=>rule}).items.some(item=>item.kind==='correction'));
+ assert(build([turn('Ho andato a casa.',{inputProvenance:{mode:'recorded',recognizedText:'Ho andato a casa.',recognitionUncertain:false}}),response('Ho andato','Sono andata')],{resolveRule:()=>rule}).items.some(item=>item.kind==='correction'));
+});
 check('Personal notes remain visible as invalidated after edits; generated unsupported notes disappear',()=>{
  const prior={items:[{id:'own-note',kind:'note',author:'learner',text:'My note',sourceRefs:[{turnId:'one',revision:1}]},{id:'fake',kind:'note',author:'model',text:'Invented',sourceRefs:[{turnId:'one',revision:1}]}]};
  const result=build([turn('Il pane.',{revision:2})],{previous:prior});

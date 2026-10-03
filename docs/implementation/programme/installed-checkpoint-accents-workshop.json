@@ -1,0 +1,21 @@
+{
+  "kind": "Installed development candidate observation",
+  "build": "parola-v15-6f8191060b7b",
+  "environment": {
+    "device": "iPhone16ProMax simulator",
+    "iOS": "26.5",
+    "installation": "Home Screen candidate",
+    "origin": "http://127.0.0.1:8165/candidate/"
+  },
+  "observations": [
+    "Closed and reopened the existing candidate online; server log recorded updated input-spelling, AI service, controller, repository, summary and conversation view modules fetched.",
+    "Home retained 5XP and Continue credere \u00b7 Present. Resume restored Tu credi al racconto di Sara., submitted credi, correct feedback, visit1/8 and case0/9. Continue remained visible and the background filled the bottom.",
+    "Stopped the owned candidate server and confirmed connection failure (HTTP000). Closed and cold reopened the installed candidate while its origin was unavailable.",
+    "Offline Home retained 5XP. Continue restored the exact same sentence, submitted answer, feedback and counters without a new answer. Origin remained unavailable; then the owned server was restored."
+  ],
+  "limitations": [
+    "Native UI and source fetches observed; active service-worker cache identity was not independently queried.",
+    "No physical-phone, enabled production model, pronunciation or educator validation."
+  ],
+  "productionChanged": false
+}

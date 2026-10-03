@@ -1,0 +1,1705 @@
+{
+  "browser": "webkit",
+  "scope": "Actual controller/storage/UI with explicit test-only spelling registry, interpretation checker and runtime. No production language-quality claim.",
+  "checks": [
+    "Strict-off submit restores the same bubble, keeps original and saved policy, and awards no learning credit",
+    "Reload retains the correction and its original; an explicit later edit makes the note historical",
+    "Saved strict-on policy wins even if Settings changes while the spelling check waits",
+    "Confirmed speech spelling is not treated as a typed mistake or automatically rewritten",
+    "Quota failure and cancellation after source write roll back both the accent and partner",
+    "Cloned, wrong-owner and stale receipts cannot rewrite a source or save a partner",
+    "Strict-on notes preserve the unchanged chosen meaning and personal note; a restored source invalidates prior references",
+    "Exact retry is idempotent; correction references use final source revision and import preserves recorded history",
+    "Imported spelling note: valid-strict-current",
+    "Imported spelling note: original",
+    "Imported spelling note: submitted",
+    "Imported spelling note: policy",
+    "Imported spelling note: provenance",
+    "Imported spelling note: strict-policy",
+    "Imported spelling note: valid-strict-history",
+    "Imported spelling note: valid-restore-current",
+    "Imported spelling note: valid-restore-history",
+    "Imported spelling note: effective-does-not-match-candidate",
+    "Imported spelling note: candidate-has-no-accent-change"
+  ],
+  "importedNoteCases": [
+    {
+      "kind": "valid-strict-current",
+      "expectedNoteCount": 1,
+      "receipt": {
+        "version": 1,
+        "outcome": "spelling-feedback",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:79b20b5a-b75d-4892-9c0f-99c853cc3cf3",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "94c7c605-f604-4f36-9607-8fbc76506329",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": true,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": true,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffe.",
+          "ok": false,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "incorrect"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "94c7c605-f604-4f36-9607-8fbc76506329",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": true,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "79b20b5a-b75d-4892-9c0f-99c853cc3cf3",
+        "displayText": "Vorrei un caffe.",
+        "revision": 1,
+        "sequence": 1,
+        "at": 1791065300711,
+        "history": []
+      }
+    },
+    {
+      "kind": "original",
+      "expectedNoteCount": 0,
+      "receipt": {
+        "version": 1,
+        "outcome": "spelling-feedback",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:7cf03ab9-36cc-4a3a-b730-62d0cf6ec2bf",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "28b4b405-9588-4c0a-b007-0486e4e769ec",
+            "revision": 1,
+            "originalText": "Vorrei un altro caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": true,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un altro caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": true,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffe.",
+          "ok": false,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "incorrect"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "28b4b405-9588-4c0a-b007-0486e4e769ec",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": true,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "7cf03ab9-36cc-4a3a-b730-62d0cf6ec2bf",
+        "displayText": "Vorrei un caffe.",
+        "revision": 1,
+        "sequence": 1,
+        "at": 1791065300721,
+        "history": []
+      }
+    },
+    {
+      "kind": "submitted",
+      "expectedNoteCount": 0,
+      "receipt": {
+        "version": 1,
+        "outcome": "spelling-feedback",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:ccc4d947-932d-42c4-ad2a-b421e0212253",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "25ac5828-e617-456d-90ae-54b25e9a0789",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un altro caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": true,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": true,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffe.",
+          "ok": false,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "incorrect"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "25ac5828-e617-456d-90ae-54b25e9a0789",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": true,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "ccc4d947-932d-42c4-ad2a-b421e0212253",
+        "displayText": "Vorrei un caffe.",
+        "revision": 1,
+        "sequence": 1,
+        "at": 1791065300730,
+        "history": []
+      }
+    },
+    {
+      "kind": "policy",
+      "expectedNoteCount": 0,
+      "receipt": {
+        "version": 1,
+        "outcome": "spelling-feedback",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:525c0fba-65e7-40d8-816e-630dedf25b19",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "0ea63ba4-fd7e-4322-8b2d-b5e9a01ba796",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": true,
+              "level": "B1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": true,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffe.",
+          "ok": false,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "incorrect"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "0ea63ba4-fd7e-4322-8b2d-b5e9a01ba796",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": true,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "525c0fba-65e7-40d8-816e-630dedf25b19",
+        "displayText": "Vorrei un caffe.",
+        "revision": 1,
+        "sequence": 1,
+        "at": 1791065300737,
+        "history": []
+      }
+    },
+    {
+      "kind": "provenance",
+      "expectedNoteCount": 0,
+      "receipt": {
+        "version": 1,
+        "outcome": "spelling-feedback",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:64962989-ed4b-4faf-ba35-6d621c7901ef",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "a7b134e6-9acd-4c3d-b51a-b0d52939ea4c",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": true,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": [
+                "An imported claim"
+              ]
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": true,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffe.",
+          "ok": false,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "incorrect"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "a7b134e6-9acd-4c3d-b51a-b0d52939ea4c",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": true,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "64962989-ed4b-4faf-ba35-6d621c7901ef",
+        "displayText": "Vorrei un caffe.",
+        "revision": 1,
+        "sequence": 1,
+        "at": 1791065300745,
+        "history": []
+      }
+    },
+    {
+      "kind": "strict-policy",
+      "expectedNoteCount": 0,
+      "receipt": {
+        "version": 1,
+        "outcome": "spelling-feedback",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:3e37b5d9-66c2-4530-a28a-37de7374d85d",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "86e04a5b-5fe1-4dd3-8cca-34659cc7a15f",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": true,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffe.",
+          "ok": false,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "incorrect"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "86e04a5b-5fe1-4dd3-8cca-34659cc7a15f",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": true,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "3e37b5d9-66c2-4530-a28a-37de7374d85d",
+        "displayText": "Vorrei un caffe.",
+        "revision": 1,
+        "sequence": 1,
+        "at": 1791065300750,
+        "history": []
+      }
+    },
+    {
+      "kind": "valid-strict-history",
+      "expectedNoteCount": 1,
+      "receipt": {
+        "version": 1,
+        "outcome": "spelling-feedback",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:a6679893-3e86-44b7-8fab-1ce7c137cd1c",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "9b07b1e8-935e-4386-852c-308b7757e0be",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": true,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": true,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffe.",
+          "ok": false,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "incorrect"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "9b07b1e8-935e-4386-852c-308b7757e0be",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": true,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "a6679893-3e86-44b7-8fab-1ce7c137cd1c",
+        "displayText": "Vorrei un tè.",
+        "revision": 2,
+        "sequence": 1,
+        "at": 1791065300755,
+        "history": [
+          {
+            "turnId": "9b07b1e8-935e-4386-852c-308b7757e0be",
+            "role": "learner",
+            "participantId": "learner",
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": true,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            },
+            "ownerId": "[\"accent-note-import-source\",\"learner:2bwfyxmrmusy170s\"]",
+            "threadId": "a6679893-3e86-44b7-8fab-1ce7c137cd1c",
+            "displayText": "Vorrei un caffe.",
+            "revision": 1,
+            "sequence": 1,
+            "at": 1791065300755,
+            "editReason": "learner-edit"
+          }
+        ],
+        "editedAt": 1791065300764,
+        "correctionRefs": []
+      }
+    },
+    {
+      "kind": "valid-restore-current",
+      "expectedNoteCount": 1,
+      "receipt": {
+        "version": 1,
+        "outcome": "restore-display",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:d693e72e-743d-4109-9c90-64bf235715ce",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "189513d7-34ff-44db-8033-925567c8f389",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffè.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": false,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffè.",
+          "ok": true,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "correct"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "189513d7-34ff-44db-8033-925567c8f389",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": false,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "d693e72e-743d-4109-9c90-64bf235715ce",
+        "displayText": "Vorrei un caffè.",
+        "revision": 2,
+        "sequence": 1,
+        "at": 1791065300769,
+        "history": [
+          {
+            "turnId": "189513d7-34ff-44db-8033-925567c8f389",
+            "role": "learner",
+            "participantId": "learner",
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            },
+            "ownerId": "[\"accent-note-import-source\",\"learner:2bwfyxmrmusy170s\"]",
+            "threadId": "d693e72e-743d-4109-9c90-64bf235715ce",
+            "displayText": "Vorrei un caffe.",
+            "revision": 1,
+            "sequence": 1,
+            "at": 1791065300769,
+            "editReason": "accent-restoration"
+          }
+        ],
+        "editedAt": 1791065300773,
+        "sourceContext": {
+          "inputSpelling": {
+            "version": 1,
+            "outcome": "restore-display",
+            "source": {
+              "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:d693e72e-743d-4109-9c90-64bf235715ce",
+              "sourceRevision": 1,
+              "inputSubmission": {
+                "turnId": "189513d7-34ff-44db-8033-925567c8f389",
+                "revision": 1,
+                "originalText": "Vorrei un caffe.",
+                "submittedText": "Vorrei un caffe.",
+                "displayText": "Vorrei un caffe.",
+                "policySnapshot": {
+                  "version": "conversation-v1",
+                  "strictAccents": false,
+                  "level": "A1",
+                  "support": "free"
+                },
+                "inputProvenance": {
+                  "mode": "written",
+                  "assistance": []
+                }
+              }
+            },
+            "originalNFC": "Vorrei un caffe.",
+            "baseNFC": "Vorrei un caffe.",
+            "candidateNFC": "Vorrei un caffè.",
+            "effectiveText": "Vorrei un caffè.",
+            "differences": [
+              {
+                "start": 14,
+                "end": 15,
+                "before": "e",
+                "after": "è",
+                "kind": "missing"
+              }
+            ],
+            "comparison": {
+              "policyVersion": 1,
+              "inputMode": "typed",
+              "language": "it",
+              "accentStrict": false,
+              "originalText": "Vorrei un caffe.",
+              "normalizedText": "vorrei un caffe.",
+              "matchedAnswerText": "Vorrei un caffè.",
+              "matchKind": "accent-only",
+              "accentDifferences": [
+                {
+                  "start": 14,
+                  "end": 15,
+                  "before": "e",
+                  "after": "è",
+                  "kind": "missing"
+                }
+              ],
+              "displayText": "Vorrei un caffè.",
+              "ok": true,
+              "exact": false,
+              "accentIssue": true,
+              "outcome": "correct"
+            },
+            "references": [
+              {
+                "id": "coffee",
+                "revision": "1",
+                "source": "Explicit test fixture, not a production registry",
+                "reviewStatus": "independent-agent-review",
+                "start": 10,
+                "end": 15,
+                "form": "caffè"
+              }
+            ],
+            "registryVersion": "test-only-v1",
+            "inputOrigin": "typed",
+            "reason": null,
+            "assessment": "spelling-display-only",
+            "masteryAwarded": false
+          },
+          "inputSpellingRevision": 2
+        }
+      }
+    },
+    {
+      "kind": "valid-restore-history",
+      "expectedNoteCount": 1,
+      "receipt": {
+        "version": 1,
+        "outcome": "restore-display",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:59958c84-80d8-4e09-9dd6-f4b16dd2a171",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "7b10460c-8465-448f-a471-823cc45e8d0a",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un caffè.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": false,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffè.",
+          "ok": true,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "correct"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "7b10460c-8465-448f-a471-823cc45e8d0a",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": false,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "59958c84-80d8-4e09-9dd6-f4b16dd2a171",
+        "displayText": "Vorrei un tè.",
+        "revision": 3,
+        "sequence": 1,
+        "at": 1791065300777,
+        "history": [
+          {
+            "turnId": "7b10460c-8465-448f-a471-823cc45e8d0a",
+            "role": "learner",
+            "participantId": "learner",
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            },
+            "ownerId": "[\"accent-note-import-source\",\"learner:2bwfyxmrmusy170s\"]",
+            "threadId": "59958c84-80d8-4e09-9dd6-f4b16dd2a171",
+            "displayText": "Vorrei un caffe.",
+            "revision": 1,
+            "sequence": 1,
+            "at": 1791065300777,
+            "editReason": "accent-restoration"
+          },
+          {
+            "turnId": "7b10460c-8465-448f-a471-823cc45e8d0a",
+            "role": "learner",
+            "participantId": "learner",
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            },
+            "ownerId": "[\"accent-note-import-source\",\"learner:2bwfyxmrmusy170s\"]",
+            "threadId": "59958c84-80d8-4e09-9dd6-f4b16dd2a171",
+            "displayText": "Vorrei un caffè.",
+            "revision": 2,
+            "sequence": 1,
+            "at": 1791065300777,
+            "editedAt": 1791065300781,
+            "sourceContext": {
+              "inputSpelling": {
+                "version": 1,
+                "outcome": "restore-display",
+                "source": {
+                  "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:59958c84-80d8-4e09-9dd6-f4b16dd2a171",
+                  "sourceRevision": 1,
+                  "inputSubmission": {
+                    "turnId": "7b10460c-8465-448f-a471-823cc45e8d0a",
+                    "revision": 1,
+                    "originalText": "Vorrei un caffe.",
+                    "submittedText": "Vorrei un caffe.",
+                    "displayText": "Vorrei un caffe.",
+                    "policySnapshot": {
+                      "version": "conversation-v1",
+                      "strictAccents": false,
+                      "level": "A1",
+                      "support": "free"
+                    },
+                    "inputProvenance": {
+                      "mode": "written",
+                      "assistance": []
+                    }
+                  }
+                },
+                "originalNFC": "Vorrei un caffe.",
+                "baseNFC": "Vorrei un caffe.",
+                "candidateNFC": "Vorrei un caffè.",
+                "effectiveText": "Vorrei un caffè.",
+                "differences": [
+                  {
+                    "start": 14,
+                    "end": 15,
+                    "before": "e",
+                    "after": "è",
+                    "kind": "missing"
+                  }
+                ],
+                "comparison": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "Vorrei un caffe.",
+                  "normalizedText": "vorrei un caffe.",
+                  "matchedAnswerText": "Vorrei un caffè.",
+                  "matchKind": "accent-only",
+                  "accentDifferences": [
+                    {
+                      "start": 14,
+                      "end": 15,
+                      "before": "e",
+                      "after": "è",
+                      "kind": "missing"
+                    }
+                  ],
+                  "displayText": "Vorrei un caffè.",
+                  "ok": true,
+                  "exact": false,
+                  "accentIssue": true,
+                  "outcome": "correct"
+                },
+                "references": [
+                  {
+                    "id": "coffee",
+                    "revision": "1",
+                    "source": "Explicit test fixture, not a production registry",
+                    "reviewStatus": "independent-agent-review",
+                    "start": 10,
+                    "end": 15,
+                    "form": "caffè"
+                  }
+                ],
+                "registryVersion": "test-only-v1",
+                "inputOrigin": "typed",
+                "reason": null,
+                "assessment": "spelling-display-only",
+                "masteryAwarded": false
+              },
+              "inputSpellingRevision": 2
+            },
+            "editReason": "learner-edit"
+          }
+        ],
+        "editedAt": 1791065300785,
+        "sourceContext": {
+          "inputSpelling": {
+            "version": 1,
+            "outcome": "restore-display",
+            "source": {
+              "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:59958c84-80d8-4e09-9dd6-f4b16dd2a171",
+              "sourceRevision": 1,
+              "inputSubmission": {
+                "turnId": "7b10460c-8465-448f-a471-823cc45e8d0a",
+                "revision": 1,
+                "originalText": "Vorrei un caffe.",
+                "submittedText": "Vorrei un caffe.",
+                "displayText": "Vorrei un caffe.",
+                "policySnapshot": {
+                  "version": "conversation-v1",
+                  "strictAccents": false,
+                  "level": "A1",
+                  "support": "free"
+                },
+                "inputProvenance": {
+                  "mode": "written",
+                  "assistance": []
+                }
+              }
+            },
+            "originalNFC": "Vorrei un caffe.",
+            "baseNFC": "Vorrei un caffe.",
+            "candidateNFC": "Vorrei un caffè.",
+            "effectiveText": "Vorrei un caffè.",
+            "differences": [
+              {
+                "start": 14,
+                "end": 15,
+                "before": "e",
+                "after": "è",
+                "kind": "missing"
+              }
+            ],
+            "comparison": {
+              "policyVersion": 1,
+              "inputMode": "typed",
+              "language": "it",
+              "accentStrict": false,
+              "originalText": "Vorrei un caffe.",
+              "normalizedText": "vorrei un caffe.",
+              "matchedAnswerText": "Vorrei un caffè.",
+              "matchKind": "accent-only",
+              "accentDifferences": [
+                {
+                  "start": 14,
+                  "end": 15,
+                  "before": "e",
+                  "after": "è",
+                  "kind": "missing"
+                }
+              ],
+              "displayText": "Vorrei un caffè.",
+              "ok": true,
+              "exact": false,
+              "accentIssue": true,
+              "outcome": "correct"
+            },
+            "references": [
+              {
+                "id": "coffee",
+                "revision": "1",
+                "source": "Explicit test fixture, not a production registry",
+                "reviewStatus": "independent-agent-review",
+                "start": 10,
+                "end": 15,
+                "form": "caffè"
+              }
+            ],
+            "registryVersion": "test-only-v1",
+            "inputOrigin": "typed",
+            "reason": null,
+            "assessment": "spelling-display-only",
+            "masteryAwarded": false
+          },
+          "inputSpellingRevision": 2
+        },
+        "correctionRefs": []
+      }
+    },
+    {
+      "kind": "effective-does-not-match-candidate",
+      "expectedNoteCount": 0,
+      "receipt": {
+        "version": 1,
+        "outcome": "restore-display",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:5a48d5fb-cc4e-428d-8ebe-65c3a69e4401",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "18666ce8-59e0-4ef2-b7d0-69c8fafcde88",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffè.",
+        "effectiveText": "Vorrei un tè.",
+        "differences": [
+          {
+            "start": 14,
+            "end": 15,
+            "before": "e",
+            "after": "è",
+            "kind": "missing"
+          }
+        ],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": false,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffè.",
+          "matchKind": "accent-only",
+          "accentDifferences": [
+            {
+              "start": 14,
+              "end": 15,
+              "before": "e",
+              "after": "è",
+              "kind": "missing"
+            }
+          ],
+          "displayText": "Vorrei un caffè.",
+          "ok": true,
+          "exact": false,
+          "accentIssue": true,
+          "outcome": "correct"
+        },
+        "references": [
+          {
+            "id": "coffee",
+            "revision": "1",
+            "source": "Explicit test fixture, not a production registry",
+            "reviewStatus": "independent-agent-review",
+            "start": 10,
+            "end": 15,
+            "form": "caffè"
+          }
+        ],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "18666ce8-59e0-4ef2-b7d0-69c8fafcde88",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": false,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "5a48d5fb-cc4e-428d-8ebe-65c3a69e4401",
+        "displayText": "Vorrei un caffè.",
+        "revision": 2,
+        "sequence": 1,
+        "at": 1791065300787,
+        "history": [
+          {
+            "turnId": "18666ce8-59e0-4ef2-b7d0-69c8fafcde88",
+            "role": "learner",
+            "participantId": "learner",
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            },
+            "ownerId": "[\"accent-note-import-source\",\"learner:2bwfyxmrmusy170s\"]",
+            "threadId": "5a48d5fb-cc4e-428d-8ebe-65c3a69e4401",
+            "displayText": "Vorrei un caffe.",
+            "revision": 1,
+            "sequence": 1,
+            "at": 1791065300787,
+            "editReason": "accent-restoration"
+          }
+        ],
+        "editedAt": 1791065300790,
+        "sourceContext": {
+          "inputSpelling": {
+            "version": 1,
+            "outcome": "restore-display",
+            "source": {
+              "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:5a48d5fb-cc4e-428d-8ebe-65c3a69e4401",
+              "sourceRevision": 1,
+              "inputSubmission": {
+                "turnId": "18666ce8-59e0-4ef2-b7d0-69c8fafcde88",
+                "revision": 1,
+                "originalText": "Vorrei un caffe.",
+                "submittedText": "Vorrei un caffe.",
+                "displayText": "Vorrei un caffe.",
+                "policySnapshot": {
+                  "version": "conversation-v1",
+                  "strictAccents": false,
+                  "level": "A1",
+                  "support": "free"
+                },
+                "inputProvenance": {
+                  "mode": "written",
+                  "assistance": []
+                }
+              }
+            },
+            "originalNFC": "Vorrei un caffe.",
+            "baseNFC": "Vorrei un caffe.",
+            "candidateNFC": "Vorrei un caffè.",
+            "effectiveText": "Vorrei un tè.",
+            "differences": [
+              {
+                "start": 14,
+                "end": 15,
+                "before": "e",
+                "after": "è",
+                "kind": "missing"
+              }
+            ],
+            "comparison": {
+              "policyVersion": 1,
+              "inputMode": "typed",
+              "language": "it",
+              "accentStrict": false,
+              "originalText": "Vorrei un caffe.",
+              "normalizedText": "vorrei un caffe.",
+              "matchedAnswerText": "Vorrei un caffè.",
+              "matchKind": "accent-only",
+              "accentDifferences": [
+                {
+                  "start": 14,
+                  "end": 15,
+                  "before": "e",
+                  "after": "è",
+                  "kind": "missing"
+                }
+              ],
+              "displayText": "Vorrei un caffè.",
+              "ok": true,
+              "exact": false,
+              "accentIssue": true,
+              "outcome": "correct"
+            },
+            "references": [
+              {
+                "id": "coffee",
+                "revision": "1",
+                "source": "Explicit test fixture, not a production registry",
+                "reviewStatus": "independent-agent-review",
+                "start": 10,
+                "end": 15,
+                "form": "caffè"
+              }
+            ],
+            "registryVersion": "test-only-v1",
+            "inputOrigin": "typed",
+            "reason": null,
+            "assessment": "spelling-display-only",
+            "masteryAwarded": false
+          },
+          "inputSpellingRevision": 2
+        }
+      }
+    },
+    {
+      "kind": "candidate-has-no-accent-change",
+      "expectedNoteCount": 0,
+      "receipt": {
+        "version": 1,
+        "outcome": "restore-display",
+        "source": {
+          "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:c4dd3dae-3d92-4849-ae59-886ffcb44c19",
+          "sourceRevision": 1,
+          "inputSubmission": {
+            "turnId": "67b41b5f-7d27-4ba9-a217-daba77cca577",
+            "revision": 1,
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "displayText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            }
+          }
+        },
+        "originalNFC": "Vorrei un caffe.",
+        "baseNFC": "Vorrei un caffe.",
+        "candidateNFC": "Vorrei un caffe.",
+        "effectiveText": "Vorrei un caffe.",
+        "differences": [],
+        "comparison": {
+          "policyVersion": 1,
+          "inputMode": "typed",
+          "language": "it",
+          "accentStrict": false,
+          "originalText": "Vorrei un caffe.",
+          "normalizedText": "vorrei un caffe.",
+          "matchedAnswerText": "Vorrei un caffe.",
+          "matchKind": "exact",
+          "accentDifferences": [],
+          "displayText": "Vorrei un caffe.",
+          "ok": true,
+          "exact": true,
+          "accentIssue": false,
+          "outcome": "correct"
+        },
+        "references": [],
+        "registryVersion": "test-only-v1",
+        "inputOrigin": "typed",
+        "reason": null,
+        "assessment": "spelling-display-only",
+        "masteryAwarded": false
+      },
+      "savedLearner": {
+        "turnId": "67b41b5f-7d27-4ba9-a217-daba77cca577",
+        "role": "learner",
+        "participantId": "learner",
+        "originalText": "Vorrei un caffe.",
+        "submittedText": "Vorrei un caffe.",
+        "policySnapshot": {
+          "version": "conversation-v1",
+          "strictAccents": false,
+          "level": "A1",
+          "support": "free"
+        },
+        "inputProvenance": {
+          "mode": "written",
+          "assistance": []
+        },
+        "ownerId": "[\"vrroz5comusy170s\",\"learner:2bwfyxmrmusy170s\"]",
+        "threadId": "c4dd3dae-3d92-4849-ae59-886ffcb44c19",
+        "displayText": "Vorrei un caffè.",
+        "revision": 2,
+        "sequence": 1,
+        "at": 1791065300794,
+        "history": [
+          {
+            "turnId": "67b41b5f-7d27-4ba9-a217-daba77cca577",
+            "role": "learner",
+            "participantId": "learner",
+            "originalText": "Vorrei un caffe.",
+            "submittedText": "Vorrei un caffe.",
+            "policySnapshot": {
+              "version": "conversation-v1",
+              "strictAccents": false,
+              "level": "A1",
+              "support": "free"
+            },
+            "inputProvenance": {
+              "mode": "written",
+              "assistance": []
+            },
+            "ownerId": "[\"accent-note-import-source\",\"learner:2bwfyxmrmusy170s\"]",
+            "threadId": "c4dd3dae-3d92-4849-ae59-886ffcb44c19",
+            "displayText": "Vorrei un caffe.",
+            "revision": 1,
+            "sequence": 1,
+            "at": 1791065300794,
+            "editReason": "accent-restoration"
+          }
+        ],
+        "editedAt": 1791065300797,
+        "sourceContext": {
+          "inputSpelling": {
+            "version": 1,
+            "outcome": "restore-display",
+            "source": {
+              "scope": "conversation:accent-note-import-source:learner:2bwfyxmrmusy170s:c4dd3dae-3d92-4849-ae59-886ffcb44c19",
+              "sourceRevision": 1,
+              "inputSubmission": {
+                "turnId": "67b41b5f-7d27-4ba9-a217-daba77cca577",
+                "revision": 1,
+                "originalText": "Vorrei un caffe.",
+                "submittedText": "Vorrei un caffe.",
+                "displayText": "Vorrei un caffe.",
+                "policySnapshot": {
+                  "version": "conversation-v1",
+                  "strictAccents": false,
+                  "level": "A1",
+                  "support": "free"
+                },
+                "inputProvenance": {
+                  "mode": "written",
+                  "assistance": []
+                }
+              }
+            },
+            "originalNFC": "Vorrei un caffe.",
+            "baseNFC": "Vorrei un caffe.",
+            "candidateNFC": "Vorrei un caffe.",
+            "effectiveText": "Vorrei un caffe.",
+            "differences": [],
+            "comparison": {
+              "policyVersion": 1,
+              "inputMode": "typed",
+              "language": "it",
+              "accentStrict": false,
+              "originalText": "Vorrei un caffe.",
+              "normalizedText": "vorrei un caffe.",
+              "matchedAnswerText": "Vorrei un caffe.",
+              "matchKind": "exact",
+              "accentDifferences": [],
+              "displayText": "Vorrei un caffe.",
+              "ok": true,
+              "exact": true,
+              "accentIssue": false,
+              "outcome": "correct"
+            },
+            "references": [],
+            "registryVersion": "test-only-v1",
+            "inputOrigin": "typed",
+            "reason": null,
+            "assessment": "spelling-display-only",
+            "masteryAwarded": false
+          },
+          "inputSpellingRevision": 2
+        }
+      }
+    }
+  ]
+}

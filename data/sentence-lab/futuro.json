@@ -95,7 +95,10 @@
               "bank": ["vedrai", "guarderemo"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
-              "explanation": "io takes -ò in the future: guarderò (guardare) or vedrò (vedere)."
+              "explanation": "io takes -ò in the future: guarderò (guardare) or vedrò (vedere).",
+              "sourceExamples": [
+                {"agreement":"any","values":["guarderò"],"en":"Tomorrow evening I will watch a film with Anna.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Domani sera guarderò un film con Anna.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Pick a form, or type any verb in the future for io."
@@ -138,7 +141,10 @@
                   "bank": ["lavorerà", "studieremo"],
                   "free": true,
                   "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
-                  "explanation": "The future for io ends in -ò: lavorerò, studierò."
+                  "explanation": "The future for io ends in -ò: lavorerò, studierò.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["studierò"],"en":"Next week I will study a lot.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"La settimana prossima studierò molto.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ]
                 }
               ],
               "reactions": [
@@ -532,7 +538,10 @@
               "bank": ["andremo"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
-              "explanation": "io takes andrò."
+              "explanation": "io takes andrò.",
+              "sourceExamples": [
+                {"agreement":"any","values":["andrò"],"en":"If the weather is nice, on Sunday I will go to the seaside.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Se fa bel tempo, domenica andrò al mare.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Or type another verb in the future for io, like resterò or tornerò."
@@ -736,7 +745,10 @@
               "bank": ["andremo"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
-              "explanation": "io takes andrò."
+              "explanation": "io takes andrò.",
+              "sourceExamples": [
+                {"agreement":"any","values":["andrò"],"en":"On Saturday evening I will go to a party with my friends.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Sabato sera andrò a una festa con gli amici.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Or type another future verb for io."
@@ -882,7 +894,10 @@
               "bank": ["andremo"],
               "free": true,
               "slot": { "pos": "verb", "person": 0, "tense": "futuro" },
-              "explanation": "io takes andrò."
+              "explanation": "io takes andrò.",
+              "sourceExamples": [
+                {"agreement":"any","values":["andrò"],"en":"Next year I will go to Italy for a month.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"L'anno prossimo andrò in Italia per un mese.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ]
             }
           ],
           "hint": "Or type another future verb for io, like starò or tornerò."

@@ -9,9 +9,10 @@ export async function openValidatedAssistance({task='intent',title=task==='inten
  const panel=sheet('',{title,opener,onClose:()=>{closed=true;controller?.dispose();stopSpeech();onClose();}});
  const close=panel.close;panel.close=(...args)=>{closed=true;controller?.dispose();stopSpeech();close(...args);};
  const current=()=>!closed&&isCurrent();
+ const contextHTML=card=>card.contextLabel?html`<p class="small muted">${card.contextLabel}</p>`:'';
  const attributionHTML=card=>{
-  const credit=card.attribution;if(!credit)return '';
-  return html`<p class="small muted">${credit.title||''}${credit.author?` · ${credit.author}`:''}${credit.license?` · ${credit.license}`:''}</p>${credit.changes?raw(html`<p class="small muted">${credit.changes}</p>`):''}${safeURL(credit.licenseUrl)?raw(html`<a href="${safeURL(credit.licenseUrl)}" target="_blank" rel="noopener noreferrer">Source licence</a>`):''}`;
+  const credit=card.attribution;if(!credit)return contextHTML(card);
+  return contextHTML(card)+html`<p class="small muted">${credit.title||''}${credit.author?` · ${credit.author}`:''}${credit.license?` · ${credit.license}`:''}</p>${credit.changes?raw(html`<p class="small muted">${credit.changes}</p>`):''}${safeURL(credit.licenseUrl)?raw(html`<a href="${safeURL(credit.licenseUrl)}" target="_blank" rel="noopener noreferrer">Source licence</a>`):''}`;
  };
  function draw(state){
   if(!current()){panel.close();return;}

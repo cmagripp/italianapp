@@ -3,6 +3,8 @@ import {setTitle,setChrome,navigate,captureViewOwnership} from '../app.js';
 import {store} from '../store.js';
 import {data,loadData} from '../data.js';
 import {dropdown} from '../fx.js';
+import {sourceFingerprint} from '../ai/source-fingerprint.js';
+import {compareSubmission,foldItalianAccents} from '../learning/answer-policy.js';
 import {createConversationRepository} from '../conversations/storage.js';
 import {exportConversationJSON,importConversationJSON} from '../conversations/backup.js';
 import {createConversationController} from '../conversations/controller.js';
@@ -32,6 +34,47 @@ const verifiedCorrections=(turn,summary)=>(turn.correctionRefs||[]).flatMap(corr
  const item=summary?.items?.find(item=>item.kind==='correction'&&!item.invalidated&&item.ruleId===correction.ruleId&&item.original===correction.original&&item.replacement===correction.replacement&&item.sourceRefs.some(ref=>ref.turnId===correction.sourceTurnId&&ref.revision===correction.sourceTurnRevision));
  return item?[{replacement:item.replacement,reason:item.explanation}]:[];
 });
+function spellingNote(turn,related=[]){
+ if(turn.role!=='learner')return '';
+ const candidates=[...related].reverse();
+ // Retain already saved notes from earlier development/imported records too.
+ if(turn.sourceContext?.inputSpelling)candidates.push({receipt:turn.sourceContext.inputSpelling,applied:turn.sourceContext.inputSpellingRevision});
+ const note=candidates.find(({receipt})=>{
+  const source=receipt?.source?.inputSubmission,policy=source?.policySnapshot,origin=source?.inputProvenance;
+  if(receipt?.version!==1||!['restore-display','spelling-feedback'].includes(receipt?.outcome)||typeof receipt.candidateNFC!=='string'||typeof source?.displayText!=='string'||typeof source.originalText!=='string'||source.turnId!==turn.turnId||
+   receipt.inputOrigin!=='typed'||!['written','typed'].includes(origin?.mode)||Object.hasOwn(origin,'recognizedText')||Object.hasOwn(origin,'transcriptEdits')||origin.recognitionUncertain===true||
+   policy?.version!=='conversation-v1'||policy.strictAccents!==(receipt.outcome==='spelling-feedback')||
+   receipt.assessment!=='spelling-display-only'||receipt.masteryAwarded!==false||
+   receipt.originalNFC!==source.originalText.normalize('NFC')||receipt.baseNFC!==source.displayText.normalize('NFC')||receipt.candidateNFC!==receipt.candidateNFC.normalize('NFC')||
+   receipt.effectiveText!==(receipt.outcome==='restore-display'?receipt.candidateNFC:source.displayText)||
+   foldItalianAccents(receipt.candidateNFC)!==foldItalianAccents(source.displayText.normalize('NFC')))return false;
+  // An imported note is historical data. Check its internally reproducible
+  // spelling facts before presenting it; it cannot authorize a new correction.
+  const comparison=compareSubmission(source.displayText,receipt.candidateNFC,{accentStrict:policy.strictAccents,inputMode:'typed',language:'it',trailingPunctuation:false});
+  if(comparison.matchKind!=='accent-only'||!comparison.accentDifferences.length||
+   sourceFingerprint(receipt.comparison)!==sourceFingerprint(comparison)||
+   sourceFingerprint(receipt.differences)!==sourceFingerprint(comparison.accentDifferences))return false;
+  return [turn,...(turn.history||[])].some(prior=>sourceFingerprint(source)===sourceFingerprint(Object.fromEntries(
+   ['turnId','revision','originalText','submittedText','displayText','policySnapshot','inputProvenance'].map(key=>[key,prior[key]??null]))));
+ });
+ if(!note)return '';
+ const {receipt,applied}=note,source=receipt.source.inputSubmission;
+ const current=applied===turn.revision&&turn.displayText===(receipt.outcome==='restore-display'?receipt.effectiveText:source.displayText);
+ const title=current?(receipt.outcome==='restore-display'?'Accent added':'A spelling note'):'Earlier spelling note';
+ // Saved/imported receipts explain a recorded check. They are history, never
+ // authority to rewrite or grade another message. Strict notes live with the
+ // partner reply, so an unchanged learner message retains its chosen senses.
+ return html`<details class="conversation-correction conversation-spelling" data-spelling-note><summary>${title}</summary><p lang="it">${receipt.candidateNFC}</p><p class="small muted">${current&&receipt.outcome==='spelling-feedback'?'Strict accents was on when you sent this message.':'Your original message is kept.'}</p><p class="small muted">You wrote: <span lang="it">${source.displayText}</span></p></details>`;
+}
+function spellingNotes(turns){
+ const related=new Map();
+ for(const partner of turns){
+  const receipt=partner.role==='partner'&&partner.sourceContext?.inputSpelling,id=receipt?.source?.inputSubmission?.turnId;
+  if(!id)continue;if(!related.has(id))related.set(id,[]);
+  related.get(id).push({receipt,applied:partner.sourceContext.inputSpellingSourceRevision});
+ }
+ return new Map(turns.filter(turn=>turn.role==='learner').map(turn=>[turn.turnId,spellingNote(turn,related.get(turn.turnId))]));
+}
 function download(text,name){const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(url);},1000);}
 
 function setupSheet({initial,onSave,title='New conversation'}){
@@ -119,8 +162,8 @@ export async function render(root,params={}){
   renderedState=state;recoveredDraftPending=!!recoveryConflict;setTitle(state.thread.title);
   root.querySelector('[data-conversation-heading]').innerHTML=html`<strong>${state.thread.setup.participants.filter(p=>p.active!==false).map(p=>p.name).join(', ')}</strong><span>${state.thread.setup.level} · ${label(SUPPORT,state.thread.setup.support)}</span>`;
   if(paintedRevision!==state.thread.contentRevision){
-   const atEnd=messages.scrollHeight-messages.scrollTop-messages.clientHeight<90;
-   messages.innerHTML=state.turns.length?state.turns.map(turn=>turn.role==='system'?html`<p class="conversation-system-event" data-turn="${turn.turnId}">${turn.displayText}</p>`:html`<article class="conversation-message ${turn.role}" data-turn="${turn.turnId}"><div class="conversation-message-author">${turn.role==='learner'?state.thread.setup.name||'You':state.thread.setup.participants.find(p=>p.id===turn.participantId)?.name||'Conversation'}</div><p lang="it" data-italian-sentence>${turn.displayText}</p>${turn.history?.length?raw('<span class="conversation-edited">Edited · original kept</span>'):''}
+   const atEnd=messages.scrollHeight-messages.scrollTop-messages.clientHeight<90,notes=spellingNotes(state.turns);
+   messages.innerHTML=state.turns.length?state.turns.map(turn=>turn.role==='system'?html`<p class="conversation-system-event" data-turn="${turn.turnId}">${turn.displayText}</p>`:html`<article class="conversation-message ${turn.role}" data-turn="${turn.turnId}"><div class="conversation-message-author">${turn.role==='learner'?state.thread.setup.name||'You':state.thread.setup.participants.find(p=>p.id===turn.participantId)?.name||'Conversation'}</div><p lang="it" data-italian-sentence>${turn.displayText}</p>${turn.history?.some(prior=>!['accent-restoration','accent-feedback','meaning-selection'].includes(prior.editReason))?raw('<span class="conversation-edited">Edited · original kept</span>'):''}${raw(notes.get(turn.turnId)||'')}
     ${state.thread.setup.correctionStyle!=='afterward'?raw(verifiedCorrections(turn,state.summary).map(c=>html`<details class="conversation-correction" ${state.thread.setup.correctionStyle==='pause'?'open':''}><summary>A little Italian tip</summary><p lang="it">${c.replacement}</p><p>${c.reason}</p></details>`).join('')):''}
     <div class="conversation-message-tools">${turn.inputProvenance?.recognizedText?raw(html`<button type="button" data-transcript-info="${turn.turnId}" aria-label="View original speech transcript">${ic('ear',17)}</button>`):''}${turn.recordingRefs?.length?raw(html`<button type="button" data-saved-recording="${turn.turnId}" aria-label="Play your saved recording">${ic('play',17)}</button>`):''}<button type="button" data-hear="${turn.turnId}" aria-label="Hear this message">${ic('speaker',17)}</button><button type="button" data-note="${turn.turnId}" aria-label="Add a note to this message">${ic('book',17)}</button>${turn.role==='learner'?raw(html`<button type="button" data-edit="${turn.turnId}" aria-label="Edit your message">${ic('edit',17)}</button>`):''}</div></article>`).join(''):html`<div class="conversation-welcome"><span class="conversation-avatar">${state.thread.setup.participants.map(p=>p.name[0]).join('')}</span><h2>${state.thread.title}</h2><p>Ready when you are.</p><button type="button" class="btn primary" data-start-dialogue>Say hello</button></div>`;
    words.decorate();if(atEnd||paintedRevision<0)messages.scrollTop=messages.scrollHeight;paintedRevision=state.thread.contentRevision;

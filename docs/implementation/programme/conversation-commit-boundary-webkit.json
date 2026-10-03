@@ -1,0 +1,288 @@
+{
+  "browser": "webkit",
+  "scope": "Explicit test-only provider; real controller, repository and browser IndexedDB. No production model or language quality claim.",
+  "results": [
+    {
+      "mode": "replace-during-request",
+      "busyAfterCancellation": false,
+      "startProvider": 1,
+      "endProvider": 3,
+      "triggered": false,
+      "oldDisposed": true,
+      "log": [
+        "provider replaced while service response pending"
+      ],
+      "send": {
+        "committed": true,
+        "reply": null,
+        "error": null
+      },
+      "onReply": 1,
+      "retry": {
+        "text": "Preferisci il caffè caldo?",
+        "roles": [
+          "learner",
+          "partner"
+        ],
+        "original": "Vorrei un caffe.",
+        "contentRevision": 2
+      },
+      "roles": [
+        "learner"
+      ],
+      "texts": [
+        "Vorrei un caffe."
+      ],
+      "pending": null,
+      "contentRevision": 1
+    },
+    {
+      "mode": "replace-before-transaction",
+      "busyAfterCancellation": false,
+      "startProvider": 5,
+      "endProvider": 7,
+      "triggered": true,
+      "oldDisposed": true,
+      "log": [
+        "provider replaced after response guard and before native partner transaction"
+      ],
+      "send": {
+        "committed": true,
+        "reply": null,
+        "error": null
+      },
+      "onReply": 1,
+      "retry": {
+        "text": "Preferisci il caffè caldo?",
+        "roles": [
+          "learner",
+          "partner"
+        ],
+        "original": "Vorrei un caffe.",
+        "contentRevision": 2
+      },
+      "roles": [
+        "learner"
+      ],
+      "texts": [
+        "Vorrei un caffe."
+      ],
+      "pending": null,
+      "contentRevision": 1
+    },
+    {
+      "mode": "cancel-after-transaction-start",
+      "busyAfterCancellation": false,
+      "startProvider": 9,
+      "endProvider": 10,
+      "triggered": true,
+      "oldDisposed": true,
+      "log": [
+        "controller.cancel after native partner transaction exists, before first IDB get"
+      ],
+      "send": {
+        "committed": true,
+        "reply": null,
+        "error": null
+      },
+      "onReply": 1,
+      "retry": {
+        "text": "Preferisci il caffè caldo?",
+        "roles": [
+          "learner",
+          "partner"
+        ],
+        "original": "Vorrei un caffe.",
+        "contentRevision": 2
+      },
+      "roles": [
+        "learner"
+      ],
+      "texts": [
+        "Vorrei un caffe."
+      ],
+      "pending": null,
+      "contentRevision": 1
+    },
+    {
+      "mode": "cancel-after-partner-put",
+      "busyAfterCancellation": false,
+      "startProvider": 12,
+      "endProvider": 13,
+      "triggered": true,
+      "oldDisposed": true,
+      "log": [
+        "cancel-after-partner-put before transaction completion"
+      ],
+      "send": {
+        "committed": true,
+        "reply": null,
+        "error": null
+      },
+      "onReply": 1,
+      "retry": {
+        "text": "Preferisci il caffè caldo?",
+        "roles": [
+          "learner",
+          "partner"
+        ],
+        "original": "Vorrei un caffe.",
+        "contentRevision": 2
+      },
+      "roles": [
+        "learner"
+      ],
+      "texts": [
+        "Vorrei un caffe."
+      ],
+      "pending": null,
+      "contentRevision": 1
+    },
+    {
+      "mode": "replace-after-partner-put",
+      "busyAfterCancellation": false,
+      "startProvider": 15,
+      "endProvider": 17,
+      "triggered": true,
+      "oldDisposed": true,
+      "log": [
+        "replace-after-partner-put before transaction completion"
+      ],
+      "send": {
+        "committed": true,
+        "reply": null,
+        "error": null
+      },
+      "onReply": 1,
+      "retry": {
+        "text": "Preferisci il caffè caldo?",
+        "roles": [
+          "learner",
+          "partner"
+        ],
+        "original": "Vorrei un caffe.",
+        "contentRevision": 2
+      },
+      "roles": [
+        "learner"
+      ],
+      "texts": [
+        "Vorrei un caffe."
+      ],
+      "pending": null,
+      "contentRevision": 1
+    },
+    {
+      "mode": "throwing-cancel",
+      "busyAfterCancellation": false,
+      "startProvider": 19,
+      "endProvider": 20,
+      "triggered": true,
+      "oldDisposed": true,
+      "log": [
+        "provider cancelScope throws during explicit cancellation"
+      ],
+      "send": {
+        "committed": true,
+        "reply": null,
+        "error": null
+      },
+      "onReply": 1,
+      "retry": {
+        "text": "Preferisci il caffè caldo?",
+        "roles": [
+          "learner",
+          "partner"
+        ],
+        "original": "Vorrei un caffe.",
+        "contentRevision": 2
+      },
+      "roles": [
+        "learner"
+      ],
+      "texts": [
+        "Vorrei un caffe."
+      ],
+      "pending": null,
+      "contentRevision": 1
+    },
+    {
+      "mode": "rejecting-cancel",
+      "busyAfterCancellation": false,
+      "startProvider": 22,
+      "endProvider": 23,
+      "triggered": true,
+      "oldDisposed": true,
+      "log": [
+        "provider cancelScope throws during explicit cancellation"
+      ],
+      "send": {
+        "committed": true,
+        "reply": null,
+        "error": null
+      },
+      "onReply": 1,
+      "retry": {
+        "text": "Preferisci il caffè caldo?",
+        "roles": [
+          "learner",
+          "partner"
+        ],
+        "original": "Vorrei un caffe.",
+        "contentRevision": 2
+      },
+      "roles": [
+        "learner"
+      ],
+      "texts": [
+        "Vorrei un caffe."
+      ],
+      "pending": null,
+      "contentRevision": 1
+    }
+  ],
+  "held": [
+    {
+      "mode": "sync-cleanup-failure",
+      "busyAfterCancel": false,
+      "settled": {
+        "committed": true,
+        "reply": null
+      },
+      "busyAfterLateOldReply": true,
+      "secondReply": "New reply",
+      "roles": [
+        "learner",
+        "learner",
+        "partner"
+      ],
+      "texts": [
+        "First learner message",
+        "Second learner message",
+        "New reply"
+      ],
+      "closed": true
+    },
+    {
+      "mode": "async-cleanup-failure",
+      "busyAfterCancel": false,
+      "settled": {
+        "committed": true,
+        "reply": null
+      },
+      "busyAfterLateOldReply": true,
+      "secondReply": "New reply",
+      "roles": [
+        "learner",
+        "learner",
+        "partner"
+      ],
+      "texts": [
+        "First learner message",
+        "Second learner message",
+        "New reply"
+      ],
+      "closed": true
+    }
+  ]
+}

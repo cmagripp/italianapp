@@ -20,3 +20,16 @@
 .course-reading-source{margin:0 0 16px;padding:14px 16px;border:1px solid var(--line);border-radius:16px}.course-reading-source summary{cursor:pointer;font-size:13px;color:var(--gold)}.course-reading-source .course-passage [lang=it]{font-size:20px;line-height:1.75}
 .course-attribution{font:12px/1.55 var(--font-text);color:var(--ink-3);white-space:normal;padding:10px 0;overflow-wrap:anywhere;border-top:1px solid var(--line)}.course-attribution-heading{display:flex;flex-wrap:wrap;gap:4px 9px;align-items:baseline}.course-attribution-heading>span{font-size:10px;text-transform:uppercase;letter-spacing:.08em}.course-attribution strong{font-weight:500}.course-attribution a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}.course-attribution p{margin:5px 0}.course-attribution details{margin-top:5px}.course-attribution summary{font:inherit;color:var(--ink-2);cursor:pointer;padding:4px 0}.course-attribution details p{color:var(--ink-3)}
 .course-v2-shell .grammar-footer.has-feedback:has(.feedback-bar){overflow:hidden;grid-template-rows:minmax(0,1fr)}.course-v2-shell .grammar-footer .feedback-bar{display:flex;flex-direction:column;min-height:0}.course-v2-shell .grammar-footer .feedback{min-height:0;overflow-y:auto;overscroll-behavior:contain;flex:1}.course-v2-shell .grammar-footer .feedback-bar>.btn{flex:none;min-height:48px}.course-v2-shell .grammar-footer.has-feedback:has(.course-ungraded){grid-template-rows:minmax(0,1fr) auto;overflow:hidden}.course-v2-shell .course-ungraded{min-height:0;overflow-y:auto;overscroll-behavior:contain}
+/* Lesson actions keep their full meaning when text grows or the screen narrows. */
+.grammar-footer {
+  grid-auto-rows:max-content;
+}
+.grammar-footer .btn {
+  height:auto;
+  min-height:56px;
+  padding-top:12px;
+  padding-bottom:12px;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  line-height:1.35;
+}

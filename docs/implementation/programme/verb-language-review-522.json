@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "reviewer": "programme_curriculum author agent",
+  "status": "120 additional individual author-agent reads published; definite repairs and broader independent/native gates remain separate",
+  "publishedFrom": 402,
+  "publishedThrough": 521,
+  "newRecords": 120,
+  "totalPublishedScopedRecords": 522,
+  "unread": 664,
+  "scope": "All three examples/translations, usage/patterns, every declared frame, all five six-person lesson arrays with formal variants, rendered nonfinite fields, and printed representative simple/progressive contexts read; not all generated questions or rare-form primary attestation.",
+  "fullGeneratedQuestionReview": false,
+  "nativeHumanReview": false,
+  "inputScratchSHA256": "5306828022105353e1d8927360bdc4b005c9f3b81e5e6535ec1aca03b843528c",
+  "ledgerSHA256": "f9a70b2a82c4561bf64445bc444245000b1902858e6fc21495766f602df7b2fd",
+  "findings": [
+    {
+      "index": 405,
+      "id": "v:distinguere",
+      "status": "viewpoint/idiom adjudication candidate; not yet integrated",
+      "finding": "Distinguishing colours can describe perceptual ability or an active comparison. Bare sto distinguendo i due colori is plausible in active analysis but would benefit from an explicit process situation; do not claim universally invalid progressive."
+    },
+    {
+      "index": 410,
+      "id": "v:emigrare",
+      "status": "background scenario clarity candidate; not yet integrated",
+      "finding": "Used to emigrate to another country permits repeated migrations, but a single emigration episode would need was emigrating. Current indefinite-frame habit is not declared categorically false without a clearer authored situation."
+    },
+    {
+      "index": 412,
+      "id": "v:entrarci",
+      "status": "specific formal agreement review candidate",
+      "finding": "formalLessonForms returns both c’è entrato and c’è entrata under ci clitic, so an explicit female formal-address form question may accept masculine agreement. Need source-specific ci relevance subject/agreement review and precise prior form-question capture, not a global clitic exception change."
+    },
+    {
+      "index": 413,
+      "id": "v:esagerare",
+      "status": "definite English collocation/sense repair candidate",
+      "finding": "Esagerare con i complimenti/con le critiche means overdo compliments/criticism; generated exaggerate with the compliments is an English-shaped frame and the declared exaggerate a point sense does not fit all frames. Preserve Italian core forms and exact old cues when refining selected English predicates."
+    },
+    {
+      "index": 415,
+      "id": "v:esistere",
+      "status": "definite English adverb ordering and selected time-viewpoint repair candidate",
+      "finding": "Generated exists today still / existed today still is unnatural ordering; selected background La specie esisteva ancora oggi also needs an explicit past viewpoint. Current ordinary temporal frames should be differentiated by chapter with old pool preservation."
+    },
+    {
+      "index": 417,
+      "id": "v:evitare",
+      "status": "definite imperative-person usage wording candidate",
+      "finding": "Usage equates both evita! (singular you: avoid it/don’t) and evitiamo! (let’s avoid it) with let’s not. Distinguish addressee vs inclusive-we meaning; current actual core paradigm forms are correct."
+    },
+    {
+      "index": 418,
+      "id": "v:farcela",
+      "status": "teaching composition clarification candidate, not incorrect dictionary answer",
+      "finding": "The dictionary masculine-singular participle prompt correctly accepts fatto. Compound teaching should explicitly distinguish the fixed ce l’ho fatta construction from the dictionary base participle; do not retire the valid dictionary answer.",
+      "primarySourceRead": "https://www.treccani.it/magazine/lingua_italiana/domande_e_risposte/grammatica/grammatica_1579.html"
+    },
+    {
+      "index": 420,
+      "id": "v:fidanzarsi",
+      "status": "selected-sense clarification candidate",
+      "finding": "The entry can cover starting a relationship and engagement, whereas the selected English get engaged narrows the meaning. Clarify the engagement sense and broader usage rather than categorically rejecting the existing core forms."
+    },
+    {
+      "index": 421,
+      "id": "v:fidarsi",
+      "status": "progressive viewpoint adjudication candidate",
+      "finding": "Current intentional trusting can support a progressive reading. A context should distinguish an ongoing trust decision from a standing attitude; no claim that every fidarsi progressive is invalid."
+    },
+    {
+      "index": 422,
+      "id": "v:fingere",
+      "status": "definite reserve agreement repair candidate",
+      "finding": "Reserve frame di essere sorpreso is reused for explicit female ordinary/formal and plural subjects. All seven present reserve contexts were read; ordinary person2,3,4,5 and formal person2 have incompatible singular masculine sorpreso. Preserve exact prior pools, retire only invalid old contexts, and use a neutral or person-specific replacement.",
+      "primarySourceRead": "https://www.treccani.it/vocabolario/fingere/"
+    },
+    {
+      "index": 424,
+      "id": "v:fondare",
+      "status": "historical fact qualification candidate",
+      "finding": "The conventional 753 BCE Rome foundation statement should be qualified as traditional chronology if retained as an factual model; primary historical source is needed before editing."
+    },
+    {
+      "index": 428,
+      "id": "v:giudicare",
+      "status": "English idiom improvement candidate",
+      "finding": "The count form a behaviour can occur in technical use but is awkward in the ordinary generated judgement scenario. Prefer an ordinary action/behaviour context if revised; no categorical grammatical error claimed."
+    },
+    {
+      "index": 445,
+      "id": "v:intervistare",
+      "status": "overbroad register statement review candidate",
+      "finding": "Usage says Italians use fare un colloquio, not intervistare, for job interviews. Everyday preference should not exclude legitimate technical intervista di selezione uses without source review."
+    },
+    {
+      "index": 446,
+      "id": "v:investire",
+      "status": "translation specificity review candidate",
+      "finding": "Ran over may add detail beyond hit in the collision example. The verb can legitimately have run-over meaning, so review the exact selected context before changing translation."
+    },
+    {
+      "index": 447,
+      "id": "v:iscriversi",
+      "status": "overbroad preposition claim review candidate",
+      "finding": "Always with a is stronger than the common selected course enrolment pattern; uses with nelle liste/nell’albo require primary review before qualifying the note. Core forms unchanged."
+    },
+    {
+      "index": 448,
+      "id": "v:lamentarsi",
+      "status": "usage translation precision candidate",
+      "finding": "The English WITH in the preposition note can mislead learners because complain to someone is the intended addressee reading. Actual complaint-to-manager frames are correctly translated."
+    },
+    {
+      "index": 453,
+      "id": "v:mantenere",
+      "status": "definite per-frame English collocation repair candidate",
+      "finding": "Frame la promessa should use keep the promise rather than maintain the promise. The other composure/pace/balance frames do fit maintain; preserve the exact prior per-frame cues before replacing only the promise translation."
+    },
+    {
+      "index": 454,
+      "id": "v:mentire",
+      "status": "primary-supported bounded accepted-variant teaching candidate; not yet integrated",
+      "finding": "Treccani confirms mento is currently more frequent and mentisco is an accepted alternate only in present indicative/subjunctive/imperative at 1/2/3 singular and 3 plural. Current usage should specify that bounded mode/person scope; exact valid alternatives can be added without replacing mento. PONS directly attests the rendered present participle mentente, so no invented mentiente replacement.",
+      "primarySourcesRead": [
+        "https://www.treccani.it/enciclopedia/mento-o-mentisco_(La-grammatica-italiana)/",
+        "https://www.treccani.it/vocabolario/mentire/",
+        "https://de.pons.com/verbtabellen/italienisch/mentire"
+      ]
+    },
+    {
+      "index": 457,
+      "id": "v:migliorare",
+      "status": "construction-specific question distinction remains open",
+      "finding": "Both auxiliaries are supported for transitive improvement versus intransitive getting better. Direct-object selected frames use avere, while bare forms remain broad reference; do not blanket-retire otherwise valid intransitive forms."
+    },
+    {
+      "index": 462,
+      "id": "v:notare",
+      "status": "progressive viewpoint adjudication candidate",
+      "finding": "Noticing a singular mistake can be a developing perception or an endpoint. Explicit ongoing inspection would make the progressive teaching clearer; no universally invalid-progressive claim."
+    },
+    {
+      "index": 466,
+      "id": "v:offendere",
+      "status": "unverified frequency statement gate",
+      "finding": "The comparative claim that offendersi is more common than transitive offendere needs actual corpus evidence. The printed examples and finite forms are coherent; no categorical source-language correction claimed."
+    },
+    {
+      "index": 472,
+      "id": "v:partecipare",
+      "status": "selected common-regency clarification candidate",
+      "finding": "Always partecipare a fits the selected taking-part sense but should not be generalized to every historical/transitive sharing/disclosing sense without primary review."
+    },
+    {
+      "index": 473,
+      "id": "v:peggiorare",
+      "status": "construction-specific question distinction remains open",
+      "finding": "Broad avere/essere arrays are legitimate transitive/intransitive forms; the selected direct-object worsening frames use avere. Bare generic form drills are not yet a meaning-specific auxiliary assessment."
+    },
+    {
+      "index": 474,
+      "id": "v:pensarci",
+      "status": "pattern wording review candidate",
+      "finding": "The standalone pattern pensarci qualcuno is unclear as an infinitive regency model. If intended to show who takes care of it, use a finite subject-bearing model such as ci pensa qualcuno or ci penso io; the three stored Italian examples are coherent."
+    },
+    {
+      "index": 482,
+      "id": "v:procedere",
+      "status": "construction-specific auxiliary distinction remains open",
+      "finding": "Broad avere/essere paradigms preserve legitimate action/progress uses. Current task frames and bare forms do not establish meaning-specific auxiliary assessment; no blanket retirement of prior forms is proposed."
+    },
+    {
+      "index": 488,
+      "id": "v:provarci",
+      "status": "English editorial label improvement candidate",
+      "finding": "The selected sense label give an attempt to a task is awkward; try a task or give it a try is clearer. The stored idiom examples and printed simple/progressive contexts match their intended meanings."
+    },
+    {
+      "index": 489,
+      "id": "v:provocare",
+      "status": "definite selected-frame English collocation repair candidate",
+      "finding": "The declared cause-a-reaction sense includes un incidente, but the English predicate provoke produces provoke an accident; ordinary English uses cause an accident. Review the exact per-frame generated wording and preserve old cues before replacing the affected English predicate."
+    },
+    {
+      "index": 495,
+      "id": "v:realizzare",
+      "status": "English per-frame idiom review candidate",
+      "finding": "Realise can mean bring into reality in British English, so realise a project is not categorically false. The documentary/building frames would be clearer as make/produce/build in ordinary teaching English, with a per-frame predicate rather than conflating become aware."
+    },
+    {
+      "index": 503,
+      "id": "v:riflettere",
+      "status": "selected-sense morphology check coherent within read scope",
+      "finding": "Printed thinking compounds correctly filter to riflettuto; broad nonfinite reference preserves riflesso for optical reflection. This is a supported sense distinction, not a new repair or proof of every generated context."
+    },
+    {
+      "index": 504,
+      "id": "v:riguardare",
+      "status": "selected-sense/retained source mixture qualification",
+      "finding": "Simple-only concern contexts and selected inanimate subject are coherent. Stored past ho riguardato i conti uses looking again; its finite form remains correct generic lemma practice, but should not be reported as a meaning-specific concern-only compound example."
+    },
+    {
+      "index": 510,
+      "id": "v:risolvere",
+      "status": "English per-frame collocation clarification candidate",
+      "finding": "Solve a problem/mystery fits the intended sense; resolve a dispute or fix/resolve an error is clearer ordinary English for the other frames. This is a per-frame idiom candidate, not a demonstrated Italian form error."
+    },
+    {
+      "index": 513,
+      "id": "v:ritenere",
+      "status": "past teaching-cue clarity candidate",
+      "finding": "The background English I believed the proposal is valid leaves an unmotivated current-truth reading; I considered the proposal valid directly matches the Italian past assessment. Non-backshift can be legitimate, so no blanket grammar error or automatic retirement is declared."
+    },
+    {
+      "index": 514,
+      "id": "v:riunirsi",
+      "status": "English social-context idiom candidate",
+      "finding": "Singular I gather in the square is awkward without expressed companions; meet or an explicit group/with-others situation is clearer. Italian can rely on contextual partners, so do not restrict persons or retire all coherent older social contexts."
+    },
+    {
+      "index": 516,
+      "id": "v:rovinare",
+      "status": "primary-supported factual teaching-example correction candidate",
+      "finding": "Non rovinarti gli occhi leggendo al buio presents the dim-light damage myth as a neutral admonition. NEI and AAO distinguish temporary fatigue from eye damage. Replace the factual model with a neutral damage context after exact teaching/question scope and saved-source preservation are established; retain valid conjugation history.",
+      "primarySourcesRead": [
+        "https://www.nei.nih.gov/eye-health-information/healthy-vision/nei-for-kids"
+      ]
+    },
+    {
+      "index": 520,
+      "id": "v:sciogliere",
+      "status": "context-sensitive English lexical clarification candidate",
+      "finding": "Chocolate heated in a bain-marie is melted; dissolve may be possible in a different chocolate-and-liquid context. The generic frame would benefit from an explicitly heating-specific model/translation, rather than declaring dissolve universally impossible."
+    }
+  ],
+  "exactPerRecordHashesAndSampleIds": "docs/implementation/programme/verb-language-reviews.json",
+  "boundedRepairs": "docs/implementation/programme/verb-repairs-522.json"
+}

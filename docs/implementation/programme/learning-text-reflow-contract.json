@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-03",
+  "status": "bounded-enlarged-text-and-reflow-passed",
+  "problem": "Fixed-height, nonwrapping lesson footer actions cropped their full labels at enlarged text. Wrapped labels also exposed compressed implicit grid rows.",
+  "before": {
+    "chromium": [
+      {
+        "theme": "dark",
+        "kind": "portfolio",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Continue without a response",
+            "clientWidth": 341,
+            "scrollWidth": 416,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "kind": "complete",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Return to unfinished skills",
+            "clientWidth": 341,
+            "scrollWidth": 393,
+            "whiteSpace": "nowrap"
+          },
+          {
+            "label": "Next lesson \u00b7 Thank and ask politely",
+            "clientWidth": 341,
+            "scrollWidth": 462,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "kind": "portfolio",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Continue without a response",
+            "clientWidth": 341,
+            "scrollWidth": 416,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "kind": "complete",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Return to unfinished skills",
+            "clientWidth": 341,
+            "scrollWidth": 393,
+            "whiteSpace": "nowrap"
+          },
+          {
+            "label": "Next lesson \u00b7 Thank and ask politely",
+            "clientWidth": 341,
+            "scrollWidth": 462,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      }
+    ],
+    "webkit": [
+      {
+        "theme": "dark",
+        "kind": "portfolio",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Continue without a response",
+            "clientWidth": 341,
+            "scrollWidth": 490,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "kind": "complete",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Return to unfinished skills",
+            "clientWidth": 341,
+            "scrollWidth": 444,
+            "whiteSpace": "nowrap"
+          },
+          {
+            "label": "Next lesson \u00b7 Thank and ask politely",
+            "clientWidth": 341,
+            "scrollWidth": 584,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "kind": "portfolio",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Continue without a response",
+            "clientWidth": 341,
+            "scrollWidth": 490,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "kind": "complete",
+        "id": "v2-f-name-polite",
+        "clippedActions": [
+          {
+            "label": "Return to unfinished skills",
+            "clientWidth": 341,
+            "scrollWidth": 444,
+            "whiteSpace": "nowrap"
+          },
+          {
+            "label": "Next lesson \u00b7 Thank and ask politely",
+            "clientWidth": 341,
+            "scrollWidth": 584,
+            "whiteSpace": "nowrap"
+          }
+        ]
+      }
+    ]
+  },
+  "beforeCSSCheckpoint": "dcf2afa",
+  "beforeCSSSHA256": "9322382c54ffcfb48e2202397e02f08fbc5f7c03fc7bb8777408a1b854b64e53",
+  "sourceFingerprints": {
+    "css/grammar-course.css": "01ce04e140e4cdbdc6dd8232c76f139fe45222ed11614aa177852f2911e1336e",
+    "tests/learning-text-reflow-e2e.mjs": "c917ffd914e53650809a01421f5a3695b6fe5657bc64b1ff0f8a276cdfc03754",
+    "js/views/learnCourse.js": "b3f73d0493f244bffe7cad46a814d51ac9c13462fd12f12e0ede82d7a1c27732"
+  },
+  "change": "Only lesson footer buttons wrap and grow; max-content implicit rows preserve intrinsic label height within the existing scrollable footer.",
+  "browser": {
+    "chromium": {
+      "checks": 8,
+      "report": "docs/implementation/programme/learning-text-reflow-chromium.json",
+      "sha256": "46a16b885ee2b7e6e0dfda37b423cab20e179eed89f6e66bff1bc3e5f71d4d08"
+    },
+    "webkit": {
+      "checks": 8,
+      "report": "docs/implementation/programme/learning-text-reflow-webkit.json",
+      "sha256": "7792be20eaf6b84ea1d20fa7507f89d3bd6c139dafa47860afd7670a47650b75"
+    }
+  },
+  "verification": [
+    "Dark and light themes",
+    "Uniform200% computed text/line height at375\u00d7667",
+    "320\u00d7225 CSS viewport equivalent to400% reflow of1280\u00d7900 at normal CSS fonts",
+    "Full text inside its button and visible footer bounds, reachable pointer hit after scrolling, no horizontal page overflow",
+    "Empty portfolio Continue does not add answer evidence, XP or word completion",
+    "Exact selected portfolio/draft persists through reload",
+    "Deferred original session remains resumable when following the complete next-lesson label"
+  ],
+  "limitations": [
+    "Controlled computed-font and CSS-viewport proxies; not browser UI zoom or native OS text setting.",
+    "No physical-device, screen-reader or full WCAG conformance claim.",
+    "This is a narrow regression around three demonstrated footer labels, not the entire catalogue/layout sweep."
+  ]
+}

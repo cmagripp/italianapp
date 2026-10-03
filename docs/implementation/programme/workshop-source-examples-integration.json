@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "scope": "60 chosen full contexts in 46 free slots: exact reviewed Italian/English/agreement, all chosen fills, unchanged original source fields and grading/pending/saved dialogue persistence. Does not review all accepted alternatives, all reactions or native educator quality.",
+  "status": "passed",
+  "checks": {
+    "slots": 46,
+    "examples": 60,
+    "profileExamples": 99,
+    "blankChecks": 111,
+    "savedDialogues": 60,
+    "maxActivityChars": 6841,
+    "mApplicable": 46,
+    "fApplicable": 45
+  },
+  "sourcePins": [
+    {
+      "path": "data/sentence-lab/presente.json",
+      "priorRawSHA256": "8a8ca43e0e29baed9ae4b22500385ac2af53cd9a051636357dd2d1f3e101e86e",
+      "priorJSONSHA256": "ac3c745e4b3cd6de7a8e588750224f6c465c246dfbd389daadba053a541d1f3a",
+      "currentSHA256": "88f9bb7bf3f983c4a75f2ac70d6c421b061b8ef587ac0b9ba42c0a687991248a"
+    },
+    {
+      "path": "data/sentence-lab/passato.json",
+      "priorRawSHA256": "5bf05c2d5a8de89ca912bc96c72aa912f347cf0fdae3d960eb59360de2b9b40a",
+      "priorJSONSHA256": "559c202d227cd91c3049440239206f5b2025e514a2ca54bb600927d93687f45f",
+      "currentSHA256": "7450d05365d8a66769b9526ad5588318d908c1e43bede656cc2e12aab898e870"
+    },
+    {
+      "path": "data/sentence-lab/futuro.json",
+      "priorRawSHA256": "358c508d101787671548e844da99ff1984a16325312a18a0d35e858b67f13bfa",
+      "priorJSONSHA256": "7e7e31114a985982bd96d25dfd6b758f334f94379e8285c9ae1ebad968332ac4",
+      "currentSHA256": "7c800ff23a90df509537f58bd67f35bb6aff2cc69adbea48a162153deaf9aba9"
+    },
+    {
+      "path": "data/sentence-lab/strutture.json",
+      "priorRawSHA256": "27403696c38d6a0cbac6c352c62b40d3faedd61ec86bea44711cd22879ad21aa",
+      "priorJSONSHA256": "99a759c5f4dd2e680d744f9306fc1b9387bc207681ffd028d62f3f204ed3ec68",
+      "currentSHA256": "75965da68e980339053dc289fbc65198cb0e75f72f992a0b25811f41396e61f2"
+    }
+  ],
+  "independentChosenFillReview": {
+    "path": "docs/implementation/programme/workshop-source-examples-independent-review.json",
+    "sha256": "77d751156612f0145163c694d33a1bd9f44287913f00c6cc2235e78c3ef8b5e8"
+  },
+  "openGaps": [
+    {
+      "lessonId": "sl-strutture-03-quindi-allora-pero",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "reason": "Fixed masculine first-person adjective stanco outside the invariant blank; no feminine own-speaker source yet."
+    }
+  ],
+  "retainedEditorialNotes": [
+    {
+      "id": "punctuation-polish",
+      "lessonId": "sl-passato-02-sono-andato",
+      "activityIndex": 3,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "exampleNumbers": [
+        26,
+        27
+      ],
+      "severity": "editorial preference, not categorical grammar error",
+      "detail": "Exact canonical fill yields Scusa! sono andato/andata al cinema. A default uppercase new clause or comma is clearer for beginner prose, but primary Treccani guidance permits lowercase where the exclamation marks a tight continuation. No blanket learner correction or silent source normalization is authorized.",
+      "source": "https://www.treccani.it/enciclopedia/punto-esclamativo_(Enciclopedia-dell%27Italiano)/"
+    },
+    {
+      "id": "unexpressed-contrast",
+      "lessonId": "sl-strutture-04-la-mia-giornata",
+      "activityIndex": 5,
+      "turnIndex": 5,
+      "blankIndex": 0,
+      "exampleNumbers": [
+        52
+      ],
+      "severity": "context naturalness limitation, not categorical grammar error",
+      "detail": "Vado a letto alle undici, ma mi addormento subito has correct forms and a matching translation, but the preceding time-of-bed question supplies no explicit contrast or unexpected result. The source is retained; the report does not approve a universal rule that ma is wrong without overt opposition. A future editorial context/template adjustment would make the model clearer.",
+      "source": "https://www.treccani.it/magazine/lingua_italiana/articoli/scritto_e_parlato/Ma.html"
+    }
+  ],
+  "gates": {
+    "nativeItalianEducator": "pending",
+    "fullResolverBinding": "separate AI adapter integration gate"
+  }
+}

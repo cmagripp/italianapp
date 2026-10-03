@@ -1,15 +1,26 @@
 import {buildConversationSummary} from './summary.js';
-import {conversationReadiness,acquireConversationService,conversationProviderRevision} from './runtime.js';
+import {conversationReadiness,acquireConversationService,conversationProviderRevision,onConversationProviderChange} from './runtime.js';
 import {createDraftRecovery,canRecoverDraft} from './draft-recovery.js';
 const DRAFT_METADATA=['recognizedText','transcriptEdits','selectedHelp','policySnapshot','support','inputProvenance'];
+const inputSubmissionOf=turn=>Object.fromEntries(['turnId','revision','originalText','submittedText','displayText','policySnapshot','inputProvenance'].map(key=>[key,turn[key]??null]));
 const metadataOf=draft=>Object.fromEntries(Object.entries(draft||{}).filter(([key])=>DRAFT_METADATA.includes(key)));
+
+function replyOrAbort(promise,signal){
+ return new Promise((resolve,reject)=>{
+  const settle=(callback,value)=>{signal.removeEventListener('abort',abort);callback(value);};
+  const abort=()=>settle(reject,new DOMException('Reply cancelled.','AbortError'));
+  signal.addEventListener('abort',abort,{once:true});
+  Promise.resolve(promise).then(value=>settle(resolve,value),error=>settle(reject,error));
+  if(signal.aborted)abort();
+ });
+}
 
 // One controller belongs to one mounted thread and learner. Drafts and sent
 // messages commit before inference; leaving/backgrounding cancels a reply.
 export function createConversationController({repository,threadId,isCurrent=()=>true,lookup,resolveEntry,resolveRule=()=>null,onChange=()=>{},onReply=()=>{}}){
  let state=null,closed=false,closing=false,busy=false,sending=false,error=null,service=null,request=null,draftQueue=Promise.resolve(),draftFailure=null,draftSerial=0,knownDraft=null,draftTurnId=null,recoveryConflicts=[],generation=0,readSerial=0;
  const recovery=createDraftRecovery({...repository.owner,threadId}),clientId=crypto.randomUUID(),pendingWrites=[];
- let serviceRevision=-1,replySupport=null;
+ let serviceRevision=-1,replySupport=null,replyCancellation=null,sendOwner=null;
  const scope=`conversation:${repository.owner.profileId}:${repository.owner.learnerId}:${threadId}`;
  const current=()=>!closed&&isCurrent();
  const guard=()=>{if(!current())throw new DOMException('The conversation changed.','AbortError');};
@@ -20,8 +31,11 @@ export function createConversationController({repository,threadId,isCurrent=()=>
   await repository.saveSummary(threadId,result,{sourceRevision:source.thread.contentRevision});await refresh();
  }
  async function cancel(){
-  generation++;
-  const pending=request;request=null;service?.cancelScope(scope);busy=false;
+  generation++;replyCancellation?.abort();replyCancellation=null;
+  const pending=request;request=null;busy=false;
+  // Runtime cleanup is best-effort; it must never strand a durable pending
+  // token or prevent retry when a provider fails while stopping inference.
+  try{Promise.resolve(service?.cancelScope(scope)).catch(()=>{});}catch{}
   if(pending&&current())await repository.cancelGeneration(threadId,pending.id);
   if(current()){await refresh();publish();}
  }
@@ -29,31 +43,33 @@ export function createConversationController({repository,threadId,isCurrent=()=>
   guard();if(closing)throw new DOMException('Conversation closing','AbortError');if(busy)return false;
   if(!conversationReadiness().written){error=conversationReadiness().reason;publish();return false;}
   busy=true;error=null;publish();
-  const epoch=++generation,running=()=>current()&&generation===epoch,guardRun=()=>{if(!running())throw new DOMException('Reply cancelled.','AbortError');};let token;
+  const epoch=++generation,providerEpoch=conversationProviderRevision(),cancellation=new AbortController();replyCancellation=cancellation;
+  const running=()=>current()&&generation===epoch&&conversationProviderRevision()===providerEpoch&&!cancellation.signal.aborted,guardRun=()=>{if(!running())throw new DOMException('Reply cancelled.','AbortError');};let token;
   try{
    await draftQueue;if(draftFailure)throw draftFailure;
    await refresh();guardRun();
    const source=state,learner=[...source.turns].reverse().find(t=>t.role==='learner'),setup=source.thread.setup;
    if(!opening&&!learner)throw new Error('Write a message to continue.');
    if(!service||serviceRevision!==conversationProviderRevision()){service=await acquireConversationService({scope,isCurrent:current});serviceRevision=conversationProviderRevision();}guardRun();
-   token=await repository.beginGeneration(threadId,{policyVersion:'conversation-v1'});guardRun();request=token;
-   const response=await service.request({scope,task:task||(setup.mode==='coach'?'coach':'conversation'),opening,requestReplySupport:setup.support!=='free',level:setup.level,text:opening?'':learner.displayText,learnerName:setup.name,topic:setup.topic,register:setup.register||'informal',
+   token=await repository.beginGeneration(threadId,{policyVersion:'conversation-v1',signal:cancellation.signal,guard:guardRun});guardRun();request=token;
+   const response=await replyOrAbort(service.request({scope,task:task||(setup.mode==='coach'?'coach':'conversation'),opening,requestReplySupport:setup.support!=='free',level:setup.level,text:opening?'':learner.displayText,learnerName:setup.name,topic:setup.topic,register:setup.register||'informal',
     agreement:setup.agreement,support:setup.support,correctionStyle:setup.correctionStyle,participants:setup.participants.filter(p=>p.active!==false),
     protectedNames:[setup.name,...setup.participants.map(p=>p.name)].filter(Boolean),recognitionUncertain:!!learner?.inputProvenance?.recognitionUncertain,
-    sourceRevision:token.sourceRevision,history:source.turns.filter(t=>['learner','partner'].includes(t.role)&&t.turnId!==learner?.turnId).map(t=>({role:t.role==='learner'?'user':'assistant',content:t.displayText,status:'committed'})),
-    goal:setup.goal||null},{scope});
+    sourceRevision:token.sourceRevision,...(!opening?{inputSubmission:inputSubmissionOf(learner)}:{}),history:source.turns.filter(t=>['learner','partner'].includes(t.role)&&t.turnId!==learner?.turnId).map(t=>({role:t.role==='learner'?'user':'assistant',content:t.displayText,status:'committed'})),
+    goal:setup.goal||null},{scope}),cancellation.signal);
    guardRun();if(request!==token)throw new DOMException('Reply cancelled.','AbortError');
    const corrections=(response.corrections||[]).map(c=>({...c,sourceTurnId:learner?.turnId,sourceTurnRevision:learner?.revision}));
    const turn=await repository.commitTurn(threadId,{turnId:crypto.randomUUID(),role:'partner',participantId:response.message.participantId,originalText:response.message.text,
     correctionRefs:corrections,modelVersion:response.provenance?.runtime?.modelVersion||null,policySnapshot:{version:'conversation-v1',level:setup.level,correctionStyle:setup.correctionStyle},
-    sourceContext:{...response.provenance,teaching:response.teaching||[],protectedNames:[setup.name,...setup.participants.map(p=>p.name)].filter(Boolean)}},{requestId:token.id});
-   request=null;await summary();guardRun();replySupport=response.replySupport?{...response.replySupport,sourceRevision:state.thread.contentRevision,providerRevision:conversationProviderRevision(),partnerTurnId:turn.turnId}:null;try{onReply(turn);}catch{}return turn;
+    sourceContext:{...response.provenance,teaching:response.teaching||[],protectedNames:[setup.name,...setup.participants.map(p=>p.name)].filter(Boolean)}},{requestId:token.id,inputSpelling:response.inputSpelling,signal:cancellation.signal,guard:guardRun});
+   guardRun();if(request===token)request=null;await summary();guardRun();replySupport=response.replySupport?{...response.replySupport,sourceRevision:state.thread.contentRevision,providerRevision:conversationProviderRevision(),partnerTurnId:turn.turnId}:null;try{onReply(turn);}catch{}return turn;
   }catch(caught){
    if(token&&current())await repository.cancelGeneration(threadId,token.id).catch(()=>{});
    if(running()&&caught.name!=='AbortError')error=caught.name==='AIValidationError'?'The reply needs another check. Your message is saved; try again.':caught.message;
    return false;
-  }finally{if(request===token)request=null;if(running()){busy=false;await refresh().catch(()=>{});if(running())publish();}}
+  }finally{if(replyCancellation===cancellation)replyCancellation=null;if(request===token)request=null;if(running()){busy=false;await refresh().catch(()=>{});if(running())publish();}}
  }
+ const unsubscribeProvider=onConversationProviderChange(()=>{replySupport=null;void cancel().catch(()=>{});service=null;serviceRevision=-1;});
  return {
   get state(){return state;},get busy(){return busy||sending;},get error(){return error;},
   async load(){
@@ -84,20 +100,23 @@ export function createConversationController({repository,threadId,isCurrent=()=>
    return write;
   },
   async send({strictAccents=false}={}){
-   guard();if(busy||sending)return {committed:false,turnId:null,reply:null,error:'A reply is already in progress.'};sending=true;publish();
+   guard();if(busy||sending)return {committed:false,turnId:null,reply:null,error:'A reply is already in progress.'};sending=true;const ownedSend={},sendGeneration=generation;sendOwner=ownedSend;publish();
    let committed=null;
    try{
-    await draftQueue;if(draftFailure)throw draftFailure;await refresh();
+    await draftQueue;if(draftFailure)throw draftFailure;await refresh();guard();if(closing||generation!==sendGeneration)throw new DOMException('Send cancelled.','AbortError');
     const draft=state.draft;if(!draft?.typedText?.trim())return {committed:false,turnId:null,reply:null,error:'Write or record a message first.'};
     if(draft.revision!==knownDraft?.revision||draft.turnId!==knownDraft?.turnId)throw new Error('This draft changed in another window. Reopen the conversation before sending.');
     const snapshot={strictAccents,level:state.thread.setup.level,support:state.thread.setup.support,version:'conversation-v1'};
     committed=await repository.commitTurn(threadId,{turnId:draft.turnId,role:'learner',participantId:'learner',originalText:draft.typedText,displayText:draft.typedText,submittedText:draft.typedText,
      inputProvenance:draft.inputProvenance||{mode:draft.mode||'written',assistance:draft.selectedHelp||[]},policySnapshot:snapshot},{expectedRevision:state.thread.revision,draftRevision:draft.revision});
-    knownDraft=null;draftTurnId=null;await summary();publish();const partner=await reply();return {committed:true,turnId:committed.turnId,reply:partner||null,error:partner?null:error};
+    knownDraft=null;draftTurnId=null;await summary();
+    if(sendOwner===ownedSend){sending=false;sendOwner=null;}
+    if(!current()||closing||generation!==sendGeneration){publish();return {committed:true,turnId:committed.turnId,reply:null,error:null};}
+    const partner=await reply();return {committed:true,turnId:committed.turnId,reply:partner||null,error:partner?null:error};
    }catch(caught){
     if(current()&&caught.name!=='AbortError'){error=caught.message;publish();}
     return {committed:!!committed,turnId:committed?.turnId||null,reply:null,error:caught.message};
-   }finally{sending=false;publish();}
+   }finally{if(sendOwner===ownedSend){sendOwner=null;sending=false;publish();}}
   },
   reply,cancel,
   async help(){
@@ -124,6 +143,6 @@ export function createConversationController({repository,threadId,isCurrent=()=>
    await repository.chooseMeaning(threadId,ref.turnId,{start:ref.start,end:ref.end,quote:ref.quote,entryId,senseId:candidate.senseId},{expectedRevision:ref.revision});await summary();publish();
   },
   async addNote(turnId,text){await refresh();const turn=state.turns.find(t=>t.turnId===turnId);if(!turn)throw new Error('The source message changed.');const result=buildConversationSummary({thread:state.thread,turns:state.turns,previous:state.summary},{lookup,resolveEntry,resolveRule});result.items.push({id:crypto.randomUUID(),kind:'note',author:'learner',text,sourceRefs:[{turnId,revision:turn.revision}]});await repository.saveSummary(threadId,result,{sourceRevision:state.thread.contentRevision});await refresh();publish();},
-  async dispose(){if(closed||closing)return;closing=true;await cancel().catch(()=>{});await draftQueue;closed=true;service?.cancelScope(scope);repository.close();},
+  async dispose(){if(closed||closing)return;closing=true;unsubscribeProvider();try{await cancel().catch(()=>{});await draftQueue;}finally{closed=true;try{Promise.resolve(service?.cancelScope(scope)).catch(()=>{});}catch{}repository.close();}},
  };
 }

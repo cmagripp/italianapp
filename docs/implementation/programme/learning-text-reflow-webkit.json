@@ -1,0 +1,537 @@
+{
+  "date": "2026-10-03",
+  "engine": "webkit",
+  "checks": 8,
+  "results": [
+    {
+      "theme": "dark",
+      "mode": "200-percent-text",
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "kind": "portfolio",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Continue without a response",
+          "rect": {
+            "x": 16,
+            "y": 544.609375,
+            "width": 343,
+            "height": 112.390625,
+            "top": 544.609375,
+            "right": 359,
+            "bottom": 657,
+            "left": 16
+          },
+          "text": {
+            "x": 39.452362060546875,
+            "y": 557.3533935546875,
+            "width": 296.09527587890625,
+            "height": 86.91192626953125,
+            "top": 557.3533935546875,
+            "right": 335.5476379394531,
+            "bottom": 644.2653198242188,
+            "left": 39.452362060546875
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "mode": "200-percent-text",
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "kind": "deferred-finish",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Return to unfinished skills",
+          "rect": {
+            "x": 16,
+            "y": 412.5625,
+            "width": 343,
+            "height": 112.390625,
+            "top": 412.5625,
+            "right": 359,
+            "bottom": 524.953125,
+            "left": 16
+          },
+          "text": {
+            "x": 62.807037353515625,
+            "y": 425.3065490722656,
+            "width": 249.38592529296875,
+            "height": 86.91189575195312,
+            "top": 425.3065490722656,
+            "right": 312.1929626464844,
+            "bottom": 512.2184448242188,
+            "left": 62.807037353515625
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Next lesson · Thank and ask politely",
+          "rect": {
+            "x": 16,
+            "y": 530.953125,
+            "width": 343,
+            "height": 112.390625,
+            "top": 530.953125,
+            "right": 359,
+            "bottom": 643.34375,
+            "left": 16
+          },
+          "text": {
+            "x": 39,
+            "y": 543.6971435546875,
+            "width": 295.6740417480469,
+            "height": 86.91192626953125,
+            "top": 543.6971435546875,
+            "right": 334.6740417480469,
+            "bottom": 630.6090698242188,
+            "left": 39
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Back to Learn",
+          "rect": {
+            "x": 16,
+            "y": 597.34375,
+            "width": 343,
+            "height": 69.1875,
+            "top": 597.34375,
+            "right": 359,
+            "bottom": 666.53125,
+            "left": 16
+          },
+          "text": {
+            "x": 85,
+            "y": 610.0877685546875,
+            "width": 204.99160766601562,
+            "height": 43.7119140625,
+            "top": 610.0877685546875,
+            "right": 289.9916076660156,
+            "bottom": 653.7996826171875,
+            "left": 85
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "mode": "zoom-equivalent-reflow",
+      "viewport": {
+        "width": 320,
+        "height": 225
+      },
+      "kind": "portfolio",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Continue without a response",
+          "rect": {
+            "x": 16,
+            "y": 160.625,
+            "width": 288,
+            "height": 56,
+            "top": 160.625,
+            "right": 304,
+            "bottom": 216.625,
+            "left": 16
+          },
+          "text": {
+            "x": 48.43910217285156,
+            "y": 177.7001495361328,
+            "width": 223.10618591308594,
+            "height": 21.85595703125,
+            "top": 177.7001495361328,
+            "right": 271.5452880859375,
+            "bottom": 199.5561065673828,
+            "left": 48.43910217285156
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "mode": "zoom-equivalent-reflow",
+      "viewport": {
+        "width": 320,
+        "height": 225
+      },
+      "kind": "deferred-finish",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Return to unfinished skills",
+          "rect": {
+            "x": 16,
+            "y": 160.625,
+            "width": 288,
+            "height": 56,
+            "top": 160.625,
+            "right": 304,
+            "bottom": 216.625,
+            "left": 16
+          },
+          "text": {
+            "x": 59.897605895996094,
+            "y": 177.7001495361328,
+            "width": 200.20477294921875,
+            "height": 21.85595703125,
+            "top": 177.7001495361328,
+            "right": 260.10237884521484,
+            "bottom": 199.5561065673828,
+            "left": 59.897605895996094
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Next lesson · Thank and ask politely",
+          "rect": {
+            "x": 16,
+            "y": 155.625,
+            "width": 288,
+            "height": 69.1875,
+            "top": 155.625,
+            "right": 304,
+            "bottom": 224.8125,
+            "left": 16
+          },
+          "text": {
+            "x": 39,
+            "y": 168.4970245361328,
+            "width": 209.05023193359375,
+            "height": 43.45594787597656,
+            "top": 168.4970245361328,
+            "right": 248.05023193359375,
+            "bottom": 211.95297241210938,
+            "left": 39
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Back to Learn",
+          "rect": {
+            "x": 16,
+            "y": 159.8125,
+            "width": 288,
+            "height": 56,
+            "top": 159.8125,
+            "right": 304,
+            "bottom": 215.8125,
+            "left": 16
+          },
+          "text": {
+            "x": 108.75,
+            "y": 176.8876495361328,
+            "width": 102.49580383300781,
+            "height": 21.85595703125,
+            "top": 176.8876495361328,
+            "right": 211.2458038330078,
+            "bottom": 198.7436065673828,
+            "left": 108.75
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "mode": "200-percent-text",
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "kind": "portfolio",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Continue without a response",
+          "rect": {
+            "x": 16,
+            "y": 544.609375,
+            "width": 343,
+            "height": 112.390625,
+            "top": 544.609375,
+            "right": 359,
+            "bottom": 657,
+            "left": 16
+          },
+          "text": {
+            "x": 39.452362060546875,
+            "y": 557.3533935546875,
+            "width": 296.09527587890625,
+            "height": 86.91192626953125,
+            "top": 557.3533935546875,
+            "right": 335.5476379394531,
+            "bottom": 644.2653198242188,
+            "left": 39.452362060546875
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "mode": "200-percent-text",
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "kind": "deferred-finish",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Return to unfinished skills",
+          "rect": {
+            "x": 16,
+            "y": 412.5625,
+            "width": 343,
+            "height": 112.390625,
+            "top": 412.5625,
+            "right": 359,
+            "bottom": 524.953125,
+            "left": 16
+          },
+          "text": {
+            "x": 62.807037353515625,
+            "y": 425.3065490722656,
+            "width": 249.38592529296875,
+            "height": 86.91189575195312,
+            "top": 425.3065490722656,
+            "right": 312.1929626464844,
+            "bottom": 512.2184448242188,
+            "left": 62.807037353515625
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Next lesson · Thank and ask politely",
+          "rect": {
+            "x": 16,
+            "y": 530.953125,
+            "width": 343,
+            "height": 112.390625,
+            "top": 530.953125,
+            "right": 359,
+            "bottom": 643.34375,
+            "left": 16
+          },
+          "text": {
+            "x": 39,
+            "y": 543.6971435546875,
+            "width": 295.6740417480469,
+            "height": 86.91192626953125,
+            "top": 543.6971435546875,
+            "right": 334.6740417480469,
+            "bottom": 630.6090698242188,
+            "left": 39
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Back to Learn",
+          "rect": {
+            "x": 16,
+            "y": 597.34375,
+            "width": 343,
+            "height": 69.1875,
+            "top": 597.34375,
+            "right": 359,
+            "bottom": 666.53125,
+            "left": 16
+          },
+          "text": {
+            "x": 85,
+            "y": 610.0877685546875,
+            "width": 204.99160766601562,
+            "height": 43.7119140625,
+            "top": 610.0877685546875,
+            "right": 289.9916076660156,
+            "bottom": 653.7996826171875,
+            "left": 85
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "mode": "zoom-equivalent-reflow",
+      "viewport": {
+        "width": 320,
+        "height": 225
+      },
+      "kind": "portfolio",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Continue without a response",
+          "rect": {
+            "x": 16,
+            "y": 160.625,
+            "width": 288,
+            "height": 56,
+            "top": 160.625,
+            "right": 304,
+            "bottom": 216.625,
+            "left": 16
+          },
+          "text": {
+            "x": 48.43910217285156,
+            "y": 177.7001495361328,
+            "width": 223.10618591308594,
+            "height": 21.85595703125,
+            "top": 177.7001495361328,
+            "right": 271.5452880859375,
+            "bottom": 199.5561065673828,
+            "left": 48.43910217285156
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "mode": "zoom-equivalent-reflow",
+      "viewport": {
+        "width": 320,
+        "height": 225
+      },
+      "kind": "deferred-finish",
+      "lessonId": "v2-f-name-polite",
+      "controls": [
+        {
+          "label": "Return to unfinished skills",
+          "rect": {
+            "x": 16,
+            "y": 160.625,
+            "width": 288,
+            "height": 56,
+            "top": 160.625,
+            "right": 304,
+            "bottom": 216.625,
+            "left": 16
+          },
+          "text": {
+            "x": 59.897605895996094,
+            "y": 177.7001495361328,
+            "width": 200.20477294921875,
+            "height": 21.85595703125,
+            "top": 177.7001495361328,
+            "right": 260.10237884521484,
+            "bottom": 199.5561065673828,
+            "left": 59.897605895996094
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Next lesson · Thank and ask politely",
+          "rect": {
+            "x": 16,
+            "y": 155.625,
+            "width": 288,
+            "height": 69.1875,
+            "top": 155.625,
+            "right": 304,
+            "bottom": 224.8125,
+            "left": 16
+          },
+          "text": {
+            "x": 39,
+            "y": 168.4970245361328,
+            "width": 209.05023193359375,
+            "height": 43.45594787597656,
+            "top": 168.4970245361328,
+            "right": 248.05023193359375,
+            "bottom": 211.95297241210938,
+            "left": 39
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        },
+        {
+          "label": "Back to Learn",
+          "rect": {
+            "x": 16,
+            "y": 159.8125,
+            "width": 288,
+            "height": 56,
+            "top": 159.8125,
+            "right": 304,
+            "bottom": 215.8125,
+            "left": 16
+          },
+          "text": {
+            "x": 108.75,
+            "y": 176.8876495361328,
+            "width": 102.49580383300781,
+            "height": 21.85595703125,
+            "top": 176.8876495361328,
+            "right": 211.2458038330078,
+            "bottom": 198.7436065673828,
+            "left": 108.75
+          },
+          "hit": true,
+          "whiteSpace": "normal",
+          "textVisible": true,
+          "clipped": false
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "Controlled200% computed-font/line-height override and320×225 CSS reflow proxy for400% zoom of1280×900. Real authored lesson/controller/storage; not OS font settings, browser UI zoom, physical device or assistive-technology certification."
+}

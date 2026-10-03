@@ -16,23 +16,23 @@ async function fresh(){
 async function provider(reply='inglese',delay=false){
  await page.evaluate(async({reply,delay})=>{
   const {createPracticeSourceResolver}=await import('./js/learning/practice-sources.js');const {createAIService,createGrounding}=await import('./js/ai/index.js'),runtime=await import('./js/conversations/runtime.js');
-  window.helpRequests=[];window.helpReply=reply;window.helpDelay=delay;window.helpAcquires=0;
+  window.helpRequests=[];window.helpGroundings=[];window.helpReply=reply;window.helpDelay=delay;window.helpAcquires=0;
   // Explicit fixture for service/lifecycle tests, never bundled or installed in
   // the production app. It supplies no evidence about a real model's quality.
   const grounding=createGrounding({rules:[{id:'test-only-help-rule',verified:true,level:'Foundations',explanation:'This is an authored test reference, not generated teaching.',examples:['Ciao.'],source:'https://example.test/authored-rule',keywords:['test-reference']}],version:'test-only-grounding'});
-  window.helpService=createAIService({grounding,practiceSources:createPracticeSourceResolver(),languagePolicy:{version:'test-only-language-policy',async validate(){return{ok:true};}},runtime:{async generate(task){
+  window.helpService=createAIService({grounding,practiceSources:createPracticeSourceResolver(),languagePolicy:{version:'test-only-language-policy',async validate(text,context){helpGroundings.push(context.grounding);return{ok:true};}},runtime:{async generate(task){
    helpRequests.push(task);if(helpDelay)await new Promise(resolve=>window.releaseHelp=resolve);
    return JSON.stringify({participantId:'helper',text:helpReply,corrections:[]});
   }}});
   window.removeHelpProvider=runtime.installConversationProvider({readiness:()=>({written:true,recorded:false,handsfree:false}),acquire:async()=>{helpAcquires++;return helpService;}});
  },{reply,delay});
 }
-async function lab(id='sl-presente-01-chi-sono',index=4){
- await page.evaluate(async({id,index})=>{
+async function lab(id='sl-presente-01-chi-sono',index=4,agreement='m',turnIndex=null){
+ await page.evaluate(async({id,index,agreement,turnIndex})=>{
   const {store}=await import('./js/store.js'),lab=await import('./js/learning/sentence-lab-data.js'),engine=await import('./js/learning/sentence-lab.js');await lab.loadSentenceLab();
-  const lesson=lab.labLesson(id),session=engine.createLabSession(lesson);session.index=index;
-  session.state={kind:'cloze',misses:0,attempts:[],last:null,result:null,revealed:false,done:false,ui:{touched:true}};lab.writeLabSession(store,session);await store.saveNow();
- },{id,index});await gotoRoute(page,'/lab/frasi/'+id);await page.locator('[data-lab-controls]').waitFor();
+  const lesson=lab.labLesson(id),session=engine.createLabSession(lesson);session.index=index;session.speakerAgreement=agreement;
+  session.state=null;engine.currentLabStep(lesson,session);if(turnIndex!==null)session.state.turnIndex=turnIndex;session.state.ui={touched:true};lab.writeLabSession(store,session);await store.saveNow();
+ },{id,index,agreement,turnIndex});await gotoRoute(page,'/lab/frasi/'+id);await page.locator('[data-lab-controls]').waitFor();
 }
 async function course(kind='choice',legacy=false){
  const id=await page.evaluate(async({kind,legacy})=>{
@@ -121,7 +121,17 @@ try{
   await page.locator('[data-lab-ai-help]').click();await sheet().waitFor();assert.equal(await sheet().locator('[data-assistance-intent]').inputValue(),'','a draft bound to another agreement is not silently reused');assert.equal(await page.evaluate(()=>helpRequests.length),1);
  });
  await check('An unsupported Workshop free slot keeps authored help without binding an unrelated model example',async()=>{
-  await fresh();await provider();await lab('sl-presente-02-cosa-faccio',3);assert.equal(await page.locator('[data-lab-ai-help]').count(),0);assert.equal(await page.locator('[data-lab-free]').count(),1);assert.equal(await page.evaluate(()=>helpRequests.length),0);assert.equal((await state()).events.length,0);
+  await fresh();await provider();await lab('sl-strutture-03-quindi-allora-pero',3,'f');assert.equal(await page.locator('[data-lab-ai-help]').count(),0);assert.equal(await page.locator('[data-lab-free]').count(),1);assert.equal(await page.evaluate(()=>helpRequests.length),0);assert.equal((await state()).events.length,0);
+ });
+ await check('Workshop chosen source cards follow the actual speaker agreement without adding evidence',async()=>{
+  for(const agreement of ['m','f']){
+   await fresh();await provider('inglese');await lab('sl-presente-01-chi-sono',4,agreement);await request();await sheet().locator('[data-assistance-wording]').waitFor();
+   const expected=agreement==='m'?'Sono di Roma e sono italiano.':'Sono di Roma e sono italiana.';assert.equal(await sheet().getByText(expected,{exact:true}).count(),1);assert.equal(await sheet().getByText('Example: a '+(agreement==='m'?'man':'woman')+' speaking.',{exact:true}).count(),1);
+   const refs=await page.evaluate(()=>helpGroundings[0].references);assert.equal(refs[0].reviewScope,'chosen-form-translation-agreement');assert.equal(refs[0].applicability,agreement);assert.equal(refs[0].nativeItalianEducatorReview,'pending');assert.equal((await state()).events.length,0);
+  }
+ });
+ await check('A female viewer sees an explicitly labelled male-or-mixed group quote, not a claim about her own gender',async()=>{
+  await fresh();await provider('siamo tornati');await lab('sl-passato-05-raccontami',3,'f',7);await request('intent','We came home');await sheet().locator('[data-assistance-wording]').waitFor();assert.equal(await sheet().getByText('La sera siamo tornati a casa e abbiamo visto un film.',{exact:true}).count(),1);assert.equal(await sheet().getByText('Example: a male or mixed group.',{exact:true}).count(),1);assert.equal((await state()).events.length,0);
  });
  await check('Imported canonical source tampering is rejected by the real resolver before generation',async()=>{
   await fresh();await provider();await course();const failure=await page.evaluate(async()=>{

@@ -1,3 +1,4 @@
+import {foldItalianAccents} from '../learning/answer-policy.js';
 export class AIValidationError extends Error {
   constructor(reasons, raw) { super(`AI response rejected: ${reasons.join('; ')}`); this.name = 'AIValidationError'; this.reasons = reasons; this.raw = raw; }
 }
@@ -6,8 +7,21 @@ const isText = (value, max) => typeof value === 'string' && !!value.trim() && va
 const exactKeys = (value, keys) => value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
 const protectedTokens = text => (String(text).match(/\b\d+(?:[.,:]\d+)*\b|\b(?:non|mai|nessuno|nessuna|niente|nulla|zero|due|tre|quattro|cinque|sette|otto|nove|dieci|undici|dodici|tredici|quattordici|quindici|sedici|diciassette|diciotto|diciannove|venti)\b/gi) || []).map(token => token.toLocaleLowerCase('it')).sort();
 export function preservesProtectedMeaning(original, replacement, protectedNames = []) {
-  return JSON.stringify(protectedTokens(original)) === JSON.stringify(protectedTokens(replacement)) &&
-    protectedNames.every(name => original.includes(name) === replacement.includes(name));
+  const source=String(original).normalize('NFC'),candidate=String(replacement).normalize('NFC');
+  return JSON.stringify(protectedTokens(source)) === JSON.stringify(protectedTokens(candidate)) &&
+    protectedNames.every(name => {const exactName=String(name).normalize('NFC');return source.includes(exactName) === candidate.includes(exactName);});
+}
+
+export function classifyInputSubmissionOrigin(submission){
+ const provenance=submission?.inputProvenance;
+ if(!provenance||typeof provenance!=='object'||Array.isArray(provenance))return 'unknown';
+ if(['recorded','handsfree','speech-transcript'].includes(provenance.mode)||Object.hasOwn(provenance,'recognizedText')||Object.hasOwn(provenance,'transcriptEdits')||provenance.recognitionUncertain===true)return 'recognition-or-mixed';
+ return ['written','typed'].includes(provenance.mode)?'typed':'unknown';
+}
+export function isRecognitionSpellingCorrection(submission,original,replacement){
+ if(classifyInputSubmissionOrigin(submission)!=='recognition-or-mixed'||typeof original!=='string'||typeof replacement!=='string')return false;
+ const source=original.normalize('NFC'),candidate=replacement.normalize('NFC');
+ return source!==candidate&&foldItalianAccents(source)===foldItalianAccents(candidate);
 }
 
 /** Validation protects structure, provenance and claims with injected verifiers.
@@ -32,6 +46,7 @@ export function validateResponse(raw, { request, grounding, participants }) {
     if (!exactKeys(correction, ['original', 'replacement', 'ruleId', 'reason']) || !['original', 'replacement', 'reason'].every(key => isText(correction[key], 600))) { reasons.push('invalid correction'); continue; }
     if (!request.text.includes(correction.original)) reasons.push('correction source is not the learner text');
     if (request.recognitionUncertain) reasons.push('uncertain recognition cannot be graded');
+    if(isRecognitionSpellingCorrection(request.inputSubmission,correction.original,correction.replacement))reasons.push('recognition or mixed input cannot receive an accent-only spelling correction');
     const rule = grounding.rules.find(item => item.id === correction.ruleId);
     if (!rule || typeof rule.confirmCorrection !== 'function' || rule.confirmCorrection(correction, request) !== true) reasons.push('unsupported correction');
     if (!rule || typeof rule.source !== 'string' || !rule.source.trim() || !isText(rule.explanation, 600)) reasons.push('verified correction source unavailable');

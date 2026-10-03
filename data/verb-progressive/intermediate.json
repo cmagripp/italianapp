@@ -2782,8 +2782,8 @@
   {
     "inf": "esagerare",
     "policy": "dynamic",
-    "sense": "exaggerate a point",
-    "note": "In the sense “exaggerate a point”, stare + gerundio highlights this action while it is underway. Use the simple present for a routine or broader fact.",
+    "sense": "exaggerate an account or overdo something",
+    "note": "Esagerare can overstate an account or mean doing too much. Compliments and criticism use overdo it with in English. Stare + gerundio presents that action while it is underway; the simple present can describe a routine.",
     "en": [
       "exaggerate",
       "exaggerates",
@@ -2807,7 +2807,73 @@
         "con le critiche",
         "with the criticism"
       ]
-    ]
+    ],
+    "sceneRevision": "esagerare-usage-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedFrames": [
+      [
+        "con i complimenti",
+        "with the compliments"
+      ],
+      [
+        "nel racconto",
+        "in the story"
+      ],
+      [
+        "sul prezzo",
+        "about the price"
+      ],
+      [
+        "con le critiche",
+        "with the criticism"
+      ]
+    ],
+    "legacyFrames": [
+      [
+        "con i complimenti",
+        "with the compliments"
+      ],
+      [
+        "nel racconto",
+        "in the story"
+      ],
+      [
+        "sul prezzo",
+        "about the price"
+      ],
+      [
+        "con le critiche",
+        "with the criticism"
+      ]
+    ],
+    "legacyExpandedEn": [
+      "exaggerate",
+      "exaggerates",
+      "exaggerated",
+      "exaggerating"
+    ],
+    "legacyEn": [
+      "exaggerate",
+      "exaggerates",
+      "exaggerated",
+      "exaggerating"
+    ],
+    "legacyExpandedFrameEn": null,
+    "legacyFrameEn": null,
+    "frameEn": {
+      "0": [
+        "overdo it",
+        "overdoes it",
+        "overdid it",
+        "overdoing it"
+      ],
+      "3": [
+        "overdo it",
+        "overdoes it",
+        "overdid it",
+        "overdoing it"
+      ]
+    }
   },
   {
     "inf": "escludere",
@@ -3313,9 +3379,72 @@
         "to know everything"
       ],
       [
+        "di avere freddo",
+        "to be cold"
+      ]
+    ],
+    "sceneRevision": "fingere-usage-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedFrames": [
+      [
+        "di dormire",
+        "to be asleep"
+      ],
+      [
+        "di non sentire",
+        "not to hear"
+      ],
+      [
+        "di sapere tutto",
+        "to know everything"
+      ],
+      [
         "di essere sorpreso",
         "to be surprised"
       ]
+    ],
+    "legacyFrames": [
+      [
+        "di dormire",
+        "to be asleep"
+      ],
+      [
+        "di non sentire",
+        "not to hear"
+      ],
+      [
+        "di sapere tutto",
+        "to know everything"
+      ],
+      [
+        "di essere sorpreso",
+        "to be surprised"
+      ]
+    ],
+    "retiredExpandedFrameIndexes": [
+      3
+    ],
+    "retiredExpandedContextIds": [
+      "v:fingere:present:v2:simple:scene-3-2-ordinary",
+      "v:fingere:present:v2:simple:scene-3-3-ordinary",
+      "v:fingere:present:v2:simple:scene-3-4-ordinary",
+      "v:fingere:present:v2:simple:scene-3-5-ordinary",
+      "v:fingere:present:v2:simple:scene-3-2-formal",
+      "v:fingere:present:v2:progressive:scene-3-2-ordinary",
+      "v:fingere:present:v2:progressive:scene-3-3-ordinary",
+      "v:fingere:present:v2:progressive:scene-3-4-ordinary",
+      "v:fingere:present:v2:progressive:scene-3-5-ordinary",
+      "v:fingere:present:v2:progressive:scene-3-2-formal",
+      "v:fingere:background:v2:simple:scene-3-2-ordinary",
+      "v:fingere:background:v2:simple:scene-3-3-ordinary",
+      "v:fingere:background:v2:simple:scene-3-4-ordinary",
+      "v:fingere:background:v2:simple:scene-3-5-ordinary",
+      "v:fingere:background:v2:simple:scene-3-2-formal",
+      "v:fingere:background:v2:progressive:scene-3-2-ordinary",
+      "v:fingere:background:v2:progressive:scene-3-3-ordinary",
+      "v:fingere:background:v2:progressive:scene-3-4-ordinary",
+      "v:fingere:background:v2:progressive:scene-3-5-ordinary",
+      "v:fingere:background:v2:progressive:scene-3-2-formal"
     ]
   },
   {
@@ -4246,7 +4375,67 @@
         "l’equilibrio",
         "balance"
       ]
-    ]
+    ],
+    "sceneRevision": "mantenere-usage-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedFrames": [
+      [
+        "la calma",
+        "composure"
+      ],
+      [
+        "un buon ritmo",
+        "a good pace"
+      ],
+      [
+        "la promessa",
+        "the promise"
+      ],
+      [
+        "l’equilibrio",
+        "balance"
+      ]
+    ],
+    "legacyFrames": [
+      [
+        "la calma",
+        "composure"
+      ],
+      [
+        "un buon ritmo",
+        "a good pace"
+      ],
+      [
+        "la promessa",
+        "the promise"
+      ],
+      [
+        "l’equilibrio",
+        "balance"
+      ]
+    ],
+    "legacyExpandedEn": [
+      "maintain",
+      "maintains",
+      "maintained",
+      "maintaining"
+    ],
+    "legacyEn": [
+      "maintain",
+      "maintains",
+      "maintained",
+      "maintaining"
+    ],
+    "legacyExpandedFrameEn": null,
+    "legacyFrameEn": null,
+    "frameEn": {
+      "2": [
+        "keep",
+        "keeps",
+        "kept",
+        "keeping"
+      ]
+    }
   },
   {
     "inf": "mentire",
@@ -6017,13 +6206,13 @@
   {
     "inf": "provocare",
     "policy": "dynamic",
-    "sense": "cause a reaction",
-    "note": "In the sense “cause a reaction”, stare + gerundio highlights this action while it is underway. Use the simple present for a routine or broader fact.",
+    "sense": "cause a reaction or event",
+    "note": "In the selected cause sense, provocare can cause a discussion, a reaction, an accident or a change. Stare + gerundio highlights that effect while it is developing. This differs from deliberately provoking a person.",
     "en": [
-      "provoke",
-      "provokes",
-      "provoked",
-      "provoking"
+      "cause",
+      "causes",
+      "caused",
+      "causing"
     ],
     "frames": [
       [
@@ -6042,7 +6231,59 @@
         "un cambiamento",
         "a change"
       ]
-    ]
+    ],
+    "sceneRevision": "provocare-usage-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedFrames": [
+      [
+        "una discussione",
+        "a discussion"
+      ],
+      [
+        "una reazione",
+        "a reaction"
+      ],
+      [
+        "un incidente",
+        "an accident"
+      ],
+      [
+        "un cambiamento",
+        "a change"
+      ]
+    ],
+    "legacyFrames": [
+      [
+        "una discussione",
+        "a discussion"
+      ],
+      [
+        "una reazione",
+        "a reaction"
+      ],
+      [
+        "un incidente",
+        "an accident"
+      ],
+      [
+        "un cambiamento",
+        "a change"
+      ]
+    ],
+    "legacyExpandedEn": [
+      "provoke",
+      "provokes",
+      "provoked",
+      "provoking"
+    ],
+    "legacyEn": [
+      "provoke",
+      "provokes",
+      "provoked",
+      "provoking"
+    ],
+    "legacyExpandedFrameEn": null,
+    "legacyFrameEn": null
   },
   {
     "inf": "pubblicare",
@@ -6867,6 +7108,58 @@
         "il giardino",
         "the garden"
       ]
+    ],
+    "sceneRevision": "rovinare-usage-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedFrames": [
+      [
+        "la sorpresa",
+        "the surprise"
+      ],
+      [
+        "il vestito",
+        "the dress"
+      ],
+      [
+        "la festa",
+        "the party"
+      ],
+      [
+        "il giardino",
+        "the garden"
+      ]
+    ],
+    "legacyFrames": [
+      [
+        "la sorpresa",
+        "the surprise"
+      ],
+      [
+        "il vestito",
+        "the dress"
+      ],
+      [
+        "la festa",
+        "the party"
+      ],
+      [
+        "il giardino",
+        "the garden"
+      ]
+    ],
+    "legacyExpandedExamples": [
+      {
+        "it": "La pioggia ha rovinato la festa in giardino.",
+        "en": "The rain ruined the garden party."
+      },
+      {
+        "it": "Non rovinarti gli occhi leggendo al buio.",
+        "en": "Don't ruin your eyes by reading in the dark."
+      },
+      {
+        "it": "Se lo lavi in lavatrice, il maglione si rovinerà.",
+        "en": "If you wash it in the machine, the sweater will get ruined."
+      }
     ]
   },
   {

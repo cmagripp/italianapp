@@ -4,7 +4,7 @@ import { conjugate, PERSONS, MISSING, splitClitic, irregularCells, TENSES, TENSE
 import { article, withArticle, isPluralOnly, isUncountable, hasPluralForm, nounNumberNote } from '../data.js';
 import { expandedForms, wordContext, buildQuestion as buildMorphologyQuestion } from './questions.js';
 import { WEATHER_VERBS, TENSE_LESSONS } from './content.js';
-import { buildProgressiveGroup, buildVerbMixedGroup, simpleVerbContexts, progressiveSpec, variedContextOrder } from './progressive-content.js';
+import { buildProgressiveGroup, buildVerbMixedGroup, simpleVerbContexts, progressiveSpec, variedContextOrder, frameEnglishForms } from './progressive-content.js';
 import { buildProgressiveGroup as legacyProgressiveGroup } from './legacy-progressive-content.js';
 import {bindJourneyQuestionBuilder} from './journey-form.js';
 import {verbQuestionHistory,hasVerbQuestionHistory} from './verb-question-history.js';
@@ -223,7 +223,7 @@ function reviewedFrameContexts(e,ch,{legacyExpanded=false}={}){
  for(const [index,frame] of (legacyExpanded&&spec.legacyExpandedFrames?spec.legacyExpandedFrames:spec.frames).entries()){
   // The middle pair is saved for final review in the progressive chapters.
   if(index===2||index===3||e.inf==='avere'&&index===0||frame.some(x=>timeBoundFrame.test(x)))continue;
-  const [itTail,enTail]=frame,{base,past,tail}=finiteFrameEnglish(e,ch,spec,index,enTail);
+  const [itTail,enTail]=frame,{base,past,tail}=finiteFrameEnglish(e,ch,{...spec,en:frameEnglishForms(spec,index,{legacyExpanded})},index,enTail);
   for(const person of persons){
    const allAnswers=lessonForms(e,chapterTense[ch],person);
    const answers=ch==='past'&&e.aux==='essere'&&person===2?allAnswers.filter(x=>x.endsWith('a')):ch==='past'&&e.aux==='essere'&&person===5?allAnswers.filter(x=>x.endsWith('i')):allAnswers;

@@ -14,6 +14,16 @@ for(const [batch,levels] of Object.entries(batches)){
     assert(!data[record.inf],`Duplicate ${record.inf}`);
     assert(['dynamic','sense-dependent','simple'].includes(record.policy),record.inf+' policy');
     assert(record.sense?.trim()&&record.note?.trim(),record.inf+' explanation');
+    if(record.frameEn){
+      assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' frame predicates need distinct source revisions');
+      assert(Object.hasOwn(record,'legacyExpandedFrameEn')&&Object.hasOwn(record,'legacyFrameEn'),record.inf+' exact previous frame predicates required');
+      assert(record.legacyExpandedEn&&record.legacyExpandedFrames&&record.legacyFrames,record.inf+' frame predicates require exact prior default and frames');
+    }
+    for(const field of ['frameEn','legacyExpandedFrameEn','legacyFrameEn'])if(Object.hasOwn(record,field)&&record[field]!==null){
+      const table=record[field],frames=field==='legacyExpandedFrameEn'?record.legacyExpandedFrames:field==='legacyFrameEn'?record.legacyFrames:record.frames;
+      assert(table&&typeof table==='object'&&!Array.isArray(table)&&Object.keys(table).length&&Object.keys(table).every(key=>/^(0|[1-9]\d*)$/.test(key)&&frames?.[Number(key)]),record.inf+' exact indexed frame predicates');
+      for(const en of Object.values(table))assert(Array.isArray(en)&&en.length===4&&en.slice(0,3).every(text=>typeof text==='string'&&text.trim())&&(record.policy==='simple'?typeof en[3]==='string':en[3]?.trim()),record.inf+' four frame predicates');
+    }
     if(record.legacyExpandedEn){
       assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' distinct English scene revisions');
       for(const field of ['legacyExpandedEn','legacyEn'])assert(Array.isArray(record[field])&&record[field].length===4&&record[field].every(s=>typeof s==='string'&&s.trim()),record.inf+' exact prior English predicates');

@@ -1,23 +1,23 @@
 {
-  "generatedAt": "2026-10-03T20:44:01.338Z",
-  "scope": "Exact current canonical source support only; no rule, editorial or real model quality approval.",
-  "policy": "Workshop uses a whole accepted phrase with neighbouring canonical template tokens; unsupported sources have no fallback example.",
+  "generatedAt": "2026-10-03T21:56:52.486Z",
+  "scope": "Exact current canonical source support; bounded Workshop editorial approval is only the 60 chosen forms/translations/agreement, never all accepted alternatives or rule/real model quality approval.",
+  "policy": "Workshop explicit sourceExamples bind every accepted fill, exact full template sentence/translation and quoted subject agreement. Explicit invalid/inapplicable sources never fall back; legacy sources without metadata retain conservative whole-phrase/frame matching.",
   "packs": [
     {
       "path": "data/sentence-lab/presente.json",
-      "sha256": "8a8ca43e0e29baed9ae4b22500385ac2af53cd9a051636357dd2d1f3e101e86e"
+      "sha256": "88f9bb7bf3f983c4a75f2ac70d6c421b061b8ef587ac0b9ba42c0a687991248a"
     },
     {
       "path": "data/sentence-lab/passato.json",
-      "sha256": "5bf05c2d5a8de89ca912bc96c72aa912f347cf0fdae3d960eb59360de2b9b40a"
+      "sha256": "7450d05365d8a66769b9526ad5588318d908c1e43bede656cc2e12aab898e870"
     },
     {
       "path": "data/sentence-lab/futuro.json",
-      "sha256": "358c508d101787671548e844da99ff1984a16325312a18a0d35e858b67f13bfa"
+      "sha256": "7c800ff23a90df509537f58bd67f35bb6aff2cc69adbea48a162153deaf9aba9"
     },
     {
       "path": "data/sentence-lab/strutture.json",
-      "sha256": "27403696c38d6a0cbac6c352c62b40d3faedd61ec86bea44711cd22879ad21aa"
+      "sha256": "75965da68e980339053dc289fbc65198cb0e75f72f992a0b25811f41396e61f2"
     },
     {
       "path": "data/course-v2/Foundations.json",
@@ -85,8 +85,21 @@
   },
   "lessons": 21,
   "freeSlots": 46,
-  "supportedBothAgreements": 3,
-  "unsupported": 43,
+  "supportedBothAgreements": 45,
+  "supportedM": 46,
+  "supportedF": 45,
+  "unsupported": 1,
+  "unsupportedAgreements": [
+    {
+      "lessonId": "sl-strutture-03-quindi-allora-pero",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "agreement": "f",
+      "template": "Sono stanco, quindi stasera ____ a casa."
+    }
+  ],
+  "maxBindingChars": 8368,
   "slots": [
     {
       "stage": "presente",
@@ -108,14 +121,52 @@
       "agreements": {
         "m": {
           "supported": true,
+          "bindingChars": 2580,
           "referenceTexts": [
-            "Sono italiana."
+            "Sono di Roma e sono italiano."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-01-chi-sono.5:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.5",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            }
           ]
         },
         "f": {
           "supported": true,
+          "bindingChars": 2580,
           "referenceTexts": [
-            "Sono italiana."
+            "Sono di Roma e sono italiana."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-01-chi-sono.5:turn-cloze:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.5",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            }
           ]
         }
       }
@@ -140,12 +191,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 5862,
+          "referenceTexts": [
+            "Sono italiano e ho ventotto anni."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-01-chi-sono.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 5862,
+          "referenceTexts": [
+            "Sono italiana e ho ventotto anni."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-01-chi-sono.6:turn-3:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -167,12 +260,88 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 6656,
+          "referenceTexts": [
+            "Sono studente.",
+            "Sono insegnante."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-01-chi-sono.6:turn-5:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.6",
+                "turnIndex": 5,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-presente-01-chi-sono.6:turn-5:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.6",
+                "turnIndex": 5,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 6659,
+          "referenceTexts": [
+            "Sono studentessa.",
+            "Sono insegnante."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-01-chi-sono.6:turn-5:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.6",
+                "turnIndex": 5,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-presente-01-chi-sono.6:turn-5:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-presente-01-chi-sono.6",
+                "turnIndex": 5,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -192,12 +361,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2259,
+          "referenceTexts": [
+            "Marco mangia la pizza."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-02-cosa-faccio.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-02-cosa-faccio.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2259,
+          "referenceTexts": [
+            "Marco mangia la pizza."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-02-cosa-faccio.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-02-cosa-faccio.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         }
       }
     },
@@ -215,12 +426,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3677,
+          "referenceTexts": [
+            "La mattina bevo un caffè e poi lavoro."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-02-cosa-faccio.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-02-cosa-faccio.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3677,
+          "referenceTexts": [
+            "La mattina bevo un caffè e poi lavoro."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-02-cosa-faccio.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-02-cosa-faccio.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -242,12 +495,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2073,
+          "referenceTexts": [
+            "Mi piace molto la musica."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-03-mi-piace.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-03-mi-piace.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2073,
+          "referenceTexts": [
+            "Mi piace molto la musica."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-03-mi-piace.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-03-mi-piace.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -270,14 +565,52 @@
       "agreements": {
         "m": {
           "supported": true,
+          "bindingChars": 3473,
           "referenceTexts": [
             "Mi piace la pizza."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-03-mi-piace.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-03-mi-piace.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
           ]
         },
         "f": {
           "supported": true,
+          "bindingChars": 3473,
           "referenceTexts": [
             "Mi piace la pizza."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-03-mi-piace.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-03-mi-piace.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
           ]
         }
       }
@@ -301,12 +634,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2073,
+          "referenceTexts": [
+            "Studio l'italiano la sera."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-04-dove-e-quando.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-04-dove-e-quando.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2073,
+          "referenceTexts": [
+            "Studio l'italiano la sera."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-04-dove-e-quando.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-04-dove-e-quando.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -328,12 +703,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3758,
+          "referenceTexts": [
+            "Sono a casa stasera."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-04-dove-e-quando.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-04-dove-e-quando.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3758,
+          "referenceTexts": [
+            "Sono a casa stasera."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-04-dove-e-quando.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-04-dove-e-quando.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -351,12 +768,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3465,
+          "referenceTexts": [
+            "Stasera guardo un film a casa. Vieni?"
+          ],
+          "references": [
+            {
+              "id": "sl-presente-05-domande.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-05-domande.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3465,
+          "referenceTexts": [
+            "Stasera guardo un film a casa. Vieni?"
+          ],
+          "references": [
+            {
+              "id": "sl-presente-05-domande.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-05-domande.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -377,12 +836,88 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 5873,
+          "referenceTexts": [
+            "Bene grazie, ma sono stanco.",
+            "Bene grazie, ma ho fame."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-06-come-stai.5:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.5",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-presente-06-come-stai.5:turn-1:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.5",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 5873,
+          "referenceTexts": [
+            "Bene grazie, ma sono stanca.",
+            "Bene grazie, ma ho fame."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-06-come-stai.5:turn-1:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.5",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-presente-06-come-stai.5:turn-1:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.5",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -403,12 +938,88 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3869,
+          "referenceTexts": [
+            "Oggi sono contento perché è sabato.",
+            "Oggi sono felice perché è sabato."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-06-come-stai.7:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-presente-06-come-stai.7:turn-cloze:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3869,
+          "referenceTexts": [
+            "Oggi sono contenta perché è sabato.",
+            "Oggi sono felice perché è sabato."
+          ],
+          "references": [
+            {
+              "id": "sl-presente-06-come-stai.7:turn-cloze:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-presente-06-come-stai.7:turn-cloze:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-presente-06-come-stai.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -426,12 +1037,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2010,
+          "referenceTexts": [
+            "Ieri sera ho visto un bel film."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.3:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.3",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2010,
+          "referenceTexts": [
+            "Ieri sera ho visto un bel film."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.3:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.3",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -451,12 +1104,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3982,
+          "referenceTexts": [
+            "Ieri ho fatto la spesa."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.5:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.5",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3982,
+          "referenceTexts": [
+            "Ieri ho fatto la spesa."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.5:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.5",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -474,12 +1169,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3979,
+          "referenceTexts": [
+            "Sì, ho bevuto un cappuccino."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.5:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.5",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3979,
+          "referenceTexts": [
+            "Sì, ho bevuto un cappuccino."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.5:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.5",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -496,12 +1233,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2788,
+          "referenceTexts": [
+            "Noi abbiamo comprato il pane e loro hanno comprato il vino."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.7:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2788,
+          "referenceTexts": [
+            "Noi abbiamo comprato il pane e loro hanno comprato il vino."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.7:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -518,12 +1297,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2788,
+          "referenceTexts": [
+            "Noi abbiamo comprato il pane e loro hanno comprato il vino."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.7:turn-cloze:blank-1:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.7",
+                "turnIndex": null,
+                "blankIndex": 1,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2788,
+          "referenceTexts": [
+            "Noi abbiamo comprato il pane e loro hanno comprato il vino."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-01-ieri-ho.7:turn-cloze:blank-1:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-01-ieri-ho.7",
+                "turnIndex": null,
+                "blankIndex": 1,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -543,12 +1364,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4986,
+          "referenceTexts": [
+            "Scusa! sono andato al cinema."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-02-sono-andato.4:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-02-sono-andato.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4986,
+          "referenceTexts": [
+            "Scusa! sono andata al cinema."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-02-sono-andato.4:turn-1:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-passato-02-sono-andato.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -568,12 +1431,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4995,
+          "referenceTexts": [
+            "Sì, sono tornato a casa a mezzanotte."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-02-sono-andato.4:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-02-sono-andato.4",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4995,
+          "referenceTexts": [
+            "Sì, sono tornata a casa a mezzanotte."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-02-sono-andato.4:turn-3:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-passato-02-sono-andato.4",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -591,12 +1496,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2550,
+          "referenceTexts": [
+            "Sabato sono andato al mare con la famiglia."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-02-sono-andato.7:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-02-sono-andato.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2550,
+          "referenceTexts": [
+            "Sabato sono andata al mare con la famiglia."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-02-sono-andato.7:turn-cloze:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-passato-02-sono-andato.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -616,12 +1563,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3650,
+          "referenceTexts": [
+            "A Roma ho visitato tanti musei e tante chiese."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-03-quando.5:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-03-quando.5",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3650,
+          "referenceTexts": [
+            "A Roma ho visitato tanti musei e tante chiese."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-03-quando.5:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-03-quando.5",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -639,12 +1628,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3550,
+          "referenceTexts": [
+            "Dopo la scuola giocavo con gli amici."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-04-era-cosi.5:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-04-era-cosi.5",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3550,
+          "referenceTexts": [
+            "Dopo la scuola giocavo con gli amici."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-04-era-cosi.5:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-04-era-cosi.5",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -662,14 +1693,52 @@
       "agreements": {
         "m": {
           "supported": true,
+          "bindingChars": 2315,
           "referenceTexts": [
             "Mentre dormivo, è arrivato Marco."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-04-era-cosi.6:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-04-era-cosi.6",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
           ]
         },
         "f": {
           "supported": true,
+          "bindingChars": 2315,
           "referenceTexts": [
             "Mentre dormivo, è arrivato Marco."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-04-era-cosi.6:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-04-era-cosi.6",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
           ]
         }
       }
@@ -691,12 +1760,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7927,
+          "referenceTexts": [
+            "Bene! Ieri mattina mi sono alzato presto."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7927,
+          "referenceTexts": [
+            "Bene! Ieri mattina mi sono alzata presto."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-1:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -717,12 +1828,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7906,
+          "referenceTexts": [
+            "Dopo ho pranzato con Marco."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7906,
+          "referenceTexts": [
+            "Dopo ho pranzato con Marco."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -742,12 +1895,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 8131,
+          "referenceTexts": [
+            "La sera siamo tornati a casa e abbiamo visto un film."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-7:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 7,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "male-or-mixed-group",
+              "subjectScope": "group"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 8131,
+          "referenceTexts": [
+            "La sera siamo tornati a casa e abbiamo visto un film."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-7:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 7,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "male-or-mixed-group",
+              "subjectScope": "group"
+            }
+          ]
         }
       }
     },
@@ -765,12 +1960,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 8082,
+          "referenceTexts": [
+            "La sera siamo tornati a casa e abbiamo visto un film."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-7:blank-1:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 7,
+                "blankIndex": 1,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "male-or-mixed-group",
+              "subjectScope": "group"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 8082,
+          "referenceTexts": [
+            "La sera siamo tornati a casa e abbiamo visto un film."
+          ],
+          "references": [
+            {
+              "id": "sl-passato-05-raccontami.4:turn-7:blank-1:example-0",
+              "sourceLocator": {
+                "activityId": "sl-passato-05-raccontami.4",
+                "turnIndex": 7,
+                "blankIndex": 1,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "male-or-mixed-group",
+              "subjectScope": "group"
+            }
+          ]
         }
       }
     },
@@ -788,12 +2025,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2044,
+          "referenceTexts": [
+            "Domani sera guarderò un film con Anna."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-01-domani.5:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-01-domani.5",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2044,
+          "referenceTexts": [
+            "Domani sera guarderò un film con Anna."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-01-domani.5:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-01-domani.5",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -811,12 +2090,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2946,
+          "referenceTexts": [
+            "La settimana prossima studierò molto."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-01-domani.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-01-domani.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2946,
+          "referenceTexts": [
+            "La settimana prossima studierò molto."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-01-domani.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-01-domani.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -833,12 +2154,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 1984,
+          "referenceTexts": [
+            "Se fa bel tempo, domenica andrò al mare."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-03-se.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-03-se.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 1984,
+          "referenceTexts": [
+            "Se fa bel tempo, domenica andrò al mare."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-03-se.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-03-se.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -855,12 +2218,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2001,
+          "referenceTexts": [
+            "Sabato sera andrò a una festa con gli amici."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-04-che-farai.3:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-04-che-farai.3",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2001,
+          "referenceTexts": [
+            "Sabato sera andrò a una festa con gli amici."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-04-che-farai.3:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-04-che-farai.3",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -877,12 +2282,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 1968,
+          "referenceTexts": [
+            "L'anno prossimo andrò in Italia per un mese."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-04-che-farai.7:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-04-che-farai.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 1968,
+          "referenceTexts": [
+            "L'anno prossimo andrò in Italia per un mese."
+          ],
+          "references": [
+            {
+              "id": "sl-futuro-04-che-farai.7:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-futuro-04-che-farai.7",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -900,12 +2347,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2095,
+          "referenceTexts": [
+            "Il film? Lo guardo stasera."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-01-lo-conosco.6:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-01-lo-conosco.6",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2095,
+          "referenceTexts": [
+            "Il film? Lo guardo stasera."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-01-lo-conosco.6:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-01-lo-conosco.6",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         }
       }
     },
@@ -923,12 +2412,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3070,
+          "referenceTexts": [
+            "Certo! Mi aspetti davanti al bar?"
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-01-lo-conosco.7:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-01-lo-conosco.7",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3070,
+          "referenceTexts": [
+            "Certo! Mi aspetti davanti al bar?"
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-01-lo-conosco.7:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-01-lo-conosco.7",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -945,12 +2476,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2106,
+          "referenceTexts": [
+            "Che cosa fai domenica? Vado al mare."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-02-chi-che-cosa-perche.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-02-chi-che-cosa-perche.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2106,
+          "referenceTexts": [
+            "Che cosa fai domenica? Vado al mare."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-02-chi-che-cosa-perche.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-02-chi-che-cosa-perche.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -970,12 +2543,35 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2639,
+          "referenceTexts": [
+            "Sono stanco, quindi stasera resto a casa."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-03-quindi-allora-pero.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-03-quindi-allora-pero.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
           "supported": false,
-          "referenceTexts": []
+          "bindingChars": null,
+          "referenceTexts": [],
+          "references": []
         }
       }
     },
@@ -996,12 +2592,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3884,
+          "referenceTexts": [
+            "Perché alle tre ho una lezione."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-03-quindi-allora-pero.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-03-quindi-allora-pero.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 3884,
+          "referenceTexts": [
+            "Perché alle tre ho una lezione."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-03-quindi-allora-pero.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-03-quindi-allora-pero.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -1020,12 +2658,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2086,
+          "referenceTexts": [
+            "La sera mi addormento verso le undici."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-04-la-mia-giornata.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-04-la-mia-giornata.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2086,
+          "referenceTexts": [
+            "La sera mi addormento verso le undici."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-04-la-mia-giornata.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-04-la-mia-giornata.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -1044,12 +2724,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4799,
+          "referenceTexts": [
+            "Di solito mi sveglio alle sette."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-04-la-mia-giornata.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-04-la-mia-giornata.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4799,
+          "referenceTexts": [
+            "Di solito mi sveglio alle sette."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-04-la-mia-giornata.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-04-la-mia-giornata.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -1067,12 +2789,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4842,
+          "referenceTexts": [
+            "Vado a letto alle undici, ma mi addormento subito."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-04-la-mia-giornata.6:turn-5:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-04-la-mia-giornata.6",
+                "turnIndex": 5,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4842,
+          "referenceTexts": [
+            "Vado a letto alle undici, ma mi addormento subito."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-04-la-mia-giornata.6:turn-5:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-04-la-mia-giornata.6",
+                "turnIndex": 5,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -1092,12 +2856,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2097,
+          "referenceTexts": [
+            "Mio fratello è più alto di me."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-05-piu-o-meno.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-05-piu-o-meno.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 2097,
+          "referenceTexts": [
+            "Mio fratello è più alto di me."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-05-piu-o-meno.4:turn-cloze:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-05-piu-o-meno.4",
+                "turnIndex": null,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         }
       }
     },
@@ -1116,12 +2922,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4830,
+          "referenceTexts": [
+            "Il treno! È più comodo della macchina."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-05-piu-o-meno.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-05-piu-o-meno.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4830,
+          "referenceTexts": [
+            "Il treno! È più comodo della macchina."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-05-piu-o-meno.6:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-05-piu-o-meno.6",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "m",
+              "subjectScope": "other"
+            }
+          ]
         }
       }
     },
@@ -1139,12 +2987,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4861,
+          "referenceTexts": [
+            "Perfetto! Una pizzeria è meno costosa di un ristorante."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-05-piu-o-meno.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-05-piu-o-meno.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "f",
+              "subjectScope": "other"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 4861,
+          "referenceTexts": [
+            "Perfetto! Una pizzeria è meno costosa di un ristorante."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-05-piu-o-meno.6:turn-3:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-05-piu-o-meno.6",
+                "turnIndex": 3,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": "f",
+              "subjectScope": "other"
+            }
+          ]
         }
       }
     },
@@ -1165,12 +3055,88 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 8368,
+          "referenceTexts": [
+            "Bene, grazie! Ma sono stanco.",
+            "Bene, grazie! Ma ho sonno."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-1:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "m",
+              "subjectAgreement": "m",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-1:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 8368,
+          "referenceTexts": [
+            "Bene, grazie! Ma sono stanca.",
+            "Bene, grazie! Ma ho sonno."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-1:blank-0:example-1",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 1
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "f",
+              "subjectAgreement": "f",
+              "subjectScope": "speaker"
+            },
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-1:blank-0:example-2",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 1,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 2
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": "speaker"
+            }
+          ]
         }
       }
     },
@@ -1190,12 +3156,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7507,
+          "referenceTexts": [
+            "Perfetto, allora vengo con voi."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-7:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 7,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7507,
+          "referenceTexts": [
+            "Perfetto, allora vengo con voi."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-7:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 7,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     },
@@ -1215,12 +3223,54 @@
       ],
       "agreements": {
         "m": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7531,
+          "referenceTexts": [
+            "A piedi! È più comodo e non costa niente."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-9:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 9,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         },
         "f": {
-          "supported": false,
-          "referenceTexts": []
+          "supported": true,
+          "bindingChars": 7531,
+          "referenceTexts": [
+            "A piedi! È più comodo e non costa niente."
+          ],
+          "references": [
+            {
+              "id": "sl-strutture-06-una-vera-chiacchierata.4:turn-9:blank-0:example-0",
+              "sourceLocator": {
+                "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+                "turnIndex": 9,
+                "blankIndex": 0,
+                "field": "sourceExamples",
+                "index": 0
+              },
+              "reviewStatus": "independent-agent-review",
+              "reviewScope": "chosen-form-translation-agreement",
+              "nativeItalianEducatorReview": "pending",
+              "applicability": "any",
+              "subjectAgreement": null,
+              "subjectScope": null
+            }
+          ]
         }
       }
     }

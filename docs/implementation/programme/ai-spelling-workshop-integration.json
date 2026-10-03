@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-03",
+  "checkpointBaseline": "dcf2afa",
+  "status": "passed-bounded-integration",
+  "scope": "Service spelling authority and exact authored Workshop source bindings; no production registry/verifier/provider or Italian model quality approval.",
+  "checks": {
+    "node": 99,
+    "spelling": 22,
+    "authoredSource": 22,
+    "assistanceController": 11,
+    "journeySource": 14,
+    "existingService": 30,
+    "browser": {
+      "chromium": 19,
+      "webkit": 19
+    },
+    "chosenSourceExamples": 60,
+    "supportedM": 46,
+    "supportedF": 45,
+    "maxBindingChars": 8368,
+    "bindingLimit": 15000,
+    "studySummary": 7
+  },
+  "openGaps": [
+    {
+      "lessonId": "sl-strutture-03-quindi-allora-pero",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "agreement": "f",
+      "template": "Sono stanco, quindi stasera ____ a casa."
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "data/sentence-lab/presente.json",
+      "sha256": "88f9bb7bf3f983c4a75f2ac70d6c421b061b8ef587ac0b9ba42c0a687991248a"
+    },
+    {
+      "path": "data/sentence-lab/passato.json",
+      "sha256": "7450d05365d8a66769b9526ad5588318d908c1e43bede656cc2e12aab898e870"
+    },
+    {
+      "path": "data/sentence-lab/futuro.json",
+      "sha256": "7c800ff23a90df509537f58bd67f35bb6aff2cc69adbea48a162153deaf9aba9"
+    },
+    {
+      "path": "data/sentence-lab/strutture.json",
+      "sha256": "75965da68e980339053dc289fbc65198cb0e75f72f992a0b25811f41396e61f2"
+    },
+    {
+      "path": "data/course-v2/Foundations.json",
+      "sha256": "a3c43d8d031ca16424ac2147910920b6f597309a4301db4d9f99fdb724208ffb"
+    },
+    {
+      "path": "data/course-v2/A1.json",
+      "sha256": "3ea0e6a3816d052714409b7e480073e203f0c13b7d44942e2b244c2bbd894122"
+    },
+    {
+      "path": "data/course-v2/A2.json",
+      "sha256": "c9b39efa9b8c4bfc0a513ea9c7a8f13f6422f628e92d9a382cbcb598573fe93a"
+    },
+    {
+      "path": "data/course-v2/B1.json",
+      "sha256": "b8a356eb9567459d4fecfd686d912f8622d633855e4ae35849b1e4ed7e74e48e"
+    },
+    {
+      "path": "data/course-v2/B2.json",
+      "sha256": "c9a31582ef7b25504e1ad8e9fe67f47ba00adb985cacd4306db0ef0ed308e275"
+    },
+    {
+      "path": "data/course-v2/C1.json",
+      "sha256": "b7941d2f3a574b1a649cdc4c7425e6e3b60d18bbd00b065eaa8b16e5a481f292"
+    },
+    {
+      "path": "data/course-v2/C2.json",
+      "sha256": "6a578d31b00247b1e86e756e127ff513528ec5dcb6d2f044f275c36f0b79ccbd"
+    },
+    {
+      "path": "data/grammar-course/A1.json",
+      "sha256": "62601e0629f68a98e490ec77f440b1ac8a6140eae3c8263896f807f8d54fbbf3"
+    },
+    {
+      "path": "data/grammar-course/A2.json",
+      "sha256": "c4d4a3f7c807ce0bd01e742cee675d02f394836407006475b0e11100abba3202"
+    },
+    {
+      "path": "data/grammar-course/B1.json",
+      "sha256": "02f2f5a65b2e72b419f721ee4f953bb7c0ad07220286535ccc6b6b49b93d3aeb"
+    },
+    {
+      "path": "data/grammar-course/B2.json",
+      "sha256": "9b8df1c6731f9e7ca5f9d14287c7a29cd25b3c25c1a69a531cdc53ed1bc4c8d1"
+    },
+    {
+      "path": "data/grammar-course/C1.json",
+      "sha256": "b51d28eb19cfdfeb67fdb26cd0cab0f31a3d33c87c67c58e08df3ca2aa5d4a7a"
+    },
+    {
+      "path": "data/grammar-course/C2.json",
+      "sha256": "7d595c6d9a425bab5211c3c679d7513bd4fc8b4f2babbcbadc43a61ca93716a7"
+    }
+  ],
+  "implementationPins": [
+    {
+      "path": "js/ai/input-spelling.js",
+      "sha256": "7bc97c15ee354f43fb41cc8545b449afa0c1665a58ee1cbb32af9746d587f939"
+    },
+    {
+      "path": "js/ai/index.js",
+      "sha256": "e0c8cf8ff36951f511129c3e85300bcd25dc24c051b32cb1243c79fd77075b46"
+    },
+    {
+      "path": "js/ai/tasks.js",
+      "sha256": "2c57c183a0918b79c1a71bac3e7f20a7c32f8b12cb6c4923583ee9b903fa6067"
+    },
+    {
+      "path": "js/ai/practice-grounding.js",
+      "sha256": "47d9885ee005b43575a6ac1b7782dbc33f0cdde7eeef37ce37ef9b93b2329e96"
+    },
+    {
+      "path": "js/learning/practice-authored-sources.js",
+      "sha256": "9fe80344fb753b56e3c787de82cd22199e8c7b2d7fda4d1c3bb692ac85ac7f6d"
+    },
+    {
+      "path": "js/learning/ai-assistance-panel.js",
+      "sha256": "85e14ffce9c4be3996f9be72c35bfbdb53671f9b14570a0c98ff3952b8292c9e"
+    },
+    {
+      "path": "tests/ai-input-spelling.test.mjs",
+      "sha256": "d70ddbf7a7b69a01f2210bcee0302f466bd0f12e789624fe445e4f01ea600999"
+    },
+    {
+      "path": "tests/ai-authored-practice-sources.test.mjs",
+      "sha256": "0fb8007e7c91b316201c8477f369ac83f56efd76cf6a2f3d0fd9a44b72e6c5e3"
+    },
+    {
+      "path": "tests/ai-assistance-e2e.mjs",
+      "sha256": "1e20735c8a432f7cbbe1a9ac65fb5e30a0c6d45cd0b114b4ee7d1b2577120116"
+    },
+    {
+      "path": "js/ai/validation.js",
+      "sha256": "b4d28146ea2476e734822d48d9dd347ca6228709fc05f361b9bf4b5a46f041eb"
+    }
+  ],
+  "production": {
+    "provider": "unavailable",
+    "contextualSpellingRegistry": "not installed",
+    "meaningVerifier": "not installed",
+    "nativeEducator": "pending",
+    "allWorkshopAcceptedAlternatives": "not reviewed"
+  },
+  "reports": [
+    "ai-input-spelling-contract.md",
+    "ai-authored-source-adapters.md",
+    "ai-authored-source-inventory.json",
+    "ai-authored-source-inventory-before-examples.json",
+    "workshop-source-examples-independent-review.json",
+    "workshop-source-examples-integration.json",
+    "ai-assistance-chromium.json",
+    "ai-assistance-webkit.json"
+  ],
+  "historicalSummaryFinding": {
+    "status": "fixed-independently-rechecked",
+    "fixture": "confirmed recorded source plus exact source-linked valid-rule accent correction",
+    "historicalCorrectionItems": 1,
+    "sharedGuardRejects": true,
+    "requiredHook": "summary.js correction loop calls isRecognitionSpellingCorrection(source,original,replacement)",
+    "afterCorrectionItems": 0
+  }
+}

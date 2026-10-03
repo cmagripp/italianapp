@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "programme_learning independent agent",
+  "status": "independent-agent-bounded-language-and-preservation-review-passed",
+  "scope": "Seven declared source corrections, their Italian/English frames and reference usage; representative generated simple/progressive cues; revision-scoped retirement and prior declaration bindings. Not an all-generated-question, native educator or whole-catalogue linguistic approval.",
+  "sourceSHA256": {
+    "data/verbs/B1-1.json": "3a3b7bc9a5073e9b119e4a0c931cbb9d60429500eb1a0f22d9ea53e910777ef2",
+    "data/verbs/B1-2.json": "2504e138840e9ab7f697a0241038504db4fe21a5e4076e2eda614261b25db381",
+    "data/verbs/B1-3.json": "52e00565ce00aa54b75f237501834db72783f7a9fffad813026156cf8934f4a9",
+    "data/verbs/B1-4.json": "25eb2dae0f09d8961282c673a1ce3214c25b2e9933417e3b11ac158a6d66359b",
+    "data/verb-progressive/intermediate.json": "96c132b96df3518b4e8e2cbe117d502a67c620649ac9927e95a8439fb24668b6",
+    "js/learning/progressive-content.js": "eb9f510032afa3e6b801f04229d1490ff3cece790b31b3cb020a1bc804cca283",
+    "js/learning/lesson-content.js": "51753f0254f58da4ae99531430fe628bbf4b734124e37a0950621095f8d0d78d",
+    "js/learning/journey-scene.js": "3776bd6cb8963515d52c4169933173cf5f56e996528e1995c5a28d0457630d29",
+    "tools/build-verb-progressive.mjs": "85528b82498a586d245d2f644a4163cd017a8faf7c3758b4b7b908df6e08ecb3",
+    "tools/test-verb-repairs-522.mjs": "7b3273143a4429145b28d816c95ce3f9b3f3f05d7dd480da34fd46294697ebe3",
+    "docs/implementation/programme/verb-repairs-522-prior.json": "92eb626c73ade0243f8f54f4a1485019831472ef857ccb4587bbb8c6d37761a7"
+  },
+  "records": [
+    {
+      "id": "v:fingere",
+      "status": "bounded-review-passed",
+      "assessment": "The new di avere freddo clause has no adjective agreement dependency and fits every supplied person. Only prior explicitly female/plural sorpreso models retire; coherent earlier masculine io/tu quotations remain.",
+      "primarySourceChecked": "https://www.treccani.it/vocabolario/fingere/",
+      "authoredRecordFingerprint": {
+        "id": "v:fingere",
+        "resolution": "Neutral di avere freddo replaces fixed singular masculine sorpreso. Exactly20 prior explicitfemale/plural source identities retire by previous expanded-v1 revision; coherent prior masculine io/tu quotations remain available. All current identities/core forms stay unchanged.",
+        "primarySourcesRead": [
+          "https://www.treccani.it/vocabolario/fingere/"
+        ],
+        "currentSourceSHA256": "df83dbf9c1bd806bf269b5091a9735552ad573818b3431873e40d6f45b159cce",
+        "currentPolicySHA256": "4d26658bb6bc1093b1377d5ebefd0bbf8a05dee6270b90f1a83c0ded097b190f",
+        "currentCompiledSHA256": "b14a08fa8be72bc7af85ce5b6cf72b6a1d8c09815d16b85c7184ca5bde611a85"
+      }
+    },
+    {
+      "id": "v:esagerare",
+      "status": "bounded-review-passed",
+      "assessment": "Overdo it with accurately distinguishes excess compliments/criticism from exaggerating an account. Per-frame predicates keep the other existing frames and exact prior English.",
+      "primarySourceChecked": "https://www.treccani.it/vocabolario/esagerare/",
+      "authoredRecordFingerprint": {
+        "id": "v:esagerare",
+        "resolution": "Indexed exact English predicates overdo it with apply only to compliments/criticism; overstate account/price frames retain exaggerate. Full old predicates/frames/pools are preserved.",
+        "primarySourcesRead": [
+          "https://www.treccani.it/vocabolario/esagerare/"
+        ],
+        "currentSourceSHA256": "8e95e143ab846c6ac191ed3435298041003de4eb6cffef31a099378fe632a083",
+        "currentPolicySHA256": "7e06037c5252b9cda86df33b27202bcc4e4f38fee1be043d3499d603f6dc9785",
+        "currentCompiledSHA256": "7441a62d6a21a62547f6b7da2df33e75b8d3f68d8adfa7cce2fa455c14872f6b"
+      }
+    },
+    {
+      "id": "v:mantenere",
+      "status": "bounded-review-passed",
+      "assessment": "Keep the promise is the natural English collocation. Maintain remains appropriate for composure/pace/balance. Italian regency and answers are unchanged.",
+      "primarySourceChecked": "https://www.treccani.it/vocabolario/mantenere/",
+      "authoredRecordFingerprint": {
+        "id": "v:mantenere",
+        "resolution": "Only promise frame uses keep/keeps/kept/keeping; maintain remains for composure, pace and balance. Exact old frame/default predicates and pools preserved.",
+        "primarySourcesRead": [
+          "https://www.treccani.it/vocabolario/mantenere/"
+        ],
+        "currentSourceSHA256": "546540c7f1680475d4768308967ccab8017b9feb4daebb26c26e17260bb76d67",
+        "currentPolicySHA256": "e103ecca0bcd36e03f194c78c48570fe9c6031186907144d3f6f8721c6b4c038",
+        "currentCompiledSHA256": "390f67bd54f93ea7d859a664980073ed620fbad84d742140dade7b8a7679ad07"
+      }
+    },
+    {
+      "id": "v:provocare",
+      "status": "bounded-review-passed",
+      "assessment": "Cause accurately expresses the selected reaction/event sense including an accident; the reference also retains deliberate person provocation. Exact older cues remain declared.",
+      "primarySourceChecked": "https://www.treccani.it/vocabolario/provocare/",
+      "authoredRecordFingerprint": {
+        "id": "v:provocare",
+        "resolution": "Selected causation frames use cause/causes/caused/causing, including cause an accident. Broader deliberately provoking a person remains in reference examples; exact old selected English/pools remain usable.",
+        "primarySourcesRead": [
+          "https://www.treccani.it/vocabolario/provocare/"
+        ],
+        "currentSourceSHA256": "753d8fdb85b652ba7ba7632e8e4653c3af6f627417d3e1013ecfe1526a84ee9f",
+        "currentPolicySHA256": "9aee216237dff47047964133a82d3a762bad30264fbb840cb6ffc79e90442f5c",
+        "currentCompiledSHA256": "80789757bf80b4fff299543f5e3d7c112f33f1b37364d5336eed2b52fb6de8d6"
+      }
+    },
+    {
+      "id": "v:rovinare",
+      "status": "bounded-review-passed",
+      "assessment": "Non rovinare la sorpresa / Don’t spoil the surprise is a coherent neutral model. Removing the dim-light damage model avoids the factual assertion; the replacement stays reference-only.",
+      "primarySourceChecked": "https://www.nei.nih.gov/eye-health-information/healthy-vision/nei-for-kids",
+      "authoredRecordFingerprint": {
+        "id": "v:rovinare",
+        "resolution": "The reference-only dim-light damage assertion is replaced with Non rovinare la sorpresa. The old three examples are source-preserved; no current graded contexts or required target additions result.",
+        "primarySourcesRead": [
+          "https://www.treccani.it/vocabolario/rovinare/",
+          "https://www.nei.nih.gov/eye-health-information/healthy-vision/nei-for-kids"
+        ],
+        "currentSourceSHA256": "ccc1a1dbd5a219f2a6b78d0e9a18c078f8154c4b7d109c3d92261c5f73dd59aa",
+        "currentPolicySHA256": "27f1c74323ae0fe6641eb8c9be7eea49329dd8c51438e62d7be50c7140644c2a",
+        "currentCompiledSHA256": "9ea6ef428a9751c83c8b2eb4956830a7af45567ceeadad97153fd96cba1e77cf"
+      }
+    },
+    {
+      "id": "v:evitare",
+      "status": "bounded-review-passed",
+      "assessment": "Evita is an informal singular addressee instruction; evitiamo includes the speaker. The revised usage distinguishes these correctly without changing the forms.",
+      "primarySourceChecked": "https://www.treccani.it/vocabolario/evitare/",
+      "authoredRecordFingerprint": {
+        "id": "v:evitare",
+        "resolution": "Usage now distinguishes one-person informal evita from inclusive evitiamo. No paradigm, question, context or historical descriptor changes.",
+        "primarySourcesRead": [
+          "https://www.treccani.it/vocabolario/evitare/"
+        ],
+        "currentSourceSHA256": "5370146652dc2af23d50e7bafb0e947ed584c42b894793ae1e5a500aed339abd",
+        "currentPolicySHA256": "22360776fbbbf77ae6b2bd783fcfd1004c26b056c3ac0d2ea6e7401a83d64651",
+        "currentCompiledSHA256": "8d8342c0ad91c3efc7026badedc950e3f7a894b9eff639ec096c579379d67b4a"
+      }
+    },
+    {
+      "id": "v:mentire",
+      "status": "bounded-review-passed",
+      "assessment": "The reference qualification matches the primary bounded mood/person scope and more frequent mento. The existing mento-series and attested mentente stay intact. Accepting valid mentisco alternatives is still pending.",
+      "primarySourceChecked": "https://www.treccani.it/enciclopedia/mento-o-mentisco_(La-grammatica-italiana)/",
+      "authoredRecordFingerprint": {
+        "id": "v:mentire",
+        "resolution": "Reference note now bounds the legitimate isc alternatives by mood/person and identifies more frequent mento. This slice leaves current mento-series arrays unchanged; accepting all primary-attested mentisco alternatives remains a separate pending question/history task. PONS attests mentente, so no invented nonfinite replacement.",
+        "primarySourcesRead": [
+          "https://www.treccani.it/enciclopedia/mento-o-mentisco_(La-grammatica-italiana)/",
+          "https://www.treccani.it/vocabolario/mentire/",
+          "https://de.pons.com/verbtabellen/italienisch/mentire"
+        ],
+        "currentSourceSHA256": "a309c1d72700cb51409a24c32b3e2c586a17441d0e0984989768729e54c51e36",
+        "currentPolicySHA256": "5f966a6e5b4f334efed6ac7bb399ddc14f2b5370774eb25a14662a6d8a05011f",
+        "currentCompiledSHA256": "33b68a537c0ebd28bce89f481738741026369e133c3c4cf5070983412c2fb97f"
+      }
+    }
+  ],
+  "additionalPrimarySourcesChecked": [
+    "https://www.treccani.it/vocabolario/rovinare/",
+    "https://de.pons.com/verbtabellen/italienisch/mentire"
+  ],
+  "independentGitDeclarationChecks": {
+    "baseline": "dcf2afa",
+    "entries": [
+      "v:fingere",
+      "v:esagerare",
+      "v:mantenere",
+      "v:provocare",
+      "v:rovinare"
+    ],
+    "result": "Exact prior frames equal committed baseline; previous frame predicate tables and defaults equal baseline for all3 changed-English policies; all3 prior rovinare source examples equal baseline. Canonical prior revision is actual expanded-v1."
+  },
+  "independentlyRerunDeterministicGate": {
+    "command": "node tools/test-verb-repairs-522.mjs",
+    "status": "passed",
+    "pools": 973,
+    "retiredOccurrences": 30,
+    "uniqueRetiredScenes": 20,
+    "preservedValidOldSelections": 2052,
+    "currentSelections": 2082,
+    "unchangedCoreParadigms": 1186
+  },
+  "unresolvedGates": [
+    "mentiscoAlternativeAcceptance separate source/form-history integration",
+    "nativeItalianEducator",
+    "allGeneratedQuestions",
+    "humanPronunciationAndAudio",
+    "learnerCalibration"
+  ],
+  "residualCatalogueScope": {
+    "authorScopedReads": 522,
+    "unread": 664,
+    "notSemanticallyApprovedByThisReview": 1179
+  },
+  "noRuntimeOrCurriculumSourceEditsByReviewer": true
+}

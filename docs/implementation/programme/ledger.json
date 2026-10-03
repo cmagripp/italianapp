@@ -425,9 +425,14 @@
         "js/conversations/controller.js",
         "docs/PLAN-UNIFIED-LEARNING-OFFLINE-AI-2026-10-03.md",
         "docs/implementation/programme/ai-conversation-accent-design.md",
-        "docs/implementation/programme/ai-conversation-commit-boundary-review.md"
+        "docs/implementation/programme/ai-conversation-commit-boundary-review.md",
+        "js/ai/input-spelling.js",
+        "tests/ai-input-spelling.test.mjs",
+        "tests/conversation-accents-e2e.mjs",
+        "tests/conversation-commit-boundary-e2e.mjs",
+        "docs/implementation/programme/conversation-accents-and-commit.md"
       ],
-      "implementationNotes": "Audit found send records the accent setting but reply requests do not pass it to the service and no supported accent-only bubble restoration is implemented. The existing non-writing conversation study uses strict explicit-choice comparison correctly. Contextual verification, request/receipt plumbing, atomic revision and display integration remain open; no production provider is enabled. Independent actual-controller/IndexedDB tests in both browsers reproduce a provider-replacement/cancellation commit race. Transaction abort/guard and atomic accent display integration are next; production provider remains disabled."
+      "implementationNotes": "Bounded implementation now passes22 validator/service checks and19 actual controller/storage/UI/import checks per browser. Exact saved policy and original text reach validation; privately branded verified accent-only receipts restore the same learner bubble atomically, while strict-on retains text and source-bound notes. Unknown homographs/recognition abstain. Full descriptors and reproducible comparison invariants guard imported notes; historical ASR accent-only corrections no longer enter summaries. Seven timing boundaries and two noncooperative-provider cases per browser prove cancellation/retry ownership. Production registry, contextual interpreter and provider remain absent."
     },
     {
       "id": "P5-assistance",
@@ -447,9 +452,11 @@
         "docs/implementation/programme/ai-journey-source-grounding.md",
         "docs/implementation/programme/ai-authored-source-adapters.md",
         "docs/implementation/programme/ai-authored-source-inventory.json",
-        "tests/ai-authored-practice-sources.test.mjs"
+        "tests/ai-authored-practice-sources.test.mjs",
+        "docs/implementation/programme/ai-spelling-workshop-integration.json",
+        "docs/implementation/programme/workshop-source-examples-integration.json"
       ],
-      "implementationNotes": "Canonical source adapters are implemented for Journey, current Course, retained Grammar and supported Workshop slots. Service/source/controller checks68 pass; actual assistance17 and Journey11 checks per browser pass. Authored bindings cover2211 Course questions245portfolios,534retained Grammar questions258teach cards534repairs; Workshop3/46free slots resolve. Missing, altered and unrelated examples are rejected. Authored source provenance is not a reviewed rule registry. Remaining43 Workshop contexts, production registry/language policy and a passing model remain open."
+      "implementationNotes": "Canonical source adapters cover Journey, current Course, retained Grammar and46/46 male plus45/46 female Workshop free slots.99 AI deterministic checks and19 authored-assistance UI checks per browser pass.60 chosen Workshop examples bind exact templates, fills, agreement and English context; they are agent-reviewed examples, not a production rule registry. Final female stanco context requires version-aware template evolution. Production language policy and passing model remain open."
     },
     {
       "id": "P5-retention",
@@ -529,9 +536,11 @@
         "docs/implementation/programme/verb-language-reviews.json",
         "docs/implementation/programme/verb-language-inventory.json",
         "docs/implementation/programme/verb-repairs-402.json",
-        "docs/implementation/programme/verb-repairs-402-baseline-review.json"
+        "docs/implementation/programme/verb-repairs-402-baseline-review.json",
+        "docs/implementation/programme/verb-repairs-522.json",
+        "docs/implementation/programme/verb-repairs-522-independent-review.json"
       ],
-      "implementationNotes": "Published individual review records cover402 of1186verbs with exact source fingerprints;784 remain unrecorded. Core-case structural coverage is5930descriptors, distinct from linguistic review. No full generated question-bank review is claimed. Five additional bounded repairs preserve572previous pools,320target vectors,764cue hashes and all1186reference paradigms; source fixture independently matches Git9802b1d. Toccare is usage clarification only. Remaining individual language, word/reference, educator and learner gates remain open."
+      "implementationNotes": "Published individual review records cover522/1186 verbs;664 remain outside the published boundary. Seven bounded corrections preserve973 prior source pools and2052 valid prior question selections;20 invalid fingere question IDs (30 occurrences) retire explicitly,2082 current selections pass and all1186 core reference arrays stay unchanged. Independent agent review passes. Whole generated question banks, remaining words/references, native educator and learner gates remain open."
     },
     {
       "id": "P6-authoring",
@@ -568,9 +577,10 @@
         "docs/implementation/programme/conversation-lifecycle-independent-review.md",
         "docs/implementation/programme/ai-journey-source-grounding.md",
         "docs/implementation/programme/integration-checkpoint-lifecycle-grounding.json",
-        "docs/implementation/programme/integration-checkpoint-forms-offline.json"
+        "docs/implementation/programme/integration-checkpoint-forms-offline.json",
+        "docs/implementation/programme/integration-checkpoint-accents-workshop.json"
       ],
-      "implementationNotes": "Current development checkpoint passes75registered deterministic suites,11database migration checks,9assembled offline/update and7grammar offline checks. Canonical assistance, selected-form saved-session preservation, bounded keyboard/reflow and actual retained-runtime cache compatibility have controlled browser evidence. The initial import/startup regression is recorded with its correction. Full AI/speech, editorial and final programme release gates remain open."
+      "implementationNotes": "This development checkpoint passes79 registered deterministic suites, followed by99 affected AI and7 summary checks after final review corrections,9 rebuilt offline/update and7 grammar offline checks. Source-bound spelling, atomic cancellation, exact authored Workshop contexts,522verb review boundary and enlarged-text layouts are integrated. Model/speech, editorial and final programme release gates remain open."
     },
     {
       "id": "P7-recovery",
@@ -580,9 +590,10 @@
       "owner": "root",
       "evidence": [
         "docs/implementation/programme/assembled-checkpoint-validation.json",
-        "docs/implementation/programme/installed-checkpoint-forms-offline.json"
+        "docs/implementation/programme/installed-checkpoint-forms-offline.json",
+        "docs/implementation/programme/installed-checkpoint-accents-workshop.json"
       ],
-      "implementationNotes": "Checkpoint build passes nine assembled offline/update checks and seven grammar/audio offline checks. Existing installed Home Screen candidate updates and restores a saved credere draft/feedback while the origin is unavailable in the approved simulator. Later source changes still require rebuilding/revalidation; the entire programme recovery gate remains open."
+      "implementationNotes": "Rebuilt6f8191060b7b passes9 offline/update and7 grammar/audio offline checks. The existing installed Home Screen candidate updates and cold-reopens with its local origin unavailable, retaining5XP and exact credere answer/feedback/visit counters on iPhone16ProMax iOS26.5. Final programme recovery gates remain."
     },
     {
       "id": "P7-accessibility",
@@ -598,9 +609,11 @@
         "docs/implementation/programme/keyboard-accessibility.md",
         "docs/implementation/programme/installed-checkpoint-lifecycle.json",
         "docs/implementation/programme/keyboard-compact-independent-review.json",
-        "docs/implementation/programme/conversation-compact-layout.md"
+        "docs/implementation/programme/conversation-compact-layout.md",
+        "tests/learning-text-reflow-e2e.mjs",
+        "docs/implementation/programme/learning-text-reflow-contract.json"
       ],
-      "implementationNotes": "Current source layout sweep passes300 cases (50routes,3phoneviewports,2themes), including Conversations/settings. Real dial spacing and settings footer overlap fixed; audit now accounts for clipped/inert/layered content with five geometric self-checks. The rebuilt installed simulator preserves exact feedback and shows separated visit count, reachable Continue and no bottom black strip. VoiceOver, wider keyboard/large-text and final full-release gates remain open. Subsequent bounded keyboard review passes thirteen checks per engine in both themes, including Safari modal Tab, dropdown redraw and prompt focus fixes. Candidate 9802b1d reopens with its local origin unavailable and retains exact saved feedback. This does not close VoiceOver, physical-device or enlarged-text gates. Compact composer additionally passes12viewport/theme cases per engine with Send/tools reachable and exact draft reload; independent source review recorded."
+      "implementationNotes": "Current source layout sweep passes300 cases (50routes,3phoneviewports,2themes), including Conversations/settings. Real dial spacing and settings footer overlap fixed; audit now accounts for clipped/inert/layered content with five geometric self-checks. The rebuilt installed simulator preserves exact feedback and shows separated visit count, reachable Continue and no bottom black strip. VoiceOver, wider keyboard/large-text and final full-release gates remain open. Subsequent bounded keyboard review passes thirteen checks per engine in both themes, including Safari modal Tab, dropdown redraw and prompt focus fixes. Candidate 9802b1d reopens with its local origin unavailable and retains exact saved feedback. This does not close VoiceOver, physical-device or enlarged-text gates. Compact composer additionally passes12viewport/theme cases per engine with Send/tools reachable and exact draft reload; independent source review recorded. Enlarged-text course controls now pass8 focused checks per browser at200percent375x667 and320x225 zoom-equivalent viewports in both themes; exact drafts/results survive. This closes the bounded long-footer clipping defect, not the complete VoiceOver/device gate."
     },
     {
       "id": "P7-retirement",
@@ -625,7 +638,7 @@
       "evidence": []
     }
   ],
-  "updatedAt": "2026-10-03T21:23:53.601926+00:00",
+  "updatedAt": "2026-10-03T22:10:53.957787+00:00",
   "testedDeviceConfiguration": {
     "device": "iPhone 16 Pro Max simulator",
     "iOS": "26.5",
@@ -638,13 +651,13 @@
     }
   ],
   "checkpoint": {
-    "kind": "Fourth recoverable development checkpoint",
+    "kind": "Fifth recoverable development checkpoint",
     "branch": "codex/parola-full-programme",
-    "parentCommit": "9802b1d",
+    "parentCommit": "dcf2afa",
+    "previousCheckpointPushed": true,
     "productionRelease": false,
-    "build": "parola-v15-5fc5537c8d14",
-    "validation": "75 deterministic suites;11SQL;9assembled offline/update;7grammar offline; focused source-bound assistance, saved-form, keyboard, compact composer and cache tests.",
-    "pushed": false,
-    "open": "Conversation cancellation/provider commit race and written accent integration;43Workshop contextual sources; remaining catalogue/curriculum review; production language/model/speech; educator/learner and final release gates."
+    "build": "parola-v15-6f8191060b7b",
+    "validation": "79registered deterministic suites plus final affected checks;9assembled offline/update;7grammar offline;19accent and9commit boundary cases per browser; installed simulator offline restore.",
+    "open": "Production contextual registry/model/speech; final feminine Workshop source version; remaining catalogue/curriculum review; educator/learner and full release gates."
   }
 }

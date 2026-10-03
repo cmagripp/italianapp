@@ -1,0 +1,11 @@
+# Independent conversation commit review
+
+The bounded source review and independent browser reproductions pass on the recorded source fingerprints. Chromium and WebKit each pass seven saved-note cases and two held-provider cancellation cases. This checks real controller/repository/UI code with explicit test-only providers and a test-only spelling registry; it makes no real-model language-quality claim.
+
+Cancellation previously stranded a pending token when provider cleanup threw. After that was fixed, a held provider still left the send lock set. The reviewed code now handles cleanup best-effort, releases the owned send lock before inference, and races the response against cancellation. The original send settles before its noncooperative provider returns. A late old response neither commits nor clears a held retry’s busy state; retry commits exactly one partner.
+
+Strict-on spelling feedback lives on the partner and leaves the learner’s exact text/revision/meaning choice/personal note unchanged. Strict-off restoration writes the revised learner and partner within one IDB transaction, retains original/submitted text and saved policy, and invalidates references to the changed display revision. Receipt authority remains local and nonserialized; imported receipt text is recorded history only.
+
+The initial exploratory saved-note reproduction used an obsolete receipt version and omitted its origin; merely hiding that fixture would not establish the source fix. The replacement starts from an actual version1 typed validator receipt, then passes through JSON export/import. Valid current and historical notes still display. Changing only original text, submitted text, policy level, or provenance assistance hides the note while all other structural conditions remain valid. A strictness mismatch is checked separately. These displays never rewrite messages or award learning evidence.
+
+Exact sources, fixture receipts, outputs and SHA256 fingerprints are in [the review JSON](conversation-commit-independent-review.json). Root-owned transaction and accent suites remain the assembled integration gates. Production model, human speech/audio quality and device-level durability gates remain separate.

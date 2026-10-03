@@ -1,7 +1,7 @@
 // A conversation's study index is rebuilt from its exact messages and local
 // reference records. It neither asks a model for definitions nor awards credit.
 import {tokenizeItalianSentence} from '../learning/sentence-lookup.js';
-import {preservesProtectedMeaning} from '../ai/validation.js';
+import {preservesProtectedMeaning,isRecognitionSpellingCorrection} from '../ai/validation.js';
 const CASES={presente:'present',presenteProgressivo:'present',passatoProssimo:'past',imperfetto:'background',imperfettoProgressivo:'background',futuro:'future',condizionale:'condizionale'};
 const STUDY_POS=new Set(['noun','verb','adj','adv','expr','interj']);
 const refKey=ref=>JSON.stringify([ref.turnId,ref.revision,ref.start,ref.end]);
@@ -49,6 +49,7 @@ export function buildConversationSummary({thread,turns,previous=null},{lookup,re
   for(const correction of turn.correctionRefs||[]){
    const source=byId.get(correction.sourceTurnId),rule=resolveRule(correction.ruleId);
    if(!source||source.revision!==correction.sourceTurnRevision||source.role!=='learner'||source.inputProvenance?.recognitionUncertain||!rule?.verified||typeof rule.confirmCorrection!=='function'||typeof rule.source!=='string'||!rule.source.trim()||typeof rule.explanation!=='string'||!rule.explanation.trim())continue;
+   if(isRecognitionSpellingCorrection(source,correction.original,correction.replacement))continue;
    if(typeof correction.original!=='string'||!correction.original||!source.displayText.includes(correction.original)||rule.confirmCorrection(correction,{text:source.displayText,recognitionUncertain:false,agreement:thread.setup.agreement})!==true)continue;
    const names=[thread.setup.name,...(thread.setup.participants||[]).map(p=>p.name),...(source.sourceContext?.protectedNames||[])].filter(Boolean);
    if(!preservesProtectedMeaning(correction.original,correction.replacement,names))continue;

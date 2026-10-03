@@ -96,7 +96,10 @@
           "template": "Il film? Lo ____ stasera.",
           "en": "The film? I'm watching it tonight.",
           "blanks": [
-            { "accept": ["guardo", "vedo"], "options": ["guardo", "vedo", "guardi"], "bank": ["guarda", "vediamo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io takes -o: guardo or vedo." }
+            { "accept": ["guardo", "vedo"], "options": ["guardo", "vedo", "guardi"], "bank": ["guarda", "vediamo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io takes -o: guardo or vedo.",
+              "sourceExamples": [
+                {"agreement":"any","values":["guardo"],"en":"The film? I am watching it tonight.","subjectAgreement":"m","subjectScope":"other","sourceNote":"Lo refers to the masculine noun il film; it does not describe the speaker’s gender.","it":"Il film? Lo guardo stasera.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ] }
           ],
           "hint": "Who is doing it? Io."
         },
@@ -125,7 +128,10 @@
               "template": "Certo! Mi ____ davanti al bar?",
               "en": "Sure! Will you ____ in front of the bar?",
               "blanks": [
-                { "accept": ["aspetti", "chiami"], "options": ["aspetti", "chiami", "aspetto"], "bank": ["aspettate", "cerco"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "Tu takes -i: aspetti (wait for me), chiami (call me)." }
+                { "accept": ["aspetti", "chiami"], "options": ["aspetti", "chiami", "aspetto"], "bank": ["aspettate", "cerco"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "Tu takes -i: aspetti (wait for me), chiami (call me).",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["aspetti"],"en":"Sure! Will you wait for me in front of the café?","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Certo! Mi aspetti davanti al bar?","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["aspetti"], "it": "Certo, ti aspetto alle otto.", "en": "Of course, I'll wait for you at eight." },
@@ -257,7 +263,10 @@
           "template": "Che cosa ____ domenica? Vado al mare.",
           "en": "What are you doing on Sunday? I'm going to the seaside.",
           "blanks": [
-            { "accept": ["fai"], "options": ["fai", "faccio", "fanno"], "bank": ["fate", "facciamo"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "The answer says vado, so the question is to tu: fai." }
+            { "accept": ["fai"], "options": ["fai", "faccio", "fanno"], "bank": ["fate", "facciamo"], "free": true, "slot": { "pos": "verb", "person": 1, "tense": "presente" }, "explanation": "The answer says vado, so the question is to tu: fai.",
+              "sourceExamples": [
+                {"agreement":"any","values":["fai"],"en":"What are you doing on Sunday? I am going to the seaside.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Che cosa fai domenica? Vado al mare.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ] }
           ],
           "hint": "Who answers? Io, so the question is to tu."
         },
@@ -438,7 +447,10 @@
           "template": "Sono stanco, quindi stasera ____ a casa.",
           "en": "I'm tired, so tonight I'm staying at home.",
           "blanks": [
-            { "accept": ["resto", "rimango", "mangio", "dormo"], "options": ["resto", "rimango", "mangio", "dormo", "resta"], "bank": ["restiamo", "dormi"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io takes -o: resto, rimango." }
+            { "accept": ["resto", "rimango", "mangio", "dormo"], "options": ["resto", "rimango", "mangio", "dormo", "resta"], "bank": ["restiamo", "dormi"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io takes -o: resto, rimango.",
+              "sourceExamples": [
+                {"agreement":"m","values":["resto"],"en":"I am tired, so tonight I am staying at home.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":"The current fixed template explicitly quotes a masculine speaker (stanco). Resto itself is invariant for speaker gender; this is not a feminine learner’s own sentence. The feminine context remains unavailable until an explicit quote label or a current template remedy is provided.","it":"Sono stanco, quindi stasera resto a casa.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ] }
           ],
           "hint": "Who is tired? Io."
         },
@@ -479,7 +491,10 @@
               "template": "Perché alle tre ho ____.",
               "en": "Because at three I have ____.",
               "blanks": [
-                { "accept": ["una lezione", "un appuntamento", "una riunione", "un esame", "un treno"], "options": ["una lezione", "un appuntamento", "una riunione", "un esame", "un treno"], "bank": [], "free": true, "slot": { "pos": "noun", "number": "sg", "article": "indefinite" }, "explanation": "Perché + the reason: ho una lezione." }
+                { "accept": ["una lezione", "un appuntamento", "una riunione", "un esame", "un treno"], "options": ["una lezione", "un appuntamento", "una riunione", "un esame", "un treno"], "bank": [], "free": true, "slot": { "pos": "noun", "number": "sg", "article": "indefinite" }, "explanation": "Perché + the reason: ho una lezione.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["una lezione"],"en":"Because at three I have a lesson.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Perché alle tre ho una lezione.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["una lezione", "un esame"], "it": "Studi ancora? Che cosa studi?", "en": "Are you still studying? What do you study?" },
@@ -617,7 +632,10 @@
           "template": "La sera ____ verso le undici.",
           "en": "In the evening I ____ around eleven.",
           "blanks": [
-            { "accept": ["mi addormento", "mi rilasso", "mi riposo"], "options": ["mi addormento", "mi rilasso", "mi riposo", "si addormenta", "ti addormenti"], "bank": ["ci addormentiamo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
+            { "accept": ["mi addormento", "mi rilasso", "mi riposo"], "options": ["mi addormento", "mi rilasso", "mi riposo", "si addormenta", "ti addormenti"], "bank": ["ci addormentiamo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento.",
+              "sourceExamples": [
+                {"agreement":"any","values":["mi addormento"],"en":"In the evening I fall asleep around eleven.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"La sera mi addormento verso le undici.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ] }
           ],
           "hint": "Pronoun and ending both match io."
         },
@@ -645,7 +663,10 @@
               "template": "Di solito ____ alle sette.",
               "en": "Usually I ____ at seven.",
               "blanks": [
-                { "accept": ["mi sveglio", "mi alzo", "mi lavo"], "options": ["mi sveglio", "mi alzo", "mi lavo", "ti svegli"], "bank": ["si sveglia"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi sveglio, mi alzo." }
+                { "accept": ["mi sveglio", "mi alzo", "mi lavo"], "options": ["mi sveglio", "mi alzo", "mi lavo", "ti svegli"], "bank": ["si sveglia"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi sveglio, mi alzo.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["mi sveglio"],"en":"I usually wake up at seven.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Di solito mi sveglio alle sette.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["mi sveglio"], "it": "Presto! E poi che cosa fai?", "en": "Early! And then what do you do?" },
@@ -673,7 +694,10 @@
               "template": "Vado a letto alle undici, ma ____ subito.",
               "en": "I go to bed at eleven, but I ____ right away.",
               "blanks": [
-                { "accept": ["mi addormento", "mi sveglio"], "options": ["mi addormento", "mi sveglio", "si addormenta"], "bank": ["ti addormenti"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento." }
+                { "accept": ["mi addormento", "mi sveglio"], "options": ["mi addormento", "mi sveglio", "si addormenta"], "bank": ["ti addormenti"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: mi addormento.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["mi addormento"],"en":"I go to bed at eleven, but I fall asleep right away.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Vado a letto alle undici, ma mi addormento subito.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["mi addormento"], "it": "Che fortuna! Io non dormo mai bene.", "en": "Lucky you! I never sleep well." },
@@ -821,7 +845,10 @@
           "template": "Mio fratello è più ____ di me.",
           "en": "My brother is more ____ than me.",
           "blanks": [
-            { "accept": ["alto", "giovane", "simpatico", "bravo"], "options": ["alto", "giovane", "simpatico", "bravo", "alta"], "bank": ["alti", "giovani"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Mio fratello is masculine singular: alto, giovane, simpatico." }
+            { "accept": ["alto", "giovane", "simpatico", "bravo"], "options": ["alto", "giovane", "simpatico", "bravo", "alta"], "bank": ["alti", "giovani"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Mio fratello is masculine singular: alto, giovane, simpatico.",
+              "sourceExamples": [
+                {"agreement":"any","values":["alto"],"en":"My brother is taller than I am.","subjectAgreement":"m","subjectScope":"other","sourceNote":"Alto agrees with mio fratello, not with the speaker.","it":"Mio fratello è più alto di me.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+              ] }
           ],
           "hint": "Any adjective that fits a man."
         },
@@ -849,7 +876,10 @@
               "template": "Il treno! È più ____ della macchina.",
               "en": "The train! It's more ____ than the car.",
               "blanks": [
-                { "accept": ["veloce", "comodo", "economico"], "options": ["veloce", "comodo", "economico", "veloci"], "bank": ["comoda", "economica"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Il treno is masculine singular: veloce, comodo, economico." }
+                { "accept": ["veloce", "comodo", "economico"], "options": ["veloce", "comodo", "economico", "veloci"], "bank": ["comoda", "economica"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Il treno is masculine singular: veloce, comodo, economico.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["comodo"],"en":"The train! It is more comfortable than the car.","subjectAgreement":"m","subjectScope":"other","sourceNote":"Comodo agrees with il treno, independent of the speaker’s gender.","it":"Il treno! È più comodo della macchina.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["veloce"], "it": "È vero, in un'ora siamo lì.", "en": "True, in an hour we're there." },
@@ -864,7 +894,10 @@
               "template": "Perfetto! Una pizzeria è meno ____ di un ristorante.",
               "en": "Perfect! A pizzeria is less ____ than a restaurant.",
               "blanks": [
-                { "accept": ["cara", "costosa"], "options": ["cara", "costosa", "caro", "care"], "bank": ["costoso", "cari"], "free": true, "slot": { "pos": "adj", "agree": "f-sg" }, "explanation": "Una pizzeria is feminine singular: cara, costosa." }
+                { "accept": ["cara", "costosa"], "options": ["cara", "costosa", "caro", "care"], "bank": ["costoso", "cari"], "free": true, "slot": { "pos": "adj", "agree": "f-sg" }, "explanation": "Una pizzeria is feminine singular: cara, costosa.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["costosa"],"en":"Perfect! A pizzeria is less expensive than a restaurant.","subjectAgreement":"f","subjectScope":"other","sourceNote":"Costosa agrees with una pizzeria, independent of the speaker’s gender.","it":"Perfetto! Una pizzeria è meno costosa di un ristorante.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["cara", "costosa"], "it": "Esatto, e si mangia bene.", "en": "Exactly, and the food is good." },
@@ -1006,7 +1039,12 @@
               "template": "Bene, grazie! Ma ____.",
               "en": "Fine, thanks! But ____.",
               "blanks": [
-                { "accept": ["sono stanco", "sono stanca", "ho sonno", "ho fame", "sono felice"], "options": ["sono stanco", "sono stanca", "ho sonno", "ho fame", "sono felice"], "bank": ["sono stanchi"], "free": true, "slot": { "pos": "adj", "agree": "speaker", "wrap": "sono {}" }, "explanation": "Sono + an adjective that agrees with you, or ho + sonno / fame." }
+                { "accept": ["sono stanco", "sono stanca", "ho sonno", "ho fame", "sono felice"], "options": ["sono stanco", "sono stanca", "ho sonno", "ho fame", "sono felice"], "bank": ["sono stanchi"], "free": true, "slot": { "pos": "adj", "agree": "speaker", "wrap": "sono {}" }, "explanation": "Sono + an adjective that agrees with you, or ho + sonno / fame.",
+                  "sourceExamples": [
+                    {"agreement":"m","values":["sono stanco"],"en":"Fine, thanks! But I am tired.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":null,"it":"Bene, grazie! Ma sono stanco.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"f","values":["sono stanca"],"en":"Fine, thanks! But I am tired.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":null,"it":"Bene, grazie! Ma sono stanca.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"},
+                    {"agreement":"any","values":["ho sonno"],"en":"Fine, thanks! But I am sleepy.","subjectAgreement":null,"subjectScope":"speaker","sourceNote":"Ho sonno is an accepted whole phrase; it is not an adjective after sono.","it":"Bene, grazie! Ma ho sonno.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["sono stanco", "sono stanca"], "it": "Perché? Che cosa hai fatto ieri?", "en": "Why? What did you do yesterday?" },
@@ -1046,7 +1084,10 @@
               "template": "Perfetto, allora ____ con voi.",
               "en": "Perfect, then I'll ____ with you.",
               "blanks": [
-                { "accept": ["vengo", "lo vedo", "la vedo", "lo guardo"], "options": ["vengo", "lo vedo", "la vedo", "lo guardo", "li vedo"], "bank": ["vedo lo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: vengo; or a pronoun + verb: lo vedo (il film), la vedo (la commedia)." }
+                { "accept": ["vengo", "lo vedo", "la vedo", "lo guardo"], "options": ["vengo", "lo vedo", "la vedo", "lo guardo", "li vedo"], "bank": ["vedo lo"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io: vengo; or a pronoun + verb: lo vedo (il film), la vedo (la commedia).",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["vengo"],"en":"Perfect, then I will come with you.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"Perfetto, allora vengo con voi.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["vengo"], "it": "Benissimo! Ci vediamo alle otto davanti al cinema.", "en": "Great! See you at eight in front of the cinema." },
@@ -1060,7 +1101,10 @@
               "template": "A piedi! È più ____ e non costa niente.",
               "en": "On foot! It's more ____ and it costs nothing.",
               "blanks": [
-                { "accept": ["bello", "sano", "comodo", "veloce"], "options": ["bello", "sano", "comodo", "veloce", "bella"], "bank": ["meglio"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Più + a masculine singular adjective: bello, sano, comodo." }
+                { "accept": ["bello", "sano", "comodo", "veloce"], "options": ["bello", "sano", "comodo", "veloce", "bella"], "bank": ["meglio"], "free": true, "slot": { "pos": "adj", "agree": "m-sg" }, "explanation": "Più + a masculine singular adjective: bello, sano, comodo.",
+                  "sourceExamples": [
+                    {"agreement":"any","values":["comodo"],"en":"On foot! It is more convenient and costs nothing.","subjectAgreement":null,"subjectScope":null,"sourceNote":null,"it":"A piedi! È più comodo e non costa niente.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
+                  ] }
               ],
               "reactions": [
                 { "when": ["bello", "sano", "comodo", "veloce"], "it": "Hai ragione, e stasera non piove. A stasera!", "en": "You're right, and tonight it isn't raining. See you tonight!" },
