@@ -12,7 +12,8 @@ const fixture={id:ID,title:'Phase 2 workshop fixture',tense:'presente',vocab:[],
 const pack=JSON.parse(fs.readFileSync(new URL('../data/sentence-lab/presente.json',import.meta.url),'utf8'));pack.lessons.push(fixture);
 const {chromium,webkit,devices}=await loadPlaywright(),stop=await ensureServer(),browser=process.env.COURSE_BROWSER==='webkit'?await webkit.launch():await launchBrowser(chromium);
 const context=await browser.newContext(contextOptions(devices['iPhone 13'],{viewport:{width:430,height:932},reducedMotion:'reduce'})),page=await context.newPage();
-const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+const errors=[],retiredScorerRequests=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+page.on('request',request=>{if(/\/(?:models\/fit-scorer\/|vendor\/ort\/|js\/(?:learning\/fit-scorer\.js|workers\/fit-scorer\.worker\.js))/.test(request.url()))retiredScorerRequests.push(request.url());});
 await page.route('**/data/sentence-lab/presente.json',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(pack)}));
 let checks=0;const completedChecks=[];
 async function test(name,fn){await fn();checks++;completedChecks.push(name);console.log('✓ '+name);}
@@ -91,5 +92,6 @@ try{
     await seed();await ownWord('happy');await page.locator('[data-lab-free-submit="0"]').click();await page.locator('[data-lab-picker]').waitFor();
     const result=await page.evaluate(async()=>{const {store}=await import('./js/store.js');const stale=document.querySelector('[data-lab-candidate]'),owner=store.current.id;await store.createProfile('Workshop guard');stale.dispatchEvent(new MouseEvent('click',{bubbles:true}));await store.saveNow();return {owner,current:store.current.id,events:store.learning.events,sessions:store.learning.sessions,learned:store.learnedWordIds()};});assert.notEqual(result.current,result.owner);assert.equal(Object.keys(result.sessions).length,0);assert.equal(Object.keys(result.events).length,0);assert.equal(result.learned.length,0);
   });
+  await test('current Workshop routes never request the retired scorer, model or runtime',async()=>{assert.deepEqual(retiredScorerRequests,[]);});
   assert.deepEqual(errors,[]);console.log(`${checks} Phase 2 workshop browser checks passed; zero application errors.`);
 }finally{fs.writeFileSync(`docs/implementation/programme/workshop-agreement-${process.env.COURSE_BROWSER||'chromium'}.json`,JSON.stringify({browser:process.env.COURSE_BROWSER||'chromium',scope:'Real workshop player with an explicit fixture for both speaker forms, original drafts, unchanged prior results, stale callbacks and accent/assistance provenance. No AI quality claim.',checks:completedChecks,errors},null,2)+'\n');await context.close();await browser.close();stop();}

@@ -12,6 +12,7 @@ import { courseButton as button, courseExamples, courseWords, courseWordsCheck, 
 import { loadCourseAudio, courseAudioAsset, downloadUnitAudio, removeUnitAudio, saveCourseRecording, getCourseRecording, deleteCourseRecordings } from '../learning/course-v2-media.js';
 import {assistanceAvailable} from '../learning/ai-assistance.js';
 import {createPracticeHelp} from '../learning/practice-help.js';
+import {createCoursePracticeBinding,createPracticeSourceResolver} from '../learning/practice-sources.js';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 const normalized=text=>String(text||'').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g,"'").trim();
@@ -46,14 +47,17 @@ export async function render(root,lesson,query={}) {
   const preparedWords=lesson.steps.flatMap(step=>[...step.words||[],...step.background||[]]);
   const prerequisites=(lesson.prerequisites||[]).map(grammarLesson).filter(Boolean);
   const returnLesson=query.fromCourseLesson?grammarLesson(query.fromCourseLesson):null;
-  const help=createPracticeHelp({getSession:()=>session,isCurrent:()=>!disposed&&sameOwner(),getSource:()=>{
+  const sourceResolver=createPracticeSourceResolver();
+  const helpSource=()=>{
+    if(disposed||!sameOwner()||!owned())return null;
     const view=current(),step=view?.step;if(!step||g().paused||g().historyCursor!==null)return null;
-    const passage=lesson.steps.find(item=>item.id===step.passageId||item.kind==='passage'&&item.audioId===step.audioId);
-    return {sourceId:`course:${lesson.id}:${step.id}`,sessionId:session.id,index:session.index,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,level:lesson.level,
-      prompt:String(step.prompt||step.task||step.body||step.title||lesson.title).slice(0,4000),context:JSON.stringify({body:step.body,context:step.context,translation:step.translation,examples:step.examples,source:passage?{it:passage.it,en:passage.en}:null}).slice(0,4000),
-      canonical:clone(step),target:clone(view.target||null),requestedIds:lesson.wordEntryIds||[],answers:[step.answer,...step.accepted||[],...(step.pairs||[]).map(pair=>pair.right)].filter(value=>typeof value==='string'),
+    const binding=createCoursePracticeBinding({lesson,session}),canonical=binding&&sourceResolver.resolve(binding);if(!canonical)return null;
+    return {helpSource:binding,sourceId:`course:${lesson.id}:${step.id}`,sessionId:session.id,index:session.index,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,level:lesson.level,
+      prompt:canonical.prompt,context:canonical.context,
+      canonical:clone(step),target:clone(view.target||null),answers:[step.answer,...step.accepted||[],...(step.pairs||[]).map(pair=>pair.right)].filter(value=>typeof value==='string'),
       inputLanguage:'en',originalInput:step.kind==='portfolio'?portfolio(step).draft:g().draft||'',result:clone(g().result||null)};
-   },persist:async()=>{if(disposed||!sameOwner())throw new DOMException('This practice step changed.','AbortError');save();await store.saveNow();},
+  };
+  const help=createPracticeHelp({getSession:()=>session,isCurrent:()=>!disposed&&sameOwner()&&owned(),getSource:helpSource,persist:async()=>{if(disposed||!sameOwner()||!owned())throw new DOMException('This practice step changed.','AbortError');save();await store.saveNow();},
    onViewed:receipt=>{if(liveStep()?.kind==='question'&&!g().result)markHelp('hint');else if(liveStep()?.kind==='portfolio')portfolio(liveStep()).aiHelp=receipt;},
    onUse:async({text,provenance})=>{if(liveStep()?.kind!=='portfolio')throw new DOMException('This practice step changed.','AbortError');const work=portfolio(liveStep());work.draft=text;work.aiHelp=provenance;save();draw();await store.saveNow();},
    onRefresh:()=>draw(),
@@ -157,7 +161,7 @@ export async function render(root,lesson,query={}) {
     const pct=phase==='complete'?100:Math.min(99,Math.max(0,progress.percent??Math.round((g().stepIndex||0)/lesson.steps.length*100)));
     const stage=step?.kind==='question'?'Practise':step?.kind==='words-check'?'Words':step?.kind==='portfolio'?'Use it':phase==='repair'?'A closer look':['complete','paused'].includes(phase)?'Saved':'Learn';
     root.innerHTML=html`<div class="grammar-shell course-v2-shell" data-course-lesson="${lesson.id}" data-phase="${g().paused?'paused':phase}" data-step="${step?.id||''}" data-history="${past}"><header class="grammar-header"><button type="button" class="btn ghost" data-course-back ${!g().history?.length?raw('disabled'):''}>${raw(icon('chevron',{size:16}))} Back</button><span class="kicker">${lesson.level} · ${g().paused?'Paused':stage}</span><button type="button" class="btn ghost" data-pause>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header><main class="grammar-scroll">${raw(content)}</main>${footer?raw(html`<footer class="grammar-footer ${feedback?'has-feedback':''}">${raw(footer)}</footer>`):''}</div>`;
-    if(!g().paused&&!past&&assistanceAvailable()&&['teach','question','repair','portfolio'].includes(step?.kind)){
+    if(!g().paused&&!past&&assistanceAvailable()&&helpSource()&&['teach','question','repair','portfolio'].includes(step?.kind)){
       const tools=document.createElement('div');tools.className='journey-tools';tools.dataset.aiLessonTools='';
       const tasks=step.kind==='portfolio'?['intent']:step.kind==='question'&&!state.result?['hint','explain']:['explain'];
       tools.innerHTML=tasks.map(task=>html`<button type="button" class="btn ghost" data-ai-lesson-help="${task}">${task==='intent'?'Help me say it':task==='hint'?'Another hint':'Help me understand'}</button>`).join('');root.querySelector('.grammar-scroll').append(tools);

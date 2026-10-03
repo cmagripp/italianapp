@@ -1,0 +1,23 @@
+{
+  "environment": "webkit",
+  "checks": [
+    "dark: Workshop agreement selection returns focus to its replacement control",
+    "dark: Conversation setup selection retains its trigger and unfinished name",
+    "dark: Escape dismisses only the menu; Tab closes it and resumes the sheet",
+    "dark: Partner count remains keyboard reachable at both limits",
+    "dark: Sheet traps first and last focus and returns to its opener",
+    "light: Workshop agreement selection returns focus to its replacement control",
+    "light: Conversation setup selection retains its trigger and unfinished name",
+    "light: Escape dismisses only the menu; Tab closes it and resumes the sheet",
+    "light: Partner count remains keyboard reachable at both limits",
+    "light: Sheet traps first and last focus and returns to its opener",
+    "Shared prompt inputs are named and an early cancellation cannot refocus a closed dialog",
+    "Shared modal focus skips unavailable controls and resumes the parent after a nested sheet",
+    "Shared sheets preserve native radio-group navigation and skip disabled fieldsets"
+  ],
+  "errors": [],
+  "limits": [
+    "Browser keyboard and DOM accessibility checks, not a VoiceOver or physical-device validation.",
+    "No production model or microphone runtime involved."
+  ]
+}

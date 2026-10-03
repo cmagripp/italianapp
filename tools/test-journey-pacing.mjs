@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {data} from '../js/data.js';
-import {buildLesson} from '../js/learning/lesson-content.js';
+import {buildLesson as buildLessonMetadata} from '../js/learning/lesson-content.js';
 import {buildJourneyQuestion} from '../js/learning/lesson-questions.js';
 import {createLearning,recordAttempt,skillState,setCompletionRecord,normalizeLearning,mergeLearning,resetLearning} from '../js/learning/model.js';
 import {createJourneySession,currentJourneyStep,advanceJourney,journeyAttempt,recordJourneyAttempt,journeyPairAttempt,recordJourneyPairAttempt,journeyCaseProgress,skipJourneyTarget} from '../js/learning/journey.js';
@@ -10,6 +10,7 @@ import {caseCoverage,CASE_COVERAGE_POLICY} from '../js/learning/case-coverage.js
 import {journeyVisit,recordJourneyVisit,nextJourneyVisit} from '../js/learning/journey-visit.js';
 import {gradeQuestion} from '../js/learning/diagnose.js';
 import {gradePairActivity} from '../js/learning/lesson-activities.js';
+const buildLesson=(entry,options={})=>buildLessonMetadata(entry,{...options,questionBuilder:buildJourneyQuestion});
 const verbs=JSON.parse(fs.readFileSync(new URL('../data/verbs.json',import.meta.url))).map(e=>({...e,kind:'verb'}));
 data.verbs=verbs;data.byId=new Map(verbs.map(e=>[e.id,e]));
 const entry=inf=>verbs.find(e=>e.inf===inf),norm=s=>String(s||'').normalize('NFC').trim().toLocaleLowerCase('it').replace(/\s+/g,' ');

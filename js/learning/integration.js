@@ -4,6 +4,7 @@ import { data, getEntry, itemsForScope } from '../data.js';
 import { objectivesFor, allowedTenses, CORE_STAGES, EXPANSIONS, ANCHOR_VERBS, stageObjectives } from './curriculum.js';
 import { allSkills, skillState, completionRecord } from './model.js';
 import { buildLesson } from './lesson-content.js';
+import { buildJourneyQuestion } from './lesson-questions.js';
 import { grammarCourse, grammarReviewSkills, grammarLesson, grammarEntry, grammarHref } from './grammar-course.js';
 import { currentJourneyStep, journeyProgress, journeyCaseProgress, journeyWordCompletion, journeyChapterCompletions } from './journey.js';
 import { canonicalObjectiveId, registerEntryObjectives, objectiveDescriptor } from './objectives.js';
@@ -14,7 +15,7 @@ export { journeyCaseProgress, coreJourneyChapters } from './journey.js';
 const lessonCache = new WeakMap();
 export function lessonPlan(entry) {
   if (!entry) return null;
-  if (!lessonCache.has(entry)) lessonCache.set(entry, buildLesson(entry));
+  if (!lessonCache.has(entry)) lessonCache.set(entry, buildLesson(entry,{questionBuilder:buildJourneyQuestion}));
   return lessonCache.get(entry);
 }
 export function lessonObjectives(entry) {

@@ -66,7 +66,7 @@ try{
   const {buildLesson}=await import('./js/learning/lesson-content.js');
   const {createLearning}=await import('./js/learning/model.js');store.current.learning=createLearning(Date.now());
   const {createJourneySession,currentJourneyStep,advanceJourney}=await import('./js/learning/journey.js');
-  const plan=buildLesson(getEntry('v:avere'));let s=createJourneySession({id:'v13-avere-saved',plan,chapterId:'present',caseMode:true,caseCoveragePolicy:null});
+  const plan=buildLesson(getEntry('v:avere'),{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion});let s=createJourneySession({id:'v13-avere-saved',plan,chapterId:'present',caseMode:true,caseCoveragePolicy:null});
   while(currentJourneyStep(plan,s,store.learning).type==='teach')s=advanceJourney(plan,s,store.learning);
   s.journey.current.variant=2;s.journey.current.format='type';delete s.journey.current.scenePolicy;
   s.ui={version:2,questionId:s.journey.current.questionId,draft:'h',given:'',assistance:[],exposures:{},mapOpen:false};

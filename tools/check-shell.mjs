@@ -7,7 +7,9 @@
 //   - VERSION carries the current content stamp (tools/stamp-sw.mjs), so a change to a precached file or to sw.js
 //     cannot ship under the previous cache name;
 //   - AUDIO_CACHE matches js/learning/course-v2-media.js, or every update would delete the learner's downloaded audio;
-//   - the fit scorer's on-demand files (js/workers/, models/, vendor/) are NOT in SHELL (they would add 83 MB to every
+//   - retired fit scorer investigation sources are not published or precached;
+//     its prior installed cache and exact cached worker remain compatible;
+//   - optional on-demand files (js/workers/, models/, vendor/) are NOT in SHELL (they would add 83 MB to every
 //     install), FIT_CACHE matches js/learning/fit-scorer.js and js/workers/fit-scorer.worker.js, and activate keeps it;
 //   - activate keeps the experimental assistant's WebLLM caches ('webllm/' prefix, docs/ASSISTANT-EXPERIMENT.md), or every
 //     update would delete its 340 MB download.
@@ -23,6 +25,8 @@ const COURSE_PACK = /^(Foundations|[ABC][12])\.json$/;
 // The fit scorer's dedicated worker (js/workers/), model (models/) and ONNX runtime (vendor/) belong to the optional scorer
 // download: js/learning/fit-scorer.js puts them in their own cache (FIT_CACHE) and sw.js serves them from it, so they are
 // deliberately not precached with the shell.
+const RETIRED_SOURCE = new Set(['js/learning/fit-scorer.js','js/workers/fit-scorer.worker.js']);
+const LEGACY_FIT_CACHE='parola-fit-scorer-v1';
 const ON_DEMAND = /^(js\/workers|models|vendor)\//;
 
 export function checkShell(swFile = path.join(ROOT, 'sw.js'), root = path.dirname(swFile)) {
@@ -32,11 +36,12 @@ export function checkShell(swFile = path.join(ROOT, 'sw.js'), root = path.dirnam
   const listed = [...m[1].matchAll(/'(\.\/[^']*)'/g)].map(x => x[1]).filter(p => p !== './');
   const errors = [];
   for (const p of listed) if (!fs.existsSync(path.join(root, p))) errors.push(`listed in SHELL but missing on disk: ${p}`);
+  for (const p of listed) if (RETIRED_SOURCE.has(p.slice(2))) errors.push(`retired source must not be precached or published: ${p}`);
   for (const p of listed) if (ON_DEMAND.test(p.slice(2))) errors.push(`precached by sw.js SHELL but part of the on-demand fit scorer download (served from FIT_CACHE instead): ${p}`);
   const walk = (dir, out = []) => { for (const f of fs.readdirSync(dir, { withFileTypes: true })) { const p = path.join(dir, f.name); if (f.isDirectory()) walk(p, out); else out.push(p); } return out; };
   const files = (dir, keep) => fs.existsSync(path.join(root, dir)) ? fs.readdirSync(path.join(root, dir)).filter(keep).map(f => path.join(root, dir, f)) : [];
   const rel = p => path.relative(root, p).split(path.sep).join('/');
-  const want = [...walk(path.join(root, 'js')).filter(p => p.endsWith('.js') && !ON_DEMAND.test(rel(p))), ...walk(path.join(root, 'css')).filter(p => p.endsWith('.css')), ...walk(path.join(root, 'fonts')).filter(p => p.endsWith('.woff2')), path.join(root, 'index.html'), path.join(root, 'manifest.webmanifest')];
+  const want = [...walk(path.join(root, 'js')).filter(p => p.endsWith('.js') && !ON_DEMAND.test(rel(p)) && !RETIRED_SOURCE.has(rel(p))), ...walk(path.join(root, 'css')).filter(p => p.endsWith('.css')), ...walk(path.join(root, 'fonts')).filter(p => p.endsWith('.woff2')), path.join(root, 'index.html'), path.join(root, 'manifest.webmanifest')];
   const data = [...['vocab.json', 'verbs.json', 'stats.json', 'grammar.json', 'course-index.json', 'completion-index.json', 'course-v2/audio.json'].map(f => path.join(root, 'data', f)),
     ...files('data/course-v2', f => COURSE_PACK.test(f)), ...files('data/grammar-course', f => f.endsWith('.json'))];
   const set = new Set(listed.map(p => path.normalize(path.join(root, p))));
@@ -57,8 +62,10 @@ export function checkShell(swFile = path.join(ROOT, 'sw.js'), root = path.dirnam
   const workerFit = fit(swFile), pageFit = fit(path.join(root, 'js/learning/fit-scorer.js')), scorerFit = fit(path.join(root, 'js/workers/fit-scorer.worker.js'));
   if (!workerFit) errors.push(`no "const FIT_CACHE = '...'" found in ${path.basename(swFile)}`);
   else {
-    if (workerFit !== pageFit) errors.push(`FIT_CACHE '${workerFit}' differs from js/learning/fit-scorer.js ('${pageFit}'): every update would delete the downloaded fit scorer`);
-    if (workerFit !== scorerFit) errors.push(`FIT_CACHE '${workerFit}' differs from js/workers/fit-scorer.worker.js ('${scorerFit}'): the worker would not find the downloaded model`);
+    if (workerFit !== LEGACY_FIT_CACHE) errors.push(`Historical FIT_CACHE must remain '${LEGACY_FIT_CACHE}' for already-installed clients`);
+    if (pageFit && workerFit !== pageFit) errors.push(`FIT_CACHE '${workerFit}' differs from js/learning/fit-scorer.js ('${pageFit}'): every update would delete the downloaded fit scorer`);
+    if (scorerFit && workerFit !== scorerFit) errors.push(`FIT_CACHE '${workerFit}' differs from js/workers/fit-scorer.worker.js ('${scorerFit}'): the worker would not find the downloaded model`);
+    if(!src.includes("req.url===new URL('./js/workers/fit-scorer.worker.js',self.registration.scope).href"))errors.push('Retired exact cached worker must remain available when its former URL returns a non-OK network response');
     if (!/k\s*!==\s*FIT_CACHE/.test(src)) errors.push(`${path.basename(swFile)} activate does not keep FIT_CACHE: every update would delete the downloaded fit scorer`);
   }
 
@@ -67,6 +74,10 @@ export function checkShell(swFile = path.join(ROOT, 'sw.js'), root = path.dirnam
   const assistantPrefix = src.match(/const ASSISTANT_CACHE_PREFIX\s*=\s*'([^']+)'/)?.[1];
   if (assistantPrefix !== 'webllm/') errors.push(`no "const ASSISTANT_CACHE_PREFIX = 'webllm/'" found in ${path.basename(swFile)}: every update would delete the assistant's downloaded weights`);
   else if (!/!\s*k\.startsWith\(\s*ASSISTANT_CACHE_PREFIX\s*\)/.test(src)) errors.push(`${path.basename(swFile)} activate does not keep the ASSISTANT_CACHE_PREFIX caches: every update would delete the assistant's downloaded weights`);
+  const packPrefix = src.match(/const AI_PACK_CACHE_PREFIX\s*=\s*'([^']+)'/)?.[1];
+  const managerPrefix = fs.readFileSync(path.join(root,'js/ai/packs.js'),'utf8').match(/const PREFIX\s*=\s*'([^']+)'/)?.[1];
+  if (packPrefix !== managerPrefix || packPrefix !== 'parola-ai-pack-v1:') errors.push('Service worker and verified AI pack manager cache prefixes disagree');
+  if (!/!\s*k\.startsWith\(\s*AI_PACK_CACHE_PREFIX\s*\)/.test(src)) errors.push('Verified installed AI pack state and assets must survive shell updates');
   const optional=src.match(/const ASSISTANT_RUNTIME_FILES = (\{.*\});/);
   if(optional){
     for(const [asset,hash] of Object.entries(JSON.parse(optional[1]))){

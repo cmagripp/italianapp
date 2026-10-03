@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "reviewer": "programme_curriculum author agent",
+  "status": "bounded author source/lesson checks passed; independent editorial and controller/browser gates tracked separately",
+  "scope": {
+    "newIndividuallyReadRecords": 131,
+    "from": 271,
+    "through": 401,
+    "totalRead": 402,
+    "catalog": 1186,
+    "unread": 784,
+    "allGeneratedContextsRead": false,
+    "nativeHuman": false
+  },
+  "records": [
+    {
+      "id": "v:succedere",
+      "change": "Happen/occur lesson uses event third-person singular/plural and successo agreement; separate successor meaning remains in unchanged broad reference.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/succedere/",
+        "https://accademiadellacrusca.it/it/consulenza/verbi-difficili/221",
+        "https://dizionario.internazionale.it/parola/succedere"
+      ],
+      "retiredFormTargets": 90,
+      "history": "Exact pre-edit expanded and ordinary target vectors remain outside current requirements for source-bound recovery; invalid old recipes never receive a new attempt before explicit Continue.",
+      "sourceSHA256": "ab6d552d26519cfdac26d55a6a02079495d46b12c470e9d8c09e3ad9bfa8ca15",
+      "policySHA256": "1269d7b97c269bfd6cec73d8ddb72fd08137b109407771d3d3192a7c760d57f1",
+      "compiledSHA256": "71843ddbd20f835418164dafd489943c00028c62fba1f8bb35e8ee23ebd6303a",
+      "nonFiniteSHA256": "e2667f3992a5131fce85015a4933f2d4dde3d91b6e6982ab6e79a3805714cf4b"
+    },
+    {
+      "id": "v:bisognare",
+      "change": "Common impersonal necessity has no personal subject and uses masculine singular compound bisognato; rare personal uses remain separate in the broad reference.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/bisognare/",
+        "https://dizionario.internazionale.it/parola/bisognare"
+      ],
+      "retiredFormTargets": 7,
+      "history": "Exact seven prior feminine compound recipes preserve their raw cursor and feedback but require corrected-example recovery; valid contextual impersonal clauses remain executable.",
+      "sourceSHA256": "793b05f6c64a435500924ed154936c83aca7126fdff6c223889df7ce302dc612",
+      "policySHA256": "407faf576d49a67d0d26088f90ae65042bc422a92665e16844dcfe96eab0c3d0",
+      "compiledSHA256": "23a5be781ff252775d1eef84895e44881483252375930d4877d42dc227b573cc",
+      "nonFiniteSHA256": "1f29696e45c982e320d3b584879d772d7c2c94936261d30dfab7370faccd9d10"
+    },
+    {
+      "id": "v:toccare",
+      "change": "Usage distinguishes avere for direct-object touching and essere for allotted turn/task. Generic broad form questions and requirements are unchanged.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/toccare/"
+      ],
+      "retiredFormTargets": 0,
+      "sourceSHA256": "16a0151c42ffc7e37a8d84e8dd876a7ffbb99468b7f17ece46ec219122b8ad8d",
+      "policySHA256": "34553fcda83669a305729d6aeecab1e55b2ec64f751c74b4ed62ffd6b6aba090",
+      "compiledSHA256": "d228e89fdd87e1183c128e0ee91b3bf9e6448fe1b4eaf55afb95ea1e02eb33e4",
+      "nonFiniteSHA256": "f3695260599e052735d0938caafdac9138330c0812636c1298d6fdcaf16b485c",
+      "limitation": "Unchanged bare personal drills accept broad reference auxiliaries; an io essere answer does not itself express the affected person’s turn. This slice clarifies the usage note and preserves history; it does not close construction-specific question-scope review."
+    },
+    {
+      "id": "v:crollare",
+      "change": "Selected single-wall background is translated was collapsing rather than a repeatedly completed collapse. Recurring/figurative imperfect meanings remain possible.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/crollare/"
+      ],
+      "retiredSceneIds": [
+        "v:crollare:background:v2:simple:scene-0-2-ordinary",
+        "v:crollare:background:v2:simple:scene-1-2-ordinary",
+        "v:crollare:background:v2:simple:scene-2-2-ordinary",
+        "v:crollare:background:v2:simple:scene-3-2-ordinary"
+      ],
+      "history": "All earlier pools/order and predicates retained; only four singular-wall old contexts declared invalid, plural recurring contexts preserve prior validity.",
+      "sourceSHA256": "c148c67f03f404bf97c8412ca44029b0e286efbc14557d4851780fbe77a01564",
+      "policySHA256": "ff77a2b1509eb85e1733886292b5a8fae1f925554b04137aeb2a69dad396b485",
+      "compiledSHA256": "9a43122c5574542201c0b1f3e5f426dc76b74e9669712fa776d40c4f2156a40e",
+      "nonFiniteSHA256": "4923670eae52031e0363ae61e61ccd7530d9ceac166d4e2e895958e91f953d9e"
+    },
+    {
+      "id": "v:curarsi",
+      "change": "Selected therapy scene describes getting/undergoing treatment; source future example is a neutral hospital/luggage plan rather than a universal medical prediction.",
+      "sources": [
+        "https://www.treccani.it/vocabolario/curare/"
+      ],
+      "retiredSceneIds": [],
+      "history": "Exact previous predicates, all frames and all three source examples retained; wording precision preserves valid previous questions until Continue.",
+      "sourceSHA256": "3f5a39bae76106617df40778b362b596287de7a3458d5ee8f468c30c3a0ea6dd",
+      "policySHA256": "f52bd0305a2462efdbb431a80f0f13604038ae6757626daaa18dfdf703841b92",
+      "compiledSHA256": "7893ab13bccd3aab3f99321b84971890df7bd89f85b85a3844560108e6bac318",
+      "nonFiniteSHA256": "56955a283418888be79955915438b87e4b58cf5c28f4a9f4d76078b75f5ead7d"
+    }
+  ],
+  "checks": {
+    "regression": "node tools/test-verb-repairs-402.mjs",
+    "priorContextPools": 572,
+    "fullPriorTargetVectors": 320,
+    "capturedPriorFormCues": 764,
+    "unchangedBroadFiveCaseParadigms": 1186,
+    "declaredInvalidPriorFormTargets": 97,
+    "unchangedOrdinaryRequirements": true,
+    "historySourceReproducibility": "node tools/build-verb-question-history.mjs --check",
+    "sentenceLookup": 30,
+    "taughtLesson": 44,
+    "progressiveContent": 11,
+    "earlierSevenFixPools": 802,
+    "finiteSpanCatalog": 1186
+  },
+  "sourceFiles": [
+    {
+      "file": "data/verb-question-history.json",
+      "sha256": "3fed53e1bd89b8df9bc78607521f95c86c925139a099a94d19d476e4520cf18d"
+    },
+    {
+      "file": "js/learning/verb-question-history.js",
+      "sha256": "ec34981f2ff34476ccf0ded0dcd3f10f1f965489c5192a128dc866c36bcd2343"
+    },
+    {
+      "file": "tools/build-verb-question-history.mjs",
+      "sha256": "21cfb94025017e6d8d7f7eb00a2c27f84db89017c758ae9c6040fc274f7845c0"
+    },
+    {
+      "file": "js/learning/lesson-content.js",
+      "sha256": "19ad35f2c3b203d8e95b3941bc1eeb557d4894745d41198bb3dfbd9e7b3b5b46"
+    },
+    {
+      "file": "js/learning/progressive-content.js",
+      "sha256": "640b3ff8d3ec9dbe6d5aeaae7c7898a4ded8fa793ee4b88b14225c8fd773a7ef"
+    },
+    {
+      "file": "tools/build-verb-progressive.mjs",
+      "sha256": "21a022ecf15ea758daf3dd7bb726799707a2e095972d7ba68d2e62223ec6871b"
+    }
+  ],
+  "gates": {
+    "independentSourceAndLanguage": "requested from programme_ai; pending",
+    "typedFormHistoryController": "programme_learning integration in progress; separate source recipe descriptors",
+    "nativeHumanItalian": "pending",
+    "allGeneratedContextsAndQuestions": "pending",
+    "pronunciationHumanAudio": "not validated here",
+    "learnerCalibration": "pending"
+  }
+}

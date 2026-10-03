@@ -1,6 +1,6 @@
 {
   "engine": "webkit",
-  "checks": 14,
+  "checks": 15,
   "results": [
     "A real saved expanded question pins its old sentence and exact unfinished draft",
     "Submitted feedback and full sentence playback survive reload without new evidence",
@@ -15,7 +15,8 @@
     "Domandare retires only the old wording and uses the corrected sentence with the same source ID",
     "An ordinary v1 false-tense cursor also transitions explicitly instead of grading its retired sentence",
     "An actual prior odiare alias keeps its valid Italian, draft and receipt through page reload",
-    "Prior aliases reject changed translation and still require explicit retirement recovery without credit"
+    "Prior aliases reject changed translation and still require explicit retirement recovery without credit",
+    "A supported imported question with empty variant counters saves assisted feedback and resumes once"
   ],
   "pageErrors": []
 }

@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-03",
+  "status": "bounded-controller-and-source-binding-passed",
+  "scope": [
+    "succedere",
+    "bisognare"
+  ],
+  "sourceFingerprints": {
+    "js/learning/journey-form.js": "1b37af6bfdc581cc8cdc304941aaf327ec16f9741a858701b7b3cdd8dc9a3a0c",
+    "js/learning/journey.js": "b61e5c623b7c7d941e65d8ebffa5f0cc0eab3340609e98bfe03564358ea0d11e",
+    "js/learning/lesson-questions.js": "276aac3aceec165cc64ded78fd04c30b25b035257f34dfb6b88226377bb9ae44",
+    "js/views/learnJourney.js": "a6f20734c1caf245a1f2c7ab758c69487117fdf49de806c2fb430ff6d315193d",
+    "js/learning/verb-question-history.js": "ec34981f2ff34476ccf0ded0dcd3f10f1f965489c5192a128dc866c36bcd2343",
+    "js/learning/verb-question-history-data.js": "3d2f81a5864c58463ec4ebacf9f590139f2e6a83e65b15028a98e9f6ca61d28f",
+    "tools/test-journey-form-history.mjs": "7471eec6b2b8cb6cd08912c793bfafdb78a19754998af82e49b4fd0f172e5d7f",
+    "tests/journey-form-history-e2e.mjs": "6d11ad21765f5231febaaf8a1822f9d6f2c8be45ca0fc3638d1c2e687d89c4c8",
+    "js/learning/lesson-content.js": "3932d27346dc0f785bf233a55f57f6b31f76a4da0619b985d9d828c33a0b76d8",
+    "js/learning/integration.js": "58540beba109d64faef6026a7c200d35b53e760d93738672fc4d91aa1d7ce9e4",
+    "js/learning/practice-sources.js": "0252c9bf02d580fa94b8d9338a899c6e80f3cf536e38dbff6186cf98dc3164a2",
+    "tools/test-journey-builder-boundary.mjs": "d70bf8c50a5b6f700581a61a7e0d12f9fc9ebcf1a27258633d8e2b28e533e10e",
+    "tools/audit-journey-pacing.mjs": "2ff3ea454b8beb78492323c672e72b70de1ac63a94f84c86d569fbad84e4ae23"
+  },
+  "declaredRetiredTargets": {
+    "succedere": 90,
+    "bisognare": 7
+  },
+  "deterministic": {
+    "checks": 11,
+    "exactPriorSelectedDescriptors": 256,
+    "invalidSelectedVariantRecipes": 194,
+    "currentContextualMixedSelectors": 51,
+    "priorSourceGate": {
+      "contextPools": 572,
+      "fullTargets": 320,
+      "capturedCueHashes": 764,
+      "coreVerbArraysUnchanged": 1186
+    },
+    "regressions": {
+      "journeyModel": 43,
+      "journeyIntegration": 13,
+      "verbFlow": 10,
+      "lessonActivities": 19,
+      "learningModel": 30,
+      "scene": 17,
+      "importCounter": 2
+    }
+  },
+  "browser": {
+    "chromium": {
+      "checks": 10,
+      "errors": [],
+      "report": "docs/implementation/programme/journey-form-history-chromium.json",
+      "sha256": "c5285a2e7462aba14f38e252e9111c0404ba880e60a63db20e4093fc2c8d2fcc",
+      "sceneRegression": 15
+    },
+    "webkit": {
+      "checks": 10,
+      "errors": [],
+      "report": "docs/implementation/programme/journey-form-history-webkit.json",
+      "sha256": "51523e9a19a7a660849975c80fd5d8456d0bdd8b2367e0a63c31b52f56faa602",
+      "sceneRegression": 15
+    }
+  },
+  "compatibility": "Additive bounded session presentation fields under existing learning v6; model/store normalization, reset fences, completion/evidence reducers and event IDs unchanged. Trusted prior recipes remain separate from current required groups.",
+  "semantics": [
+    "formSnapshot binds exact target/chapter/source revision, phase/format/variant and generated prompt/audio/answers/cues/pair components. Imported descriptor text is never a rendering template.",
+    "Sorted object keys are normalized for source comparisons; answer and pair array order remains exact. Unknown/altered/malformed imports preserve the original payload and show unavailable.",
+    "Exact declared invalid old non-contextual recipes, including formal/address, participle and matching components, enter explicit corrected-example recovery before any grading.",
+    "Continue archives original current descriptor, complete journey receipt and UI draft/feedback/history, then installs a fresh current identity with no event/XP. Valid old contextual clauses, ordinary cursors and saved optional cases remain source-bound and accessible.",
+    "Current-only event/impersonal cues cover all51 tested contextual/mixed selectors; historical and unrelated-verb pair labels retain their exact prior behavior. Toccare receives no form retirement.",
+    "The session controller has no static dependency on the full lesson formatter. Full route-level plans explicitly register the canonical question generator; missing binding is unavailable without attempts, while metadata completion stays independent."
+  ],
+  "remainingGates": [
+    "Whole installed release integration and assembled offline build are parent-owned pending checks.",
+    "Native-human linguistic/audio/accessibility/device review and broader per-verb audit remain separate; no general semantic catalogue approval."
+  ],
+  "independentBaseline": {
+    "report": "docs/implementation/programme/verb-repairs-402-baseline-review.json",
+    "sha256": "2f3950413a85fbc24d3398c06ff5a11b3b34ecfaccb148aab30ae816110a7773",
+    "reviewer": "root independently extracted Git9802b1d prior source"
+  },
+  "builderBoundary": {
+    "checks": 6,
+    "registration": "Explicit trusted questionBuilder option on full buildLesson plans; callback stored only in pure WeakMap and never serialized.",
+    "metadata": "Unbound metadata plans retain identical serialized source and canonical completion mathematics.",
+    "regressions": [
+      "Six fresh independent Node import entrypoints",
+      "44 lightweight startup static modules exclude full question and progressive content",
+      "Missing full-player binding fails closed",
+      "Canonical rebuilt and explicitly rebound plans preserve source-bound saved descriptors",
+      "Actual saved succedere/bisognare route recommender and session listings retain valid questions"
+    ],
+    "accentPolicy": 16,
+    "completionEnrollment": 24,
+    "startupReport": "docs/implementation/programme/startup-performance.json",
+    "startupReportSHA256": "bab24dc6523e1e3f029f25ccca4c9a3f4198589b4ded18a4f76ee61e8e47cdb5",
+    "startupHomeFullLessonCode": false,
+    "startupProfileFullLessonCode": false,
+    "startupCourseStageRequests": 0,
+    "fixtureFactories": "Engine-backed audit/Node/browser factories explicitly bind the canonical generator; completion-only factories remain unbound.",
+    "focusedAnsweredAudit": {
+      "report": "docs/implementation/programme/journey-pacing-focused-history.json",
+      "sha256": "3a3034fcd8e578b5305d4c7f5eab100af31b44ab1445943601562276d905d29a",
+      "verbs": 2,
+      "cases": 10,
+      "complete": 10,
+      "failures": 0,
+      "historicalFullReportPreserved": true
+    }
+  }
+}

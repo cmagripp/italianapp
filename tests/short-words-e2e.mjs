@@ -21,7 +21,7 @@ async function check(name,run){
 const route=id=>'/learn/word/'+encodeURIComponent(id);
 async function state(){return page.evaluate(async()=>{
  const{store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js'),{currentJourneyStep,journeyProgress}=await import('./js/learning/journey.js'),{skillState}=await import('./js/learning/model.js');await store.saveNow();
- const session=store.learning.session,entry=getEntry(session.entryId),plan=buildLesson(entry),events=Object.values(store.learning.events);
+ const session=store.learning.session,entry=getEntry(session.entryId),plan=buildLesson(entry,{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion}),events=Object.values(store.learning.events);
  return{session,plan,step:currentJourneyStep(plan,session,store.learning),progress:journeyProgress(plan,session,store.learning),events,xp:store.current.stats.xp,learned:store.isLearned(entry.id),phase:document.querySelector('[data-journey]')?.dataset.phase,skills:[...new Set(events.filter(e=>e.entryId===entry.id).map(e=>e.objectiveId))].map(id=>skillState(store.learning,id))};
  });}
 const sorted=events=>[...events].sort((a,b)=>a.id.localeCompare(b.id));
@@ -180,7 +180,7 @@ try{
  await check('An older long word session upgrades without deleting its answer history, XP or other progress',async()=>{
   await fresh();const old=await page.evaluate(async()=>{
    const{store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js'),{createJourneySession}=await import('./js/learning/journey.js');
-   const plan=buildLesson(getEntry('w:casa|noun'));let session=createJourneySession({id:'older-long-word-lesson',plan,now:Date.now()-86400000,mode:'lesson'});delete session.journey.wordShort;
+   const plan=buildLesson(getEntry('w:casa|noun'),{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion});let session=createJourneySession({id:'older-long-word-lesson',plan,now:Date.now()-86400000,mode:'lesson'});delete session.journey.wordShort;
    const target=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets)).find(t=>t.skill==='recall');
    store.recordLearningAttempt({id:'prior-real-word-answer',sessionId:session.id,entryId:plan.entryId,objectiveId:target.id,targetId:target.id,kind:'word',skill:'recall',chapterId:'meaning',contentVersion:plan.version,policy:'journey-v1',mode:'production',activityKind:'independent',variantId:'older-word-cue',contextId:'older-word-context',firstAttempt:true,ok:true,outcome:'correct',assistance:[],components:[],errorTags:[],at:Date.now()-86400000});
    session.index=1;session.journey.serial=Math.max(1,session.journey.serial||0);session.deferred[target.id]=12345;session.journey.skipped[target.id]=12345;session.ui={version:2,history:[],assistance:[],draft:'unfinished old spelling'};store.saveLearningSession(session);store.markLearned('w:latte|noun','word');store.addToList('bank','w:latte|noun');await store.saveNow();return{events:Object.values(store.learning.events),xp:store.current.stats.xp,id:session.id,skippedTarget:target.id};

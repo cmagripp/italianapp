@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-03",
+  "reviewer": "programme_ai independent agent",
+  "status": "bounded source wording supported; current contextual cue fallback independently rechecked",
+  "scope": "Five named entry repairs only: current source notes/examples, progressive English predicate, current form-only prompt scopes, declared prior source recipes and broad reference retention. Does not cover every generated scene, typed controller or native educator review.",
+  "inputs": [
+    {
+      "path": "data/verbs/A2-1.json",
+      "sha256": "a21029864089505265f0c1a95fed919b7cfc7ab3c37c5400e2edc2c394c8142f"
+    },
+    {
+      "path": "data/verbs/extra-1.json",
+      "sha256": "fb4c2c0145ca6f20444adefb0d2adb946315a2c8ed35d5b791e63091f50d94a3"
+    },
+    {
+      "path": "data/verbs/B1-1.json",
+      "sha256": "7210e305dbd1165398c4df11a61818308c3d341d2a1953dad6e019397140361b"
+    },
+    {
+      "path": "data/verb-progressive/intermediate.json",
+      "sha256": "f79b3db02dc0a010e45e2f40ef7e7befc5da40d0a111537b5cbbfae29063f775"
+    },
+    {
+      "path": "data/verb-question-history.json",
+      "sha256": "3fed53e1bd89b8df9bc78607521f95c86c925139a099a94d19d476e4520cf18d"
+    },
+    {
+      "path": "js/learning/lesson-content.js",
+      "sha256": "19ad35f2c3b203d8e95b3941bc1eeb557d4894745d41198bb3dfbd9e7b3b5b46"
+    },
+    {
+      "path": "js/learning/lesson-questions.js",
+      "sha256": "276aac3aceec165cc64ded78fd04c30b25b035257f34dfb6b88226377bb9ae44"
+    },
+    {
+      "path": "tools/test-verb-repairs-402.mjs",
+      "sha256": "91d339d7693308dd048d78681fc44555d14921bfc006d127aa22b85cfdbcb528"
+    }
+  ],
+  "primarySources": {
+    "succedere": [
+      "https://www.treccani.it/vocabolario/succedere/",
+      "https://dizionario.internazionale.it/parola/succedere",
+      "https://accademiadellacrusca.it/it/consulenza/verbi-difficili/221"
+    ],
+    "bisognare": [
+      "https://dizionario.internazionale.it/parola/bisognare",
+      "https://www.treccani.it/vocabolario/bisognare/"
+    ],
+    "toccare": [
+      "https://www.treccani.it/vocabolario/toccare/"
+    ],
+    "crollare": [
+      "https://www.treccani.it/vocabolario/crollare/"
+    ],
+    "curarsi": [
+      "https://www.treccani.it/vocabolario/curare/"
+    ]
+  },
+  "findings": [
+    {
+      "id": "v:succedere",
+      "status": "changed source/form-only scope supported",
+      "detail": "Happen sense uses third-person event subjects and successo with event agreement; successor/come-after sense remains separate in the broad reference. Current sampled bare form prompts use event labels, not the affected person."
+    },
+    {
+      "id": "v:bisognare",
+      "status": "changed source/form-only and contextual scope supported",
+      "detail": "Common impersonal necessity is separated from rare personal uses. Current bare form prompt says impersonal necessity and accepts masculine singular compound. Learning added a current-only scopedSubject fallback; independent run now confirms all51 available contextual/mixed selectors use impersonal/event cues. Prior lui/lei cues remain exact historical identity, not current teaching approval."
+    },
+    {
+      "id": "v:toccare",
+      "status": "construction clarification supported; meaning-specific question repair not implemented",
+      "detail": "Touching direct objects and allocated turn/task constructions are correctly distinguished. Bare personal form drills still retain both auxiliaries; essere forms do not express the affected person’s turn. Broad form/reference scope remains explicit and no form retirement is claimed."
+    },
+    {
+      "id": "v:crollare",
+      "status": "selected episode translation repair supported",
+      "detail": "Current single-wall English describes an ongoing collapse; plural current English is grammatically were collapsing. Four old singular habitual episode IDs are explicitly retired, while valid prior plural habitual scenes remain. Aspect choice is a contextual editorial interpretation rather than a universal prohibition on habitual crollare."
+    },
+    {
+      "id": "v:curarsi",
+      "status": "changed treatment predicate and neutral reference example supported",
+      "detail": "Current progressive English describes receiving/undergoing treatment already underway, not merely seeking treatment. New hospital/suitcase conditional is grammatical with matching meaning and makes no universal health outcome claim. Old source predicates/examples remain declared historical data, not current endorsement."
+    }
+  ],
+  "validation": {
+    "command": "node tools/test-verb-repairs-402.mjs",
+    "passed": true,
+    "oldContextPools": 572,
+    "priorTargetVectors": 320,
+    "capturedFormCues": 764,
+    "broadCoreParadigms": 1186,
+    "retiredFormTargets": {
+      "succedere": 90,
+      "bisognare": 7
+    },
+    "currentContextualMixedSelectors": 51,
+    "formHistoryChecks": 11,
+    "additionalCommand": "node tools/test-journey-form-history.mjs"
+  },
+  "limitations": [
+    "Native Italian educator review not performed.",
+    "Whole catalogue/editorial coverage not reviewed.",
+    "Typed controller/browser recovery is learning-owned and not approved by this source read.",
+    "Independent previous-commit fixture equivalence is root-owned."
+  ],
+  "historicalFindings": [
+    {
+      "status": "before current-only fallback fix",
+      "detail": "Common impersonal necessity is separated from rare personal uses. Current bare form prompt says impersonal necessity and accepts masculine singular compound. Fresh context/mixed targets without subjectLabel still need the learning-owned fallback fix; prior lui/lei cue preservation is historical, not current approval."
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 // UI helpers: HTML escaping, DOM building, toasts, bottom sheets, modals, text-to-speech, haptics.
 import { store } from './store.js';
 import { icon } from './icons.js';
+import { moveDialogFocus } from './focus.js';
 
 export { icon };
 export const $ = (sel, root = document) => root.querySelector(sel);
@@ -141,12 +142,8 @@ export function sheet(contentHTML, { title = '', onOpen = null, onClose = null, 
     if ([...openSheets].at(-1) !== close || document.querySelector('.dropdown-layer[data-active]')) return;
     if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); close(); return; }
     if (e.key !== 'Tab') return;
-    const focusable = [...pane.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
-      .filter(node => !node.disabled && node.tabIndex >= 0 && !node.closest('[inert]') && node.getClientRects().length);
-    const first = focusable[0], last = focusable.at(-1), active = document.activeElement;
-    if (!first) { e.preventDefault(); pane.focus(); }
-    else if (e.shiftKey && (active === first || !focusable.includes(active))) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && (active === last || !pane.contains(active))) { e.preventDefault(); first.focus(); }
+    e.preventDefault();
+    moveDialogFocus(pane, { reverse: e.shiftKey });
   };
   const close = (opts) => {
     if (closed) return; closed = true;
@@ -195,17 +192,17 @@ export function confirmDialog(message, { ok = 'OK', cancel = 'Cancel', danger = 
 
 export function promptDialog(message, { value = '', placeholder = '', ok = 'Save' } = {}) {
   return new Promise((resolve) => {
-    let done = false;
+    let done = false, focusTimer = null;
     const s = sheet(html`<p class="dialog-msg">${message}</p>
-      <input class="input" type="text" value="${value}" placeholder="${placeholder}" autocomplete="off" autocapitalize="sentences">
+      <input class="input" type="text" aria-label="${message}" value="${value}" placeholder="${placeholder}" autocomplete="off" autocapitalize="sentences">
       <div class="row gap mt">
         <button class="btn ghost grow" data-act="cancel">Cancel</button>
         <button class="btn primary grow" data-act="ok">${ok}</button>
-      </div>`, { onClose: () => { if (!done) resolve(null); } });
+      </div>`, { onClose: () => { clearTimeout(focusTimer); if (!done) { done = true; resolve(null); } } });
     const input = s.body.querySelector('input');
-    setTimeout(() => input.focus(), 320);
-    const finish = (v) => { done = true; s.close(); resolve(v); };
-    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') finish(input.value.trim()); });
+    focusTimer = setTimeout(() => { if (!done && s.root.classList.contains('open') && !s.root.querySelector('.sheet').inert) input.focus(); }, 320);
+    const finish = (v) => { if (done) return; done = true; clearTimeout(focusTimer); s.close(); resolve(v); };
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); finish(input.value.trim()); } });
     s.body.addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; finish(b.dataset.act === 'ok' ? input.value.trim() : null); });
   });
 }

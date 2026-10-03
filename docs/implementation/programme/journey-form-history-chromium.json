@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-03",
+  "engine": "chromium",
+  "checks": 10,
+  "results": [
+    "Exact invalid prior {\"suffix\":\"form-0\",\"answered\":true} waits for Continue and keeps its saved receipt",
+    "Exact invalid prior {\"suffix\":\"formal\",\"chapterId\":\"present\"} waits for Continue and keeps its saved receipt",
+    "Exact invalid prior {\"suffix\":\"participle-part\",\"format\":\"mc\"} waits for Continue and keeps its saved receipt",
+    "Exact invalid prior {\"inf\":\"bisognare\",\"suffix\":\"form-2\"} waits for Continue and keeps its saved receipt",
+    "Exact invalid prior {\"chapterId\":\"present\",\"suffix\":\"form-1\",\"format\":\"pairs\"} waits for Continue and keeps its saved receipt",
+    "Exact invalid prior {\"ordinary\":true} waits for Continue and keeps its saved receipt",
+    "Exact invalid prior {\"chapterId\":\"imperativo\",\"suffix\":\"form-1\"} waits for Continue and keeps its saved receipt",
+    "A valid prior impersonal clause preserves draft, feedback, Back page and exact descriptor across Continue/reload",
+    "A valid saved optional third-person case remains accessible even when the new discovery expansion is off",
+    "Malformed imported form descriptor stays unavailable and unchanged without credit"
+  ],
+  "errors": [],
+  "scope": "Synthetic local learner fixtures; real route/controller/storage. No native-human or release claim."
+}

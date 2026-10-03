@@ -1,0 +1,17 @@
+{
+  "baselineCommit": "9802b1d",
+  "verifiedFrom": "Separately extracted Git commit; no current lesson modules used for baseline reconstruction.",
+  "entries": [
+    "v:succedere",
+    "v:toccare",
+    "v:bisognare",
+    "v:crollare",
+    "v:curarsi"
+  ],
+  "pools": 572,
+  "cues": 764,
+  "targetVectorHashesChecked": 10,
+  "broadReferenceParadigms": 1186,
+  "fixtureSHA256": "f06aadf8d60e6f1714295cd44dcad2e67fdb3d768b2cd910fc18c983ecb1546f",
+  "scope": "Previous-source equivalence only. Controller migration, new-language quality and whole-catalogue review are separate gates."
+}

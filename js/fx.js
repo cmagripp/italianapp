@@ -2,6 +2,7 @@
 // Aurora backdrop + scene tinting, rotary dial, card fan, poster reel, glass dropdown, confetti, stamps,
 // typewriter, rising letters, parallax, mount stagger, orbit rings, ticker, count-up.
 // Everything is defensive (missing elements → no-op) and works with pointer events on iOS.
+import { moveDialogFocus } from './focus.js';
 
 const doc = document;
 const html = doc.documentElement;
@@ -463,6 +464,12 @@ export function dropdown(anchorEl, content, { onSelect = null, align = 'start', 
   const focusOpt = (o) => { if (!o) return; try { o.focus({ preventScroll: true }); o.scrollIntoView({ block: 'nearest' }); } catch { /* ignore */ } };
   const onKey = (e) => {
     if (e.key === 'Escape') { close(); return; }
+    if (e.key === 'Tab') {
+      const pane = anchorEl.closest('[role="dialog"][aria-modal="true"]');
+      close();
+      if (pane?.isConnected && !pane.inert) { e.preventDefault(); moveDialogFocus(pane, { from: anchorEl, reverse: e.shiftKey }); }
+      return;
+    }
     if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
     const os = options(); if (!os.length) return;
     e.preventDefault();

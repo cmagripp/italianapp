@@ -2,6 +2,7 @@
 // independent evidence; the event reducer remains the only source of readiness.
 import { createSession, applySessionAttempt, skillState, completionRecord, LEARNING_VERSION } from './model.js';
 import {CASE_COVERAGE_POLICY,caseCoverage} from './case-coverage.js';
+import {journeyQuestionBuilder,createJourneyForm,validJourneyForm,journeyFormRecipe,journeyFormMatches,retiredJourneyForm} from './journey-form.js';
 import {createJourneyScene,validJourneyScene,journeySceneMatches,retiredJourneyQuestion,journeySceneContexts,journeyPriorRevision} from './journey-scene.js';
 
 export const JOURNEY_VERSION = 1;
@@ -17,7 +18,8 @@ const available = target => !!target && target.available !== false;
 const required = target => available(target) && (target.required !== false || target.completionRequired) && !target.supplementalOnly;
 const taughtTargets = group => (group?.targets || []).filter(target => available(target) && !target.supplementalOnly && !target.coveredByContextualForms);
 const chapterFor = (plan, session) => plan.chapters?.find(chapter => chapter.id === session.journey?.chapterId);
-const targetFor = (plan, id) => allTargets(plan).find(target => target.id === id);
+const targetFor = (plan, id) => allTargets(plan).find(target => target.id === id)
+  || plan.questionHistory?.chapters?.flatMap(targets).find(target => target.id === id);
 const groupFor = (chapter, id) => groups(chapter).find(group => group.targets?.some(target => target.id === id));
 const changed = (session, now) => { session.updatedAt = Math.max(session.updatedAt || 0, now); return session; };
 const record = value => !!value && typeof value === 'object' && !Array.isArray(value)
@@ -29,7 +31,10 @@ const mapOf = (value, valid) => record(value) && Object.entries(value).every(([k
 const phases = new Set(['teach', 'guided', 'practice', 'checkpoint', 'review', 'repair-teach', 'repair', 'recap', 'complete']);
 const activeSceneAllowed = (plan,session) => {
   const current=session?.journey?.current;if(!current)return true;
-  const target=targetFor(plan,current.targetId);
+  const formCurrent={...current,chapterId:session.journey.chapterId};
+  if(plan.questionHistory&&!current.formSnapshot)return false;
+  if(current.formSnapshot&&(!journeyFormMatches(current.formSnapshot,plan,formCurrent,journeyQuestionBuilder(plan))||retiredJourneyForm(current.formSnapshot,plan.questionHistory)))return false;
+  const target=journeyFormRecipe(plan,formCurrent)?.target||targetFor(plan,current.targetId);
   if(retiredJourneyQuestion(current,target))return false;
   if(!current.sceneSnapshot)return current.sceneRevision===undefined||current.sceneRevision===(target?.sceneRevision||'expanded-v1');
   return journeySceneMatches(current.sceneSnapshot,{entryId:plan.entryId,chapterId:session.journey.chapterId,target,variant:current.variant})
@@ -57,7 +62,9 @@ function compatible(plan, session) {
     || !(j.current.repairTag == null || typeof j.current.repairTag === 'string')
     || !(j.current.scenePolicy === undefined || j.current.scenePolicy === 'expanded-v1')
     || (j.current.sceneRevision!==undefined&&(!text(j.current.sceneRevision)||j.current.sceneRevision.length>500))
-    || (j.current.sceneSnapshot !== undefined && !validJourneyScene(j.current.sceneSnapshot)))) return false;
+    || (j.current.sceneSnapshot !== undefined && !validJourneyScene(j.current.sceneSnapshot))
+    || (j.current.formSnapshot !== undefined && !validJourneyForm(j.current.formSnapshot))
+    || (j.current.questionRevision!==undefined&&(!text(j.current.questionRevision)||j.current.questionRevision.length>500)))) return false;
   if (j.lastAttempt !== null && (!record(j.lastAttempt) || !text(j.lastAttempt.id) || !text(j.lastAttempt.targetId)
     || typeof j.lastAttempt.ok !== 'boolean' || !['correct', 'incorrect', 'revealed', 'skipped'].includes(j.lastAttempt.outcome)
     || !stringList(j.lastAttempt.errorTags) || !(j.lastAttempt.variant === undefined || integer(j.lastAttempt.variant))
@@ -180,11 +187,17 @@ function setQuestion(plan, session, target, phase, { supplemental = false, repai
   if (format === 'match') format = 'mc';
   j.current = { targetId: target.id, phase, format,
     variant, questionId: `${session.id}:journey:${j.serial}`, supplemental, repairTag,
+    ...(plan.questionHistory?{questionRevision:plan.questionHistory.currentRevision}:{}),
     ...(plan.kind === 'verb' && (phase !== 'repair' || j.lastAttempt?.scenePolicy === 'expanded-v1')
       ? { scenePolicy: 'expanded-v1',sceneRevision:target.sceneRevision||'expanded-v1' } : {}) };
   if(j.current.scenePolicy==='expanded-v1'){
     const scene=createJourneyScene({entryId:plan.entryId,chapterId:chapterFor(plan,session)?.id,target,variant});
     if(scene)j.current.sceneSnapshot=scene;
+  }
+  if(plan.questionHistory){
+    const current={...j.current,chapterId:j.chapterId};
+    const q=journeyQuestionBuilder(plan)?.(plan.questionHistory.currentEntry,chapterFor(plan,session),target,current);
+    const form=createJourneyForm(plan,current,q);if(form)j.current.formSnapshot=form;
   }
   j.awaitingContinue = false;
   session.activeObjectiveId = target.id;
@@ -439,13 +452,20 @@ export function createJourneySession({ id, plan, learning = null, now = Date.now
 
 export function currentJourneyStep(plan, session, learning = null, now = Date.now()) {
   if (!compatible(plan, session) || (learning?.version > LEARNING_VERSION)) return { type: 'unavailable', reason: 'version-mismatch' };
-  const j = session.journey, chapter = chapterFor(plan, session);
-  let target = targetFor(plan, j.current?.targetId);
+  const j = session.journey;let chapter = chapterFor(plan, session);
+  const formCurrent=j.current?{...j.current,chapterId:j.chapterId}:null;
+  const recipe=journeyFormRecipe(plan,formCurrent);
+  if(recipe)chapter=recipe.chapter;
+  let target = recipe?.target||targetFor(plan, j.current?.targetId);
   if(target&&j.wordShort){const slot=wordSlots(plan).find(s=>s.id===j.wordShort.slotId);target={...target,shortWord:true,wordSlotId:j.wordShort.slotId,wordPairTargets:(slot?.pairTargetIds||[]).map(id=>targetFor(plan,id)).filter(Boolean)};}
   const group = target ? groupFor(chapter, target.id) : groups(chapter)[j.groupIndex];
   const base = { chapter, group, target, awaitingContinue: j.awaitingContinue, phase: j.current?.phase || j.phase,
     scenePolicy: j.current?.scenePolicy,
-    ...(j.current || {}), helpSuggested: !!target && (j.failures[target.id] || 0) >= 2 };
+    ...(j.current || {}),...(plan.questionHistory?{questionHistory:plan.questionHistory}:{}), helpSuggested: !!target && (j.failures[target.id] || 0) >= 2 };
+  if(j.current&&plan.questionHistory&&!journeyQuestionBuilder(plan))return {...base,type:'unavailable',reason:'question-builder-unavailable'};
+  if(j.current?.formSnapshot&&!journeyFormMatches(j.current.formSnapshot,plan,formCurrent,journeyQuestionBuilder(plan)))return {...base,type:'unavailable',reason:'form-snapshot-mismatch'};
+  if(j.current?.formSnapshot&&retiredJourneyForm(j.current.formSnapshot,plan.questionHistory))return {...base,type:'corrected',reason:'retired-form'};
+  if(j.current&&plan.questionHistory&&!j.current.formSnapshot)return {...base,type:'unavailable',reason:'form-snapshot-required'};
   if(j.current?.sceneSnapshot&&!journeySceneMatches(j.current.sceneSnapshot,{entryId:plan.entryId,chapterId:chapter?.id,target,variant:j.current.variant}))
     return {...base,type:'unavailable',reason:'scene-snapshot-mismatch'};
   if(j.current?.sceneRevision!==undefined&&j.current.sceneRevision!==(j.current.sceneSnapshot?.sourceRevision||target?.sceneRevision||'expanded-v1'))
@@ -466,30 +486,43 @@ export function currentJourneyStep(plan, session, learning = null, now = Date.no
 // Upgrade only the active presentation descriptor. Keep question identity,
 // draft, feedback, events and all completion/evidence counters unchanged.
 export function pinJourneyScene(plan,session){
-  if(!compatible(plan,session)||plan.kind!=='verb'||session.journey.current?.scenePolicy!=='expanded-v1'
-    ||session.journey.current.sceneSnapshot!==undefined)return session;
-  const current=session.journey.current,target=targetFor(plan,current.targetId);
-  if(current.sceneRevision!==undefined&&current.sceneRevision!==(target?.sceneRevision||'expanded-v1')&&!journeyPriorRevision(current.sceneRevision,target))return session;
-  const legacy=current.sceneRevision!==(target?.sceneRevision||'expanded-v1');
-  const scene=createJourneyScene({entryId:plan.entryId,chapterId:session.journey.chapterId,target,variant:current.variant,legacy,sourceRevision:current.sceneRevision});
-  if(!scene)return session;
-  const next=copy(session);next.journey.current.sceneSnapshot=scene;return next;
+  if(!compatible(plan,session)||plan.kind!=='verb'||!session.journey.current)return session;
+  let next=session,current={...session.journey.current,chapterId:session.journey.chapterId};
+  const recipe=journeyFormRecipe(plan,current),target=recipe?.target||targetFor(plan,current.targetId);
+  if(current.scenePolicy==='expanded-v1'&&current.sceneSnapshot===undefined){
+    if(current.sceneRevision!==undefined&&current.sceneRevision!==(target?.sceneRevision||'expanded-v1')&&!journeyPriorRevision(current.sceneRevision,target))return session;
+    const legacy=!recipe&&current.sceneRevision!==(target?.sceneRevision||'expanded-v1');
+    const scene=createJourneyScene({entryId:plan.entryId,chapterId:session.journey.chapterId,target,variant:current.variant,legacy,sourceRevision:current.sceneRevision});
+    if(scene){next=copy(next);next.journey.current.sceneSnapshot=scene;current={...next.journey.current,chapterId:session.journey.chapterId};}
+  }
+  if(plan.questionHistory&&current.formSnapshot===undefined&&recipe){
+    const q=journeyQuestionBuilder(plan)?.(recipe.entry,recipe.chapter,recipe.target,{...current,historicalForms:recipe.prior});
+    const form=createJourneyForm(plan,current,q);
+    if(form){if(next===session)next=copy(next);next.journey.current.formSnapshot=form;next.journey.current.questionRevision=form.sourceRevision;}
+  }
+  return next;
 }
 
 export function replaceRetiredJourneyScene(plan,oldSession,{now=Date.now()}={}){
   if(currentJourneyStep(plan,oldSession).type!=='corrected')return oldSession;
   const session=copy(oldSession),j=session.journey,current=j.current,oldTarget=targetFor(plan,current.targetId);
-  const oldPerson=current.sceneSnapshot?.context?.person??oldTarget.person
+  const oldPerson=current.sceneSnapshot?.context?.person??oldTarget?.person
     ??oldTarget.legacyAuthoredContexts?.[current.variant%(oldTarget.legacyAuthoredContexts?.length||1)]?.person;
-  const target=available(oldTarget)?oldTarget:targets(chapterFor(plan,session)).find(t=>available(t)&&t.skill==='conjugation'&&t.person===oldPerson);
+  const replacementChapter=chapterFor(plan,session)||plan.chapters.find(c=>c.id==='present')||plan.chapters.find(c=>targets(c).some(t=>available(t)&&t.skill==='conjugation'));
+  const currentTargets=targets(replacementChapter);
+  const currentTarget=currentTargets.find(t=>t.id===oldTarget?.id);
+  const target=available(currentTarget)?currentTarget:currentTargets.find(t=>available(t)&&t.skill==='conjugation'&&t.person===oldPerson)
+    ||currentTargets.find(t=>available(t)&&t.skill==='conjugation');
   if(!target)return oldSession;
   session.sceneCorrectionRecovery ||= [];
   session.sceneCorrectionRecovery.push({at:now,current:copy(current),journey:copy(j),ui:copy(session.ui||{})});
+  j.chapterId=replacementChapter.id;j.groupIndex=groups(replacementChapter).findIndex(g=>g.targets?.some(t=>t.id===target.id));
   const phase=current.phase==='guided'?'guided':'independent';
   j.phase=phase==='guided'?'guided':['checkpoint','review','practice'].includes(j.phase)?j.phase:'practice';
   j.current=null;j.awaitingContinue=false;j.lastAttempt=null;j.repairReturn=null;j.blocked=false;
-  if(target.id!==oldTarget.id){j.queue=j.queue.filter(id=>id!==oldTarget.id);if(!j.queue.includes(target.id))j.queue.unshift(target.id);}
-  const oldScene=current.sceneSnapshot?.context||oldTarget.legacyAuthoredContexts?.[current.variant%(oldTarget.legacyAuthoredContexts?.length||1)];
+  j.queue=j.queue.filter(id=>currentTargets.some(t=>t.id===id&&available(t)));
+  if(!j.queue.includes(target.id))j.queue.unshift(target.id);
+  const oldScene=current.sceneSnapshot?.context||oldTarget?.legacyAuthoredContexts?.[current.variant%(oldTarget.legacyAuthoredContexts?.length||1)];
   const pool=journeySceneContexts(target),sameScene=pool.findIndex(context=>context.id===oldScene?.id);
   if(sameScene>=0){const counts=j.variants[target.id]||={guided:0,independent:0,repair:0};counts[phase]=sameScene;}
   setQuestion(plan,session,target,phase,{supplemental:current.supplemental});
@@ -514,6 +547,7 @@ export function advanceJourney(plan, oldSession, learning, { now = Date.now() } 
   if(currentJourneyStep(plan,oldSession,learning,now).type==='corrected')return replaceRetiredJourneyScene(plan,oldSession,{now});
   if(oldSession.journey.wordShort)return advanceShortWord(plan,oldSession,learning,now);
   const session = copy(oldSession), j = session.journey, chapter = chapterFor(plan, session);
+  if(plan.questionHistory&&j.awaitingContinue){const activeIds=new Set(allTargets(plan).filter(available).map(t=>t.id));j.queue=j.queue.filter(id=>activeIds.has(id));}
   if (j.phase === 'teach') {
     const group = groups(chapter)[j.groupIndex];
     j.cardIndex++;
@@ -667,7 +701,10 @@ export function recordJourneyAttempt(plan, oldSession, event, result) {
   // An answer copied from support has not tried this variant independently.
   // Retry that same useful context after a gap rather than letting scheduling
   // parity strand every credited answer on the other variant forever.
-  if (event.activityKind === 'independent' && event.ok && event.assistance?.length) j.variants[event.objectiveId].independent = j.current.variant;
+  if (event.activityKind === 'independent' && event.ok && event.assistance?.length) {
+    const counter = j.variants[event.objectiveId] ||= { guided: 0, independent: 0, repair: 0 };
+    counter.independent = j.current.variant;
+  }
   const personError = result?.skill?.unresolvedErrors?.find(error => error.person !== undefined);
   if (personError) (j.personRepairs ||= {})[event.objectiveId] = personError.person;
   else if (j.personRepairs) delete j.personRepairs[event.objectiveId];

@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "status": "Source-only historical investigation; no production scoring or new optional download.",
+  "preservation": "Original paths retained for reproducibility; exact paths excluded from the site build. Existing installed cache remains compatible.",
+  "files": [
+    {
+      "path": "js/learning/fit-scorer.js",
+      "bytes": 14700,
+      "sha256": "d76e2584eb05ed1ca95516d9a3a68c20ba4e9789cd7b34847c5254068333b4cf",
+      "previouslyPublished": true
+    },
+    {
+      "path": "js/workers/fit-scorer.worker.js",
+      "bytes": 13170,
+      "sha256": "cfc69e2bedb3e4ab46cd2590bc36fdcf37442138638dc5f25d36f1a0ae2d4647",
+      "previouslyPublished": true
+    },
+    {
+      "path": "models/fit-scorer/README.md",
+      "bytes": 10224,
+      "sha256": "c6cd0d33ee2d535ab4613dbd5e617e7fe0347e0ddd389dc0c13bebedf3957bb9",
+      "previouslyPublished": false
+    },
+    {
+      "path": "models/fit-scorer/config.json",
+      "bytes": 474,
+      "sha256": "c6e2c2798d8f7ca807a595d6212343f14031394ea6bcf2eac1dd9bfbcc2dbdf1",
+      "previouslyPublished": true
+    },
+    {
+      "path": "models/fit-scorer/model.onnx",
+      "bytes": 68696037,
+      "sha256": "5a5d101247ce8a3bc43e74c0015ff889c057a5528431456bbd8447f718a32ea0",
+      "previouslyPublished": true
+    },
+    {
+      "path": "models/fit-scorer/score.mjs",
+      "bytes": 6550,
+      "sha256": "2bf6e7ca1d67045008b0dfd4ab7a353eabdca4f34748dd586fded345931f3250",
+      "previouslyPublished": false
+    },
+    {
+      "path": "models/fit-scorer/special_tokens_map.json",
+      "bytes": 112,
+      "sha256": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3",
+      "previouslyPublished": true
+    },
+    {
+      "path": "models/fit-scorer/tokenizer.json",
+      "bytes": 731808,
+      "sha256": "c5521ec6a5edfd59f4c014dac1277fda794a4bdca805ff90ce84ddb93ab3f3f9",
+      "previouslyPublished": true
+    },
+    {
+      "path": "models/fit-scorer/tokenizer_config.json",
+      "bytes": 1327,
+      "sha256": "e724253c56a7bd7704873b12878f6b8eadd9e2a7a65f0d43eb8b7d34d5e0c89e",
+      "previouslyPublished": true
+    },
+    {
+      "path": "models/fit-scorer/vocab.txt",
+      "bytes": 242585,
+      "sha256": "d0f9754a1666044fe5acecaf4ac1ce546cf329c4c1fd8995642954414ec57303",
+      "previouslyPublished": true
+    },
+    {
+      "path": "vendor/ort/ort-wasm-simd-threaded.wasm",
+      "bytes": 14239897,
+      "sha256": "3398c10d07d229bd91b364548e130e0e51a8e5704b88c7c083ebbeb78842dee2",
+      "previouslyPublished": true
+    },
+    {
+      "path": "vendor/ort/ort.wasm.bundle.min.mjs",
+      "bytes": 73054,
+      "sha256": "11e64bd8ffe11bd1a2a2f0d6275fdfbbba7262f0b76b99b53d228a8a22ef3d90",
+      "previouslyPublished": true
+    }
+  ],
+  "retiredPublishedBytes": 84013164
+}

@@ -1,0 +1,246 @@
+{
+  "version": 2,
+  "sampleTraversalScope": {
+    "verbs": [
+      "succedere",
+      "bisognare"
+    ],
+    "cases": [
+      "present",
+      "past",
+      "background",
+      "future",
+      "condizionale"
+    ],
+    "actualTraversals": 10,
+    "meaning": "Focused real answered traversal through the updated canonical audit factory; full catalogue counts below are structural only."
+  },
+  "coveragePolicy": "verb-case-coverage-v1",
+  "wordEntries": 6994,
+  "verbEntries": 1186,
+  "wordScreenHistogram": {
+    "6": 6994
+  },
+  "verbCaseCount": 5930,
+  "verbTargetHistogram": {
+    "0": 22,
+    "1": 11,
+    "2": 30,
+    "3": 16,
+    "4": 10,
+    "5": 1,
+    "6": 3,
+    "7": 3190,
+    "8": 510,
+    "9": 87,
+    "10": 10,
+    "11": 102,
+    "12": 92,
+    "16": 1836,
+    "17": 10
+  },
+  "samples": [
+    {
+      "inf": "succedere",
+      "caseId": "present",
+      "steps": 34,
+      "questions": 14,
+      "typed": 8,
+      "teaching": 6,
+      "maxWrittenRun": 3,
+      "formats": {
+        "mc": 6,
+        "type": 8
+      },
+      "phases": {
+        "guided": 8,
+        "independent": 6
+      },
+      "complete": true
+    },
+    {
+      "inf": "succedere",
+      "caseId": "past",
+      "steps": 17,
+      "questions": 6,
+      "typed": 4,
+      "teaching": 5,
+      "maxWrittenRun": 2,
+      "formats": {
+        "type": 4,
+        "mc": 2
+      },
+      "phases": {
+        "guided": 4,
+        "independent": 2
+      },
+      "complete": true
+    },
+    {
+      "inf": "succedere",
+      "caseId": "background",
+      "steps": 30,
+      "questions": 12,
+      "typed": 7,
+      "teaching": 6,
+      "maxWrittenRun": 3,
+      "formats": {
+        "mc": 5,
+        "type": 7
+      },
+      "phases": {
+        "guided": 7,
+        "independent": 5
+      },
+      "complete": true
+    },
+    {
+      "inf": "succedere",
+      "caseId": "future",
+      "steps": 18,
+      "questions": 7,
+      "typed": 3,
+      "teaching": 4,
+      "maxWrittenRun": 2,
+      "formats": {
+        "mc": 4,
+        "type": 3
+      },
+      "phases": {
+        "guided": 4,
+        "independent": 3
+      },
+      "complete": true
+    },
+    {
+      "inf": "succedere",
+      "caseId": "condizionale",
+      "steps": 13,
+      "questions": 5,
+      "typed": 2,
+      "teaching": 3,
+      "maxWrittenRun": 2,
+      "formats": {
+        "mc": 3,
+        "type": 2
+      },
+      "phases": {
+        "guided": 3,
+        "independent": 2
+      },
+      "complete": true
+    },
+    {
+      "inf": "bisognare",
+      "caseId": "present",
+      "steps": 16,
+      "questions": 6,
+      "typed": 2,
+      "teaching": 4,
+      "maxWrittenRun": 1,
+      "formats": {
+        "mc": 4,
+        "type": 2
+      },
+      "phases": {
+        "guided": 4,
+        "independent": 2
+      },
+      "complete": true
+    },
+    {
+      "inf": "bisognare",
+      "caseId": "past",
+      "steps": 14,
+      "questions": 5,
+      "typed": 3,
+      "teaching": 4,
+      "maxWrittenRun": 2,
+      "formats": {
+        "type": 3,
+        "mc": 2
+      },
+      "phases": {
+        "guided": 4,
+        "independent": 1
+      },
+      "complete": true
+    },
+    {
+      "inf": "bisognare",
+      "caseId": "background",
+      "steps": 16,
+      "questions": 6,
+      "typed": 2,
+      "teaching": 4,
+      "maxWrittenRun": 1,
+      "formats": {
+        "mc": 4,
+        "type": 2
+      },
+      "phases": {
+        "guided": 4,
+        "independent": 2
+      },
+      "complete": true
+    },
+    {
+      "inf": "bisognare",
+      "caseId": "future",
+      "steps": 9,
+      "questions": 3,
+      "typed": 1,
+      "teaching": 3,
+      "maxWrittenRun": 1,
+      "formats": {
+        "mc": 2,
+        "type": 1
+      },
+      "phases": {
+        "guided": 2,
+        "independent": 1
+      },
+      "complete": true
+    },
+    {
+      "inf": "bisognare",
+      "caseId": "condizionale",
+      "steps": 8,
+      "questions": 3,
+      "typed": 1,
+      "teaching": 2,
+      "maxWrittenRun": 1,
+      "formats": {
+        "mc": 2,
+        "type": 1
+      },
+      "phases": {
+        "guided": 2,
+        "independent": 1
+      },
+      "complete": true
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "Answered traversals use real question grading and evidence but are not beginner timing trials.",
+    "Catalogue structural/runtime checks do not replace individual Italian editorial review.",
+    "Finished coverage remains distinct from consolidated readiness and delayed retention."
+  ],
+  "sourceFingerprints": {
+    "tools/audit-journey-pacing.mjs": "2ff3ea454b8beb78492323c672e72b70de1ac63a94f84c86d569fbad84e4ae23",
+    "js/learning/journey-form.js": "1b37af6bfdc581cc8cdc304941aaf327ec16f9741a858701b7b3cdd8dc9a3a0c",
+    "js/learning/journey.js": "b61e5c623b7c7d941e65d8ebffa5f0cc0eab3340609e98bfe03564358ea0d11e",
+    "js/learning/lesson-content.js": "3932d27346dc0f785bf233a55f57f6b31f76a4da0619b985d9d828c33a0b76d8",
+    "js/learning/lesson-questions.js": "276aac3aceec165cc64ded78fd04c30b25b035257f34dfb6b88226377bb9ae44"
+  },
+  "measurement": "Exact canonical audit factory evaluated by scratch wrapper with only the sample selection and output path narrowed. Source metadata still checks the full catalogue structurally; only these10 cases were answered.",
+  "priorFullReport": "docs/implementation/programme/journey-pacing-full.json",
+  "interruptedRepeat": {
+    "lastReportedCases": 4250,
+    "reportedFailures": 0,
+    "status": "intentionally stopped before completion; no replacement of historical full report",
+    "scratchLog": "/tmp/parola-full-pacing-builder-boundary.log",
+    "scratchLogSHA256": "6a7bc334d1a9c2292877b4fdc7d862d764a0c34a5d0e95ea3e0dd31bb739312b"
+  }
+}

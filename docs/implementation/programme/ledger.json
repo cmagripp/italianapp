@@ -126,7 +126,7 @@
         "tests/report-lesson-overview.json",
         "tests/report-lesson-overview-targeted-webkit.json"
       ],
-      "implementationNotes": "Finite visits and declared case coverage reduce ordinary present/progressive from 42 to 24 questions (16 typed); simpler cases take 10–13. Current 1,186 verbs provide 5,930 case descriptors: all 5,908 available cases traverse successfully and 22 unsupported remain exempt. Required earlier skips defer mixed transfer to an incomplete partial recap; ten deterministic checks, all 18 Chromium overview checks and three targeted WebKit partial/full checks pass. 25 cases still take four visits; individual linguistic catalogue review and release integration remain."
+      "implementationNotes": "Finite visits and declared case coverage reduce ordinary present/progressive from 42 to 24 questions (16 typed); simpler cases take 10\u201313. Current 1,186 verbs provide 5,930 case descriptors: all 5,908 available cases traverse successfully and 22 unsupported remain exempt. Required earlier skips defer mixed transfer to an incomplete partial recap; ten deterministic checks, all 18 Chromium overview checks and three targeted WebKit partial/full checks pass. 25 cases still take four visits; individual linguistic catalogue review and release integration remain."
     },
     {
       "id": "P3-games",
@@ -174,9 +174,10 @@
         "tools/test-workshop-agreement-review.mjs",
         "docs/implementation/programme/workshop-speaker-agreement-review.json",
         "docs/implementation/programme/workshop-agreement-chromium.json",
-        "docs/implementation/programme/workshop-agreement-webkit.json"
+        "docs/implementation/programme/workshop-agreement-webkit.json",
+        "docs/implementation/programme/ai-authored-source-inventory.json"
       ],
-      "implementationNotes": "The in-player agreement dropdown preserves the original unfinished answer and existing graded results. New explicit speaker-adjective answers are checked against the selected agreement; invariant adjectives, authored whole-phrase alternatives and other-person agreement remain valid. Nine controlled checks pass per browser. Independent review covers all five actual speaker slots / sixty authored agreement combinations and 169 reaction strings, with one neutral reaction repair. Canonical AI source adapter and production language/model gates remain open."
+      "implementationNotes": "Editable agreement preserves exact original drafts/results. Ten controlled checks pass per browser, including zero retired scorer requests; all five speaker slots/sixty agreement combinations and169 reaction strings have bounded independent review. Canonical contextual help resolves3/46free slots; remaining43 need authored sources. Production language/model gates remain open."
     },
     {
       "id": "P3-migration",
@@ -194,9 +195,12 @@
         "docs/implementation/programme/mixed-client-migration-design-review.md",
         "docs/implementation/programme/journey-scene-contract.md",
         "docs/implementation/programme/verb-repairs-271-independent-review.json",
-        "tools/test-verb-repairs-271.mjs"
+        "tools/test-verb-repairs-271.mjs",
+        "tools/test-journey-form-history.mjs",
+        "tools/test-journey-form-content-review.mjs",
+        "docs/implementation/programme/journey-form-history-contract.json"
       ],
-      "implementationNotes": "Physically separate v6 storage and recovery copies protect already-open v5 clients; thirteen actual-baseline/current-client checks pass per engine. Exact selected scene revisions now include bounded explicitly declared aliases for preserved prior pools. Seventeen scene checks and fourteen browser checks per engine pass. Seven bounded language repairs preserve 802 prior pools and 1,464 valid saved selections; eighteen occurrences of sixteen invalid scene IDs require explicit correction without fabricated credit. All 1,186 existing five-case completion arrays are unchanged. Imported form-question semantic revision/history and final release paths remain."
+      "implementationNotes": "Physically separate v6 storage and recovery copies protect already-open v5 clients; thirteen actual-baseline/current-client checks pass per engine. Exact selected scene revisions now include bounded explicitly declared aliases for preserved prior pools. Seventeen scene checks and fourteen browser checks per engine pass. Seven bounded language repairs preserve 802 prior pools and 1,464 valid saved selections; eighteen occurrences of sixteen invalid scene IDs require explicit correction without fabricated credit. All 1,186 existing five-case completion arrays are unchanged. Imported form-question semantic revision/history and final release paths remain. Selected-form history now preserves256 prior descriptors and fences194 invalid variants. Exact old question text is rebuilt from trusted prior recipes; corrected scenes require explicit Continue and never manufacture credit. Imported variant counters initialize narrowly. Startup binding regression and final release remain separately recorded."
     },
     {
       "id": "P4-model",
@@ -345,7 +349,7 @@
         "tests/conversation-player-e2e.mjs",
         "js/conversations/controller.js"
       ],
-      "implementationNotes": "Stable1–3partner identities and explicit joins/leaves are committed with system history. Inactive partners cannot reply; addressed participant is constrained at service boundary. Saved UI/player checks cover setup and changes; explicit per-turn addressee selection and model behavior remain."
+      "implementationNotes": "Stable1\u20133partner identities and explicit joins/leaves are committed with system history. Inactive partners cannot reply; addressed participant is constrained at service boundary. Saved UI/player checks cover setup and changes; explicit per-turn addressee selection and model behavior remain."
     },
     {
       "id": "P5-summary",
@@ -412,6 +416,20 @@
       "implementationNotes": "Coach setup/goal and shared coach request route implemented with preserved transcript, assistance and source-linked teaching-card interfaces. Actual Italian circumlocution, simplification and helpful feedback remain blocked by measured generation quality; no conversational-teacher pass is claimed."
     },
     {
+      "id": "P5-conversation-accents",
+      "phase": 5,
+      "requirement": "Use the shared strict-accent policy in supported written conversation checking; restore only verified accent-only changes visibly in the same bubble, preserving original input and submission policy. Never infer ambiguous homograph meaning or penalize recognition spelling.",
+      "status": "in_progress",
+      "owner": "root",
+      "evidence": [
+        "js/conversations/controller.js",
+        "docs/PLAN-UNIFIED-LEARNING-OFFLINE-AI-2026-10-03.md",
+        "docs/implementation/programme/ai-conversation-accent-design.md",
+        "docs/implementation/programme/ai-conversation-commit-boundary-review.md"
+      ],
+      "implementationNotes": "Audit found send records the accent setting but reply requests do not pass it to the service and no supported accent-only bubble restoration is implemented. The existing non-writing conversation study uses strict explicit-choice comparison correctly. Contextual verification, request/receipt plumbing, atomic revision and display integration remain open; no production provider is enabled. Independent actual-controller/IndexedDB tests in both browsers reproduce a provider-replacement/cancellation commit race. Transaction abort/guard and atomic accent display integration are next; production provider remains disabled."
+    },
+    {
       "id": "P5-assistance",
       "phase": 5,
       "requirement": "Same validated AI service in workshop intent construction and lesson explanations/hints/optionalpractice; uncertain generated drills never determine mastery.",
@@ -426,9 +444,12 @@
         "js/ai/practice-grounding.js",
         "tests/ai-practice-sources.test.mjs",
         "tests/ai-journey-assistance-e2e.mjs",
-        "docs/implementation/programme/ai-journey-source-grounding.md"
+        "docs/implementation/programme/ai-journey-source-grounding.md",
+        "docs/implementation/programme/ai-authored-source-adapters.md",
+        "docs/implementation/programme/ai-authored-source-inventory.json",
+        "tests/ai-authored-practice-sources.test.mjs"
       ],
-      "implementationNotes": "Optional help is wired across Journey, Workshop, current Course and retained Grammar. Journey now rebuilds an exact canonical question/scene binding from trusted sources, separates reviewed child senses, explicitly linked rules and authored examples, rejects practice corrections and hides answer-bearing hint cards. Original drafts and assistance provenance survive reopening. Fifty-three service/source/controller checks, ten Journey browser checks and twelve existing assistance browser checks per engine pass. Workshop/Course/Grammar canonical production adapters, reviewed rule registry, language policy and passing model remain open; no production provider is enabled."
+      "implementationNotes": "Canonical source adapters are implemented for Journey, current Course, retained Grammar and supported Workshop slots. Service/source/controller checks68 pass; actual assistance17 and Journey11 checks per browser pass. Authored bindings cover2211 Course questions245portfolios,534retained Grammar questions258teach cards534repairs; Workshop3/46free slots resolve. Missing, altered and unrelated examples are rejected. Authored source provenance is not a reviewed rule registry. Remaining43 Workshop contexts, production registry/language policy and a passing model remain open."
     },
     {
       "id": "P5-retention",
@@ -445,7 +466,7 @@
     {
       "id": "P5-quality",
       "phase": 5,
-      "requirement": "Per-level independent generated exchange review, 100+turn exactresume, 30–60minute combined stability, meaningful Italian error/speech corpus; no scripted substitute for dynamic conversation.",
+      "requirement": "Per-level independent generated exchange review, 100+turn exactresume, 30\u201360minute combined stability, meaningful Italian error/speech corpus; no scripted substitute for dynamic conversation.",
       "status": "pending",
       "owner": "root",
       "evidence": []
@@ -506,9 +527,11 @@
       "owner": "programme_curriculum",
       "evidence": [
         "docs/implementation/programme/verb-language-reviews.json",
-        "docs/implementation/programme/verb-language-inventory.json"
+        "docs/implementation/programme/verb-language-inventory.json",
+        "docs/implementation/programme/verb-repairs-402.json",
+        "docs/implementation/programme/verb-repairs-402-baseline-review.json"
       ],
-      "implementationNotes": "Published individual review records cover 271 of 1,186 verbs, with source fingerprints; 915 remain unrecorded. Five core-case descriptors are structurally checked across 5,930 cases, but no full context/question-bank review is claimed. Seven bounded repairs have independent agent review and preserve previous usable scenes. Remaining individual language review, full word/reference coverage and human educator validation stay open."
+      "implementationNotes": "Published individual review records cover402 of1186verbs with exact source fingerprints;784 remain unrecorded. Core-case structural coverage is5930descriptors, distinct from linguistic review. No full generated question-bank review is claimed. Five additional bounded repairs preserve572previous pools,320target vectors,764cue hashes and all1186reference paradigms; source fixture independently matches Git9802b1d. Toccare is usage clarification only. Remaining individual language, word/reference, educator and learner gates remain open."
     },
     {
       "id": "P6-authoring",
@@ -534,7 +557,7 @@
     {
       "id": "P7-integration",
       "phase": 7,
-      "requirement": "Course→word/case→workshop→written/spokenchat→summary→targetpractice→delayedreview→resume/export/offline full flows.",
+      "requirement": "Course\u2192word/case\u2192workshop\u2192written/spokenchat\u2192summary\u2192targetpractice\u2192delayedreview\u2192resume/export/offline full flows.",
       "status": "in_progress",
       "owner": "root",
       "evidence": [
@@ -544,9 +567,10 @@
         "docs/implementation/programme/async-view-ownership.md",
         "docs/implementation/programme/conversation-lifecycle-independent-review.md",
         "docs/implementation/programme/ai-journey-source-grounding.md",
-        "docs/implementation/programme/integration-checkpoint-lifecycle-grounding.json"
+        "docs/implementation/programme/integration-checkpoint-lifecycle-grounding.json",
+        "docs/implementation/programme/integration-checkpoint-forms-offline.json"
       ],
-      "implementationNotes": "Third development checkpoint passes all sixty-eight registered deterministic suites, eleven database migration checks, nine assembled offline/update and seven grammar offline checks. Deferred route ownership passes twenty checks per browser, Conversation lifecycle eleven and Journey source-grounded help ten. Independent lifecycle, scene migration and bounded Workshop language reviews are saved. Full AI/speech and final programme release gates remain open."
+      "implementationNotes": "Current development checkpoint passes75registered deterministic suites,11database migration checks,9assembled offline/update and7grammar offline checks. Canonical assistance, selected-form saved-session preservation, bounded keyboard/reflow and actual retained-runtime cache compatibility have controlled browser evidence. The initial import/startup regression is recorded with its correction. Full AI/speech, editorial and final programme release gates remain open."
     },
     {
       "id": "P7-recovery",
@@ -555,7 +579,8 @@
       "status": "in_progress",
       "owner": "root",
       "evidence": [
-        "docs/implementation/programme/assembled-checkpoint-validation.json"
+        "docs/implementation/programme/assembled-checkpoint-validation.json",
+        "docs/implementation/programme/installed-checkpoint-forms-offline.json"
       ],
       "implementationNotes": "Checkpoint build passes nine assembled offline/update checks and seven grammar/audio offline checks. Existing installed Home Screen candidate updates and restores a saved credere draft/feedback while the origin is unavailable in the approved simulator. Later source changes still require rebuilding/revalidation; the entire programme recovery gate remains open."
     },
@@ -568,17 +593,28 @@
       "evidence": [
         "tests/layout-audit.mjs",
         "docs/implementation/programme/assembled-checkpoint-validation.json",
-        "docs/implementation/programme/layout-integration-review.json"
+        "docs/implementation/programme/layout-integration-review.json",
+        "tests/programme-keyboard-e2e.mjs",
+        "docs/implementation/programme/keyboard-accessibility.md",
+        "docs/implementation/programme/installed-checkpoint-lifecycle.json",
+        "docs/implementation/programme/keyboard-compact-independent-review.json",
+        "docs/implementation/programme/conversation-compact-layout.md"
       ],
-      "implementationNotes": "Current source layout sweep passes300 cases (50routes,3phoneviewports,2themes), including Conversations/settings. Real dial spacing and settings footer overlap fixed; audit now accounts for clipped/inert/layered content with five geometric self-checks. The rebuilt installed simulator preserves exact feedback and shows separated visit count, reachable Continue and no bottom black strip. VoiceOver, wider keyboard/large-text and final full-release gates remain open."
+      "implementationNotes": "Current source layout sweep passes300 cases (50routes,3phoneviewports,2themes), including Conversations/settings. Real dial spacing and settings footer overlap fixed; audit now accounts for clipped/inert/layered content with five geometric self-checks. The rebuilt installed simulator preserves exact feedback and shows separated visit count, reachable Continue and no bottom black strip. VoiceOver, wider keyboard/large-text and final full-release gates remain open. Subsequent bounded keyboard review passes thirteen checks per engine in both themes, including Safari modal Tab, dropdown redraw and prompt focus fixes. Candidate 9802b1d reopens with its local origin unavailable and retains exact saved feedback. This does not close VoiceOver, physical-device or enlarged-text gates. Compact composer additionally passes12viewport/theme cases per engine with Send/tools reachable and exact draft reload; independent source review recorded."
     },
     {
       "id": "P7-retirement",
       "phase": 7,
       "requirement": "Retire olddispatchers/players/caches only when migratedreplacement coverage and imported-session compatibility are proved.",
-      "status": "pending",
+      "status": "in_progress",
       "owner": "root",
-      "evidence": []
+      "evidence": [
+        "dev/retired-fit-scorer/manifest.json",
+        "tests/fit-retirement-e2e.mjs",
+        "tests/offline-pack-update-e2e.mjs",
+        "docs/implementation/programme/phase-7-retirement-audit.json"
+      ],
+      "implementationNotes": "Inactive fit scorer, model and ORT files are excluded by exact publication paths (84,013,164bytes); original sources/hashes/notices remain reproducible. Actual cached worker/model startup survives update and offline origin, interrupted downloads stay incomplete, saved fixture remains exact, and real Workshop routes make zero retired requests. Optional AI-pack caches survive shell updates. Other legacy players/routes/recovery and old assistant caches remain pending their own compatibility gates."
     },
     {
       "id": "P7-release",
@@ -589,7 +625,7 @@
       "evidence": []
     }
   ],
-  "updatedAt": "2026-10-03T20:10:11.696373+00:00",
+  "updatedAt": "2026-10-03T21:23:53.601926+00:00",
   "testedDeviceConfiguration": {
     "device": "iPhone 16 Pro Max simulator",
     "iOS": "26.5",
@@ -602,13 +638,13 @@
     }
   ],
   "checkpoint": {
-    "kind": "Third recoverable development checkpoint",
+    "kind": "Fourth recoverable development checkpoint",
     "branch": "codex/parola-full-programme",
-    "parentCommit": "2f4b954",
+    "parentCommit": "9802b1d",
     "productionRelease": false,
-    "build": "parola-v15-ac81b31a7aea",
-    "validation": "68 deterministic suites; 11 SQL; 9 assembled offline/update and 7 grammar offline; focused controlled browser and independent reviews recorded in integration-checkpoint-lifecycle-grounding.json.",
+    "build": "parola-v15-5fc5537c8d14",
+    "validation": "75 deterministic suites;11SQL;9assembled offline/update;7grammar offline; focused source-bound assistance, saved-form, keyboard, compact composer and cache tests.",
     "pushed": false,
-    "open": "Canonical remaining practice-source adapters; AI-pack cache update preservation; selected-sense forms and full catalogue/curriculum review; production language/model/speech gates; human educator/learner gates; final release."
+    "open": "Conversation cancellation/provider commit race and written accent integration;43Workshop contextual sources; remaining catalogue/curriculum review; production language/model/speech; educator/learner and final release gates."
   }
 }

@@ -1,0 +1,463 @@
+{
+  "browser": "webkit",
+  "checks": [
+    {
+      "theme": "dark",
+      "width": 375,
+      "height": 430,
+      "geometry": {
+        "height": 430,
+        "width": 375,
+        "scrollY": 0,
+        "scrollWidth": 375,
+        "messages": 94.5,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 306,
+            "bottom": 382,
+            "left": 12,
+            "right": 303,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 332,
+            "bottom": 382,
+            "left": 313,
+            "right": 363,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 382,
+            "bottom": 426,
+            "left": 319,
+            "right": 363,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 375,
+      "height": 480,
+      "geometry": {
+        "height": 480,
+        "width": 375,
+        "scrollY": 0,
+        "scrollWidth": 375,
+        "messages": 107,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 356,
+            "bottom": 432,
+            "left": 12,
+            "right": 303,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 382,
+            "bottom": 432,
+            "left": 313,
+            "right": 363,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 432,
+            "bottom": 476,
+            "left": 319,
+            "right": 363,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "height": 430,
+      "geometry": {
+        "height": 430,
+        "width": 390,
+        "scrollY": 0,
+        "scrollWidth": 390,
+        "messages": 94.5,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 306,
+            "bottom": 382,
+            "left": 12,
+            "right": 318,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 332,
+            "bottom": 382,
+            "left": 328,
+            "right": 378,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 382,
+            "bottom": 426,
+            "left": 334,
+            "right": 378,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "height": 480,
+      "geometry": {
+        "height": 480,
+        "width": 390,
+        "scrollY": 0,
+        "scrollWidth": 390,
+        "messages": 107,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 356,
+            "bottom": 432,
+            "left": 12,
+            "right": 318,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 382,
+            "bottom": 432,
+            "left": 328,
+            "right": 378,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 432,
+            "bottom": 476,
+            "left": 334,
+            "right": 378,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 430,
+      "height": 430,
+      "geometry": {
+        "height": 430,
+        "width": 430,
+        "scrollY": 0,
+        "scrollWidth": 430,
+        "messages": 94.5,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 306,
+            "bottom": 382,
+            "left": 12.890625,
+            "right": 357.109375,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 332,
+            "bottom": 382,
+            "left": 367.109375,
+            "right": 417.109375,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 382,
+            "bottom": 426,
+            "left": 373.109375,
+            "right": 417.109375,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 430,
+      "height": 480,
+      "geometry": {
+        "height": 480,
+        "width": 430,
+        "scrollY": 0,
+        "scrollWidth": 430,
+        "messages": 107,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 356,
+            "bottom": 432,
+            "left": 12.890625,
+            "right": 357.109375,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 382,
+            "bottom": 432,
+            "left": 367.109375,
+            "right": 417.109375,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 432,
+            "bottom": 476,
+            "left": 373.109375,
+            "right": 417.109375,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "height": 430,
+      "geometry": {
+        "height": 430,
+        "width": 375,
+        "scrollY": 0,
+        "scrollWidth": 375,
+        "messages": 94.5,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 306,
+            "bottom": 382,
+            "left": 12,
+            "right": 303,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 332,
+            "bottom": 382,
+            "left": 313,
+            "right": 363,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 382,
+            "bottom": 426,
+            "left": 319,
+            "right": 363,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "light",
+      "width": 375,
+      "height": 480,
+      "geometry": {
+        "height": 480,
+        "width": 375,
+        "scrollY": 0,
+        "scrollWidth": 375,
+        "messages": 107,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 356,
+            "bottom": 432,
+            "left": 12,
+            "right": 303,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 382,
+            "bottom": 432,
+            "left": 313,
+            "right": 363,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 432,
+            "bottom": 476,
+            "left": 319,
+            "right": 363,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "height": 430,
+      "geometry": {
+        "height": 430,
+        "width": 390,
+        "scrollY": 0,
+        "scrollWidth": 390,
+        "messages": 94.5,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 306,
+            "bottom": 382,
+            "left": 12,
+            "right": 318,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 332,
+            "bottom": 382,
+            "left": 328,
+            "right": 378,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 382,
+            "bottom": 426,
+            "left": 334,
+            "right": 378,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "height": 480,
+      "geometry": {
+        "height": 480,
+        "width": 390,
+        "scrollY": 0,
+        "scrollWidth": 390,
+        "messages": 107,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 356,
+            "bottom": 432,
+            "left": 12,
+            "right": 318,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 382,
+            "bottom": 432,
+            "left": 328,
+            "right": 378,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 432,
+            "bottom": 476,
+            "left": 334,
+            "right": 378,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "light",
+      "width": 430,
+      "height": 430,
+      "geometry": {
+        "height": 430,
+        "width": 430,
+        "scrollY": 0,
+        "scrollWidth": 430,
+        "messages": 94.5,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 306,
+            "bottom": 382,
+            "left": 12.890625,
+            "right": 357.109375,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 332,
+            "bottom": 382,
+            "left": 367.109375,
+            "right": 417.109375,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 382,
+            "bottom": 426,
+            "left": 373.109375,
+            "right": 417.109375,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "theme": "light",
+      "width": 430,
+      "height": 480,
+      "geometry": {
+        "height": 480,
+        "width": 430,
+        "scrollY": 0,
+        "scrollWidth": 430,
+        "messages": 107,
+        "controls": [
+          {
+            "selector": "[data-conversation-draft]",
+            "top": 356,
+            "bottom": 432,
+            "left": 12.890625,
+            "right": 357.109375,
+            "hit": true
+          },
+          {
+            "selector": ".conversation-send",
+            "top": 382,
+            "bottom": 432,
+            "left": 367.109375,
+            "right": 417.109375,
+            "hit": true
+          },
+          {
+            "selector": "[data-keyboard]",
+            "top": 432,
+            "bottom": 476,
+            "left": 373.109375,
+            "right": 417.109375,
+            "hit": true
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "evidence": "Explicit test provider; viewport resizing is a compact layout check, not physical keyboard or model-quality validation."
+}

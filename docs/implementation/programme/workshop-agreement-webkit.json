@@ -10,7 +10,8 @@
     "translated English produces explicitly assisted practice",
     "legacy constructed drafts stay assisted and retain exact saved text",
     "typed drill draft resumes exactly after reload and navigation disposal",
-    "picker callbacks cannot mark a word or save a draft into another profile"
+    "picker callbacks cannot mark a word or save a draft into another profile",
+    "current Workshop routes never request the retired scorer, model or runtime"
   ],
   "errors": []
 }

@@ -864,7 +864,23 @@
         "",
         "It"
       ]
-    }
+    },
+    "sceneRevision": "bisognare-lesson-scope-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedExamples": [
+      {
+        "it": "Bisogna prenotare in anticipo.",
+        "en": "You have to book in advance."
+      },
+      {
+        "it": "Bisognava dirlo prima.",
+        "en": "It should have been said earlier."
+      },
+      {
+        "it": "Bisogna che tu venga con noi.",
+        "en": "You need to come with us."
+      }
+    ]
   },
   {
     "inf": "bruciare",
@@ -1951,7 +1967,7 @@
     "inf": "crollare",
     "policy": "dynamic",
     "sense": "collapse physically",
-    "note": "In the sense “collapse physically”, stare + gerundio highlights this action while it is underway. Use the simple present for a routine or broader fact.",
+    "note": "Stare + gerundio highlights a physical collapse while it is underway. The selected single-wall background is an episode: Il muro crollava describes the wall as it was collapsing, rather than a wall repeatedly completing its own collapse. Other recurring or figurative uses can be habitual. Reference: https://www.treccani.it/vocabolario/crollare/.",
     "en": [
       "collapse",
       "collapses",
@@ -1990,18 +2006,72 @@
         "I muri",
         "The walls"
       ]
-    }
+    },
+    "sceneRevision": "crollare-collapse-episode-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedFrames": [
+      [
+        "sotto il peso",
+        "under the weight"
+      ],
+      [
+        "durante la tempesta",
+        "during the storm"
+      ],
+      [
+        "lentamente",
+        "slowly"
+      ],
+      [
+        "all’improvviso",
+        "suddenly"
+      ]
+    ],
+    "legacyFrames": [
+      [
+        "sotto il peso",
+        "under the weight"
+      ],
+      [
+        "durante la tempesta",
+        "during the storm"
+      ],
+      [
+        "lentamente",
+        "slowly"
+      ],
+      [
+        "all’improvviso",
+        "suddenly"
+      ]
+    ],
+    "legacyFrameCount": 4,
+    "imperfectEn": "was collapsing",
+    "legacyExpandedImperfectEn": null,
+    "legacyImperfectEn": null,
+    "retiredExpandedFrameIndexes": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "retiredExpandedContextIds": [
+      "v:crollare:background:v2:simple:scene-0-2-ordinary",
+      "v:crollare:background:v2:simple:scene-1-2-ordinary",
+      "v:crollare:background:v2:simple:scene-2-2-ordinary",
+      "v:crollare:background:v2:simple:scene-3-2-ordinary"
+    ]
   },
   {
     "inf": "curarsi",
     "policy": "dynamic",
-    "sense": "seek treatment for oneself",
-    "note": "In the sense “seek treatment for oneself”, stare + gerundio highlights this action while it is underway. Use the simple present for a routine or broader fact.",
+    "sense": "get treatment for oneself",
+    "note": "Curarsi here means getting or undergoing treatment, including treatment already underway. Mi sto curando con una nuova terapia describes using that therapy, rather than merely seeking a possible treatment. Use the simple present for a routine or broader fact. Reference: https://www.treccani.it/vocabolario/curare/.",
     "en": [
-      "seek treatment",
-      "seeks treatment",
-      "sought treatment",
-      "seeking treatment"
+      "get treatment",
+      "gets treatment",
+      "got treatment",
+      "getting treatment"
     ],
     "frames": [
       [
@@ -2018,8 +2088,73 @@
       ],
       [
         "con una nuova terapia",
+        "with a new therapy"
+      ]
+    ],
+    "sceneRevision": "curarsi-treatment-underway-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedEn": [
+      "seek treatment",
+      "seeks treatment",
+      "sought treatment",
+      "seeking treatment"
+    ],
+    "legacyEn": [
+      "seek treatment",
+      "seeks treatment",
+      "sought treatment",
+      "seeking treatment"
+    ],
+    "legacyExpandedFrames": [
+      [
+        "per una malattia",
+        "for an illness"
+      ],
+      [
+        "dal medico",
+        "from the doctor"
+      ],
+      [
+        "in ospedale",
+        "in hospital"
+      ],
+      [
+        "con una nuova terapia",
         "with a new treatment"
       ]
+    ],
+    "legacyFrames": [
+      [
+        "per una malattia",
+        "for an illness"
+      ],
+      [
+        "dal medico",
+        "from the doctor"
+      ],
+      [
+        "in ospedale",
+        "in hospital"
+      ],
+      [
+        "con una nuova terapia",
+        "with a new treatment"
+      ]
+    ],
+    "legacyFrameCount": 4,
+    "legacyExpandedExamples": [
+      {
+        "it": "Se non ti curi, la tosse peggiorerà.",
+        "en": "If you don't get treatment, the cough will get worse."
+      },
+      {
+        "it": "Si è curato con rimedi naturali per un mese.",
+        "en": "He treated himself with natural remedies for a month."
+      },
+      {
+        "it": "Non si cura di quello che pensa la gente.",
+        "en": "She doesn't care what people think."
+      }
     ]
   },
   {
@@ -4911,7 +5046,9 @@
     "inf": "peggiorare",
     "sceneRevision": "peggiorare-finite-span-2026-10-03-1",
     "legacyExpandedRevision": "expanded-v1-before-peggiorare-finite-span-2026-10-03-1",
-    "retiredExpandedContextIds": ["v:peggiorare:present:dictionary-0"],
+    "retiredExpandedContextIds": [
+      "v:peggiorare:present:dictionary-0"
+    ],
     "legacyExpandedSourceContexts": [
       {
         "chapter": "present",
@@ -7208,7 +7345,9 @@
     "inf": "sparire",
     "sceneRevision": "sparire-finite-span-2026-10-03-1",
     "legacyExpandedRevision": "expanded-v1-before-sparire-finite-span-2026-10-03-1",
-    "retiredExpandedContextIds": ["v:sparire:present:dictionary-0"],
+    "retiredExpandedContextIds": [
+      "v:sparire:present:dictionary-0"
+    ],
     "legacyExpandedSourceContexts": [
       {
         "chapter": "present",
@@ -11060,7 +11199,9 @@
     "inf": "emanare",
     "sceneRevision": "emanare-finite-span-2026-10-03-1",
     "legacyExpandedRevision": "expanded-v1-before-emanare-finite-span-2026-10-03-1",
-    "retiredExpandedContextIds": ["v:emanare:present:dictionary-2"],
+    "retiredExpandedContextIds": [
+      "v:emanare:present:dictionary-2"
+    ],
     "legacyExpandedSourceContexts": [
       {
         "chapter": "present",

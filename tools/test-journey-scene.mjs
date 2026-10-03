@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {buildLesson} from '../js/learning/lesson-content.js';
+import {buildLesson as buildLessonMetadata} from '../js/learning/lesson-content.js';
 import {buildJourneyQuestion} from '../js/learning/lesson-questions.js';
 import {createLearning,recordAttempt,normalizeLearning,mergeLearning} from '../js/learning/model.js';
 import {createJourneySession,currentJourneyStep,pinJourneyScene,journeyAttempt,recordJourneyAttempt,advanceJourney} from '../js/learning/journey.js';
 import {createJourneyScene,validJourneyScene,retiredJourneyScene,journeySceneContexts} from '../js/learning/journey-scene.js';
+const buildLesson=(entry,options={})=>buildLessonMetadata(entry,{...options,questionBuilder:buildJourneyQuestion});
 const verbs=JSON.parse(fs.readFileSync(new URL('../data/verbs.json',import.meta.url))),copy=x=>JSON.parse(JSON.stringify(x));
 const results=[];const check=(name,run)=>{run();results.push(name);console.log('PASS',name);};
 function fixture(inf='domandare',chapterId='present',select=t=>t.skill==='conjugation'&&t.person===0,variant=0){

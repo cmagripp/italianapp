@@ -5,6 +5,8 @@ import {data} from '../js/data.js';
 import {buildLesson} from '../js/learning/lesson-content.js';
 import {buildJourneyQuestion} from '../js/learning/lesson-questions.js';
 import {createJourneyScene} from '../js/learning/journey-scene.js';
+import {createJourneyForm} from '../js/learning/journey-form.js';
+import {createJourneySession,pinJourneyScene,currentJourneyStep} from '../js/learning/journey.js';
 import {createJourneyPracticeBinding,createPracticeSourceResolver} from '../js/learning/practice-sources.js';
 import {createAIService,createGrounding} from '../js/ai/index.js';
 import {resolvePracticeGrounding} from '../js/ai/practice-grounding.js';
@@ -81,4 +83,22 @@ test('practice help rejects a correction even when a supplied test rule would ot
  const f=fixture(),rule={id:'test-only-registry-rule',verified:true,level:'A1',source:'https://example.test/reviewed-fixture',explanation:'Test-only source explanation.',confirmCorrection:()=>true};
  const resolver=createPracticeSourceResolver({resolveRuleLinks:()=>[rule]}),service=createAIService({practiceSources:resolver,runtime:{generate(){return JSON.stringify({participantId:'helper',text:'Guarda la scheda.',corrections:[{original:'ho venuto',replacement:'sono venuto',ruleId:rule.id}]});}},languagePolicy:{version:'test-only',validate:()=>({ok:true})}});
  await assert.rejects(service.request({...f.request,text:'ho venuto'}),/cannot issue a correction verdict/);service.dispose();
+});
+test('current and valid prior Journey form help binds the full trusted recipe, not imported history',()=>{
+ for(const prior of [false,true]){
+  const entry=data.byId.get('v:bisognare'),plan=buildLesson(entry,{questionBuilder:buildJourneyQuestion}),chapter=(prior?plan.questionHistory.chapters:plan.chapters).find(ch=>ch.id==='present'),target=chapter.groups.flatMap(group=>group.targets).find(target=>target.skill==='conjugation'&&target.person===2&&target.contexts?.length);
+  let step;
+  if(prior){
+   let session=createJourneySession({id:'prior-form-help',plan,chapterId:chapter.id});session.journey.phase='practice';session.journey.groupIndex=chapter.groups.findIndex(group=>group.targets.includes(target));session.journey.current={targetId:target.id,phase:'independent',format:'type',variant:0,questionId:'exact-prior-help',supplemental:false,repairTag:null,scenePolicy:'expanded-v1'};session=pinJourneyScene(plan,session);step=currentJourneyStep(plan,session);assert.equal(step.type,'question');
+  }else{
+   const sceneSnapshot=createJourneyScene({entryId:entry.id,chapterId:chapter.id,target,variant:0});step={type:'question',chapter,target,questionId:'exact-current-help',variant:0,phase:'independent',format:'type',repairTag:null,scenePolicy:'expanded-v1',sceneSnapshot,sceneRevision:sceneSnapshot.sourceRevision,questionRevision:plan.questionHistory.currentRevision};const question=buildJourneyQuestion(entry,chapter,target,step);step.formSnapshot=createJourneyForm(plan,{...step,chapterId:chapter.id,targetId:target.id},question);step.questionHistory=plan.questionHistory;
+  }
+  const question=buildJourneyQuestion(entry,step.chapter,step.target,step),binding=createJourneyPracticeBinding({entry,plan,step,question,sessionId:'form-help'}),resolver=createPracticeSourceResolver(),source=resolver.resolve(binding);assert(source,prior?'valid prior contextual help':'current contextual help');assert.equal(source.references[0].it,question.context.it);assert.equal(binding.questionRevision,step.formSnapshot.sourceRevision);
+  for(const change of [b=>b.formSnapshot.descriptor.say+=' changed',b=>b.formSnapshot.descriptor.answer=['invented'],b=>b.questionRevision='invented',b=>b.questionHistory=plan.questionHistory,b=>delete b.formSnapshot]){const forged=structuredClone(binding);change(forged);assert.equal(resolver.resolve(forged),null);}
+ }
+});
+test('retired prior form recipes cannot become help sources even with their original exact descriptor',()=>{
+ const entry=data.byId.get('v:succedere'),plan=buildLesson(entry,{questionBuilder:buildJourneyQuestion}),chapter=plan.questionHistory.chapters.find(ch=>ch.id==='past'),target=chapter.groups.flatMap(group=>group.targets).find(target=>target.id.endsWith('form-0'));
+ let session=createJourneySession({id:'retired-form-help',plan,chapterId:chapter.id});session.journey.phase='practice';session.journey.groupIndex=chapter.groups.findIndex(group=>group.targets.includes(target));session.journey.current={targetId:target.id,phase:'independent',format:'type',variant:0,questionId:'retired-question',supplemental:false,repairTag:null,scenePolicy:'expanded-v1'};session=pinJourneyScene(plan,session);const current=session.journey.current,snapshot=current.formSnapshot;assert(snapshot);
+ const step={type:'question',chapter,target,...current},question=buildJourneyQuestion({...plan.questionHistory.entry,_historicalLessonForms:true},chapter,target,{...current,formSnapshot:undefined,historicalForms:true}),binding=createJourneyPracticeBinding({entry,plan,step,question,sessionId:session.id});assert.equal(createPracticeSourceResolver().resolve(binding),null);
 });

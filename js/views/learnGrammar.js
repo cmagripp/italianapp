@@ -12,6 +12,7 @@ import { loadGrammarCourse, loadGrammarLesson, grammarCourse, grammarLesson, gra
 import { createGrammarSession, compatibleGrammarSession, grammarObjective, currentGrammarQuestion, advanceGrammar, grammarAttempt, checkGrammarAnswer } from '../learning/grammar-journey.js';
 import {assistanceAvailable} from '../learning/ai-assistance.js';
 import {createPracticeHelp} from '../learning/practice-help.js';
+import {createGrammarPracticeBinding,createPracticeSourceResolver} from '../learning/practice-sources.js';
 
 const button=(label,attr,cls='secondary')=>html`<button type="button" class="btn ${cls} block" ${raw(attr)}>${label}</button>`;
 const exercisePrompt=prompt=>({'Choose the form that completes the sentence.':'Complete the sentence','Put the words in the correct order.':'Build the sentence'}[prompt] || prompt);
@@ -33,14 +34,17 @@ export async function render(root,params,query={}) {
   let disposed=false;
   const g=()=>session.grammar;
   const save=()=>{if(!disposed&&sameOwner()){store.saveLearningSession(session);}};
-  const help=createPracticeHelp({getSession:()=>session,isCurrent:()=>!disposed&&sameOwner(),getSource:()=>{
+  const sourceResolver=createPracticeSourceResolver();
+  const helpSource=()=>{
+    if(disposed||!sameOwner()||!owned())return null;
     if(g().paused||g().historyCursor!==null||g().phase==='complete')return null;
     const objective=grammarObjective(lesson,session),q=g().phase==='question'?currentGrammarQuestion(lesson,session):null,card=g().phase==='teach'?objective.teach[g().teachIndex]:null;
-    const canonical=q||card||{label:objective.label,explanation:objective.explanation};
-    return {sourceId:`grammar:${lesson.id}:${objective.id}:${q?.id||g().phase+':'+g().teachIndex}`,sessionId:session.id,index:session.index,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,level:lesson.level,
-      prompt:canonical.prompt||canonical.body||canonical.explanation||canonical.label||lesson.title,context:JSON.stringify({context:q?.context,translation:q?.translation,examples:card?.examples}),canonical:JSON.parse(JSON.stringify(canonical)),
+    const binding=createGrammarPracticeBinding({lesson,session}),canonical=binding&&sourceResolver.resolve(binding);if(!canonical)return null;
+    return {helpSource:binding,sourceId:`grammar:${lesson.id}:${objective.id}:${q?.id||g().phase+':'+g().teachIndex}`,sessionId:session.id,index:session.index,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,level:lesson.level,
+      prompt:canonical.prompt,context:canonical.context,canonical:structuredClone(canonical.canonical),
       answers:[q?.answer,...q?.accepted||[],...(q?.pairs||[]).map(pair=>pair.right)].filter(value=>typeof value==='string'),originalInput:g().draft,result:g().result,inputLanguage:'en'};
-   },persist:async()=>{if(disposed||!sameOwner())throw new DOMException('This practice step changed.','AbortError');save();await store.saveNow();},
+  };
+  const help=createPracticeHelp({getSession:()=>session,isCurrent:()=>!disposed&&sameOwner()&&owned(),getSource:helpSource,persist:async()=>{if(disposed||!sameOwner()||!owned())throw new DOMException('This practice step changed.','AbortError');save();await store.saveNow();},
    onViewed:()=>{if(g().phase==='question'&&!g().result)g().assistance=[...new Set([...g().assistance,'hint'])];},onRefresh:()=>draw(),
   });
   const offOwner=store.on('profile',()=>{if(!sameOwner())help.close();});
@@ -98,7 +102,7 @@ export async function render(root,params,query={}) {
     if(past){content=html`<div class="grammar-history-note">Earlier in this lesson · answers are not recorded here</div>${raw(content)}`;footer=button('Return to your place','data-return-live','primary');}
     const pct=state.phase==='complete'?100:Math.min(95,Math.round((progress.completed+Math.min(.9,(state.teachIndex+state.questionIndex+1)/7))/progress.total*100));
     root.innerHTML=html`<div class="grammar-shell" data-grammar-lesson="${lesson.id}" data-phase="${g().paused?'paused':state.phase}" data-history="${past}"><header class="grammar-header"><button type="button" class="btn ghost" data-grammar-back ${!g().history.length?raw('disabled'):''}>${raw(icon('chevron',{size:16}))} Back</button><span class="kicker">${lesson.level} · ${g().paused?'Paused':state.phase==='complete'?'Complete':state.phase==='teach'?'Learn':state.phase==='repair'?'A closer look':'Practise'}</span><button type="button" class="btn ghost" data-pause>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header><main class="grammar-scroll">${raw(content)}</main>${footer?raw(html`<footer class="grammar-footer ${state.result&&!past?'has-feedback':''}">${raw(footer)}</footer>`):''}</div>`;
-    if(!g().paused&&!past&&state.phase!=='complete'&&assistanceAvailable()){
+    if(!g().paused&&!past&&state.phase!=='complete'&&assistanceAvailable()&&helpSource()){
       const tools=document.createElement('div');tools.className='journey-tools';tools.dataset.aiLessonTools='';
       tools.innerHTML=(q&&!state.result?['hint','explain']:['explain']).map(task=>html`<button type="button" class="btn ghost" data-ai-lesson-help="${task}">${task==='hint'?'Another hint':'Help me understand'}</button>`).join('');root.querySelector('.grammar-scroll').append(tools);
     }

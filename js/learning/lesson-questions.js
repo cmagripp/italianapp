@@ -9,17 +9,25 @@ import { progressiveForms, progressiveInfo } from './progressive-content.js';
 import { progressiveForms as legacyForms, progressiveInfo as legacyInfo } from './legacy-progressive-content.js';
 import { buildShortWordQuestion } from './word-questions.js';
 import { journeySceneMatches, retiredJourneyScene } from './journey-scene.js';
+import {journeyFormMatches,journeyFormRecipe,retiredJourneyForm} from './journey-form.js';
 const esc=escapeHTML;
+const scopedSubject=(entry,target,person,options)=>options.historicalForms?null:entry.inf==='bisognare'?'impersonal necessity':entry.inf==='succedere'?(target.subjectLabel||(person===5?'more than one thing':'one thing or situation')):null;
 const unique=xs=>[...new Set(xs.filter(Boolean))];
 const text=(a,b='')=>`<div class="big md">${esc(a)}</div><div class="sub">${esc(b)}</div>`;
 function seeded(n){let x=(Number(n)||0)+17;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296;};}
 function choices(q,wrong,recognition,rng){const keys=new Set(q.answer.map(x=>x.toLocaleLowerCase('it')));const pool=unique(wrong).filter(x=>!keys.has(x.toLocaleLowerCase('it'))).slice(0,3);q.type=recognition&&pool.length?'mc':'type';q.choices=q.type==='mc'?[{label:q.answer[0],value:q.answer[0],correct:true},...pool.map(label=>({label,value:label,correct:false}))]:[];for(let i=q.choices.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[q.choices[i],q.choices[j]]=[q.choices[j],q.choices[i]];}return q;}
 export function buildJourneyQuestion(entry,chapter,target,options={}){
+ if(options.formSnapshot!==undefined){
+  const plan={entryId:entry?.id,chapters:[chapter],questionHistory:options.questionHistory},current={...options,targetId:target?.id,chapterId:chapter?.id};
+  if(!journeyFormMatches(options.formSnapshot,plan,current,buildJourneyQuestion)||retiredJourneyForm(options.formSnapshot,options.questionHistory))return null;
+  const recipe=journeyFormRecipe(plan,current);
+  return buildJourneyQuestion(recipe.entry,recipe.chapter,recipe.target,{...options,formSnapshot:undefined,questionHistory:undefined,historicalForms:recipe.prior});
+ }
  const {variant=0,format='type',phase='independent',repairTag=null,scenePolicy,sceneSnapshot}=options;
  const expandedScenes=scenePolicy==='expanded-v1';
  if(!entry?.id||!chapter?.id||!target?.id||target.available===false)return null;
  if(target.shortWord)return buildShortWordQuestion(entry,target,{variant,format,phase,pool:data.vocab||[],pairTargets:target.wordPairTargets||[],chapterId:chapter.id,contentVersion:LESSON_CONTENT_VERSION});
- entry=lessonEntry(entry);
+ entry=lessonEntry(options.historicalForms?{...entry,_historicalLessonForms:true}:entry);
  const v=Math.abs(Math.floor(Number(variant)||0)),rng=seeded(v),kind=entry.inf?'verb':'word';
  if(sceneSnapshot!==undefined&&(!expandedScenes||!journeySceneMatches(sceneSnapshot,{entryId:entry.id,chapterId:chapter.id,target,variant:v})))return null;
  if(retiredJourneyScene(sceneSnapshot,target))return null;
@@ -47,7 +55,7 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
    const context=fixedScene||situations[v%situations.length],englishCue=sceneSnapshot?.englishCue??(situations.length&&Math.floor(v/situations.length)%2===1);
    const answers=context?.answers||formsFor(entry,person,{chapter:source});if(!answers.length)return null;
    const tenseCue=source==='background'?'stare (imperfetto) + gerundio':'stare (present) + gerundio';
-   const who=context?.subjectLabel||((context?.role||target.role)==='formal'?'Lei · formal':person===1?'tu · informal':person===4?'voi · plural':info.weather?'impersonal weather use':PERSONS[person]);
+   const who=scopedSubject(entry,target,person,options)||context?.subjectLabel||((context?.role||target.role)==='formal'?'Lei · formal':person===1?'tu · informal':person===4?'voi · plural':info.weather?'impersonal weather use':PERSONS[person]);
    const diagnostic={kind:'progressive',gerund:info.gerund,clitic:info.clitic,person,stareForms:info.helperForms,otherTenseForms:infoFor(entry,{chapter:source==='background'?'present':'background'}).helperForms,personForms:Array.from({length:6},(_,p)=>formsFor(entry,p,{chapter:source}).map(answer=>({person:p,answer}))).flat()};
    q={prompt:text(v%2?entry.en:entry.inf,`${who} · ${tenseCue} · action in progress`),answer:answers,choices:[],say:answers[0],tip:`Use the matching form of stare, then ${info.gerund}. Keep any pronouns with the construction.`,lesson:`${who} → ${answers.join(' / ')}`,example:`${who} → ${answers.join(' / ')}`,meta:{diagnostic,variantId:`${target.id}:cue-${v%2}`,contextId:`${target.id}:form-cue-${v%2}`,evidenceScope:'form'}};
    if(context&&format!=='match'){
@@ -77,7 +85,7 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   const e=context.aux?{...entry,aux:context.aux}:entry;
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:'production',repairPerson:context.person,allowedTenses:permitted,variant:v,rng});if(!q)return null;
   q.answer=context.answers||[context.answer];
-  const personCue=context.subjectLabel||(context.role==='formal'?'Lei · formal':context.person===1?'tu · informal':context.person===4?'voi · plural':PERSONS[context.person]);
+  const personCue=scopedSubject(entry,target,context.person,options)||context.subjectLabel||(context.role==='formal'?'Lei · formal':context.person===1?'tu · informal':context.person===4?'voi · plural':PERSONS[context.person]);
   const instruction=`${personCue} · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`;
   q.prompt=englishCue?text(context.en,instruction):`<div class="sub">${esc(context.en)}</div><div class="sentence">${esc(context.it.slice(0,at))}<span class="blank">…</span>${esc(context.it.slice(at+context.answer.length))}</div><div class="sub">${esc(instruction)}</div>`;
   q.example=context.it;q.exampleTranslation=context.en;q.context={it:context.it,en:context.en};q.say=context.it;
@@ -87,7 +95,7 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   choices(q,[...(q.meta.diagnostic.personForms||[]).map(x=>x.answer),...(q.meta.diagnostic.tenseForms||[]).map(x=>x.answer)],showChoices,rng);
  }else if(kind==='verb'&&target.skill==='address'&&!smallRepair){
   const female=v%2===0,c=conjugate(entry.inf,{aux:entry.aux,isc:entry.isc});
-  let answers=formalLessonForms(entry,target.tense,female);if(!answers.length)return null;
+  let answers=options.historicalForms?(target.answerFormsByVariant?.[v%(target.answerFormsByVariant?.length||1)]||target.answerForms||[]):formalLessonForms(entry,target.tense,female);if(!answers.length)return null;
   q=buildQuestion(entry,{...o,skill:'conjugation'},{mode:'production',repairPerson:2,allowedTenses:permitted,variant:v,rng});if(!q)return null;
   q.answer=answers;
   q.prompt=text(`${female?'Signora':'Signor'} Rossi · Lei`, `formal · ${TENSE_BY_KEY[target.tense]?.name||target.tense}`);
@@ -99,11 +107,11 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   choices(q,[...(q.meta.diagnostic.personForms||[]).map(x=>x.answer)],showChoices,rng);
  }else if(kind==='verb'&&target.guidedOnly){
   q=buildQuestion(entry,o,{mode:'production',variant:target.skill==='auxiliary'?1:0,repairPerson:target.person,allowedTenses:permitted,rng});if(!q)return null;
-  if(target.skill==='participle'){q.answer=lessonParticiples(entry);q.say=q.answer[0]||'';}
+  if(target.skill==='participle'){q.answer=options.historicalForms?target.answerForms:lessonParticiples(entry);q.say=q.answer[0]||'';}
   q.meta.supportOnly=true;
  }else if(kind==='verb'){
   const repairContext=smallRepair?fixedScene||contexts[v%contexts.length]:null,e=repairContext?.aux?{...entry,aux:repairContext.aux}:entry;
-  const person=repairContext?.person??target.person??(WEATHER_VERBS.has(entry.inf)?2:0),answers=lessonForms(e,target.tense,person);if(!answers.length)return null;
+  const person=repairContext?.person??target.person??(WEATHER_VERBS.has(entry.inf)?2:0),answers=options.historicalForms&&!smallRepair?(target.answerFormsByVariant?.[v%(target.answerFormsByVariant?.length||1)]||target.answerForms||[]):lessonForms(e,target.tense,person);if(!answers.length)return null;
   q=buildQuestion(e,{...o,skill:'conjugation'},{mode:smallRepair||showChoices?'recognition':'production',variant:v,repairPerson:person,repairTag:phase==='repair'?repairTag:null,allowedTenses:permitted,rng});if(!q)return null;
   if(!q.meta.scaffold){
    q.answer=answers;
@@ -180,7 +188,7 @@ export function buildJourneyQuestion(entry,chapter,target,options={}){
   const eligible=(group?.targets||[]).filter(t=>t.available!==false&&!t.supplementalOnly&&!t.guidedOnly&&['conjugation','address','progressive'].includes(t.skill)&&Number.isInteger(t.person));
   if(kind==='verb'&&eligible.length>=3&&eligible.some(t=>t.id===target.id)){
    const start=eligible.findIndex(t=>t.id===target.id),selected=[...eligible.slice(start),...eligible.slice(0,start)].slice(0,3);
-   const pairs=selected.map(t=>({targetId:t.id,label:t.role==='formal'?`Lei · formal${TENSE_BY_KEY[t.tense]?.compound?` (${v%2?'man':'woman'})`:''}`:t.role==='formalPlural'?'Loro · formal plural':t.person===1?'tu · informal':t.person===4?'voi · plural':PERSONS[t.person],question:buildJourneyQuestion(entry,chapter,t,{variant:v,format:'match',phase:'guided',...(Object.hasOwn(options,'scenePolicy')?{scenePolicy}:{})})}));
+   const pairs=selected.map(t=>({targetId:t.id,label:(!options.historicalForms&&['v:succedere','v:bisognare'].includes(entry.id)&&t.subjectLabel)|| (t.role==='formal'?`Lei · formal${TENSE_BY_KEY[t.tense]?.compound?` (${v%2?'man':'woman'})`:''}`:t.role==='formalPlural'?'Loro · formal plural':t.person===1?'tu · informal':t.person===4?'voi · plural':PERSONS[t.person]),question:buildJourneyQuestion(entry,chapter,t,{variant:v,format:'match',phase:'guided',historicalForms:options.historicalForms,...(Object.hasOwn(options,'scenePolicy')?{scenePolicy}:{})})}));
    return createPairActivity(q,pairs,{seed:v});
   }
  }

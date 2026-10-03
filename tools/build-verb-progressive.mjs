@@ -14,6 +14,11 @@ for(const [batch,levels] of Object.entries(batches)){
     assert(!data[record.inf],`Duplicate ${record.inf}`);
     assert(['dynamic','sense-dependent','simple'].includes(record.policy),record.inf+' policy');
     assert(record.sense?.trim()&&record.note?.trim(),record.inf+' explanation');
+    if(record.legacyExpandedEn){
+      assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' distinct English scene revisions');
+      for(const field of ['legacyExpandedEn','legacyEn'])assert(Array.isArray(record[field])&&record[field].length===4&&record[field].every(s=>typeof s==='string'&&s.trim()),record.inf+' exact prior English predicates');
+      assert(record.legacyExpandedFrames&&record.legacyFrames,record.inf+' prior English requires the exact prior frames');
+    }
     if(record.legacyExpandedRevisionAliases){
       const aliases=record.legacyExpandedRevisionAliases;
       assert(record.sceneRevision&&record.legacyExpandedRevision,record.inf+' prior aliases need explicit revisions');

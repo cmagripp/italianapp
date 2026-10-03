@@ -1,0 +1,9 @@
+# Verified pack cache update preservation
+
+The service worker now preserves the exact `parola-ai-pack-v1:` cache namespace shared by the verified pack manager. Activation still removes obsolete shell/unrelated caches and retains the intended audio, historical fit and WebLLM caches. Near-prefix names such as `parola-ai-pack-v10` are not included. `check-shell` pins the exact namespace agreement and activation condition.
+
+The actual worker-install/update fixture passes three checks in each Chromium and WebKit: installed verified state/assets and local learner records survive activation; a fresh document reload verifies its exact active pointer and asset when all origin network responses are unavailable; corrupt replacement keeps the previous verified pack active and repair/remove remains scoped. The final fixture disables the origin server’s responses for offline reload, because WebKit’s browser offline emulation bypassed service-worker navigation. This is still a real worker-served network-unavailable reload, not an inference or quality test.
+
+Reports are `offline-pack-update-chromium.json` and `offline-pack-update-webkit.json`. The fixture uses synthetic hash-verified pack bytes and minimal controlled shell assets with the actual worker lifecycle/cache handlers. Production model/provider, microphone, physical device and full installed application release gates remain separate.
+
+The exact retired fit source/model/runtime paths are excluded from publication by the parent-owned build contract, with original sources/hashes/notices preserved. The compatibility worker path uses its matching existing cached worker when the old URL returns a non-OK response; generic worker/network behavior stays unchanged. Parent’s five actual local pinned-model/worker compatibility checks per engine are recorded separately in `fit-retirement-*.json`; they establish installed-cache execution, not learning quality.

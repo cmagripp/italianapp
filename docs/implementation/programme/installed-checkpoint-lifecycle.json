@@ -1,0 +1,22 @@
+{
+  "observedAt": "2026-10-03T20:25:55.965842+00:00",
+  "device": "iPhone 16 Pro Max simulator",
+  "iOS": "26.5",
+  "scope": "Existing localhost candidate Home Screen installation; production and baseline installations preserved",
+  "servedBuild": "parola-v15-ac81b31a7aea",
+  "sourceCommit": "9802b1d",
+  "observed": [
+    "Existing candidate closed from the app switcher and reopened after the assembled update; Home still displayed 5 XP.",
+    "Continue resumed the exact saved credere feedback: Tu credi al racconto di Sara; the retained answer was credi and visit count 1/8.",
+    "Owned candidate server then stopped; HTTP connection check returned 000 (origin unreachable).",
+    "Candidate force-closed and reopened from its existing Home Screen icon with server unavailable. Cached Home loaded with the same 5 XP.",
+    "Continue again restored the same credere answer and feedback, with Continue visible and the background filling the bottom safe area.",
+    "Candidate server restored after the check. No installation or learner data was erased."
+  ],
+  "limits": [
+    "Origin-unavailable cold reopen, not device airplane-mode or physical-device proof.",
+    "No production model/speech pack is enabled.",
+    "Screens were visually inspected through Simulator; active worker cache identity was not independently queried from the installed web app. Served build and observed asset refresh are recorded separately.",
+    "Later uncommitted source changes are not part of this assembled candidate."
+  ]
+}

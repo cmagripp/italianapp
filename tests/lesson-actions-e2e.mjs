@@ -155,7 +155,7 @@ try {
     const seeded = await page.evaluate(async () => {
       const { store } = await import('./js/store.js'); const { getEntry } = await import('./js/data.js');
       const { buildLesson } = await import('./js/learning/lesson-content.js'); const { createJourneySession } = await import('./js/learning/journey.js');
-      const s = createJourneySession({ id: 'saved-meet-recap', plan: buildLesson(getEntry('v:dire')), now: Date.now() });
+      const s = createJourneySession({ id: 'saved-meet-recap', plan: buildLesson(getEntry('v:dire'),{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion}), now: Date.now() });
       Object.assign(s.journey, { chapterId: 'meet', phase: 'recap', current: null, queue: [], awaitingContinue: false, groupIndex: 1, cardIndex: 0 });
       s.journey.covered.meet = Date.now(); s.ui = { version: 2, draft: '', assistance: [], exposures: {}, mapOpen: false };
       store.saveLearningSession(s); await store.saveNow();

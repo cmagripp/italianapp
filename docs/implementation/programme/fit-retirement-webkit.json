@@ -1,0 +1,16 @@
+{
+  "engine": "webkit",
+  "checks": [
+    "The actual previous module installs its pinned local model/runtime and worker before retirement",
+    "An actual worker update retires publication and keeps the verified old download and saved learner record",
+    "The retained module cold-starts the actual cached worker while the retired worker URL returns404",
+    "A fresh worker also starts with origin unavailable and leaves the saved record exact",
+    "A partial optional install is never complete; removed publication reports failure without rewriting learner work"
+  ],
+  "errors": [],
+  "swSHA256": "9d3795f45aed2a2b1b1b3d517c65ad3c2020778cad5447587dae9c38d1a4dd67",
+  "oldModuleSHA256": "d76e2584eb05ed1ca95516d9a3a68c20ba4e9789cd7b34847c5254068333b4cf",
+  "oldWorkerSHA256": "cfc69e2bedb3e4ab46cd2590bc36fdcf37442138638dc5f25d36f1a0ae2d4647",
+  "installedBytes": 83264743,
+  "scope": "Actual locally supplied prior module, pinned model/runtime, Cache API, worker startup and SW update with a minimal controlled shell. Saved record is a synthetic storage fixture; actual Workshop route coverage is separately required. Worker startup establishes compatibility only, not useful linguistic scoring or production AI readiness."
+}

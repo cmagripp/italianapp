@@ -1,0 +1,1228 @@
+{
+  "generatedAt": "2026-10-03T20:44:01.338Z",
+  "scope": "Exact current canonical source support only; no rule, editorial or real model quality approval.",
+  "policy": "Workshop uses a whole accepted phrase with neighbouring canonical template tokens; unsupported sources have no fallback example.",
+  "packs": [
+    {
+      "path": "data/sentence-lab/presente.json",
+      "sha256": "8a8ca43e0e29baed9ae4b22500385ac2af53cd9a051636357dd2d1f3e101e86e"
+    },
+    {
+      "path": "data/sentence-lab/passato.json",
+      "sha256": "5bf05c2d5a8de89ca912bc96c72aa912f347cf0fdae3d960eb59360de2b9b40a"
+    },
+    {
+      "path": "data/sentence-lab/futuro.json",
+      "sha256": "358c508d101787671548e844da99ff1984a16325312a18a0d35e858b67f13bfa"
+    },
+    {
+      "path": "data/sentence-lab/strutture.json",
+      "sha256": "27403696c38d6a0cbac6c352c62b40d3faedd61ec86bea44711cd22879ad21aa"
+    },
+    {
+      "path": "data/course-v2/Foundations.json",
+      "sha256": "a3c43d8d031ca16424ac2147910920b6f597309a4301db4d9f99fdb724208ffb"
+    },
+    {
+      "path": "data/course-v2/A1.json",
+      "sha256": "3ea0e6a3816d052714409b7e480073e203f0c13b7d44942e2b244c2bbd894122"
+    },
+    {
+      "path": "data/course-v2/A2.json",
+      "sha256": "c9b39efa9b8c4bfc0a513ea9c7a8f13f6422f628e92d9a382cbcb598573fe93a"
+    },
+    {
+      "path": "data/course-v2/B1.json",
+      "sha256": "b8a356eb9567459d4fecfd686d912f8622d633855e4ae35849b1e4ed7e74e48e"
+    },
+    {
+      "path": "data/course-v2/B2.json",
+      "sha256": "c9a31582ef7b25504e1ad8e9fe67f47ba00adb985cacd4306db0ef0ed308e275"
+    },
+    {
+      "path": "data/course-v2/C1.json",
+      "sha256": "b7941d2f3a574b1a649cdc4c7425e6e3b60d18bbd00b065eaa8b16e5a481f292"
+    },
+    {
+      "path": "data/course-v2/C2.json",
+      "sha256": "6a578d31b00247b1e86e756e127ff513528ec5dcb6d2f044f275c36f0b79ccbd"
+    },
+    {
+      "path": "data/grammar-course/A1.json",
+      "sha256": "62601e0629f68a98e490ec77f440b1ac8a6140eae3c8263896f807f8d54fbbf3"
+    },
+    {
+      "path": "data/grammar-course/A2.json",
+      "sha256": "c4d4a3f7c807ce0bd01e742cee675d02f394836407006475b0e11100abba3202"
+    },
+    {
+      "path": "data/grammar-course/B1.json",
+      "sha256": "02f2f5a65b2e72b419f721ee4f953bb7c0ad07220286535ccc6b6b49b93d3aeb"
+    },
+    {
+      "path": "data/grammar-course/B2.json",
+      "sha256": "9b8df1c6731f9e7ca5f9d14287c7a29cd25b3c25c1a69a531cdc53ed1bc4c8d1"
+    },
+    {
+      "path": "data/grammar-course/C1.json",
+      "sha256": "b51d28eb19cfdfeb67fdb26cd0cab0f31a3d33c87c67c58e08df3ca2aa5d4a7a"
+    },
+    {
+      "path": "data/grammar-course/C2.json",
+      "sha256": "7d595c6d9a425bab5211c3c679d7513bd4fc8b4f2babbcbadc43a61ca93716a7"
+    }
+  ],
+  "course": {
+    "question": 2211,
+    "portfolio": 245,
+    "unsupported": []
+  },
+  "grammar": {
+    "question": 534,
+    "teach": 258,
+    "repair": 534,
+    "unsupported": []
+  },
+  "lessons": 21,
+  "freeSlots": 46,
+  "supportedBothAgreements": 3,
+  "unsupported": 43,
+  "slots": [
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-01-chi-sono",
+      "activityId": "sl-presente-01-chi-sono.5",
+      "activityIndex": 4,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Sono di Roma e sono ____.",
+      "accept": [
+        "italiano",
+        "italiana",
+        "inglese",
+        "americano",
+        "americana",
+        "spagnolo",
+        "francese"
+      ],
+      "agreements": {
+        "m": {
+          "supported": true,
+          "referenceTexts": [
+            "Sono italiana."
+          ]
+        },
+        "f": {
+          "supported": true,
+          "referenceTexts": [
+            "Sono italiana."
+          ]
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-01-chi-sono",
+      "activityId": "sl-presente-01-chi-sono.6",
+      "activityIndex": 5,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Sono ____ e ____ ventotto anni.",
+      "accept": [
+        "italiano",
+        "italiana",
+        "inglese",
+        "americano",
+        "americana",
+        "spagnolo",
+        "francese",
+        "tedesco"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-01-chi-sono",
+      "activityId": "sl-presente-01-chi-sono.6",
+      "activityIndex": 5,
+      "turnIndex": 5,
+      "blankIndex": 0,
+      "template": "Sono ____.",
+      "accept": [
+        "studente",
+        "studentessa",
+        "insegnante",
+        "medico",
+        "cameriere",
+        "cameriera"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-02-cosa-faccio",
+      "activityId": "sl-presente-02-cosa-faccio.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Marco ____ la pizza.",
+      "accept": [
+        "mangia",
+        "prende",
+        "compra",
+        "preferisce"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-02-cosa-faccio",
+      "activityId": "sl-presente-02-cosa-faccio.6",
+      "activityIndex": 5,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "La mattina ____ un caffè e poi lavoro.",
+      "accept": [
+        "bevo",
+        "prendo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-03-mi-piace",
+      "activityId": "sl-presente-03-mi-piace.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Mi piace molto ____.",
+      "accept": [
+        "la pizza",
+        "il mare",
+        "la musica",
+        "il gelato",
+        "lo sport",
+        "il cinema"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-03-mi-piace",
+      "activityId": "sl-presente-03-mi-piace.6",
+      "activityIndex": 5,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Mi piace ____.",
+      "accept": [
+        "la pizza",
+        "il gelato",
+        "la pasta",
+        "il pesce",
+        "la carne",
+        "il pane"
+      ],
+      "agreements": {
+        "m": {
+          "supported": true,
+          "referenceTexts": [
+            "Mi piace la pizza."
+          ]
+        },
+        "f": {
+          "supported": true,
+          "referenceTexts": [
+            "Mi piace la pizza."
+          ]
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-04-dove-e-quando",
+      "activityId": "sl-presente-04-dove-e-quando.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Studio l'italiano ____.",
+      "accept": [
+        "la sera",
+        "la mattina",
+        "il lunedì",
+        "stasera",
+        "oggi",
+        "domani",
+        "sempre"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-04-dove-e-quando",
+      "activityId": "sl-presente-04-dove-e-quando.6",
+      "activityIndex": 5,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Sono a casa ____.",
+      "accept": [
+        "la sera",
+        "il sabato",
+        "stasera",
+        "la domenica",
+        "domani",
+        "oggi"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-05-domande",
+      "activityId": "sl-presente-05-domande.6",
+      "activityIndex": 5,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Stasera ____ un film a casa. Vieni?",
+      "accept": [
+        "guardo",
+        "vedo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-06-come-stai",
+      "activityId": "sl-presente-06-come-stai.5",
+      "activityIndex": 4,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Bene grazie, ma ____.",
+      "accept": [
+        "sono stanco",
+        "sono stanca",
+        "ho fame",
+        "ho sonno",
+        "ho sete"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "presente",
+      "lessonId": "sl-presente-06-come-stai",
+      "activityId": "sl-presente-06-come-stai.7",
+      "activityIndex": 6,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Oggi sono ____ perché è sabato.",
+      "accept": [
+        "contento",
+        "contenta",
+        "felice",
+        "libero",
+        "libera"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-01-ieri-ho",
+      "activityId": "sl-passato-01-ieri-ho.3",
+      "activityIndex": 2,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Ieri sera ____ un bel film.",
+      "accept": [
+        "ho visto",
+        "ho guardato"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-01-ieri-ho",
+      "activityId": "sl-passato-01-ieri-ho.5",
+      "activityIndex": 4,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Ieri ____.",
+      "accept": [
+        "ho visto un film",
+        "ho lavorato tutto il giorno",
+        "ho dormito molto",
+        "ho fatto la spesa"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-01-ieri-ho",
+      "activityId": "sl-passato-01-ieri-ho.5",
+      "activityIndex": 4,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Sì, ____ un cappuccino.",
+      "accept": [
+        "ho preso",
+        "ho bevuto"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-01-ieri-ho",
+      "activityId": "sl-passato-01-ieri-ho.7",
+      "activityIndex": 6,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Noi ____ il pane e loro ____ il vino.",
+      "accept": [
+        "abbiamo comprato"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-01-ieri-ho",
+      "activityId": "sl-passato-01-ieri-ho.7",
+      "activityIndex": 6,
+      "turnIndex": null,
+      "blankIndex": 1,
+      "template": "Noi ____ il pane e loro ____ il vino.",
+      "accept": [
+        "hanno comprato"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-02-sono-andato",
+      "activityId": "sl-passato-02-sono-andato.4",
+      "activityIndex": 3,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Scusa! ____.",
+      "accept": [
+        "sono andato al cinema",
+        "sono andata al cinema",
+        "sono uscito con gli amici",
+        "sono uscita con gli amici"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-02-sono-andato",
+      "activityId": "sl-passato-02-sono-andato.4",
+      "activityIndex": 3,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Sì, ____ a casa a mezzanotte.",
+      "accept": [
+        "sono tornato",
+        "sono tornata",
+        "sono arrivato",
+        "sono arrivata"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-02-sono-andato",
+      "activityId": "sl-passato-02-sono-andato.7",
+      "activityIndex": 6,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Sabato ____ al mare con la famiglia.",
+      "accept": [
+        "sono andato",
+        "sono andata"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-03-quando",
+      "activityId": "sl-passato-03-quando.5",
+      "activityIndex": 4,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "A Roma ____ tanti musei e tante chiese.",
+      "accept": [
+        "ho visto",
+        "ho visitato",
+        "abbiamo visto",
+        "abbiamo visitato"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-04-era-cosi",
+      "activityId": "sl-passato-04-era-cosi.5",
+      "activityIndex": 4,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Dopo la scuola ____ con gli amici.",
+      "accept": [
+        "giocavo",
+        "studiavo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-04-era-cosi",
+      "activityId": "sl-passato-04-era-cosi.6",
+      "activityIndex": 5,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Mentre ____, ____ Marco.",
+      "accept": [
+        "dormivo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": true,
+          "referenceTexts": [
+            "Mentre dormivo, è arrivato Marco."
+          ]
+        },
+        "f": {
+          "supported": true,
+          "referenceTexts": [
+            "Mentre dormivo, è arrivato Marco."
+          ]
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-05-raccontami",
+      "activityId": "sl-passato-05-raccontami.4",
+      "activityIndex": 3,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Bene! Ieri mattina ____ presto.",
+      "accept": [
+        "mi sono alzato",
+        "mi sono alzata",
+        "ho lavorato",
+        "sono uscito",
+        "sono uscita"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-05-raccontami",
+      "activityId": "sl-passato-05-raccontami.4",
+      "activityIndex": 3,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Dopo ____ con Marco.",
+      "accept": [
+        "ho pranzato",
+        "sono uscito",
+        "sono uscita",
+        "ho parlato",
+        "ho studiato"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-05-raccontami",
+      "activityId": "sl-passato-05-raccontami.4",
+      "activityIndex": 3,
+      "turnIndex": 7,
+      "blankIndex": 0,
+      "template": "La sera ____ a casa e ____ un film.",
+      "accept": [
+        "siamo tornati",
+        "siamo tornate",
+        "siamo rimasti",
+        "siamo rimaste"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "passato",
+      "lessonId": "sl-passato-05-raccontami",
+      "activityId": "sl-passato-05-raccontami.4",
+      "activityIndex": 3,
+      "turnIndex": 7,
+      "blankIndex": 1,
+      "template": "La sera ____ a casa e ____ un film.",
+      "accept": [
+        "abbiamo visto",
+        "abbiamo guardato"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "futuro",
+      "lessonId": "sl-futuro-01-domani",
+      "activityId": "sl-futuro-01-domani.5",
+      "activityIndex": 4,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Domani sera ____ un film con Anna.",
+      "accept": [
+        "guarderò",
+        "vedrò"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "futuro",
+      "lessonId": "sl-futuro-01-domani",
+      "activityId": "sl-futuro-01-domani.6",
+      "activityIndex": 5,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "La settimana prossima ____ molto.",
+      "accept": [
+        "lavorerò",
+        "studierò"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "futuro",
+      "lessonId": "sl-futuro-03-se",
+      "activityId": "sl-futuro-03-se.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Se fa bel tempo, domenica ____ al mare.",
+      "accept": [
+        "andrò"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "futuro",
+      "lessonId": "sl-futuro-04-che-farai",
+      "activityId": "sl-futuro-04-che-farai.3",
+      "activityIndex": 2,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Sabato sera ____ a una festa con gli amici.",
+      "accept": [
+        "andrò"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "futuro",
+      "lessonId": "sl-futuro-04-che-farai",
+      "activityId": "sl-futuro-04-che-farai.7",
+      "activityIndex": 6,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "L'anno prossimo ____ in Italia per un mese.",
+      "accept": [
+        "andrò"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-01-lo-conosco",
+      "activityId": "sl-strutture-01-lo-conosco.6",
+      "activityIndex": 5,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Il film? Lo ____ stasera.",
+      "accept": [
+        "guardo",
+        "vedo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-01-lo-conosco",
+      "activityId": "sl-strutture-01-lo-conosco.7",
+      "activityIndex": 6,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Certo! Mi ____ davanti al bar?",
+      "accept": [
+        "aspetti",
+        "chiami"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-02-chi-che-cosa-perche",
+      "activityId": "sl-strutture-02-chi-che-cosa-perche.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Che cosa ____ domenica? Vado al mare.",
+      "accept": [
+        "fai"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-03-quindi-allora-pero",
+      "activityId": "sl-strutture-03-quindi-allora-pero.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Sono stanco, quindi stasera ____ a casa.",
+      "accept": [
+        "resto",
+        "rimango",
+        "mangio",
+        "dormo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-03-quindi-allora-pero",
+      "activityId": "sl-strutture-03-quindi-allora-pero.6",
+      "activityIndex": 5,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Perché alle tre ho ____.",
+      "accept": [
+        "una lezione",
+        "un appuntamento",
+        "una riunione",
+        "un esame",
+        "un treno"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-04-la-mia-giornata",
+      "activityId": "sl-strutture-04-la-mia-giornata.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "La sera ____ verso le undici.",
+      "accept": [
+        "mi addormento",
+        "mi rilasso",
+        "mi riposo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-04-la-mia-giornata",
+      "activityId": "sl-strutture-04-la-mia-giornata.6",
+      "activityIndex": 5,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Di solito ____ alle sette.",
+      "accept": [
+        "mi sveglio",
+        "mi alzo",
+        "mi lavo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-04-la-mia-giornata",
+      "activityId": "sl-strutture-04-la-mia-giornata.6",
+      "activityIndex": 5,
+      "turnIndex": 5,
+      "blankIndex": 0,
+      "template": "Vado a letto alle undici, ma ____ subito.",
+      "accept": [
+        "mi addormento",
+        "mi sveglio"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-05-piu-o-meno",
+      "activityId": "sl-strutture-05-piu-o-meno.4",
+      "activityIndex": 3,
+      "turnIndex": null,
+      "blankIndex": 0,
+      "template": "Mio fratello è più ____ di me.",
+      "accept": [
+        "alto",
+        "giovane",
+        "simpatico",
+        "bravo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-05-piu-o-meno",
+      "activityId": "sl-strutture-05-piu-o-meno.6",
+      "activityIndex": 5,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Il treno! È più ____ della macchina.",
+      "accept": [
+        "veloce",
+        "comodo",
+        "economico"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-05-piu-o-meno",
+      "activityId": "sl-strutture-05-piu-o-meno.6",
+      "activityIndex": 5,
+      "turnIndex": 3,
+      "blankIndex": 0,
+      "template": "Perfetto! Una pizzeria è meno ____ di un ristorante.",
+      "accept": [
+        "cara",
+        "costosa"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-06-una-vera-chiacchierata",
+      "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+      "activityIndex": 3,
+      "turnIndex": 1,
+      "blankIndex": 0,
+      "template": "Bene, grazie! Ma ____.",
+      "accept": [
+        "sono stanco",
+        "sono stanca",
+        "ho sonno",
+        "ho fame",
+        "sono felice"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-06-una-vera-chiacchierata",
+      "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+      "activityIndex": 3,
+      "turnIndex": 7,
+      "blankIndex": 0,
+      "template": "Perfetto, allora ____ con voi.",
+      "accept": [
+        "vengo",
+        "lo vedo",
+        "la vedo",
+        "lo guardo"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    },
+    {
+      "stage": "strutture",
+      "lessonId": "sl-strutture-06-una-vera-chiacchierata",
+      "activityId": "sl-strutture-06-una-vera-chiacchierata.4",
+      "activityIndex": 3,
+      "turnIndex": 9,
+      "blankIndex": 0,
+      "template": "A piedi! È più ____ e non costa niente.",
+      "accept": [
+        "bello",
+        "sano",
+        "comodo",
+        "veloce"
+      ],
+      "agreements": {
+        "m": {
+          "supported": false,
+          "referenceTexts": []
+        },
+        "f": {
+          "supported": false,
+          "referenceTexts": []
+        }
+      }
+    }
+  ]
+}

@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildLesson } from '../js/learning/lesson-content.js';
+import { buildLesson as buildLessonMetadata } from '../js/learning/lesson-content.js';
 import { buildJourneyQuestion } from '../js/learning/lesson-questions.js';
 import { createLetterActivity, createPairActivity, gradePairActivity } from '../js/learning/lesson-activities.js';
 import { gradeQuestion } from '../js/learning/diagnose.js';
 import { createLearning, recordAttempt, normalizeLearning, skillState } from '../js/learning/model.js';
 import { createJourneySession, currentJourneyStep, advanceJourney, journeyAttempt, recordJourneyAttempt, journeyPairAttempt, recordJourneyPairAttempt, journeyTargetState } from '../js/learning/journey.js';
 import { caseCoverage, CASE_COVERAGE_POLICY } from '../js/learning/case-coverage.js';
+const buildLesson=(entry,options={})=>buildLessonMetadata(entry,{...options,questionBuilder:buildJourneyQuestion});
 
 const verbs = JSON.parse(readFileSync(new URL('../data/verbs.json', import.meta.url)));
 const words = JSON.parse(readFileSync(new URL('../data/vocab.json', import.meta.url)));

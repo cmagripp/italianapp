@@ -28,16 +28,14 @@ Navigation, provider replacement/removal, learner replacement, epoch reset and e
 
 ## Validation and limits
 
-The new source/controller checks and existing AI-service suite total 53 passing Node checks. Ten passing checks in each of Chromium and WebKit cover production-unavailable authored help, original-question reopen, exact-scene receipts, assisted canonical answers, unrelated-rule exclusion, unavailable source resolver, direct answer rejection, source changes, owner/provider/epoch revocation, lazy child import and stale completion controls. Reports are `ai-journey-assistance-{chromium,webkit}.json`. Existing Workshop/Course/Grammar assistance regression reports remain `ai-assistance-{chromium,webkit}.json` (12 checks each). Their source resolvers are explicitly injected test fixtures, not production adapters or model quality evidence.
+At the earlier Journey checkpoint the source/controller and existing AI-service suite totalled 53 passing Node checks, with ten browser checks per engine and twelve Workshop/Course/Grammar checks using explicit source fixtures. The later [canonical adapter slice](ai-authored-source-adapters.md) replaces those source fixtures with the actual loaded resolver: 68 Node checks, eleven Journey and seventeen Workshop/Course/Grammar checks per engine now pass. Only generator/language fixtures remain synthetic, with no model quality claim. Reports remain `ai-journey-assistance-{chromium,webkit}.json` and `ai-assistance-{chromium,webkit}.json`.
 
 A deliberately incomplete synthetic Journey seed exposed an adjacent import edge: a compatible current independent question with an empty variant-counter map records the assisted event, then `recordJourneyAttempt` dereferences an absent counter. Normal engine-generated sessions contain that counter. The learning agent owns a proposed initialization guard/regression; it is not silently fixed by this slice. The browser seed was corrected to match actual engine-generated state.
 
-## Required next adapters
+## Canonical adapter follow-up
 
-Workshop, Course and retained Grammar assistance still require canonical production source bindings. Their existing test-only resolvers cannot be promoted. Missing bindings currently fail closed at generation; authored help remains usable.
+Workshop, Course and retained Grammar bindings are now implemented by [canonical authored practice sources](ai-authored-source-adapters.md). Their examples preserve exact loaded revisions and honest editorial state, without inventing reviewed grammar IDs. Generated Workshop help is source-bound for only 3 of 46 free slots; the remaining 43 require explicitly reviewed per-slot examples or links and remain open.
 
-- Workshop: bind loaded lesson/pack version, exact activity, free-slot index, canonical template/restrictions and agreement. Verify bounded authored examples from the loaded canonical source rather than learner values, imported activity copies or generated completions. Preserve original intention and assisted-only input provenance. Root owns the player controls; this adapter will provide the narrow `helpSource` hook.
-- Course: bind loaded content version and exact selected step/objective/question or portfolio source. Resolve only that authored passage/example and explicit reviewed sense links. A chapter topic is insufficient authority for a grammatical rule.
-- Retained Grammar: bind canonical legacy lesson version, exact objective/question/card and phase. Resolve explicit registry links or reviewed authored examples; generic topic summaries do not become reviewed rule records.
+The new Journey form fence is also included in help bindings. It uses the trusted catalogue history recipe for current and valid prior descriptors; retired forms cannot supply help. Grammar registry links remain optional and absent in production. No topic or example is promoted to grammar-rule authority.
 
 The installed service must supply the canonical resolver alongside a real passing runtime and language policy. None of these adapters or the small browser corpus can approve a production model.

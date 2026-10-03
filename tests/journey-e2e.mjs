@@ -53,7 +53,7 @@ async function state() {
     const domPhase=document.querySelector('[data-journey]')?.dataset.phase;
     if (!session?.journey&&domPhase!=='overview') throw new Error('The active lesson did not create a taught journey session');
     const entryId=session?.entryId||decodeURIComponent(location.hash.split('?')[0].split('/')[3]);
-    const plan = buildLesson(getEntry(entryId));
+    const plan = buildLesson(getEntry(entryId),{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion});
     return { session, plan, cases: plan.kind === 'verb' ? journeyCaseProgress(plan, store.learning, session) : null, step: session?currentJourneyStep(plan, session, store.learning, Date.now()):{type:'overview'}, events: Object.values(store.learning.events).sort((a,b)=>a.at-b.at||(a.sequence||0)-(b.sequence||0)||a.id.localeCompare(b.id)), xp: store.current.stats.xp, learned: store.isLearned(entryId), domPhase: document.querySelector('[data-journey]')?.dataset.phase };
   });
 }

@@ -13,7 +13,7 @@ async function seed({fresh=false,malformed=false,progressive=false}={}){
  return page.evaluate(async({fresh,malformed,progressive})=>{
   const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js'),{createJourneySession}=await import('./js/learning/journey.js'),{createJourneyScene}=await import('./js/learning/journey-scene.js');
   store.setSetting('tts',false);store.setSetting('adaptiveLearning',true);
-  const entry=getEntry('v:domandare'),plan=buildLesson(entry),chapter=plan.chapters.find(c=>c.id==='present');
+  const entry=getEntry('v:domandare'),plan=buildLesson(entry,{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion}),chapter=plan.chapters.find(c=>c.id==='present');
   const targets=chapter.groups.flatMap(g=>g.targets),target=targets.find(t=>progressive?t.progressive&&t.person===0:t.skill==='conjugation'&&t.person===0),next=targets.find(t=>t.skill==='conjugation'&&t.person===1);
   const session=createJourneySession({id:`scene-browser-${crypto.randomUUID()}`,plan,chapterId:'present',caseMode:true,now:Date.now()});
   const variant=target.contexts.findIndex(c=>c.it.includes(fresh||malformed?'a Sara come sta':'una cosa'));
@@ -29,7 +29,7 @@ async function seed({fresh=false,malformed=false,progressive=false}={}){
 async function seedRetired(inf,{answered=false,legacy=false}={}){
  return page.evaluate(async({inf,answered,legacy})=>{
   const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js'),{createJourneySession}=await import('./js/learning/journey.js'),{createJourneyScene}=await import('./js/learning/journey-scene.js');
-  const entry=getEntry(`v:${inf}`),plan=buildLesson(entry,{legacy}),chapter=plan.chapters.find(c=>c.id==='present'),target=chapter.groups.flatMap(g=>g.targets).find(t=>t.skill==='conjugation'&&t.person===(inf==='domandare'?0:4));
+  const entry=getEntry(`v:${inf}`),plan=buildLesson(entry,{legacy,questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion}),chapter=plan.chapters.find(c=>c.id==='present'),target=chapter.groups.flatMap(g=>g.targets).find(t=>t.skill==='conjugation'&&t.person===(inf==='domandare'?0:4));
   const pool=legacy?target.legacyAuthoredContexts:target.legacyExpandedContexts,variant=pool.findIndex(c=>target.retiredExpandedContextIds.includes(c.id)),old=pool[variant];
   const session=createJourneySession({id:`retired-browser-${crypto.randomUUID()}`,plan,chapterId:'present',caseMode:true,now:Date.now()});
   Object.assign(session.journey,{phase:'practice',serial:1,queue:[target.id],current:{targetId:target.id,phase:'independent',format:'type',variant,questionId:`${session.id}:journey:1`,supplemental:false,repairTag:null,...(!legacy?{scenePolicy:'expanded-v1'}:{})}});
@@ -119,7 +119,7 @@ try{
  async function odiareAlias({retired=false,changed=false}={}){
   return page.evaluate(async({retired,changed})=>{
    const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js'),{createJourneySession}=await import('./js/learning/journey.js'),{createJourneyScene,journeySceneContexts}=await import('./js/learning/journey-scene.js');
-   const entry=getEntry('v:odiare'),plan=buildLesson(entry),chapter=plan.chapters.find(c=>c.id==='present'),target=chapter.groups.flatMap(g=>g.targets).find(t=>retired?t.id.endsWith('v2-mixed-simple'):t.skill==='conjugation'&&t.person===0);
+   const entry=getEntry('v:odiare'),plan=buildLesson(entry,{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion}),chapter=plan.chapters.find(c=>c.id==='present'),target=chapter.groups.flatMap(g=>g.targets).find(t=>retired?t.id.endsWith('v2-mixed-simple'):t.skill==='conjugation'&&t.person===0);
    const pool=journeySceneContexts(target,{legacy:true}),variant=pool.findIndex(c=>retired?target.retiredExpandedContextIds.includes(c.id):c.it==='Odio alzarmi presto.');
    const scene=createJourneyScene({entryId:entry.id,chapterId:'present',target,variant,legacy:true,sourceRevision:target.legacyExpandedRevisionAliases[0]});
    if(changed)scene.context.en='I love getting up early.';
@@ -137,6 +137,17 @@ try{
  await check('Prior aliases reject changed translation and still require explicit retirement recovery without credit',async()=>{
   await gotoRoute(page,'/home');let source=await odiareAlias({changed:true}),before=await saved();await gotoRoute(page,`/learn/verb/v%3Aodiare?session=${encodeURIComponent(source.id)}`);await page.getByText('This saved lesson cannot open yet',{exact:true}).waitFor();assert.equal(await page.locator('[data-answer]').count(),0);assert.equal((await saved()).events,before.events);
   await gotoRoute(page,'/home');source=await odiareAlias({retired:true});before=await saved();await gotoRoute(page,`/learn/verb/v%3Aodiare?session=${encodeURIComponent(source.id)}`);await page.getByText('This example has been corrected',{exact:true}).waitFor();assert.equal(await page.locator('[data-check]').count(),0);await reloadApp(page);await page.getByText('This example has been corrected',{exact:true}).waitFor();await page.locator('[data-continue]').click();await page.locator('[data-answer]').waitFor();const after=await saved();assert.equal(after.events,before.events);assert.equal(after.xp,before.xp);assert.equal(after.session.sceneCorrectionRecovery.at(-1).current.sceneSnapshot.sourceRevision,source.scene.sourceRevision);assert.notEqual(after.session.journey.current.sceneSnapshot.sourceRevision,source.scene.sourceRevision);assert.match(after.session.journey.current.sceneSnapshot.context.it,/rumore di notte/);
+ });
+ await check('A supported imported question with empty variant counters saves assisted feedback and resumes once',async()=>{
+  await gotoRoute(page,'/home');const source=await seed({fresh:true});
+  await page.evaluate(async()=>{const {store}=await import('./js/store.js');const session=JSON.parse(JSON.stringify(store.learning.session));session.journey.variants={};store.saveLearningSession(session);await store.saveNow();});
+  const before=await saved();await gotoRoute(page,`/learn/verb/v%3Adomandare?session=${encodeURIComponent(source.id)}`);await page.locator('[data-answer]').waitFor();
+  await page.locator('[data-help]').click();await page.locator('[data-answer]').fill('domando');await page.locator('[data-check]').click();await page.locator('[data-continue]').waitFor();
+  const answered=await saved();assert.equal(answered.events,before.events+1);assert.equal(answered.session.index,1);assert.deepEqual(answered.session.journey.variants[source.target],{guided:0,independent:source.variant,repair:0});
+  const evidence=await page.evaluate(async target=>{const {store}=await import('./js/store.js'),{skillState}=await import('./js/learning/model.js');return {event:store.learning.events[store.learning.session.ui.questionId],ready:skillState(store.learning,target).ready};},source.target);
+  assert(evidence.event.assistance.includes('hint'));assert.equal(evidence.ready,false);await page.evaluate(async()=>{const {store}=await import('./js/store.js');await store.saveNow();});
+  await reloadApp(page);await page.locator('[data-continue]').waitFor();const resumed=await saved();assert.equal(resumed.events,answered.events);assert.equal(resumed.xp,answered.xp);assert.deepEqual(resumed.session.ui.result,answered.session.ui.result);assert.equal(resumed.session.journey.current.questionId,source.questionId);
+  await page.locator('[data-continue]').click();assert.equal((await saved()).events,answered.events);
  });
  assert.deepEqual(errors,[]);fs.mkdirSync('docs/implementation/programme',{recursive:true});fs.writeFileSync(`docs/implementation/programme/journey-scene-${engine}.json`,JSON.stringify({engine,checks:results.length,results,pageErrors:errors},null,2)+'\n');console.log(`${results.length} ${engine} scene revision browser checks passed.`);
 }finally{await browser.close();stop();}

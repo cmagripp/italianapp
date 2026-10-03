@@ -15,24 +15,24 @@ async function fresh(){
 }
 async function provider(reply='inglese',delay=false){
  await page.evaluate(async({reply,delay})=>{
-  const {sourceFingerprint}=await import('./js/ai/source-fingerprint.js');const {createAIService,createGrounding}=await import('./js/ai/index.js'),runtime=await import('./js/conversations/runtime.js');
+  const {createPracticeSourceResolver}=await import('./js/learning/practice-sources.js');const {createAIService,createGrounding}=await import('./js/ai/index.js'),runtime=await import('./js/conversations/runtime.js');
   window.helpRequests=[];window.helpReply=reply;window.helpDelay=delay;window.helpAcquires=0;
   // Explicit fixture for service/lifecycle tests, never bundled or installed in
   // the production app. It supplies no evidence about a real model's quality.
   const grounding=createGrounding({rules:[{id:'test-only-help-rule',verified:true,level:'Foundations',explanation:'This is an authored test reference, not generated teaching.',examples:['Ciao.'],source:'https://example.test/authored-rule',keywords:['test-reference']}],version:'test-only-grounding'});
-  window.helpService=createAIService({grounding,practiceSources:{resolve(binding,{request}){return {version:'test-only-source',bindingFingerprint:sourceFingerprint(binding),sourceId:request.helpContext.sourceId,prompt:request.helpContext.prompt,context:request.helpContext.context||'',senses:[],rules:request.text==='test-reference'?grounding.retrieve({text:'test-reference',level:request.level}).rules:[],references:[{kind:'authored-example',id:'test-only-example',it:'Ciao.',level:'Foundations',reviewed:true,sourceRevision:'test-only'}]};}},languagePolicy:{version:'test-only-language-policy',async validate(){return{ok:true};}},runtime:{async generate(task){
+  window.helpService=createAIService({grounding,practiceSources:createPracticeSourceResolver(),languagePolicy:{version:'test-only-language-policy',async validate(){return{ok:true};}},runtime:{async generate(task){
    helpRequests.push(task);if(helpDelay)await new Promise(resolve=>window.releaseHelp=resolve);
    return JSON.stringify({participantId:'helper',text:helpReply,corrections:[]});
   }}});
   window.removeHelpProvider=runtime.installConversationProvider({readiness:()=>({written:true,recorded:false,handsfree:false}),acquire:async()=>{helpAcquires++;return helpService;}});
  },{reply,delay});
 }
-async function lab(){
- await page.evaluate(async()=>{
+async function lab(id='sl-presente-01-chi-sono',index=4){
+ await page.evaluate(async({id,index})=>{
   const {store}=await import('./js/store.js'),lab=await import('./js/learning/sentence-lab-data.js'),engine=await import('./js/learning/sentence-lab.js');await lab.loadSentenceLab();
-  const lesson=lab.labLesson('sl-presente-01-chi-sono'),session=engine.createLabSession(lesson);session.index=4;
+  const lesson=lab.labLesson(id),session=engine.createLabSession(lesson);session.index=index;
   session.state={kind:'cloze',misses:0,attempts:[],last:null,result:null,revealed:false,done:false,ui:{touched:true}};lab.writeLabSession(store,session);await store.saveNow();
- });await gotoRoute(page,'/lab/frasi/sl-presente-01-chi-sono');await page.locator('[data-lab-controls]').waitFor();
+ },{id,index});await gotoRoute(page,'/lab/frasi/'+id);await page.locator('[data-lab-controls]').waitFor();
 }
 async function course(kind='choice',legacy=false){
  const id=await page.evaluate(async({kind,legacy})=>{
@@ -93,7 +93,7 @@ try{
   await provider('inglese',true);await request();await page.waitForFunction(()=>helpRequests.length===1);await page.evaluate(async()=>{await (await import('./js/store.js')).store.resetProgress();releaseHelp();});assert.equal(await sheet().count(),0);assert.equal((await state()).events.length,0);assert.equal((await labState()),null);
  });
  await check('Course hint exposure is ungraded and a subsequent canonical answer records assistance with one spoken sentence',async()=>{
-  await fresh();await provider('Pensa alla persona che parla.');await course();const before=await state();await request('hint','A little help');await sheet().locator('[data-assistance-wording]').waitFor();assert.equal((await state()).events.length,before.events.length);assert((await state()).session.courseV2.assistance.includes('hint'));await sheet().locator('[data-assistance-close]').click();
+  await fresh();await provider('Pensa alla persona che parla.');await course();const before=await state();await request('hint','A little help');await sheet().locator('[data-assistance-wording]').waitFor();assert.equal(await sheet().locator('article').count(),0,'answer-bearing example and teaching cards are not shown for hints');assert.equal((await state()).events.length,before.events.length);assert((await state()).session.courseV2.assistance.includes('hint'));await sheet().locator('[data-assistance-close]').click();
   const q=await page.evaluate(async()=>{const {store}=await import('./js/store.js'),{grammarLesson}=await import('./js/learning/grammar-course.js'),{currentCourseStep}=await import('./js/learning/course-v2-engine.js');return currentCourseStep(grammarLesson(store.learning.session.entryId),store.learning.session).step;});
   await page.locator(`[data-choice="${q.options.indexOf(q.answer)}"]`).click();const after=await state();assert.equal(after.events.length,before.events.length+1);assert(after.events.at(-1).assistance.includes('hint'));assert.equal(Object.keys(after.completions).length,0);await page.waitForFunction(()=>helpSpeech.length===1);assert.equal(await page.evaluate(()=>helpSpeech[0]),q.speak);
  });
@@ -101,9 +101,9 @@ try{
   await fresh();await provider();await course();await page.evaluate(async()=>{const {store}=await import('./js/store.js'),{grammarLesson}=await import('./js/learning/grammar-course.js'),{currentCourseStep}=await import('./js/learning/course-v2-engine.js');helpReply=currentCourseStep(grammarLesson(store.learning.session.entryId),store.learning.session).step.answer;});
   await request('hint','Please help');await sheet().getByRole('alert').filter({hasText:'revealed the answer'}).waitFor();assert.equal(await sheet().locator('[data-assistance-wording]').count(),0);assert.equal((await state()).session.aiAssistance.history.length,0);assert.equal((await state()).events.length,0);
  });
- await check('Explanation cards copy verified source material and the model does not become the lesson reference',async()=>{
-  await fresh();await provider('Guarda la scheda.');await course();await request('explain','test-reference');await sheet().locator('[data-assistance-wording]').waitFor();assert.equal(await sheet().getByText('This is an authored test reference, not generated teaching.',{exact:true}).count(),1);
-  assert.equal(await sheet().getByRole('link',{name:'Reference source'}).getAttribute('href'),'https://example.test/authored-rule');assert.equal((await state()).events.length,0);
+ await check('Explanation cards copy the exact canonical example without borrowing unrelated retrieved rules',async()=>{
+  await fresh();await provider('Guarda la scheda.');await course();const q=await page.evaluate(async()=>{const {store}=await import('./js/store.js'),{grammarLesson}=await import('./js/learning/grammar-course.js'),{currentCourseStep}=await import('./js/learning/course-v2-engine.js');return currentCourseStep(grammarLesson(store.learning.session.entryId),store.learning.session).step;});await request('explain','test-reference');await sheet().locator('[data-assistance-wording]').waitFor();
+  assert.equal(await sheet().getByText(q.speak,{exact:true}).count(),1);assert.equal(await sheet().getByText('This is an authored test reference, not generated teaching.',{exact:true}).count(),0);assert.equal(await sheet().getByRole('link',{name:'Reference source'}).count(),0);assert.equal((await state()).events.length,0);
  });
  await check('Course portfolio wording preserves its original intention and remains an editable ungraded draft across reopen',async()=>{
   await fresh();await provider('Vorrei due biglietti.');const id=await course('portfolio');await page.locator('[data-ai-lesson-help="intent"]').click();await sheet().waitFor();await sheet().locator('[data-assistance-intent]').fill('I would like two tickets');await sheet().locator('[data-assistance-request]').click();await sheet().locator('[data-assistance-use]').click();await page.locator('[data-portfolio-draft]').waitFor();assert.equal(await page.locator('[data-portfolio-draft]').inputValue(),'Vorrei due biglietti.');
@@ -113,6 +113,29 @@ try{
  await check('Legacy Grammar help retains the exact original question and closes on learner replacement',async()=>{
   await fresh();await provider('Pensa alla persona che parla.');await course('choice',true);await request('hint','A little help');await sheet().locator('[data-assistance-wording]').waitFor();const before=await state();assert(before.session.grammar.assistance.includes('hint'));assert.equal(before.events.length,0);
   await page.evaluate(async()=>{const {store}=await import('./js/store.js'),profile=structuredClone(store.current);profile.learnerId=crypto.randomUUID();await store.importJSON(JSON.stringify({profile}));});assert.equal(await sheet().count(),0);const after=await state();await page.evaluate(()=>document.querySelector('[data-choice]')?.click());assert.deepEqual(await state(),after);
+ });
+ await check('Workshop agreement changes revoke late wording while preserving the original saved intention',async()=>{
+  await fresh();await provider('inglese',true);await lab();await request('intent','Preserve this original intention');await page.waitForFunction(()=>helpRequests.length===1);
+  const initial=await labState();await page.evaluate(()=>{document.querySelector('[data-lab-agreement]').click();document.querySelector('.dropdown-layer[data-active] [data-value="f"]').click();});await page.waitForFunction(()=>!document.querySelector('.sheet-wrap.open'));
+  await page.evaluate(()=>releaseHelp());await page.waitForTimeout(50);const saved=await labState();assert.equal(saved.speakerAgreement,'f');assert.equal(saved.aiAssistance.history.length,0);assert.equal(Object.values(saved.aiAssistance.drafts)[0].originalText,'Preserve this original intention');assert.equal(initial.speakerAgreement,'m');assert.equal((await state()).events.length,0);
+  await page.locator('[data-lab-ai-help]').click();await sheet().waitFor();assert.equal(await sheet().locator('[data-assistance-intent]').inputValue(),'','a draft bound to another agreement is not silently reused');assert.equal(await page.evaluate(()=>helpRequests.length),1);
+ });
+ await check('An unsupported Workshop free slot keeps authored help without binding an unrelated model example',async()=>{
+  await fresh();await provider();await lab('sl-presente-02-cosa-faccio',3);assert.equal(await page.locator('[data-lab-ai-help]').count(),0);assert.equal(await page.locator('[data-lab-free]').count(),1);assert.equal(await page.evaluate(()=>helpRequests.length),0);assert.equal((await state()).events.length,0);
+ });
+ await check('Imported canonical source tampering is rejected by the real resolver before generation',async()=>{
+  await fresh();await provider();await course();const failure=await page.evaluate(async()=>{
+   const {store}=await import('./js/store.js'),{grammarLesson}=await import('./js/learning/grammar-course.js'),{createCoursePracticeBinding,createPracticeSourceResolver}=await import('./js/learning/practice-sources.js');const lesson=grammarLesson(store.learning.session.entryId),binding=createCoursePracticeBinding({lesson,session:store.learning.session}),source=createPracticeSourceResolver().resolve(binding);binding.canonical.answer='An imported answer';
+   try{await helpService.request({task:'explain',text:'Please help',level:lesson.level,participants:[{id:'helper',name:'Helper'}],helpSource:binding,helpContext:{sourceId:source.sourceId,prompt:source.prompt,context:source.context}});return null;}catch(error){return error.message;}
+  });assert.match(failure,/changed or is unsupported/);assert.equal(await page.evaluate(()=>helpRequests.length),0);assert.equal((await state()).events.length,0);
+ });
+ await check('Authentic passage help preserves exact excerpt, source attribution and its separate licence',async()=>{
+  await fresh();await provider('Guarda il testo della fonte.');const selected=await page.evaluate(async()=>{
+   const {store}=await import('./js/store.js'),content=await import('./js/learning/grammar-course.js'),{createCourseSession}=await import('./js/learning/course-v2-engine.js');const lesson=await content.loadGrammarLesson('v2-c1-read-pascal-preface'),session=createCourseSession(lesson,{learning:store.learning});session.courseV2.stepIndex=lesson.steps.findIndex(step=>step.id==='v2-c1-read-pascal-preface.check-0');store.saveLearningSession(session);await store.saveNow();const question=lesson.steps[session.courseV2.stepIndex],passage=lesson.steps.find(step=>step.id===question.passageId);return {id:lesson.id,credit:passage.source,excerpt:passage.it.slice(0,100)};
+  });await gotoRoute(page,'/learn/grammar/'+selected.id);await page.locator('[data-course-lesson]').waitFor();await request('explain','Help me follow this passage');await sheet().locator('[data-assistance-wording]').waitFor();assert.equal(await sheet().getByText('Excerpt from this source',{exact:true}).count(),1);assert(await sheet().innerText().then(text=>text.includes(selected.excerpt)&&text.includes(selected.credit.author)&&text.includes(selected.credit.license)&&text.includes(selected.credit.changes)));assert.equal(await sheet().getByRole('link',{name:'Reference source'}).getAttribute('href'),selected.credit.url);assert.equal(await sheet().getByRole('link',{name:'Source licence'}).getAttribute('href'),selected.credit.licenseUrl);assert.equal((await state()).events.length,0);
+ });
+ await check('Retained Grammar repair explains only its selected canonical question without adding evidence',async()=>{
+  await fresh();await provider('Guarda questo esempio.');const id=await course('choice',true),speak=await page.evaluate(async()=>{const {store}=await import('./js/store.js'),{grammarLesson}=await import('./js/learning/grammar-course.js'),session=store.learning.session,lesson=grammarLesson(session.entryId),question=lesson.objectives[session.grammar.objectiveIndex].questions.find(question=>question.id===session.grammar.questionId);session.grammar.phase='repair';session.grammar.repairQuestion=question.id;store.saveLearningSession(session);await store.saveNow();return question.speak;});await gotoRoute(page,'/learn/grammar/'+id+'?mode=review');await page.locator('[data-grammar-lesson]').waitFor();await request('explain','Help me understand');await sheet().locator('[data-assistance-wording]').waitFor();assert.equal(await sheet().getByText(speak,{exact:true}).count(),1);assert.equal((await state()).events.length,0);assert.equal(Object.keys((await state()).completions).length,0);
  });
  await check('Delayed initial workshop, Course audio and retained Grammar loads cannot replace a screen already left',async()=>{
   for(const host of ['workshop','course','grammar']){

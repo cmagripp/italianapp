@@ -13,17 +13,16 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // What the app loads at runtime, derived from sw.js SHELL, js/data.js (data/vocab.json, verbs.json, stats.json),
 // js/views/grammar.js (data/grammar.json), js/learning/grammar-course.js (data/course-v2/<level>.json and
 // data/grammar-course/<level>.json), js/learning/course-v2-media.js (data/course-v2/audio.json and the audio/ files it
-// lists), js/learning/fit-scorer.js (the sentence workshop's optional fit scorer download: models/fit-scorer/ and the
-// ONNX Runtime Web files in vendor/ort/, never precached), index.html (css/, js/, icons/, manifest) and
+// lists), index.html (css/, js/, icons/, manifest) and
 // manifest.webmanifest (icons/).
 const FILES = ['index.html', 'manifest.webmanifest', 'sw.js'];
 const TREES = ['css', 'js', 'icons', 'audio', 'models', 'vendor', 'fonts'];   // copied recursively
 const JSON_DIRS = ['data', 'data/course-v2', 'data/grammar-course', 'data/sentence-lab']; // only the *.json directly inside (no subfolders)
 
 // Never published, wherever they appear. Checked again on the finished dist/ tree.
-const EXCLUDED_DIRS = ['docs', 'tests', 'tools', 'dev', '.github', 'node_modules', 'data/vocab', 'data/verbs', 'data/verb-progressive', 'data/lexical-senses'];
-// Single files that live next to published ones but are tooling: the Node proof of the fit scorer's recipe.
-const EXCLUDED_FILES = new Set(['models/fit-scorer/score.mjs']);
+const EXCLUDED_DIRS = ['docs', 'tests', 'tools', 'dev', '.github', 'node_modules', 'data/vocab', 'data/verbs', 'data/verb-progressive', 'data/lexical-senses', 'models/fit-scorer', 'vendor/ort'];
+// Preserved investigation sources and authoring manifests are not runtime assets.
+const EXCLUDED_FILES = new Set(['js/learning/fit-scorer.js', 'js/workers/fit-scorer.worker.js', 'data/verb-question-history.json']);
 const excludedFile = name => name.startsWith('.') || /\.md$/i.test(name);
 
 const posix = p => p.split(path.sep).join('/');
@@ -61,7 +60,7 @@ export function buildSite({ root = ROOT, out = path.join(root, 'dist') } = {}) {
   for (const d of JSON_DIRS) {
     if (!fs.existsSync(path.join(root, d))) { errors.push(`source folder missing: ${d}/`); continue; }
     for (const e of fs.readdirSync(path.join(root, d), { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-      if (e.isFile() && e.name.endsWith('.json') && !excludedFile(e.name)) copy(posix(path.join(d, e.name)));
+      if (e.isFile() && e.name.endsWith('.json') && !excludedFile(e.name) && !EXCLUDED_FILES.has(posix(path.join(d,e.name)))) copy(posix(path.join(d, e.name)));
     }
   }
 
@@ -142,23 +141,8 @@ export function verifySite(out) {
     } catch (e) { errors.push(`dist/data/course-v2/audio.json is not valid JSON: ${e.message}`); }
   }
 
-  // 5. The fit scorer's on-demand download (js/learning/fit-scorer.js FIT_FILES): every file present with the byte size
-  //    the page expects, or an install would reject it; and the worker that runs the model, which nothing imports statically.
-  if (has('js/learning/fit-scorer.js')) {
-    const src = read('js/learning/fit-scorer.js');
-    const m = src.match(/const\s+FIT_FILES\s*=\s*\[([\s\S]*?)\]\s*;/);
-    const fitFiles = m ? [...m[1].matchAll(/path:\s*'([^']+)'\s*,\s*bytes:\s*(\d+)/g)].map(x => ({ path: x[1], bytes: Number(x[2]) })) : [];
-    if (!fitFiles.length) errors.push('dist/js/learning/fit-scorer.js: no "const FIT_FILES = [{ path, bytes }, ...]" list found');
-    for (const f of fitFiles) {
-      if (!has(f.path)) errors.push(`fit scorer file listed in js/learning/fit-scorer.js FIT_FILES missing from dist/: ${f.path}`);
-      else if (fs.statSync(path.join(out, f.path)).size !== f.bytes) errors.push(`fit scorer file ${f.path} is ${fs.statSync(path.join(out, f.path)).size} bytes in dist/, not the ${f.bytes} that js/learning/fit-scorer.js expects (the install would reject it)`);
-    }
-    const worker = src.match(/new URL\('\.\.\/(workers\/[^']+\.js)'/);
-    if (!worker) errors.push('dist/js/learning/fit-scorer.js: no worker URL (new URL(\'../workers/...\')) found');
-    else if (!has('js/' + worker[1])) errors.push(`fit scorer worker missing from dist/: js/${worker[1]}`);
-  }
-
-  // 6. Nothing excluded leaked in.
+  // 5. Nothing excluded leaked in, including the retired fit experiment. The
+  //    previous-client cache bridge is tested separately; no new client imports it.
   for (const file of walk(out)) {
     const rel = posix(path.relative(out, file));
     const parts = rel.split('/');
@@ -186,5 +170,5 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   console.log('  by location: ' + [...byTop].sort((a, b) => b[1].bytes - a[1].bytes).map(([k, v]) => `${k} ${v.n} files ${fmt(v.bytes)}`).join(', '));
   console.log('  largest files:');
   for (const f of [...files].sort((a, b) => b.bytes - a.bytes).slice(0, 10)) console.log(`    ${fmt(f.bytes).padStart(10)}  ${f.rel}`);
-  console.log('  checks passed: every sw.js SHELL entry, index.html and manifest reference, relative module import, runtime data pack, catalogued audio clip and fit scorer file (at its expected size) is present; no excluded files.');
+  console.log('  checks passed: every sw.js SHELL entry, index.html and manifest reference, relative module import, runtime data pack and catalogued audio clip is present; no excluded or retired files.');
 }

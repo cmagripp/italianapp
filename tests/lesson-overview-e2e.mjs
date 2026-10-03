@@ -35,7 +35,7 @@ async function state() {
     const {buildLesson}=await import('./js/learning/lesson-content.js');
     const {currentJourneyStep,journeyCaseProgress}=await import('./js/learning/journey.js');
     await store.saveNow();const entryId=decodeURIComponent(location.hash.split('?')[0].split('/')[3]);
-    const session=Object.values(store.learning.sessions).filter(s=>s.entryId===entryId&&s.journey).sort((a,b)=>b.updatedAt-a.updatedAt)[0]||null,plan=buildLesson(getEntry(entryId));
+    const session=Object.values(store.learning.sessions).filter(s=>s.entryId===entryId&&s.journey).sort((a,b)=>b.updatedAt-a.updatedAt)[0]||null,plan=buildLesson(getEntry(entryId),{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion});
     return {session,plan,step:session?currentJourneyStep(plan,session,store.learning):{type:'overview'},cases:journeyCaseProgress(plan,store.learning,session),events:Object.values(store.learning.events),xp:store.current.stats.xp,learned:store.isLearned(entryId),phase:document.querySelector('[data-journey]')?.dataset.phase};
   });
 }
@@ -140,7 +140,7 @@ try {
       const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js');
       const {buildLesson}=await import('./js/learning/lesson-content.js');
       const {createJourneySession,currentJourneyStep,advanceJourney}=await import('./js/learning/journey.js');
-      const plan=buildLesson(getEntry('v:credere'));
+      const plan=buildLesson(getEntry('v:credere'),{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion});
       let session=createJourneySession({id:'pre-overview-future',plan,chapterId:'future',now:Date.now(),mode:'lesson'});
       for(let i=0;i<20&&currentJourneyStep(plan,session,store.learning).type==='teach';i++)session=advanceJourney(plan,session,store.learning,{now:Date.now()});
       // Version-one journey cursors had no selected-case boundary flag. This

@@ -64,7 +64,7 @@ try{
   const seeded=await page.evaluate(async()=>{
    const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js');
    const {createJourneySession,advanceJourney,currentJourneyStep}=await import('./js/learning/journey.js');
-   const plan=buildLesson(getEntry('v:viaggiare'),{legacy:true});let s=createJourneySession({id:'old-viaggiare-draft',plan,chapterId:'present',caseMode:true});
+   const plan=buildLesson(getEntry('v:viaggiare'),{legacy:true,questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion});let s=createJourneySession({id:'old-viaggiare-draft',plan,chapterId:'present',caseMode:true});
    while(currentJourneyStep(plan,s,store.learning).type==='teach')s=advanceJourney(plan,s,store.learning);
    s.journey.current.format='type';s.ui={version:2,questionId:s.journey.current.questionId,draft:'viagg',given:'',assistance:[],exposures:{},mapOpen:false};
    store.saveLearningSession(s);await store.saveNow();return {id:s.id,questionId:s.journey.current.questionId};
@@ -83,7 +83,7 @@ try{
    const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js');
    const {createJourneySession,advanceJourney,currentJourneyStep,chooseJourneyChapter}=await import('./js/learning/journey.js');
    const {buildJourneyQuestion}=await import('./js/learning/lesson-questions.js');
-   const e=getEntry('v:viaggiare'),plan=buildLesson(e,{legacy:true});let s=createJourneySession({id:'two-old-cases',plan,chapterId:'present',caseMode:true});
+   const e=getEntry('v:viaggiare'),plan=buildLesson(e,{legacy:true,questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion});let s=createJourneySession({id:'two-old-cases',plan,chapterId:'present',caseMode:true});
    while(currentJourneyStep(plan,s,store.learning).type==='teach')s=advanceJourney(plan,s,store.learning);
    s.journey.current.format='type';const presentId=s.journey.current.questionId;
    const presentDraft={questionId:presentId,draft:'viagg',given:'',result:null,activity:null,assistance:[],hint:false,forms:false};
@@ -115,7 +115,7 @@ try{
   const seed=await page.evaluate(async()=>{
    const {store}=await import('./js/store.js'),{getEntry}=await import('./js/data.js'),{buildLesson}=await import('./js/learning/lesson-content.js');
    const {createJourneySession}=await import('./js/learning/journey.js'),{setCompletionRecord}=await import('./js/learning/model.js');
-   const entry=getEntry('v:viaggiare'),plan=buildLesson(entry),target=plan.chapters.find(c=>c.id==='present').groups.find(g=>g.id==='progressive').targets.find(t=>t.required);
+   const entry=getEntry('v:viaggiare'),plan=buildLesson(entry,{questionBuilder:(await import('./js/learning/lesson-questions.js')).buildJourneyQuestion}),target=plan.chapters.find(c=>c.id==='present').groups.find(g=>g.id==='progressive').targets.find(t=>t.required);
    store.current.learning=setCompletionRecord(store.learning,{entryId:entry.id,caseId:'present',checked:true,id:'historical-completion',at:Date.now()-10000});
    const session=createJourneySession({id:'stale-new-review',plan,mode:'review',chapterId:'present',targetId:target.id});
    session.ui={version:2,questionId:session.journey.current.questionId,draft:'sto',assistance:[]};

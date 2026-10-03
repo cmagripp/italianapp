@@ -2,12 +2,13 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {data} from '../js/data.js';
-import {buildLesson} from '../js/learning/lesson-content.js';
+import {buildLesson as buildLessonMetadata} from '../js/learning/lesson-content.js';
 import {buildJourneyQuestion} from '../js/learning/lesson-questions.js';
 import {createLearning,recordAttempt,skillState,normalizeLearning,mergeLearning} from '../js/learning/model.js';
 import {createJourneySession,currentJourneyStep,advanceJourney,journeyAttempt,recordJourneyAttempt,journeyPairAttempt,recordJourneyPairAttempt,journeyProgress,journeyWordCompletion,skipJourneyTarget,retryJourneyPending,upgradeShortWordSession,chooseJourneyChapter} from '../js/learning/journey.js';
 import {gradeQuestion} from '../js/learning/diagnose.js';
 import {gradePairActivity} from '../js/learning/lesson-activities.js';
+const buildLesson=(entry,options={})=>buildLessonMetadata(entry,{...options,questionBuilder:buildJourneyQuestion});
 const vocab=JSON.parse(fs.readFileSync(new URL('../data/vocab.json',import.meta.url)));data.vocab=vocab;
 const START=1700000000000,copy=x=>JSON.parse(JSON.stringify(x));let passed=0;
 function test(name,fn){try{fn();console.log(`✓ ${name}`);passed++;}catch(e){console.error(`✗ ${name}`);throw e;}}

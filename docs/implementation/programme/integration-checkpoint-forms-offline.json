@@ -1,0 +1,550 @@
+{
+  "kind": "Development checkpoint; not a production release",
+  "createdAt": "2026-10-03T21:23:53.601926+00:00",
+  "branch": "codex/parola-full-programme",
+  "parentCommit": "9802b1d",
+  "mainBaseline": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+  "build": "parola-v15-5fc5537c8d14",
+  "deterministicSuites": [
+    {
+      "command": "node tools/test-accent-policy.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-migration-fixtures.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-unified-learning.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-daily-course-path.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conversation-continuation.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-scene.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-import-counter.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-form-history.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-builder-boundary.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-form-content-review.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/build-verb-question-history.mjs --check",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-repairs-402.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-finite-spans.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-repairs-271.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test tests/ai-assistance.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test tests/ai-practice-sources.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-pacing.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lexical-senses.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lexical-frequency-senses.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conversation-summary.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test tests/conversation-study.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase6-beginner.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase6-intermediate.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase6-advanced.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conversation-support.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-spoken-feedback.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-language-policy.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test dev/phase-1-ai-trial/speech-session.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test dev/phase-1-ai-trial/service.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-persistence.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-index.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lazy-course.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-content-fixes.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/audit-phase-curriculum.mjs --programme --check",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-noun-forms.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/check-modules.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/check-shell.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conjugator.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-content.mjs --recovery",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-engine.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-durability.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-assets.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-lexicon.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-editorial.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-words.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-sentence-lab.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-workshop.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-workshop-agreement-review.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-ai-trial.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-useful-words.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test tests/ai-authored-practice-sources.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-fit-retirement.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-assistant-guard.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-course.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-durability.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-evidence.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-lexicon.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-model.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-questions.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-store-sync.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-store-durability.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-integration.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-completion.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lesson-content.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-sentence-lookup.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-word-questions.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-short-word-model.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-model.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lesson-activities.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/build-verb-progressive.mjs --check",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-progressive-content.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-flow-v2.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-pacing.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-scene-variety.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-integration.mjs",
+      "ok": true,
+      "status": 0
+    }
+  ],
+  "additionalValidation": {
+    "authoredData": "passed",
+    "sqlMigrationChecks": 11,
+    "assembledOfflineUpdateChecks": 9,
+    "assembledGrammarOfflineChecks": 7
+  },
+  "assembled": {
+    "files": 433,
+    "bytes": 44483133,
+    "javascriptModules": 151,
+    "retiredPublishedBytes": 84013164
+  },
+  "controlledBrowsers": {
+    "keyboard": {
+      "chromium": {
+        "report": "docs/implementation/programme/keyboard-accessibility-chromium.json",
+        "sha256": "720d39318cfa81e86961332e9b09f73fbcee2d9665e9a48f6f4a3777d28cbfa4",
+        "checks": 13
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/keyboard-accessibility-webkit.json",
+        "sha256": "8b626486f36628af3a893c3fcdb43606d4aea95a7f9bb36972065feea9990325",
+        "checks": 13
+      }
+    },
+    "compactConversation": {
+      "chromium": {
+        "report": "docs/implementation/programme/conversation-compact-chromium.json",
+        "sha256": "55546acb126cda346cd07b0fdfbb6ce51fe40b9d6fd6cb8e407e786bf6a5163f",
+        "checks": 12
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/conversation-compact-webkit.json",
+        "sha256": "7a475177bcf900c9668a42e0945c9ffc5ec007a8fa467bef54a2455697ce6504",
+        "checks": 12
+      }
+    },
+    "formHistory": {
+      "chromium": {
+        "report": "docs/implementation/programme/journey-form-history-chromium.json",
+        "sha256": "c5285a2e7462aba14f38e252e9111c0404ba880e60a63db20e4093fc2c8d2fcc",
+        "checks": 10
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/journey-form-history-webkit.json",
+        "sha256": "51523e9a19a7a660849975c80fd5d8456d0bdd8b2367e0a63c31b52f56faa602",
+        "checks": 10
+      }
+    },
+    "packUpdate": {
+      "chromium": {
+        "report": "docs/implementation/programme/offline-pack-update-chromium.json",
+        "sha256": "f37f8aaaa2de941dc1b697ca7bbc842ef67271f77bd84612cb7a99f789663cd0",
+        "checks": 3
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/offline-pack-update-webkit.json",
+        "sha256": "2fdeb1f21bd42f21d890d2b9562fdcad1c692a3631dde018e5a82d30c733260d",
+        "checks": 3
+      }
+    },
+    "fitRetirement": {
+      "chromium": {
+        "report": "docs/implementation/programme/fit-retirement-chromium.json",
+        "sha256": "1243516ef9bec76d04ecbb7fb9647cf1b8c2bfb8dadea79e99898336c82802c4",
+        "checks": 5
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/fit-retirement-webkit.json",
+        "sha256": "06ad36d85910f8912ce896a837b83768b18eaa016831cd4c0c32ba34fdb0fb5d",
+        "checks": 5
+      }
+    },
+    "workshop": {
+      "chromium": {
+        "report": "docs/implementation/programme/workshop-agreement-chromium.json",
+        "sha256": "86024bdb4f9793a416fc02012ee2c9d925e6843b6122d0f43d3a9976c34826f3",
+        "checks": 10
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/workshop-agreement-webkit.json",
+        "sha256": "4b5da530f89912827a47daec72e78d1122df681b17736302a22d0bf88817ea73",
+        "checks": 10
+      }
+    },
+    "canonicalAssistance": {
+      "chromium": {
+        "report": "docs/implementation/programme/ai-assistance-chromium.json",
+        "sha256": "274b89cf7f75d7d4fbbc4304fd6f740d437247d90054ef07d9305d9c3839ac31",
+        "checks": 17
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/ai-assistance-webkit.json",
+        "sha256": "e3e7957b44677be189484f707a369b8d556f660496bdf904eb46e49d43e2680d",
+        "checks": 17
+      }
+    },
+    "journeyAssistance": {
+      "chromium": {
+        "report": "docs/implementation/programme/ai-journey-assistance-chromium.json",
+        "sha256": "6f74d26c721301461c29c3678bad989292572f9c9644bdc257397c84b6c88822",
+        "checks": 11
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/ai-journey-assistance-webkit.json",
+        "sha256": "5db73b273504286355b162d054e173fc212f5692f2a802f3c0e10527abab681d",
+        "checks": 11
+      }
+    },
+    "sceneMigration": {
+      "chromium": {
+        "report": "docs/implementation/programme/journey-scene-chromium.json",
+        "sha256": "5633b5bf1d53bb1b220eef5202c66e10b734b1ea479cd5049780b4210c100d43",
+        "checks": 15
+      },
+      "webkit": {
+        "report": "docs/implementation/programme/journey-scene-webkit.json",
+        "sha256": "b47362f422a5c5a4c0e60c3ce93eaba16a3fbcdd38e47541d75698008797e6d1",
+        "checks": 15
+      }
+    }
+  },
+  "languageCoverage": {
+    "individualVerbRecords": 402,
+    "catalogueVerbs": 1186,
+    "notYetRecorded": 784,
+    "wholeGeneratedQuestionBanksReviewed": 0,
+    "boundedRepairs": [
+      "crollare episode context",
+      "curarsi ongoing treatment/context",
+      "succedere selected happen/occur forms",
+      "bisognare impersonal necessity forms",
+      "toccare usage clarification only; broad drills retained"
+    ]
+  },
+  "priorSourceProof": "verb-repairs-402-baseline-review.json",
+  "independentReviews": [
+    "keyboard-compact-independent-review.json",
+    "ai-verb-repairs-402-review.json",
+    "journey-form-history-contract.json"
+  ],
+  "integrationRegression": {
+    "initialDeterministic": "73/74; new static Journey generator import produced escapeHTML initialization cycle",
+    "initialStartup": "Home incorrectly fetched full lesson content",
+    "resolution": "Removed the static Journey-to-question-formatter import. A private WeakMap binds the trusted question builder explicitly at full-engine call sites; metadata-only completion consumers stay lightweight. Six boundary checks pass, including fresh independent import entrypoints and unbound-plan failure. Actual browser startup again loads no full lesson code on Home/Profile. All75 registered suites and the rebuilt offline gates pass."
+  },
+  "limits": [
+    "Development branch only; main and production unchanged.",
+    "Controlled assistance and speech providers are test fixtures, not enabled production models.",
+    "3 of46 Workshop free slots have canonical contextual help;43 still need suitable authored context.",
+    "402 entry records do not establish full question-bank or human educator validation.",
+    "Simulator observations remain separately attributed; no physical-phone AI, speech, pronunciation or learner validation."
+  ],
+  "installedObservation": "installed-checkpoint-forms-offline.json",
+  "openFindings": [
+    {
+      "finding": "Conversation provider replacement/cancellation after response validation but before IndexedDB commit can persist a stale partner turn.",
+      "evidence": [
+        "ai-conversation-commit-boundary-review.md",
+        "ai-conversation-commit-boundary-before-chromium.json",
+        "ai-conversation-commit-boundary-before-webkit.json"
+      ],
+      "nextSlice": "Guard and abort the active transaction, integrate verified accent-only display receipts atomically. No production conversation provider enabled."
+    }
+  ]
+}

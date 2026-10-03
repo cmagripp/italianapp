@@ -17,7 +17,8 @@ import { createLabSession, compatibleLabSession, currentLabStep, answerLab, adva
 import { compareSubmission } from '../learning/answer-policy.js';
 import {assistanceAvailable} from '../learning/ai-assistance.js';
 import {createPracticeHelp} from '../learning/practice-help.js';
-import { loadSentenceLab, labLesson, labNextLesson, labLessonIndex, readLabSession, writeLabSession, clearLabSession, LAB_KEY } from '../learning/sentence-lab-data.js';
+import {createWorkshopPracticeBinding,createPracticeSourceResolver} from '../learning/practice-sources.js';
+import { loadSentenceLab, labLesson, labStageOf, labNextLesson, labLessonIndex, readLabSession, writeLabSession, clearLabSession, LAB_KEY } from '../learning/sentence-lab-data.js';
 import { labButton, labModel, labOrder, orderTokens, labCloze, labDialogue, labBuild, labComplete, labPaused, labDrill, labPicker } from '../learning/sentence-lab-activities.js';
 
 const clone = value => JSON.parse(JSON.stringify(value));
@@ -96,13 +97,17 @@ export async function render(root, params, query = {}) {
   const release=()=>{assistantService?.releaseAssistant().catch(()=>{});};
   const offProfile=store.on('profile',()=>{if(!sameOwner()){activeSheet?.close({silent:true});help.close();release();}});
   let helpBlank=0;
-  const help=createPracticeHelp({getSession:()=>session,isCurrent:alive,getSource:()=>{
-    const view=step(),blanks=currentBlanks(),u=ui(),blank=blanks?.blanks?.[helpBlank];
-    if(session.paused||view.result||!blank?.free)return null;
-    return {sourceId:`lab:${lesson.id}:${session.index}:${view.state.current?.index??'cloze'}:${helpBlank}`,sessionId:session.id,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,
-      level:lesson.level||STAGE_TINT[stageName]||'A1',prompt:`Find just the wording for this blank in the sentence: ${blanks.template}. ${blanks.en||''}`,context:JSON.stringify({slot:blank.slot,help:blank.freePrompt||'',lesson:lesson.title,speakerAgreement:session.speakerAgreement}),
-      canonical:clone(view.activity),blankIndex:helpBlank,values:clone(u.values||[]),originalInput:u.drafts?.[helpBlank]||'',inputLanguage:'en'};
-   },persist:async()=>{if(!alive())throw new DOMException('This practice step changed.','AbortError');touch();await store.saveNow();},
+  const sourceResolver=createPracticeSourceResolver();
+  const helpSource=(blankIndex=helpBlank)=>{
+    const view=step(),blanks=currentBlanks(),u=ui(),blank=blanks?.blanks?.[blankIndex];
+    if(!alive()||session.paused||view.result||!blank?.free)return null;
+    const binding=createWorkshopPracticeBinding({lesson,stage:labStageOf(lesson.id),session,blankIndex});
+    const canonical=binding&&sourceResolver.resolve(binding);if(!canonical)return null;
+    return {sourceId:canonical.sourceId,helpSource:binding,agreement:session.speakerAgreement,sessionId:session.id,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,
+      level:lesson.level||STAGE_TINT[stageName]||'A1',prompt:canonical.prompt,context:canonical.context,
+      canonical:clone(view.activity),blankIndex,values:clone(u.values||[]),originalInput:u.drafts?.[blankIndex]||'',inputLanguage:'en'};
+  };
+  const help=createPracticeHelp({getSession:()=>session,isCurrent:alive,getSource:()=>helpSource(),persist:async()=>{if(!alive())throw new DOMException('This practice step changed.','AbortError');touch();await store.saveNow();},
    onViewed:receipt=>{blankUi(ui());ui().aiHelpSources[helpBlank]=receipt;},
    onUse:async({text,provenance})=>{if(!alive())return;const u=blankUi(ui());u.aiHelpSources[helpBlank]=provenance;u.drafts[helpBlank]=text;u.freeOpen[helpBlank]=true;u.messages[helpBlank]=null;touch();draw();focusFree(helpBlank);await store.saveNow();},
    onRefresh:()=>draw(),
@@ -201,7 +206,7 @@ export async function render(root, params, query = {}) {
       else footer = html`<div class="lab-build-actions"><button type="button" class="btn ghost" data-lab-another ${Object.keys(u.choice).length ? '' : raw('disabled')}>Another</button><button type="button" class="btn primary grow" data-lab-keep ${composed.ok ? '' : raw('disabled')}>Keep this sentence</button></div>`;
     }
     root.innerHTML = shell({ content, footer, feedback, kind: session.paused ? 'paused' : kind, activityId: activity?.id, phase: session.paused ? 'paused' : session.phase });
-    if(!session.paused&&!view.result&&assistanceAvailable()&&currentBlanks()?.blanks?.[u.active]?.free){
+    if(!session.paused&&!view.result&&assistanceAvailable()&&helpSource(u.active)){
       const tools=root.querySelector('[data-lab-controls]');if(tools){const button=document.createElement('button');button.type='button';button.className='btn ghost';button.dataset.labAiHelp=String(u.active);button.textContent='Help me say it';tools.append(button);}
     }
     const source=u.aiHelpSources?.[u.active];if(source?.originalText){const tools=root.querySelector('[data-lab-controls]');if(tools)tools.insertAdjacentHTML('beforeend',html`<details data-lab-ai-source><summary>Your original idea</summary><p>${source.originalText}</p><p class="small muted">Wording help keeps this as assisted practice.</p></details>`);}
@@ -462,6 +467,7 @@ export async function render(root, params, query = {}) {
       const token=capture();dropdown(b,[{value:'m',label:'Masculine · sono stanco',selected:session.speakerAgreement==='m'},{value:'f',label:'Feminine · sono stanca',selected:session.speakerAgreement==='f'}],{onSelect:value=>{
         if(!valid(token)||!['m','f'].includes(value)||value===session.speakerAgreement)return;
         help.close();session.speakerAgreement=value;store.setSetting('gender',value);touch();draw();
+        root.querySelector('[data-lab-agreement]')?.focus({preventScroll:true});
         toast(`${value==='f'?'Feminine':'Masculine'} agreement for new answers. Your draft stays as written.`);
       }});return;
     }

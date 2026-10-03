@@ -1,0 +1,11 @@
+{
+  "engine": "chromium",
+  "checks": [
+    "Verified installed pack state/assets and learner recovery are preserved across an actual worker activation",
+    "An offline document reload with fresh globals verifies the exact installed asset and active pointer without network or provider",
+    "A corrupt replacement keeps the verified previous pack active and repair/remove stays scoped"
+  ],
+  "errors": [],
+  "swSha256": "9d3795f45aed2a2b1b1b3d517c65ad3c2020778cad5447587dae9c38d1a4dd67",
+  "scope": "Origin network disabled at the test server for the offline reload (WebKit browser offline emulation bypasses SW navigation); actual Cache API and SW install/update with exact application handler and a minimal controlled shell. Verified synthetic asset only; no real model/provider/audio/physical-device claim."
+}

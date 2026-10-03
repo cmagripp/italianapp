@@ -12,7 +12,8 @@
     "Changing the unfinished answer revokes an in-flight suggestion without replacing either original draft",
     "Navigation, provider removal, learner replacement and epoch reset revoke late Journey help",
     "Journey lazy Grammar dispatch retains its original view ownership across the child import",
-    "Already open Journey completion controls cannot write after learner replacement"
+    "Already open Journey completion controls cannot write after learner replacement",
+    "Current and valid prior form sources keep exact contextual help while retired form questions have none"
   ],
   "errors": []
 }

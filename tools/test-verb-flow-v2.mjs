@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {buildLesson} from '../js/learning/lesson-content.js';
+import {buildLesson as buildLessonMetadata} from '../js/learning/lesson-content.js';
 import {buildJourneyQuestion} from '../js/learning/lesson-questions.js';
 import {progressiveForms,progressiveContexts,simpleVerbContexts} from '../js/learning/progressive-content.js';
 import {createLearning,recordAttempt,normalizeLearning,skillState,setCompletionRecord} from '../js/learning/model.js';
 import {createJourneySession,currentJourneyStep,advanceJourney,journeyAttempt,recordJourneyAttempt,journeyPairAttempt,recordJourneyPairAttempt,skipJourneyTarget,journeyCaseProgress,journeyStageProgress,upgradeVerbJourneySession,chooseJourneyChapter,retryJourneyPending,reconcileJourneyReview} from '../js/learning/journey.js';
 import {gradeQuestion} from '../js/learning/diagnose.js';
 import {gradePairActivity} from '../js/learning/lesson-activities.js';
+const buildLesson=(entry,options={})=>buildLessonMetadata(entry,{...options,questionBuilder:buildJourneyQuestion});
 const verbs=JSON.parse(fs.readFileSync(new URL('../data/verbs.json',import.meta.url))),verb=inf=>({...verbs.find(e=>e.inf===inf),kind:'verb'});
 let count=0;
 const test=(name,run)=>{run();count++;console.log('PASS',name);};

@@ -96,6 +96,8 @@ function authoredContexts(entry,{chapter='present',progressive=false,section='pr
   return frames.flatMap(([itSuffix,enSuffix],index)=>!selected(index)?[]:roles.flatMap(({person,role})=>{
     const formal=role==='formal',subject=formal?['Signora Rossi, Lei','Ms Rossi, you']:spec.subjects?.[person]||SUBJECTS[person];
     let frameSpec=!legacySelection&&entry.inf==='dire'&&index===0?{...spec,en:['tell','tells','told','telling']}:spec;
+    const priorEnglish=legacyExpanded?spec.legacyExpandedEn:legacySelection?spec.legacyEn:null;
+    if(priorEnglish)frameSpec={...frameSpec,en:priorEnglish};
     // A reviewed episode can use an ongoing English imperfect without changing
     // the progressive policy. Explicit prior values preserve saved old scenes.
     const priorField=legacyExpanded?'legacyExpandedImperfectEn':legacySelection?'legacyImperfectEn':null;

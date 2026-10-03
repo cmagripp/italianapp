@@ -9987,7 +9987,46 @@
         "Qualcosa",
         "Something"
       ]
-    }
+    },
+    "sceneRevision": "succedere-lesson-scope-2026-10-03-1",
+    "legacyExpandedRevision": "expanded-v1",
+    "legacyExpandedFrames": [
+      [
+        "qui",
+        "here"
+      ],
+      [
+        "in città",
+        "in the city"
+      ],
+      [
+        "al lavoro",
+        "at work"
+      ],
+      [
+        "di nuovo",
+        "again"
+      ]
+    ],
+    "legacyFrames": [
+      [
+        "qui",
+        "here"
+      ],
+      [
+        "in città",
+        "in the city"
+      ],
+      [
+        "al lavoro",
+        "at work"
+      ],
+      [
+        "di nuovo",
+        "again"
+      ]
+    ],
+    "legacyFrameCount": 4
   },
   {
     "inf": "sudare",

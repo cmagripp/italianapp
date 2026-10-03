@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-03",
+  "status": "read-only-proposed-next-slice",
+  "baseCommit": "9802b1d4c2e8a7cae09c8206803793e6b5a42364",
+  "method": "Read-only route/settings/session/source dependency inspection and assembled-dist byte inventory; exact current SW activation handler executed in Node VM with synthetic Cache API names. Not old-client, installed-browser or physical-device validation.",
+  "sourceFingerprints": {
+    "docs/IMPLEMENTATION-ROADMAP-2026-10-03.md": "e0c00277ff2606e16badbd6b9fc34ce75330ecda6baae348cbf0bd6a5134f5fa",
+    "js/app.js": "45d2477aa4b4ac4f3d33b95e95daae3e59d493fffcee498f8638bc5fa6fd2f32",
+    "js/views/profile.js": "402d0049906b4cd4aa5319db518eb2ef701ecae00553a90a4c73cc8fc2485726",
+    "js/views/learnWord.js": "e0ce88e7f7e32f6cf11af055f8579fca28d0f6127afae37888a84a0568215eea",
+    "js/views/learnVerb.js": "f68ec2ab1225444e291c8868e36b1bc0672dbaff721c122c88cf584306a6b7a7",
+    "js/views/walkthrough.js": "d94c64d522277f06233a9b9b9ae4ead61ed8d289427e57f7706041da1fca653c",
+    "js/views/learnAdaptive.js": "52aca9dee7327c9cc31d253139e4db0b768908dab9708246415cc0b027ca7e32",
+    "js/views/learnJourney.js": "00f093f73b83bbc91cc0fcec20c3253ce7cbdf6e5c433456fdd5ad029bd1cefa",
+    "js/views/learnGrammar.js": "3ef0fa3c580313b9cb579ec6f5e184ef1e299dfd9d644b04525f39e1d5734958",
+    "js/learning/grammar-course.js": "378b2db00d392db3d662a9cfdb2f16a6160a6d27fba856a1e9415925b43a9432",
+    "js/learning/grammar-journey.js": "37d9ec1701b0c746a42546941d72cb67371e6cb1ab3582e0f1800a00651a4e18",
+    "js/learning/grammar-state.js": "c90e8c8b26c99a026fe566363085554e1a80da32f013fa2008c7c7704cdfda3d",
+    "js/learning/legacy-progressive-content.js": "0a1030457c36e104e2a9152c95120e67243a9294f8f3b84ac47f39401aad1ef4",
+    "js/learning/journey.js": "8ef7912f378105941340aca1bb881ba2cfb0804b27a2b8eb11eaf309cf3840e2",
+    "js/learning/journey-scene.js": "3776bd6cb8963515d52c4169933173cf5f56e996528e1995c5a28d0457630d29",
+    "js/learning/fit-scorer.js": "d76e2584eb05ed1ca95516d9a3a68c20ba4e9789cd7b34847c5254068333b4cf",
+    "js/workers/fit-scorer.worker.js": "cfc69e2bedb3e4ab46cd2590bc36fdcf37442138638dc5f25d36f1a0ae2d4647",
+    "js/learning/assistant.js": "a2758f02cf85f3ff80de2b0fab5a74c89727add6c4e78a8fef46a63e3f03ba69",
+    "js/views/labFrasi.js": "74d529bcbf34f12fde5e71b0c90e67506b2d8f788cbcfddd3a920d8a2d48737e",
+    "js/views/labFrasiLesson.js": "8d6e505b35eda43fc5f1a25f4d6c8feb46894d2abb2d4fadf47021d176c0a39f",
+    "js/ai/packs.js": "a0d641fc39dd2ec300355c6939d5a8ebeef9badb063d48adb2512bbdf3d984da",
+    "sw.js": "d456e5336aab7ab84fcddc6b70498074067a716cdbaa548c0e78d7dc3d3dbc32",
+    "tools/build-site.mjs": "ffdef2b8c0aeaa02b444b481593238da78eddd5a70ad62ffb47e04525cd0837b",
+    "tools/check-shell.mjs": "0395e9b5f65d025d1f713ef0bf8102c9d2d51e779daf189b1ca0e3a16bf790b8",
+    ".github/workflows/check.yml": "a2f826fb139694ecba886103ee1f396f0748d09f8fb58c55a0238d553e4a74a8",
+    ".github/workflows/deploy.yml": "f349b140e57640e00a87c8021f3bfa2951337cfba24e65d0b7c96d00c620549b",
+    "data/course-index.json": "e91258c5631ed6e11c5a7f49c7e615d984eaf2e78da7e79378a83ab713a24ab8"
+  },
+  "counts": {
+    "legacyGrammarLessons": 129,
+    "currentCourseLessons": 322,
+    "workshopPacks": 4,
+    "workshopLessons": 21,
+    "dialogueTurns": 140,
+    "oldReplySelectorEligibleTurns": 0
+  },
+  "inactiveFitPublished": {
+    "models/fit-scorer": {
+      "files": 6,
+      "bytes": 69672343
+    },
+    "vendor/ort": {
+      "files": 2,
+      "bytes": 14312951
+    },
+    "js/learning/fit-scorer.js": {
+      "files": 1,
+      "bytes": 14700
+    },
+    "js/workers/fit-scorer.worker.js": {
+      "files": 1,
+      "bytes": 13170
+    }
+  },
+  "inactiveFitTotalBytes": 84013164,
+  "aiPackActivationBefore": {
+    "method": "Read-only exact current sw.js activate handler executed in Node VM with synthetic Cache API inventory; not installed-browser/device evidence.",
+    "swSha256": "d456e5336aab7ab84fcddc6b70498074067a716cdbaa548c0e78d7dc3d3dbc32",
+    "cacheInventory": [
+      "parola-ai-pack-v1:state",
+      "parola-ai-pack-v1:fixture:0123456789abcdef0123456789abcdef01234567",
+      "parola-fit-scorer-v1",
+      "parola-assistant-runtime-v1",
+      "webllm/model",
+      "unrelated-old-shell"
+    ],
+    "deleted": [
+      "parola-ai-pack-v1:state",
+      "parola-ai-pack-v1:fixture:0123456789abcdef0123456789abcdef01234567",
+      "unrelated-old-shell"
+    ],
+    "actualPackPrefix": "parola-ai-pack-v1:",
+    "status": "reproduced-active-pack-prefix-deletion"
+  },
+  "nextSlice": [
+    "Initialize only the missing selected Journey variant counter on assisted imported success; preserve prior evidence and exact active scene.",
+    "Preserve exact parola-ai-pack-v1: caches through shell updates, with verified-pack/state update and offline reopening regression.",
+    "After old-client compatibility proof, retire exact inactive fit-scorer distribution with source-only archive/notices and absence gates."
+  ],
+  "notRetired": [
+    "Original walkthrough setting/dispatch",
+    "Genuine saved legacy adaptive question player",
+    "Legacy grammar lesson IDs/engine/packs",
+    "Prior scene/progressive resolver and revision metadata",
+    "Shared curriculum/question/diagnosis modules",
+    "Physical legacy profile/recovery bridge",
+    "Dormant old selector until separately tested removal",
+    "Intentional old assistant/WebLLM caches"
+  ],
+  "requiredGates": [
+    "Old current/saved/imported links and exact question/draft/feedback/Continue compatibility",
+    "Already-open previous-client update and interrupted optional-install handling",
+    "New installed verified AI-pack state/assets survive worker activation",
+    "Source and assembled-dist deterministic/browser/offline validation",
+    "Independent installed-device/editorial/model/speech release gates remain open"
+  ]
+}

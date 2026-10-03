@@ -22,7 +22,7 @@ for(const entry of verbs){const plan=buildLesson(entry),cases=plan.chapters.filt
  }
 }
 function traverse(inf,caseId='present'){
- const entry=verbs.find(e=>e.inf===inf),plan=buildLesson(entry);let learning=createLearning(1),session=createJourneySession({id:`audit:${inf}:${caseId}`,plan,now:1,chapterId:caseId,caseMode:true}),serial=0,steps=0,questions=0,typed=0,teaching=0,writtenRun=0,maxWrittenRun=0;const formats={},phases={},trace=[];
+ const entry=verbs.find(e=>e.inf===inf),plan=buildLesson(entry,{questionBuilder:buildJourneyQuestion});let learning=createLearning(1),session=createJourneySession({id:`audit:${inf}:${caseId}`,plan,now:1,chapterId:caseId,caseMode:true}),serial=0,steps=0,questions=0,typed=0,teaching=0,writtenRun=0,maxWrittenRun=0;const formats={},phases={},trace=[];
  const norm=s=>String(s||'').normalize('NFC').trim().toLocaleLowerCase('it').replace(/\s+/g,' '),expose=forms=>{session.ui||={exposures:{}};for(const f of forms||[])if(f)session.ui.exposures[norm(f)]=session.index;};
  const save=event=>{Object.assign(event,{deviceId:'pacing-audit',sequence:++serial,epochId:learning.epoch.id});const result=recordAttempt(learning,event);learning=result.learning;return result;};
  for(;steps<650;steps++){

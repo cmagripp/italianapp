@@ -27,6 +27,7 @@ import { createJourneySession, currentJourneyStep, advanceJourney, recordJourney
 import { recommendLesson as recommend, practiceHref } from '../learning/integration.js';
 import {journeyVisit,recordJourneyVisit,nextJourneyVisit} from '../learning/journey-visit.js';
 import {createJourneyScene,validJourneyScene,journeySceneMatches} from '../learning/journey-scene.js';
+import {createJourneyForm,validJourneyForm,journeyFormRecipe,journeyFormMatches} from '../learning/journey-form.js';
 import {pinJourneyScene} from '../learning/journey.js';
 import {createPracticeHelp} from '../learning/practice-help.js';
 import {assistanceAvailable} from '../learning/ai-assistance.js';
@@ -109,7 +110,7 @@ export async function render(root, params = {}, query = {}) {
       : '<div class="empty"><h1>Choose something to learn</h1><a class="btn primary" href="#/scope">Choose your topics</a></div>';
     return;
   }
-  let plan = buildLesson(entry, { expansions: store.learning.preferences?.expansions || [] });
+  let plan = buildLesson(entry, { questionBuilder:buildJourneyQuestion,expansions: store.learning.preferences?.expansions || [] });
   // Opening an explicitly linked grammar example enrolls its optional chapter.
   // It never completes the chapter or enrolls other unfinished forms for review.
   if(query.fromGrammar && grammarLesson(query.fromGrammar)?.related.some(link=>link.entryId===entry.id&&link.caseId===query.chapter)) {
@@ -119,7 +120,8 @@ export async function render(root, params = {}, query = {}) {
   }
   const selectedExpansions = store.learning.preferences?.expansions || [];
   const extraTenses = new Set(EXPANSIONS.filter(x=>selectedExpansions.includes(x.id)).flatMap(x=>x.tenses));
-  plan.chapters = plan.chapters.filter(c=>!c.optional || c.id==='mixed' || c.id==='background' || extraTenses.has(c.tense));
+  const savedHistoryChapter=plan.questionHistory&&requested?.journey?.current?requested.journey.chapterId:null;
+  plan.chapters = plan.chapters.filter(c=>c.id===savedHistoryChapter||!c.optional || c.id==='mixed' || c.id==='background' || extraTenses.has(c.tense));
   let allTargets = plan.chapters.flatMap(c => c.groups.flatMap(g => g.targets || []));
   const oldObjective = query.objective || suggestion?.objectiveId;
   const objectiveChapter = oldObjective && plan.chapters.find(c => c.groups.some(g => g.targets.some(t => t.id === oldObjective))
@@ -135,9 +137,9 @@ export async function render(root, params = {}, query = {}) {
   const updatedPlan=plan;
   const heldLegacyQuestion=entry.kind==='verb' && !session.journey.verbFlowVersion && !!session.journey.current;
   if(heldLegacyQuestion){
-    plan=buildLesson(entry,{legacy:true});
+    if(!updatedPlan.questionHistory){plan=buildLesson(entry,{legacy:true,questionBuilder:buildJourneyQuestion});
     plan.chapters=plan.chapters.filter(c=>updatedPlan.chapters.some(next=>next.id===c.id));
-    allTargets=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets||[]));
+    allTargets=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets||[]));}
   }else session=upgradeVerbJourneySession(plan,session,store.learning);
   if (chapterId && !query.session && mode !== 'review') session = chooseJourneyChapter(plan, session, chapterId, { now: Date.now(), learning:store.learning });
   preserveLegacyCaseQuestion();
@@ -180,18 +182,19 @@ export async function render(root, params = {}, query = {}) {
     || !query.session&&!chapterId || !!query.session&&ui.overview===true);
   ui.formDecks = ui.formDecks && typeof ui.formDecks === 'object' && !Array.isArray(ui.formDecks)
     ? Object.fromEntries(Object.entries(ui.formDecks).filter(([key,value])=>!['__proto__','prototype','constructor'].includes(key)&&Number.isInteger(value)&&value>=0)) : {};
-  // History stores bounded presentation descriptors, never HTML or a copy of the
-  // learning state. Reconstruct every page from the current trusted lesson plan.
+  // History stores bounded source-bound descriptors. Imported prompt text is
+  // compared only; every rendered page is regenerated from trusted sources.
   let historyLegacyPlan=null;
   const historyStep = snapshot => {
-    const historyPlan=entry.kind==='verb'&&snapshot?.verbFlowVersion!==2?(historyLegacyPlan ||= buildLesson(entry,{legacy:true})):plan;
-    const chapter = historyPlan.chapters.find(c=>c.id===snapshot?.chapterId);
+    const historyPlan=entry.kind==='verb'&&snapshot?.verbFlowVersion!==2?(historyLegacyPlan ||= buildLesson(entry,{legacy:true,questionBuilder:buildJourneyQuestion})):plan;
+    const recipe=journeyFormRecipe(plan,snapshot);
+    const chapter = recipe?.chapter||historyPlan.chapters.find(c=>c.id===snapshot?.chapterId);
     const group = chapter?.groups.find(g=>g.id===snapshot.groupId);
     const card = group?.cards?.find(c=>c.id===snapshot.cardId);
-    let target = chapter?.groups.flatMap(g=>g.targets||[]).find(t=>t.id===snapshot.targetId);
+    let target = recipe?.target||chapter?.groups.flatMap(g=>g.targets||[]).find(t=>t.id===snapshot.targetId);
     const slot=plan.wordLesson?.slots.find(s=>s.id===snapshot.wordSlotId&&s.targetId===target?.id);
     if(slot)target={...target,shortWord:true,wordSlotId:slot.id,wordPairTargets:(slot.pairTargetIds||[]).map(id=>allTargets.find(t=>t.id===id)).filter(Boolean)};
-    return { ...snapshot, chapter, group, card, target };
+    return { ...snapshot, chapter, group, card, target,...(plan.questionHistory?{questionHistory:plan.questionHistory}:{}) };
   };
   const safeResult = result => result && typeof result==='object' && typeof result.ok==='boolean' ? {
     ok:result.ok, outcome:['correct','incorrect','revealed'].includes(result.outcome)?result.outcome:'incorrect',
@@ -218,7 +221,10 @@ export async function render(root, params = {}, query = {}) {
     snapshot.scrollTop=Number.isFinite(source.scrollTop)&&source.scrollTop>=0?Math.min(source.scrollTop,100000):0;
     snapshot.index=Number.isInteger(source.index)&&source.index>=0?source.index:0;
     if(snapshot.wordSlotId&&!plan.wordLesson?.slots.some(s=>s.id===snapshot.wordSlotId&&s.targetId===snapshot.targetId))return null;
+    if(source.questionRevision!==undefined){if(typeof source.questionRevision!=='string'||!source.questionRevision||source.questionRevision.length>500)return null;snapshot.questionRevision=source.questionRevision;}
+    if(source.formSnapshot!==undefined){if(!validJourneyForm(source.formSnapshot))return null;snapshot.formSnapshot=clone(source.formSnapshot);}
     const restored=historyStep(snapshot);
+    if(snapshot.formSnapshot&&!journeyFormMatches(snapshot.formSnapshot,plan,snapshot,buildJourneyQuestion))return null;
     if(!restored.chapter || source.type==='teach'&&!restored.card || ['question','repair'].includes(source.type)&&!restored.target)return null;
     if(source.sceneSnapshot!==undefined){
       if(!validJourneyScene(source.sceneSnapshot))return null;
@@ -227,6 +233,13 @@ export async function render(root, params = {}, query = {}) {
     }else if(snapshot.scenePolicy==='expanded-v1'&&restored.target){
       const scene=createJourneyScene({entryId:entry.id,chapterId:restored.chapter.id,target:restored.target,variant:snapshot.variant,legacy:true});
       if(scene)snapshot.sceneSnapshot=scene;
+    }
+    if(plan.questionHistory&&['question','repair'].includes(snapshot.type)&&snapshot.formSnapshot===undefined){
+      const recipe=journeyFormRecipe(plan,snapshot);
+      if(!recipe)return null;
+      const q=buildJourneyQuestion(recipe.entry,recipe.chapter,recipe.target,{...snapshot,historicalForms:recipe.prior});
+      const form=createJourneyForm(plan,snapshot,q);if(!form)return null;
+      snapshot.formSnapshot=form;snapshot.questionRevision=form.sourceRevision;
     }
     return snapshot;
   };
@@ -376,6 +389,7 @@ export async function render(root, params = {}, query = {}) {
       question = buildJourneyQuestion(entry, step.chapter, step.target, {
         variant: step.variant || 0, format: step.format || 'type', phase: step.phase, repairTag: step.repairTag,
         scenePolicy: step.scenePolicy, sceneSnapshot: step.sceneSnapshot,
+        formSnapshot:step.formSnapshot,questionRevision:step.questionRevision,questionHistory:step.questionHistory,
       });
       if (question && ui.questionId !== step.questionId) {
         ui.questionId = step.questionId; ui.draft = ''; ui.given = ''; ui.result = null; ui.activity=null;
@@ -462,13 +476,14 @@ export async function render(root, params = {}, query = {}) {
     save();
   }
   function preserveLegacyCaseQuestion(){
+    if(updatedPlan.questionHistory)return;
     if(entry.kind!=='verb'||session.journey.verbFlowVersion===2)return;
-    if(session.journey.current){plan=buildLesson(entry,{legacy:true});plan.chapters=plan.chapters.filter(c=>updatedPlan.chapters.some(next=>next.id===c.id));}
+    if(session.journey.current){plan=buildLesson(entry,{legacy:true,questionBuilder:buildJourneyQuestion});plan.chapters=plan.chapters.filter(c=>updatedPlan.chapters.some(next=>next.id===c.id));}
     else {plan=updatedPlan;session=upgradeVerbJourneySession(plan,session,store.learning);}
     allTargets=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets||[]));
   }
   function activateUpdatedVerbFlow(){
-    if(plan===updatedPlan)return;
+    if(plan===updatedPlan){if(plan.questionHistory)session=upgradeVerbJourneySession(plan,session,store.learning);return;}
     plan=updatedPlan;allTargets=plan.chapters.flatMap(c=>c.groups.flatMap(g=>g.targets||[]));
     session=upgradeVerbJourneySession(plan,session,store.learning);
     ui.questionId=null;ui.draft='';ui.given='';ui.result=null;ui.activity=null;ui.assistance=[];ui.historyCursor=null;
@@ -502,7 +517,7 @@ export async function render(root, params = {}, query = {}) {
     const snapshot = safeSnapshot({version:1,entryId:entry.id,contentVersion:plan.version,...(plan.flowVersion===2?{verbFlowVersion:2}:{}),
       type:step.type,chapterId:step.chapter?.id,groupId:step.group?.id,cardId:step.card?.id,targetId:step.target?.id,wordSlotId:step.target?.wordSlotId,
       phase:step.phase,questionId:step.questionId,variant:step.type==='repair'?session.journey.lastAttempt?.variant:step.variant,
-      format:step.format,repairTag:step.repairTag,scenePolicy:step.scenePolicy,sceneSnapshot:step.sceneSnapshot,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
+      format:step.format,repairTag:step.repairTag,scenePolicy:step.scenePolicy,sceneSnapshot:step.sceneSnapshot,formSnapshot:step.formSnapshot,questionRevision:step.questionRevision,awaitingContinue:step.awaitingContinue,helpSuggested:step.helpSuggested,
       given:ui.given||ui.draft,result:ui.result,activity:ui.activity,pendingCount:pending.length,index:session.index||0,
       scrollTop:root.querySelector('.journey-main')?.scrollTop||0});
     if (!snapshot) return;
@@ -513,7 +528,7 @@ export async function render(root, params = {}, query = {}) {
   }
   function snapshotQuestion(snapshot) {
     return snapshot.target ? buildJourneyQuestion(entry,snapshot.chapter,snapshot.target,{
-      variant:snapshot.variant,format:snapshot.format,phase:snapshot.phase,repairTag:snapshot.repairTag,scenePolicy:snapshot.scenePolicy,sceneSnapshot:snapshot.sceneSnapshot,
+      variant:snapshot.variant,format:snapshot.format,phase:snapshot.phase,repairTag:snapshot.repairTag,scenePolicy:snapshot.scenePolicy,sceneSnapshot:snapshot.sceneSnapshot,formSnapshot:snapshot.formSnapshot,questionRevision:snapshot.questionRevision,questionHistory:plan.questionHistory,
     }) : null;
   }
   function exposeHistory(snapshot) {
@@ -523,7 +538,7 @@ export async function render(root, params = {}, query = {}) {
       const cards=past.chapter.groups.flatMap(g=>g.cards||[]);
       const cardId=repairCardId(past);
       revealTeaching(cards.find(c=>c.id===cardId)||past.card||past.group?.cards?.[0],past.chapter);
-      if(past.helpSuggested)expose(snapshotQuestion({...past,phase:'independent',format:'type'})?.answer);
+      if(past.helpSuggested)expose(snapshotQuestion(past.formSnapshot?past:{...past,phase:'independent',format:'type'})?.answer);
     } else if(past.type==='question'){
       const q=snapshotQuestion(past);
       expose(q?.meta?.promptExposureForms);

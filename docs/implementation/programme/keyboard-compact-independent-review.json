@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-03",
+  "reviewer": "programme_learning independent agent",
+  "status": "bounded-source-review-passed",
+  "scope": "Shared sheet/dropdown keyboard focus and compact Conversation composer; read-only review of root-owned implementation and browser evidence",
+  "findings": [],
+  "sources": {
+    "js/focus.js": "489c51209925583801c113b5e7c8e0be282964e50a222ffdb221cf833c97fe76",
+    "js/ui.js": "a06a7fe3a1f0d3bcb3b0e4fddc1ae8a4553e38852c5b1d2713a9f1df37243df5",
+    "js/fx.js": "679f1b8c5eee38754b874556392f072ba6343177679279029ae7645c1c438040",
+    "js/views/conversations.js": "80d6f51196136c1bc581abd94d86d250e8662b127909cf722b98c8b39bb08ca1",
+    "css/conversations.css": "58c7150f2682d7b75d9c5a52b262cd63d741fc4668bc86f9c6f5def96256380c",
+    "tests/programme-keyboard-e2e.mjs": "49e9f08df6865a42ecceae40c6a78ac532e6f2cc387dbc418abf8048c5c2e084",
+    "tests/conversation-compact-e2e.mjs": "5e1e100359fd281a2018482d11445ff18e35ff2195e8dfcad75292f7d3f9c879"
+  },
+  "evidence": {
+    "docs/implementation/programme/keyboard-accessibility-chromium.json": {
+      "sha256": "720d39318cfa81e86961332e9b09f73fbcee2d9665e9a48f6f4a3777d28cbfa4",
+      "checks": 13,
+      "errors": [],
+      "executedBy": "root agent; independently inspected by reviewer"
+    },
+    "docs/implementation/programme/keyboard-accessibility-webkit.json": {
+      "sha256": "8b626486f36628af3a893c3fcdb43606d4aea95a7f9bb36972065feea9990325",
+      "checks": 13,
+      "errors": [],
+      "executedBy": "root agent; independently inspected by reviewer"
+    },
+    "docs/implementation/programme/conversation-compact-chromium.json": {
+      "sha256": "55546acb126cda346cd07b0fdfbb6ce51fe40b9d6fd6cb8e407e786bf6a5163f",
+      "checks": 12,
+      "errors": [],
+      "executedBy": "root agent; independently inspected by reviewer"
+    },
+    "docs/implementation/programme/conversation-compact-webkit.json": {
+      "sha256": "7a475177bcf900c9668a42e0945c9ffc5ec007a8fa467bef54a2455697ce6504",
+      "checks": 12,
+      "errors": [],
+      "executedBy": "root agent; independently inspected by reviewer"
+    }
+  },
+  "reviewedBoundaries": [
+    "Visible enabled controls only, including disabled fieldsets and closed details; radios retain one native Tab stop and arrow behavior.",
+    "Topmost sheet owns Tab/Escape; nested parent is inert and focus returns to saved opener.",
+    "Dropdown Tab closes its own menu and continues the surrounding modal from its retained trigger; selection redraw explicitly focuses replacement controls.",
+    "Prompt Enter suppresses bubbling and delayed focus is cancelled on early dismissal.",
+    "One bounded assistance scroller combines reply/speech help while the text draft, send and keyboard controls remain outside that scroller.",
+    "Composer geometry is tested in both themes across375/390/430px widths and430/480px heights, preserving a visible message region and exact unsent draft after reload."
+  ],
+  "limits": [
+    "Source review plus browser fixture evidence; not physical iOS keyboard, VoiceOver or native-human accessibility review.",
+    "Explicit test Conversation provider only; no production-model quality/latency/microphone inference claim.",
+    "No broad app accessibility or all-device layout claim."
+  ]
+}
