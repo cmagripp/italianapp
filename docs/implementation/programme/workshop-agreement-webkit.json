@@ -1,0 +1,16 @@
+{
+  "browser": "webkit",
+  "scope": "Real workshop player with an explicit fixture for both speaker forms, original drafts, unchanged prior results, stale callbacks and accent/assistance provenance. No AI quality claim.",
+  "checks": [
+    "in-player agreement preserves drafts, controls actual grading and survives reload",
+    "a closed agreement menu cannot change preferences after navigation",
+    "exact own-word drafts survive reload, accent buttons, pause and navigation",
+    "malformed morphology stays in the draft and receives no rewritten credit",
+    "accent-only restoration is visible and saved with the original submission",
+    "translated English produces explicitly assisted practice",
+    "legacy constructed drafts stay assisted and retain exact saved text",
+    "typed drill draft resumes exactly after reload and navigation disposal",
+    "picker callbacks cannot mark a word or save a draft into another profile"
+  ],
+  "errors": []
+}

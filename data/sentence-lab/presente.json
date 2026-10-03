@@ -1139,7 +1139,7 @@
                 }
               ],
               "reactions": [
-                { "when": ["sono stanco", "sono stanca"], "it": "Stanco? Hai lavorato molto?", "en": "Tired? Did you work a lot?" },
+                { "when": ["sono stanco", "sono stanca"], "it": "Hai lavorato molto?", "en": "Did you work a lot?" },
                 { "when": ["ho fame"], "it": "Allora prendiamo un panino!", "en": "Then let's get a sandwich!" },
                 { "when": ["ho sonno"], "it": "Sonno? Allora un caffè!", "en": "Sleepy? A coffee, then!" },
                 { "when": ["ho sete"], "it": "Sete? Prendiamo un'acqua.", "en": "Thirsty? Let's get a water." },

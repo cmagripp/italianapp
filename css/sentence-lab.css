@@ -12,6 +12,9 @@
 [data-role="extra"] { --role: var(--role-extra); }
 [data-role="link"] { --role: var(--role-link); }
 .lab-kicker [lang="it"] { color: var(--gold); }
+.lab-practice-context { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 12px; color:var(--ink-2); font-size:12px; }
+.lab-practice-context > span { min-width:0; }
+.lab-practice-context > button { flex:none; min-height:44px; padding-inline:8px; }
 
 /* ---------- model ---------- */
 .lab-pattern { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 0 0 18px; }

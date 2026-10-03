@@ -1,0 +1,18 @@
+{
+  "browser": "webkit",
+  "passed": true,
+  "scope": "Real Journey routes and canonical catalogue; injected test-only generator/language fixture; no production model claim",
+  "checks": [
+    "Real Journey keeps authored help while production AI controls remain unavailable",
+    "Original help question persists through reopen without trusting or replaying a generated response",
+    "Hint exposure binds exact scene and original draft; only the subsequent canonical answer records assisted evidence",
+    "Explanation uses the selected authored example and does not retrieve an unrelated lexical rule",
+    "Unsupported installed provider source fails before generation and leaves authored help available",
+    "A canonical answer disclosed as a hint is rejected before receipts or grading",
+    "Changing the unfinished answer revokes an in-flight suggestion without replacing either original draft",
+    "Navigation, provider removal, learner replacement and epoch reset revoke late Journey help",
+    "Journey lazy Grammar dispatch retains its original view ownership across the child import",
+    "Already open Journey completion controls cannot write after learner replacement"
+  ],
+  "errors": []
+}

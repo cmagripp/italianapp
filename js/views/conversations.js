@@ -1,5 +1,5 @@
 import {html,raw,icon,sheet,promptDialog,confirmDialog,toast,speak,stopSpeech} from '../ui.js';
-import {setTitle,setChrome,navigate} from '../app.js';
+import {setTitle,setChrome,navigate,captureViewOwnership} from '../app.js';
 import {store} from '../store.js';
 import {data,loadData} from '../data.js';
 import {dropdown} from '../fx.js';
@@ -25,6 +25,7 @@ const REGISTERS=[['informal','Tu · informal'],['formal','Lei · polite']];
 const MODES=[['conversation','Conversation'],['coach','Dialogue Coach']];
 const CASE_NAMES={present:'Present',past:'Completed past',background:'Imperfetto',future:'Future',condizionale:'Conditional'};
 const partnerNames=['Giulia','Marco','Sofia'];
+let viewportOwner=null;
 const threadHref=id=>'#/conversations/'+encodeURIComponent(id);
 const label=(options,value)=>options.find(([id])=>id===value)?.[1]||value;
 const verifiedCorrections=(turn,summary)=>(turn.correctionRefs||[]).flatMap(correction=>{
@@ -54,56 +55,68 @@ function setupSheet({initial,onSave,title='New conversation'}){
 }
 
 export async function render(root,params={}){
+ const ownsRender=captureViewOwnership(root,{identity:false}),ownsIdentity=captureViewOwnership(root),viewportToken={};
  const owner={profileId:store.current.id,learnerId:store.current.learnerId};let alive=true,studyViewActive=true,studySerial=0,controller=null,viewport=null,words=null,openSummary=null,openStudy=null,speechSession=null,speechLease=null,speechLoading=null,speechEdits=Promise.resolve(),voiceOpen=false,voiceState=null,recordingTimer=null,recordingStarted=0,offProvider=()=>{},spokenFeedback=null,spokenContinuation=null;
  const current=()=>alive&&store.current?.id===owner.profileId&&store.current?.learnerId===owner.learnerId;
- const interactions=new AbortController(),visible=()=>studyViewActive&&current();
+ let playerLoaded=!params.id;
+ const interactions=new AbortController(),visible=()=>studyViewActive&&current()&&ownsIdentity(),interactive=()=>visible()&&playerLoaded;
  const savedAudioPlayer=createTemporaryAudioPlayer();
  const repository=createConversationRepository({...owner,isCurrent:current});
- const offProfile=store.on('profile',()=>{if(!current()){void controller?.dispose();navigate('#/conversations',{replace:true});}});
- const cleanup=()=>{studyViewActive=false;studySerial++;interactions.abort();offProfile();offProvider();clearInterval(recordingTimer);openStudy?.close();void savedAudioPlayer.stop();void speechSession?.dispose().finally(()=>speechLease?.release?.());words?.destroy();viewport?.destroy();openSummary?.close();stopSpeech();if(controller)void controller.dispose().finally(()=>{alive=false;});else{alive=false;repository.close();}};
+ const offProfile=store.on('profile',()=>{if(!current()||!ownsIdentity()){const returnToHub=studyViewActive&&ownsRender();disposeView();if(returnToHub)navigate('#/conversations',{replace:true});}});
+ const cleanup=()=>{if(!studyViewActive)return;const owned=ownsRender();studyViewActive=false;window.removeEventListener('hashchange',leave);studySerial++;interactions.abort();offProfile();offProvider();clearInterval(recordingTimer);openStudy?.close();void savedAudioPlayer.stop();void speechSession?.dispose().finally(()=>speechLease?.release?.());words?.destroy();viewport?.destroy();openSummary?.close();if(owned)stopSpeech();if(controller)void controller.dispose().finally(()=>{alive=false;});else{alive=false;repository.close();}};
+ let disposeView=cleanup;
+ const leave=()=>{if(!ownsRender())disposeView();};
+ window.addEventListener('hashchange',leave);
  // The repository remains current while disposal flushes the pending draft;
  // interaction listeners and UI publication stop as soon as the view closes.
- const attempt=fn=>Promise.resolve().then(()=>visible()?fn():undefined).catch(error=>{if(visible()&&error.name!=='AbortError')toast(error.message,{kind:'ko',ms:5000});});
- async function exportThread(threadId){download(await exportConversationJSON(repository,{threadId}),'parola-conversations.json');}
+ const attempt=fn=>Promise.resolve().then(()=>interactive()?fn():undefined).catch(error=>{if(visible()&&error.name!=='AbortError')toast(error.message,{kind:'ko',ms:5000});});
+ async function exportThread(threadId){const text=await exportConversationJSON(repository,{threadId});if(visible())download(text,'parola-conversations.json');}
  function threadMenu(anchor,thread,refresh){
   dropdown(anchor,[{value:'rename',label:'Rename'},{value:'archive',label:thread.archived?'Move to conversations':'Archive'},{value:'export',label:'Export transcript & notes'},{value:'delete',label:'Delete conversation'}],{onSelect:value=>void attempt(async()=>{
    if(value==='export'){await exportThread(thread.threadId);return;}
-   if(value==='rename'){const title=await promptDialog('Conversation name',{value:thread.title});if(!title||!current())return;await repository.updateThread(thread.threadId,{title},{expectedRevision:thread.revision});}
+   if(value==='rename'){const title=await promptDialog('Conversation name',{value:thread.title});if(!title||!visible())return;await repository.updateThread(thread.threadId,{title},{expectedRevision:thread.revision});}
    if(value==='archive')await repository.updateThread(thread.threadId,{archived:!thread.archived},{expectedRevision:thread.revision});
-   if(value==='delete'){if(!await confirmDialog('Delete this conversation, notes and saved recordings from this device? Any unfinished backup import containing it will also be cancelled.',{ok:'Delete',danger:true})||!current())return;await repository.deleteThread(thread.threadId);}
+   if(value==='delete'){if(!await confirmDialog('Delete this conversation, notes and saved recordings from this device? Any unfinished backup import containing it will also be cancelled.',{ok:'Delete',danger:true})||!visible())return;await repository.deleteThread(thread.threadId);}
    await refresh();
   })});
  }
  if(!params.id){
-  setTitle('Conversations');let archived=false,threads=[];
-  async function draw(){threads=await repository.list({archived});if(!current())return;root.innerHTML=html`<div class="conversations-hub"><section class="conversation-intro"><span class="kicker">A little Italian, every day</span><h1>Parliamo.</h1><p>Make conversation. Find your words. Pick it up again whenever you like.</p><button type="button" class="btn primary block" data-new-conversation>${ic('plus')}New conversation</button></section>
+  setTitle('Conversations');let archived=false,threads=[],drawSerial=0;
+  async function draw(){const serial=++drawSerial,next=await repository.list({archived});if(!visible()||serial!==drawSerial)return;threads=next;root.innerHTML=html`<div class="conversations-hub"><section class="conversation-intro"><span class="kicker">A little Italian, every day</span><h1>Parliamo.</h1><p>Make conversation. Find your words. Pick it up again whenever you like.</p><button type="button" class="btn primary block" data-new-conversation>${ic('plus')}New conversation</button></section>
    <div class="conversation-list-heading"><h2>${archived?'Archived':'Your conversations'}</h2><button type="button" class="btn ghost sm" data-archived>${archived?'Show current':'Archive'}</button></div>
    <div class="conversation-list">${threads.length?raw(threads.map(thread=>html`<article class="conversation-row"><a href="${threadHref(thread.threadId)}" class="conversation-row-main"><span class="conversation-avatar" aria-hidden="true">${thread.setup.participants.map(p=>p.name[0]).join('')}</span><span><strong>${thread.title}</strong><small>${thread.setup.level} · ${thread.setup.participants.map(p=>p.name).join(', ')}</small><time datetime="${new Date(thread.updatedAt).toISOString()}">${new Date(thread.updatedAt).toLocaleDateString(undefined,{day:'numeric',month:'short'})}</time></span></a><button type="button" class="conversation-icon" data-menu="${thread.threadId}" aria-label="Options for ${thread.title}">${ic('dots')}</button></article>`).join('')):raw('<p class="conversation-empty">Your conversations will stay here, ready to resume.</p>')}</div>
    <div class="conversation-data"><button class="btn ghost" data-export-all>Export conversations</button><button class="btn ghost" data-import-conversations>Import conversations</button><input type="file" accept="application/json,.json" data-conversation-file hidden></div></div>`;}
   root.addEventListener('click',event=>{
-   if(event.target.closest('[data-new-conversation]'))setupSheet({onSave:async setup=>{if(!current())throw new Error('The learner changed.');const thread=await repository.createThread(setup,{title:label(TOPICS,setup.topic)});navigate(threadHref(thread.threadId));}});
+   if(!visible())return;
+   if(event.target.closest('[data-new-conversation]'))setupSheet({onSave:async setup=>{if(!visible())throw new DOMException('The conversation changed.','AbortError');const thread=await repository.createThread(setup,{title:label(TOPICS,setup.topic)});if(visible())navigate(threadHref(thread.threadId));}});
    if(event.target.closest('[data-archived]')){archived=!archived;void attempt(draw);}
    const button=event.target.closest('[data-menu]');if(button){const thread=threads.find(t=>t.threadId===button.dataset.menu);if(thread)threadMenu(button,thread,draw);}
    if(event.target.closest('[data-export-all]'))void attempt(()=>exportThread(null));
    if(event.target.closest('[data-import-conversations]'))root.querySelector('[data-conversation-file]').click();
   },{signal:interactions.signal});
   root.addEventListener('change',event=>{const file=event.target.closest('[data-conversation-file]')?.files[0];if(file)void attempt(async()=>{await importConversationJSON(repository,await file.text(),{mode:'merge'});await draw();if(visible())toast('Conversations imported',{kind:'ok'});});},{signal:interactions.signal});
-  await draw();return cleanup;
+  try{await draw();}catch(error){cleanup();throw error;}return cleanup;
  }
- await loadData();if(!current())return cleanup;
+ try{if(!data.loaded)await loadData();}catch(error){cleanup();throw error;}if(!visible())return cleanup;
  setChrome({tabs:false});setTitle('Conversation');
  const threadId=params.id,entries=[...data.byId.values()],lookup=createSentenceLookup({vocab:entries.filter(e=>e.kind!=='verb'),verbs:entries.filter(e=>e.kind==='verb')});
- let paintedRevision=-1,paintedDraftId=null,renderedState=null,keyboardVisible=false,recoveredDraftPending=false,replySupport=null,supportKey='';
+ let paintedRevision=-1,paintedDraftId=null,renderedState=null,keyboardVisible=false,recoveredDraftPending=false,replySupport=null,supportKey='',initialPresentation=null;
  root.innerHTML=html`<div class="conversation-player"><header class="conversation-toolbar"><a href="#/conversations" class="conversation-icon" aria-label="All conversations">${ic('back')}</a><div data-conversation-heading></div><button type="button" class="conversation-icon" data-summary aria-label="Conversation summary">${ic('book')}</button><button type="button" class="conversation-icon" data-conversation-menu aria-label="Conversation preferences">${ic('dots')}</button></header>
   <div class="conversation-messages" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions" data-messages></div>
   <div class="conversation-status" role="status" data-conversation-status></div><form class="conversation-composer"><div data-conversation-support></div><div data-speech-controls hidden></div><label class="sr-only" for="conversation-draft">Your message in Italian</label><div class="conversation-compose-row"><textarea id="conversation-draft" data-conversation-draft rows="2" maxlength="4000" lang="it" placeholder="Scrivi in italiano…" enterkeyhint="send"></textarea><button type="submit" class="conversation-send" aria-label="Send message">${ic('arrow')}</button></div><div class="conversation-composer-tools"><button type="button" class="btn ghost sm" data-help>Help me reply</button><button type="button" class="conversation-icon" data-voice aria-label="Conversation voice modes" aria-expanded="false">${ic('ear')}</button><button type="button" class="conversation-icon" data-keyboard aria-label="Show keyboard" aria-expanded="false">${ic('chevronUp')}</button></div></form></div>`;
  const draft=root.querySelector('[data-conversation-draft]'),messages=root.querySelector('[data-messages]'),status=root.querySelector('[data-conversation-status]'),send=root.querySelector('[type=submit]');
- viewport=mountActivityViewport(root,{panelSelector:'.conversation-messages'});document.body.classList.add('conversation-viewport');
+ // Wait for the saved draft's revision before accepting edits. Otherwise a
+ // first keystroke can race the read and create an unnecessary recovery conflict.
+ root.querySelectorAll('button,input,textarea').forEach(control=>{control.disabled=true;control.dataset.awaitConversation='';});
+ status.textContent='Opening saved conversation…';
+ viewport=mountActivityViewport(root,{panelSelector:'.conversation-messages'});document.body.classList.add('conversation-viewport');viewportOwner=viewportToken;
  words=createSentencePanel(root,{backLabel:'Back to the conversation'});
  const originalCleanup=cleanup;
- const dispose=()=>{document.body.classList.remove('conversation-viewport');document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pause);originalCleanup();};
+ const dispose=()=>{if(viewportOwner===viewportToken){viewportOwner=null;document.body.classList.remove('conversation-viewport');}document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pause);originalCleanup();};disposeView=dispose;
  function draw({state,busy,error,recoveryConflict,readiness,replySupport:support}){
-  if(!visible()||!state)return;renderedState=state;recoveredDraftPending=!!recoveryConflict;setTitle(state.thread.title);
+  if(!visible()||!state)return;
+  if(!playerLoaded){initialPresentation={state,busy,error,recoveryConflict,readiness,replySupport:support};return;}
+  renderedState=state;recoveredDraftPending=!!recoveryConflict;setTitle(state.thread.title);
   root.querySelector('[data-conversation-heading]').innerHTML=html`<strong>${state.thread.setup.participants.filter(p=>p.active!==false).map(p=>p.name).join(', ')}</strong><span>${state.thread.setup.level} · ${label(SUPPORT,state.thread.setup.support)}</span>`;
   if(paintedRevision!==state.thread.contentRevision){
    const atEnd=messages.scrollHeight-messages.scrollTop-messages.clientHeight<90;
@@ -122,14 +135,15 @@ export async function render(root,params={}){
   root.querySelectorAll('[data-reply-choice],[data-reply-use-own]').forEach(button=>button.disabled=busy||recoveredDraftPending);
   drawSpeech();
  }
- controller=createConversationController({repository,threadId,isCurrent:current,lookup,resolveEntry:id=>data.byId.get(id),resolveRule:resolveConversationRule,onChange:draw,onReply:turn=>{if(!document.hidden&&voiceState?.state!=='sending')speak(turn.displayText);}});
- const pause=()=>{stopSpeech();void savedAudioPlayer.stop();void speechSession?.pause().catch(()=>{});void controller.cancel().catch(()=>{});},visibility=()=>{if(document.hidden)pause();};
+ controller=createConversationController({repository,threadId,isCurrent:current,lookup,resolveEntry:id=>data.byId.get(id),resolveRule:resolveConversationRule,onChange:draw,onReply:turn=>{if(visible()&&!document.hidden&&voiceState?.state!=='sending')speak(turn.displayText);}});
+ const pause=()=>{if(visible())stopSpeech();void savedAudioPlayer.stop();void speechSession?.pause().catch(()=>{});void controller.cancel().catch(()=>{});},visibility=()=>{if(document.hidden)pause();};
  document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',pause);
- draft.addEventListener('input',()=>{send.disabled=controller.busy||!draft.value.trim()||!conversationReadiness().written;if(voiceState?.draft&&['review','editing'].includes(voiceState.state)){const text=draft.value;speechEdits=speechEdits.catch(()=>{}).then(()=>speechSession.edit(text));void speechEdits.catch(()=>{});}else void controller.saveDraft(draft.value).catch(()=>{});});
- draft.addEventListener('focus',()=>{keyboardVisible=true;root.querySelector('[data-keyboard]').setAttribute('aria-expanded','true');root.querySelector('[data-keyboard]').setAttribute('aria-label','Hide keyboard');});
- draft.addEventListener('blur',()=>{keyboardVisible=false;root.querySelector('[data-keyboard]').setAttribute('aria-expanded','false');root.querySelector('[data-keyboard]').setAttribute('aria-label','Show keyboard');});
- root.querySelector('form').addEventListener('submit',event=>{event.preventDefault();void attempt(async()=>{if(!conversationReadiness().written)return;if(voiceState?.draft){await speechEdits;if(voiceState.state==='paused')speechSession.restoreDraft();if(voiceState.draft.recognitionUncertain)await speechSession.confirm();draft.blur();await speechSession.send();}else{await controller.saveDraft(draft.value);draft.blur();await controller.send({strictAccents:store.settings.accentStrict===true});}if(!controller.state.draft){draft.value='';paintedDraftId=null;}});});
+ draft.addEventListener('input',()=>{if(!interactive())return;send.disabled=controller.busy||!draft.value.trim()||!conversationReadiness().written;if(voiceState?.draft&&['review','editing'].includes(voiceState.state)){const text=draft.value;speechEdits=speechEdits.catch(()=>{}).then(()=>speechSession.edit(text));void speechEdits.catch(()=>{});}else void controller.saveDraft(draft.value).catch(()=>{});});
+ draft.addEventListener('focus',()=>{if(!interactive())return;keyboardVisible=true;root.querySelector('[data-keyboard]').setAttribute('aria-expanded','true');root.querySelector('[data-keyboard]').setAttribute('aria-label','Hide keyboard');});
+ draft.addEventListener('blur',()=>{if(!interactive())return;keyboardVisible=false;root.querySelector('[data-keyboard]').setAttribute('aria-expanded','false');root.querySelector('[data-keyboard]').setAttribute('aria-label','Show keyboard');});
+ root.querySelector('form').addEventListener('submit',event=>{event.preventDefault();void attempt(async()=>{if(!conversationReadiness().written)return;if(voiceState?.draft){await speechEdits;if(!visible())return;if(voiceState.state==='paused')speechSession.restoreDraft();if(voiceState.draft.recognitionUncertain)await speechSession.confirm();if(!visible())return;draft.blur();await speechSession.send();}else{await controller.saveDraft(draft.value);if(!visible())return;draft.blur();await controller.send({strictAccents:store.settings.accentStrict===true});}if(visible()&&!controller.state.draft){draft.value='';paintedDraftId=null;}});});
  function drawSpeech(){
+  if(!visible())return;
   const controls=root.querySelector('[data-speech-controls]');if(!controls)return;controls.hidden=!voiceOpen;root.querySelector('[data-voice]').setAttribute('aria-expanded',String(voiceOpen));if(!voiceOpen)return;
   const s=voiceState||{state:'idle'},ready=s.readiness||conversationReadiness(),recording=['recording','listening'].includes(s.state),pending=['starting','finishing','transcribing','sending','speaking','replaying','editing'].includes(s.state);
   const names={starting:'Starting microphone…',recording:'Recording',listening:'Listening · pause when you finish',finishing:'Finishing recording…',transcribing:'Finding your words…',review:s.draft?.recognitionUncertain?'Please check the transcript before sending':'Ready to send',sending:'Thinking…',speaking:'Your partner is speaking',replaying:'Playing your recording',editing:'Saving your transcript…','reply-needed':'Your message is saved. Retry your partner’s reply.',paused:'Paused · microphone off',idle:'Microphone off',error:s.error||'Speech paused'};
@@ -140,24 +154,27 @@ export async function render(root,params={}){
   send.disabled=controller.busy||!draft.value.trim()||!conversationReadiness().written||recording||pending||recoveredDraftPending;
  }
  function speechChanged(next){
+  if(!visible())return;
   const wasRecording=['recording','listening'].includes(voiceState?.state),recording=['recording','listening'].includes(next.state);voiceState=next;
   if(recording&&!wasRecording){recordingStarted=Date.now();clearInterval(recordingTimer);recordingTimer=setInterval(()=>{const time=root.querySelector('[data-recording-time]');if(time){const seconds=Math.floor((Date.now()-recordingStarted)/1000);time.textContent=`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;}},1000);}else if(!recording){clearInterval(recordingTimer);recordingTimer=null;}
-  if(!current())return;
+  if(!visible())return;
   send.disabled=controller.busy||!draft.value.trim()||!conversationReadiness().written;drawSpeech();
  }
  async function ensureSpeech(){
+  if(!interactive())return null;
   if(speechSession)return speechSession;if(speechLoading)return speechLoading;
-  speechLoading=(async()=>{const lease=await acquireConversationSpeech({scope:`speech:${owner.profileId}:${owner.learnerId}:${threadId}`,isCurrent:current});if(!current()){await lease.release?.();return null;}speechLease=lease;const feedback=createSpokenFeedback({voice:lease.voice,getState:()=>controller.state,isCurrent:current,onChange:pending=>{if(spokenFeedback===feedback){spokenContinuation=pending;if(current())drawSpeech();}}});spokenFeedback=feedback;speechSession=createConversationSpeechSession({controller:{get state(){return controller.state;},get busy(){return controller.busy;},get error(){return controller.error;},saveDraft:(...args)=>controller.saveDraft(...args),send:()=>controller.send({strictAccents:store.settings.accentStrict===true}),reply:()=>controller.reply(),cancel:()=>controller.cancel()},repository,threadId,isCurrent:current,speech:{...lease,voice:feedback},onChange:speechChanged});speechSession.restoreDraft();speechChanged(speechSession.snapshot);return speechSession;})();
+  speechLoading=(async()=>{const lease=await acquireConversationSpeech({scope:`speech:${owner.profileId}:${owner.learnerId}:${threadId}`,isCurrent:visible});if(!visible()){await lease.release?.();return null;}speechLease=lease;const feedback=createSpokenFeedback({voice:lease.voice,getState:()=>controller.state,isCurrent:visible,onChange:pending=>{if(spokenFeedback===feedback){spokenContinuation=pending;if(visible())drawSpeech();}}});spokenFeedback=feedback;speechSession=createConversationSpeechSession({controller:{get state(){return controller.state;},get busy(){return controller.busy;},get error(){return controller.error;},saveDraft:(...args)=>controller.saveDraft(...args),send:()=>controller.send({strictAccents:store.settings.accentStrict===true}),reply:()=>controller.reply(),cancel:()=>controller.cancel()},repository,threadId,isCurrent:visible,speech:{...lease,voice:feedback},onChange:speechChanged});speechSession.restoreDraft();speechChanged(speechSession.snapshot);return speechSession;})();
   try{return await speechLoading;}finally{speechLoading=null;}
  }
- offProvider=onConversationProviderChange(()=>{const old=speechSession,lease=speechLease;speechSession=null;speechLease=null;voiceState=null;spokenFeedback=null;spokenContinuation=null;replySupport=null;supportKey='';root.querySelector('[data-conversation-support]').innerHTML='';void old?.dispose().finally(()=>lease?.release?.());if(current()&&controller.state)draw({state:controller.state,busy:controller.busy,error:controller.error,recoveryConflict:recoveredDraftPending,readiness:conversationReadiness(),replySupport:null});});
+ offProvider=onConversationProviderChange(()=>{if(!visible())return;const old=speechSession,lease=speechLease;speechSession=null;speechLease=null;voiceState=null;spokenFeedback=null;spokenContinuation=null;replySupport=null;supportKey='';root.querySelector('[data-conversation-support]').innerHTML='';void old?.dispose().finally(()=>lease?.release?.());if(visible()&&controller.state)draw({state:controller.state,busy:controller.busy,error:controller.error,recoveryConflict:recoveredDraftPending,readiness:conversationReadiness(),replySupport:null});});
  async function showSummary(){
   if(!visible())return;
   const state=controller.state,items=state.summary?.items||[],practiceIds=[...new Set(items.filter(item=>item.kind==='vocabulary').map(item=>item.entryId))];openSummary?.close();
   openSummary=sheet(html`<div class="conversation-summary"><p class="small muted">Words, verb forms and notes from this conversation. Meeting a word here does not mark it learned.</p>${practiceIds.length?raw('<button type="button" class="btn primary block" data-practice-summary>Practise these words</button>'):''}${items.length?raw(items.map((item,index)=>item.kind==='vocabulary'?html`<article class="conversation-study-item"><div><h3 lang="it">${item.label||item.word}</h3><p>${item.meaning}</p>${item.singular?raw(html`<p class="small muted" lang="it">${item.singular} · ${item.plural||'Plural not recorded'}</p>`):''}${item.caseId?raw(html`<span class="kicker">${CASE_NAMES[item.caseId]||item.caseId}</span>`):''}</div><div class="conversation-study-actions"><a class="btn secondary sm" href="#/entry/${encodeURIComponent(item.entryId)}">Details</a><a class="btn ghost sm" href="#/learn/${item.pos==='verb'?'verb':'word'}/${encodeURIComponent(item.entryId)}?${new URLSearchParams({...(item.caseId?{chapter:item.caseId}:{}),fromConversation:threadId})}">Learn</a><button type="button" class="conversation-icon" data-study-star="${item.entryId}" aria-label="${isStarred(store,item.entryId)?'Unstar':'Star'} ${item.word}" aria-pressed="${isStarred(store,item.entryId)}">${ic('star')}</button><button type="button" class="btn ghost sm" data-study-bank="${item.entryId}">Word bank</button></div><button type="button" class="conversation-source" data-source="${item.sourceRefs[0].turnId}">See in conversation</button></article>`:item.kind==='meaning-choice'?html`<article class="conversation-study-item"><h3>${item.word}</h3><p class="small muted">Choose the meaning in this sentence.</p>${raw(item.candidates.map(c=>html`<button type="button" class="btn ghost sm" data-meaning-item="${item.id}" data-meaning-entry="${c.entryId}">${c.meaning}</button>`).join(''))}<button class="conversation-source" data-source="${item.sourceRefs[0].turnId}">See in conversation</button></article>`:item.kind==='correction'?html`<article class="conversation-study-item"><span class="kicker">A useful correction</span><p lang="it">${item.original} → ${item.replacement}</p><p>${item.explanation}</p><button class="conversation-source" data-source="${item.sourceRefs[0].turnId}">See in conversation</button></article>`:html`<article class="conversation-study-item"><span class="kicker">Your note${item.invalidated?' · source edited':''}</span><p>${item.text}</p><button class="conversation-source" data-source="${item.sourceRefs[0].turnId}">See in conversation</button></article>`).join('')):raw('<p>Your study notes will grow as you talk. Tap any Italian word to look it up.</p>')}</div>`,{title:'Conversation notes'});
   openSummary.body.addEventListener('click',event=>{
+   if(!visible())return;
    if(event.target.closest('[data-practice-summary]')){void attempt(async()=>{
-    const serial=++studySerial,epochId=store.learning.epoch.id,studyCurrent=()=>studyViewActive&&serial===studySerial&&current()&&store.learning.epoch.id===epochId;
+    const serial=++studySerial,epochId=store.learning.epoch.id,studyCurrent=()=>visible()&&serial===studySerial&&store.learning.epoch.id===epochId;
     stopSpeech();await speechSession?.pause();await controller.cancel();if(!studyCurrent())return;openSummary.close();openStudy?.close();
     openStudy=await openConversationStudy({repository,threadId,isCurrent:studyCurrent,lookup,resolveEntry:id=>data.byId.get(id),pool:entries,epochId,
      onAssessedAnswer:async({event,source})=>{
@@ -173,7 +190,7 @@ export async function render(root,params={}){
    const source=event.target.closest('[data-source]');if(source){openSummary.close();messages.querySelector(`[data-turn="${CSS.escape(source.dataset.source)}"]`)?.scrollIntoView({block:'center',behavior:'instant'});}
    const meaning=event.target.closest('[data-meaning-item]');if(meaning)void attempt(async()=>{await controller.chooseMeaning(meaning.dataset.meaningItem,meaning.dataset.meaningEntry);await showSummary();});
    const star=event.target.closest('[data-study-star]');if(star){const on=toggleStarred(store,star.dataset.studyStar);star.setAttribute('aria-pressed',String(on));star.setAttribute('aria-label',on?'Unstar this word':'Star this word');}
-   const bank=event.target.closest('[data-study-bank]');if(bank){store.addToList('bank',bank.dataset.studyBank);void store.saveNow().then(()=>toast('Added to your word bank',{kind:'ok'}));}
+   const bank=event.target.closest('[data-study-bank]');if(bank){store.addToList('bank',bank.dataset.studyBank);void store.saveNow().then(()=>{if(visible())toast('Added to your word bank',{kind:'ok'});}).catch(error=>{if(visible())toast(error.message,{kind:'ko'});});}
   });
  }
  root.addEventListener('click',event=>void attempt(async()=>{
@@ -191,25 +208,30 @@ export async function render(root,params={}){
    const chosen=replyChoice?replySupport.choices[Number(replyChoice.dataset.replyChoice)]?.surface:root.querySelector('[data-reply-own]')?.value.trim();if(!chosen)return;
    const text=replySupport.prefix+chosen+replySupport.suffix;
    if(draft.value.trim()&&draft.value!==text&&!await confirmDialog('Replace your unsent draft with this suggestion? You can edit it before sending.',{ok:'Use suggestion'}))return;
-   await speechSession?.pause();voiceState=null;const help={type:ownChoice?'reply-frame-own-word':'reply-frame-choice',partnerTurnId:replySupport.partnerTurnId,policyVersion:replySupport.policyVersion};
-   await controller.saveDraft(text,{mode:'written',selectedHelp:[...(controller.state.draft?.selectedHelp||[]),help],inputProvenance:{mode:'written',assistance:[help],generatedSupport:true}});draft.value=text;send.disabled=controller.busy||!conversationReadiness().written;draft.focus();return;
+   if(!visible())return;await speechSession?.pause();if(!visible())return;voiceState=null;const help={type:ownChoice?'reply-frame-own-word':'reply-frame-choice',partnerTurnId:replySupport.partnerTurnId,policyVersion:replySupport.policyVersion};
+   await controller.saveDraft(text,{mode:'written',selectedHelp:[...(controller.state.draft?.selectedHelp||[]),help],inputProvenance:{mode:'written',assistance:[help],generatedSupport:true}});if(!visible())return;draft.value=text;send.disabled=controller.busy||!conversationReadiness().written;draft.focus();return;
   }
   if(event.target.closest('[data-voice]')){voiceOpen=true;drawSpeech();if(conversationReadiness().recorded)await ensureSpeech();return;}
-  if(event.target.closest('[data-speech-close]')){voiceOpen=false;const previous=speechSession,lease=speechLease;speechSession=null;speechLease=null;voiceState=null;await previous?.dispose();await lease?.release?.();draft.readOnly=recoveredDraftPending;drawSpeech();return;}
-  if(event.target.closest('[data-speech-record]')||event.target.closest('[data-speech-continuous]')){const speech=await ensureSpeech();if(!speech)return;const hasDraft=!!controller.state.draft?.typedText.trim();if(hasDraft&&!await confirmDialog('Replace this unsent draft with a new recording?',{ok:'Record again'}))return;stopSpeech();draft.blur();if(event.target.closest('[data-speech-continuous]'))await speech.startHandsfree({replaceDraft:hasDraft});else await speech.startManual({replaceDraft:hasDraft});return;}
+  if(event.target.closest('[data-speech-close]')){voiceOpen=false;const previous=speechSession,lease=speechLease;speechSession=null;speechLease=null;voiceState=null;await previous?.dispose();await lease?.release?.();if(!visible())return;draft.readOnly=recoveredDraftPending;drawSpeech();return;}
+  if(event.target.closest('[data-speech-record]')||event.target.closest('[data-speech-continuous]')){const speech=await ensureSpeech();if(!speech)return;const hasDraft=!!controller.state.draft?.typedText.trim();if(hasDraft&&!await confirmDialog('Replace this unsent draft with a new recording?',{ok:'Record again'}))return;if(!visible())return;stopSpeech();draft.blur();if(event.target.closest('[data-speech-continuous]'))await speech.startHandsfree({replaceDraft:hasDraft});else await speech.startManual({replaceDraft:hasDraft});return;}
   if(event.target.closest('[data-speech-stop]')){await speechSession?.stopRecording();return;}
   if(event.target.closest('[data-spoken-continue]')){spokenFeedback?.continue();return;}
   if(event.target.closest('[data-speech-pause]')){await speechSession?.pause();return;}
   if(event.target.closest('[data-speech-replay]')){await speechSession?.replay();return;}
   if(event.target.closest('[data-speech-retry]')){await speechSession?.retryReply();return;}
-  if(event.target.closest('[data-speech-save]')){await speechSession?.saveRecording({consentAt:Date.now()});paintedRevision=-1;await controller.refresh();toast('Recording saved with this message',{kind:'ok'});return;}
-  const menu=event.target.closest('[data-conversation-menu]');if(menu){dropdown(menu,[{value:'preferences',label:'Conversation preferences'},{value:'export',label:'Export transcript & notes'},{value:'pause',label:'Pause & return to conversations'}],{onSelect:value=>void attempt(async()=>{if(value==='preferences')setupSheet({initial:controller.state.thread.setup,onSave:async setup=>{await speechSession?.pause();return controller.configure(setup);},title:'Conversation preferences'});if(value==='export')await exportThread(threadId);if(value==='pause'){await controller.cancel();navigate('#/conversations');}})});return;}
-  const hear=event.target.closest('[data-hear]');if(hear){await speechSession?.pause();const turn=controller.state.turns.find(t=>t.turnId===hear.dataset.hear);if(turn)speak(turn.displayText,{force:true});return;}
+  if(event.target.closest('[data-speech-save]')){await speechSession?.saveRecording({consentAt:Date.now()});paintedRevision=-1;await controller.refresh();if(visible())toast('Recording saved with this message',{kind:'ok'});return;}
+  const menu=event.target.closest('[data-conversation-menu]');if(menu){dropdown(menu,[{value:'preferences',label:'Conversation preferences'},{value:'export',label:'Export transcript & notes'},{value:'pause',label:'Pause & return to conversations'}],{onSelect:value=>void attempt(async()=>{if(value==='preferences')setupSheet({initial:controller.state.thread.setup,onSave:async setup=>{if(!visible())return;await speechSession?.pause();if(visible())return controller.configure(setup);},title:'Conversation preferences'});if(value==='export')await exportThread(threadId);if(value==='pause'){await controller.cancel();if(visible())navigate('#/conversations');}})});return;}
+  const hear=event.target.closest('[data-hear]');if(hear){await speechSession?.pause();const turn=controller.state.turns.find(t=>t.turnId===hear.dataset.hear);if(turn&&visible())speak(turn.displayText,{force:true});return;}
   const transcript=event.target.closest('[data-transcript-info]');if(transcript){const turn=controller.state.turns.find(t=>t.turnId===transcript.dataset.transcriptInfo);sheet(html`<span class="kicker">Recognised from your voice</span><p lang="it">${turn.inputProvenance.recognizedText}</p><span class="kicker">Message you sent</span><p lang="it">${turn.originalText}</p><p class="small muted">${turn.inputProvenance.recognitionUncertain?'The recogniser was uncertain. This is not counted as a language mistake.':turn.inputProvenance.transcriptEdits?.length?'You edited the transcript before sending.':'The transcript was kept as recognised.'}</p>`,{title:'Your spoken message'});return;}
-  const recording=event.target.closest('[data-saved-recording]');if(recording){const turn=controller.state.turns.find(t=>t.turnId===recording.dataset.savedRecording),ref=turn?.recordingRefs?.at(-1);if(!ref)return;const audio=await repository.recording(threadId,ref.audioId);if(!audio)throw new Error('This backup contains the transcript, but not the saved recording.');stopSpeech();await speechSession?.pause();await savedAudioPlayer.play(audio.blob);return;}
-  const edit=event.target.closest('[data-edit]');if(edit){await speechSession?.pause();const turn=controller.state.turns.find(t=>t.turnId===edit.dataset.edit),text=await promptDialog('Edit your message',{value:turn.displayText});if(text&&current())await controller.edit(turn.turnId,text);return;}
-  const note=event.target.closest('[data-note]');if(note){const text=await promptDialog('Add a note');if(text&&current())await controller.addNote(note.dataset.note,text);}
+  const recording=event.target.closest('[data-saved-recording]');if(recording){const turn=controller.state.turns.find(t=>t.turnId===recording.dataset.savedRecording),ref=turn?.recordingRefs?.at(-1);if(!ref)return;const audio=await repository.recording(threadId,ref.audioId);if(!visible())return;if(!audio)throw new Error('This backup contains the transcript, but not the saved recording.');stopSpeech();await speechSession?.pause();if(visible())await savedAudioPlayer.play(audio.blob);return;}
+  const edit=event.target.closest('[data-edit]');if(edit){await speechSession?.pause();if(!visible())return;const turn=controller.state.turns.find(t=>t.turnId===edit.dataset.edit),text=await promptDialog('Edit your message',{value:turn.displayText});if(text&&visible())await controller.edit(turn.turnId,text);return;}
+  const note=event.target.closest('[data-note]');if(note){const text=await promptDialog('Add a note');if(text&&visible())await controller.addNote(note.dataset.note,text);}
  }),{signal:interactions.signal});
  try{await controller.load();}catch(error){dispose();throw error;}
+ if(visible()){
+  playerLoaded=true;
+  root.querySelectorAll('[data-await-conversation]').forEach(control=>{control.disabled=false;delete control.dataset.awaitConversation;});
+  if(initialPresentation)draw(initialPresentation);
+ }
  return dispose;
 }

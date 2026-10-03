@@ -34,7 +34,9 @@ jobs:
           node tools/test-conversation-continuation.mjs
           node tools/test-journey-scene.mjs
           node tools/test-verb-finite-spans.mjs
+          node tools/test-verb-repairs-271.mjs
           node --test tests/ai-assistance.test.mjs
+          node --test tests/ai-practice-sources.test.mjs
           node tools/test-journey-pacing.mjs
           node tools/test-lexical-senses.mjs
           node tools/test-lexical-frequency-senses.mjs
@@ -66,6 +68,7 @@ jobs:
           node tools/test-course-words.mjs
           node tools/test-sentence-lab.mjs
           node tools/test-phase-workshop.mjs
+          node tools/test-workshop-agreement-review.mjs
           node tools/test-ai-trial.mjs
           node tools/test-useful-words.mjs
           node tools/test-fit-scorer.mjs

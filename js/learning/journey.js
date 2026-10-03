@@ -2,7 +2,7 @@
 // independent evidence; the event reducer remains the only source of readiness.
 import { createSession, applySessionAttempt, skillState, completionRecord, LEARNING_VERSION } from './model.js';
 import {CASE_COVERAGE_POLICY,caseCoverage} from './case-coverage.js';
-import {createJourneyScene,validJourneyScene,journeySceneMatches,retiredJourneyQuestion,journeySceneContexts} from './journey-scene.js';
+import {createJourneyScene,validJourneyScene,journeySceneMatches,retiredJourneyQuestion,journeySceneContexts,journeyPriorRevision} from './journey-scene.js';
 
 export const JOURNEY_VERSION = 1;
 export const CORE_JOURNEY_CASES = ['present', 'past', 'background', 'future', 'condizionale'];
@@ -469,9 +469,9 @@ export function pinJourneyScene(plan,session){
   if(!compatible(plan,session)||plan.kind!=='verb'||session.journey.current?.scenePolicy!=='expanded-v1'
     ||session.journey.current.sceneSnapshot!==undefined)return session;
   const current=session.journey.current,target=targetFor(plan,current.targetId);
-  if(current.sceneRevision!==undefined&&![target?.sceneRevision||'expanded-v1',target?.legacyExpandedRevision].includes(current.sceneRevision))return session;
+  if(current.sceneRevision!==undefined&&current.sceneRevision!==(target?.sceneRevision||'expanded-v1')&&!journeyPriorRevision(current.sceneRevision,target))return session;
   const legacy=current.sceneRevision!==(target?.sceneRevision||'expanded-v1');
-  const scene=createJourneyScene({entryId:plan.entryId,chapterId:session.journey.chapterId,target,variant:current.variant,legacy});
+  const scene=createJourneyScene({entryId:plan.entryId,chapterId:session.journey.chapterId,target,variant:current.variant,legacy,sourceRevision:current.sceneRevision});
   if(!scene)return session;
   const next=copy(session);next.journey.current.sceneSnapshot=scene;return next;
 }

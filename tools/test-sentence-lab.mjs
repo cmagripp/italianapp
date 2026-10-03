@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 import { conjugate, primary, MISSING, PERSONS } from '../js/conjugator.js';
 import { createSentenceLookup } from '../js/learning/sentence-lookup.js';
 import {
-  createLabSession, currentLabStep, answerLab, advanceLab, resolveFreeEntry, composeBuild, labProgress, compatibleLabSession,
+  createLabSession, currentLabStep, answerLab, advanceLab, resolveFreeEntry, composeBuild, labProgress, compatibleLabSession, assessLabBlank,
   normalizeLab, blankCount, fillTemplate, tenseKey, LAB_STAGES, LAB_TENSES, LAB_KINDS, LAB_ROLES, SLOT_POS, SLOT_AGREE, SLOT_NUMBER, SLOT_ARTICLE, MAX_TRIES,
 } from '../js/learning/sentence-lab.js';
 
@@ -36,6 +36,9 @@ function multisetContains(haystack, needles) {
   return needles.every(n => { const i = pool.indexOf(n); if (i < 0) return false; pool.splice(i, 1); return true; });
 }
 const expectedValue = blank => blank?.accept?.[0] ?? blank?.options?.[0] ?? '';
+// Exercise the valid authored path for each chosen speaker; the separate
+// workshop agreement regressions verify that the opposite ending is rejected.
+const expectedForSpeaker = (blank,ctx) => blank.accept.find(value=>assessLabBlank(blank,value,ctx).outcome==='correct') ?? expectedValue(blank);
 
 // ---------------------------------------------------------------- content validation ----------------------------------------------------------------
 
@@ -289,7 +292,7 @@ function traverse(lesson, ctx) {
       assert.equal(r?.outcome, 'correct', `${a.id}: authored order answer rejected`);
       answers++;
     } else if (a.kind === 'cloze') {
-      const r = answerLab(lesson, session, a.blanks.map(expectedValue), ctx).result;
+      const r = answerLab(lesson, session, a.blanks.map(blank=>expectedForSpeaker(blank,ctx)), ctx).result;
       assert.ok(r?.ok, `${a.id}: expected cloze values rejected (${r?.explanation})`);
       answers++;
     } else if (a.kind === 'dialogue') {
@@ -297,7 +300,7 @@ function traverse(lesson, ctx) {
       while (!currentLabStep(lesson, session).state.complete && turns++ < 40) {
         const current = currentLabStep(lesson, session).state.current;
         assert.ok(current?.pending, `${a.id}: no pending "you" turn while the dialogue is open`);
-        const r = answerLab(lesson, session, current.blanks.map(expectedValue), ctx).result;
+        const r = answerLab(lesson, session, current.blanks.map(blank=>expectedForSpeaker(blank,ctx)), ctx).result;
         assert.ok(r?.ok, `${a.id} turn ${current.index + 1}: expected values rejected (${r?.explanation})`);
         assert.ok(r.reaction && isStr(r.reaction.it), `${a.id} turn ${current.index + 1}: no reaction chosen`);
         answers++;

@@ -3,7 +3,7 @@
 // Strumenti pane: speaker agreement and honest availability of optional local reply selection.
 // Authored lessons work without a model.
 import { html, raw, icon, toast } from '../ui.js';
-import { setTitle, setChrome } from '../app.js';
+import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { setScene, mount } from '../fx.js';
 import { labProgress } from '../learning/sentence-lab.js';
@@ -24,18 +24,17 @@ async function refreshTools() {
 const switchHTML = (attr, on, label, { disabled = false } = {}) => html`<button type="button" class="switch ${on ? 'on' : ''}" role="switch" aria-checked="${on ? 'true' : 'false'}" aria-label="${label}" ${raw(attr)} ${disabled ? raw('disabled') : ''}></button>`;
 
 export async function render(root) {
-  const owner=store.current.id;
+  const owned=captureViewOwnership(root);let disposed=false;
+  const alive=()=>!disposed&&owned();
   setTitle('Officina delle frasi'); setChrome({ tabs: true, back: true });
   setScene(store.current?.settings?.level || 'A1');
   root.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
   let stages;
   try { ({ stages } = await loadSentenceLab()); }
-  catch (err) { root.innerHTML = html`<div class="empty"><p>The workshop could not load its lessons.</p><p class="tiny muted">${err.message}</p><button type="button" class="btn primary" onclick="location.reload()">Retry</button></div>`; return; }
-  if(store.current.id!==owner)return;
-  let disposed = false;
-  const alive=()=>!disposed&&store.current.id===owner;
+  catch (err) { if(!alive())return;root.innerHTML = html`<div class="empty"><p>The workshop could not load its lessons.</p><p class="tiny muted">${err.message}</p><button type="button" class="btn primary" onclick="location.reload()">Retry</button></div>`; return; }
+  if(!alive())return;
   const release=()=>tools.assistant.module?.releaseAssistant?.().catch(()=>{});
-  const offProfile=store.on('profile',()=>{if(store.current.id!==owner)release();});
+  const offProfile=store.on('profile',()=>{if(!alive())release();});
   const eligible=stages.flatMap(s=>s.lessons).flatMap(l=>l.activities).some(a=>a.kind==='dialogue'&&a.turns.some(t=>(t.reactions||[]).filter(r=>r.when==='*').length>=2));
   const total = stages.reduce((n, p) => n + p.lessons.length, 0);
 

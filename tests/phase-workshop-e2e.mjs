@@ -10,18 +10,18 @@ const fixture={id:ID,title:'Phase 2 workshop fixture',tense:'presente',vocab:[],
   {id:ID+'.tea',kind:'cloze',prompt:'Your drink',template:'Bevo ____.',en:'I drink tea.',blanks:[{accept:['tè'],options:['tè','casa'],bank:[],free:true,slot:{pos:'noun',article:'none'},explanation:'A drink.'}]},
 ]};
 const pack=JSON.parse(fs.readFileSync(new URL('../data/sentence-lab/presente.json',import.meta.url),'utf8'));pack.lessons.push(fixture);
-const {chromium,devices}=await loadPlaywright(),stop=await ensureServer(),browser=await launchBrowser(chromium);
+const {chromium,webkit,devices}=await loadPlaywright(),stop=await ensureServer(),browser=process.env.COURSE_BROWSER==='webkit'?await webkit.launch():await launchBrowser(chromium);
 const context=await browser.newContext(contextOptions(devices['iPhone 13'],{viewport:{width:430,height:932},reducedMotion:'reduce'})),page=await context.newPage();
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
 await page.route('**/data/sentence-lab/presente.json',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(pack)}));
-let checks=0;
-async function test(name,fn){await fn();checks++;console.log('✓ '+name);}
+let checks=0;const completedChecks=[];
+async function test(name,fn){await fn();checks++;completedChecks.push(name);console.log('✓ '+name);}
 async function seed(index=1,accentStrict=false){
   await gotoRoute(page,'/home');
   await page.evaluate(async ({id,index,accentStrict})=>{
     const {store}=await import('./js/store.js'),data=await import('./js/learning/sentence-lab-data.js'),engine=await import('./js/learning/sentence-lab.js');
     await data.loadSentenceLab();const lesson=data.labLesson(id),s=engine.createLabSession(lesson);s.index=index;s.state=null;engine.currentLabStep(lesson,s);s.state.ui={touched:true};
-    store.setSetting('accentStrict',accentStrict);store.setSetting('tts',false);data.writeLabSession(store,s);await store.saveNow();
+    store.setSetting('accentStrict',accentStrict);store.setSetting('gender','m');store.setSetting('tts',false);data.writeLabSession(store,s);await store.saveNow();
   },{id:ID,index,accentStrict});
   await gotoRoute(page,'/lab/frasi/'+ID);await page.locator('[data-lab-cloze]').waitFor();
 }
@@ -30,6 +30,21 @@ async function snapshot(){return page.evaluate(async id=>{const {store}=await im
 async function flush(){await page.evaluate(()=>import('./js/store.js').then(m=>m.store.saveNow()));}
 try{
   await boot(page);
+  await test('in-player agreement preserves drafts, controls actual grading and survives reload',async()=>{
+    await seed();assert.match(await page.locator('.lab-practice-context').innerText(),/Practise this pattern/);await ownWord('sono stanco');
+    await page.locator('[data-lab-agreement]').click();await page.getByRole('menuitemradio',{name:'Feminine · sono stanca',exact:true}).click();
+    assert.equal(await page.locator('[data-lab-free-input="0"]').inputValue(),'sono stanco');assert.equal((await snapshot()).speakerAgreement,'f');
+    await page.locator('[data-lab-free-submit="0"]').click();assert.match(await page.locator('[data-lab-free-message="0"]').innerText(),/feminine agreement/);assert.equal((await snapshot()).state.ui.values[0],'');
+    await flush();await reloadApp(page);assert.match(await page.locator('[data-lab-agreement]').innerText(),/Feminine/);assert.equal(await page.locator('[data-lab-free-input="0"]').inputValue(),'sono stanco');
+    await page.locator('[data-lab-free-input="0"]').fill('sono stanca');await page.locator('[data-lab-free-submit="0"]').click();await page.locator('[data-lab-check]').click();
+    const result=(await snapshot()).state.result;assert.equal(result.outcome,'correct');assert.equal(result.sentence,'Oggi sono stanca.');assert.equal(result.speakerAgreement,'f');
+    await page.locator('[data-lab-agreement]').click();await page.getByRole('menuitemradio',{name:'Masculine · sono stanco',exact:true}).click();assert.deepEqual((await snapshot()).state.result,result);
+    await flush();await reloadApp(page);assert.deepEqual((await snapshot()).state.result,result);assert.match(await page.locator('[data-lab-agreement]').innerText(),/Masculine/);
+  });
+  await test('a closed agreement menu cannot change preferences after navigation',async()=>{
+    await seed();await page.locator('[data-lab-agreement]').click();await page.getByRole('menuitemradio',{name:'Feminine · sono stanca',exact:true}).evaluate(element=>window.oldAgreementChoice=element);
+    await gotoRoute(page,'/home');await page.evaluate(()=>oldAgreementChoice.click());assert.equal(await page.evaluate(async()=>(await import('./js/store.js')).store.settings.gender),'m');
+  });
   await test('exact own-word drafts survive reload, accent buttons, pause and navigation',async()=>{
     await seed();const draft="  Oggi non so ancora cosa scrivere: "+'è '.repeat(48)+"l’amica  ";await ownWord(draft);assert.equal((await snapshot()).state.ui.drafts[0],draft);await flush();await reloadApp(page);assert.equal(await page.locator('[data-lab-free-input="0"]').inputValue(),draft);
     await page.locator('[data-lab-free-input="0"]').evaluate(e=>{e.setSelectionRange(e.value.length,e.value.length);});await page.locator('[data-lab-accent="à"]').click();const accented=draft+'à';assert.equal((await snapshot()).state.ui.drafts[0],accented);
@@ -77,4 +92,4 @@ try{
     const result=await page.evaluate(async()=>{const {store}=await import('./js/store.js');const stale=document.querySelector('[data-lab-candidate]'),owner=store.current.id;await store.createProfile('Workshop guard');stale.dispatchEvent(new MouseEvent('click',{bubbles:true}));await store.saveNow();return {owner,current:store.current.id,events:store.learning.events,sessions:store.learning.sessions,learned:store.learnedWordIds()};});assert.notEqual(result.current,result.owner);assert.equal(Object.keys(result.sessions).length,0);assert.equal(Object.keys(result.events).length,0);assert.equal(result.learned.length,0);
   });
   assert.deepEqual(errors,[]);console.log(`${checks} Phase 2 workshop browser checks passed; zero application errors.`);
-}finally{await context.close();await browser.close();stop();}
+}finally{fs.writeFileSync(`docs/implementation/programme/workshop-agreement-${process.env.COURSE_BROWSER||'chromium'}.json`,JSON.stringify({browser:process.env.COURSE_BROWSER||'chromium',scope:'Real workshop player with an explicit fixture for both speaker forms, original drafts, unchanged prior results, stale callbacks and accent/assistance provenance. No AI quality claim.',checks:completedChecks,errors},null,2)+'\n');await context.close();await browser.close();stop();}

@@ -8,7 +8,7 @@ import { html, raw, esc, icon, speak, toast, sheet, submissionNote, announceAnsw
 import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { data, getEntry, headword, shortEn, withArticle, isPluralOnly, distractors, shuffle, fold } from '../data.js';
-import { setScene, confetti, reducedMotion } from '../fx.js';
+import { setScene, confetti, reducedMotion, dropdown } from '../fx.js';
 import { feedbackHTML } from '../games/engine.js';
 import { createSentenceLookup } from '../learning/sentence-lookup.js';
 import { lessonPlan, lessonObjectives } from '../learning/integration.js';
@@ -73,6 +73,7 @@ export async function render(root, params, query = {}) {
   const place = labLessonIndex(lesson.id), stageName = place?.stage?.stage || 'presente';
   const prior = readLabSession(store, lesson.id);
   let session = prior && compatibleLabSession(lesson, prior) && prior.phase === 'activity' && query.restart !== '1' ? clone(prior) : createLabSession(lesson);
+  if(!['m','f'].includes(session.speakerAgreement))session.speakerAgreement=speakerGender();
   let disposed = false, finished = false, completion = null, assistantReady = null, assistantService = null, activeSheet = null;
   const activities = lesson.activities;
 
@@ -86,8 +87,8 @@ export async function render(root, params, query = {}) {
   const save = () => { session.title=lesson.title; if (!disposed && !finished && !pristine() && sameOwner()) writeLabSession(store, session); };
   const step = () => currentLabStep(lesson, session);
   const ui = () => { if (!session.state) return {}; return session.state.ui ||= {}; };
-  const ctx = () => labContext();
-  const alive=()=>!disposed&&!finished&&sameOwner();
+  const ctx = () => ({...labContext(),speakerGender:session.speakerAgreement});
+  const alive=()=>!disposed&&!finished&&sameOwner()&&owned();
   // An async task may return after the learner advances a turn or changes profile.
   const capture=()=>({id:session.id,index:session.index,state:session.state});
   const valid=token=>alive()&&session.id===token.id&&session.index===token.index&&session.state===token.state;
@@ -99,7 +100,7 @@ export async function render(root, params, query = {}) {
     const view=step(),blanks=currentBlanks(),u=ui(),blank=blanks?.blanks?.[helpBlank];
     if(session.paused||view.result||!blank?.free)return null;
     return {sourceId:`lab:${lesson.id}:${session.index}:${view.state.current?.index??'cloze'}:${helpBlank}`,sessionId:session.id,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,
-      level:lesson.level||STAGE_TINT[stageName]||'A1',prompt:`Find just the wording for this blank in the sentence: ${blanks.template}. ${blanks.en||''}`,context:JSON.stringify({slot:blank.slot,help:blank.freePrompt||'',lesson:lesson.title}),
+      level:lesson.level||STAGE_TINT[stageName]||'A1',prompt:`Find just the wording for this blank in the sentence: ${blanks.template}. ${blanks.en||''}`,context:JSON.stringify({slot:blank.slot,help:blank.freePrompt||'',lesson:lesson.title,speakerAgreement:session.speakerAgreement}),
       canonical:clone(view.activity),blankIndex:helpBlank,values:clone(u.values||[]),originalInput:u.drafts?.[helpBlank]||'',inputLanguage:'en'};
    },persist:async()=>{if(!alive())throw new DOMException('This practice step changed.','AbortError');touch();await store.saveNow();},
    onViewed:receipt=>{blankUi(ui());ui().aiHelpSources[helpBlank]=receipt;},
@@ -114,7 +115,7 @@ export async function render(root, params, query = {}) {
     const lessonNo = place ? `Lezione ${place.index + 1} / ${place.total}` : 'Lezione';
     return html`<div class="grammar-shell course-v2-shell lab-shell" data-lab-lesson="${lesson.id}" data-kind="${kind}" data-activity="${activityId || ''}" data-phase="${phase}" data-stage="${stageName}">
       <header class="grammar-header"><button type="button" class="btn ghost" data-lab-back>${raw(icon('chevron', { size: 16 }))} Back</button><span class="kicker">${place?.stage?.title || 'Officina'} · ${lessonNo}</span><button type="button" class="btn ghost" data-lab-pause ${session.paused || phase === 'complete' ? raw('disabled') : ''}>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header>
-      <main class="grammar-scroll lab-scroll" data-lab-scroll>${raw(content)}</main>
+      <main class="grammar-scroll lab-scroll" data-lab-scroll>${kind!=='paused'&&kind!=='complete'?raw(html`<div class="lab-practice-context"><span>${kind==='model'?'Learn the pattern':kind==='build'?'Make it yours':'Practise this pattern'}</span><button type="button" class="btn ghost sm" data-lab-agreement aria-haspopup="menu" aria-label="Agreement for me: ${session.speakerAgreement==='f'?'feminine':'masculine'}">${session.speakerAgreement==='f'?'Feminine':'Masculine'} ${raw(icon('chevronDown',{size:16}))}</button></div>`):''}${raw(content)}</main>
       ${footer ? raw(html`<footer class="grammar-footer ${feedback ? 'has-feedback' : ''}">${raw(footer)}</footer>`) : ''}
     </div>`;
   }
@@ -149,7 +150,7 @@ export async function render(root, params, query = {}) {
   const refsFor = () => (Array.isArray(lesson.grammarRefs) ? lesson.grammarRefs : []).map(id => { try { const l = grammarLesson(id); return l ? { title: l.title, href: grammarHref(l) } : null; } catch { return null; } }).filter(Boolean);
 
   function draw({ focus = false, scrollChat = false } = {}) {
-    if (disposed || !sameOwner()) return;
+    if (disposed || !sameOwner() || !owned()) return;
     const view = step(), kind = view.kind, activity = view.activity, u = ui();
     let content = '', footer = '', feedback = false;
     if (session.paused) { content = labPaused(lesson); }
@@ -450,13 +451,20 @@ export async function render(root, params, query = {}) {
 
   // ---------- events ----------
   const click = event => {
-    const b = event.target.closest('button'); if (!b || disposed || !sameOwner()) return;
+    const b = event.target.closest('button'); if (!b || disposed || !sameOwner() || !owned()) return;
     if (b.closest('[data-say]')) return;
     const u = blankUi(ui());
     if (b.hasAttribute('data-lab-back')) { save(); location.hash = '#/lab/frasi'; return; }
     if (b.hasAttribute('data-lab-pause')) { session.paused = true; save(); draw({ focus: true }); return; }
     if (b.hasAttribute('data-lab-resume')) { session.paused = false; save(); draw({ focus: true });const draft=ui().activeDrill;if(draft)learnThenInsert(draft.blankIndex,draft.info,draft.source); return; }
     if (session.paused) return;
+    if(b.hasAttribute('data-lab-agreement')){
+      const token=capture();dropdown(b,[{value:'m',label:'Masculine · sono stanco',selected:session.speakerAgreement==='m'},{value:'f',label:'Feminine · sono stanca',selected:session.speakerAgreement==='f'}],{onSelect:value=>{
+        if(!valid(token)||!['m','f'].includes(value)||value===session.speakerAgreement)return;
+        help.close();session.speakerAgreement=value;store.setSetting('gender',value);touch();draw();
+        toast(`${value==='f'?'Feminine':'Masculine'} agreement for new answers. Your draft stays as written.`);
+      }});return;
+    }
     if(b.hasAttribute('data-lab-ai-help')){helpBlank=Number(b.dataset.labAiHelp);void help.open('intent',b).catch(error=>{if(alive()&&error.name!=='AbortError')toast(error.message);});return;}
     if (b.hasAttribute('data-lab-next')) { next(); return; }
     if (b.hasAttribute('data-lab-retry')) { u.seenMiss = step().state?.misses || 0; draw({ focus: true }); return; }

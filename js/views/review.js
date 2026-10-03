@@ -1,6 +1,6 @@
 // Grouped learned targets enter finite visits, with exact draft/feedback recovery.
 import { html, raw, esc, speak, speakBtn, stopSpeech, toast, announceAnswer } from '../ui.js';
-import { setTitle, setChrome } from '../app.js';
+import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { setScene } from '../fx.js';
 import { reviewItems, familiarReviewItems } from '../learning/integration.js';
@@ -42,9 +42,10 @@ function renderQueue(root,query={}) {
 }
 
 export async function render(root,_params={},query={}) {
+  const owned=captureViewOwnership(root);
   const owner=store.current.id,learner=store.current.learnerId,epoch=store.learning.epoch.id;let route=location.hash;
   let disposed=false,locked=false,session=null;
-  const alive=()=>!disposed&&store.current.id===owner&&store.current.learnerId===learner&&store.learning.epoch.id===epoch&&location.hash===route;
+  const alive=()=>!disposed&&owned()&&store.current.id===owner&&store.current.learnerId===learner&&store.learning.epoch.id===epoch&&location.hash===route;
   setTitle('Review');setScene(store.settings.level || 'A1');
   const start=query.start==='1' || !!query.session || !!query.target || query.typed==='1' || store.settings.adaptiveLearning===false;
   if(!start){renderQueue(root,query);return;}
@@ -98,19 +99,19 @@ export async function render(root,_params={},query={}) {
       const answers=skipped?'':q.type==='mc'?html`<div class="choices ${q.choices.length===2?'two':''}">${raw(q.choices.map((c,i)=>html`<button type="button" class="choice ${feedback?c.correct?'correct':String(c.value ?? c.label)===r.given?'wrong':'dim':''}" data-choice="${i}" ${feedback?raw('disabled'):''}><span class="choice-label">${c.label}</span></button>`).join(''))}</div>`:html`<div class="typed">${raw(typedInputHTML({value:v.draft,language:q.meta.answerLanguage}))}<button type="button" class="btn ghost block" data-skip>I don’t know</button></div>`;
       const audio=skipped?'':q.listening&&q.audioAsset?html`<div class="course-audio"><audio controls preload="none" src="${q.audioAsset.src}" data-review-audio aria-label="Listen to the complete Italian source"></audio></div>`:q.say?html`<div class="q-say">${raw(speakBtn(q.say))}</div>`:'';
       runner.innerHTML=html`<section class="drill-shell" data-drill data-state="${feedback?'feedback':'question'}" data-question-type="${q.type}">${raw(gameTop('#/review',{i:v.index,total:v.total,completed:v.answers.length}))}<div class="drill-main" data-drill-main><div class="q-card"><div class="prompt">${frame.label}</div>${skipped?'':raw(safeHTML(q.prompt))}${raw(audio)}</div><div class="drill-answer-area" data-drill-answers>${raw(answers)}${!feedback?raw(html`<button type="button" class="btn ghost sm" data-review-hint>Hint</button>${v.assistance.includes('hint')?raw(html`<p class="grammar-hint">${q.hint}</p>`):''}`):''}</div></div><div class="drill-feedback" data-feedback>${feedback?raw(feedbackHTML({ok:r.ok,title:r.outcome==='skipped'?'This target is saved for later.':r.outcome==='ungraded'?'Compare this answer with the model.':r.ok?'Correct.':`Look again · ${esc(r.answer)}`,detail:safeHTML(r.explanation),submission:r.submission,nextLabel:v.index+1===v.total?'Finish this visit':'Continue',say:skipped?null:q.say})):''}</div></section>`;
-      runner.querySelector('[data-review-audio]')?.addEventListener('ended',()=>{v.audioPlayed=[...new Set([...v.audioPlayed || [],q.audioId])];save();});
+      runner.querySelector('[data-review-audio]')?.addEventListener('ended',()=>{if(!alive())return;v.audioPlayed=[...new Set([...v.audioPlayed || [],q.audioId])];save();});
       const input=runner.querySelector('[data-answer]');
       if(input){
         if(feedback){input.disabled=true;input.value=r.given;input.classList.add(r.ok?'is-ok':'is-ko');runner.querySelector('[data-check]')?.remove();runner.querySelector('[data-skip]')?.remove();runner.querySelector('[data-accents]')?.remove();}
-        else{bindAccentBar(runner.querySelector('.typed'),input);input.oninput=()=>{v.draft=input.value;save();};input.onkeydown=event=>{if(event.key==='Enter'){event.preventDefault();submit(input.value);}};runner.querySelector('[data-check]').onclick=()=>submit(input.value);runner.querySelector('[data-skip]').onclick=()=>submit('',{revealed:true});}
+        else{bindAccentBar(runner.querySelector('.typed'),input);input.oninput=()=>{if(!alive())return;v.draft=input.value;save();};input.onkeydown=event=>{if(event.key==='Enter'){event.preventDefault();submit(input.value);}};runner.querySelector('[data-check]').onclick=()=>submit(input.value);runner.querySelector('[data-skip]').onclick=()=>submit('',{revealed:true});}
       }
       runner.querySelectorAll('[data-choice]').forEach(button=>button.onclick=()=>submit(q.choices[Number(button.dataset.choice)].value ?? q.choices[Number(button.dataset.choice)].label));
-      runner.querySelector('[data-review-hint]')?.addEventListener('click',()=>{if(locked)return;v.assistance=[...new Set([...v.assistance,'hint'])];save();draw();});
-      runner.querySelector('[data-next]')?.addEventListener('click',async()=>{if(locked)return;locked=true;advanceReviewVisit(session);await durable();locked=false;draw();});
+      runner.querySelector('[data-review-hint]')?.addEventListener('click',()=>{if(locked||!alive())return;v.assistance=[...new Set([...v.assistance,'hint'])];save();draw();});
+      runner.querySelector('[data-next]')?.addEventListener('click',async()=>{if(locked||!alive())return;locked=true;advanceReviewVisit(session);await durable();locked=false;draw();});
       if(feedback)runner.querySelector('[data-next]')?.focus({preventScroll:true});
     }
-    root.querySelector('[data-review-pause]')?.addEventListener('click',()=>{if(locked)return;v.paused=!v.paused;save();draw();});
-    root.querySelector('[data-review-resume]')?.addEventListener('click',()=>{v.paused=false;save();draw();});
+    root.querySelector('[data-review-pause]')?.addEventListener('click',()=>{if(locked||!alive())return;v.paused=!v.paused;save();draw();});
+    root.querySelector('[data-review-resume]')?.addEventListener('click',()=>{if(!alive())return;v.paused=false;save();draw();});
     viewport.fit();
   }
   async function submit(given,options={}) {

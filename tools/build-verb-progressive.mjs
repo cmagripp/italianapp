@@ -14,6 +14,17 @@ for(const [batch,levels] of Object.entries(batches)){
     assert(!data[record.inf],`Duplicate ${record.inf}`);
     assert(['dynamic','sense-dependent','simple'].includes(record.policy),record.inf+' policy');
     assert(record.sense?.trim()&&record.note?.trim(),record.inf+' explanation');
+    if(record.legacyExpandedRevisionAliases){
+      const aliases=record.legacyExpandedRevisionAliases;
+      assert(record.sceneRevision&&record.legacyExpandedRevision,record.inf+' prior aliases need explicit revisions');
+      assert(Array.isArray(aliases)&&aliases.length>0&&aliases.length<=8&&new Set(aliases).size===aliases.length&&aliases.every(s=>typeof s==='string'&&s.trim()&&s.length<=500&&s!==record.sceneRevision&&s!==record.legacyExpandedRevision),record.inf+' bounded distinct prior aliases');
+      assert(record.legacyExpandedFrames||record.legacyExpandedExamples||record.legacyExpandedSourceContexts||Object.hasOwn(record,'legacyExpandedImperfectEn'),record.inf+' aliases lack a declared exact previous source');
+    }
+    if(Object.hasOwn(record,'legacyExpandedImperfectEn')){
+      assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' distinct imperfect scene revisions');
+      assert(record.imperfectEn?.trim()&&(record.legacyExpandedImperfectEn===null||typeof record.legacyExpandedImperfectEn==='string'&&record.legacyExpandedImperfectEn.trim()),record.inf+' exact prior imperfect predicate');
+      assert(Object.hasOwn(record,'legacyImperfectEn')&&(record.legacyImperfectEn===null||typeof record.legacyImperfectEn==='string'&&record.legacyImperfectEn.trim()),record.inf+' baseline imperfect preservation');
+    }
     if(record.legacyExpandedExamples){
       assert(record.sceneRevision?.trim()&&record.legacyExpandedRevision?.trim()&&record.sceneRevision!==record.legacyExpandedRevision,record.inf+' distinct source scene revisions');
       assert(record.legacyExpandedExamples.length===entry.examples.length&&record.legacyExpandedExamples.every(e=>e.it?.trim()&&e.en?.trim()),record.inf+' prior source examples');

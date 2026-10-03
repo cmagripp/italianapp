@@ -2,15 +2,17 @@
 // module never grades, records evidence, supplies fallback text or downloads.
 import {acquireConversationService,conversationReadiness,conversationProviderRevision,onConversationProviderChange} from '../conversations/runtime.js';
 import {LEVELS} from '../ai/grounding.js';
+import {sourceFingerprint} from '../ai/source-fingerprint.js';
 
-const clone=value=>structuredClone(value),stable=value=>JSON.stringify(value);
+const clone=value=>structuredClone(value),stable=sourceFingerprint;
 const abort=()=>new DOMException('This practice step changed.','AbortError');
 const TASKS=new Set(['intent','hint','explain']);
 const normalized=text=>String(text||'').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g,"'").replace(/[^\p{L}\p{N}']+/gu,' ').trim();
 export function assistanceAvailable(){return conversationReadiness().written===true;}
 export function restoreAssistanceDraft(saved,source){
  const fingerprint=stable(source);
- return saved?.policyVersion===1&&saved.sourceFingerprint===fingerprint&&typeof saved.originalText==='string'&&saved.originalText.length<=1200?saved.originalText:'';
+ let exact=false;try{exact=typeof saved?.sourceFingerprint==='string'&&saved.sourceFingerprint.length<30000&&stable(JSON.parse(saved.sourceFingerprint))===fingerprint;}catch{}
+ return saved?.policyVersion===1&&exact&&typeof saved.originalText==='string'&&saved.originalText.length<=1200?saved.originalText:'';
 }
 function checkedSource(source){
  if(!source||typeof source.sourceId!=='string'||!source.sourceId||source.sourceId.length>200||!LEVELS.includes(source.level)||
@@ -60,13 +62,15 @@ export function createAssistanceController({getSource,isCurrent=()=>true,saved,o
     const request={task,text:task==='intent'?original:original.trim()||initial.prompt,level:initial.level,scope,sourceRevision,
      participants:[{id:'helper',name:'Practice helper'}],requestedIds:initial.requestedIds||[],protectedNames:initial.protectedNames||[],
      helpContext:{sourceId:initial.sourceId,prompt:initial.prompt,context:initial.context||'',inputLanguage:initial.inputLanguage||'en'},
+     helpSource:initial.helpSource||{version:1,kind:'unmapped-practice',sourceId:initial.sourceId},
      agreement:initial.agreement||'neutral',history:[],support:'free'};
     const result=await service.request(request,{scope,signal:signal.signal,priority:1});check();
     if(typeof result?.message?.text!=='string'||!result.message.text.trim()||result.provenance?.languageRangeVerified!==true||!result.provenance?.languagePolicyVersion)throw new Error('The suggestion did not pass the language checks.');
+    if(initial.helpSource&&(result.provenance.practiceSource?.bindingFingerprint!==stable(initial.helpSource)||result.provenance.practiceSource?.sourceRevision!==sourceRevision))throw new Error('The suggestion did not match this lesson source.');
     if(['intent','hint'].includes(task)&&result.corrections?.length)throw new Error('Help cannot treat this request as a language mistake.');
     if(task==='hint'&&revealsAnswer(result.message.text,initial.answers||[]))throw new Error('That hint revealed the answer. Use the lesson hint instead.');
     const provenance={task,sourceFingerprint:fingerprint,sourceRevision,scope,originalText:original,wording:result.message.text,
-     assisted:true,languagePolicyVersion:result.provenance.languagePolicyVersion,runtime:clone(result.provenance.runtime||null),at:Date.now()};
+     assisted:true,languagePolicyVersion:result.provenance.languagePolicyVersion,practiceSource:clone(result.provenance.practiceSource||null),runtime:clone(result.provenance.runtime||null),at:Date.now()};
     await onViewed(clone(provenance));check();response=clone(result);accepted={provenance,installed,epoch};return clone(result);
    }catch(failure){if(live()&&failure.name!=='AbortError')error=failure.message;return null;}
    finally{if(epoch===generation){busy=false;active=null;publish();}}

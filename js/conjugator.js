@@ -423,6 +423,11 @@ function build(infinitive, meta = {}, regular = false) {
       text: 'Cocente is used as an adjective meaning scalding or intensely hot, and figuratively acute or painful. It is not the ordinary way to say that food is cooking.',
       source: 'https://www.treccani.it/vocabolario/cocente/',
       sourceLabel: 'Treccani',
+    } } : inf === 'riconoscere' ? { participioPresente: {
+      status: 'lexical-meaning-note',
+      text: 'Riconoscente is ordinarily an adjective meaning grateful. Its recognizing or aware meaning is historical; use riconoscendo for the gerund of recognising.',
+      source: 'https://www.treccani.it/vocabolario/riconoscente/',
+      sourceLabel: 'Treccani',
     } } : {},
     group: par.cls === 'are' ? '-are' : par.cls === 'ere' ? (/rre$/.test(base) ? '-rre' : '-ere') : (par.isc ? '-ire (-isc-)' : '-ire'),
   };

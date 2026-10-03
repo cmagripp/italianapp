@@ -146,7 +146,23 @@ export function labSessionProgress(lesson, session) {
 function recordAttempt(state, result) { state.attempts = [...state.attempts, result].slice(-12); state.last = result; return result; }
 function finish(state, result) { state.result = result; state.done = true; return recordAttempt(state, result); }
 
-const expectedValue = blank => blank?.accept?.[0] ?? blank?.options?.[0] ?? '';
+const expectedValue = (blank,ctx) => {
+  const values=blank?.accept?.length?blank.accept:blank?.options||[];
+  return values.find(value=>!speakerAgreementMismatch(blank,value,ctx)) ?? values[0] ?? '';
+};
+
+// Only a slot explicitly referring to the learner uses this preference. Whole
+// phrase alternatives such as "ho fame" and descriptions of other people keep
+// their authored meaning; they are not rewritten to match the learner.
+function speakerAgreementMismatch(blank,value,ctx={}) {
+  if(blank?.slot?.pos!=='adj'||blank.slot.agree!=='speaker'||!ctx.dictionary)return null;
+  const slot=normalizeSlot(blank.slot),given=unwrap(value,slot.wrap);
+  const matches=italianInputMatches(labIndex(ctx),given,slot).filter(match=>match.entry.pos==='adj');
+  if(!matches.length)return null;
+  const forms=unique(matches.flatMap(match=>{const result=inflect(match.entry,match.variant,slot,ctx);return result.ok?[result.form]:[];}));
+  if(!forms.length||compareSubmission(given,forms,{accentStrict:false}).ok)return null;
+  return {forms,expected:wrapWith(slot.wrap,forms[0]),gender:ctx.speakerGender==='f'?'feminine':'masculine'};
+}
 
 // A typed value may repeat the wrap ("sono stanco" for wrap "sono {}"): the wrapped part is removed before resolving.
 function unwrap(text, wrap) {
@@ -182,6 +198,8 @@ function gradeBlank(blank, value, ctx = {}) {
   const hit=submission.ok?submission.matchedAnswerText:wrappedSubmission?.ok?wrappedSubmission.matchedAnswerText:undefined;
   const authoredMiss = { outcome: 'incorrect', given: originalText, filled: null, entryId: null, submission,explanation: blank?.explanation || (text ? 'Not quite. Try again.' : 'Fill the blank.') };
   if(hit!==undefined){
+    const mismatch=speakerAgreementMismatch(blank,hit,ctx);
+    if(mismatch)return {...authoredMiss,submission:compare(originalText,mismatch.forms.flatMap(form=>[form,wrapWith(wrap,form)])),explanation:`For ${mismatch.gender} agreement, use ${mismatch.expected}. Your wording has not been changed.`};
     if(!submission.ok&&wrappedSubmission?.ok)submission={...wrappedSubmission,originalText,displayText:unwrap(wrappedSubmission.displayText,wrap)};
     return {outcome:ctx.assistance?.length?'accepted':'correct',given:originalText,filled:wrap&&wrappedSubmission?.ok?wrapWith(wrap,submission.displayText):submission.displayText,entryId:null,explanation:'',submission,assistance:ctx.assistance||[],assessed:!(ctx.assistance||[]).length};
   }
@@ -260,9 +278,9 @@ function gradeBlanks(template, blanks, en, state, values, ctx) {
       Object.assign(g,{outcome:'incorrect',filled:null,explanation:'With piacere the liked thing is the subject. Say A Marco piace la pizza, or Marco ama la pizza; a bare Marco cannot take la pizza as a direct object of piace.'});
     }
   }
-  const expected = blanks.map(expectedValue);
+  const expected = blanks.map(blank=>expectedValue(blank,ctx));
   const answer = fillTemplate(template, expected);
-  const base = { answer, en: en || '', misses: state.misses, revealed: false };
+  const base = { answer, en: en || '', misses: state.misses, revealed: false, speakerAgreement:ctx.speakerGender==='f'?'f':'m' };
   if (!graded.some(g => g.outcome === 'incorrect')) {
     const outcome = graded.every(g => g.outcome === 'correct') ? 'correct' : 'accepted';
     sentence=fillTemplate(template,graded.map(g=>g.filled));

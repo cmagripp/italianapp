@@ -401,6 +401,7 @@ function verbLesson(e,{legacy=false,legacyExpanded=false}={}) {
   const priorTargets=new Map(prior?.flatMap(chapter=>chapter.groups.flatMap(group=>group.targets||[])).map(t=>[t.id,t])||[]);
   for(const chapter of chapters)for(const t of chapter.groups.flatMap(group=>group.targets||[])){
    t.sceneRevision=spec.sceneRevision;t.legacyExpandedRevision=spec.legacyExpandedRevision;
+   if(spec.legacyExpandedRevisionAliases)t.legacyExpandedRevisionAliases=[...spec.legacyExpandedRevisionAliases];
    if(spec.retiredExpandedContextIds)t.retiredExpandedContextIds=[...spec.retiredExpandedContextIds];
    if(legacy&&['conjugation','address','context'].includes(t.skill))t.legacyAuthoredContexts=lessonContexts(priorEntry,t.sourceChapter||chapter.id,{expanded:false,legacySource:true}).filter(c=>t.skill==='context'||c.person===t.person&&c.role===(t.role||'ordinary'));
    const old=priorTargets.get(t.id);

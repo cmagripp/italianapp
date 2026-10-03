@@ -1,0 +1,18 @@
+{
+  "browser": "webkit",
+  "method": "Real router and native IndexedDB; delay actual open-success delivery, including deliberate storage error delivery. No model or speech quality claim.",
+  "checks": [
+    "Opening a conversation reuses the loaded dictionary and preserves custom word lookup",
+    "Composer waits for the saved draft revision before accepting the first edit",
+    "Late inbox database success cannot overwrite Profile",
+    "Late inbox database failure cannot overwrite Profile",
+    "Late inbox request after profile replacement cannot publish or change learning",
+    "Late inbox request after learner replacement cannot publish or change learning",
+    "Late inbox request after epoch replacement cannot publish or change learning",
+    "Old inbox completion after returning to the same route leaves current controls active",
+    "Leaving a player during initial storage load removes its viewport and preserves Profile",
+    "Old player cleanup cannot remove a newer player viewport, controls or saved draft",
+    "A speech pack that finishes opening after navigation is released without recording or playback"
+  ],
+  "errors": []
+}

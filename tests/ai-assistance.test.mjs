@@ -2,13 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createAssistanceController,restoreAssistanceDraft} from '../js/learning/ai-assistance.js';
 import {createAIService,createGrounding,prepareTask} from '../js/ai/index.js';
+import {sourceFingerprint} from '../js/ai/source-fingerprint.js';
 
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return{promise,resolve};};
 const source=()=>({sourceId:'lesson:question:one',owner:{profileId:'p',learnerId:'l'},epochId:'initial',level:'A1',prompt:'Say what you need',context:'At a ticket office',answers:['casa']});
 function fixture({available=true,reply='Due biglietti, per favore.',delay=null,onUse=()=>{}}={}){
  let current=source(),installed=1,listener=()=>{};const drafts=[],viewed=[],requests=[];let acquired=0,cancelled=0;
  // Explicit test-only runtime/policy fixture. It is never installed in the app.
- const service=createAIService({runtime:{async generate(task){requests.push(task);if(delay)await delay.promise;return JSON.stringify({participantId:'helper',text:reply,corrections:[]});}},languagePolicy:{version:'test-only-language-fixture',async validate(){return{ok:true};}}});
+ const service=createAIService({practiceSources:{resolve(binding,{request}){return {version:'test-only-source',bindingFingerprint:sourceFingerprint(binding),sourceId:request.helpContext.sourceId,prompt:request.helpContext.prompt,context:request.helpContext.context||'',senses:[],rules:[],references:[{kind:'authored-example',id:'test-only-example',it:'Ciao.',level:'A1',reviewed:true,sourceRevision:'test-only'}]};}},runtime:{async generate(task){requests.push(task);if(delay)await delay.promise;return JSON.stringify({participantId:'helper',text:reply,corrections:[]});}},languagePolicy:{version:'test-only-language-fixture',async validate(){return{ok:true};}}});
  const controller=createAssistanceController({getSource:()=>current,isCurrent:()=>true,onDraft:row=>drafts.push(row),onViewed:row=>viewed.push(row),onUse,
   acquire:async()=>{acquired++;return{request:(...args)=>service.request(...args),cancelScope:scope=>{cancelled++;service.cancelScope(scope);}};},readiness:()=>({written:available}),providerRevision:()=>installed,onProviderChange:fn=>{listener=fn;return()=>{};}});
  return{controller,drafts,viewed,requests,get acquired(){return acquired;},get cancelled(){return cancelled;},changeSource(patch){current={...current,...patch};},changeProvider(){installed++;listener();},dispose(){controller.dispose();service.dispose();}};
@@ -59,4 +60,11 @@ test('help context is bounded data and cannot be attached to a conversation task
  const grounding=createGrounding().retrieve({text:'test',level:'A1'}),base={task:'hint',text:'Help',level:'A1',helpContext:{sourceId:'q',prompt:'Choose',context:'A sentence'}};
  const prepared=prepareTask(base,grounding);assert.equal(prepared.promptRevision,'source-bound-assistance-v1');assert(!prepared.messages[0].content.includes('Preferisci il tè caldo'));
  assert.throws(()=>prepareTask({...base,task:'conversation'},grounding),/help context/);assert.throws(()=>prepareTask({...base,helpContext:{context:'x'.repeat(4001)}},grounding),/help context/);
+});
+test('serialized object-key order does not lose an exact-source original draft',()=>{
+ const current={...source(),helpSource:{scene:{id:'scene',it:'Ciao.',answers:['Ciao']} }};
+ // Reorder nested scene keys as real canonical backup serialization does.
+ const savedSource={...current,helpSource:{scene:{answers:['Ciao'],it:'Ciao.',id:'scene'}}};
+ const saved={policyVersion:1,sourceFingerprint:JSON.stringify(savedSource),originalText:'Keep this'};
+ assert.equal(restoreAssistanceDraft(saved,current),'Keep this');assert.equal(restoreAssistanceDraft(saved,{...current,helpSource:{scene:{answers:['Other'],it:'Ciao.',id:'scene'}}}), '');
 });

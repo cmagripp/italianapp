@@ -8,8 +8,18 @@ const integer = (value, max) => Number.isSafeInteger(value) && value >= 0 && val
 const keys = (value, allowed) => Object.keys(value).every(key => allowed.includes(key));
 const contextKeys = ['id','it','en','answer','answers','person','role','subjectLabel','aux','source'];
 const snapshotKeys = ['version','entryId','targetId','chapterId','scenePolicy','sourceRevision','variant','poolSize','englishCue','context'];
+// Aliases name the very same explicitly preserved authored pool. They never
+// permit imported text or a historical revision without its source records.
+export function journeyPriorRevision(revision,target){
+  if(!string(revision,500)||!target?.legacyExpandedRevision)return false;
+  if(revision===target.legacyExpandedRevision)return true;
+  const aliases=target.legacyExpandedRevisionAliases;
+  return Array.isArray(aliases)&&aliases.length<=8&&new Set(aliases).size===aliases.length
+    &&aliases.every(alias=>string(alias,500)&&alias!==target.sceneRevision&&alias!==target.legacyExpandedRevision)
+    &&aliases.includes(revision);
+}
 export const retiredJourneyScene = (snapshot,target) => !!snapshot?.context?.id
-  &&snapshot.sourceRevision===target?.legacyExpandedRevision
+  &&journeyPriorRevision(snapshot.sourceRevision,target)
   && !!target?.retiredExpandedContextIds?.includes(snapshot.context.id);
 export function retiredJourneyQuestion(current,target){
   if(!current||!target?.retiredExpandedContextIds?.length)return false;
@@ -46,7 +56,7 @@ export function journeySceneContexts(target, { legacy = false } = {}) {
     || context.person === target.person && (context.role || 'ordinary') === (target.role || 'ordinary'));
 }
 
-export function createJourneyScene({ entryId, chapterId, target, variant = 0, legacy = false }) {
+export function createJourneyScene({ entryId, chapterId, target, variant = 0, legacy = false, sourceRevision }) {
   const pool = journeySceneContexts(target, { legacy });
   if (!pool.length || !integer(variant, 1000000)) return null;
   const selected = pool[variant % pool.length];
@@ -59,6 +69,10 @@ export function createJourneyScene({ entryId, chapterId, target, variant = 0, le
     scenePolicy: 'expanded-v1', sourceRevision: legacy && target.legacyExpandedRevision
       ? target.legacyExpandedRevision : target.sceneRevision || 'expanded-v1',
     variant, poolSize: pool.length, englishCue: Math.floor(variant / pool.length) % 2 === 1, context };
+  if(sourceRevision!==undefined){
+    if(legacy? !journeyPriorRevision(sourceRevision,target):sourceRevision!==(target.sceneRevision||'expanded-v1'))return null;
+    snapshot.sourceRevision=sourceRevision;
+  }
   return validJourneyScene(snapshot) ? snapshot : null;
 }
 
@@ -67,10 +81,10 @@ export function journeySceneMatches(snapshot, { entryId, chapterId, target, vari
     || snapshot.targetId !== target?.id || snapshot.variant !== variant) return false;
   // Imports may supply data, never new teaching. Bind the entire selected
   // sentence, translation, forms, source, order and cue to an authored revision.
-  const legacy = snapshot.sourceRevision === target.legacyExpandedRevision;
+  const legacy = journeyPriorRevision(snapshot.sourceRevision,target);
   if (!legacy && snapshot.sourceRevision !== (target.sceneRevision || 'expanded-v1')) return false;
   if (legacy && !target.legacyExpandedContexts) return false;
-  const expected = createJourneyScene({entryId,chapterId,target,variant,legacy});
+  const expected = createJourneyScene({entryId,chapterId,target,variant,legacy,sourceRevision:snapshot.sourceRevision});
   return !!expected && expected.sourceRevision === snapshot.sourceRevision && expected.poolSize === snapshot.poolSize
     && expected.englishCue === snapshot.englishCue && contextKeys.every(key => key === 'answers'
       ? snapshot.context.answers.length === expected.context.answers.length

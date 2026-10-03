@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-03",
+  "status": "bounded-independent-lifecycle-review-passed",
+  "owner": "programme_learning",
+  "scope": "Read-only review of initial and same-route async UI ownership, opening-state draft revision lock, scoped player/speech cleanup and pending durable draft flush. No runtime edits by reviewer.",
+  "baseCommit": "2f4b954f7ca757b1448c9f0e3cb389846b242b88",
+  "sourceFingerprints": {
+    "js/views/conversations.js": "79da8e67032fd974b0791a026ae78db0a7faf08be989d81b15e875e9892839f0",
+    "js/app.js": "45d2477aa4b4ac4f3d33b95e95daae3e59d493fffcee498f8638bc5fa6fd2f32",
+    "js/conversations/controller.js": "f16d543c3836215d505d0a07a9b02d2d1b8b0df3c81016f289c03ae11495bd48",
+    "js/conversations/storage.js": "10b5ab7f180951397d868c451568d6d2cfa4081495e73a98288d72a26e2f08e5",
+    "js/conversations/draft-recovery.js": "6f05dbb7eb60402dcabf33fdafbcddced2da6b9d2d3a130a3db06b07aea0de58",
+    "js/conversations/runtime.js": "3593d5fdb924d9cc6d95f385ab811dadeb83072468f60c3db86cda9ec0d560d0",
+    "js/conversations/speech-session.js": "ffa005c1c2951d854d40dc55e5b48f858288310a1b5006c9018659117556de7f",
+    "js/learning/activity-viewport.js": "3c97e97de8c3a66bf91565c52474de2189b2c8c2da898f8658ee95bcca04177b",
+    "tests/conversation-view-ownership-e2e.mjs": "1e3d0ab886fcaf2fa393d72a034d82bb12c3679882dd5debb7d553fd30c91673"
+  },
+  "method": "Synthetic profiles/threads; actual local router and native IndexedDB in isolated browser contexts. Delayed native open-success delivery and a real saved draft revision. No model inference, no personal learner history, no physical-device claim.",
+  "independentBefore": {
+    "method": "Actual saved conversation and native IDB; delay open-success delivery, type into exposed composer before current revision is read, then release.",
+    "pending": {
+      "value": "",
+      "readOnly": false,
+      "disabled": false
+    },
+    "result": {
+      "status": "Another unsent draft was recovered. Save it before continuing.View recovered draft",
+      "visibleDraft": "Vorrei cambiare la risposta.",
+      "readOnly": true,
+      "savedDraft": "Ci vediamo domani.",
+      "savedRevision": 1,
+      "recoveredDrafts": [
+        "Vorrei cambiare la risposta."
+      ],
+      "recoveryButton": true
+    }
+  },
+  "independentAfter": {
+    "method": "Actual saved conversation and native IDB; delay open-success delivery, attempt synthetic edit while composer is disabled, release actual saved revision, then make a real first edit and verify navigation/flush/resume.",
+    "pending": {
+      "value": "",
+      "readOnly": false,
+      "disabled": true
+    },
+    "result": {
+      "status": "An approved offline conversation pack is not available in this release. Saved conversations remain accessible.",
+      "visibleDraft": "Ci vediamo domani.",
+      "readOnly": false,
+      "savedDraft": "Ci vediamo domani.",
+      "savedRevision": 1,
+      "recoveredDrafts": [],
+      "recoveryButton": false
+    }
+  },
+  "afterNavigationAssertion": {
+    "savedDraft": "La mia prima modifica.",
+    "result": "passed",
+    "method": "First normal edit after the opening lock released, immediately navigate to Profile, then reopen the exact conversation; composer restores the edit after the controller disposal draftQueue flush."
+  },
+  "independentCodeReview": [
+    "UI render generation/profile/learner/epoch is checked separately from durable repository profile/learner ownership.",
+    "Immediate hashchange disposal prevents late initial hub/player UI publication, including away/back ABA.",
+    "Scoped viewport owner and view lease prevent old cleanup from removing newer player controls or stopping unrelated playback.",
+    "Interaction listeners stop immediately; repository remains current during already queued durable draft flush and then closes.",
+    "Initial controller publications are held until load resolves; buttons/inputs/textarea are disabled while Back remains available. Synthetic input cannot create a draft before saved revision is established.",
+    "Late speech acquisition releases its lease without recording or playback after navigation."
+  ],
+  "rootRegressionEvidence": {
+    "chromium": {
+      "report": "docs/implementation/programme/conversation-view-ownership-chromium.json",
+      "reportSha256": "bce899b87b9bec75f4f0eea47d6324eaa5532f07d8bf26cc9d06ed9a8e982de8",
+      "checks": 11,
+      "errors": [],
+      "attribution": "Root-owned controlled suite; distinct from independent Chromium before/after reproduction."
+    },
+    "webkit": {
+      "report": "docs/implementation/programme/conversation-view-ownership-webkit.json",
+      "reportSha256": "82cfcb8ff28a2e1e29df94c01fbe4f90d3fc9770d62adb099cb6844d33b3a117",
+      "checks": 11,
+      "errors": [],
+      "attribution": "Root-owned controlled suite; distinct from independent Chromium before/after reproduction."
+    }
+  },
+  "limitations": [
+    "This bounded review does not approve real model output, Italian conversation quality, pronunciation, ASR quality or level calibration.",
+    "Installed iPhone offline, storage/quota, audio-route/background interruption and long-session gates remain separate.",
+    "Broader transactional storage, backup and deletion review is documented separately; this report is not a full programme release approval."
+  ]
+}

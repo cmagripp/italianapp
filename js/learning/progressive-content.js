@@ -57,7 +57,7 @@ function englishPossessive(text,person,formal=false){
 }
 function englishSimple(subject,person,spec,past,formal){
   if(past){
-    if(spec.policy==='simple'){const predicate=(spec.imperfectEn||spec.en[2]).replace(/^was\b/,person===0||person===2&&!formal?'was':'were');return `${subject} ${predicate}`;}
+    if(spec.imperfectEn||spec.policy==='simple'){const predicate=(spec.imperfectEn||spec.en[2]).replace(/^was\b/,person===0||person===2&&!formal?'was':'were');return `${subject} ${predicate}`;}
     return `${subject} used to ${spec.en[0]}`;
   }
   const base=spec.en[0];
@@ -95,7 +95,11 @@ function authoredContexts(entry,{chapter='present',progressive=false,section='pr
   const frames=legacyExpanded&&spec.legacyExpandedFrames?spec.legacyExpandedFrames:legacySelection&&spec.legacyFrames?spec.legacyFrames:spec.frames;
   return frames.flatMap(([itSuffix,enSuffix],index)=>!selected(index)?[]:roles.flatMap(({person,role})=>{
     const formal=role==='formal',subject=formal?['Signora Rossi, Lei','Ms Rossi, you']:spec.subjects?.[person]||SUBJECTS[person];
-    const frameSpec=!legacySelection&&entry.inf==='dire'&&index===0?{...spec,en:['tell','tells','told','telling']}:spec;
+    let frameSpec=!legacySelection&&entry.inf==='dire'&&index===0?{...spec,en:['tell','tells','told','telling']}:spec;
+    // A reviewed episode can use an ongoing English imperfect without changing
+    // the progressive policy. Explicit prior values preserve saved old scenes.
+    const priorField=legacyExpanded?'legacyExpandedImperfectEn':legacySelection?'legacyImperfectEn':null;
+    if(priorField&&Object.hasOwn(spec,priorField))frameSpec={...frameSpec,imperfectEn:spec[priorField]};
     const answers=progressive?progressiveForms(entry,person,{chapter}):clean(c.tenses[past?'imperfetto':'presente']?.[person]);
     if(!answers.length)return [];
     const it=sentence(subject[0],answers[0],itSuffix);

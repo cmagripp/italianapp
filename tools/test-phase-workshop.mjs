@@ -15,8 +15,25 @@ for(const value of ['stanchi','sono stanchi','stanca','sono stanca']){
 for(const value of ['tired','sono tired']){
   const r=check(adjective,value);assert.equal(r.outcome,'accepted');assert.equal(r.assessed,false);assert.equal(r.submission.ok,false);assert.deepEqual(r.assistance,['translation']);assert.equal(r.given,value);
 }
-const authored=blank(adjective.slot,['sono stanco','sono stanca','ho fame','ho sonno']);
-for(const value of authored.accept){const r=check(authored,value);assert.equal(r.outcome,'correct');assert.equal(r.filled,value,'authored alternatives keep their wording');}
+const authored=blank(adjective.slot,['sono stanco','sono stanca','ho fame','ho sonno','sono felice']);
+for(const speakerGender of ['m','f'])for(const value of authored.accept){
+ const r=check(authored,value,{speakerGender}),wrongAgreement=value===(speakerGender==='m'?'sono stanca':'sono stanco');
+ assert.equal(r.outcome,wrongAgreement?'incorrect':'correct');assert.equal(r.filled,wrongAgreement?null:value,'valid authored alternatives keep their wording');
+}
+for(const inputMode of ['typed','choice']){
+ assert.equal(check(authored,'sono stanca',{speakerGender:'m',inputMode}).outcome,'incorrect');
+ assert.equal(check(authored,'sono stanco',{speakerGender:'f',inputMode}).outcome,'incorrect');
+}
+const someoneElse=blank({pos:'adj',agree:'f-sg'},['stanca']);
+assert.equal(check(someoneElse,'stanca',{speakerGender:'m'}).outcome,'correct','The learner preference must not change another person.');
+const agreementLesson={id:'agreement',activities:[{id:'feeling',kind:'cloze',template:'Oggi ____.',blanks:[authored]}]},agreementSession=createLabSession(agreementLesson);
+answerLab(agreementLesson,agreementSession,['sono stanco'],{...ctx,speakerGender:'f'});
+const revealed=answerLab(agreementLesson,agreementSession,['sono stanco'],{...ctx,speakerGender:'f'}).result;
+assert.equal(revealed.sentence,'Oggi sono stanca.');assert.equal(revealed.speakerAgreement,'f');
+const resultBefore=JSON.stringify(revealed);answerLab(agreementLesson,agreementSession,['sono stanco'],ctx);assert.equal(JSON.stringify(agreementSession.state.result),resultBefore,'Changing preference cannot regrade a submitted result.');
+const nationality=blank({pos:'adj',agree:'speaker'},['italiano','italiana','inglese','francese']);
+assert.equal(check(nationality,'italiana',{speakerGender:'f'}).outcome,'correct');assert.equal(check(nationality,'italiano',{speakerGender:'f'}).outcome,'incorrect');
+for(const speakerGender of ['m','f'])for(const word of ['inglese','francese'])assert.equal(check(nationality,word,{speakerGender}).outcome,'correct');
 const compound=blank({pos:'verb',person:0,tense:'passatoProssimo'},['ho mangiato']);
 for(const [value,gender] of [['ho preso','m'],['sono andato','m'],['sono andata','f'],['mi sono svegliato','m']]){
   const r=check(compound,value,{speakerGender:gender});assert.notEqual(r.outcome,'incorrect',value);assert.equal(r.filled,value);assert.deepEqual(r.assistance,[]);assert.equal(r.submission.ok,true);

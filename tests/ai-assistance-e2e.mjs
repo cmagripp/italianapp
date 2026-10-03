@@ -15,12 +15,12 @@ async function fresh(){
 }
 async function provider(reply='inglese',delay=false){
  await page.evaluate(async({reply,delay})=>{
-  const {createAIService,createGrounding}=await import('./js/ai/index.js'),runtime=await import('./js/conversations/runtime.js');
+  const {sourceFingerprint}=await import('./js/ai/source-fingerprint.js');const {createAIService,createGrounding}=await import('./js/ai/index.js'),runtime=await import('./js/conversations/runtime.js');
   window.helpRequests=[];window.helpReply=reply;window.helpDelay=delay;window.helpAcquires=0;
   // Explicit fixture for service/lifecycle tests, never bundled or installed in
   // the production app. It supplies no evidence about a real model's quality.
   const grounding=createGrounding({rules:[{id:'test-only-help-rule',verified:true,level:'Foundations',explanation:'This is an authored test reference, not generated teaching.',examples:['Ciao.'],source:'https://example.test/authored-rule',keywords:['test-reference']}],version:'test-only-grounding'});
-  window.helpService=createAIService({grounding,languagePolicy:{version:'test-only-language-policy',async validate(){return{ok:true};}},runtime:{async generate(task){
+  window.helpService=createAIService({grounding,practiceSources:{resolve(binding,{request}){return {version:'test-only-source',bindingFingerprint:sourceFingerprint(binding),sourceId:request.helpContext.sourceId,prompt:request.helpContext.prompt,context:request.helpContext.context||'',senses:[],rules:request.text==='test-reference'?grounding.retrieve({text:'test-reference',level:request.level}).rules:[],references:[{kind:'authored-example',id:'test-only-example',it:'Ciao.',level:'Foundations',reviewed:true,sourceRevision:'test-only'}]};}},languagePolicy:{version:'test-only-language-policy',async validate(){return{ok:true};}},runtime:{async generate(task){
    helpRequests.push(task);if(helpDelay)await new Promise(resolve=>window.releaseHelp=resolve);
    return JSON.stringify({participantId:'helper',text:helpReply,corrections:[]});
   }}});

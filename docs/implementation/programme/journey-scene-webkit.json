@@ -1,6 +1,6 @@
 {
   "engine": "webkit",
-  "checks": 12,
+  "checks": 14,
   "results": [
     "A real saved expanded question pins its old sentence and exact unfinished draft",
     "Submitted feedback and full sentence playback survive reload without new evidence",
@@ -13,7 +13,9 @@
     "Retired sparire source waits for explicit Continue and preserves its old receipt without credit",
     "Retired emanare source waits for explicit Continue and preserves its old receipt without credit",
     "Domandare retires only the old wording and uses the corrected sentence with the same source ID",
-    "An ordinary v1 false-tense cursor also transitions explicitly instead of grading its retired sentence"
+    "An ordinary v1 false-tense cursor also transitions explicitly instead of grading its retired sentence",
+    "An actual prior odiare alias keeps its valid Italian, draft and receipt through page reload",
+    "Prior aliases reject changed translation and still require explicit retirement recovery without credit"
   ],
   "pageErrors": []
 }

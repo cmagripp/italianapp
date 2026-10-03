@@ -1,0 +1,1307 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "reviewer": "programme_curriculum agent",
+  "status": "bounded independent agent engine review; author-agent reaction correction",
+  "scope": {
+    "speakerAgreementSlots": 5,
+    "authoredAlternativeGenderCombinations": 60,
+    "allReactionStringsRead": 169,
+    "reviewedFields": [
+      "reaction trigger",
+      "preceding learner template/accepted replies",
+      "Italian reaction",
+      "English reaction",
+      "speaker-versus-other-person referent"
+    ],
+    "fullWorkshopQuestionLinguisticReview": false,
+    "nativeHuman": false
+  },
+  "sourceFiles": [
+    {
+      "file": "data/sentence-lab/presente.json",
+      "sha256": "8a8ca43e0e29baed9ae4b22500385ac2af53cd9a051636357dd2d1f3e101e86e"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "sha256": "5bf05c2d5a8de89ca912bc96c72aa912f347cf0fdae3d960eb59360de2b9b40a"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "sha256": "358c508d101787671548e844da99ff1984a16325312a18a0d35e858b67f13bfa"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "sha256": "27403696c38d6a0cbac6c352c62b40d3faedd61ec86bea44711cd22879ad21aa"
+    },
+    {
+      "file": "js/learning/sentence-lab.js",
+      "sha256": "e5b33f96e68ded2b248fb8a6dd70701aaaa29ae951398e7f284265f8109922f7"
+    }
+  ],
+  "slots": [
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.5",
+      "turn": null,
+      "index": 0,
+      "authoredAlternatives": 7,
+      "sha256": "08bf9fd818647fa0d215c2cc7db2ccb307b7b76dfadfb0790a6dab56da4eefc7"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 3,
+      "index": 0,
+      "authoredAlternatives": 8,
+      "sha256": "d6b6c43c8684e80c53d7ca44f458ad17d9f227282f92073df4dad23d282aafce"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 1,
+      "index": 0,
+      "authoredAlternatives": 5,
+      "sha256": "9c2818ef8edd279c4287eef3eda9900f6411fc40ac186f17c72330cdbc6b0529"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.7",
+      "turn": null,
+      "index": 0,
+      "authoredAlternatives": 5,
+      "sha256": "904c144ab7972d4cb08a8a8fdc9b6a33391e027ecf5e23d13499ec51adebfae0"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 1,
+      "index": 0,
+      "authoredAlternatives": 5,
+      "sha256": "e82a6320a9151bcbcc3556461effac6b3c77f28965d608dbc69407800de1feb0"
+    }
+  ],
+  "reactions": [
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "a1ea0887c546c2028adca369b7912012d6e6313266ebdeb21d2801dc07a7efaa"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "aac08785891555d3e87468f3bae47fcd77977d8ccc0e55e7014555432aa24975"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "13037267e2311f1c8e5a4a95f5f254900e683bec54dd15f464b7c59cedf92029"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 3,
+      "index": 2,
+      "sha256": "b1ebc8fe7f39464ce0a4bf0c040f4486b7b6d1ff21280f8bd9fbcf97dd523f85"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 3,
+      "index": 3,
+      "sha256": "0d94325236a96ca8781c3db2ae63463d3d218da40551312e85495db3761eebd3"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "5be7f79b609c68d13c73bf2eaf67c7926de9e86637657a2d1a09c608add59d0c"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "ce87eecada01a2b7685c120522cc9449a895aadbb6937b8c6562c4e984812bc5"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-01-chi-sono.6",
+      "turn": 5,
+      "index": 2,
+      "sha256": "2bce1ff7549903a080c84efd8330e7f9470c67f63ce4d51c7ab9d41bc7da11bd"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-02-cosa-faccio.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "fe67f375d8151144b39bfc1ad83f2ec9a8614edceaa0e1d3d7ed590a75e7d863"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-02-cosa-faccio.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "c70c2e7048d7c3999386c2b57a639ca299c6ae856ad7b9b01ffa1bd2ae766cd9"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-02-cosa-faccio.6",
+      "turn": 1,
+      "index": 2,
+      "sha256": "6b5ecad6c63e6fe7c707e8cf57bd2c45af357240cbbc561e034a8dea621aff19"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-02-cosa-faccio.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "dbfd0d619e477de80e7852b1dd21e618e9d01a1f47e27282530ff613034be137"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-02-cosa-faccio.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "5817d18a72e0332ef41ec17a337e98b47444252b149288ed3bc738622a854252"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-02-cosa-faccio.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "646e4072029c47d39ff31279143a16b5bea01e9f540e151b6a09465c179257f2"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-02-cosa-faccio.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "8578843772e39f8e85e185171209de017936415c76414a4175925be5c219b79d"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-03-mi-piace.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "7320e150065f33a8913aabe426aa4b2d5abd90a03d988812af3323927627aa0f"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-03-mi-piace.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "23dcad723f41dbf3d1bdcbb1467f2f643c4d88822377801368f2ac57b951c387"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-03-mi-piace.6",
+      "turn": 1,
+      "index": 2,
+      "sha256": "fb0bfdb2d9f797b9922c0d1ab8cbb5ab760387b4b1d4210cd8d796b9dcde0b23"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-03-mi-piace.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "0a5f5049ee33bbb34f909ace408d08592ba43a0ed63feb3f29fc175d73b4aea3"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-03-mi-piace.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "c2a0a6d3cb4c4c90db4c969812d6299334a88973ab62884163e11e01cef640cc"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-03-mi-piace.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "6655aa4bd30248e8b448efa4b1c1ad91db6ae4bb9db60a32d1e08c0e85302f89"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-03-mi-piace.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "2436eea03366954087a9ac63f0bd734879c57f09511e6a08522389a5375a9797"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "151a1d998899c2e57e66b57579af0f18daee0c0e7bddf4404f2c06ffa3737d2d"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "2abb0cf788c8ad8b6f34f9e19f6d7b5abb939b21606742b065282b1d01995902"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 1,
+      "index": 2,
+      "sha256": "f68bc77497305da101a772f639efdb7b48cb5b4993ebb0e44961d406ddd13c44"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "52fde43337513039f99932ac8ee8a9ee97bd2fe2fd81a236220ce2c35192cba2"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "2038108556d49728ec6dbf1f975a9cc3e283dbb71712251d5ab3480c9ee7d28d"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 3,
+      "index": 2,
+      "sha256": "46b157f0d574ecf09bfa32d612fc4ac8d391848f89eac117462b74b7b5cc522b"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 3,
+      "index": 3,
+      "sha256": "ddd24bfda82d07007ea4570b9f6620e54915ce76da6a46ba4d6b8300146e8f7e"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "ecff0db0ce0dc9f458a1099fa518a3c213a150f4376dfb8306795c17ddba6a10"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "d92216eee803810c5f464f9bac5768717058f34b645e15c6a3ed615c71a2b3bb"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-04-dove-e-quando.6",
+      "turn": 5,
+      "index": 2,
+      "sha256": "74e8b90c88d5b07be63937f43a105d17b8dabce36fd785922ed05ce7ff59bbbb"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-05-domande.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "6ff00ff59d6680f61368d357b202f05b21cc1882d312df712f1065fce3b49f32"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-05-domande.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "33304c0e8aa63e3071b0d4527b9f79e5a8e04110da818046aad1f4f7a0ff5568"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-05-domande.6",
+      "turn": 1,
+      "index": 2,
+      "sha256": "61f12a7a03bb03d525cd2b1012a68db977130524ce60229220da67bd9889f87f"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-05-domande.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "b9e2703b4d145d06c2fa690f906bb2918ab8a16e2042912b470d363625d89463"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-05-domande.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "afbdf325c85d2c70c62800e9d46b3180a51a8dfedcf525a91dce96843c8baa1c"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-05-domande.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "01333bbe34d4abfb47df2257e3ee7664ca660330526034cc700efdd8ae7e10c5"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-05-domande.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "19ce7b6333c6010607a9a9494e9031c6fef406569e11567aa33885e74d13bf1c"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 1,
+      "index": 0,
+      "sha256": "e249cf1f54a1a3574be0bb9814b7f60be261c8aba6c6a9cceb05023bbabc7431"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 1,
+      "index": 1,
+      "sha256": "dd176a4d6b5299a5b17c7f6d99cc7ab93af247e73e8c141a43dbdf9317a879a3"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 1,
+      "index": 2,
+      "sha256": "bd22c759bd55b785aee42688d86a34e88a40cda92b00bde162ae9993295b4b00"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 1,
+      "index": 3,
+      "sha256": "73e34a456c80e1d8ad66bba9d913f1e84869f90218417762e66bbb6c8c787fbc"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 1,
+      "index": 4,
+      "sha256": "e9ea65e026210bdec108f2ae2408400603ac9134eb66e63b43a2767592a96b4a"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 3,
+      "index": 0,
+      "sha256": "dcb36341ddd16dd7bcbd81a5413a3f9840f4c7f238795039752380674e3beee5"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 3,
+      "index": 1,
+      "sha256": "bb66b7f0e65c7d2fd99e20d00c99690a12b37344513674b3865dfd37cf2f47ee"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 5,
+      "index": 0,
+      "sha256": "c601d1eb2c3a7cb77ac6238041c340409202e7273f4c25fbf360dd370b6e1002"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 5,
+      "index": 1,
+      "sha256": "90d660aee8eb72b4ebf38c90f92f3510a9bcf5e23fa07510850e9e0faacdadaf"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 7,
+      "index": 0,
+      "sha256": "0147111fc16053603c5d4ac0b198de27a7cf3593ae857ce7d2e0a848901d867e"
+    },
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 7,
+      "index": 1,
+      "sha256": "cd0693452663c72b1bba619df0f42214c4f7dc65bae3ece03856fa27710f2a7f"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 1,
+      "index": 0,
+      "sha256": "edbdd5ade8dfdc14ff0e73c488cdec47c6106273030d1de7ea7f266a3aab2453"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 1,
+      "index": 1,
+      "sha256": "a147d51a314fbb4cf9995b74425c18306ddbda1b2ffa9bf5eeff4f9d040a89ef"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 1,
+      "index": 2,
+      "sha256": "52cc6c32b12b4c239cf1d606962ea1802e4ae3584407ecfb3e0c70676551df5d"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 1,
+      "index": 3,
+      "sha256": "ee19e6429dc08aefed782135f24c6557d8a731b436e13722132703dc8bd58844"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 1,
+      "index": 4,
+      "sha256": "2239c7f4045eef60660ef2c18fb1390cbe268dc5e26f97e3c46eee41c0f380c3"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 3,
+      "index": 0,
+      "sha256": "157afaa3e38fbcf01f6c21a67329f76d26f69b51ea69c12ba4d15dd976580928"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 3,
+      "index": 1,
+      "sha256": "5473051d6aa7f7b9a7d21047971ad2b915f6de2566087d154a3301dcdc709fea"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-01-ieri-ho.5",
+      "turn": 3,
+      "index": 2,
+      "sha256": "fc55c6e7247b294a54c2ece6832598682cc14817a394b02a6801915717a074ae"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-02-sono-andato.4",
+      "turn": 1,
+      "index": 0,
+      "sha256": "78d46095bdb0724d895e6d6f835be5dcb6d36df9a99312f40f9dd15ede730499"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-02-sono-andato.4",
+      "turn": 1,
+      "index": 1,
+      "sha256": "d1f7a5665d657c6a9c28464e6ec66b43c912f15218f3be21f880c5696cac3d08"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-02-sono-andato.4",
+      "turn": 1,
+      "index": 2,
+      "sha256": "09e2cafda88c1e9e1fecb0f8ad3ef0478322be4c813f382d611fb7eb1f2ef01b"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-02-sono-andato.4",
+      "turn": 3,
+      "index": 0,
+      "sha256": "b358b92156e25fb0d573c23bd7a8317d9834f948e06ae861d264881340b7ddab"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-02-sono-andato.4",
+      "turn": 3,
+      "index": 1,
+      "sha256": "6e6f6283c5ce2b74a943b0a6a3db7bbe6bedc9dd130a47c836b5b94f8afe4df2"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-02-sono-andato.4",
+      "turn": 3,
+      "index": 2,
+      "sha256": "2a8e50c1a63d2ba7fce6b167050e1d062b3a56b89549d5efb2eaaa937fdc3ddb"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 1,
+      "index": 0,
+      "sha256": "41e631472baeb77c8275677d33e6f0fce19669efb82494da73158948df9e3b81"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 1,
+      "index": 1,
+      "sha256": "6cf1af49e7fe8ddceead6e3f968648395b0bd04625e2b848e96143c0d554584a"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 1,
+      "index": 2,
+      "sha256": "751465d99065dc2150301b0de97ac38850a1f7d0f03d110e506819bbab8f56c9"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 1,
+      "index": 3,
+      "sha256": "db65de9fc44ab168e6dcd552d688dbdf7cda9bf13cb487955c61d18567bebfcf"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 1,
+      "index": 4,
+      "sha256": "867239fd34ac204ec8a00216dd82a74ba7369be0147efc485a55cf95aa1ca3ac"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 3,
+      "index": 0,
+      "sha256": "683408d5772f3757ee07f7df77249e36c745e43ef257656ae98ee1ee6587e168"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 3,
+      "index": 1,
+      "sha256": "d39e5b3295369a75db0745500ddd05b428af0d2fbfc76cb7632e74b098c95efc"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-03-quando.5",
+      "turn": 3,
+      "index": 2,
+      "sha256": "b027e395ae14a302fe9f566b5074cba473c9cf3595dbd3cb89bdeec195c7ffc6"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-04-era-cosi.5",
+      "turn": 1,
+      "index": 0,
+      "sha256": "d4b536225d2f143fe57863784dcb25634aedb567975852203e8db668552f8382"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-04-era-cosi.5",
+      "turn": 1,
+      "index": 1,
+      "sha256": "3b2ae4bbaae83a851a0017bfb91a0ddacda52b9768d4a1bce3b9c13f88e3280b"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-04-era-cosi.5",
+      "turn": 3,
+      "index": 0,
+      "sha256": "c3629d53cf0e9606e3ccda8a4f0fed4ae6bd9e7f33ee71e6a3b0c463729159f6"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-04-era-cosi.5",
+      "turn": 3,
+      "index": 1,
+      "sha256": "cfade7334f1cf9896ee0334d627c5cde72553fe162642bb2d1630cf7ebec2282"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-04-era-cosi.5",
+      "turn": 3,
+      "index": 2,
+      "sha256": "a451bb15594f236bf873c88083083f0bb9fe4641233a86663d85d4d0848601a8"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-04-era-cosi.5",
+      "turn": 5,
+      "index": 0,
+      "sha256": "a6091a8d20b031b10dfe7f61ecb72f11644cb283f80835e11cda44b9c45225e7"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-04-era-cosi.5",
+      "turn": 5,
+      "index": 1,
+      "sha256": "1b6c01a54c7c35447dc6eb3785d21615c426927d6f7fa6c42b0ded97f3c49bc7"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 1,
+      "index": 0,
+      "sha256": "646bf94a64a667a785b4231cf11280a94445c06e846476433e807bc74e45298d"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 1,
+      "index": 1,
+      "sha256": "49cf119651e612b0fa74d8976ded367a362e2e297f7798bf933b5abc86feec4d"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 1,
+      "index": 2,
+      "sha256": "ae224bd6b4fe4a6a445e3ba98a6a166d929d63a2a92311152a435ef8a26c3c5c"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 1,
+      "index": 3,
+      "sha256": "85c96dd431459ff65a23f49505d0589344054fdba6e753336bc46165604f4d60"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 1,
+      "index": 4,
+      "sha256": "4832a496572395bbbf68674ae9f63ebe5849825257be52ea09ce2441a57cf9e9"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 3,
+      "index": 0,
+      "sha256": "a7358af9a46eda2f68d1e25a0b0a10ed6dc891b0e7acd8f38f1ed023fc2730d3"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 3,
+      "index": 1,
+      "sha256": "d7714b1c4f6608bdd341da261580f53e6aa4c230a101b92d6b1094db375020e9"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 3,
+      "index": 2,
+      "sha256": "00ba913d0826789a00d81191d2d4775ad8622edd6e240d1442647ae3842656b2"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 3,
+      "index": 3,
+      "sha256": "f9ee9dc1cdd6a4fb08090a2085a444ab7feb626f5b2b1d29596380f0618b5414"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 3,
+      "index": 4,
+      "sha256": "5a24805e7c8865e1aeb79526f70e9db93ea19cea8dc9714822333c4ffc04cc99"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 5,
+      "index": 0,
+      "sha256": "c81da339a946ce5735a7b705b6d30e4885d778ac369b3631657366edda495f74"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 5,
+      "index": 1,
+      "sha256": "c60aec562d5806b3f4de9ac11209121801f5b0e095963a8d0815c28a19102871"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 7,
+      "index": 0,
+      "sha256": "2d5f2c98bf6bb6aae637ff22c79ea705eaf1e3843f01e548e037b238b886ff4b"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 7,
+      "index": 1,
+      "sha256": "68b68d31cf94c2a6cd584343d52b6323dbdd86c00425fa577c537cbe5682901d"
+    },
+    {
+      "file": "data/sentence-lab/passato.json",
+      "activity": "sl-passato-05-raccontami.4",
+      "turn": 7,
+      "index": 2,
+      "sha256": "145a0b3aa69465695ff2376fda06e026eaa32664a81b531b489dd0f87b09fdf5"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-01-domani.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "3fb913eafc75c4deef2bb3eb2923b3fc934aa0188878adf6e55b646c7983bdec"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-01-domani.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "0e786c3a25d07b6f7b3369c87f68d819422dd560686c0fcd8851f042d8bdf788"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-01-domani.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "01a60eaeb86c8b3418cc859e12571e75437362e118f81654b40ccd71c4f8b971"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-01-domani.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "38e56f7c6f94d40f45088d7ae6a2eec1a597117753b108039e6e4ecb7c175471"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-01-domani.6",
+      "turn": 3,
+      "index": 2,
+      "sha256": "c364d6311ebc28158924e886019fb290a4582b9d7ce91d3a1a0a1b3d80141a1f"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-02-progetti.5",
+      "turn": 1,
+      "index": 0,
+      "sha256": "6b10655ee9dcd8644e4edefb740268653d176ee7a42b1186b685a2fa24c61727"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-02-progetti.5",
+      "turn": 1,
+      "index": 1,
+      "sha256": "461a837b0576aaad3400cc3ef1932362ca23818e1d596ed187d17c16005e5bb7"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-02-progetti.5",
+      "turn": 3,
+      "index": 0,
+      "sha256": "dde2aa104a2e6de397cd1fb6af73f3be29a14e9ded4c576c62bbf6cd010cb425"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-02-progetti.5",
+      "turn": 3,
+      "index": 1,
+      "sha256": "c0486d6ee8a1a68acd36b9e4a868c5dd7cd18a91a7a7ad19a514c3ee1c9cbfcf"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-02-progetti.5",
+      "turn": 3,
+      "index": 2,
+      "sha256": "dd028867c32578181bcd2828c68e3512011632ef2cbd09be3e4f824ebeaccf8d"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-03-se.5",
+      "turn": 1,
+      "index": 0,
+      "sha256": "ce546ed241b090fcd119380e6c55b1432ca5e722190a0b65334054b1d7d550af"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-03-se.5",
+      "turn": 1,
+      "index": 1,
+      "sha256": "f89d0ce2b99c5c5be7f6bc1141dc61c3ced02bd4101252228e3f4b262a9c726c"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-03-se.5",
+      "turn": 3,
+      "index": 0,
+      "sha256": "192fd74a11552321278072b172c357e0fbf39c776e8614d447d617b3ca29a075"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-03-se.5",
+      "turn": 3,
+      "index": 1,
+      "sha256": "5aaa93ad5384aeb999081cdf30721a45f9f6634fb2c6a5429eced59c37d4100f"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 1,
+      "index": 0,
+      "sha256": "fd2fbd5ab26ba2f7e302d756faa461e81e26d7fa3218be7f9df380dcb1881a63"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 1,
+      "index": 1,
+      "sha256": "d288b716182c22ea88c187fbb8afa87ad8b08e384cde0dbc60f101a6d84efb13"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 3,
+      "index": 0,
+      "sha256": "01b6c2a8b6bc1d34752b86d74f67b15b8fafb0aad4091716030a3ae462bbaad8"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 3,
+      "index": 1,
+      "sha256": "af1b59fbcc2a560d907805d94a33981c9ad3bbeea223d3f3d175a28a1d4b3e52"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 3,
+      "index": 2,
+      "sha256": "94851e4e920ea165a8f194008c66446319fa47ce415e924d876d7ca15a78a1c6"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 3,
+      "index": 3,
+      "sha256": "4137121d1223d641f7c13de64702748f5aaaddda4761f6e0502d64cef8803d19"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 5,
+      "index": 0,
+      "sha256": "c477787d8a576402f603c686dd16e45bb41eae4b594e3e051c0cdeef0d11d6ae"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 5,
+      "index": 1,
+      "sha256": "0910ecb7cdfd9b36b0406d1096948a83f1dbcb33fda91be72f86cc03d0fdb336"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 7,
+      "index": 0,
+      "sha256": "7c1ccf24caa6d8dd22efc365135d899848c09ebef4ed7560606fa98b354168df"
+    },
+    {
+      "file": "data/sentence-lab/futuro.json",
+      "activity": "sl-futuro-04-che-farai.4",
+      "turn": 7,
+      "index": 1,
+      "sha256": "0a32f29136f7a8653f3570272bf95766428e88773b77de5640fa91811ce0da6b"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-01-lo-conosco.7",
+      "turn": 1,
+      "index": 0,
+      "sha256": "2929e8b160aef784361f11f6916d87c0c23da9894539dd1af1564444ee5f6f39"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-01-lo-conosco.7",
+      "turn": 1,
+      "index": 1,
+      "sha256": "86989cc9bf542d2139fccdf5fae72445520bcc6bb0f10ca109260b57b991d689"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-01-lo-conosco.7",
+      "turn": 3,
+      "index": 0,
+      "sha256": "c1b68c3c7b27045530726ce42696111f67ecfb24d31a83eb40db4e8c9ec87cdb"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-01-lo-conosco.7",
+      "turn": 3,
+      "index": 1,
+      "sha256": "fbe366d1c19117b33b2e1c34efc8477885092c571e433a225788c21ec13de9fa"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-01-lo-conosco.7",
+      "turn": 3,
+      "index": 2,
+      "sha256": "15cb384d679768315677e51f99a130d3821702b0d1be3dc3ea6351a4bd5fb9d9"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "afe3a96b38d4671ff0c173eab7916464352f41c129be27e70099570fdf102e2d"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "aacf4d4f49b3555a574daf6512cc3dc6870f93feb6511b876b6603b00b9bf0e9"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 1,
+      "index": 2,
+      "sha256": "67eca4d4cac37a0fa724f16badaf413bf1fb4b7ade22fec2f601ffde870943c6"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "15cc7536ca8606393d03653b85edfff6d64598c7cda57cc2893939422011e320"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "86083c52cfbbe2bf07370c32672aba39afc1bb1437025c2dba0c4098498369ef"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "3bda511b69ac0a6ad6d3ff5ad82efb1558d325ec772fcb026110f1e0fd818187"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "4fe8c1fef6398f175742968ee0d03112638091a5e1e29d9dba7c3463169463b0"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-02-chi-che-cosa-perche.6",
+      "turn": 5,
+      "index": 2,
+      "sha256": "d2088fc6b5926cfd97f4b7e72abcc2a39b3347f09c0ca5355f5700dda96dbb1e"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "69997673caecb7d1cce8d1624d63d895f791d18fa7635d1c4f6d0bcd2c5d5966"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "de257dc96bfb94654de34c84282d4d964a54a96fc13a043e3083fc69ec1a6c18"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "8a5e4322bbe0da1b7ba9f6e03a3ae7221e12c9b3da1faba6f33047d54cbc9e41"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "ca2cfd99143e2575f00339743322ea3e9ac8e089cd726e72499e7ea9867c836e"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 3,
+      "index": 2,
+      "sha256": "4755de719a548f34987fe37feda44c2521cbfc5a434b30f47160ba19b7696673"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 3,
+      "index": 3,
+      "sha256": "55139d89903087d5e6d926c0d3a72548e3e3a7f5ac7c6a2eaf89256cd93fad40"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "f5127efd49ab04b74d1ec0684eb5bb00b30812c01d08e1171af390e4f60ecae4"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-03-quindi-allora-pero.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "698045c6d67668b1f68fe4055224288dceffe4779cc6fcd5c619c4b57e7c2a34"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "a83fa06fbb5d9bc775e2912623d656aad3e09625a60b351910e12f3a538d5a3f"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "2b4cb3d0475a4c3f2fbaab3f5e9a2d6b613775286b7ae03b2d3d57bbc9065fbf"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 1,
+      "index": 2,
+      "sha256": "b1a882244ee67a5f545ecd43344ef6d7be5887fffd972023117b02ae8d8e565b"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "5cddab61216be20541ddf772bbb2e9c0415cf51bf83f2a5b65f328286299d0eb"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "ffc10e5633ec7fd6752251a17035d0325d311c3378f7160347ed55a21efa7564"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 3,
+      "index": 2,
+      "sha256": "52ae893238dc34d2b25629dacde55a47c2687d49a6743c60a05540b591220912"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "c67b37dbeac061ec44dbe81c9388dae2065e23cadfa1f44dfa62522925dd6fcd"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "f53f5d3fdd109041b4cd0722acd49c36d7f4b32ca2c8ff38894c4715206bbf2d"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 7,
+      "index": 0,
+      "sha256": "abb2c130d4a821a753de9a14e5b78267817a9319947b3f44eea6b4e959b31626"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-04-la-mia-giornata.6",
+      "turn": 7,
+      "index": 1,
+      "sha256": "4ad939c581ec6cfd13af778d095e3147ea7234631c05187e3a7e12071152f11a"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 1,
+      "index": 0,
+      "sha256": "12836d46ee7e11a980a0490e890b066ea32801be0e4d54f09a34edd31f4aa1f1"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 1,
+      "index": 1,
+      "sha256": "3e7c4ffa7097ee8f22c3f28e29d59d24d166fe1df2cf6e6e7c9b554ccc0b2c1e"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 1,
+      "index": 2,
+      "sha256": "f38dd13b2ddc106c195ae931d68ef1a934e0a36c2feab69fe00a62cfb6c6a0f7"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 1,
+      "index": 3,
+      "sha256": "f0f3f80c76d2ff6642e3ec5f52ec02e86963728b19fac80b54837a3618d3c952"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 3,
+      "index": 0,
+      "sha256": "22ac943b79784d27ffc32d510ae81d16062f70e5382fb0df475362826bb6b3aa"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 3,
+      "index": 1,
+      "sha256": "158c960b968e0e8dc6062790df1b907c551ae6470c3baeeaf7eadafbc6251c3c"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 5,
+      "index": 0,
+      "sha256": "9462342026611f62910be352fffc2f1101bb83af094a1b8202a3a5c6dff78f2e"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-05-piu-o-meno.6",
+      "turn": 5,
+      "index": 1,
+      "sha256": "c26bc21f33f38bb0f09112f9486f3faeaa74e95e91499298cdaf190308c21e52"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 1,
+      "index": 0,
+      "sha256": "841eacad6aaf13aa7c3d98ec62072cdc6479b3cbaf4d594a59862494b08a7775"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 1,
+      "index": 1,
+      "sha256": "3ccd22eba0d94e2aa13c92c9573fce8ced5164b8608f287dd9a2c2ab268328b3"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 1,
+      "index": 2,
+      "sha256": "7a74cc5f1029b717a88d22a57be108dad83eef9166fb3d9073b3b5e04d0c6c93"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 3,
+      "index": 0,
+      "sha256": "602d365eebc802a52ec6e2c7e96ff5352019bb2fc1927976e40e8b8c7e6cefa2"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 3,
+      "index": 1,
+      "sha256": "d32aa9f2c04546dc61af3ead1262d3f09a6b400fca215d561f5cfcbafab97223"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 5,
+      "index": 0,
+      "sha256": "e805177dc5e26fce0d5e4dc818d4e3d7f365a02e3003f6726d5f42261097e16e"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 5,
+      "index": 1,
+      "sha256": "23fa5ffcc998588aecef832050eebaaedef118aad20d25894dd5a502d326614d"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 7,
+      "index": 0,
+      "sha256": "737991138a39b55bab0771918b63988b3a64a3c23078602ebf3468be55324c7e"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 7,
+      "index": 1,
+      "sha256": "e299626ee8145ededfa4c5f42497948e8f9970a646c4453a03733a8482748058"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 7,
+      "index": 2,
+      "sha256": "393bf18ad48a9d327c4962997ef9e74d729f7e8ee58f3cd6cd1aed0cf0152aa5"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 9,
+      "index": 0,
+      "sha256": "8ffec08dd100a2b906d84f279040de1a4a5cc76323f119120dafa6405b9d5919"
+    },
+    {
+      "file": "data/sentence-lab/strutture.json",
+      "activity": "sl-strutture-06-una-vera-chiacchierata.4",
+      "turn": 9,
+      "index": 1,
+      "sha256": "de05d13110f61ee839172576ca63cf9a2387f30ecf58467e4eaebce39f4d3bc5"
+    }
+  ],
+  "changes": [
+    {
+      "file": "data/sentence-lab/presente.json",
+      "activity": "sl-presente-06-come-stai.5",
+      "turn": 1,
+      "reaction": 0,
+      "before": {
+        "it": "Stanco? Hai lavorato molto?",
+        "en": "Tired? Did you work a lot?"
+      },
+      "after": {
+        "it": "Hai lavorato molto?",
+        "en": "Did you work a lot?"
+      },
+      "reason": "The same reply follows masculine and feminine learner descriptions; removing the fixed masculine ellipsis makes it coherent for both."
+    }
+  ],
+  "retainedDecisions": [
+    "ho fame/sonno/sete retain whole authored wording",
+    "inglese/francese/felice remain invariant",
+    "other-person gender slots remain independent of speaker preference",
+    "existing gender-specific Bravo/Brava and sei stanco/stanca reactions have separate matched triggers",
+    "partner self-descriptions and generic event evaluations are not learner agreement",
+    "all existing stored dialogue reactions/transcripts remain exact"
+  ],
+  "validation": {
+    "test": "node tools/test-workshop-agreement-review.mjs",
+    "result": "passed",
+    "actualSlots": 5,
+    "answerGenderCombinations": 60,
+    "currentNeutralReactions": 2,
+    "exactSavedHistoricalReaction": "passed"
+  },
+  "gates": {
+    "nativeEducator": "pending",
+    "fullGeneratedWorkshopContextReview": "not claimed",
+    "learnerCalibration": "pending"
+  }
+}

@@ -1,0 +1,425 @@
+{
+  "kind": "Development checkpoint; not a production release",
+  "createdAt": "2026-10-03T20:10:11.696373+00:00",
+  "branch": "codex/parola-full-programme",
+  "parentCommit": "2f4b954",
+  "mainBaseline": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+  "build": "parola-v15-ac81b31a7aea",
+  "deterministicSuites": [
+    {
+      "command": "node tools/test-accent-policy.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-migration-fixtures.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-unified-learning.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-daily-course-path.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conversation-continuation.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-scene.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-finite-spans.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-repairs-271.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test tests/ai-assistance.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test tests/ai-practice-sources.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-pacing.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lexical-senses.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lexical-frequency-senses.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conversation-summary.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test tests/conversation-study.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase6-beginner.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase6-intermediate.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase6-advanced.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conversation-support.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-spoken-feedback.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-language-policy.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test dev/phase-1-ai-trial/speech-session.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node --test dev/phase-1-ai-trial/service.test.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-persistence.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-index.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lazy-course.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-content-fixes.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/audit-phase-curriculum.mjs --programme --check",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-noun-forms.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/check-modules.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/check-shell.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-conjugator.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-content.mjs --recovery",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-engine.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-durability.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-assets.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-lexicon.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-v2-editorial.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-course-words.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-sentence-lab.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-phase-workshop.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-workshop-agreement-review.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-ai-trial.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-useful-words.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-fit-scorer.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-assistant-guard.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-course.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-durability.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-evidence.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-grammar-lexicon.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-model.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-questions.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-store-sync.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-store-durability.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-integration.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-learning-completion.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lesson-content.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-sentence-lookup.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-word-questions.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-short-word-model.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-model.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-lesson-activities.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/build-verb-progressive.mjs --check",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-progressive-content.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-flow-v2.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-pacing.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-verb-scene-variety.mjs",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "node tools/test-journey-integration.mjs",
+      "ok": true,
+      "status": 0
+    }
+  ],
+  "additionalValidation": {
+    "authoredData": "passed",
+    "sqlMigrationChecks": 11,
+    "assembledOfflineUpdateChecks": 9,
+    "assembledGrammarOfflineChecks": 7
+  },
+  "assembled": {
+    "files": 438,
+    "bytes": 128273765,
+    "parsedModules": 148,
+    "newOfflineModules": [
+      "js/learning/practice-sources.js",
+      "js/ai/practice-grounding.js",
+      "js/ai/source-fingerprint.js"
+    ]
+  },
+  "controlledBrowsers": {
+    "asyncViewOwnership": {
+      "chromium": 20,
+      "webkit": 20
+    },
+    "conversationViewOwnership": {
+      "chromium": 11,
+      "webkit": 11
+    },
+    "conversationPlayer": {
+      "chromium": 9,
+      "webkit": 9
+    },
+    "conversationSpeechUI": {
+      "chromium": 6,
+      "webkit": 6,
+      "provider": "test-only synthetic speech"
+    },
+    "journeySourceHelp": {
+      "chromium": 10,
+      "webkit": 10
+    },
+    "existingAssistance": {
+      "chromium": 12,
+      "webkit": 12
+    },
+    "journeySceneRevision": {
+      "chromium": 14,
+      "webkit": 14
+    },
+    "workshopAgreement": {
+      "chromium": 9,
+      "webkit": 9
+    }
+  },
+  "independentReviews": [
+    "conversation-lifecycle-independent-review.json",
+    "verb-repairs-271-independent-review.json",
+    "workshop-speaker-agreement-review.json"
+  ],
+  "layout": {
+    "targetedWorkshopCases": 12,
+    "failures": 0,
+    "priorWholeAppReport": "layout-integration-review.json",
+    "note": "Prior 300-case report remains a prior checkpoint; this slice adds a targeted Workshop check, not a repeated full-app sweep."
+  },
+  "limits": [
+    "No new main commit or production deployment.",
+    "Current build not yet verified as installed simulator update; previous simulator checkpoint remains separately recorded.",
+    "All controlled AI and speech tests use explicit test providers; no production model, rule registry or speech pack enabled.",
+    "Full catalogue/context-bank review, human Italian educator and learner validation remain open."
+  ],
+  "nextFindings": [
+    "Verified AI-pack caches need preservation across shell activation.",
+    "Imported Journey variant counters need bounded initialization.",
+    "Selected-sense form revisions needed for succedere/toccare/bisognare.",
+    "Canonical help-source adapters remain for Workshop, Course and retained Grammar.",
+    "Inactive fit-scorer publishing is a candidate for bounded retirement."
+  ]
+}

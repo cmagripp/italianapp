@@ -1,0 +1,11 @@
+# Deferred route ownership
+
+Course outline, combined sessions, placement, Review, workshop landing and legacy Learn dispatch now capture the router generation, profile, learner and learning epoch before deferred work. Obsolete work cannot publish UI, change the route or create/save a learning session after navigation, including returning to exactly the same hash. The identity of a guarded child is captured too late if its caller has already navigated during a lazy import; dispatcher boundaries therefore recheck before calling the child.
+
+Placement preserves existing answers and drafts and rejects an obsolete awaited begin/resume. Its viewport uses the shared scoped owner, so late cleanup cannot remove another activity's layout. Workshop success and failure use the same lease. Review also fences old audio/control handlers before they mutate nested visit state; existing draft/feedback scheduling and finite visit behavior are unchanged.
+
+The real pre-fix Review ABA published an obsolete visit, rewrote the resume hash, then the router disposed its controls while the newer render aborted. Its old Pause handler could mutate shared saved nested state without redrawing. The new-generation guard prevents this publication; handler fences also reject detached controls. Course outline coverage uses the reachable missing-boot-index retry, rather than claiming a delayed network race for its normally cached index.
+
+`tests/async-view-ownership-e2e.mjs` passes 20 checks in each Chromium and WebKit, with zero page errors. Real authored asset requests are delayed or failed; tests retain actual router/profile persistence. Coverage includes ordinary navigation, same-hash return, real profile switch and same-profile learner/epoch changes, session counts and live controls, quiet stale failures, placement draft persistence, and exact Review receipt reload with no new event/XP. Reports: `async-view-ownership-chromium.json` and `async-view-ownership-webkit.json`. CI runs both engines.
+
+Root separately owns Conversations' UI lease versus durable pending-draft flush. AI owns the corresponding narrow Journey dispatcher guard and assistance hooks. This evidence does not claim every asynchronous operation in the application has been audited, physical-device behavior, or release completion.

@@ -3,7 +3,7 @@ import {mountActivityViewport} from '../learning/activity-viewport.js';
 // this view persists only the current input, assistance and presentation state.
 import { announceAnswer, html, raw, icon, speak, stopSpeech } from '../ui.js';
 import { setScene, reducedMotion, dropdown } from '../fx.js';
-import { setTitle, setChrome } from '../app.js';
+import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { grammarLesson } from '../learning/grammar-course.js';
 import { getEntry, itemsForScope } from '../data.js';
@@ -28,6 +28,9 @@ import { recommendLesson as recommend, practiceHref } from '../learning/integrat
 import {journeyVisit,recordJourneyVisit,nextJourneyVisit} from '../learning/journey-visit.js';
 import {createJourneyScene,validJourneyScene,journeySceneMatches} from '../learning/journey-scene.js';
 import {pinJourneyScene} from '../learning/journey.js';
+import {createPracticeHelp} from '../learning/practice-help.js';
+import {assistanceAvailable} from '../learning/ai-assistance.js';
+import {createJourneyPracticeBinding,createPracticeSourceResolver} from '../learning/practice-sources.js';
 
 const uid = () => globalThis.crypto?.randomUUID?.() || `journey-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 const clone = x => JSON.parse(JSON.stringify(x));
@@ -81,7 +84,9 @@ function promptHTML(source) {
 }
 
 export async function render(root, params = {}, query = {}) {
-  const owner = store.current.id;
+  const owned=captureViewOwnership(root);
+  const owner=store.current.id,ownerLearner=store.current.learnerId,ownerEpoch=store.learning.epoch.id;
+  const sameOwner=()=>store.current.id===owner&&store.current.learnerId===ownerLearner&&store.learning.epoch.id===ownerEpoch;
   if (store.learning.version > LEARNING_VERSION) {
     root.innerHTML = '<div class="empty"><h1>Update Parola to continue</h1><p>Your saved progress is safe. Reload the app to use this lesson.</p><button class="btn primary" data-reload>Reload</button></div>';
     root.querySelector('[data-reload]').onclick = () => location.reload();
@@ -92,7 +97,11 @@ export async function render(root, params = {}, query = {}) {
   const suggestion = !params.id && !query.id && !requested ? recommend(store, { review: mode === 'review' }) : null;
   if (!query.mode && !params.id && !query.id) mode = requested?.mode === 'review' || suggestion?.mode === 'review' ? 'review' : 'lesson';
   const entryId = params.id || query.id || requested?.entryId || suggestion?.entry?.id;
-  if(entryId?.startsWith('g:') && grammarLesson(entryId))return (await import('./learnGrammar.js')).render(root,{id:entryId.slice(2)},{...query,mode,objective:query.objective || suggestion?.objectiveId});
+  if(entryId?.startsWith('g:') && grammarLesson(entryId)){
+    const child=await import('./learnGrammar.js');
+    if(!owned()||!sameOwner())return;
+    return child.render(root,{id:entryId.slice(2)},{...query,mode,objective:query.objective || suggestion?.objectiveId});
+  }
   const entry = entryId ? getEntry(entryId) : itemsForScope(store.scope, store)[0];
   if (!entry) {
     root.innerHTML = entryId
@@ -233,12 +242,25 @@ export async function render(root, params = {}, query = {}) {
   let completionMenu = null;
   const stepNow = () => currentJourneyStep(plan, session, store.learning, Date.now());
   let step = stepNow();
+  const alive=()=>!disposed&&owned()&&sameOwner();
   const save = () => {
     // A case overview is a preview. Looking at another verb must not replace
     // the lesson the learner actually started in the shared Continue card.
-    if (disposed || ui.overview || store.current.id !== owner) return;
+    if (!alive() || ui.overview) return;
     session.ui = ui; session.updatedAt = Date.now(); store.saveLearningSession(session);
   };
+  const sourceResolver=createPracticeSourceResolver();
+  const helpSource=()=>{
+    if(!alive()||ui.overview||ui.paused||reviewingHistory())return null;
+    const binding=createJourneyPracticeBinding({entry,plan,step,question,sessionId:session.id});
+    const canonical=binding&&sourceResolver.resolve(binding);if(!canonical)return null;
+    return {sourceId:binding.sourceId,helpSource:binding,sessionId:session.id,owner:{profileId:owner,learnerId:ownerLearner},epochId:ownerEpoch,
+      level:entry.level||'A1',prompt:canonical.prompt,context:canonical.context,answers:[...question.answer],originalInput:ui.draft,inputLanguage:'en'};
+  };
+  const help=createPracticeHelp({getSource:helpSource,getSession:()=>session,isCurrent:alive,
+    persist:async()=>{if(!alive())throw new DOMException('This practice step changed.','AbortError');save();await store.saveNow();},
+    onViewed:()=>{if(!ui.assistance.includes('hint'))ui.assistance.push('hint');},onRefresh:()=>draw()});
+  const offOwner=store.on('profile',()=>{if(!sameOwner()){help.close();stopSpeech();}});
   function updateRoute() {
     const route = new URLSearchParams(); if (!ui.overview) route.set('session', session.id);
     if (mode === 'review') route.set('mode', mode);
@@ -273,6 +295,7 @@ export async function render(root, params = {}, query = {}) {
         translation:sentence?.closest('.journey-example')?.querySelector('[data-translation]')?.textContent || q?.context?.en || q?.exampleTranslation || '' };
     },
     onReveal(result) {
+      if(!alive())return;
       for (const candidate of result.candidates || []) {
         expose(candidate.exposureForms);
         expose([candidate.meaning,...String(candidate.meaning||'').split(/[;,]/).flatMap(s=>[s,s.trim().replace(/^to\s+/i,''),s.trim().replace(/^to\s+/i,'').replace(/\([^)]*\)/g,'').trim()]),
@@ -594,6 +617,7 @@ export async function render(root, params = {}, query = {}) {
     if(focus)selected.focus({preventScroll:true});
   }
   function tableClick(event) {
+    if(!alive())return;
     const button=event.target.closest('button');
     if(!button||!tableDropdown?.el.contains(button))return;
     if(button.hasAttribute('data-conjugation-close'))closeTable();
@@ -611,6 +635,7 @@ export async function render(root, params = {}, query = {}) {
     else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus({preventScroll:true});}
   }
   function toggleTable() {
+    if(!alive())return;
     if(tableDropdown){closeTable();return;}
     if(entry.kind!=='verb'||disposed||ui.paused||!tableButton?.isConnected)return;
     const shown=ui.overview?null:reviewingHistory()?historyStep(ui.history[ui.historyCursor]):step;
@@ -790,11 +815,12 @@ export async function render(root, params = {}, query = {}) {
     updateScrollCue();
   }
   function draw(focus = false) {
-    if (disposed || store.current.id !== owner) return;
+    if (!alive()) return;
     const contentScroll = focus ? 0 : root.querySelector('.journey-main')?.scrollTop || 0;
     completionMenu?.destroy(); completionMenu = null;
     closeTable({restoreFocus:false});
     prepare();
+    help.check();
     const overview=!!ui.overview;
     const past=!overview&&reviewingHistory()?ui.history[ui.historyCursor]:null;
     const displayStep=past?historyStep(past):step;
@@ -844,10 +870,11 @@ export async function render(root, params = {}, query = {}) {
       ${feedback&&!past&&!paused?raw(html`<div class="journey-feedback-dock">${raw(feedbackHTML(ui.result,question,ui.given,{showNext:true,nextLabel:boundedVisit&&visitFull()?'Finish this visit':'Continue'}))}</div>`):''}
     </div>
     ${floatingActions?raw(actionsHTML(step.type==='teach')):''}`;
+    if(assistanceAvailable()&&helpSource())root.querySelector('.journey-main')?.insertAdjacentHTML('beforeend',html`<div class="row wrap" data-journey-ai-help><button type="button" class="btn ghost sm" data-ai-journey-help="hint">A little help</button><button type="button" class="btn ghost sm" data-ai-journey-help="explain">Help me understand</button></div>`);
     if (overview) completionMenu = bindCompletionMenu(root.querySelector('[data-completion-menu]'), {
       entry, getState:() => store.completionState(entry),
-      setCase:(caseId,checked) => store.setCompletion(entry,{caseId,checked}),
-      setAll:checked => store.setCompletion(entry,{checked}), onChange:refreshOverviewCompletion,
+      setCase:(caseId,checked) => alive()?store.setCompletion(entry,{caseId,checked}):false,
+      setAll:checked => alive()?store.setCompletion(entry,{checked}):false, onChange:()=>{if(alive())refreshOverviewCompletion();},
     });
     if (displayQuestion?.type==='letters') {
       const activity=past?past.activity:ui.activity;
@@ -859,6 +886,7 @@ export async function render(root, params = {}, query = {}) {
     }
     words.decorate();
     root.querySelector('.journey-overview-meaning')?.addEventListener('toggle',event=>{
+      if(!alive())return;
       if(event.target.open) {
         const intro=plan.chapters.find(c=>c.id==='meet')?.groups.flatMap(g=>g.cards||[]).find(c=>c.id==='meaning');
         for(const chapter of plan.chapters.filter(c=>!c.optional))revealTeaching(intro,chapter);
@@ -886,7 +914,7 @@ export async function render(root, params = {}, query = {}) {
     }
   }
   async function submit(given, revealed = false, { silent = false } = {}) {
-    if (submitting || ui.paused || ui.overview || reviewingHistory() || tableDropdown || step.type !== 'question' || step.awaitingContinue || !question || store.current.id !== owner) return;
+    if (!alive() || submitting || ui.paused || ui.overview || reviewingHistory() || tableDropdown || step.type !== 'question' || step.awaitingContinue || !question) return;
     if (!revealed && !String(given || '').trim()) return;
     submitting = true;
     try {
@@ -960,7 +988,8 @@ export async function render(root, params = {}, query = {}) {
     }
   }
   const click = ev => {
-    const b = ev.target.closest('button'); if (!b || b.disabled || !root.contains(b)) return;
+    const b = ev.target.closest('button'); if (!alive() || !b || b.disabled || !root.contains(b)) return;
+    if(b.hasAttribute('data-ai-journey-help')){void help.open(b.dataset.aiJourneyHelp,b).catch(()=>{});return;}
     if(b.hasAttribute('data-overview')) {showOverview();return;}
     if(b.hasAttribute('data-resume-lesson')) {openLesson(step.chapter?.id);return;}
     if(b.hasAttribute('data-open-lesson')) {openLesson(b.dataset.openLesson);return;}
@@ -1022,10 +1051,11 @@ export async function render(root, params = {}, query = {}) {
     else if (b.hasAttribute('data-dismiss-legacy')) { ui.legacyDismissed=true;draw(); }
     else if (b.hasAttribute('data-letter')) { const input=root.querySelector('[data-answer]');if(!input)return;const at=input.selectionStart??input.value.length;const end=input.selectionEnd??at;input.value=input.value.slice(0,at)+b.dataset.letter+input.value.slice(end);ui.draft=input.value;input.focus();input.setSelectionRange(at+1,at+1);root.querySelector('[data-check]').disabled=!input.value.trim();save(); }
   };
-  const input = ev => { if(!reviewingHistory()&&ev.target.matches('[data-answer]')) {ui.draft=ev.target.value.slice(0,500);const b=root.querySelector('[data-check]');if(b)b.disabled=!ui.draft.trim();save();} };
-  const form = ev => { if(ev.target.matches('[data-answer-form]')) {ev.preventDefault();submit(ui.draft);} };
+  const input = ev => { if(alive()&&!reviewingHistory()&&ev.target.matches('[data-answer]')) {ui.draft=ev.target.value.slice(0,500);help.check();const b=root.querySelector('[data-check]');if(b)b.disabled=!ui.draft.trim();save();} };
+  const form = ev => { if(alive()&&ev.target.matches('[data-answer-form]')) {ev.preventDefault();submit(ui.draft);} };
   const scroll = ev => { if(ev.target.matches?.('.journey-main'))updateScrollCue(); if (ev.target.matches?.('[data-action-track]')) updateActions(); };
   const keydown = ev => {
+    if(!alive())return;
     const track=ev.target.closest?.('[data-form-track]');
     if(track&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(ev.key)){ev.preventDefault();const current=Number(ev.target.closest('[data-form-card]')?.dataset.formCard??formIndex(track));const next=ev.key==='Home'?0:ev.key==='End'?track.children.length-1:current+(['ArrowRight','ArrowDown'].includes(ev.key)?1:-1);moveForm(track,next,{focus:true});return;}
     if(ev.target.closest?.('[data-action-track]')&&['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)){ev.preventDefault();moveAction(ev.key==='ArrowRight'?1:-1,{focus:true,edge:ev.key==='Home'?'first':ev.key==='End'?'last':null});return;}
@@ -1034,5 +1064,5 @@ export async function render(root, params = {}, query = {}) {
   };
   root.addEventListener('click',click);root.addEventListener('input',input);root.addEventListener('submit',form);root.addEventListener('scroll',scroll,true);root.addEventListener('keydown',keydown);
   draw();
-  return () => { completionMenu?.destroy();words.destroy();closeTable({restoreFocus:false});tableButton?.removeEventListener('click',toggleTable);tableButton?.remove();save();disposed=true;stopSpeech();viewport.destroy();document.body.classList.remove('journey-has-reference');root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
+  return () => { help.dispose();offOwner();completionMenu?.destroy();words.destroy();closeTable({restoreFocus:false});tableButton?.removeEventListener('click',toggleTable);tableButton?.remove();save();disposed=true;stopSpeech();viewport.destroy();document.body.classList.remove('journey-has-reference');root.removeEventListener('click',click);root.removeEventListener('input',input);root.removeEventListener('submit',form);root.removeEventListener('scroll',scroll,true);root.removeEventListener('keydown',keydown); };
 }

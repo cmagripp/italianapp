@@ -170,4 +170,36 @@ check('A future context revision with no replacement sentence continues to the a
   assert.equal(advanced.sceneCorrectionRecovery.at(-1).current.targetId,f.target.id);assert.equal(advanced.index,0);assert.deepEqual(advanced.answeredEventIds,[]);assert(buildJourneyQuestion(f.entry,step.chapter,step.target,step));
  }
 });
+check('Declared identical-pool odiare revisions preserve exact valid snapshots and presentation markers',()=>{
+ const f=fixture('odiare','present',t=>t.skill==='conjugation'&&t.person===0,0),aliases=f.target.legacyExpandedRevisionAliases;
+ assert.deepEqual(aliases,['expanded-v1-before-odiare-neutral-frame-2026-10-03-1']);
+ const variant=journeySceneContexts(f.target,{legacy:true}).findIndex(c=>c.it==='Odio alzarmi presto.');assert(variant>=0);
+ for(const sourceRevision of [f.target.legacyExpandedRevision,...aliases]){
+  const scene=createJourneyScene({entryId:f.entry.id,chapterId:f.chapter.id,target:f.target,variant,legacy:true,sourceRevision});
+  const session=copy(f.session);session.journey.current.variant=variant;session.journey.current.sceneRevision=sourceRevision;
+  const pinned=pinJourneyScene(f.plan,session);assert.deepEqual(pinned.journey.current.sceneSnapshot,scene);assert.equal(pinned.journey.current.sceneRevision,sourceRevision);
+  const q=question(f,pinned);assert(q);assert.equal(q.context.it,'Odio alzarmi presto.');assert.equal(q.context.en,'I hate getting up early.');assert.equal(q.say,q.context.it);
+  const learning=createLearning(1);learning.session=pinned;learning.sessions[`${f.entry.id}|lesson`]=pinned;
+  const normalized=normalizeLearning(copy(learning),2);assert.deepEqual(normalized.session.journey.current.sceneSnapshot,scene);assert.equal(question(f,normalized.session).context.it,q.context.it);
+  assert.equal(Object.keys(normalized.events).length,0);assert.equal(normalized.session.ui.draft,'doman');
+ }
+});
+check('A valid prior alias cannot approve altered text, unknown revision, missing historical pool or retired content',()=>{
+ const f=fixture('odiare','present',t=>t.skill==='conjugation'&&t.person===0,0),alias=f.target.legacyExpandedRevisionAliases[0];
+ const variant=journeySceneContexts(f.target,{legacy:true}).findIndex(c=>c.it==='Odio alzarmi presto.');
+ const scene=createJourneyScene({entryId:f.entry.id,chapterId:f.chapter.id,target:f.target,variant,legacy:true,sourceRevision:alias});assert(scene);
+ for(const edit of [s=>s.context.it='Tu odio alzarmi presto.',s=>s.context.en='I like getting up early.',s=>s.sourceRevision='unknown-prior-alias',s=>s.poolSize++]){
+  const malformed=copy(scene);edit(malformed);assert.equal(buildJourneyQuestion(f.entry,f.chapter,f.target,{variant,scenePolicy:'expanded-v1',sceneSnapshot:malformed}),null);
+ }
+ const unsupported=copy(f.target);delete unsupported.legacyExpandedContexts;
+ assert.equal(buildJourneyQuestion(f.entry,f.chapter,unsupported,{variant,scenePolicy:'expanded-v1',sceneSnapshot:scene}),null);
+ const retired=fixture('odiare','present',t=>t.id.endsWith('v2-mixed-simple'),0),v=journeySceneContexts(retired.target,{legacy:true}).findIndex(c=>retired.target.retiredExpandedContextIds.includes(c.id));assert(v>=0);
+ const prior=createJourneyScene({entryId:retired.entry.id,chapterId:retired.chapter.id,target:retired.target,variant:v,legacy:true,sourceRevision:alias});assert(retiredJourneyScene(prior,retired.target));
+ const session=copy(retired.session);Object.assign(session.journey.current,{variant:v,sceneRevision:alias,sceneSnapshot:prior});assert.equal(currentJourneyStep(retired.plan,session).type,'corrected');
+ assert.equal(buildJourneyQuestion(retired.entry,retired.chapter,retired.target,{variant:v,scenePolicy:'expanded-v1',sceneSnapshot:prior}),null);
+ assert.equal(journeyAttempt(retired.plan,session,{type:'type',meta:{targetId:retired.target.id}},{ok:true}),null);
+ const currentVariant=journeySceneContexts(retired.target).findIndex(c=>c.id===prior.context.id);assert(currentVariant>=0);
+ const current=createJourneyScene({entryId:retired.entry.id,chapterId:retired.chapter.id,target:retired.target,variant:currentVariant});assert(!retiredJourneyScene(current,retired.target));
+ assert(buildJourneyQuestion(retired.entry,retired.chapter,retired.target,{variant:currentVariant,scenePolicy:'expanded-v1',sceneSnapshot:current}));
+});
 console.log(`${results.length} scene revision checks passed.`);

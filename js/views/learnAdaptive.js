@@ -1,7 +1,7 @@
 // One active learning objective, with repeated independent checks and an explicit way to pause or defer it.
 // Persist the question recipe, never question HTML; rebuilding it also validates imported sessions against the curriculum.
 import { announceAnswer, html, raw, icon, speak, stopSpeech, submissionNote } from '../ui.js';
-import { setTitle, setChrome } from '../app.js';
+import { setTitle, setChrome, captureViewOwnership } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, itemsForScope } from '../data.js';
 import { objectivesFor, allowedTenses, CORE_STAGES, stageObjectives } from '../learning/curriculum.js';
@@ -35,9 +35,10 @@ function promptHTML(source) {
 }
 
 export async function render(root, params = {}, query = {}) {
-  if (query.legacy !== '1') return (await import('./learnJourney.js')).render(root, params, query);
+  const owned=captureViewOwnership(root);
+  if (query.legacy !== '1') {const view=await import('./learnJourney.js');if(!owned())return;return view.render(root,params,query);}
   const grammarId=params.id || query.id;
-  if(grammarId?.startsWith('g:'))return (await import('./learnGrammar.js')).render(root,{id:grammarId.slice(2)},query);
+  if(grammarId?.startsWith('g:')){const view=await import('./learnGrammar.js');if(!owned())return;return view.render(root,{id:grammarId.slice(2)},query);}
   const ownerId = store.current.id, ownerLearnerId = store.current.learnerId, ownerEpochId = store.learning.epoch.id;
   if (store.learning.version > LEARNING_VERSION) {
     setTitle('Update Parola');
@@ -50,7 +51,7 @@ export async function render(root, params = {}, query = {}) {
     const requestedSession = query.session && Object.values(store.learning.sessions || {}).find(s => s.id === query.session);
     if (requestedSession) return render(root, { id: requestedSession.entryId }, { ...query, mode: requestedSession.mode, ...(requestedSession.objectiveIds.length === 1 ? { objective: requestedSession.objectiveIds[0] } : {}) });
     const suggestion = recommend(store, { review: mode === 'review' });
-    if(suggestion?.entry?.kind==='grammar')return (await import('./learnGrammar.js')).render(root,{id:suggestion.entry.id.slice(2)},{...query,mode:suggestion.mode,objective:suggestion.objectiveId});
+    if(suggestion?.entry?.kind==='grammar'){const view=await import('./learnGrammar.js');if(!owned())return;return view.render(root,{id:suggestion.entry.id.slice(2)},{...query,mode:suggestion.mode,objective:suggestion.objectiveId});}
     if (suggestion?.entry) return render(root, { id: suggestion.entry.id }, { ...query, mode: suggestion.mode || mode, ...(suggestion.objectiveId ? { objective: suggestion.objectiveId } : {}), ...(suggestion.session ? { session: suggestion.session.id } : {}) });
   }
   const domain = () => store.learning;

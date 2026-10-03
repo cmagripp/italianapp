@@ -4,6 +4,7 @@ import { prepareTask } from './tasks.js';
 import { validateResponse, AIValidationError } from './validation.js';
 import { indexGroundedVocabulary } from './source-index.js';
 import { verifiedTeachingCards } from './teaching.js';
+import {resolvePracticeGrounding,authoredExampleCards} from './practice-grounding.js';
 export { RequestQueue, abortError } from './queue.js';
 export { createGrounding, levelIncludes, LEVELS } from './grounding.js';
 export { prepareTask, RESPONSE_SCHEMA } from './tasks.js';
@@ -12,7 +13,7 @@ export { validateResponse, AIValidationError } from './validation.js';
 /** Inject an actual local runtime. No fallback generator or model download runs
  * on import. Callers save the learner turn before requesting a partner turn. */
 export function createAIService({ runtime, grounding = createGrounding(), contextPolicy, isCurrent = () => true,
-  languagePolicy, requireLanguageValidation = true, repairAttempts = 0 } = {}) {
+  languagePolicy, requireLanguageValidation = true, repairAttempts = 0, practiceSources } = {}) {
   if (typeof runtime?.generate !== 'function') throw new TypeError('A local runtime is required');
   if (![0, 1].includes(repairAttempts)) throw new TypeError('At most one bounded repair is supported');
   const queue = new RequestQueue({ onCancel: () => runtime.cancel?.() });
@@ -24,7 +25,9 @@ export function createAIService({ runtime, grounding = createGrounding(), contex
       return queue.enqueue(async signal => {
         if (!isCurrent(snapshot)) throw abortError('Stale source revision');
         if (requireLanguageValidation && typeof languagePolicy?.validate !== 'function') throw new AIValidationError(['verified language policy unavailable'], null);
-        const retrieved = grounding.retrieve(snapshot), task = prepareTask(snapshot, retrieved, contextPolicy);
+        const retrieved = snapshot.helpContext ? await resolvePracticeGrounding(snapshot,practiceSources) : grounding.retrieve(snapshot);
+        if(signal.aborted||!isCurrent(snapshot))throw abortError('Stale source revision');
+        const task = prepareTask(snapshot, retrieved, contextPolicy);
         const attempts = [];
         for (let attempt = 0; attempt <= repairAttempts; attempt++) {
           const generated = await runtime.generate({ ...task, signal });
@@ -32,6 +35,7 @@ export function createAIService({ runtime, grounding = createGrounding(), contex
           const raw = typeof generated === 'string' ? generated : generated.text;
           try {
             const response = validateResponse(raw, { request: snapshot, grounding: retrieved, participants: task.participants });
+            if(snapshot.helpContext&&response.corrections.length)throw new AIValidationError(['Practice help cannot issue a correction verdict.'],raw);
             const language = languagePolicy ? await languagePolicy.validate(response.message.text, { request: snapshot, grounding: retrieved }) : null;
             if (languagePolicy && language?.ok !== true) throw new AIValidationError(language?.reasons || ['language range or construction unresolved'], raw);
             if(response.replySupport){
@@ -47,7 +51,9 @@ export function createAIService({ runtime, grounding = createGrounding(), contex
             }
             if (signal.aborted || !isCurrent(snapshot)) throw abortError('Stale source revision');
             response.vocabulary = indexGroundedVocabulary(retrieved, snapshot.text, response.message.text);
-            response.teaching = verifiedTeachingCards(snapshot, retrieved, response.corrections);
+            // Hints cannot expose the complete canonical answer via a card.
+            response.teaching = [...verifiedTeachingCards(snapshot, retrieved, response.corrections),...snapshot.task==='hint'?[]:authoredExampleCards(retrieved)];
+            response.provenance.practiceSource=retrieved.practiceSource||null;
             response.provenance.vocabularyIndex = 'deterministic verified-sense matches in finalized text';
             response.provenance.languageRangeVerified = language?.ok === true;
             response.provenance.languagePolicyVersion = languagePolicy?.version || null;

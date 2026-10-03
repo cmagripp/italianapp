@@ -837,6 +837,7 @@ for (const [inf, f] of Object.entries({ soffrire: 'sofferente', offrire: 'offere
 nf('attenere', 'participioPresente', 'attenente');
 checks++; if(conjugate('capire').nonFinite.participioPresente!=='capiente' || conjugate('capire').nonFiniteNotes?.participioPresente?.source!=='https://www.treccani.it/vocabolario/capiente/' || !conjugate('capire').nonFiniteNotes.participioPresente.text.includes('containment meaning')){fails++;console.log('FAIL capire: lexical participle lacks its capacity/containment meaning');}
 checks++; if(conjugate('cuocere').nonFinite.participioPresente!=='cocente' || conjugate('cuocere').nonFiniteNotes?.participioPresente?.source!=='https://www.treccani.it/vocabolario/cocente/' || !conjugate('cuocere').nonFiniteNotes.participioPresente.text.includes('scalding')){fails++;console.log('FAIL cuocere: lexical adjective lacks its attested heat meaning');}
+checks++; if(conjugate('riconoscere').nonFinite.participioPresente!=='riconoscente' || conjugate('riconoscere').nonFiniteNotes?.participioPresente?.source!=='https://www.treccani.it/vocabolario/riconoscente/' || !conjugate('riconoscere').nonFiniteNotes.participioPresente.text.includes('grateful')){fails++;console.log('FAIL riconoscere: lexical adjective lacks its ordinary grateful meaning');}
 // Base lexical participles are not silently credited to clitic meanings:
 // attinente concerns something; attenersi is adhering to a rule. Actual rare
 // reflexive/pronominal participles require their own reviewed lexical evidence.

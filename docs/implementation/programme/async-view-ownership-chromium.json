@@ -1,0 +1,27 @@
+{
+  "engine": "chromium",
+  "checks": [
+    "A late combined-session stage cannot save a session, overwrite Profile or rewrite its route",
+    "Combined-session same-route return creates exactly one session for the current render",
+    "A delayed session rejects profile ownership changes before creating progress",
+    "A delayed session rejects learner ownership changes before creating progress",
+    "A delayed session rejects epoch ownership changes before creating progress",
+    "Placement begin stops on navigation without changing its saved answers or painting Profile",
+    "Placement same-route return keeps the current introduction and ignores the obsolete begin",
+    "A saved placement draft survives delayed reopen and leaving the page",
+    "Failed placement begin is quiet after navigation and leaves its earlier progress intact",
+    "Workshop delayed packs cannot overwrite Profile",
+    "Workshop same-route return publishes only the current view with working controls",
+    "Workshop failure cannot publish an error on a later page",
+    "Course outline retries a missing boot index without overwriting a later page",
+    "Course outline same-route return publishes the current menu after index retry",
+    "Legacy grammar dispatcher rejects obsolete lazy imports",
+    "Legacy grammar dispatcher rejects obsolete lazy imports on same-route return",
+    "Review same-hash return creates only the current visit and keeps Pause/Resume live",
+    "Review recognition receipt resumes exactly through route changes and page reload",
+    "Review audio preload rejects a changed learner before saving a visit",
+    "Review audio preload rejects a changed epoch before saving a visit"
+  ],
+  "errors": [],
+  "method": "Real router, local authored assets and IDB profile writes. Controlled asset delays/failures; no content replacement or model quality claim."
+}

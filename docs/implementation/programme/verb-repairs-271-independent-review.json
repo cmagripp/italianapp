@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-03",
+  "reviewer": "programme_learning",
+  "scope": "Seven specified Italian/English/source-aspect and nonfinite-qualification edits, explicit old-scene classification and revision-alias behavior. Does not certify the other 264 ledger records or all generated language.",
+  "status": "independent-agent-bounded-edit-review-passed",
+  "records": [
+    {
+      "id": "v:odiare",
+      "entryHash": "f85c5d8e3a76fa83faae5c33f91be03b9ebfc7840ef4cc79a34bcc1dedde6091",
+      "policyHash": "40dcd700d856a193131385cd08671353861be58078fe52308632681e5c4bf289",
+      "nonfiniteNotesHash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "status": "independent-agent-bounded-edit-review-passed"
+    },
+    {
+      "id": "v:controllare",
+      "entryHash": "d101a5228fc7afc9774d8b7ce7e9f2c3a032e7be64b9a7fc0c282c2f35468549",
+      "policyHash": "85b1e1a7dcea0bf88563c871a5aab1c3553a55f4a9f37fc36a25bd00f8524334",
+      "nonfiniteNotesHash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "status": "independent-agent-bounded-edit-review-passed"
+    },
+    {
+      "id": "v:dimagrire",
+      "entryHash": "c1e6ee56888b9f1c59aee4e43a049d2f66fe1ca28783e1029d10db7641bc454e",
+      "policyHash": "b935c89fa1b27e8a15654cf9a4c99259ebce2fc7ae4bde4967df5dc1e3ecef90",
+      "nonfiniteNotesHash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "status": "independent-agent-bounded-edit-review-passed"
+    },
+    {
+      "id": "v:raccontare",
+      "entryHash": "3728a41c8d6b3dbf5fdafa6170ca6d6ceee2b7f64f2f8b98fba88f8094731585",
+      "policyHash": "833fd1dae7925ed8d9d21397840ee081b8592b7d6090cdbb3ef25256476b0820",
+      "nonfiniteNotesHash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "status": "independent-agent-bounded-edit-review-passed"
+    },
+    {
+      "id": "v:morire",
+      "entryHash": "12a6a0d8940380ae1f29c6c2b89a9bb125dd6e09727b0b9cd5f76e54840d7d00",
+      "policyHash": "d746d8faab212d36424bdc1a5913699f176650936feee55bbb8efc29a1a54c64",
+      "nonfiniteNotesHash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "status": "independent-agent-bounded-edit-review-passed"
+    },
+    {
+      "id": "v:riconoscere",
+      "entryHash": "7bc2e9af43261d477cbcb6a19d7c39850e17d7a7bb56733c64f4a4a4c896785f",
+      "policyHash": "aff4b598f898d7ace126302a3e5c9b00abaac13b31ea3a34f826f4ca9013ea91",
+      "nonfiniteNotesHash": "7a02f2d2672d7e461aa35b5d86b449c37b24a7e1a5445e05d9e58748d8992fd0",
+      "status": "independent-agent-bounded-edit-review-passed"
+    },
+    {
+      "id": "v:riempire",
+      "entryHash": "8398d869b325dd6576a68c23a2eee7cdae7bcc5f31253b4fa3fbf56d00c8ae11",
+      "policyHash": "42719facfb5e2c327bccacaca6b39789d0e262f607995303e95edf21d63b219f",
+      "nonfiniteNotesHash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "status": "independent-agent-bounded-edit-review-passed"
+    }
+  ],
+  "evidence": {
+    "priorPools": 802,
+    "retiredUniqueIds": 16,
+    "retiredTargetVariantOccurrences": 18,
+    "validOldSelections": 1464,
+    "unchangedFiveCaseVerbArrays": 1186,
+    "sceneDeterministicChecks": 17,
+    "sceneBrowserChecksPerEngine": 14,
+    "sceneBrowserEngines": [
+      "chromium",
+      "webkit"
+    ]
+  },
+  "sources": [
+    "https://www.treccani.it/vocabolario/odiare/",
+    "https://www.treccani.it/vocabolario/chiudere/",
+    "https://www.treccani.it/vocabolario/morire/",
+    "https://www.treccani.it/vocabolario/riconoscente/",
+    "https://www.treccani.it/vocabolario/riempire/"
+  ],
+  "remainingGates": [
+    "Native educator/human review",
+    "Pronunciation and physical-device learner calibration",
+    "Individual linguistic reading outside these bounded seven corrections",
+    "Complete generated-question review"
+  ]
+}
