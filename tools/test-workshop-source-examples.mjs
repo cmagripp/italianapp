@@ -4,11 +4,12 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {assessLabBlank,answerLab,createLabSession,currentLabStep,compatibleLabSession,fillTemplate} from '../js/learning/sentence-lab.js';
 import {workshopSourceExamples,workshopExamplePacks,workshopExampleReview} from './workshop-source-examples.mjs';
+import {withoutWorkshopTemplateRevisions} from './workshop-template-revisions.mjs';
 const root=new URL('../',import.meta.url),read=path=>JSON.parse(fs.readFileSync(new URL(path,root))),hash=value=>createHash('sha256').update(value).digest('hex');
 const dictionary={vocab:read('data/vocab.json'),verbs:read('data/verbs.json')},base=new Map(),current=new Map(),pins=[];
 let actualFreeSlots=0;
 for(const {stage,priorJSONSHA256,priorRawSHA256} of workshopExamplePacks){
- const path=`data/sentence-lab/${stage}.json`,raw=fs.readFileSync(new URL(path,root),'utf8'),pack=JSON.parse(raw),prior=structuredClone(pack);
+ const path=`data/sentence-lab/${stage}.json`,raw=fs.readFileSync(new URL(path,root),'utf8'),pack=JSON.parse(raw),prior=withoutWorkshopTemplateRevisions(pack);
  for(const lesson of prior.lessons)for(const activity of lesson.activities)for(const turn of activity.kind==='cloze'?[activity]:activity.kind==='dialogue'?activity.turns:[])for(const blank of turn.blanks||[])delete blank.sourceExamples;
  assert.equal(hash(JSON.stringify(prior)),priorJSONSHA256,`${stage}: identities, templates, accepted values or other prior fields changed`);
  for(const lesson of prior.lessons)base.set(lesson.id,lesson);
@@ -31,7 +32,10 @@ for(const row of workshopSourceExamples){
   for(const speakerGender of ['m','f']){
    if(ex.agreement!=='any'&&ex.agreement!==speakerGender)continue;
    for(const [i,value] of ex.values.entries()){assert(turn.blanks[i].accept.includes(value));const result=assessLabBlank(turn.blanks[i],value,{dictionary,speakerGender,learnedIds:new Set()});assert.equal(result.outcome,'correct',`${row.activityId} ${i} ${speakerGender} ${value}`);assert.equal(result.filled,value);blankChecks++;}
-   const prepare=lesson=>{const session=createLabSession(lesson,{now:42});session.index=row.activityIndex;session.state=null;currentLabStep(lesson,session);if(row.turnIndex!==null)session.state.turnIndex=row.turnIndex;return session;};
+   const prepare=lesson=>{const session=createLabSession(lesson,{now:42});session.index=row.activityIndex;session.state=null;currentLabStep(lesson,session);if(row.turnIndex!==null)session.state.turnIndex=row.turnIndex;
+    // This historical gate deliberately preserves the original unmarked
+    // recipe. Current versioned templates have their separate migration gate.
+    delete session.state.templateRevision;return session;};
    const oldSession=prepare(oldLesson),newSession=prepare(newLesson),ctx={dictionary,speakerGender,learnedIds:new Set(),now:43};
    // Adding references changes neither pending activity identity nor saved grading.
    assert.deepEqual(newSession,oldSession);

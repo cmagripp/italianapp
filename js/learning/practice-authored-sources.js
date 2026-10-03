@@ -4,6 +4,7 @@ import {labLesson,labStageOf} from './sentence-lab-data.js';
 import {sourceFingerprint} from '../ai/source-fingerprint.js';
 import {COURSE_SENSE_LINKS} from './course-sense-links.js';
 import {fillTemplate} from './sentence-lab.js';
+import {resolveLabTemplate} from './lab-template-source.js';
 
 const copy=value=>structuredClone(value),equal=(a,b)=>sourceFingerprint(a)===sourceFingerprint(b);
 const record=value=>value&&typeof value==='object'&&!Array.isArray(value);
@@ -119,11 +120,22 @@ export function createGrammarPracticeBinding({lesson,session}){
 }
 
 function workshopSource(lesson,stage,selection){
- if(!record(selection)||Object.keys(selection).length!==4||!['activityIndex','turnIndex','blankIndex','agreement'].every(key=>Object.hasOwn(selection,key))||!Number.isSafeInteger(selection.activityIndex)||selection.activityIndex<0||!Number.isSafeInteger(selection.blankIndex)||selection.blankIndex<0||!['m','f'].includes(selection.agreement))return null;
- const activity=lesson.activities?.[selection.activityIndex];if(!activity||!['cloze','dialogue'].includes(activity.kind)||activity.kind==='cloze'&&selection.turnIndex!==null||activity.kind==='dialogue'&&(!Number.isSafeInteger(selection.turnIndex)||selection.turnIndex<0||selection.turnIndex>=activity.turns.length))return null;
+ const selectionFields=['activityIndex','turnIndex','blankIndex','agreement'],hasRevision=record(selection)&&Object.hasOwn(selection,'templateRevision');
+ if(!record(selection)||Object.keys(selection).length!==selectionFields.length+Number(hasRevision)||!selectionFields.every(key=>Object.hasOwn(selection,key))||!Number.isSafeInteger(selection.activityIndex)||selection.activityIndex<0||!Number.isSafeInteger(selection.blankIndex)||selection.blankIndex<0||!['m','f'].includes(selection.agreement))return null;
+ const declaredActivity=lesson.activities?.[selection.activityIndex];if(!declaredActivity||!['cloze','dialogue'].includes(declaredActivity.kind)||declaredActivity.kind==='cloze'&&selection.turnIndex!==null||declaredActivity.kind==='dialogue'&&(hasRevision||!Number.isSafeInteger(selection.turnIndex)||selection.turnIndex<0||selection.turnIndex>=declaredActivity.turns.length))return null;
+ const selected=declaredActivity.kind==='cloze'?resolveLabTemplate(declaredActivity,hasRevision?{templateRevision:selection.templateRevision}:{},selection.agreement):{available:true,activity:declaredActivity,revision:null};
+ if(!selected.available)return null;
+ let activity=selected.activity;
+ // An absent marker is an explicitly preserved old recipe. Reconstruct only
+ // the source-declared additive projection so pre-version bindings still have
+ // their exact original canonical fingerprint. Other edits revoke them.
+ if(selected.legacy&&!hasRevision){
+  activity=copy(activity);delete activity.templateRevision;delete activity.templateByAgreement;delete activity.legacyTemplate;
+  for(const blank of activity.blanks)delete blank.sourceExamplesByAgreement;
+ }
  const turn=activity.kind==='dialogue'&&Number.isSafeInteger(selection.turnIndex)?activity.turns[selection.turnIndex]:null;
  const blanks=activity.kind==='cloze'?activity:turn?.speaker==='you'?turn:null,blank=blanks?.blanks?.[selection.blankIndex];if(!blank?.free)return null;
- const revision='workshop:'+stage.version+':'+activity.id,level=lesson.level||stageLevel[stage.stage];
+ const revision='workshop:'+stage.version+':'+activity.id+(hasRevision?':'+selected.revision+':'+selection.agreement:''),level=lesson.level||stageLevel[stage.stage];
  let references;
  if(Object.hasOwn(blank,'sourceExamples'))references=explicitWorkshopExamples({activity,blanks,blank,selection,revision,level,lesson});
  else{
@@ -133,11 +145,12 @@ function workshopSource(lesson,stage,selection){
  }
  return {sourceId:`lab:${lesson.id}:${selection.activityIndex}:${activity.kind==='dialogue'?selection.turnIndex:'cloze'}:${selection.blankIndex}`,
   prompt:`Find just the wording for this blank in the sentence: ${blanks.template}. ${blanks.en||''}`,context:JSON.stringify({slot:blank.slot,help:blank.freePrompt||'',lesson:lesson.title,speakerAgreement:selection.agreement}),canonical:copy(activity),references,
-  revisionScope:{version:stage.version,path:`data/sentence-lab/${stage.stage}.json`,stage:stage.stage}};
+  revisionScope:{version:stage.version,path:`data/sentence-lab/${stage.stage}.json`,stage:stage.stage,...hasRevision?{templateRevision:selected.revision,templateAgreement:selection.agreement}:{}}};
 }
 export function createWorkshopPracticeBinding({lesson,stage,session,blankIndex,agreement=session?.speakerAgreement}){
  if(!lesson||!stage||session?.phase!=='activity'||session.paused||session.state?.result)return null;
- const selection={activityIndex:session.index,turnIndex:session.state?.kind==='dialogue'?session.state.turnIndex:null,blankIndex,agreement};
+ const activity=lesson.activities?.[session.index];if(!activity||session.state?.kind!==activity.kind)return null;
+ const selection={activityIndex:session.index,turnIndex:session.state.kind==='dialogue'?session.state.turnIndex:null,blankIndex,agreement,...Object.hasOwn(session.state,'templateRevision')?{templateRevision:session.state.templateRevision}:{}};
  const source=workshopSource(lesson,stage,selection);if(!source||!source.references.length)return null;
  const binding={version:1,kind:'workshop',lessonId:lesson.id,selection,...bindingSource(source)};return within(binding)?binding:null;
 }

@@ -73,7 +73,9 @@ export async function render(root, params, query = {}) {
   if (!lesson) { setTitle('Officina delle frasi'); root.innerHTML = html`<div class="empty"><p>Lesson not found.</p><a class="btn primary" href="#/lab/frasi">Back to the workshop</a></div>`; return; }
   const place = labLessonIndex(lesson.id), stageName = place?.stage?.stage || 'presente';
   const prior = readLabSession(store, lesson.id);
-  let session = prior && compatibleLabSession(lesson, prior) && prior.phase === 'activity' && query.restart !== '1' ? clone(prior) : createLabSession(lesson);
+  const priorFits=prior&&compatibleLabSession(lesson,prior)&&prior.phase==='activity';
+  const preserveUnknown=priorFits&&currentLabStep(lesson,clone(prior))?.available===false;
+  let session = priorFits&&(query.restart!=='1'||preserveUnknown) ? clone(prior) : createLabSession(lesson);
   if(!['m','f'].includes(session.speakerAgreement))session.speakerAgreement=speakerGender();
   let disposed = false, finished = false, completion = null, assistantReady = null, assistantService = null, activeSheet = null;
   const activities = lesson.activities;
@@ -85,7 +87,7 @@ export async function render(root, params, query = {}) {
   // A session is written once the learner has done something in it: a lesson merely opened (or reopened after its
   // completion) leaves no "in progress" trace on the path page.
   const pristine = () => session.index === 0 && !(session.history || []).length && !session.paused && !session.state?.result && !(session.state?.attempts || []).length && !session.state?.ui?.touched;
-  const save = () => { session.title=lesson.title; if (!disposed && !finished && !pristine() && sameOwner()) writeLabSession(store, session); };
+  const save = () => { if(step()?.available===false)return; session.title=lesson.title; if (!disposed && !finished && !pristine() && sameOwner()) writeLabSession(store, session); };
   const step = () => currentLabStep(lesson, session);
   const ui = () => { if (!session.state) return {}; return session.state.ui ||= {}; };
   const ctx = () => ({...labContext(),speakerGender:session.speakerAgreement});
@@ -119,8 +121,8 @@ export async function render(root, params, query = {}) {
     const pct = session.phase === 'complete' ? 100 : Math.min(99, progress.percent);
     const lessonNo = place ? `Lezione ${place.index + 1} / ${place.total}` : 'Lezione';
     return html`<div class="grammar-shell course-v2-shell lab-shell" data-lab-lesson="${lesson.id}" data-kind="${kind}" data-activity="${activityId || ''}" data-phase="${phase}" data-stage="${stageName}">
-      <header class="grammar-header"><button type="button" class="btn ghost" data-lab-back>${raw(icon('chevron', { size: 16 }))} Back</button><span class="kicker">${place?.stage?.title || 'Officina'} · ${lessonNo}</span><button type="button" class="btn ghost" data-lab-pause ${session.paused || phase === 'complete' ? raw('disabled') : ''}>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header>
-      <main class="grammar-scroll lab-scroll" data-lab-scroll>${kind!=='paused'&&kind!=='complete'?raw(html`<div class="lab-practice-context"><span>${kind==='model'?'Learn the pattern':kind==='build'?'Make it yours':'Practise this pattern'}</span><button type="button" class="btn ghost sm" data-lab-agreement aria-haspopup="menu" aria-label="Agreement for me: ${session.speakerAgreement==='f'?'feminine':'masculine'}">${session.speakerAgreement==='f'?'Feminine':'Masculine'} ${raw(icon('chevronDown',{size:16}))}</button></div>`):''}${raw(content)}</main>
+      <header class="grammar-header"><button type="button" class="btn ghost" data-lab-back>${raw(icon('chevron', { size: 16 }))} Back</button><span class="kicker">${place?.stage?.title || 'Officina'} · ${lessonNo}</span><button type="button" class="btn ghost" data-lab-pause ${session.paused || phase === 'complete' || kind==='unavailable' ? raw('disabled') : ''}>Pause</button><div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="bar-fill" style="width:${pct}%"></div></div></header>
+      <main class="grammar-scroll lab-scroll" data-lab-scroll>${!['paused','complete','unavailable'].includes(kind)?raw(html`<div class="lab-practice-context"><span>${kind==='model'?'Learn the pattern':kind==='build'?'Make it yours':'Practise this pattern'}</span><button type="button" class="btn ghost sm" data-lab-agreement aria-haspopup="menu" aria-label="Agreement for me: ${session.speakerAgreement==='f'?'feminine':'masculine'}">${session.speakerAgreement==='f'?'Feminine':'Masculine'} ${raw(icon('chevronDown',{size:16}))}</button></div>`):''}${raw(content)}</main>
       ${footer ? raw(html`<footer class="grammar-footer ${feedback ? 'has-feedback' : ''}">${raw(footer)}</footer>`) : ''}
     </div>`;
   }
@@ -156,9 +158,13 @@ export async function render(root, params, query = {}) {
 
   function draw({ focus = false, scrollChat = false } = {}) {
     if (disposed || !sameOwner() || !owned()) return;
-    const view = step(), kind = view.kind, activity = view.activity, u = ui();
+    const view = step(), unavailable=view.available===false, kind = unavailable?'unavailable':view.kind, activity = view.activity, u = unavailable?(session.state?.ui||{}):ui();
     let content = '', footer = '', feedback = false;
-    if (session.paused) { content = labPaused(lesson); }
+    if (unavailable) {
+      const words=[...new Set([...(Array.isArray(u.values)?u.values:[]),...Object.values(u.drafts||{})].filter(value=>typeof value==='string'&&value.trim()))];
+      content=html`<section data-lab-source-unavailable><h1 data-focus tabindex="-1">This saved exercise needs an update</h1><p>Your words and earlier results are kept. Reopen Parola online to check for an update, or return to your other lessons.</p>${words.length?raw(html`<h2>Your saved words</h2>${raw(words.map(word=>html`<p lang="it" data-lab-preserved-draft>${word}</p>`).join(''))}`):''}${session.state?.result?.sentence?raw(html`<h2>Your saved sentence</h2><p lang="it" data-lab-preserved-result>${session.state.result.sentence}</p>`):''}<p><a href="#/profile">Profile and backups</a></p></section>`;
+      footer=html`<button type="button" class="btn primary block" data-lab-source-reload>Reload Parola</button><a class="btn secondary block" href="#/lab/frasi">Back to the workshop</a>`;
+    } else if (session.paused) { content = labPaused(lesson); }
     else if (kind === 'complete') {
       const done = finishLessonOnce();
       const mine = store.labRecord(LAB_KEY).sentences.filter(s => s.lessonId === lesson.id).slice(-6).reverse();
@@ -205,8 +211,8 @@ export async function render(root, params, query = {}) {
       if (locked) { feedback = true; footer = feedbackHTML({ ok: true, title: 'Saved to Le mie frasi.', detail: detailOf(view.result), nextAttribute: 'data-lab-next', nextLabel: 'Continue' }); }
       else footer = html`<div class="lab-build-actions"><button type="button" class="btn ghost" data-lab-another ${Object.keys(u.choice).length ? '' : raw('disabled')}>Another</button><button type="button" class="btn primary grow" data-lab-keep ${composed.ok ? '' : raw('disabled')}>Keep this sentence</button></div>`;
     }
-    root.innerHTML = shell({ content, footer, feedback, kind: session.paused ? 'paused' : kind, activityId: activity?.id, phase: session.paused ? 'paused' : session.phase });
-    if(!session.paused&&!view.result&&assistanceAvailable()&&helpSource(u.active)){
+    root.innerHTML = shell({ content, footer, feedback, kind: !unavailable&&session.paused ? 'paused' : kind, activityId: activity?.id, phase: !unavailable&&session.paused ? 'paused' : session.phase });
+    if(!unavailable&&!session.paused&&!view.result&&assistanceAvailable()&&helpSource(u.active)){
       const tools=root.querySelector('[data-lab-controls]');if(tools){const button=document.createElement('button');button.type='button';button.className='btn ghost';button.dataset.labAiHelp=String(u.active);button.textContent='Help me say it';tools.append(button);}
     }
     const source=u.aiHelpSources?.[u.active];if(source?.originalText){const tools=root.querySelector('[data-lab-controls]');if(tools)tools.insertAdjacentHTML('beforeend',html`<details data-lab-ai-source><summary>Your original idea</summary><p>${source.originalText}</p><p class="small muted">Wording help keeps this as assisted practice.</p></details>`);}
@@ -259,13 +265,14 @@ export async function render(root, params, query = {}) {
   // ---------- answers ----------
   function currentBlanks() {
     const view = step();
+    if(!view||view.available===false)return null;
     if (view.kind === 'cloze') return { blanks: view.activity.blanks || [], template: view.activity.template, en: view.activity.en };
     if (view.kind === 'dialogue' && view.state.current) return { blanks: view.state.current.blanks || [], template: view.state.current.template, en: view.state.current.en };
     return null;
   }
   function submit(value) {
     const view = step();
-    if (!alive()||!view || view.done || session.paused) return;
+    if (!alive()||!view || view.available===false || view.done || session.paused) return;
     const { result } = answerLab(lesson, session, value, { ...ctx(), blankInputs:ui().inputSources,now: Date.now() });
     if (!result) return;
     announceAnswer({...result,submission:(result.blanks||[]).find(g=>g.submission?.matchKind==='accent-only')?.submission});
@@ -324,14 +331,14 @@ export async function render(root, params, query = {}) {
     save(); draw({ scrollChat: true });
   }
   function check() {
-    const view = step(), u = ui();
+    const view = step();if(view?.available===false)return;const u = ui();
     if (view.kind === 'order') submit((u.picked || []).map(i => orderTokens(view.activity)[i]));
     else if (view.kind === 'cloze' || view.kind === 'dialogue') { if ((u.values || []).every(v => v)) submit(u.values.slice()); }
     else if (view.kind === 'build') submit(choiceFor(view.activity, u));
   }
   function next() {
     const view = step();
-    if (view.kind === 'complete') return;
+    if (view.kind === 'complete'||view.available===false) return;
     if (!view.done) return;
     advanceLab(lesson, session);
     save(); draw({ focus: true });
@@ -458,8 +465,10 @@ export async function render(root, params, query = {}) {
   const click = event => {
     const b = event.target.closest('button'); if (!b || disposed || !sameOwner() || !owned()) return;
     if (b.closest('[data-say]')) return;
-    const u = blankUi(ui());
     if (b.hasAttribute('data-lab-back')) { save(); location.hash = '#/lab/frasi'; return; }
+    if(b.hasAttribute('data-lab-source-reload')){location.reload();return;}
+    if(step()?.available===false)return;
+    const u = blankUi(ui());
     if (b.hasAttribute('data-lab-pause')) { session.paused = true; save(); draw({ focus: true }); return; }
     if (b.hasAttribute('data-lab-resume')) { session.paused = false; save(); draw({ focus: true });const draft=ui().activeDrill;if(draft)learnThenInsert(draft.blankIndex,draft.info,draft.source); return; }
     if (session.paused) return;
@@ -494,9 +503,9 @@ export async function render(root, params, query = {}) {
   const input = event => { if(alive()&&event.target.matches('[data-lab-free-input]')){blankUi(ui()).drafts[Number(event.target.dataset.labFreeInput)]=event.target.value;touch();} };
   const form = event => { if (alive()&&event.target.matches('[data-lab-free-form]')) { event.preventDefault(); const i = Number(event.target.dataset.labFreeForm); useFreeWord(i, event.target.querySelector('[data-lab-free-input]')?.value); } };
   root.addEventListener('click', click); root.addEventListener('input', input); root.addEventListener('submit', form);
-  ui(); // the first activity's ui slot exists before the first draw
+  if(step()?.available!==false)ui(); // Do not stamp or alter an unknown saved source merely by opening it.
   save(); draw({ focus: true });
-  const draft=ui().activeDrill;
+  const draft=step()?.available===false?null:ui().activeDrill;
   if(draft&&!session.paused)setTimeout(()=>{if(alive())learnThenInsert(draft.blankIndex,draft.info,draft.source);},0);
 
   return () => {

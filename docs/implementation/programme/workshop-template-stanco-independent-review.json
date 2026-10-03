@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "reviewer": "independent AI agent programme_ai",
+  "status": "independent-agent-review",
+  "scope": "Exactly two selected current first-person singular chosen resto fills, their Italian/English correspondence and speaker agreement. Original template/source examples retained exactly; no review of every accepted alternative, reactions, full pack, pronunciation, native-human educator, or model quality.",
+  "nativeItalianEducatorReview": "pending",
+  "sourcePath": "data/sentence-lab/strutture.json",
+  "lessonId": "sl-strutture-03-quindi-allora-pero",
+  "activityId": "sl-strutture-03-quindi-allora-pero.4",
+  "activityIndex": 3,
+  "templateRevision": "sl-strutture-03-quindi-allora-pero.4:agreement-v2",
+  "legacyRevision": "sl-strutture-03-quindi-allora-pero.4:original-v1",
+  "preMarkerTransitionSHA256": "4697e4aaf1f9fd5e358baa1f0aa3050ac9a921943add939123c98ae1c2593d17",
+  "originalProjectionSHA256": "9584e7f7f52054b6d63f24deb0f51ee83b1e186e534db205cbdc9ddcf9857b83",
+  "originalProjectionMatchesCommittedFixture": true,
+  "examples": [
+    {
+      "agreement": "m",
+      "template": "Sono stanco, quindi stasera ____ a casa.",
+      "values": [
+        "resto"
+      ],
+      "it": "Sono stanco, quindi stasera resto a casa.",
+      "en": "I am tired, so tonight I am staying at home.",
+      "subjectAgreement": "m",
+      "subjectScope": "speaker",
+      "sourceNote": "The adjective agrees with this first-person singular speaker; resto is the same present-tense verb for either agreement.",
+      "reviewStatus": "independent-agent-review",
+      "reviewRecord": "docs/implementation/programme/workshop-template-stanco-independent-review.json",
+      "reviewScope": "chosen-form-translation-agreement",
+      "nativeItalianEducatorReview": "pending",
+      "finding": "Italian and English aligned; stanco/stanca describes the first-person singular speaker; resto remains invariant in this person. The evening plan is a natural present-tense reading."
+    },
+    {
+      "agreement": "f",
+      "template": "Sono stanca, quindi stasera ____ a casa.",
+      "values": [
+        "resto"
+      ],
+      "it": "Sono stanca, quindi stasera resto a casa.",
+      "en": "I am tired, so tonight I am staying at home.",
+      "subjectAgreement": "f",
+      "subjectScope": "speaker",
+      "sourceNote": "The adjective agrees with this first-person singular speaker; resto is the same present-tense verb for either agreement.",
+      "reviewStatus": "independent-agent-review",
+      "reviewRecord": "docs/implementation/programme/workshop-template-stanco-independent-review.json",
+      "reviewScope": "chosen-form-translation-agreement",
+      "nativeItalianEducatorReview": "pending",
+      "finding": "Italian and English aligned; stanco/stanca describes the first-person singular speaker; resto remains invariant in this person. The evening plan is a natural present-tense reading."
+    }
+  ],
+  "remaining": {
+    "legacyFeminineSource": "unsupported because exact old quote says stanco",
+    "allAcceptedAlternativeLanguageReview": false,
+    "nativeHumanReview": false
+  },
+  "finalCanonicalSHA256": "a7f93ad13ab711b5de90d1f54e084cf267f756d6438def0b182f888f99a3f29a",
+  "finalActivitySHA256": "2411209e48fc9cd79b5cdc57510f5406d4aa6c23a2ada4dade323ea5d128ee7e",
+  "finalMarkerState": "Only the two new current chosen contexts carry independent-agent-review; original legacy sourceExamples unchanged."
+}

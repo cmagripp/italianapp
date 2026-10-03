@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-04",
+  "status": "passed affected source/assistance validation; runtime held for checkpoint",
+  "scope": "Pure Workshop canonical source binding, exact declared template revision, independent bounded two-example read; no provider activation or model run",
+  "node": {
+    "checks": 52,
+    "assistance": 11,
+    "journeySource": 14,
+    "authoredAdapter": 27,
+    "passed": true
+  },
+  "sourceInventory": {
+    "freeSlots": 46,
+    "currentM": 46,
+    "currentF": 46,
+    "maxBindingChars": 8368,
+    "legacyVersionedSlots": [
+      {
+        "lessonId": "sl-strutture-03-quindi-allora-pero",
+        "activityIndex": 3,
+        "blankIndex": 0,
+        "agreements": {
+          "m": {
+            "supported": true,
+            "template": "Sono stanco, quindi stasera ____ a casa.",
+            "selectedRevision": "sl-strutture-03-quindi-allora-pero.4:original-v1",
+            "marker": "genuinely absent",
+            "referenceTexts": [
+              "Sono stanco, quindi stasera resto a casa."
+            ]
+          },
+          "f": {
+            "supported": false,
+            "template": "Sono stanco, quindi stasera ____ a casa.",
+            "selectedRevision": "sl-strutture-03-quindi-allora-pero.4:original-v1",
+            "marker": "genuinely absent",
+            "referenceTexts": []
+          }
+        }
+      }
+    ]
+  },
+  "boundaries": [
+    "Fresh state.templateRevision selects source-declared m/f template and selected sourceExamplesByAgreement; exact full selected activity/reference data is bound.",
+    "Genuinely absent marker reselects exact source-declared original template; legacy feminine stanco stays unsupported.",
+    "Only narrow additive declaration fields are stripped for pre-version bindings; non-additive original-source edits revoke them.",
+    "Explicit null/undefined/unknown marker or mismatched state/activity kind cannot mint a binding.",
+    "Examples have chosen-form/translation/agreement provenance only; no grammar rule, grading or model authority."
+  ],
+  "testFixtureCorrection": {
+    "before": "Existing browser expected fresh stanco-f unsupported; new current source correctly made its button available, so both engines failed the stale assertion.",
+    "after": "Fixture explicitly removes the revision marker to reproduce an actual legacy-f session; original unsupported-source boundary remains assessed.",
+    "beforeLogs": [
+      "/tmp/parola-ai-assistance-template-chromium.log",
+      "/tmp/parola-ai-assistance-template-webkit.log"
+    ]
+  },
+  "pins": [
+    {
+      "path": "js/learning/practice-authored-sources.js",
+      "sha256": "7d08753c87d393d743b006ca7737e4643bc39e08f3122a2425bc8ca9f47959a6"
+    },
+    {
+      "path": "js/learning/lab-template-source.js",
+      "sha256": "79a70f38ede0871c0ab72f580f85eb4dfe6c64c1f9fa9f0cef9e9b24732fcfd9"
+    },
+    {
+      "path": "data/sentence-lab/strutture.json",
+      "sha256": "a7f93ad13ab711b5de90d1f54e084cf267f756d6438def0b182f888f99a3f29a"
+    },
+    {
+      "path": "tests/ai-authored-practice-sources.test.mjs",
+      "sha256": "66985b6ba7c255714dbf89a56c012d6545ea4dbfb12107de7268e936eac8e7e2"
+    },
+    {
+      "path": "tests/ai-assistance-e2e.mjs",
+      "sha256": "ed4b1511b87329cb424ae4c5d6b9fd610de261b169adcaa93911c687584a2b62"
+    },
+    {
+      "path": "tools/ai-authored-source-inventory.mjs",
+      "sha256": "3bd9cf522c6d953b31b095a23c064151fe91397e79a8628a53fdd9d084a23946"
+    },
+    {
+      "path": "docs/implementation/programme/workshop-template-stanco-independent-review.json",
+      "sha256": "eaddd173394546de6d160072ec6ee9a01c3552546d1db46670b081832188e30e"
+    }
+  ],
+  "gates": {
+    "productionProvider": false,
+    "allAcceptedAlternativeLanguageReview": false,
+    "nativeHumanReview": false
+  },
+  "browser": [
+    {
+      "engine": "chromium",
+      "path": "docs/implementation/programme/ai-assistance-chromium.json",
+      "checks": 19,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "path": "docs/implementation/programme/ai-assistance-webkit.json",
+      "checks": 19,
+      "passed": true,
+      "errors": []
+    }
+  ]
+}

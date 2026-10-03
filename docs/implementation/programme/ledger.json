@@ -175,9 +175,12 @@
         "docs/implementation/programme/workshop-speaker-agreement-review.json",
         "docs/implementation/programme/workshop-agreement-chromium.json",
         "docs/implementation/programme/workshop-agreement-webkit.json",
-        "docs/implementation/programme/ai-authored-source-inventory.json"
+        "docs/implementation/programme/ai-authored-source-inventory.json",
+        "docs/implementation/programme/workshop-source-revision-chromium.json",
+        "docs/implementation/programme/workshop-source-revision-webkit.json",
+        "docs/implementation/programme/ai-workshop-template-binding-integration.json"
       ],
-      "implementationNotes": "Editable agreement preserves exact original drafts/results. Ten controlled checks pass per browser, including zero retired scorer requests; all five speaker slots/sixty agreement combinations and169 reaction strings have bounded independent review. Canonical contextual help resolves3/46free slots; remaining43 need authored sources. Production language/model gates remain open."
+      "implementationNotes": "Editable agreement preserves exact original drafts/results. Ten existing Workshop checks pass; all five speaker slots/sixty agreement combinations and169 reaction strings have bounded independent review. Authored examples now bind all46 current free slots for both agreements. The one changed template has explicit current and legacy versions:50engine cases and9actual-route persistence/recovery cases per browser preserve old drafts/results and keep unknown versions read-only. Legacy feminine stanco remains unsupported rather than silently rewritten. Actual model and broad editorial gates remain open."
     },
     {
       "id": "P3-migration",
@@ -578,9 +581,10 @@
         "docs/implementation/programme/ai-journey-source-grounding.md",
         "docs/implementation/programme/integration-checkpoint-lifecycle-grounding.json",
         "docs/implementation/programme/integration-checkpoint-forms-offline.json",
-        "docs/implementation/programme/integration-checkpoint-accents-workshop.json"
+        "docs/implementation/programme/integration-checkpoint-accents-workshop.json",
+        "docs/implementation/programme/integration-checkpoint-workshop-revision.json"
       ],
-      "implementationNotes": "This development checkpoint passes79 registered deterministic suites, followed by99 affected AI and7 summary checks after final review corrections,9 rebuilt offline/update and7 grammar offline checks. Source-bound spelling, atomic cancellation, exact authored Workshop contexts,522verb review boundary and enlarged-text layouts are integrated. Model/speech, editorial and final programme release gates remain open."
+      "implementationNotes": "This development checkpoint passes79 registered deterministic suites, followed by99 affected AI and7 summary checks after final review corrections,9 rebuilt offline/update and7 grammar offline checks. Source-bound spelling, atomic cancellation, exact authored Workshop contexts,522verb review boundary and enlarged-text layouts are integrated. Model/speech, editorial and final programme release gates remain open. Subsequent bounded Workshop revision passes50engine and52affected AI checks,9revision browser cases and19assistance checks per engine,10existing Workshop WebKit and9assembled offline checks; build1dce36c125d3 remains development-only."
     },
     {
       "id": "P7-recovery",
@@ -638,7 +642,7 @@
       "evidence": []
     }
   ],
-  "updatedAt": "2026-10-03T22:10:53.957787+00:00",
+  "updatedAt": "2026-10-03T22:32:29.445456+00:00",
   "testedDeviceConfiguration": {
     "device": "iPhone 16 Pro Max simulator",
     "iOS": "26.5",
@@ -651,13 +655,13 @@
     }
   ],
   "checkpoint": {
-    "kind": "Fifth recoverable development checkpoint",
+    "kind": "Sixth recoverable development checkpoint",
     "branch": "codex/parola-full-programme",
-    "parentCommit": "dcf2afa",
+    "parentCommit": "e14366b",
     "previousCheckpointPushed": true,
     "productionRelease": false,
-    "build": "parola-v15-6f8191060b7b",
-    "validation": "79registered deterministic suites plus final affected checks;9assembled offline/update;7grammar offline;19accent and9commit boundary cases per browser; installed simulator offline restore.",
-    "open": "Production contextual registry/model/speech; final feminine Workshop source version; remaining catalogue/curriculum review; educator/learner and full release gates."
+    "build": "parola-v15-1dce36c125d3",
+    "validation": "50template engine,52affected AI,9revision+19assistance cases per browser,10existing Workshop WebKit,9assembled offline/update.",
+    "open": "Production contextual registry/model/speech; remaining catalogue/curriculum review; educator/learner and full release gates."
   }
 }

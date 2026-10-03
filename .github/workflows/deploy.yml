@@ -87,6 +87,8 @@ jobs:
           node tools/test-workshop-agreement-review.mjs
           node tools/author-workshop-source-examples.mjs --check
           node tools/test-workshop-source-examples.mjs
+          node tools/author-workshop-template-revisions.mjs --check
+          node tools/test-workshop-template-revisions.mjs
           node tools/test-ai-trial.mjs
           node tools/test-useful-words.mjs
           node --test tests/ai-authored-practice-sources.test.mjs

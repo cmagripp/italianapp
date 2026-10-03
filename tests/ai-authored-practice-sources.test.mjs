@@ -6,6 +6,7 @@ import {installGrammarCourse,grammarLesson} from '../js/learning/grammar-course.
 import {createCourseSession} from '../js/learning/course-v2-engine.js';
 import {createGrammarSession} from '../js/learning/grammar-journey.js';
 import {createLabSession} from '../js/learning/sentence-lab.js';
+import {initialLabTemplateRevision} from '../js/learning/lab-template-source.js';
 import {createPracticeSourceResolver,createCoursePracticeBinding,createGrammarPracticeBinding,createWorkshopPracticeBinding} from '../js/learning/practice-sources.js';
 import {resolvePracticeGrounding,authoredExampleCards} from '../js/ai/practice-grounding.js';
 import {createAIService} from '../js/ai/index.js';
@@ -88,18 +89,18 @@ test('Course reviewed sense links apply only to actual selected text and its dec
 const workshopPacks=['presente','passato','futuro','strutture'].map(stage=>read('data/sentence-lab/'+stage+'.json'));
 const workshopRows=workshopPacks.flatMap(stage=>stage.lessons.flatMap(lesson=>lesson.activities.flatMap((activity,activityIndex)=>(activity.kind==='dialogue'?activity.turns:activity.kind==='cloze'?[activity]:[]).flatMap((turn,turnIndex)=>(turn.blanks||[]).flatMap((blank,blankIndex)=>blank.free?[{stage,lesson,activity,activityIndex,turn,turnIndex:activity.kind==='dialogue'?turnIndex:null,blank,blankIndex}]:[])))));
 function chosenWorkshop(row,agreement='m'){
- const session=createLabSession(row.lesson);Object.assign(session,{index:row.activityIndex,speakerAgreement:agreement,state:{kind:row.activity.kind,result:null,...row.turnIndex===null?{}:{turnIndex:row.turnIndex}}});
+ const session=createLabSession(row.lesson);Object.assign(session,{index:row.activityIndex,speakerAgreement:agreement,state:{kind:row.activity.kind,result:null,...row.turnIndex===null?initialLabTemplateRevision(row.activity):{turnIndex:row.turnIndex}}});
  const binding=createWorkshopPracticeBinding({lesson:row.lesson,stage:row.stage,session,blankIndex:row.blankIndex}),ownResolver=createPracticeSourceResolver({lookupWorkshop:()=>row.lesson,lookupWorkshopStage:()=>row.stage});return {session,binding,source:binding&&ownResolver.resolve(binding),resolver:ownResolver};
 }
-test('all 46 current Workshop slots have bounded exact chosen sources for m; only the fixed male quote is unavailable for f',()=>{
+test('all 46 fresh current Workshop slots have bounded exact chosen sources for both agreements',()=>{
  assert.equal(workshopRows.length,46);let male=0,female=0,maxChars=0;const unavailable=[];
  for(const row of workshopRows)for(const agreement of ['m','f']){
   const f=chosenWorkshop(row,agreement);if(!f.binding){unavailable.push([row.lesson.id,row.activityIndex,row.turnIndex,row.blankIndex,agreement]);continue;}
   assert(f.source);maxChars=Math.max(maxChars,JSON.stringify(f.binding).length);assert(JSON.stringify(f.binding).length<=15000);assert.deepEqual(f.source.rules,[]);
   agreement==='m'?male++:female++;
-  for(const ref of f.source.references){const authored=row.blank.sourceExamples[ref.sourceLocator.index];assert.equal(ref.it,authored.it);assert.equal(ref.en,authored.en);assert.equal(ref.reviewScope,'chosen-form-translation-agreement');assert.equal(ref.reviewed,undefined);assert.equal(ref.verified,undefined);assert.equal(ref.nativeItalianEducatorReview,'pending');assert(['any',agreement].includes(ref.applicability));}
+  for(const ref of f.source.references){const authored=(row.blank.sourceExamplesByAgreement?.[agreement]||row.blank.sourceExamples)[ref.sourceLocator.index];assert.equal(ref.it,authored.it);assert.equal(ref.en,authored.en);assert.equal(ref.reviewScope,'chosen-form-translation-agreement');assert.equal(ref.reviewed,undefined);assert.equal(ref.verified,undefined);assert.equal(ref.nativeItalianEducatorReview,'pending');assert(['any',agreement].includes(ref.applicability));}
  }
- assert.equal(male,46);assert.equal(female,45);assert.deepEqual(unavailable,[['sl-strutture-03-quindi-allora-pero',3,null,0,'f']]);assert(maxChars>6800);
+ assert.equal(male,46);assert.equal(female,46);assert.deepEqual(unavailable,[]);assert(maxChars>6800);
 });
 test('every chosen source has exact review-record Italian, translation and subject agreement without blessing all accepted alternatives',()=>{
  const review=read('docs/implementation/programme/workshop-source-examples-independent-review.json');let count=0;
@@ -148,4 +149,41 @@ test('fully reconstructed imported Workshop selections cannot mint invented turn
  const session=structuredClone(f.session);session.state.kind='dialogue';session.state.turnIndex=0;assert.equal(createWorkshopPracticeBinding({lesson:lab,stage:pack,session,blankIndex:0}),null);
  const row=workshopRows.find(row=>row.turnIndex!==null),dialogue=chosenWorkshop(row);assert(dialogue.source);
  for(const turnIndex of [null,-1,1.5,row.activity.turns.length,'1']){const altered=structuredClone(dialogue.binding);altered.selection.turnIndex=turnIndex;assert.equal(dialogue.resolver.resolve(altered),null);}
+});
+
+const versionedRow=workshopRows.find(row=>row.activity.templateRevision);
+function savedVersioned(agreement='m',state={kind:'cloze',result:null}){
+ const session=createLabSession(versionedRow.lesson);Object.assign(session,{index:versionedRow.activityIndex,speakerAgreement:agreement,state});
+ const binding=createWorkshopPracticeBinding({lesson:versionedRow.lesson,stage:versionedRow.stage,session,blankIndex:versionedRow.blankIndex});
+ const resolver=createPracticeSourceResolver({lookupWorkshop:()=>versionedRow.lesson,lookupWorkshopStage:()=>versionedRow.stage});return{session,binding,source:binding&&resolver.resolve(binding),resolver};
+}
+test('current Workshop help binds the exact declared masculine/feminine template revision and selected examples',()=>{
+ assert(versionedRow);for(const agreement of ['m','f']){
+  const f=chosenWorkshop(versionedRow,agreement);assert(f.source);assert.equal(f.binding.selection.templateRevision,versionedRow.activity.templateRevision);
+  assert.equal(f.binding.canonical.template,versionedRow.activity.templateByAgreement[agreement]);assert.equal(f.binding.revisionScope.templateRevision,versionedRow.activity.templateRevision);assert.equal(f.binding.revisionScope.templateAgreement,agreement);
+  assert.equal(f.source.references[0].it,`Sono ${agreement==='f'?'stanca':'stanco'}, quindi stasera resto a casa.`);assert.equal(f.source.references[0].subjectAgreement,agreement);assert.equal(f.source.references[0].sourceRevision,`workshop:${versionedRow.stage.version}:${versionedRow.activity.id}:${versionedRow.activity.templateRevision}:${agreement}`);
+ }
+});
+test('genuine legacy Workshop feminine help stays unsupported while the exact pre-version masculine binding remains valid',()=>{
+ assert.equal(savedVersioned('f').binding,null);const legacy=savedVersioned('m');assert(legacy.source);assert.equal(Object.hasOwn(legacy.binding.selection,'templateRevision'),false);assert.equal(Object.hasOwn(legacy.binding.canonical,'templateByAgreement'),false);
+ const fixture=read('tests/fixtures/workshop-source-revision-legacy.json'),oldLesson=structuredClone(versionedRow.lesson);oldLesson.activities[versionedRow.activityIndex]=fixture.activity;
+ const oldBinding=createWorkshopPracticeBinding({lesson:oldLesson,stage:versionedRow.stage,session:legacy.session,blankIndex:0});assert.deepEqual(legacy.binding,oldBinding);assert(legacy.resolver.resolve(JSON.parse(JSON.stringify(oldBinding))));
+ const declared=savedVersioned('m',{kind:'cloze',result:null,templateRevision:versionedRow.activity.legacyTemplate.revision});assert(declared.source);assert.equal(declared.source.references[0].it,legacy.source.references[0].it);assert.equal(declared.binding.revisionScope.templateRevision,versionedRow.activity.legacyTemplate.revision);
+ assert.equal(savedVersioned('f',{kind:'cloze',result:null,templateRevision:versionedRow.activity.legacyTemplate.revision}).binding,null);
+});
+test('null, undefined, malformed and unknown Workshop template revisions cannot be silently upgraded or reinterpreted as absent',()=>{
+ for(const templateRevision of [null,undefined,'', 'invented',0,{},[versionedRow.activity.templateRevision]])assert.equal(savedVersioned('f',{kind:'cloze',result:null,templateRevision}).binding,null);
+ const f=chosenWorkshop(versionedRow,'f');for(const templateRevision of [null,undefined,'invented',versionedRow.activity.legacyTemplate.revision]){const forged=structuredClone(f.binding);forged.selection.templateRevision=templateRevision;assert.equal(f.resolver.resolve(forged),null);}
+ for(const kind of ['dialogue','model','build'])assert.equal(savedVersioned('m',{kind,result:null,templateRevision:versionedRow.activity.templateRevision}).binding,null);
+ const row=workshopRows.find(row=>row.turnIndex!==null),dialogue=chosenWorkshop(row);const forged=structuredClone(dialogue.binding);forged.selection.templateRevision=versionedRow.activity.templateRevision;assert.equal(dialogue.resolver.resolve(forged),null);
+});
+test('same declared Workshop revision cannot bless changed accepted values, translation, examples or template',()=>{
+ const f=chosenWorkshop(versionedRow,'f');for(const mutate of [a=>a.templateByAgreement.f='Sono falsa, quindi stasera ____ a casa.',a=>a.en='Changed translation',a=>a.blanks[0].accept.push('invented'),a=>a.blanks[0].sourceExamplesByAgreement.f[0].en='Changed chosen translation',a=>a.blanks[0].sourceExamplesByAgreement.m[0].sourceNote='Changed other agreement note']){
+  const lesson=structuredClone(versionedRow.lesson);mutate(lesson.activities[versionedRow.activityIndex]);assert.equal(createPracticeSourceResolver({lookupWorkshop:()=>lesson,lookupWorkshopStage:()=>versionedRow.stage}).resolve(f.binding),null);
+ }
+ const legacy=savedVersioned('m'),lesson=structuredClone(versionedRow.lesson);lesson.activities[versionedRow.activityIndex].blanks[0].sourceExamples[0].en='Changed original translation';assert.equal(createPracticeSourceResolver({lookupWorkshop:()=>lesson,lookupWorkshopStage:()=>versionedRow.stage}).resolve(legacy.binding),null);
+});
+test('actual feminine current Workshop source reaches grounded prompt and cards while retaining the submitted intention',async()=>{
+ const f=chosenWorkshop(versionedRow,'f');let prompt,user;const service=createAIService({practiceSources:f.resolver,runtime:{generate(task){prompt=task.messages[0].content;user=JSON.parse(task.messages.at(-1).content);return JSON.stringify({participantId:'helper',text:'resto',corrections:[]});}},languagePolicy:{version:'test-only-language-policy',validate:()=>({ok:true})}});
+ const original='I want to say that I am staying home',response=await service.request(request(f.binding,f.source,{task:'intent',text:original,level:'B2',agreement:'f'}));assert(prompt.includes('Sono stanca, quindi stasera'));assert(prompt.includes('"subjectAgreement":"f"'));assert.equal(user.text,original);assert.equal(response.corrections.length,0);assert.equal(response.teaching[0].examples[0].it,'Sono stanca, quindi stasera resto a casa.');service.dispose();
 });

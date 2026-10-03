@@ -103,11 +103,14 @@ export function labBlankControls(blank, i, ui) {
 export function labCloze(activity, ui, { locked = false, result = null } = {}) {
   const blanks = Array.isArray(activity.blanks) ? activity.blanks : [];
   const active = Number.isInteger(ui.active) && blanks[ui.active] ? ui.active : 0;
+  // An agreement preference applies to new answers. A completed versioned
+  // sentence remains the exact sentence that was actually submitted/graded.
+  const savedSentence=locked&&activity.templateByAgreement&&typeof result?.sentence==='string';
   return html`<section class="grammar-question lab-cloze" data-lab-cloze>
     ${raw(kickerHTML('Completa', 'Fill it in'))}
     <h1 tabindex="-1" data-focus>${activity.prompt}</h1>
-    <p class="grammar-translation">${activity.en || ''}</p>
-    ${raw(labSentence(activity.template, blanks, { ...ui, active }, { locked, result }))}${join((result?.blanks||[]).map(g=>submissionNote(g.submission)))}
+    <p class="grammar-translation">${savedSentence?result.en||'':activity.en || ''}</p>
+    ${savedSentence?raw(html`<p class="lab-sentence lab-sentence-center" lang="it">${result.sentence}</p>`):raw(labSentence(activity.template, blanks, { ...ui, active }, { locked, result }))}${join((result?.blanks||[]).map(g=>submissionNote(g.submission)))}
     ${!locked ? raw(labBlankControls(blanks[active], active, ui)) : ''}
     ${activity.hint && ui.hint ? raw(html`<aside class="grammar-hint">${activity.hint}</aside>`) : ''}
     ${!locked && activity.hint && !ui.hint ? raw(html`<div class="journey-tools"><button type="button" class="btn ghost" data-lab-hint>Help me</button></div>`) : ''}

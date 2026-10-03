@@ -1,0 +1,29 @@
+{
+  "browser": "webkit",
+  "scope": "Actual Workshop route/source in the programme worktree, committed e14366b legacy fixture, real store/reload and canonical help binding. Future-compatible source is an explicit browser response fixture; no real model/language-quality claim.",
+  "baseline": "e14366b",
+  "baselineNormalization": "Normal persisted loading adds only activeObjectiveId:null, answeredEventIds:[], completedObjectiveIds:[], deferred:{}, objectiveIds:[], reviewedObjectiveIds:[]; every original session/state/draft/result/history/timestamp field is asserted exact before capturing the recovery baseline.",
+  "sourceSHA256": {
+    "js/learning/lab-template-source.js": "79a70f38ede0871c0ab72f580f85eb4dfe6c64c1f9fa9f0cef9e9b24732fcfd9",
+    "js/learning/sentence-lab.js": "9b053cfa928df3930a7c97c742900cdca0b351669136c583b6975d5079beb203",
+    "js/views/labFrasiLesson.js": "d03a8b24759630ae5989440290d00dfa85a43d548ba6c8f56fb9e212bf666a5a",
+    "js/learning/sentence-lab-activities.js": "a90bbe41492ddc1cd21035b1801fc5fc56986a09c56bc9edbcb5fe406c5ec852",
+    "js/learning/practice-authored-sources.js": "7d08753c87d393d743b006ca7737e4643bc39e08f3122a2425bc8ca9f47959a6",
+    "data/sentence-lab/strutture.json": "a7f93ad13ab711b5de90d1f54e084cf267f756d6438def0b182f888f99a3f29a",
+    "tests/workshop-source-revision-e2e.mjs": "0abb0678eddb5656212935805f2854955b6969f755c2087743cc3908fd462b67",
+    "tests/fixtures/workshop-source-revision-legacy.json": "32c1c41dce77f18d8dac4007cb4f56e18a9411ca1d92fb661e406977827f5eb7"
+  },
+  "checks": [
+    "Fresh f source displays, helps and grades the matching tiredness form",
+    "Fresh m source displays, helps and grades the matching tiredness form",
+    "Unmarked feminine legacy draft retains exact old text and entered bytes across reload and pause",
+    "Unmarked feminine legacy feedback and history remain exact when opened and reloaded",
+    "Explicit agreement change preserves an answered feminine sentence and its result until Continue",
+    "Known legacy Continue keeps old history; explicit restart reaches the current feminine source",
+    "Explicit unknown revision is readonly and preserves draft/results through reload, Back and restart links",
+    "Explicit null revision is readonly and preserves draft/results through reload, Back and restart links",
+    "A later compatible authored source resumes an unknown draft without replacing its session/history"
+  ],
+  "errors": [],
+  "reportMetadataCorrection": "After the passing run, only the report scope wording was clarified to identify the worktree rather than imply release; test behavior is unchanged."
+}

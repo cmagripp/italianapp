@@ -1,0 +1,58 @@
+{
+  "kind": "Development checkpoint; not a production release",
+  "createdAt": "2026-10-03T22:32:29.445456+00:00",
+  "branch": "codex/parola-full-programme",
+  "parentCommit": "e14366b",
+  "mainBaseline": "7eeeb36fee685ee0d7e3abd62f1499d51dee59cb",
+  "build": "parola-v15-1dce36c125d3",
+  "buildFiles": 435,
+  "buildBytes": 44555211,
+  "scope": "One explicitly versioned Workshop template; exact old drafts, answers, history and unavailable-version recovery; canonical assistance bindings.",
+  "checks": {
+    "templateAuthorCheck": true,
+    "templateEngineCases": 50,
+    "historicalSourceExamples": 60,
+    "historicalFreeSlotAgreements": {
+      "m": 46,
+      "f": 45
+    },
+    "currentFreeSlotAgreements": {
+      "m": 46,
+      "f": 46
+    },
+    "affectedAIUnitChecks": 52,
+    "sourceRevisionBrowser": {
+      "chromium": 9,
+      "webkit": 9
+    },
+    "assistanceBrowser": {
+      "chromium": 19,
+      "webkit": 19
+    },
+    "existingWorkshopWebKit": 10,
+    "assembledOfflineUpdate": 9,
+    "sourceModules": 155,
+    "shellAssets": 213
+  },
+  "evidence": [
+    "ai-workshop-template-binding-integration.json",
+    "workshop-template-stanco-engine.json",
+    "workshop-template-stanco-independent-review.json",
+    "workshop-source-revision-chromium.json",
+    "workshop-source-revision-webkit.json",
+    "ai-assistance-chromium.json",
+    "ai-assistance-webkit.json"
+  ],
+  "scopeLimits": [
+    "No production model/provider or asset activated.",
+    "Existing native, Italian educator, learner and full programme release gates remain open.",
+    "Installed simulator observation belongs to previous6f8191060b7b checkpoint; this version has browser offline checks only.",
+    "Browser recovery fixture adds exactly six normal loader metadata fields before baseline capture; all original values then remain exact."
+  ],
+  "logs": [
+    "/tmp/parola-workshop-final-build.log",
+    "/tmp/parola-workshop-final-offline.log",
+    "/tmp/parola-workshop-final-engine.log",
+    "/tmp/parola-workshop-revision-existing-webkit.log"
+  ]
+}

@@ -6,6 +6,7 @@ import { conjugate, primary, MISSING, PERSONS, TENSE_BY_KEY } from '../conjugato
 import { withArticle, hasPluralForm, isPluralOnly, fold, POS_NAME } from '../data.js';
 import { createSentenceLookup } from './sentence-lookup.js';
 import { compareSubmission } from './answer-policy.js';
+import { initialLabTemplateRevision, resolveLabTemplate } from './lab-template-source.js';
 
 export const LAB_STAGES = ['presente', 'passato', 'futuro', 'strutture'];
 export const LAB_TENSES = ['presente', 'passatoProssimo', 'imperfetto', 'futuro', 'condizionale', 'misto'];
@@ -71,7 +72,7 @@ function dialogueFinal(state) {
 }
 
 function initState(activity) {
-  const base = { kind: activity.kind, misses: 0, attempts: [], last: null, result: null, revealed: false, done: false };
+  const base = { kind: activity.kind, misses: 0, attempts: [], last: null, result: null, revealed: false, done: false, ...initialLabTemplateRevision(activity) };
   if (activity.kind === 'model') return { ...base, done: true };
   if (activity.kind === 'dialogue') {
     const turns = Array.isArray(activity.turns) ? activity.turns : [], turnIndex = firstYouTurn(turns);
@@ -127,12 +128,19 @@ function dialogueView(activity, state) {
 export function currentLabStep(lesson, session) {
   if (!lesson || !session) return null;
   const activities = Array.isArray(lesson.activities) ? lesson.activities : [];
-  const activity = activities[session.index] || null;
+  const sourceActivity = activities[session.index] || null;
   const base = { index: session.index, total: activities.length, lessonId: lesson.id };
-  if (session.phase === 'complete' || !activity) return { ...base, kind: 'complete', activity: null, state: null, complete: true, done: true, result: null };
-  const state = session.state && session.state.kind === activity.kind ? session.state : (session.state = initState(activity));
+  if (session.phase === 'complete' || !sourceActivity) return { ...base, kind: 'complete', activity: null, state: null, complete: true, done: true, result: null };
+  const selectedState = session.state && session.state.kind === sourceActivity.kind ? session.state : initState(sourceActivity);
+  const source = resolveLabTemplate(sourceActivity, selectedState, session.speakerAgreement ?? 'm');
+  if (!source.available) return { ...base, kind: 'unavailable', activity: null, state: session.state ? {...session.state} : null,
+    available: false, sourceReason: source.reason, complete: false, done: false, result: session.state?.result || null, last: session.state?.last || null };
+  const activity = source.activity;
+  const state = session.state && session.state.kind === activity.kind ? session.state : (session.state = selectedState);
   const view = activity.kind === 'dialogue' ? dialogueView(activity, state) : { ...state };
-  return { ...base, kind: activity.kind, activity, state: view, complete: false, done: stepDone(state), result: state.result || null, last: state.last || null };
+  return { ...base, kind: activity.kind, activity, state: view, available: true,
+    templateSource: {revision: source.revision, legacy: source.legacy, agreement: source.agreement ?? null},
+    complete: false, done: stepDone(state), result: state.result || null, last: state.last || null };
 }
 
 export function labSessionProgress(lesson, session) {
@@ -362,10 +370,15 @@ function answerBuild(lesson, activity, state, value, ctx, session, now) {
 // Idempotent once the activity has its final result (an incorrect try on a fixed blank is not final until MAX_TRIES).
 export function answerLab(lesson, session, value, ctx = {}) {
   const activities = Array.isArray(lesson?.activities) ? lesson.activities : [];
-  const activity = session ? activities[session.index] : null;
-  if (!session || session.phase !== 'activity' || !activity) return { session, result: null };
-  const state = session.state && session.state.kind === activity.kind ? session.state : (session.state = initState(activity));
-  if (state.result) return { session, result: state.result };
+  const sourceActivity = session ? activities[session.index] : null;
+  if (!session || session.phase !== 'activity' || !sourceActivity) return { session, result: null };
+  if (session.state?.kind === sourceActivity.kind && session.state.result) return { session, result: session.state.result };
+  const selectedState = session.state && session.state.kind === sourceActivity.kind ? session.state : initState(sourceActivity);
+  const source = resolveLabTemplate(sourceActivity, selectedState, session.speakerAgreement ?? 'm');
+  if (!source.available) return { session, result: null, unavailable: true, sourceReason: source.reason };
+  const activity = source.activity;
+  const state = session.state && session.state.kind === activity.kind ? session.state : (session.state = selectedState);
+  if (source.revision) ctx = {...ctx, speakerGender: source.agreement};
   const now = Number.isFinite(ctx?.now) ? ctx.now : Date.now();
   let result;
   switch (activity.kind) {
@@ -385,6 +398,7 @@ export function advanceLab(lesson, session, { now = Date.now() } = {}) {
   const activities = Array.isArray(lesson?.activities) ? lesson.activities : [];
   const activity = activities[session.index];
   if (!activity) { session.phase = 'complete'; session.state = null; session.updatedAt = now; return session; }
+  if (!resolveLabTemplate(activity, session.state, session.speakerAgreement ?? 'm').available) return session;
   const state = session.state && session.state.kind === activity.kind ? session.state : (session.state = initState(activity));
   if (!stepDone(state)) return session;
   session.history = [...session.history, { index: session.index, activityId: activity.id, kind: activity.kind, result: clone(state.result), state: clone(state), at: now }];

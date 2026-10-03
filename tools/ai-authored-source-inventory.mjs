@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createLabSession} from '../js/learning/sentence-lab.js';
+import {initialLabTemplateRevision} from '../js/learning/lab-template-source.js';
 import {createWorkshopPracticeBinding,createCoursePracticeBinding,createGrammarPracticeBinding,createPracticeSourceResolver} from '../js/learning/practice-sources.js';
 import {installGrammarCourse,grammarLesson} from '../js/learning/grammar-course.js';
 import {createCourseSession} from '../js/learning/course-v2-engine.js';
@@ -13,13 +14,21 @@ for(const pack of packs)for(const lesson of pack.lessons)for(const [activityInde
  const turns=activity.kind==='dialogue'?activity.turns:activity.kind==='cloze'?[activity]:[];
  for(const [turnIndex,turn] of turns.entries())for(const [blankIndex,blank] of (turn.blanks||[]).entries())if(blank.free){
   const agreements={};for(const agreement of ['m','f']){
-   const session=createLabSession(lesson);Object.assign(session,{index:activityIndex,speakerAgreement:agreement,state:{kind:activity.kind,result:null,...activity.kind==='dialogue'?{turnIndex}:{}}});
+   const session=createLabSession(lesson);Object.assign(session,{index:activityIndex,speakerAgreement:agreement,state:{kind:activity.kind,result:null,...activity.kind==='dialogue'?{turnIndex}:initialLabTemplateRevision(activity)}});
    const binding=createWorkshopPracticeBinding({lesson,stage:pack,session,blankIndex}),source=binding&&resolver.resolve(binding);
-   agreements[agreement]={supported:!!source,bindingChars:binding?JSON.stringify(binding).length:null,referenceTexts:source?.references.map(reference=>reference.it)||[],references:source?.references.map(reference=>({id:reference.id,sourceLocator:reference.sourceLocator,reviewStatus:reference.reviewStatus,reviewScope:reference.reviewScope||null,nativeItalianEducatorReview:reference.nativeItalianEducatorReview,applicability:reference.applicability||null,subjectAgreement:reference.subjectAgreement||null,subjectScope:reference.subjectScope||null}))||[]};
+   agreements[agreement]={supported:!!source,template:binding?.canonical.template||turn.template,templateRevision:binding?.selection.templateRevision||null,bindingChars:binding?JSON.stringify(binding).length:null,referenceTexts:source?.references.map(reference=>reference.it)||[],references:source?.references.map(reference=>({id:reference.id,sourceRevision:reference.sourceRevision,sourceLocator:reference.sourceLocator,reviewStatus:reference.reviewStatus,reviewScope:reference.reviewScope||null,nativeItalianEducatorReview:reference.nativeItalianEducatorReview,applicability:reference.applicability||null,subjectAgreement:reference.subjectAgreement||null,subjectScope:reference.subjectScope||null}))||[]};
   }
   slots.push({stage:pack.stage,lessonId:lesson.id,activityId:activity.id,activityIndex,turnIndex:activity.kind==='dialogue'?turnIndex:null,blankIndex,template:turn.template,accept:blank.accept,agreements});
  }
 }
+const legacyVersionedSlots=slots.filter(slot=>slot.agreements.m.templateRevision).map(slot=>{
+ const {lesson,pack}=byId.get(slot.lessonId),activity=lesson.activities[slot.activityIndex];
+ const agreements=Object.fromEntries(['m','f'].map(agreement=>{
+  const session=createLabSession(lesson);Object.assign(session,{index:slot.activityIndex,speakerAgreement:agreement,state:{kind:'cloze',result:null}});
+  const binding=createWorkshopPracticeBinding({lesson,stage:pack,session,blankIndex:slot.blankIndex}),source=binding&&resolver.resolve(binding);
+  return[agreement,{supported:!!source,template:activity.legacyTemplate.template,selectedRevision:activity.legacyTemplate.revision,marker:'genuinely absent',referenceTexts:source?.references.map(reference=>reference.it)||[]}];
+ }));return{lessonId:slot.lessonId,activityIndex:slot.activityIndex,blankIndex:slot.blankIndex,agreements};
+});
 const courseIndex=read('data/course-index.json'),coursePacks=courseIndex.levels.map(pack=>read(pack.path)),grammarPacks=courseIndex.legacyLevels.map(pack=>read(pack.path));installGrammarCourse(coursePacks,grammarPacks);
 const counts={course:{question:0,portfolio:0,unsupported:[]},grammar:{question:0,teach:0,repair:0,unsupported:[]}};
 for(const pack of coursePacks)for(const unit of pack.units)for(const raw of unit.lessons){
@@ -34,5 +43,8 @@ for(const pack of grammarPacks)for(const unit of pack.units)for(const raw of uni
  }
 }
 const supported=slots.filter(slot=>slot.agreements.m.supported&&slot.agreements.f.supported),report={generatedAt:new Date().toISOString(),scope:'Exact current canonical source support; bounded Workshop editorial approval is only the 60 chosen forms/translations/agreement, never all accepted alternatives or rule/real model quality approval.',policy:'Workshop explicit sourceExamples bind every accepted fill, exact full template sentence/translation and quoted subject agreement. Explicit invalid/inapplicable sources never fall back; legacy sources without metadata retain conservative whole-phrase/frame matching.',packs:[...paths,...courseIndex.levels.map(pack=>pack.path),...courseIndex.legacyLevels.map(pack=>pack.path)].map(path=>({path,sha256:createHash('sha256').update(fs.readFileSync(new URL('../'+path,import.meta.url))).digest('hex')})),course:counts.course,grammar:counts.grammar,lessons:byId.size,freeSlots:slots.length,supportedBothAgreements:supported.length,supportedM:slots.filter(slot=>slot.agreements.m.supported).length,supportedF:slots.filter(slot=>slot.agreements.f.supported).length,unsupported:slots.length-supported.length,unsupportedAgreements:slots.flatMap(slot=>['m','f'].filter(agreement=>!slot.agreements[agreement].supported).map(agreement=>({lessonId:slot.lessonId,activityIndex:slot.activityIndex,turnIndex:slot.turnIndex,blankIndex:slot.blankIndex,agreement,template:slot.template}))),maxBindingChars:Math.max(...slots.flatMap(slot=>['m','f'].map(agreement=>slot.agreements[agreement].bindingChars||0))),slots};
+report.legacyVersionedSlots=legacyVersionedSlots;
+report.scope='Exact fresh current canonical source support, including declared template revisions; bounded Workshop editorial approval covers the original 60 historical chosen contexts plus two current agreement-variant contexts, never all accepted alternatives or rule/real model quality approval.';
+report.policy+=' Current selected template revision and agreement are reselected by the trusted catalogue helper; genuinely absent old markers retain exact legacy sources, while malformed/unknown markers are unavailable.';
 fs.writeFileSync(new URL('../docs/implementation/programme/ai-authored-source-inventory.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({course:report.course,grammar:report.grammar,workshop:{lessons:report.lessons,freeSlots:report.freeSlots,supportedBothAgreements:report.supportedBothAgreements,supportedM:report.supportedM,supportedF:report.supportedF,unsupported:report.unsupported,maxBindingChars:report.maxBindingChars}}));

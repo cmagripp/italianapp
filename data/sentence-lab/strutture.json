@@ -450,9 +450,17 @@
             { "accept": ["resto", "rimango", "mangio", "dormo"], "options": ["resto", "rimango", "mangio", "dormo", "resta"], "bank": ["restiamo", "dormi"], "free": true, "slot": { "pos": "verb", "person": 0, "tense": "presente" }, "explanation": "Io takes -o: resto, rimango.",
               "sourceExamples": [
                 {"agreement":"m","values":["resto"],"en":"I am tired, so tonight I am staying at home.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":"The current fixed template explicitly quotes a masculine speaker (stanco). Resto itself is invariant for speaker gender; this is not a feminine learner’s own sentence. The feminine context remains unavailable until an explicit quote label or a current template remedy is provided.","it":"Sono stanco, quindi stasera resto a casa.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-source-examples-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}
-              ] }
+              ] ,
+              "sourceExamplesByAgreement": {"m":[{"agreement":"m","values":["resto"],"it":"Sono stanco, quindi stasera resto a casa.","en":"I am tired, so tonight I am staying at home.","subjectAgreement":"m","subjectScope":"speaker","sourceNote":"The adjective agrees with this first-person singular speaker; resto is the same present-tense verb for either agreement.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-template-stanco-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}],"f":[{"agreement":"f","values":["resto"],"it":"Sono stanca, quindi stasera resto a casa.","en":"I am tired, so tonight I am staying at home.","subjectAgreement":"f","subjectScope":"speaker","sourceNote":"The adjective agrees with this first-person singular speaker; resto is the same present-tense verb for either agreement.","reviewStatus":"independent-agent-review","reviewRecord":"docs/implementation/programme/workshop-template-stanco-independent-review.json","reviewScope":"chosen-form-translation-agreement","nativeItalianEducatorReview":"pending"}]}
+            }
           ],
           "hint": "Who is tired? Io."
+        ,
+          "legacyTemplate": {"revision":"sl-strutture-03-quindi-allora-pero.4:original-v1","template":"Sono stanco, quindi stasera ____ a casa.","en":"I'm tired, so tonight I'm staying at home."}
+        ,
+          "templateByAgreement": {"m":"Sono stanco, quindi stasera ____ a casa.","f":"Sono stanca, quindi stasera ____ a casa."}
+        ,
+          "templateRevision": "sl-strutture-03-quindi-allora-pero.4:agreement-v2"
         },
         {
           "id": "sl-strutture-03-quindi-allora-pero.5",

@@ -27,12 +27,12 @@ async function provider(reply='inglese',delay=false){
   window.removeHelpProvider=runtime.installConversationProvider({readiness:()=>({written:true,recorded:false,handsfree:false}),acquire:async()=>{helpAcquires++;return helpService;}});
  },{reply,delay});
 }
-async function lab(id='sl-presente-01-chi-sono',index=4,agreement='m',turnIndex=null){
- await page.evaluate(async({id,index,agreement,turnIndex})=>{
+async function lab(id='sl-presente-01-chi-sono',index=4,agreement='m',turnIndex=null,legacyTemplate=false){
+ await page.evaluate(async({id,index,agreement,turnIndex,legacyTemplate})=>{
   const {store}=await import('./js/store.js'),lab=await import('./js/learning/sentence-lab-data.js'),engine=await import('./js/learning/sentence-lab.js');await lab.loadSentenceLab();
   const lesson=lab.labLesson(id),session=engine.createLabSession(lesson);session.index=index;session.speakerAgreement=agreement;
-  session.state=null;engine.currentLabStep(lesson,session);if(turnIndex!==null)session.state.turnIndex=turnIndex;session.state.ui={touched:true};lab.writeLabSession(store,session);await store.saveNow();
- },{id,index,agreement,turnIndex});await gotoRoute(page,'/lab/frasi/'+id);await page.locator('[data-lab-controls]').waitFor();
+  session.state=null;engine.currentLabStep(lesson,session);if(turnIndex!==null)session.state.turnIndex=turnIndex;if(legacyTemplate)delete session.state.templateRevision;session.state.ui={touched:true};lab.writeLabSession(store,session);await store.saveNow();
+ },{id,index,agreement,turnIndex,legacyTemplate});await gotoRoute(page,'/lab/frasi/'+id);await page.locator('[data-lab-controls]').waitFor();
 }
 async function course(kind='choice',legacy=false){
  const id=await page.evaluate(async({kind,legacy})=>{
@@ -120,8 +120,8 @@ try{
   await page.evaluate(()=>releaseHelp());await page.waitForTimeout(50);const saved=await labState();assert.equal(saved.speakerAgreement,'f');assert.equal(saved.aiAssistance.history.length,0);assert.equal(Object.values(saved.aiAssistance.drafts)[0].originalText,'Preserve this original intention');assert.equal(initial.speakerAgreement,'m');assert.equal((await state()).events.length,0);
   await page.locator('[data-lab-ai-help]').click();await sheet().waitFor();assert.equal(await sheet().locator('[data-assistance-intent]').inputValue(),'','a draft bound to another agreement is not silently reused');assert.equal(await page.evaluate(()=>helpRequests.length),1);
  });
- await check('An unsupported Workshop free slot keeps authored help without binding an unrelated model example',async()=>{
-  await fresh();await provider();await lab('sl-strutture-03-quindi-allora-pero',3,'f');assert.equal(await page.locator('[data-lab-ai-help]').count(),0);assert.equal(await page.locator('[data-lab-free]').count(),1);assert.equal(await page.evaluate(()=>helpRequests.length),0);assert.equal((await state()).events.length,0);
+ await check('An exact legacy feminine Workshop quote keeps authored help without inventing a feminine source example',async()=>{
+  await fresh();await provider();await lab('sl-strutture-03-quindi-allora-pero',3,'f',null,true);assert.equal(await page.locator('[data-lab-ai-help]').count(),0);assert.equal(await page.locator('[data-lab-free]').count(),1);assert.equal(await page.evaluate(()=>helpRequests.length),0);assert.equal((await state()).events.length,0);
  });
  await check('Workshop chosen source cards follow the actual speaker agreement without adding evidence',async()=>{
   for(const agreement of ['m','f']){

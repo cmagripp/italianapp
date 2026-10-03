@@ -1,0 +1,976 @@
+{
+  "baseline": "e14366b",
+  "scope": "Exact old pure engine + source extracted from committed baseline; no learner XP/evidence fabricated. Fixed target lesson activity3, female saved preference.",
+  "sourceSHA256": "75965da68e980339053dc289fbc65198cb0e75f72f992a0b25811f41396e61f2",
+  "engineSHA256": "e5b33f96e68ded2b248fb8a6dd70701aaaa29ae951398e7f284265f8109922f7",
+  "lessonId": "sl-strutture-03-quindi-allora-pero",
+  "activityIndex": 3,
+  "activity": {
+    "id": "sl-strutture-03-quindi-allora-pero.4",
+    "kind": "cloze",
+    "prompt": "Finish the sentence",
+    "template": "Sono stanco, quindi stasera ____ a casa.",
+    "en": "I'm tired, so tonight I'm staying at home.",
+    "blanks": [
+      {
+        "accept": [
+          "resto",
+          "rimango",
+          "mangio",
+          "dormo"
+        ],
+        "options": [
+          "resto",
+          "rimango",
+          "mangio",
+          "dormo",
+          "resta"
+        ],
+        "bank": [
+          "restiamo",
+          "dormi"
+        ],
+        "free": true,
+        "slot": {
+          "pos": "verb",
+          "person": 0,
+          "tense": "presente"
+        },
+        "explanation": "Io takes -o: resto, rimango.",
+        "sourceExamples": [
+          {
+            "agreement": "m",
+            "values": [
+              "resto"
+            ],
+            "en": "I am tired, so tonight I am staying at home.",
+            "subjectAgreement": "m",
+            "subjectScope": "speaker",
+            "sourceNote": "The current fixed template explicitly quotes a masculine speaker (stanco). Resto itself is invariant for speaker gender; this is not a feminine learner’s own sentence. The feminine context remains unavailable until an explicit quote label or a current template remedy is provided.",
+            "it": "Sono stanco, quindi stasera resto a casa.",
+            "reviewStatus": "independent-agent-review",
+            "reviewRecord": "docs/implementation/programme/workshop-source-examples-independent-review.json",
+            "reviewScope": "chosen-form-translation-agreement",
+            "nativeItalianEducatorReview": "pending"
+          }
+        ]
+      }
+    ],
+    "hint": "Who is tired? Io."
+  },
+  "draft": "  resto è l’amica  ",
+  "pending": {
+    "id": "lab:frasi:sl-strutture-03-quindi-allora-pero:1791000000000",
+    "version": 1,
+    "lessonId": "sl-strutture-03-quindi-allora-pero",
+    "index": 3,
+    "phase": "activity",
+    "state": {
+      "kind": "cloze",
+      "misses": 0,
+      "attempts": [],
+      "last": null,
+      "result": null,
+      "revealed": false,
+      "done": false,
+      "ui": {
+        "touched": true,
+        "values": [
+          ""
+        ],
+        "active": 0,
+        "drafts": {
+          "0": "  resto è l’amica  "
+        },
+        "freeOpen": {
+          "0": true
+        },
+        "inputSources": {}
+      }
+    },
+    "done": [
+      "sl-strutture-03-quindi-allora-pero.1",
+      "sl-strutture-03-quindi-allora-pero.2",
+      "sl-strutture-03-quindi-allora-pero.3"
+    ],
+    "sentences": [],
+    "history": [
+      {
+        "index": 0,
+        "activityId": "sl-strutture-03-quindi-allora-pero.1",
+        "kind": "model",
+        "result": null,
+        "state": {
+          "kind": "model",
+          "misses": 0,
+          "attempts": [],
+          "last": null,
+          "result": null,
+          "revealed": false,
+          "done": true
+        },
+        "at": 1791000000010
+      },
+      {
+        "index": 1,
+        "activityId": "sl-strutture-03-quindi-allora-pero.2",
+        "kind": "order",
+        "result": {
+          "answer": "Oggi piove, quindi prendo l'ombrello.",
+          "given": "Oggi piove, quindi prendo l'ombrello.",
+          "en": "Today it's raining, so I'm taking the umbrella.",
+          "misses": 0,
+          "revealed": false,
+          "ok": true,
+          "outcome": "correct",
+          "explanation": "",
+          "sentence": "Oggi piove, quindi prendo l'ombrello."
+        },
+        "state": {
+          "kind": "order",
+          "misses": 0,
+          "attempts": [
+            {
+              "answer": "Oggi piove, quindi prendo l'ombrello.",
+              "given": "Oggi piove, quindi prendo l'ombrello.",
+              "en": "Today it's raining, so I'm taking the umbrella.",
+              "misses": 0,
+              "revealed": false,
+              "ok": true,
+              "outcome": "correct",
+              "explanation": "",
+              "sentence": "Oggi piove, quindi prendo l'ombrello."
+            }
+          ],
+          "last": {
+            "answer": "Oggi piove, quindi prendo l'ombrello.",
+            "given": "Oggi piove, quindi prendo l'ombrello.",
+            "en": "Today it's raining, so I'm taking the umbrella.",
+            "misses": 0,
+            "revealed": false,
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Oggi piove, quindi prendo l'ombrello."
+          },
+          "result": {
+            "answer": "Oggi piove, quindi prendo l'ombrello.",
+            "given": "Oggi piove, quindi prendo l'ombrello.",
+            "en": "Today it's raining, so I'm taking the umbrella.",
+            "misses": 0,
+            "revealed": false,
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Oggi piove, quindi prendo l'ombrello."
+          },
+          "revealed": false,
+          "done": true
+        },
+        "at": 1791000000030
+      },
+      {
+        "index": 2,
+        "activityId": "sl-strutture-03-quindi-allora-pero.3",
+        "kind": "cloze",
+        "result": {
+          "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+          "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+          "misses": 0,
+          "revealed": false,
+          "speakerAgreement": "f",
+          "ok": true,
+          "outcome": "correct",
+          "explanation": "",
+          "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+          "blanks": [
+            {
+              "outcome": "correct",
+              "given": "quindi",
+              "filled": "quindi",
+              "entryId": null,
+              "explanation": "",
+              "submission": {
+                "policyVersion": 1,
+                "inputMode": "typed",
+                "language": "it",
+                "accentStrict": false,
+                "originalText": "quindi",
+                "normalizedText": "quindi",
+                "matchedAnswerText": "quindi",
+                "matchKind": "exact",
+                "accentDifferences": [],
+                "displayText": "quindi",
+                "ok": true,
+                "exact": true,
+                "accentIssue": false,
+                "outcome": "correct"
+              },
+              "assistance": [],
+              "assessed": true
+            },
+            {
+              "outcome": "correct",
+              "given": "però",
+              "filled": "però",
+              "entryId": null,
+              "explanation": "",
+              "submission": {
+                "policyVersion": 1,
+                "inputMode": "typed",
+                "language": "it",
+                "accentStrict": false,
+                "originalText": "però",
+                "normalizedText": "però",
+                "matchedAnswerText": "però",
+                "matchKind": "exact",
+                "accentDifferences": [],
+                "displayText": "però",
+                "ok": true,
+                "exact": true,
+                "accentIssue": false,
+                "outcome": "correct"
+              },
+              "assistance": [],
+              "assessed": true
+            }
+          ],
+          "glossIsPattern": false,
+          "wordGlosses": [],
+          "assistance": []
+        },
+        "state": {
+          "kind": "cloze",
+          "misses": 0,
+          "attempts": [
+            {
+              "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+              "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+              "misses": 0,
+              "revealed": false,
+              "speakerAgreement": "f",
+              "ok": true,
+              "outcome": "correct",
+              "explanation": "",
+              "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+              "blanks": [
+                {
+                  "outcome": "correct",
+                  "given": "quindi",
+                  "filled": "quindi",
+                  "entryId": null,
+                  "explanation": "",
+                  "submission": {
+                    "policyVersion": 1,
+                    "inputMode": "typed",
+                    "language": "it",
+                    "accentStrict": false,
+                    "originalText": "quindi",
+                    "normalizedText": "quindi",
+                    "matchedAnswerText": "quindi",
+                    "matchKind": "exact",
+                    "accentDifferences": [],
+                    "displayText": "quindi",
+                    "ok": true,
+                    "exact": true,
+                    "accentIssue": false,
+                    "outcome": "correct"
+                  },
+                  "assistance": [],
+                  "assessed": true
+                },
+                {
+                  "outcome": "correct",
+                  "given": "però",
+                  "filled": "però",
+                  "entryId": null,
+                  "explanation": "",
+                  "submission": {
+                    "policyVersion": 1,
+                    "inputMode": "typed",
+                    "language": "it",
+                    "accentStrict": false,
+                    "originalText": "però",
+                    "normalizedText": "però",
+                    "matchedAnswerText": "però",
+                    "matchKind": "exact",
+                    "accentDifferences": [],
+                    "displayText": "però",
+                    "ok": true,
+                    "exact": true,
+                    "accentIssue": false,
+                    "outcome": "correct"
+                  },
+                  "assistance": [],
+                  "assessed": true
+                }
+              ],
+              "glossIsPattern": false,
+              "wordGlosses": [],
+              "assistance": []
+            }
+          ],
+          "last": {
+            "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+            "misses": 0,
+            "revealed": false,
+            "speakerAgreement": "f",
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "blanks": [
+              {
+                "outcome": "correct",
+                "given": "quindi",
+                "filled": "quindi",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "quindi",
+                  "normalizedText": "quindi",
+                  "matchedAnswerText": "quindi",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "quindi",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              },
+              {
+                "outcome": "correct",
+                "given": "però",
+                "filled": "però",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "però",
+                  "normalizedText": "però",
+                  "matchedAnswerText": "però",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "però",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              }
+            ],
+            "glossIsPattern": false,
+            "wordGlosses": [],
+            "assistance": []
+          },
+          "result": {
+            "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+            "misses": 0,
+            "revealed": false,
+            "speakerAgreement": "f",
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "blanks": [
+              {
+                "outcome": "correct",
+                "given": "quindi",
+                "filled": "quindi",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "quindi",
+                  "normalizedText": "quindi",
+                  "matchedAnswerText": "quindi",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "quindi",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              },
+              {
+                "outcome": "correct",
+                "given": "però",
+                "filled": "però",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "però",
+                  "normalizedText": "però",
+                  "matchedAnswerText": "però",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "però",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              }
+            ],
+            "glossIsPattern": false,
+            "wordGlosses": [],
+            "assistance": []
+          },
+          "revealed": false,
+          "done": true
+        },
+        "at": 1791000000050
+      }
+    ],
+    "createdAt": 1791000000000,
+    "updatedAt": 1791000000050,
+    "speakerAgreement": "f"
+  },
+  "answered": {
+    "id": "lab:frasi:sl-strutture-03-quindi-allora-pero:1791000000000",
+    "version": 1,
+    "lessonId": "sl-strutture-03-quindi-allora-pero",
+    "index": 3,
+    "phase": "activity",
+    "state": {
+      "kind": "cloze",
+      "misses": 0,
+      "attempts": [
+        {
+          "answer": "Sono stanco, quindi stasera resto a casa.",
+          "en": "I'm tired, so tonight I'm staying at home.",
+          "misses": 0,
+          "revealed": false,
+          "speakerAgreement": "f",
+          "ok": true,
+          "outcome": "correct",
+          "explanation": "",
+          "sentence": "Sono stanco, quindi stasera resto a casa.",
+          "blanks": [
+            {
+              "outcome": "correct",
+              "given": "resto",
+              "filled": "resto",
+              "entryId": null,
+              "explanation": "",
+              "submission": {
+                "policyVersion": 1,
+                "inputMode": "typed",
+                "language": "it",
+                "accentStrict": false,
+                "originalText": "resto",
+                "normalizedText": "resto",
+                "matchedAnswerText": "resto",
+                "matchKind": "exact",
+                "accentDifferences": [],
+                "displayText": "resto",
+                "ok": true,
+                "exact": true,
+                "accentIssue": false,
+                "outcome": "correct"
+              },
+              "assistance": [],
+              "assessed": true
+            }
+          ],
+          "glossIsPattern": false,
+          "wordGlosses": [],
+          "assistance": []
+        }
+      ],
+      "last": {
+        "answer": "Sono stanco, quindi stasera resto a casa.",
+        "en": "I'm tired, so tonight I'm staying at home.",
+        "misses": 0,
+        "revealed": false,
+        "speakerAgreement": "f",
+        "ok": true,
+        "outcome": "correct",
+        "explanation": "",
+        "sentence": "Sono stanco, quindi stasera resto a casa.",
+        "blanks": [
+          {
+            "outcome": "correct",
+            "given": "resto",
+            "filled": "resto",
+            "entryId": null,
+            "explanation": "",
+            "submission": {
+              "policyVersion": 1,
+              "inputMode": "typed",
+              "language": "it",
+              "accentStrict": false,
+              "originalText": "resto",
+              "normalizedText": "resto",
+              "matchedAnswerText": "resto",
+              "matchKind": "exact",
+              "accentDifferences": [],
+              "displayText": "resto",
+              "ok": true,
+              "exact": true,
+              "accentIssue": false,
+              "outcome": "correct"
+            },
+            "assistance": [],
+            "assessed": true
+          }
+        ],
+        "glossIsPattern": false,
+        "wordGlosses": [],
+        "assistance": []
+      },
+      "result": {
+        "answer": "Sono stanco, quindi stasera resto a casa.",
+        "en": "I'm tired, so tonight I'm staying at home.",
+        "misses": 0,
+        "revealed": false,
+        "speakerAgreement": "f",
+        "ok": true,
+        "outcome": "correct",
+        "explanation": "",
+        "sentence": "Sono stanco, quindi stasera resto a casa.",
+        "blanks": [
+          {
+            "outcome": "correct",
+            "given": "resto",
+            "filled": "resto",
+            "entryId": null,
+            "explanation": "",
+            "submission": {
+              "policyVersion": 1,
+              "inputMode": "typed",
+              "language": "it",
+              "accentStrict": false,
+              "originalText": "resto",
+              "normalizedText": "resto",
+              "matchedAnswerText": "resto",
+              "matchKind": "exact",
+              "accentDifferences": [],
+              "displayText": "resto",
+              "ok": true,
+              "exact": true,
+              "accentIssue": false,
+              "outcome": "correct"
+            },
+            "assistance": [],
+            "assessed": true
+          }
+        ],
+        "glossIsPattern": false,
+        "wordGlosses": [],
+        "assistance": []
+      },
+      "revealed": false,
+      "done": true,
+      "ui": {
+        "touched": true,
+        "values": [
+          "resto"
+        ],
+        "active": 0,
+        "drafts": {
+          "0": "  resto  "
+        },
+        "freeOpen": {
+          "0": true
+        },
+        "inputSources": {
+          "0": {
+            "inputMode": "typed",
+            "originalText": "resto",
+            "assistance": []
+          }
+        }
+      }
+    },
+    "done": [
+      "sl-strutture-03-quindi-allora-pero.1",
+      "sl-strutture-03-quindi-allora-pero.2",
+      "sl-strutture-03-quindi-allora-pero.3"
+    ],
+    "sentences": [],
+    "history": [
+      {
+        "index": 0,
+        "activityId": "sl-strutture-03-quindi-allora-pero.1",
+        "kind": "model",
+        "result": null,
+        "state": {
+          "kind": "model",
+          "misses": 0,
+          "attempts": [],
+          "last": null,
+          "result": null,
+          "revealed": false,
+          "done": true
+        },
+        "at": 1791000000010
+      },
+      {
+        "index": 1,
+        "activityId": "sl-strutture-03-quindi-allora-pero.2",
+        "kind": "order",
+        "result": {
+          "answer": "Oggi piove, quindi prendo l'ombrello.",
+          "given": "Oggi piove, quindi prendo l'ombrello.",
+          "en": "Today it's raining, so I'm taking the umbrella.",
+          "misses": 0,
+          "revealed": false,
+          "ok": true,
+          "outcome": "correct",
+          "explanation": "",
+          "sentence": "Oggi piove, quindi prendo l'ombrello."
+        },
+        "state": {
+          "kind": "order",
+          "misses": 0,
+          "attempts": [
+            {
+              "answer": "Oggi piove, quindi prendo l'ombrello.",
+              "given": "Oggi piove, quindi prendo l'ombrello.",
+              "en": "Today it's raining, so I'm taking the umbrella.",
+              "misses": 0,
+              "revealed": false,
+              "ok": true,
+              "outcome": "correct",
+              "explanation": "",
+              "sentence": "Oggi piove, quindi prendo l'ombrello."
+            }
+          ],
+          "last": {
+            "answer": "Oggi piove, quindi prendo l'ombrello.",
+            "given": "Oggi piove, quindi prendo l'ombrello.",
+            "en": "Today it's raining, so I'm taking the umbrella.",
+            "misses": 0,
+            "revealed": false,
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Oggi piove, quindi prendo l'ombrello."
+          },
+          "result": {
+            "answer": "Oggi piove, quindi prendo l'ombrello.",
+            "given": "Oggi piove, quindi prendo l'ombrello.",
+            "en": "Today it's raining, so I'm taking the umbrella.",
+            "misses": 0,
+            "revealed": false,
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Oggi piove, quindi prendo l'ombrello."
+          },
+          "revealed": false,
+          "done": true
+        },
+        "at": 1791000000030
+      },
+      {
+        "index": 2,
+        "activityId": "sl-strutture-03-quindi-allora-pero.3",
+        "kind": "cloze",
+        "result": {
+          "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+          "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+          "misses": 0,
+          "revealed": false,
+          "speakerAgreement": "f",
+          "ok": true,
+          "outcome": "correct",
+          "explanation": "",
+          "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+          "blanks": [
+            {
+              "outcome": "correct",
+              "given": "quindi",
+              "filled": "quindi",
+              "entryId": null,
+              "explanation": "",
+              "submission": {
+                "policyVersion": 1,
+                "inputMode": "typed",
+                "language": "it",
+                "accentStrict": false,
+                "originalText": "quindi",
+                "normalizedText": "quindi",
+                "matchedAnswerText": "quindi",
+                "matchKind": "exact",
+                "accentDifferences": [],
+                "displayText": "quindi",
+                "ok": true,
+                "exact": true,
+                "accentIssue": false,
+                "outcome": "correct"
+              },
+              "assistance": [],
+              "assessed": true
+            },
+            {
+              "outcome": "correct",
+              "given": "però",
+              "filled": "però",
+              "entryId": null,
+              "explanation": "",
+              "submission": {
+                "policyVersion": 1,
+                "inputMode": "typed",
+                "language": "it",
+                "accentStrict": false,
+                "originalText": "però",
+                "normalizedText": "però",
+                "matchedAnswerText": "però",
+                "matchKind": "exact",
+                "accentDifferences": [],
+                "displayText": "però",
+                "ok": true,
+                "exact": true,
+                "accentIssue": false,
+                "outcome": "correct"
+              },
+              "assistance": [],
+              "assessed": true
+            }
+          ],
+          "glossIsPattern": false,
+          "wordGlosses": [],
+          "assistance": []
+        },
+        "state": {
+          "kind": "cloze",
+          "misses": 0,
+          "attempts": [
+            {
+              "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+              "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+              "misses": 0,
+              "revealed": false,
+              "speakerAgreement": "f",
+              "ok": true,
+              "outcome": "correct",
+              "explanation": "",
+              "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+              "blanks": [
+                {
+                  "outcome": "correct",
+                  "given": "quindi",
+                  "filled": "quindi",
+                  "entryId": null,
+                  "explanation": "",
+                  "submission": {
+                    "policyVersion": 1,
+                    "inputMode": "typed",
+                    "language": "it",
+                    "accentStrict": false,
+                    "originalText": "quindi",
+                    "normalizedText": "quindi",
+                    "matchedAnswerText": "quindi",
+                    "matchKind": "exact",
+                    "accentDifferences": [],
+                    "displayText": "quindi",
+                    "ok": true,
+                    "exact": true,
+                    "accentIssue": false,
+                    "outcome": "correct"
+                  },
+                  "assistance": [],
+                  "assessed": true
+                },
+                {
+                  "outcome": "correct",
+                  "given": "però",
+                  "filled": "però",
+                  "entryId": null,
+                  "explanation": "",
+                  "submission": {
+                    "policyVersion": 1,
+                    "inputMode": "typed",
+                    "language": "it",
+                    "accentStrict": false,
+                    "originalText": "però",
+                    "normalizedText": "però",
+                    "matchedAnswerText": "però",
+                    "matchKind": "exact",
+                    "accentDifferences": [],
+                    "displayText": "però",
+                    "ok": true,
+                    "exact": true,
+                    "accentIssue": false,
+                    "outcome": "correct"
+                  },
+                  "assistance": [],
+                  "assessed": true
+                }
+              ],
+              "glossIsPattern": false,
+              "wordGlosses": [],
+              "assistance": []
+            }
+          ],
+          "last": {
+            "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+            "misses": 0,
+            "revealed": false,
+            "speakerAgreement": "f",
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "blanks": [
+              {
+                "outcome": "correct",
+                "given": "quindi",
+                "filled": "quindi",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "quindi",
+                  "normalizedText": "quindi",
+                  "matchedAnswerText": "quindi",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "quindi",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              },
+              {
+                "outcome": "correct",
+                "given": "però",
+                "filled": "però",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "però",
+                  "normalizedText": "però",
+                  "matchedAnswerText": "però",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "però",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              }
+            ],
+            "glossIsPattern": false,
+            "wordGlosses": [],
+            "assistance": []
+          },
+          "result": {
+            "answer": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "en": "I'm hungry, so I'm eating a sandwich. I'm not thirsty, but I'm drinking a little water.",
+            "misses": 0,
+            "revealed": false,
+            "speakerAgreement": "f",
+            "ok": true,
+            "outcome": "correct",
+            "explanation": "",
+            "sentence": "Ho fame, quindi mangio un panino. Non ho sete, però bevo un po' d'acqua.",
+            "blanks": [
+              {
+                "outcome": "correct",
+                "given": "quindi",
+                "filled": "quindi",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "quindi",
+                  "normalizedText": "quindi",
+                  "matchedAnswerText": "quindi",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "quindi",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              },
+              {
+                "outcome": "correct",
+                "given": "però",
+                "filled": "però",
+                "entryId": null,
+                "explanation": "",
+                "submission": {
+                  "policyVersion": 1,
+                  "inputMode": "typed",
+                  "language": "it",
+                  "accentStrict": false,
+                  "originalText": "però",
+                  "normalizedText": "però",
+                  "matchedAnswerText": "però",
+                  "matchKind": "exact",
+                  "accentDifferences": [],
+                  "displayText": "però",
+                  "ok": true,
+                  "exact": true,
+                  "accentIssue": false,
+                  "outcome": "correct"
+                },
+                "assistance": [],
+                "assessed": true
+              }
+            ],
+            "glossIsPattern": false,
+            "wordGlosses": [],
+            "assistance": []
+          },
+          "revealed": false,
+          "done": true
+        },
+        "at": 1791000000050
+      }
+    ],
+    "createdAt": 1791000000000,
+    "updatedAt": 1791000000060,
+    "speakerAgreement": "f"
+  }
+}
