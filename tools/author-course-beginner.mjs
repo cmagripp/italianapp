@@ -2,6 +2,7 @@
 // Each lesson below supplies its own lexicon, models, checks, and transfer text.
 import { mkdir, writeFile } from 'node:fs/promises';
 import { refineBeginnerPack } from './course-beginner-refinements.mjs';
+import { repairPhaseContentPack } from './phase-content-fixes.mjs';
 
 const ROOT = new URL('../data/course-v2/', import.meta.url);
 const sources = [
@@ -1320,6 +1321,7 @@ for (const [level, pack] of Object.entries(packs)) {
   if (selectedLevel && level !== selectedLevel) continue;
   if (!pack.units.length) continue;
   if (level==='Foundations' || level==='A1') refineBeginnerPack(pack);
+  repairPhaseContentPack(pack);
   await writeFile(new URL(`${level}.json`, ROOT), `${JSON.stringify(pack, null, 2)}\n`);
   const lessons = pack.units.reduce((n, u) => n + u.lessons.length, 0);
   console.log(`${level}: ${pack.units.length} units, ${lessons} lessons`);

@@ -1,0 +1,20 @@
+{
+  "device": "iPhone 16 Pro Max simulator",
+  "ios": "26.5",
+  "build": "23F77",
+  "surface": "Safari",
+  "origin": "http://127.0.0.1:8140/",
+  "verification": "Visual inspection of fresh Home and direct credere present lesson; local fonts render, navigation and lesson Continue remain within visible page above Safari controls. Browser-engine interaction/regression tests are recorded separately; this is not a physical-phone or installed-PWA performance claim.",
+  "screenshots": [
+    {
+      "screen": "home",
+      "file": "simulator-ui/home.png",
+      "sha256": "5beebea9feadf07fb8d814a97f70c9fd0104eabc47c857df5853353499310133"
+    },
+    {
+      "screen": "verb",
+      "file": "simulator-ui/verb.png",
+      "sha256": "bbabfdcdcb4c39d56022b7fe490c664ab513fe42a43b0d96e5682bec1ff97cbc"
+    }
+  ]
+}

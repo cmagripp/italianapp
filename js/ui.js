@@ -58,28 +58,49 @@ export function el(tag, attrs = {}, ...children) {
 
 // Italian text with a tap-to-reveal English translation
 export function tr(itText, enText, cls = '') {
-  return html`<span class="itx ${cls}" role="button" tabindex="0"><span class="it">${itText}</span><span class="tr">${enText}</span></span>`;
+  return html`<span class="itx ${cls}" role="button" tabindex="0" aria-expanded="${store.settings.showEn==='always'}" aria-label="Reveal English translation"><span class="it" lang="it">${itText}</span><span class="tr" lang="en">${enText}</span></span>`;
 }
 export function trBlock(itText, enText, cls = '') {
-  return html`<div class="itx block ${cls}" role="button" tabindex="0"><div class="it">${itText}</div><div class="tr">${enText}</div></div>`;
+  return html`<div class="itx block ${cls}" role="button" tabindex="0" aria-expanded="${store.settings.showEn==='always'}" aria-label="Reveal English translation"><div class="it" lang="it">${itText}</div><div class="tr" lang="en">${enText}</div></div>`;
 }
 // The headword "EN" pill: a glass pill that slides open to reveal the translation (same .itx mechanism).
 export function enPill(enText, cls = '') {
-  return html`<span class="itx headword-en ${cls}" role="button" tabindex="0" aria-label="Show English"><span class="it">EN</span><span class="tr">${enText}</span></span>`;
+  return html`<span class="itx headword-en ${cls}" role="button" tabindex="0" aria-label="Show English" aria-expanded="${store.settings.showEn==='always'}"><span class="it">EN</span><span class="tr">${enText}</span></span>`;
 }
 // global delegated handler for .itx
 document.addEventListener('click', (ev) => {
   const t = ev.target.closest('.itx');
   if (!t) return;
   if (ev.target.closest('a,button,.speak,input')) return;
-  t.classList.toggle('open');
+  t.classList.toggle('open'); t.setAttribute('aria-expanded', String(store.settings.showEn==='always'||t.classList.contains('open')));
 });
 document.addEventListener('keydown', (ev) => {
   if (ev.key !== 'Enter' && ev.key !== ' ') return;
   const t = ev.target.closest && ev.target.closest('.itx');
   if (!t || ev.target !== t) return;
-  ev.preventDefault(); t.classList.toggle('open');
+  ev.preventDefault(); t.classList.toggle('open'); t.setAttribute('aria-expanded', String(store.settings.showEn==='always'||t.classList.contains('open')));
 });
+
+const refreshRevealStates=()=>document.querySelectorAll('.itx[aria-expanded]').forEach(node=>node.setAttribute('aria-expanded',String(store.settings.showEn==='always'||node.classList.contains('open'))));
+store.on('settings',refreshRevealStates);store.on('profile',refreshRevealStates);
+
+// Accepted accent restoration keeps the original available without replacing a
+// learner's chosen valid alternative or exposing raw HTML from their answer.
+export function submissionNote(submission) {
+  if (!submission?.ok || submission.matchKind !== 'accent-only') return '';
+  return html`<details class="submission-note"><summary>Accent restored</summary><p>As typed: <span lang="it">${submission.originalText}</span></p><p>Written Italian: <span lang="it">${submission.displayText}</span></p></details>`;
+}
+
+// Kept outside route content so assistive technology observes a text update,
+// including when an activity replaces its feedback markup in one render.
+let announcement=0;
+export function announceAnswer(result) {
+  const node=document.getElementById('announcer');if(!node)return;
+  const id=++announcement;node.textContent='';
+  const outcome=result?.outcome==='ungraded'?'Compare your response.':result?.outcome==='accepted'?(result.assistance?.length?'Assisted practice.':'Valid alternative.'):result?.ok?'Correct.':'Compare the correct answer.';
+  const correction=result?.submission?.ok&&result.submission.matchKind==='accent-only'?` Accent restored: ${result.submission.displayText}`:'';
+  requestAnimationFrame(()=>{if(id===announcement)node.textContent=outcome+correction;});
+}
 
 // ---------- toast ----------
 let toastTimer = null;

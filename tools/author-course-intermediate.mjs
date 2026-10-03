@@ -1,6 +1,7 @@
 // Authored intermediate-course source. Run with `node tools/author-course-intermediate.mjs`.
 // The helpers only expand the individually written teaching, task and application text.
 import fs from 'node:fs';
+import { repairPhaseContentPack } from './phase-content-fixes.mjs';
 
 const read = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 const old = {B1: read('data/grammar-course/B1.json'), B2: read('data/grammar-course/B2.json')};
@@ -648,6 +649,7 @@ finish('B2',[
 
 function finish(level,units,sources){
   const pack={version:2,level,title:level==='B1'?'Independent everyday Italian':'Confident and flexible Italian',sources,units};
+  repairPhaseContentPack(pack);
   fs.writeFileSync(`data/course-v2/${level}.json`,JSON.stringify(pack,null,2)+'\n');
   console.log(`${level}: ${units.length} units, ${units.reduce((n,u)=>n+u.lessons.length,0)} lessons`);
 }

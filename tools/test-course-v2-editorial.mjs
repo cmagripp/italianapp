@@ -21,9 +21,9 @@ const question=(lessonId,suffix)=>{
   assert(found?.kind==='question',`Missing editorial fixture question ${id}`);
   return found;
 };
-const answer=(lessonId,suffix,response,expected)=>{
+const answer=(lessonId,suffix,response,expected,options={})=>{
   const q=question(lessonId,suffix);
-  const outcome=assessCourseAnswer(q,response).outcome;
+  const outcome=assessCourseAnswer(q,response,options).outcome;
   check(outcome===expected,`${q.id}: ${JSON.stringify(response)} should be ${expected}; got ${outcome}`);
 };
 const preSourceText=id=>{
@@ -143,8 +143,8 @@ for(const id of ['v2-a2-conditional-request','v2-a2-conditional-plan']){
   // The accented perché is the point of the ask-and-answer lesson: a straight
   // apostrophe or a missing full stop is not an error, but the wrong accent is.
   answer('v2-a1-ask-and-answer','s10','perché amo la musica','correct');
-  answer('v2-a1-ask-and-answer','s10','Perchè amo la musica.','incorrect');
-  answer('v2-a1-ask-and-answer','s10','Perche amo la musica.','incorrect');
+  answer('v2-a1-ask-and-answer','s10','Perchè amo la musica.','incorrect',{accentStrict:true});
+  answer('v2-a1-ask-and-answer','s10','Perche amo la musica.','incorrect',{accentStrict:true});
   // A typed production check must not simply copy a sentence the lesson already
   // showed as a model; otherwise it certifies recall of the card, not production.
   for(const id of ['v2-a1-ask-and-answer','v2-a1-di-articles','v2-a2-direct-me-you-us','v2-a2-direct-elision-negation','v2-a2-direct-attached','v2-a2-someone-something']){
@@ -153,7 +153,7 @@ for(const id of ['v2-a2-conditional-request','v2-a2-conditional-plan']){
       check(!shown.some(model=>model.includes(q.speak.toLocaleLowerCase('it').replace(/[.!?]+$/,''))),`${q.id}: typed production check repeats a model sentence verbatim`);
   }
   answer('v2-a1-ask-and-answer','s13','perché','correct');
-  answer('v2-a1-ask-and-answer','s13','Perche','incorrect');
+  answer('v2-a1-ask-and-answer','s13','Perche','incorrect',{accentStrict:true});
   // The short form of the thing question is what most speakers actually say.
   answer('v2-a1-question-words-1','s11','Cosa','correct');
   answer('v2-a1-question-words-1','s11','Dove','incorrect');

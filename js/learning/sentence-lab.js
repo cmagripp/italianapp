@@ -5,6 +5,7 @@
 import { conjugate, primary, MISSING, PERSONS, TENSE_BY_KEY } from '../conjugator.js';
 import { withArticle, hasPluralForm, isPluralOnly, fold, POS_NAME } from '../data.js';
 import { createSentenceLookup } from './sentence-lookup.js';
+import { compareSubmission } from './answer-policy.js';
 
 export const LAB_STAGES = ['presente', 'passato', 'futuro', 'strutture'];
 export const LAB_TENSES = ['presente', 'passatoProssimo', 'imperfetto', 'futuro', 'condizionale', 'misto'];
@@ -40,12 +41,18 @@ const capitalize = s => (s ? s[0].toLocaleUpperCase('it') + s.slice(1) : s);
 const isVerbEntry = e => !!e && (e.kind === 'verb' || e.pos === 'verb' || (typeof e.inf === 'string' && !!e.inf.trim()));
 const entryPos = e => (isVerbEntry(e) ? 'verb' : e?.pos || 'word');
 const fitsPos = (e, pos) => (pos === 'verb' ? isVerbEntry(e) : !isVerbEntry(e) && e?.pos === pos);
+const fitsSlot = (entry,slot) => fitsPos(entry,slot.pos) || slot.pos==='adv' && entry?.pos==='expr' && ['time','places','travel'].includes(entry.cat);
 const headwordOf = e => (isVerbEntry(e) ? e.inf : e?.it) || '';
 const withAn = name => `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
 const posPhrase = pos => withAn(POS_NAME[pos] || pos || 'word');
 // "andato/a" -> andato | andata, "andati/e" -> andati | andate
 const agreeForm = (form, gender) => String(form).replace(/o\/a\b/g, gender === 'f' ? 'a' : 'o').replace(/i\/e\b/g, gender === 'f' ? 'e' : 'i');
-const wrapWith = (wrap, form) => (typeof wrap === 'string' && wrap.trim() ? (wrap.includes('{}') ? wrap.replace('{}', form) : `${wrap.trim()} ${form}`) : form);
+const wrapWith = (wrap, form) => {
+  if(typeof wrap!=='string'||!wrap.trim())return form;
+  const pre=wrap.split('{}')[0].trim();
+  if(pre&&normalizeLab(form).startsWith(normalizeLab(pre)+' '))return form;
+  return wrap.includes('{}')?wrap.replace('{}',form):`${wrap.trim()} ${form}`;
+};
 const endSentence = s => (/[.!?…]$/.test(s) ? s : s + '.');
 
 function safeConjugate(inf, meta = {}) {
@@ -105,7 +112,7 @@ function dialogueView(activity, state) {
     const turn = turns[i];
     if (turn.speaker === 'you') {
       const f = state.filled[i];
-      shown.push({ index: i, speaker: 'you', it: f?.it ?? turn.template, en: f?.en ?? turn.en ?? '', done: !!f, outcome: f?.outcome ?? null, revealed: !!f?.revealed, texts: f?.texts ?? [] });
+      shown.push({ index: i, speaker: 'you', it: f?.it ?? turn.template, en: f?.en ?? turn.en ?? '', done: !!f, outcome: f?.outcome ?? null, revealed: !!f?.revealed, texts: f?.texts ?? [], blanks:f?.blanks||[], assistance:f?.assistance||[],glossIsPattern:f?.glossIsPattern||false,wordGlosses:f?.wordGlosses||[] });
       if (f?.reaction) shown.push({ index: i, speaker: 'partner', reaction: true, it: f.reaction.it, en: f.reaction.en ?? '' });
     } else shown.push({ index: i, speaker: 'partner', it: turn.it, en: turn.en ?? '' });
   }
@@ -161,15 +168,24 @@ function freeEntryExplanation(resolution, blank) {
   }
 }
 
-function gradeBlank(blank, value, ctx) {
-  const text = String(value ?? '').trim();
+function gradeBlank(blank, value, ctx = {}) {
+  const originalText=String(value??'');
+  const text = originalText.trim();
   const accept = Array.isArray(blank?.accept) ? blank.accept : [];
   const wrap = blank?.slot?.wrap;
   const key = normalizeLab(text), wrappedKey = typeof wrap === 'string' && text ? normalizeLab(wrapWith(wrap, text)) : null;
   const equals = list => !!text && (Array.isArray(list) ? list : []).some(a => { const n = normalizeLab(a); return n === key || n === wrappedKey; });
-  const hit = text ? accept.find(a => { const n = normalizeLab(a); return n === key || n === wrappedKey; }) : undefined;
-  if (hit !== undefined) return { outcome: 'correct', given: text, filled: hit, entryId: null, explanation: '' };
-  const authoredMiss = { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: blank?.explanation || (text ? 'Not quite. Try again.' : 'Fill the blank.') };
+  const inputMode=ctx.inputMode||'typed';
+  const compare=(given,answers)=>compareSubmission(given,answers,{accentStrict:ctx.accentStrict===true,inputMode});
+  let submission=compare(originalText,accept);
+  let wrappedSubmission=wrap&&text?compare(wrapWith(wrap,text),accept):null;
+  const hit=submission.ok?submission.matchedAnswerText:wrappedSubmission?.ok?wrappedSubmission.matchedAnswerText:undefined;
+  const authoredMiss = { outcome: 'incorrect', given: originalText, filled: null, entryId: null, submission,explanation: blank?.explanation || (text ? 'Not quite. Try again.' : 'Fill the blank.') };
+  if(hit!==undefined){
+    if(!submission.ok&&wrappedSubmission?.ok)submission={...wrappedSubmission,originalText,displayText:unwrap(wrappedSubmission.displayText,wrap)};
+    return {outcome:ctx.assistance?.length?'accepted':'correct',given:originalText,filled:wrap&&wrappedSubmission?.ok?wrapWith(wrap,submission.displayText):submission.displayText,entryId:null,explanation:'',submission,assistance:ctx.assistance||[],assessed:!(ctx.assistance||[]).length};
+  }
+  if(submission.accentIssue&&!submission.ok)return {...authoredMiss,submission,explanation:'Keep the written accent.'};
   // An authored option outside accept is a wrong choice, graded as authored even when it is a dictionary word the slot
   // would take. A bank entry outside accept is a hint: on a free blank it goes through the slot first, and counts as a
   // free entry only when the slot changes its form (an infinitive conjugated, a bare noun given its article, an adjective
@@ -178,29 +194,81 @@ function gradeBlank(blank, value, ctx) {
   const fromBank = equals(blank?.bank);
   if (!(blank?.free === true && blank.slot && text)) return authoredMiss;
   const unwrapped = unwrap(text, wrap);
-  const resolution = resolveFreeEntry(unwrapped, blank.slot, ctx);
+  let resolution = resolveFreeEntry(unwrapped, blank.slot, ctx);
+  if(resolution.status==='choose'&&ctx.selectedEntryId&&ctx.assistance?.length){
+    const candidate=resolution.candidates.find(c=>c.entryId===ctx.selectedEntryId);
+    if(candidate)resolution={...candidate,status:ctx.learnedIds?.has(candidate.entryId)?'ok':'learn'};
+  }
+  if(resolution.status==='choose'){
+    const matching=resolution.candidates.filter(c=>compare(unwrapped,slotAnswerForms(c,blank.slot,ctx)).ok);
+    if(matching.length===1)resolution={...matching[0],status:ctx.learnedIds?.has(matching[0].entryId)?'ok':'learn'};
+    else if(!matching.length&&italianInputMatches(labIndex(ctx),unwrapped,normalizeSlot(blank.slot)).length)
+      return {...authoredMiss,submission:compare(originalText,[]),explanation:'Use the stated Italian form; the submitted wording has not been changed or credited.'};
+  }
+  // Accent tolerance is a submission policy, never a general fuzzy dictionary match.
+  // Resolve a single accent-only headword while leaving spelling/grammar errors unresolved.
+  let accentResolved = false;
+  if(resolution.status==='unknown'){
+    const suggestions=(resolution.suggestions||[]).filter(w=>compareSubmission(unwrapped,[w],{accentStrict:false,inputMode}).matchKind==='accent-only');
+    if(suggestions.length===1){resolution=resolveFreeEntry(suggestions[0],blank.slot,ctx);accentResolved=true;}
+  }
   if (resolution.status === 'ok' || resolution.status === 'learn') {
     // A typed alternative form ("debbo" for a blank that accepts "devo") resolves to the primary form: when that is an
     // accepted value the blank is right, not merely accepted.
     const resolvedKey = normalizeLab(resolution.display), formKey = normalizeLab(resolution.form);
-    const same = accept.find(a => { const n = normalizeLab(a); return n === resolvedKey || n === formKey; });
-    if (same !== undefined) return { outcome: 'correct', given: text, filled: same, entryId: resolution.entryId, form: resolution.form, explanation: '' };
+    const italian=resolution.phrase===true||accentResolved||italianInputMatches(labIndex(ctx),unwrapped,normalizeSlot(blank.slot)).some(m=>m.entry.id===resolution.entryId);
+    const acceptableForms=slotAnswerForms(resolution,blank.slot,ctx);
+    submission={...compare(unwrapped,acceptableForms),originalText};
+    if(normalizeLab(originalText)!==normalizeLab(unwrapped)){const full=compare(originalText,acceptableForms.map(f=>wrapWith(wrap,f)));submission=full;}
+    const entry=labIndex(ctx).byId.get(resolution.entryId);
+    const lemmaHelp=italian&&!submission.ok&&normalizeLab(unwrapped)===normalizeLab(headwordOf(entry))&&['verb','noun'].includes(blank.slot.pos);
+    const assisted=!italian||lemmaHelp||ctx.assistance?.length>0;
+    if(italian&&!submission.ok&&!lemmaHelp)return {...authoredMiss,submission,resolution,suggestedText:resolution.display,explanation:submission.accentIssue?'Keep the written accent.':`Use the stated form: ${resolution.display}. The submitted wording has not been changed or credited.`};
     if (fromBank && (formKey === normalizeLab(unwrapped) || resolvedKey === key)) return authoredMiss;
-    return { outcome: 'accepted', given: text, filled: resolution.display, entryId: resolution.entryId, form: resolution.form, en: resolution.en, status: resolution.status, explanation: '' };
+    const same=accept.some(a=>normalizeLab(a)===resolvedKey||normalizeLab(a)===formKey);
+    return {outcome:assisted?'accepted':same?'correct':'accepted',given:originalText,filled:assisted?resolution.display:wrapWith(wrap,submission.displayText),entryId:resolution.entryId,form:resolution.form,en:resolution.en,status:resolution.status,phrase:resolution.phrase===true,explanation:assisted?'Assisted practice: the dictionary supplied this Italian wording.':'Valid alternative.',submission,assistance:unique([...(ctx.assistance||[]),...(!italian?['translation']:lemmaHelp?['inflection']:[])]),assessed:!assisted,resolution};
   }
   if (fromBank) return authoredMiss;
-  return { outcome: 'incorrect', given: text, filled: null, entryId: null, explanation: freeEntryExplanation(resolution, blank), resolution };
+  return { outcome: 'incorrect', given: originalText, filled: null, entryId: null, submission,explanation: freeEntryExplanation(resolution, blank), resolution };
+}
+export const assessLabBlank = (blank,value,ctx={}) => gradeBlank(blank,value,ctx);
+
+function slotAnswerForms(resolution,slot,ctx){
+  const forms=[resolution.form,resolution.display,unwrap(resolution.form,slot.wrap)];
+  if(slot.pos==='verb'){
+    const entry=labIndex(ctx).byId.get(resolution.entryId),s=normalizeSlot(slot),p=entry&&safeConjugate(entry.inf,entry);
+    const progressive=/^(?:sto|stai|sta|stiamo|state|stanno|stavo|stavi|stava|stavamo|stavate|stavano)\s*\{\}/i.test(s.wrap||'');
+    for(const form of String(progressive?p?.nonFinite?.gerundio:p?.tenses?.[s.tense]?.[s.person]||'').split('|'))if(form&&form!==MISSING){
+      const agreed=agreeForm(form,s.person===0?ctx?.speakerGender:'m');forms.push(agreed,unwrap(agreed,slot.wrap));
+    }
+  }
+  return unique(forms.filter(Boolean));
 }
 
 // Shared by cloze activities and dialogue turns: grade every blank, then finish or count a miss (reveal after MAX_TRIES).
 function gradeBlanks(template, blanks, en, state, values, ctx) {
-  const graded = blanks.map((blank, i) => gradeBlank(blank, values[i], ctx));
+  const graded = blanks.map((blank, i) => {
+    const source=ctx.blankInputs?.[i];
+    return gradeBlank(blank,source?.inputMode==='typed'?source.originalText:values[i],{...ctx,inputMode:source?.inputMode||ctx.inputMode||'typed',assistance:source?.assistance||[],selectedEntryId:source?.selectedEntryId});
+  });
+  // Bounded construction validation: piacere has the liked thing as subject,
+  // not a bare experiencer followed by a direct object ("Marco piace la pizza").
+  let sentence=fillTemplate(template,graded.map(g=>g.filled));
+  for(const [i,g] of graded.entries())if(g.entryId==='v:piacere'&&g.outcome!=='incorrect'){
+    const parts=template.split(/_{2,}/),before=parts[i]?.trim()||'',after=parts[i+1]?.trim()||'';
+    if(before&&/^(?:il|lo|la|i|gli|le|un|uno|una|l['’])\b/iu.test(after)&&!/\b(?:mi|ti|gli|le|ci|vi)$|(?:^|\s)a\s+[\p{L}\s]+$/iu.test(before)){
+      Object.assign(g,{outcome:'incorrect',filled:null,explanation:'With piacere the liked thing is the subject. Say A Marco piace la pizza, or Marco ama la pizza; a bare Marco cannot take la pizza as a direct object of piace.'});
+    }
+  }
   const expected = blanks.map(expectedValue);
   const answer = fillTemplate(template, expected);
   const base = { answer, en: en || '', misses: state.misses, revealed: false };
   if (!graded.some(g => g.outcome === 'incorrect')) {
     const outcome = graded.every(g => g.outcome === 'correct') ? 'correct' : 'accepted';
-    return { final: true, result: { ...base, ok: true, outcome, explanation: '', sentence: fillTemplate(template, graded.map(g => g.filled)), blanks: graded } };
+    sentence=fillTemplate(template,graded.map(g=>g.filled));
+    const alternatives=graded.filter((g,i)=>(g.entryId||g.phrase)&&!blanks[i].accept.some(a=>normalizeLab(a)===normalizeLab(g.filled)));
+    const wordGlosses=alternatives.map(g=>({it:g.resolution?.it||g.form,en:g.en}));
+    return { final: true, result: { ...base, ok: true, outcome, explanation: graded.find(g=>g.assistance?.length)?.explanation||'', sentence, blanks: graded,glossIsPattern:wordGlosses.length>0,wordGlosses,assistance:unique(graded.flatMap(g=>g.assistance||[])) } };
   }
   state.misses++;
   const explanation = graded.find(g => g.outcome === 'incorrect').explanation;
@@ -252,7 +320,7 @@ function answerDialogue(activity, state, value, ctx) {
   const turnResult = { ...result, turnIndex, reaction, complete: false };
   state.filled[turnIndex] = {
     values: values.map(v => String(v ?? '')), texts, it: result.sentence, en: turn.en || '', reaction,
-    outcome: result.outcome, revealed: !!result.revealed, entryIds: result.blanks.map(g => g.entryId).filter(Boolean),
+    outcome: result.outcome, blanks:result.blanks, assistance:result.assistance||[],glossIsPattern:result.glossIsPattern||false,wordGlosses:result.wordGlosses||[], revealed: !!result.revealed, entryIds: result.blanks.map(g => g.entryId).filter(Boolean),
   };
   state.turnResults = [...state.turnResults, turnResult];
   state.misses = 0; state.revealed = false;
@@ -269,7 +337,7 @@ function answerBuild(lesson, activity, state, value, ctx, session, now) {
   const composed = composeBuild(activity, value, ctx);
   if (!composed.ok) return recordAttempt(state, { ok: false, outcome: 'incorrect', answer: null, explanation: composed.reason, sentence: null, en: null, misses: state.misses, revealed: false });
   session.sentences = [...session.sentences, { it: composed.it, en: composed.en, lessonId: lesson?.id ?? null, at: now }];
-  return finish(state, { ok: true, outcome: 'accepted', answer: composed.it, explanation: '', sentence: composed.it, en: composed.en, parts: composed.parts, misses: state.misses, revealed: false });
+  return finish(state, { ok: true, outcome: 'accepted', answer: composed.it, assistance:['construction'],assessed:false, explanation: 'Assisted practice: the workshop assembled and inflected the chosen words.', sentence: composed.it, en: composed.en, parts: composed.parts, misses: state.misses, revealed: false });
 }
 
 // order: string | tokens[]; cloze: [blank values]; dialogue: [blank values of the current "you" turn]; build: { subject, verb, object, extra }.
@@ -425,6 +493,10 @@ function inflect(entry, variant, slot, ctx) {
   }
   if (slot.pos === 'verb') {
     const paradigm = safeConjugate(e.inf, e);
+    if(/^(?:sto|stai|sta|stiamo|state|stanno|stavo|stavi|stava|stavamo|stavate|stavano)\s*\{\}/i.test(slot.wrap||'')){
+      const gerund=primary(paradigm?.nonFinite?.gerundio);
+      return gerund&&gerund!==MISSING?{ok:true,form:gerund}:{ok:false,reason:`“${word}” has no recorded gerund.`};
+    }
     const cell = paradigm?.tenses?.[slot.tense]?.[slot.person];
     const form = primary(cell);
     if (!form || form === MISSING) return { ok: false, reason: `“${word}” has no ${tenseLabel(slot.tense)} form for ${PERSONS[slot.person]}.` };
@@ -470,21 +542,59 @@ function italianMatches(index, text) {
   return { matches, others };
 }
 
+function compoundVerbMatches(index,query,slot){
+  if(slot.pos!=='verb'||!query.includes(' '))return [];
+  const last=query.trim().split(/\s+/).at(-1);
+  const candidates=italianMatchesWithContext(index,last,query).filter(m=>isVerbEntry(m.entry));
+  const fitting=candidates.filter(m=>{
+    const r=inflect(m.entry,null,slot,{});
+    if(!r.ok)return false;
+    return slotAnswerForms({entryId:m.entry.id,form:r.form,display:wrapWith(slot.wrap,r.form)},slot,{dictionary:{vocab:index.vocab,verbs:index.verbs}}).some(f=>normalizeLab(f)===normalizeLab(query));
+  });
+  return fitting.length?fitting:candidates;
+}
+function italianMatchesWithContext(index,token,sentence){
+  const found=index.lookup(token,{sentence}),matches=[];
+  for(const candidate of found?.candidates||[]){const entry=index.byId.get(candidate.id);if(entry)matches.push({entry,variant:null,candidate});}
+  return matches;
+}
+function italianInputMatches(index,query,slot){
+  let matches=italianMatches(index,query).matches;
+  if(!matches.length&&slot.pos==='noun'&&ARTICLE_RE.test(query))matches=italianMatches(index,query.replace(ARTICLE_RE,'').trim()).matches;
+  if(!matches.length)matches=compoundVerbMatches(index,query,slot);
+  return matches;
+}
+
+// These bounded time adverbials are structures, not single dictionary headwords.
+// Recognise the submitted phrase as written; do not translate arbitrary fragments.
+function timePhrase(query,slot){
+  if(!['adv','expr'].includes(slot.pos)||slot.category?.length&&!slot.category.includes('time'))return null;
+  const key=normalizeLab(query),day=/^(ieri|oggi|domani) (mattina|pomeriggio|sera|notte)$/.exec(key);
+  const days={ieri:'yesterday',oggi:'today',domani:'tomorrow'},parts={mattina:'morning',pomeriggio:'afternoon',sera:'evening',notte:'night'};
+  const fixed={'la mattina':'in the morning','il pomeriggio':'in the afternoon','la sera':'in the evening','di notte':'at night',"all’una":'at one',"all'una":'at one'};
+  const weekday=/^il (lunedì|martedì|mercoledì|giovedì|venerdì|sabato|domenica)$/.exec(key);
+  const week={lunedì:'Monday',martedì:'Tuesday',mercoledì:'Wednesday',giovedì:'Thursday',venerdì:'Friday',sabato:'Saturday',domenica:'Sunday'};
+  const en=day?`${days[day[1]]} ${parts[day[2]]}`:weekday?`on ${week[weekday[1]]}s`:fixed[key];
+  return en?{status:'ok',entryId:null,form:query,display:wrapWith(slot.wrap,query),it:query,en,pos:'adv',phrase:true}:null;
+}
+
 export function resolveFreeEntry(text, slot, ctx) {
   const query = String(text ?? '').trim();
   const s = normalizeSlot(slot);
   if (!query) return { status: 'unknown', suggestions: [] };
+  const phrase=timePhrase(query,s);if(phrase)return phrase;
   const index = labIndex(ctx);
   let { matches, others } = italianMatches(index, query);
   if (!matches.length && s.pos === 'noun' && ARTICLE_RE.test(query)) ({ matches, others } = italianMatches(index, query.replace(ARTICLE_RE, '').trim()));
-  const italianFit = matches.filter(m => fitsPos(m.entry, s.pos));
+  if(!matches.length)matches=compoundVerbMatches(index,query,s);
+  const italianFit = matches.filter(m => fitsSlot(m.entry, s));
   if (italianFit.length) {
     const r = resolveFitting(italianFit, s, ctx);
     if (!r.unfit) return r;
     return { status: 'unfit', reason: r.unfit };
   }
   const englishHits = englishIndex(index).get(englishKey(query)) || [];
-  const englishFit = englishHits.filter(e => fitsPos(e, s.pos));
+  const englishFit = englishHits.filter(e => fitsSlot(e, s));
   if (englishFit.length) {
     const r = resolveFitting(englishFit.map(entry => ({ entry, variant: null })), s, ctx);
     if (!r.unfit) return r;
@@ -559,6 +669,8 @@ export function composeBuild(activity, choice = {}, ctx = {}) {
   const subject = picks.find(p => p.role.role === 'subject')?.item;
   const person = Number.isInteger(subject?.person) && subject.person >= 0 && subject.person <= 5 ? subject.person : null;
   if (subject && person === null && picks.some(p => conjugatedRole(p.role))) return { ok: false, reason: `“${subject.it || ''}” does not say which person the verb takes.`, it: '', en: '' };
+  if(picks.some(p=>conjugatedRole(p.role)&&normalizeLab(p.item.inf||p.item.it)==='piacere')&&picks.some(p=>p.role.role==='object')&&!/^a\s|^(mi|ti|gli|le|ci|vi)\b/iu.test(subject?.it||''))
+    return {ok:false,reason:'Use A Marco piace la pizza or Marco ama la pizza: the liked thing is the subject of piacere.',it:'',en:''};
   const gender = subject?.g || subject?.gender || (person === 0 ? ctx?.speakerGender : null) || 'm';
   const parts = [];
   for (const { role, item } of picks) {

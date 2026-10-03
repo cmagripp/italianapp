@@ -4,6 +4,7 @@
 import { LEVELS, article, withArticle, hasPluralForm, isPluralOnly } from '../data.js';
 import { conjugate, accepted, splitClitic } from '../conjugator.js';
 import { buildLesson } from './lesson-content.js';
+import { registerCourseVocabulary } from './course-vocabulary.js';
 
 const norm = s => String(s ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ');
 // Index and gloss keys drop trailing punctuation, so "Quanto costa?", "Mi chiamo…" and the headword "quanto costa?" meet.
@@ -323,3 +324,9 @@ export function lessonWordIds(lesson) {
   for (const s of lesson?.steps || []) if (s?.kind === 'words-check') for (const id of s.entryIds || []) if (!ids.includes(id)) ids.push(id);
   return ids;
 }
+
+registerCourseVocabulary((lesson,dictionary)=>{
+ const at=lesson.steps.findIndex(s=>s?.kind==='words');
+ if(at>=0)lesson.steps.splice(at+1,0,...wordsCheckSteps(lesson,resolveLessonWords(lesson,{...dictionary,verbForms:false})));
+ lesson.wordEntryIds=lessonWordIds(lesson);
+});

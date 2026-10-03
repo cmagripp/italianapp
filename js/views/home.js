@@ -10,7 +10,7 @@ import { GAMES } from '../games/index.js';
 import { posterHTML } from './games.js';
 import { levelRibbonHTML, bindLevelRibbon } from './homeLevels.js';
 import { setScene, ticker, reel, mount, countUp, parallax } from '../fx.js';
-import { reviewItems, recommendLesson, practiceHref } from '../learning/integration.js';
+import { homeLearning } from '../learning/home-learning.js';
 
 const ic = (name, opts) => raw(icon(name, opts));
 const REEL_GAMES = ['flashcards', 'quiz', 'conj-drill', 'crossword', 'speed'];
@@ -100,6 +100,7 @@ function fitDayCards(container) {
 }
 
 export async function render(root) {
+  const {reviewItems,recommendLesson,practiceHref}=await homeLearning(store);
   setTitle(''); // the top bar shows "Parola" on its own; 'Parola' here made the document title "Parola · Parola"
   const p = store.current;
   const day = store.today();
@@ -121,7 +122,8 @@ export async function render(root) {
   const week = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - (6 - i)); const k = todayKey(d); const st = p.stats.days[k]; return { k, today: i === 6, active: !!(st && ((st.correct || 0) + (st.new || 0) + (st.games || 0)) > 0), label: 'SMTWTFS'[d.getDay()] }; });
   const activeDays = week.filter(d => d.active).length;
   const nextLesson = store.settings.adaptiveLearning !== false ? recommendLesson(store) : null;
-  const continueHref = nextLesson ? practiceHref(nextLesson.entry,nextLesson.objectiveId,nextLesson.mode) : due ? '#/review' : '#/learn';
+  let continueHref = nextLesson ? practiceHref(nextLesson.entry,nextLesson.objectiveId,nextLesson.mode) : due ? '#/review' : '#/learn';
+  if(nextLesson?.session?.id)continueHref+=(continueHref.includes('?')?'&':'?')+'session='+encodeURIComponent(nextLesson.session.id);
   const continueHint = nextLesson?.session ? `resume · ${nextLesson.entry.inf || nextLesson.entry.it}` : nextLesson?.mode === 'review' ? 'a short review · or choose a new lesson' : due ? `review · ${due} due` : goalDone ? 'keep going · learn ahead' : newVerbsLeft ? `learn · ${newVerbsLeft} new verb${newVerbsLeft === 1 ? '' : 's'}` : `learn · ${newWordsLeft} new word${newWordsLeft === 1 ? '' : 's'}`;
   const picks = (L) => ({ wotd: dailyPick(data.vocab.filter(e => e.level === L), 1), votd: dailyPick(data.verbs.filter(e => e.level === L), 2) });
   let { wotd, votd } = picks(lvl);

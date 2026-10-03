@@ -91,7 +91,7 @@ fs.writeFileSync(path.join(ROOT, 'data/verbs.json'), JSON.stringify(verbs));
 
 const byLevel = (arr) => Object.fromEntries(LEVELS.map(l => [l, arr.filter(e => e.level === l).length]));
 const byCat = (arr) => { const o = {}; for (const e of arr) o[e.cat] = (o[e.cat] || 0) + 1; return o; };
-const stats = { builtAt: new Date().toISOString(), vocab: { total: vocab.length, byLevel: byLevel(vocab), byCat: byCat(vocab), byPos: byCat(vocab.map(e => ({ cat: e.pos }))) }, verbs: { total: verbs.length, byLevel: byLevel(verbs), irregular: verbs.filter(v => v.irregularEngine).length } };
+const stats = { vocab: { total: vocab.length, byLevel: byLevel(vocab), byCat: byCat(vocab), byPos: byCat(vocab.map(e => ({ cat: e.pos }))) }, verbs: { total: verbs.length, byLevel: byLevel(verbs), irregular: verbs.filter(v => v.irregularEngine).length } };
 fs.writeFileSync(path.join(ROOT, 'data/stats.json'), JSON.stringify(stats, null, 2));
 
 console.log(`vocab: ${vocabIn} in -> ${vocab.length} unique (${vocabErrors} validation errors)`);

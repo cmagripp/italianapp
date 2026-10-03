@@ -1,6 +1,6 @@
 // Taught, resumable lessons. Sequencing and learning evidence live in journey.js;
 // this view persists only the current input, assistance and presentation state.
-import { html, raw, icon, speak, stopSpeech, keyboardViewportHeight } from '../ui.js';
+import { announceAnswer, html, raw, icon, speak, stopSpeech, keyboardViewportHeight } from '../ui.js';
 import { setScene, reducedMotion, dropdown } from '../fx.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
@@ -19,6 +19,7 @@ import { lessonOverviewHTML } from '../learning/lesson-overview.js';
 import { bindCompletionMenu } from '../completion-menu.js';
 import { progressiveForms, progressiveInfo } from '../learning/progressive-content.js';
 import { gradeQuestion } from '../learning/diagnose.js';
+import { savedSubmission } from '../learning/answer-policy.js';
 import { feedbackHTML as gameFeedbackHTML } from '../games/engine.js';
 import { createJourneySession, currentJourneyStep, advanceJourney, recordJourneyAttempt,
   skipJourneyTarget, chooseJourneyChapter, upgradeShortWordSession, upgradeVerbJourneySession, reconcileJourneyReview, journeyStageProgress, journeyProgress, journeyCaseProgress, journeyAttempt, retryJourneyPending, journeyPairAttempt, recordJourneyPairAttempt } from '../learning/journey.js';
@@ -176,6 +177,7 @@ export async function render(root, params = {}, query = {}) {
     ok:result.ok, outcome:['correct','incorrect','revealed'].includes(result.outcome)?result.outcome:'incorrect',
     feedback:typeof result.feedback==='string'?result.feedback.slice(0,3000):'',
     accentIssue:result.accentIssue===true,
+    ...(savedSubmission(result.submission)?{submission:savedSubmission(result.submission)}:{}),
     components:Array.isArray(result.components)?result.components.slice(0,20).filter(c=>c&&typeof c.skill==='string'&&typeof c.ok==='boolean').map(c=>({skill:c.skill.slice(0,80),ok:c.ok})):[],
   } : null;
   const safeSnapshot = source => {
@@ -319,9 +321,10 @@ export async function render(root, params = {}, query = {}) {
           ||JSON.stringify(ui.result.errorTags||[])!==JSON.stringify(event.errorTags||[])
           ||JSON.stringify(ui.result.components||[])!==JSON.stringify(event.components||[]))) {
         ui.result={ok:event.ok,outcome:event.outcome,errorTags:event.errorTags||[],components:event.components||[],
-          feedback:event.ok?'':`Use ${question.answer[0]}. ${question.explanation||''}`};
+          submission:savedSubmission(event.submission),feedback:event.ok?'':`Use ${question.answer[0]}. ${question.explanation||''}`};
         // A canonical event survives even if the optional saved draft did not.
-        if(gradeQuestion(question,ui.given||'').ok!==event.ok)ui.given='';
+        if(event.submission)ui.given=ui.draft=event.submission.displayText;
+        else if(ui.questionId!==step.questionId)ui.given='';
       }
       if(session.journey.awaitingContinue) {
         expose(question.answer);expose(question.meta?.feedbackExposureForms);
@@ -707,7 +710,7 @@ export async function render(root, params = {}, query = {}) {
       ${explanation?raw(html`<p>${explanation}</p>`):''}
       ${displayQuestion.context?raw(html`<div class="journey-feedback-context"><p lang="it" data-italian-sentence>${displayQuestion.context.it}</p><p class="journey-translation">${displayQuestion.context.en}</p></div>`):''}
       ${!result.ok?raw('<p class="journey-note">We’ll work on this part together, then try another example.</p>'):''}`;
-    return html`<aside class="journey-feedback ${result.ok?'is-correct':''}">${raw(gameFeedbackHTML({ok:result.ok,title:html`${title}`,detail,nextAttribute:'data-continue',showNext}))}</aside>`;
+    return html`<aside class="journey-feedback ${result.ok?'is-correct':''}">${raw(gameFeedbackHTML({ok:result.ok,title:html`${title}`,detail,submission:result.submission,nextAttribute:'data-continue',showNext}))}</aside>`;
   }
   function exerciseHTML() {
     if (!question) return html`<h1 data-focus tabindex="-1">Let’s use the reference</h1><p>There isn’t a reliable exercise for this part yet. You can read its examples and continue.</p>${raw(primary('Continue with this part saved', 'data-skip'))}<a class="btn secondary" href="#/reference/${encodeURIComponent(entry.id)}">Examples and forms</a>`;
@@ -884,19 +887,19 @@ export async function render(root, params = {}, query = {}) {
     try {
       if(!silent)stopSpeech(); document.activeElement?.blur?.();
       const result = gradeQuestion(question, given, { revealed, assistance: ui.assistance, accentStrict: store.settings.accentStrict });
-      ui.given = String(given || '').slice(0,500); ui.draft = ui.given;
+      ui.given = (result.submission?.displayText ?? String(given || '')).slice(0,500); ui.draft = ui.given;
       const event = journeyAttempt(plan, session, question, result, { assistance: [...ui.assistance, ...(revealed ? ['reveal'] : [])], now: Date.now() });
       if (!event) return;
       const recorded = store.recordLearningAttempt(event);
       session = recordJourneyAttempt(plan, session, recorded.event || event, { ...recorded, ...result });
-      ui.result = { ok: result.ok, outcome: result.outcome, feedback: result.feedback, accentIssue: result.accentIssue, errorTags: result.errorTags || [], components: result.components || [] };
+      ui.result = { ok: result.ok, outcome: result.outcome, feedback: result.feedback, accentIssue: result.accentIssue, errorTags: result.errorTags || [], components: result.components || [], submission:result.submission };
       expose(question.answer);
       if(revealed)for(const pair of question.pairs||[])expose(pair.answers);
       expose(question.meta?.feedbackExposureForms);
       for (const c of question.choices || []) expose(c.value ?? c.label);
       const spoken = result.ok && !silent && recorded.added !== false && !step.target?.supplementalOnly
-        ? correctAnswerSpeech(question,given,entry,step.target) : '';
-      save(); draw();
+        ? correctAnswerSpeech(question,result.submission?.matchedAnswerText || given,entry,step.target) : '';
+      save(); draw();announceAnswer(result);
       if (spoken) speak(spoken);
     } finally { submitting = false; }
   }

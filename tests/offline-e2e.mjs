@@ -8,9 +8,10 @@ import { ROOT, loadPlaywright, launchBrowser, contextOptions, boot, gotoRoute, r
 
 const actualWorker = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
 const currentVersion = actualWorker.match(/const VERSION = '([^']+)'/)[1];
-let workerSource = `self.addEventListener('install',e=>e.waitUntil(caches.open('parola-v5-adaptive').then(c=>c.put('./old-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
-let broken = false;
-const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
+const oldWorker = `self.addEventListener('install',e=>e.waitUntil(caches.open('parola-v5-adaptive').then(c=>c.put('./old-build-marker',new Response('old'))).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));`;
+let workerSource = oldWorker;
+let broken = false,workingVersion=currentVersion;
+const mime = { '.js': 'text/javascript', '.mjs':'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://localhost');
   const name = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
@@ -47,6 +48,29 @@ async function updateWorker() {
   });
 }
 try {
+  await check('early optional runtime opt-in persists before first worker control',async()=>{
+    const earlyContext=await browser.newContext(contextOptions(devices['iPhone 13'],{serviceWorkers:'allow',reducedMotion:'reduce'}));
+    try{
+      await earlyContext.addInitScript(()=>{
+        window.__registerWorker=navigator.serviceWorker.register.bind(navigator.serviceWorker);
+        navigator.serviceWorker.register=()=>new Promise(()=>{});
+      });
+      const early=await earlyContext.newPage();await boot(early,base);
+      const loaded=await early.evaluate(async()=>{
+        if(navigator.serviceWorker.controller)throw Error('Early-import test is already controlled');
+        const api=await import('./js/learning/assistant.js'),runtime=await api.loadAssistantRuntime();
+        return {exportType:typeof runtime.CreateMLCEngine,enabled:api.assistantState().enabled};
+      });
+      assert.deepEqual(loaded,{exportType:'function',enabled:false});
+      workerSource=actualWorker;
+      await early.evaluate(async()=>{
+        await window.__registerWorker('./sw.js');await navigator.serviceWorker.ready;
+        if(!navigator.serviceWorker.controller)await new Promise(resolve=>navigator.serviceWorker.addEventListener('controllerchange',resolve,{once:true}));
+      });
+      await earlyContext.setOffline(true);const cold=await earlyContext.newPage();await boot(cold,base);
+      assert.equal(await cold.evaluate(async()=>typeof(await(await import('./js/learning/assistant.js')).loadAssistantRuntime()).CreateMLCEngine),'function');
+    }finally{workerSource=oldWorker;await earlyContext.close();}
+  });
   await boot(page, base);
   await page.evaluate(() => navigator.serviceWorker.ready);
   await check('an existing installation upgrades its complete offline shell', async () => {
@@ -63,10 +87,30 @@ try {
     assert(await page.evaluate(async () => !!(await caches.match('./js/learning/journey.js'))));
     assert(await page.evaluate(async () => !!(await caches.match('./css/journey.css'))));
   });
+  await check('a hash-identical update reuses every required asset without network downloads',async()=>{
+    workingVersion=currentVersion+'-reuse-test';workerSource=actualWorker.replace(currentVersion,workingVersion);
+    assert.equal(await updateWorker(),'activated');
+    const stats=await page.evaluate(async version=>(await (await caches.open(version)).match('./__shell_integrity__')).json(),workingVersion);
+    assert.equal(stats.stats.fetched,0);assert(stats.stats.reused>100);
+  });
+  await check('a corrupt cached asset is rejected offline and repaired when online',async()=>{
+    await page.evaluate(async version=>{const cache=await caches.open(version);await cache.put('./css/adaptive.css',new Response('truncated'));},workingVersion);
+    await context.setOffline(true);
+    const status=await page.evaluate(async()=>(await fetch('./css/adaptive.css')).status);assert.equal(status,503);
+    await context.setOffline(false);
+    const repaired=await page.evaluate(async()=>(await fetch('./css/adaptive.css')).text());assert.equal(repaired,fs.readFileSync(path.join(ROOT,'css/adaptive.css'),'utf8'));
+  });
+  await check('optional self-hosted assistant runtime survives a cold offline import',async()=>{
+    const files=JSON.parse(actualWorker.match(/const ASSISTANT_RUNTIME_FILES = (\{.*\});/)[1]),asset=Object.keys(files)[0];
+    assert.equal(await page.evaluate(async asset=>typeof (await import(asset)).CreateMLCEngine,asset),'function');
+    await context.setOffline(true);const offline=await context.newPage();await offline.goto(base);await offline.waitForSelector('#view');
+    assert.equal(await offline.evaluate(async asset=>typeof (await import(asset)).CreateMLCEngine,asset),'function');
+    await offline.close();await context.setOffline(false);
+  });
   await check('an incomplete update cannot replace the working offline worker', async () => {
-    broken = true; workerSource = actualWorker.replace(currentVersion, currentVersion + '-incomplete-test');
+    broken = true; workerSource = actualWorker.replace(currentVersion, currentVersion + '-incomplete-test').replace(/(\"\.\/css\/adaptive\.css\":\")[a-f0-9]{64}/, '$1'+'0'.repeat(64));
     assert.equal(await updateWorker(), 'redundant');
-    assert((await page.evaluate(() => caches.keys())).includes(currentVersion));
+    assert((await page.evaluate(() => caches.keys())).includes(workingVersion));
   });
   await check('course and lesson load offline while old learned items remain intact', async () => {
     await context.setOffline(true);

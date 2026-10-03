@@ -1673,13 +1673,49 @@
               "modality": "language",
               "repair": {
                 "title": "Try introduce one thing again",
-                "body": "Use un libro for a book and una casa for a house. The noun still determines the form.",
+                "body": "Use un with masculine nouns, including un amico without an apostrophe. Use una before a feminine consonant. Before a feminine vowel, una becomes un’ and joins the noun: un’amica.",
                 "examples": [
                   {
                     "it": "È un libro. È una casa.",
                     "en": "It is a book. It is a house."
+                  },
+                  {
+                    "it": "Luca è un amico. Anna è un’amica.",
+                    "en": "Luca is a male friend. Anna is a female friend."
                   }
-                ]
+                ],
+                "byFacet": {
+                  "masculine-un": {
+                    "title": "One masculine noun",
+                    "body": "Masculine nouns take un here. There is no apostrophe even before the vowel of amico.",
+                    "examples": [
+                      {
+                        "it": "Un libro. Un amico.",
+                        "en": "A book. A male friend."
+                      }
+                    ]
+                  },
+                  "feminine-una": {
+                    "title": "One feminine noun before a consonant",
+                    "body": "Casa is feminine and begins with a consonant, so keep una.",
+                    "examples": [
+                      {
+                        "it": "È una casa.",
+                        "en": "It is a house."
+                      }
+                    ]
+                  },
+                  "feminine-elision": {
+                    "title": "Join un’ to a feminine vowel",
+                    "body": "Amica is feminine and starts with a vowel. Una loses its final a: un’amica. Join the apostrophe directly to the noun. Masculine un amico has no apostrophe.",
+                    "examples": [
+                      {
+                        "it": "Sara è un’amica. Luca è un amico.",
+                        "en": "Sara is a female friend. Luca is a male friend."
+                      }
+                    ]
+                  }
+                }
               }
             }
           ],
@@ -6298,11 +6334,11 @@
               "modality": "language",
               "repair": {
                 "title": "Try use vivere and prendere again",
-                "body": "Remove -ere and use -o, -i, -e for singular persons; -iamo, -ete, -ono for plural persons.",
+                "body": "Vivere: io vivo, tu vivi, lui/lei/Lei vive, noi viviamo, voi vivete, loro vivono. Prendere: io prendo, tu prendi, lui/lei/Lei prende, noi prendiamo, voi prendete, loro prendono. Formal Lei uses the singular third-person form.",
                 "examples": [
                   {
-                    "it": "Io vivo a Roma. Tu vivi a Milano. Anna vive a Napoli.",
-                    "en": "I live in Rome. You live in Milan. Anna lives in Naples."
+                    "it": "Voi vivete a Roma. Anna e Luca prendono il treno.",
+                    "en": "You all live in Rome. Anna and Luca take the train."
                   }
                 ]
               }
@@ -6359,6 +6395,21 @@
                 {
                   "it": "Noi prendiamo il treno. Voi prendete il treno.",
                   "en": "We take the train. You all take the train."
+                }
+              ],
+              "introduces": [
+                "v2-a1-present-ere.core"
+              ]
+            },
+            {
+              "id": "v2-a1-present-ere.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Vivere: io vivo, tu vivi, lui/lei/Lei vive, noi viviamo, voi vivete, loro vivono. Prendere: io prendo, tu prendi, lui/lei/Lei prende, noi prendiamo, voi prendete, loro prendono. Formal Lei uses the singular third-person form.",
+              "examples": [
+                {
+                  "it": "Voi vivete a Roma. Anna e Luca prendono il treno.",
+                  "en": "You all live in Rome. Anna and Luca take the train."
                 }
               ],
               "introduces": [
@@ -6542,11 +6593,11 @@
               "modality": "language",
               "repair": {
                 "title": "Try use dormire and partire again",
-                "body": "Remove -ire and use -o, -i, -e, -iamo, -ite, -ono. Not every -ire verb adds -isc-.",
+                "body": "Dormire: io dormo, tu dormi, lui/lei/Lei dorme, noi dormiamo, voi dormite, loro dormono. Partire: io parto, tu parti, lui/lei/Lei parte, noi partiamo, voi partite, loro partono. These verbs do not add -isc-. Formal Lei takes dorme or parte.",
                 "examples": [
                   {
-                    "it": "Io dormo. Tu dormi. Luca dorme.",
-                    "en": "I sleep. You sleep. Luca sleeps."
+                    "it": "Noi dormiamo a casa. Anna e Luca partono domani.",
+                    "en": "We sleep at home. Anna and Luca leave tomorrow."
                   }
                 ]
               }
@@ -6601,6 +6652,21 @@
                 {
                   "it": "Noi partiamo presto. Voi partite stasera.",
                   "en": "We leave early. You all leave this evening."
+                }
+              ],
+              "introduces": [
+                "v2-a1-present-ire.core"
+              ]
+            },
+            {
+              "id": "v2-a1-present-ire.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Dormire: io dormo, tu dormi, lui/lei/Lei dorme, noi dormiamo, voi dormite, loro dormono. Partire: io parto, tu parti, lui/lei/Lei parte, noi partiamo, voi partite, loro partono. These verbs do not add -isc-. Formal Lei takes dorme or parte.",
+              "examples": [
+                {
+                  "it": "Noi dormiamo a casa. Anna e Luca partono domani.",
+                  "en": "We sleep at home. Anna and Luca leave tomorrow."
                 }
               ],
               "introduces": [
@@ -7334,11 +7400,11 @@
               "modality": "language",
               "repair": {
                 "title": "Try say where you go again",
-                "body": "Say io vado, tu vai, Anna va, or polite Lei va.",
+                "body": "Andare: io vado, tu vai, lui/lei/Lei va, noi andiamo, voi andate, loro vanno. Formal Lei uses va when addressing one person politely.",
                 "examples": [
                   {
-                    "it": "Io vado a Roma. Tu vai a Milano?",
-                    "en": "I am going to Rome. Are you going to Milan?"
+                    "it": "Voi andate a Milano domani? Loro vanno a Roma.",
+                    "en": "Are you all going to Milan tomorrow? They go to Rome."
                   }
                 ]
               }
@@ -7401,6 +7467,21 @@
                 {
                   "it": "Domani andiamo a Napoli.",
                   "en": "Tomorrow we are going to Naples."
+                }
+              ],
+              "introduces": [
+                "v2-a1-andare.core"
+              ]
+            },
+            {
+              "id": "v2-a1-andare.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Andare: io vado, tu vai, lui/lei/Lei va, noi andiamo, voi andate, loro vanno. Formal Lei uses va when addressing one person politely.",
+              "examples": [
+                {
+                  "it": "Voi andate a Milano domani? Loro vanno a Roma.",
+                  "en": "Are you all going to Milan tomorrow? They go to Rome."
                 }
               ],
               "introduces": [
@@ -7601,11 +7682,11 @@
               "modality": "language",
               "repair": {
                 "title": "Try say what you do or make again",
-                "body": "Say io faccio, tu fai, Anna fa. Fare can mean do or make depending on its object.",
+                "body": "Fare: io faccio, tu fai, lui/lei/Lei fa, noi facciamo, voi fate, loro fanno. Formal Lei uses fa when addressing one person politely.",
                 "examples": [
                   {
-                    "it": "Io faccio colazione. Anna fa una torta.",
-                    "en": "I have breakfast. Anna makes a cake."
+                    "it": "Voi fate colazione a casa? Anna e Luca fanno una torta.",
+                    "en": "Do you all have breakfast at home? Anna and Luca make a cake."
                   }
                 ]
               }
@@ -7663,6 +7744,21 @@
                 {
                   "it": "Oggi facciamo una torta.",
                   "en": "Today we are making a cake."
+                }
+              ],
+              "introduces": [
+                "v2-a1-fare.core"
+              ]
+            },
+            {
+              "id": "v2-a1-fare.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Fare: io faccio, tu fai, lui/lei/Lei fa, noi facciamo, voi fate, loro fanno. Formal Lei uses fa when addressing one person politely.",
+              "examples": [
+                {
+                  "it": "Voi fate colazione a casa? Anna e Luca fanno una torta.",
+                  "en": "Do you all have breakfast at home? Anna and Luca make a cake."
                 }
               ],
               "introduces": [
@@ -7862,11 +7958,11 @@
               "modality": "language",
               "repair": {
                 "title": "Try say who comes again",
-                "body": "Say io vengo, tu vieni, and Anna viene.",
+                "body": "Venire: io vengo, tu vieni, lui/lei/Lei viene, noi veniamo, voi venite, loro vengono. Formal Lei uses viene when addressing one person politely.",
                 "examples": [
                   {
-                    "it": "Io vengo da Roma. Tu vieni da Milano?",
-                    "en": "I come from Rome. Do you come from Milan?"
+                    "it": "Voi venite da Napoli? Anna e Luca vengono da Roma.",
+                    "en": "Do you all come from Naples? Anna and Luca come from Rome."
                   }
                 ]
               }
@@ -7925,6 +8021,21 @@
                 {
                   "it": "Noi veniamo da Napoli.",
                   "en": "We come from Naples."
+                }
+              ],
+              "introduces": [
+                "v2-a1-venire.core"
+              ]
+            },
+            {
+              "id": "v2-a1-venire.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Venire: io vengo, tu vieni, lui/lei/Lei viene, noi veniamo, voi venite, loro vengono. Formal Lei uses viene when addressing one person politely.",
+              "examples": [
+                {
+                  "it": "Voi venite da Napoli? Anna e Luca vengono da Roma.",
+                  "en": "Do you all come from Naples? Anna and Luca come from Rome."
                 }
               ],
               "introduces": [
@@ -9209,7 +9320,7 @@
             }
           ],
           "legacyLessonIds": [],
-          "takeaway": "Vicino a means near; lontano da means far from. As adjectives, vicino/vicina and lontano/lontana agree with the thing located.",
+          "takeaway": "Vicino a means near and lontano da means far from. The adjective may agree with the thing located; the invariant location phrases are also valid in these sentences.",
           "targets": [
             {
               "id": "v2-a1-near-far.core",
@@ -9224,13 +9335,39 @@
               "modality": "language",
               "repair": {
                 "title": "Try say where a place is again",
-                "body": "Use vicino/vicina a. A feminine casa takes vicina.",
+                "body": "Vicino a means near and lontano da means far from. The adjective may agree with the thing located; the invariant location phrases are also valid in these sentences.",
                 "examples": [
                   {
-                    "it": "La casa è vicina a Roma.",
-                    "en": "The house is near Rome."
+                    "it": "La casa è vicina a Roma / vicino a Roma.",
+                    "en": "The house is near Rome: both forms are valid."
+                  },
+                  {
+                    "it": "La scuola è lontana da Milano / lontano da Milano.",
+                    "en": "The school is far from Milan: both forms are valid."
                   }
-                ]
+                ],
+                "byFacet": {
+                  "near": {
+                    "title": "Keep the near meaning",
+                    "body": "Vicina a is the agreeing adjective with a feminine noun. The invariant phrase vicino a is also valid here. Both mean near; lontano da means far from.",
+                    "examples": [
+                      {
+                        "it": "La casa è vicino a Roma.",
+                        "en": "The house is near Rome."
+                      }
+                    ]
+                  },
+                  "far": {
+                    "title": "Keep the far-from meaning",
+                    "body": "Lontana da is the agreeing adjective with a feminine noun. The invariant phrase lontano da is also valid here. Both mean far from; vicino a means near.",
+                    "examples": [
+                      {
+                        "it": "La scuola è lontano da Milano.",
+                        "en": "The school is far from Milan."
+                      }
+                    ]
+                  }
+                }
               }
             }
           ],
@@ -9263,11 +9400,11 @@
               "id": "v2-a1-near-far.s2",
               "kind": "teach",
               "title": "Near a place",
-              "body": "Use vicino/vicina a. A feminine casa takes vicina.",
+              "body": "With a feminine noun, the adjective can agree: La casa è vicina a Roma. The invariant location phrase vicino a is also valid: La casa è vicino a Roma.",
               "examples": [
                 {
-                  "it": "La casa è vicina a Roma.",
-                  "en": "The house is near Rome."
+                  "it": "La casa è vicina a Roma. La casa è vicino a Roma.",
+                  "en": "The house is near Rome. Both forms are valid."
                 }
               ],
               "introduces": [
@@ -9278,11 +9415,11 @@
               "id": "v2-a1-near-far.s3",
               "kind": "teach",
               "title": "Far from a place",
-              "body": "Use lontano/lontana da. A feminine scuola takes lontana.",
+              "body": "The adjective can agree: La scuola è lontana da Milano. The invariant location phrase lontano da is also valid.",
               "examples": [
                 {
-                  "it": "La scuola è lontana da Milano.",
-                  "en": "The school is far from Milan."
+                  "it": "La scuola è lontana da Milano. La scuola è lontano da Milano.",
+                  "en": "The school is far from Milan. Both forms are valid."
                 }
               ],
               "introduces": [
@@ -9303,12 +9440,14 @@
               "answer": "vicina a",
               "options": [
                 "vicina a",
-                "lontana da",
-                "vicino a"
+                "lontana da"
               ],
               "speak": "La casa è vicina a Roma.",
-              "explanation": "Vicina a agrees with casa and says near.",
-              "hint": "The subject is feminine and nearby."
+              "explanation": "Vicina a is the agreeing adjective with a feminine noun. The invariant phrase vicino a is also valid here. Both mean near; lontano da means far from.",
+              "hint": "Choose the near expression; adjective agreement and the invariant location phrase are both valid.",
+              "accepted": [
+                "vicino a"
+              ]
             },
             {
               "id": "v2-a1-near-far.s5",
@@ -9324,12 +9463,14 @@
               "answer": "lontana da",
               "options": [
                 "lontana da",
-                "vicina a",
-                "lontano da"
+                "vicina a"
               ],
               "speak": "La scuola è lontana da Milano.",
-              "explanation": "Lontana da agrees with scuola and says far from.",
-              "hint": "The subject is feminine and far away."
+              "explanation": "Lontana da is the agreeing adjective with a feminine noun. The invariant phrase lontano da is also valid here. Both mean far from; vicino a means near.",
+              "hint": "Choose the far-from expression; the agreeing adjective and invariant phrase are both valid.",
+              "accepted": [
+                "lontano da"
+              ]
             },
             {
               "id": "v2-a1-near-far.s6",
@@ -9366,12 +9507,14 @@
               "answer": "lontana da",
               "options": [
                 "lontana da",
-                "vicina a",
-                "lontano da"
+                "vicina a"
               ],
               "speak": "La casa è lontana da Napoli.",
-              "explanation": "Lontana da expresses distance and agrees with casa.",
-              "hint": "The subject is feminine and far away."
+              "explanation": "Lontana da is the agreeing adjective with a feminine noun. The invariant phrase lontano da is also valid here. Both mean far from; vicino a means near.",
+              "hint": "Choose the far-from expression; the agreeing adjective and invariant phrase are both valid.",
+              "accepted": [
+                "lontano da"
+              ]
             },
             {
               "id": "v2-a1-near-far.s8",
@@ -9395,9 +9538,12 @@
               "translation": "The school is near Rome.",
               "answer": "vicina a",
               "speak": "La scuola è vicina a Roma.",
-              "explanation": "Vicina a agrees with scuola and says near.",
-              "hint": "Use the feminine near phrase.",
-              "strict": true
+              "explanation": "Vicina a is the agreeing adjective with a feminine noun. The invariant phrase vicino a is also valid here. Both mean near; lontano da means far from.",
+              "hint": "Choose the near expression; adjective agreement and the invariant location phrase are both valid.",
+              "strict": true,
+              "accepted": [
+                "vicino a"
+              ]
             },
             {
               "id": "v2-a1-near-far.review-0",
@@ -9414,8 +9560,11 @@
               "answer": "vicina a",
               "strict": true,
               "speak": "La scuola è vicina a casa.",
-              "explanation": "Feminine scuola takes vicina; the location follows a.",
-              "hint": "Feminine scuola takes vicina; the location follows a."
+              "explanation": "Vicina a is the agreeing adjective with a feminine noun. The invariant phrase vicino a is also valid here. Both mean near; lontano da means far from.",
+              "hint": "Choose the near expression; adjective agreement and the invariant location phrase are both valid.",
+              "accepted": [
+                "vicino a"
+              ]
             },
             {
               "id": "v2-a1-near-far.review-1",
@@ -9439,7 +9588,7 @@
               "id": "v2-a1-near-far.s10",
               "kind": "teach",
               "title": "Keep this",
-              "body": "Vicino a means near; lontano da means far from. As adjectives, vicino/vicina and lontano/lontana agree with the thing located.",
+              "body": "Vicino a means near and lontano da means far from. The adjective may agree with the thing located; the invariant location phrases are also valid in these sentences.",
               "examples": [
                 {
                   "it": "La scuola è lontana da Milano.",
@@ -11472,7 +11621,7 @@
               "translation": "The train leaves at one.",
               "answer": "all’",
               "strict": true,
-              "speak": "Il treno parte all’ una.",
+              "speak": "Il treno parte all’una.",
               "explanation": "At one uses all’una; at other whole hours use alle.",
               "hint": "At one uses all’una; at other whole hours use alle."
             },
@@ -11789,11 +11938,11 @@
               "modality": "language",
               "repair": {
                 "title": "Try ask if you can do something again",
-                "body": "Put an infinitive after posso.",
+                "body": "Potere: io posso, tu puoi, lui/lei/Lei può, noi possiamo, voi potete, loro possono. Follow it with the unchanged infinitive. Formal Lei uses può for a polite request.",
                 "examples": [
                   {
-                    "it": "Posso entrare?",
-                    "en": "May I come in?"
+                    "it": "Possiamo aprire la porta? Voi potete leggere?",
+                    "en": "May we open the door? Can you all read?"
                   }
                 ]
               }
@@ -11856,6 +12005,21 @@
                 {
                   "it": "Puoi aprire la porta? Signora, può aprire la porta?",
                   "en": "Can you open the door? Madam, can you open the door?"
+                }
+              ],
+              "introduces": [
+                "v2-a1-potere-requests.core"
+              ]
+            },
+            {
+              "id": "v2-a1-potere-requests.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Potere: io posso, tu puoi, lui/lei/Lei può, noi possiamo, voi potete, loro possono. Follow it with the unchanged infinitive. Formal Lei uses può for a polite request.",
+              "examples": [
+                {
+                  "it": "Possiamo aprire la porta? Voi potete leggere?",
+                  "en": "May we open the door? Can you all read?"
                 }
               ],
               "introduces": [
@@ -12024,7 +12188,7 @@
         {
           "id": "v2-a1-want-need",
           "title": "Say what you want or need to do",
-          "outcome": "I can use voglio and devo with a known infinitive.",
+          "outcome": "I can choose taught present forms of volere and dovere before a known infinitive.",
           "minutes": 7,
           "prerequisites": [
             "v2-a1-potere-requests"
@@ -12042,7 +12206,7 @@
           "legacyLessonIds": [
             "a1-modal-requests"
           ],
-          "takeaway": "Voglio + infinitive says what I want to do; devo + infinitive says what I need to do. Vuoi asks a familiar person about a wish.",
+          "takeaway": "Volere expresses wanting and dovere expresses necessity. Choose the person form, including vuole/deve for one named person, and keep the following infinitive unchanged.",
           "targets": [
             {
               "id": "v2-a1-want-need.core",
@@ -12057,11 +12221,15 @@
               "modality": "language",
               "repair": {
                 "title": "Try say what you want or need to do again",
-                "body": "Use voglio or vuoi before the unchanged infinitive.",
+                "body": "Volere: io voglio, tu vuoi, lui/lei/Lei vuole, noi vogliamo, voi volete, loro vogliono. Dovere: io devo, tu devi, lui/lei/Lei deve, noi dobbiamo, voi dovete, loro devono. Follow either verb with the unchanged infinitive. In the reserve checks Anna vuole means Anna wants; Luca deve means Luca needs to or must.",
                 "examples": [
                   {
-                    "it": "Voglio comprare il pane. Vuoi comprare il pane?",
-                    "en": "I want to buy bread. Do you want to buy bread?"
+                    "it": "Anna vuole comprare il pane. Luca deve chiamare Anna.",
+                    "en": "Anna wants to buy bread. Luca needs to call Anna."
+                  },
+                  {
+                    "it": "Noi vogliamo comprare un libro. Voi dovete chiamare Luca.",
+                    "en": "We want to buy a book. You all need to call Luca."
                   }
                 ]
               }
@@ -12093,6 +12261,16 @@
                 {
                   "it": "chiamare",
                   "en": "to call"
+                },
+                {
+                  "it": "vuole",
+                  "en": "he/she/polite you wants",
+                  "entryId": "v:volere"
+                },
+                {
+                  "it": "deve",
+                  "en": "he/she/polite you needs to / must",
+                  "entryId": "v:dovere"
                 }
               ]
             },
@@ -12120,6 +12298,25 @@
                 {
                   "it": "Devo chiamare Anna.",
                   "en": "I need to call Anna."
+                }
+              ],
+              "introduces": [
+                "v2-a1-want-need.core"
+              ]
+            },
+            {
+              "id": "v2-a1-want-need.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Volere: io voglio, tu vuoi, lui/lei/Lei vuole, noi vogliamo, voi volete, loro vogliono. Dovere: io devo, tu devi, lui/lei/Lei deve, noi dobbiamo, voi dovete, loro devono. Follow either verb with the unchanged infinitive. In the reserve checks Anna vuole means Anna wants; Luca deve means Luca needs to or must.",
+              "examples": [
+                {
+                  "it": "Anna vuole comprare il pane. Luca deve chiamare Anna.",
+                  "en": "Anna wants to buy bread. Luca needs to call Anna."
+                },
+                {
+                  "it": "Noi vogliamo comprare un libro. Voi dovete chiamare Luca.",
+                  "en": "We want to buy a book. You all need to call Luca."
                 }
               ],
               "introduces": [
@@ -12255,7 +12452,7 @@
               "id": "v2-a1-want-need.s9",
               "kind": "teach",
               "title": "Keep this",
-              "body": "Voglio + infinitive says what I want to do; devo + infinitive says what I need to do. Vuoi asks a familiar person about a wish.",
+              "body": "Volere expresses wanting and dovere expresses necessity. Choose the person form, including vuole/deve for one named person, and keep the following infinitive unchanged.",
               "examples": [
                 {
                   "it": "Devo chiamare Anna.",

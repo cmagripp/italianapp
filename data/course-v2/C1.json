@@ -31,7 +31,10 @@
           "title": "Facts, opinion and the subjunctive",
           "outcome": "I can distinguish a reported fact from a speaker’s evaluation.",
           "minutes": 9,
-          "prerequisites": [],
+          "prerequisites": [
+            "v2-b2-tense-relations",
+            "v2-b2-evidence-source"
+          ],
           "related": [
             {
               "entryId": "v:essere",

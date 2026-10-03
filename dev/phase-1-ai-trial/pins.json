@@ -1,0 +1,12 @@
+{
+  "binaryRevision": "025bcaf3780fa8254f5e5efd3bfea0a5397248f4",
+  "repositories": {
+    "mlc-ai/Qwen3-0.6B-q4f16_1-MLC": "8c14ce481d4c692769976ad52afea453a102df19",
+    "mlc-ai/gemma3-1b-it-q4f16_1-MLC": "0f6103ed635931ff91a95db543365f0a77cbfb7d",
+    "mlc-ai/Qwen3.5-0.8B-q4f16_1-MLC": "0ec138972555613c1d7812a821778ad0398c8790",
+    "onnx-community/whisper-tiny": "ff4177021cc41f7db950912b73ea4fdf7d01d8e7",
+    "rhasspy/piper-voices": "c10ece1aade47bb51c153c893d14e5bf8e5b7117",
+    "mlc-ai/Qwen3-1.7B-q4f16_1-MLC": "80b3abcec6c3b3f5355dc0cc99cc4fb578f192bc",
+    "mlc-ai/Qwen3.5-2B-q4f16_1-MLC": "dd74e9c8a20c4546df85c844103bff87b6dcacad"
+  }
+}

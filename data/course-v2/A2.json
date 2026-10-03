@@ -1009,7 +1009,7 @@
           "legacyLessonIds": [
             "a2-irregular-participles"
           ],
-          "takeaway": "Learn these participles with their verbs: fare → fatto, vedere → visto, prendere → preso, scrivere → scritto.",
+          "takeaway": "Fare → fatto, vedere → visto (also veduto), prendere → preso, scrivere → scritto. Learn the participle with its verb and retain valid alternatives.",
           "targets": [
             {
               "id": "v2-a2-past-irregular.core",
@@ -1023,11 +1023,15 @@
               "modality": "language",
               "repair": {
                 "title": "Try use four common past forms again",
-                "body": "These two do not follow a simple regular ending.",
+                "body": "Fare → fatto, vedere → visto (also veduto), prendere → preso, scrivere → scritto. Learn the participle with its verb and retain valid alternatives.",
                 "examples": [
                   {
                     "it": "Ho fatto una torta. Ho visto Anna.",
                     "en": "I made a cake. I saw Anna."
+                  },
+                  {
+                    "it": "Ho veduto Anna. Ho preso il libro e ho scritto una lettera.",
+                    "en": "I saw Anna. I took the book and wrote a letter."
                   }
                 ]
               }
@@ -1068,7 +1072,7 @@
               "id": "v2-a2-past-irregular.s2",
               "kind": "teach",
               "title": "Make and see",
-              "body": "These two do not follow a simple regular ending.",
+              "body": "Fare → fatto; vedere → visto, with veduto also valid. Visto is the everyday model here; veduto must not be treated as an error.",
               "examples": [
                 {
                   "it": "Ho fatto una torta. Ho visto Anna.",
@@ -1112,8 +1116,11 @@
                 "fatto"
               ],
               "speak": "Ieri ho visto Anna.",
-              "explanation": "Vedere uses the taught participle visto.",
-              "hint": "The action is seeing."
+              "explanation": "Visto is the more common past participle of vedere; veduto is also valid. Keep the auxiliary supplied by the sentence.",
+              "hint": "The action is seeing.",
+              "accepted": [
+                "veduto"
+              ]
             },
             {
               "id": "v2-a2-past-irregular.s5",
@@ -1203,8 +1210,11 @@
                 "preso"
               ],
               "speak": "Tu hai visto il museo?",
-              "explanation": "Vedere uses visto after hai.",
-              "hint": "The question does not change the participle."
+              "explanation": "Visto is the more common past participle of vedere; veduto is also valid. Keep the auxiliary supplied by the sentence.",
+              "hint": "The question does not change the participle.",
+              "accepted": [
+                "veduto"
+              ]
             },
             {
               "id": "v2-a2-past-irregular.s10",
@@ -1228,7 +1238,7 @@
               "id": "v2-a2-past-irregular.s11",
               "kind": "teach",
               "title": "Keep this",
-              "body": "Learn these participles with their verbs: fare → fatto, vedere → visto, prendere → preso, scrivere → scritto.",
+              "body": "Fare → fatto, vedere → visto (also veduto), prendere → preso, scrivere → scritto. Learn the participle with its verb and retain valid alternatives.",
               "examples": [
                 {
                   "it": "Luca ha preso il libro e ha scritto una lettera.",
@@ -1328,6 +1338,21 @@
                 {
                   "it": "Noi abbiamo visto il museo.",
                   "en": "We saw the museum."
+                }
+              ],
+              "introduces": [
+                "v2-a2-past-auxiliary-person.core"
+              ]
+            },
+            {
+              "id": "v2-a2-past-auxiliary-person.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Avere in the completed past: io ho, tu hai, lui/lei/Lei ha, noi abbiamo, voi avete, loro hanno + participle. With the following un-cliticised object in these sentences, visto or veduto does not agree with the subject.",
+              "examples": [
+                {
+                  "it": "Voi avete visto Anna. Anna e Luca hanno visto il museo.",
+                  "en": "You all saw Anna. Anna and Luca saw the museum."
                 }
               ],
               "introduces": [
@@ -1819,6 +1844,25 @@
                 {
                   "it": "Anna e Luca sono andati a Milano.",
                   "en": "Anna and Luca went to Milan."
+                }
+              ],
+              "introduces": [
+                "v2-a2-essere-plural.core"
+              ]
+            },
+            {
+              "id": "v2-a2-essere-plural.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Essere in the completed past: io sono, tu sei, lui/lei/Lei è, noi siamo, voi siete, loro sono + participle. The participle agrees with the stated referent: andato/andata in the singular, andati/andate in the plural. Formal Lei takes è, with the addressed person’s stated agreement.",
+              "examples": [
+                {
+                  "it": "Anna e Sara: «Voi siete andate a Roma?»",
+                  "en": "Anna and Sara: “Did you women go to Rome?”"
+                },
+                {
+                  "it": "Anna e Luca: «Noi siamo andati a Milano.»",
+                  "en": "Anna and Luca: “We went to Milan.”"
                 }
               ],
               "introduces": [
@@ -2557,6 +2601,21 @@
               ]
             },
             {
+              "id": "v2-a2-imperfect-are.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Parlare in the imperfect: io parlavo, tu parlavi, lui/lei/Lei parlava, noi parlavamo, voi parlavate, loro parlavano. Regular -are endings are -avo, -avi, -ava, -avamo, -avate, -avano. These forms can describe a past habit or an ongoing/background action; time words are clues rather than automatic tense laws.",
+              "examples": [
+                {
+                  "it": "Noi parlavamo italiano a casa. Voi parlavate spesso con Anna.",
+                  "en": "We used to speak Italian at home. You all often spoke with Anna."
+                }
+              ],
+              "introduces": [
+                "v2-a2-imperfect-are.core"
+              ]
+            },
+            {
               "id": "v2-a2-imperfect-are.s4",
               "kind": "question",
               "target": "v2-a2-imperfect-are.core",
@@ -2785,6 +2844,21 @@
                 {
                   "it": "Anna dormiva fino alle otto.",
                   "en": "Anna used to sleep until eight."
+                }
+              ],
+              "introduces": [
+                "v2-a2-imperfect-ere-ire.core"
+              ]
+            },
+            {
+              "id": "v2-a2-imperfect-ere-ire.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Leggere: io leggevo, tu leggevi, lui/lei/Lei leggeva, noi leggevamo, voi leggevate, loro leggevano. Dormire: io dormivo, tu dormivi, lui/lei/Lei dormiva, noi dormivamo, voi dormivate, loro dormivano. The imperfect can describe habit or ongoing background; context determines the intended viewpoint.",
+              "examples": [
+                {
+                  "it": "Noi leggevamo ogni sera. Anna e Luca dormivano fino alle otto.",
+                  "en": "We used to read every evening. Anna and Luca used to sleep until eight."
                 }
               ],
               "introduces": [
@@ -3029,6 +3103,21 @@
                 {
                   "it": "Luca aveva fame. Io avevo un libro.",
                   "en": "Luca was hungry. I had a book."
+                }
+              ],
+              "introduces": [
+                "v2-a2-imperfect-states.core"
+              ]
+            },
+            {
+              "id": "v2-a2-imperfect-states.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Essere: io ero, tu eri, lui/lei/Lei era, noi eravamo, voi eravate, loro erano. Avere: io avevo, tu avevi, lui/lei/Lei aveva, noi avevamo, voi avevate, loro avevano. These imperfect forms describe a state/possession from the past viewpoint.",
+              "examples": [
+                {
+                  "it": "Voi eravate a casa. Anna e Luca avevano fame.",
+                  "en": "You all were at home. Anna and Luca were hungry."
                 }
               ],
               "introduces": [
@@ -4025,6 +4114,21 @@
               ]
             },
             {
+              "id": "v2-a2-progressive-present.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Stare in the present: io sto, tu stai, lui/lei/Lei sta, noi stiamo, voi state, loro stanno. Add the current action’s gerund: parlare → parlando, leggere → leggendo. The progressive focuses on an action underway; the simple present can also describe now and remains natural for routines or states.",
+              "examples": [
+                {
+                  "it": "Noi stiamo parlando. Voi state leggendo.",
+                  "en": "We are speaking. You all are reading."
+                }
+              ],
+              "introduces": [
+                "v2-a2-progressive-present.core"
+              ]
+            },
+            {
               "id": "v2-a2-progressive-present.s4",
               "kind": "question",
               "target": "v2-a2-progressive-present.core",
@@ -4500,6 +4604,21 @@
               ]
             },
             {
+              "id": "v2-a2-progressive-past.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Stare in the imperfect: io stavo, tu stavi, lui/lei/Lei stava, noi stavamo, voi stavate, loro stavano + gerund. This explicitly focuses on an action underway from a past viewpoint. Ordinary imperfect can also express ongoing background.",
+              "examples": [
+                {
+                  "it": "Noi stavamo parlando quando Anna ha chiamato. Loro stavano leggendo.",
+                  "en": "We were speaking when Anna called. They were reading."
+                }
+              ],
+              "introduces": [
+                "v2-a2-progressive-past.core"
+              ]
+            },
+            {
               "id": "v2-a2-progressive-past.s4",
               "kind": "question",
               "target": "v2-a2-progressive-past.core",
@@ -4887,7 +5006,7 @@
               "translation": "The pizza? I buy it today.",
               "answer": "la",
               "speak": "La pizza? Io la compro oggi.",
-              "explanation": "Casa is feminine singular.",
+              "explanation": "Pizza is feminine singular, so la refers back to la pizza.",
               "hint": "Put la before compro.",
               "strict": true
             },
@@ -5726,13 +5845,39 @@
               "modality": "language",
               "repair": {
                 "title": "Try shorten lo and la, and add non again",
-                "body": "When the verb begins with a vowel, lo and la shorten to l’ and join it: l’aspetto, l’ascolto. Li and le never shorten.",
+                "body": "Before a vowel, lo/la can shorten to l’ and join the verb: l’aspetto, l’ascolto. Li/le do not shorten. Non goes before the clitic and verb: non lo so, non la vedo.",
                 "examples": [
                   {
-                    "it": "Il treno? L’aspetto. La radio? L’ascolto.",
-                    "en": "The train? I am waiting for it. The radio? I listen to it."
+                    "it": "Il treno? L’aspetto.",
+                    "en": "The train? I am waiting for it."
+                  },
+                  {
+                    "it": "Il pane? Non lo compro.",
+                    "en": "The bread? I am not buying it."
                   }
-                ]
+                ],
+                "byFacet": {
+                  "elision": {
+                    "title": "Join the shortened clitic",
+                    "body": "In the model lo/la shortens to l’ before a vowel and joins the verb: l’aspetto, l’ascolto. Li/le do not shorten.",
+                    "examples": [
+                      {
+                        "it": "Il treno? L’aspetto. La radio? L’ascolto.",
+                        "en": "The train? I am waiting for it. The radio? I listen to it."
+                      }
+                    ]
+                  },
+                  "non-first": {
+                    "title": "Put non before the pronoun",
+                    "body": "Keep the order non + object pronoun + verb: non lo so, non la chiamo. Non cannot go between the pronoun and its verb.",
+                    "examples": [
+                      {
+                        "it": "Il pane? Non lo compro. Sara? Non la chiamo.",
+                        "en": "The bread? I am not buying it. Sara? I am not calling her."
+                      }
+                    ]
+                  }
+                }
               }
             }
           ],
@@ -7379,6 +7524,21 @@
               ]
             },
             {
+              "id": "v2-a2-future-are.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Parlare in the future: io parlerò, tu parlerai, lui/lei/Lei parlerà, noi parleremo, voi parlerete, loro parleranno. Add -ò, -ai, -à, -emo, -ete, -anno to parler-. These checks request the future form; the present can also naturally express a planned future event.",
+              "examples": [
+                {
+                  "it": "Noi parleremo con Anna domani. Voi parlerete con Luca.",
+                  "en": "We will speak with Anna tomorrow. You all will speak with Luca."
+                }
+              ],
+              "introduces": [
+                "v2-a2-future-are.core"
+              ]
+            },
+            {
               "id": "v2-a2-future-are.s4",
               "kind": "question",
               "target": "v2-a2-future-are.core",
@@ -7608,6 +7768,21 @@
                 {
                   "it": "Luca dormirà a casa.",
                   "en": "Luca will sleep at home."
+                }
+              ],
+              "introduces": [
+                "v2-a2-future-ere-ire.core"
+              ]
+            },
+            {
+              "id": "v2-a2-future-ere-ire.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Prendere: io prenderò, tu prenderai, lui/lei/Lei prenderà, noi prenderemo, voi prenderete, loro prenderanno. Dormire: io dormirò, tu dormirai, lui/lei/Lei dormirà, noi dormiremo, voi dormirete, loro dormiranno. These checks specifically ask for the future form.",
+              "examples": [
+                {
+                  "it": "Voi prenderete il treno. Anna e Luca dormiranno a casa.",
+                  "en": "You all will take the train. Anna and Luca will sleep at home."
                 }
               ],
               "introduces": [
@@ -7847,6 +8022,21 @@
                 {
                   "it": "Anna andrà a Milano.",
                   "en": "Anna will go to Milan."
+                }
+              ],
+              "introduces": [
+                "v2-a2-future-irregular.core"
+              ]
+            },
+            {
+              "id": "v2-a2-future-irregular.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Essere: sarò, sarai, sarà, saremo, sarete, saranno. Avere: avrò, avrai, avrà, avremo, avrete, avranno. Andare: andrò, andrai, andrà, andremo, andrete, andranno. In each row the persons are io, tu, lui/lei/Lei, noi, voi, loro; formal Lei uses the third-person singular.",
+              "examples": [
+                {
+                  "it": "Noi saremo a Roma. Voi andrete a Milano. Loro avranno il libro.",
+                  "en": "We will be in Rome. You all will go to Milan. They will have the book."
                 }
               ],
               "introduces": [
@@ -8356,6 +8546,21 @@
               ]
             },
             {
+              "id": "v2-a2-conditional-request.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Volere: vorrei, vorresti, vorrebbe, vorremmo, vorreste, vorrebbero. Potere: potrei, potresti, potrebbe, potremmo, potreste, potrebbero. In each row the persons are io, tu, lui/lei/Lei, noi, voi, loro. Formal Lei uses potrebbe/vorrebbe; tu uses potresti/vorresti. Follow these forms with a known infinitive, or use vorrei + the desired thing.",
+              "examples": [
+                {
+                  "it": "Vorremmo un caffè. Potreste ripetere, per favore?",
+                  "en": "We would like a coffee. Could you all repeat, please?"
+                }
+              ],
+              "introduces": [
+                "v2-a2-conditional-request.core"
+              ]
+            },
+            {
               "id": "v2-a2-conditional-request.s4",
               "kind": "question",
               "target": "v2-a2-conditional-request.core",
@@ -8585,6 +8790,21 @@
                 {
                   "it": "Andrei a Roma. Farei una visita al museo.",
                   "en": "I would go to Rome. I would visit the museum."
+                }
+              ],
+              "introduces": [
+                "v2-a2-conditional-plan.core"
+              ]
+            },
+            {
+              "id": "v2-a2-conditional-plan.phase2-full-forms",
+              "kind": "teach",
+              "title": "Keep every person available",
+              "body": "Andare: andrei, andresti, andrebbe, andremmo, andreste, andrebbero. Fare: farei, faresti, farebbe, faremmo, fareste, farebbero. Volere: vorrei, vorresti, vorrebbe, vorremmo, vorreste, vorrebbero. In each row the persons are io, tu, lui/lei/Lei, noi, voi, loro.",
+              "examples": [
+                {
+                  "it": "Noi andremmo a Roma. Voi fareste una visita al museo.",
+                  "en": "We would go to Rome. You all would visit the museum."
                 }
               ],
               "introduces": [

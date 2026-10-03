@@ -506,6 +506,7 @@ export function journeyAttempt(plan, session, question, grade, { assistance = []
     ...(Number.isInteger(question.meta?.variantCount) ? { availableVariants: question.meta.variantCount } : {}),
     ok: grade.ok === true, outcome: grade.outcome || (grade.ok ? 'correct' : 'incorrect'), assistance: help, firstAttempt: true,
     errorTags: grade.errorTags || [], components: grade.components || [],
+    ...(grade.submission?{submission:grade.submission}:{}),
     ...(j.wordShort ? {wordPolicy:'word-short-v1',wordSlotId:j.wordShort.slotId,mode:'recognition',activityKind:current.phase==='repair'?'repair':'guided'} : {}),
   };
 }

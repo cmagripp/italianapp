@@ -3,6 +3,7 @@
 import { schedule } from '../srs.js';
 import { grammarSkill } from './grammar-state.js';
 import { courseSkill } from './course-v2-state.js';
+import { savedSubmission } from './answer-policy.js';
 
 export const LEARNING_VERSION = 5;
 const DAY = 86400e3;
@@ -17,6 +18,9 @@ const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const unsupported = domain => finite(domain?.version) > LEARNING_VERSION;
 // Short word lessons and course vocabulary boards never produce unaided production evidence.
 const SUPPORTED_WORD_POLICIES = new Set(['word-short-v1', 'word-lesson-match-v1', 'word-lab-drill-v1']);
+const canonicalEvents = new WeakSet();
+const indexStats = { normalizedEvents:0, builds:0, appends:0, replayedEvents:0, checkpointHits:0 };
+const CHECKPOINT_POLICY='learning-v5-lossless-1';
 
 // Also used for session UI state. Never preserve functions, DOM nodes, prototypes,
 // undefined values or cycles from an accidental caller-supplied question object.
@@ -62,6 +66,7 @@ export function learningSessionKey(session) {
 }
 
 function normalizeEvent(raw, epochId) {
+  indexStats.normalizedEvents++;
   if (!raw || typeof raw !== 'object' || !text(raw.id) || BAD_KEYS.has(raw.id) || !text(raw.objectiveId) || BAD_KEYS.has(raw.objectiveId) || BAD_KEYS.has(raw.sessionId)) return null;
   if (raw.epochId !== epochId) return null;
   const outcome = (raw.policy === 'grammar-v2' ? ['correct', 'incorrect', 'skipped', 'revealed', 'ungraded'] : ['correct', 'incorrect', 'skipped', 'revealed']).includes(raw.outcome) ? raw.outcome : raw.ok === true ? 'correct' : 'incorrect';
@@ -82,6 +87,7 @@ function normalizeEvent(raw, epochId) {
     ok: outcome === 'correct' && raw.ok === true, outcome,
     assistance: strings(raw.assistance).filter(x => x !== 'none'), firstAttempt: raw.firstAttempt === true,
     errorTags: strings(raw.errorTags), components,
+    ...(savedSubmission(raw.submission)?{submission:savedSubmission(raw.submission)}:{}),
     xp: Math.max(0, Math.min(3, finite(raw.xp))),
     ...(raw.kind === 'grammar' && raw.policy === 'grammar-v1' ? {
       kind:'grammar', policy:'grammar-v1', contentVersion:Math.max(1,Math.floor(finite(raw.contentVersion,1))),
@@ -113,13 +119,14 @@ function normalizeEvent(raw, epochId) {
 }
 
 export function createLearning(now = Date.now()) {
-  return {
+  const learning={
     version: LEARNING_VERSION, createdAt: finite(now),
     // A common initial epoch lets independently migrated devices merge their work.
     epoch: { id: 'initial', at: 0 }, events: {}, completions: {},
     preferences: { stage: 'present', expansions: [], updatedAt: 0, coreOrderVersion: 2 },
     session: null, sessions: {},
   };
+  canonicalEvents.add(learning.events);return learning;
 }
 
 export const completionKey = (entryId, caseId = 'word') => `${encodeURIComponent(entryId)}|${caseId}`;
@@ -185,10 +192,11 @@ export function normalizeLearning(raw, now = Date.now()) {
     const key = learningSessionKey(session);
     sessions[key] = newest(sessions[key], session, 'updatedAt');
   }
-  return {
+  const learning={
     ...p, version: Math.max(LEARNING_VERSION, Math.floor(finite(p.version, LEARNING_VERSION))),
     createdAt: finite(p.createdAt, fresh.createdAt), epoch, events, completions:normalizeCompletions(p.completions), preferences, session, sessions,
   };
+  canonicalEvents.add(events);return learning;
 }
 
 function newest(a, b, clockKey) {
@@ -234,13 +242,18 @@ export function resetLearning(old, now = Date.now(), resetId) {
 }
 
 export function recordAttempt(domain, event) {
-  const learning = normalizeLearning(domain, finite(event?.at));
-  if (unsupported(learning)) return { learning, added: false, skill: skillState(learning, text(event?.objectiveId), finite(event?.at)) };
+  if (unsupported(domain)) return { learning:domain, added: false, skill: skillState(domain, text(event?.objectiveId), finite(event?.at)) };
+  const previous=evidenceFor(domain,finite(event?.at)),learning={...previous.learning};
   const normalized = normalizeEvent(event, learning.epoch.id);
   if (!normalized || learning.events[normalized.id]) {
     return { learning, added: false, skill: skillState(learning, text(event?.objectiveId), finite(event?.at)) };
   }
   learning.events = { ...learning.events, [normalized.id]: normalized };
+  canonicalEvents.add(learning.events);
+  // Checkpoints describe an exact event set. New evidence invalidates that
+  // snapshot without deleting any historical event or manual completion fence.
+  delete learning.checkpoint;
+  appendEvidence(previous,learning,normalized);
   return { learning, added: true, skill: skillState(learning, normalized.objectiveId, normalized.at) };
 }
 
@@ -390,11 +403,45 @@ function analyze(domain, objectiveId, now, all, positions, events, chronology = 
 }
 
 const evidenceCache = new WeakMap();
+const fingerprint=value=>{let h=2166136261;for(const c of value){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;};
+function eventDigest(events) {
+  let sum=0,xor=0,count=0;
+  for(const event of Object.values(events)){const hash=fingerprint(JSON.stringify(event));sum=(sum+hash)>>>0;xor^=hash;count++;}
+  return `${count}:${sum}:${xor>>>0}`;
+}
+function checkpointFor(learning) {
+  const c=learning.checkpoint;
+  if(!c||c.version!==1||c.learningVersion!==LEARNING_VERSION||c.policyVersion!==CHECKPOINT_POLICY||c.epochId!==learning.epoch.id||c.epochAt!==learning.epoch.at
+    ||!Array.isArray(c.orderedIds)||!c.summaries||c.eventDigest!==eventDigest(learning.events)||c.completionDigest!==fingerprint(stable(learning.completions))||c.summaryDigest!==fingerprint(stable(c.summaries)))return null;
+  if(c.orderedIds.length!==Object.keys(learning.events).length||new Set(c.orderedIds).size!==c.orderedIds.length||c.orderedIds.some(id=>!Object.hasOwn(learning.events,id)))return null;
+  if(c.orderedIds.some((id,index)=>index>0&&compareEvents(learning.events[c.orderedIds[index-1]],learning.events[id])>0))return null;
+  return c;
+}
+function appendEvidence(previous,learning,event) {
+  const session=previous.bySession.get(event.sessionId) || [];
+  const monotonic=(!previous.events.length||compareEvents(previous.events.at(-1),event)<=0)
+    && (!session.length||cmp(session.at(-1).index,event.index)<0||session.at(-1).index===event.index&&compareEvents(session.at(-1),event)<=0);
+  if(!monotonic)return; // Imported/backdated evidence rebuilds in deterministic order.
+  const bySession=new Map(previous.bySession),byObjective=new Map(previous.byObjective),summaries=new Map(previous.summaries);
+  bySession.set(event.sessionId,[...session,event]);
+  byObjective.set(event.objectiveId,[...(byObjective.get(event.objectiveId) || []),event]);
+  summaries.delete(event.objectiveId);
+  // Forks can append the same ID at different coordinates. Keep each domain's
+  // indexes isolated, including summaries that have not been requested yet.
+  const positions=new Map(previous.positions),chronology=new Map(previous.chronology);
+  positions.set(event.id,session.length);chronology.set(event.id,previous.events.length);
+  const context={...previous,learning,events:[...previous.events,event],positions,chronology,bySession,byObjective,summaries,
+    eventsRef:learning.events,epochId:learning.epoch.id,epochAt:learning.epoch.at};
+  evidenceCache.set(learning,context);indexStats.appends++;
+}
 function evidenceFor(domain, now) {
   const cacheable = domain && typeof domain === 'object';
   const cached = cacheable && evidenceCache.get(domain);
   if (cached && cached.eventsRef === domain.events && cached.epochId === domain.epoch?.id && cached.epochAt === domain.epoch?.at) return cached;
-  const learning = normalizeLearning(domain, now), events = orderedEvents(learning);
+  const learning=domain?.version===LEARNING_VERSION&&canonicalEvents.has(domain.events)?domain:normalizeLearning(domain,now);
+  const checkpoint=checkpointFor(learning);
+  const events=checkpoint?checkpoint.orderedIds.map(id=>learning.events[id]):orderedEvents(learning);
+  indexStats.builds++;if(checkpoint)indexStats.checkpointHits++;
   const positions = new Map(), bySession = new Map(), byObjective = new Map(), chronology = new Map(events.map((e, i) => [e.id, i]));
   for (const e of events) {
     if (!bySession.has(e.sessionId)) bySession.set(e.sessionId, []);
@@ -405,12 +452,13 @@ function evidenceFor(domain, now) {
     group.sort((a, b) => cmp(a.index, b.index) || compareEvents(a, b));
     group.forEach((e, i) => positions.set(e.id, i));
   }
-  const context = { learning, events, positions, chronology, byObjective, summaries: new Map(), eventsRef: domain?.events, epochId: domain?.epoch?.id, epochAt: domain?.epoch?.at };
+  const summaries=checkpoint?new Map(Object.entries(checkpoint.summaries)):new Map();
+  const context = { learning, events, positions, chronology, byObjective,bySession, summaries, eventsRef: domain?.events, epochId: domain?.epoch?.id, epochAt: domain?.epoch?.at };
   if (cacheable) evidenceCache.set(domain, context);
   return context;
 }
 function summaryFrom(context, id, now) {
-  if (!context.summaries.has(id)) context.summaries.set(id, analyze(context.learning, id, 0, context.events, context.positions, context.byObjective.get(id) || [], context.chronology));
+  if (!context.summaries.has(id)) {const events=context.byObjective.get(id) || [];indexStats.replayedEvents+=events.length;context.summaries.set(id, analyze(context.learning, id, 0, context.events, context.positions,events, context.chronology));}
   // Callers can decorate their returned summary without corrupting the cache.
   const summary = plain(context.summaries.get(id));
   summary.isDue = !!summary.due && summary.due <= now;
@@ -428,6 +476,20 @@ export function allSkills(domain, now = Date.now()) {
   return [...context.byObjective.keys()].sort().map(id => summaryFrom(context, id, now));
 }
 
+// A lossless replay checkpoint, deliberately retaining the entire v5 event log.
+// Older clients can ignore it safely. No storage reduction or destructive log
+// compaction is claimed until replica/backup acknowledgement is implemented.
+export function checkpointLearning(domain,now=Date.now()) {
+  const learning=normalizeLearning(domain,now);
+  if(unsupported(learning))throw new Error('Update Parola before checkpointing this learning data.');
+  delete learning.checkpoint;
+  const context=evidenceFor(learning,now),summaries=Object.fromEntries(allSkills(learning,0).map(s=>[s.objectiveId,s]));
+  learning.checkpoint={version:1,learningVersion:LEARNING_VERSION,policyVersion:CHECKPOINT_POLICY,epochId:learning.epoch.id,epochAt:learning.epoch.at,
+    eventDigest:eventDigest(learning.events),completionDigest:fingerprint(stable(learning.completions)),orderedIds:context.events.map(e=>e.id),summaries,summaryDigest:fingerprint(stable(summaries))};
+  return learning;
+}
+export const learningIndexStats=()=>({...indexStats});
+
 export function createSession({ id, entryId, objectiveIds, now = Date.now(), mode = 'lesson' }) {
   const ids = strings(objectiveIds);
   return normalizeSession({
@@ -443,7 +505,7 @@ function reviewed(state, sessionId) {
 }
 
 export function selectNext(domain, rawSession, objectives, { now = Date.now() } = {}) {
-  const learning = normalizeLearning(domain, now), session = normalizeSession(rawSession);
+  const learning=domain?.version===LEARNING_VERSION&&canonicalEvents.has(domain.events)?domain:normalizeLearning(domain,now),session = normalizeSession(rawSession);
   if (unsupported(learning)) return { done: false, blocked: true, objective: null, reason: 'unsupported-version' };
   if (!session) return { done: false, blocked: true, objective: null, reason: 'invalid-session' };
   const descriptors = new Map((Array.isArray(objectives) ? objectives : []).filter(o => o && text(o.id)).map(o => [o.id, o]));
@@ -463,7 +525,7 @@ export function selectNext(domain, rawSession, objectives, { now = Date.now() } 
   const active = descriptors.get(activeId);
   if (!active) return { done: false, blocked: true, objective: null, objectiveId: activeId, reason: 'content-unavailable' };
   const activeState = stateFor(activeId);
-  const history = orderedEvents(learning).filter(e => e.sessionId === session.id).sort((a, b) => cmp(a.index, b.index) || compareEvents(a, b));
+  const history = evidenceFor(learning,now).bySession.get(session.id) || [];
   let lastProductionIndex = -1;
   history.forEach((e, i) => { if (e.objectiveId === activeId && e.mode === 'production') lastProductionIndex = i; });
   const intervening = lastProductionIndex < 0 ? Infinity : history.length - lastProductionIndex - 1;

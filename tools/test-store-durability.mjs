@@ -74,7 +74,7 @@ try {
   });
   await test('failed writes keep the latest profile recoverable and a later save retries it',async()=>{
     store.removeFromList(listId,'w:casa|noun');const failed=store.saveNow();await tick();
-    store.addToList(listId,'w:libro|noun');commit(writes[0],false);await failed;
+    store.addToList(listId,'w:libro|noun');const rejected=assert.rejects(failed,/could not be saved/);commit(writes[0],false);await rejected;
     assert.equal(store._dirty,true);assert.deepEqual(mirror().profile.lists[listId].items,['w:libro|noun']);
     const retry=store.saveNow();await tick();commit(writes[0]);await retry;
     assert.deepEqual(records.get(key).lists[listId].items,['w:libro|noun']);assert.equal(mirror(),null);
@@ -112,7 +112,7 @@ try {
     const pending=JSON.stringify({id:fallbackStore.current.id,profile:fallbackStore.current});localStorage.setItem('it.pendingProfile',pending);
     localStorage.limit=localStorage.size();
     fallbackStore.current.recent=Array(2000).fill('large-new-history-entry');fallbackStore.save();
-    await fallbackStore.saveNow();
+    await assert.rejects(fallbackStore.saveNow(),/could not be saved/);
     assert.equal(fallbackStore._dirty,true);assert.equal(localStorage.getItem('it.pendingProfile'),pending);assert.equal(JSON.parse(localStorage.getItem(fallbackKey)).recent.length,100);
   });
   console.log(`\n${passed} store durability checks passed.`);

@@ -1,0 +1,35 @@
+{
+  "synthetic": true,
+  "profileId": "fixture-local-a",
+  "profileJSONContainsRecordings": false,
+  "recordingStore": {
+    "database": "parola-course-recordings",
+    "objectStore": "recordings",
+    "records": [
+      {
+        "key": "fixture-local-a|v2-a1-essere-singular|fixture-recording",
+        "type": "audio/webm",
+        "bytesBase64": "AAECAwQ=",
+        "durationMs": 500,
+        "retainedExplicitly": true
+      }
+    ]
+  },
+  "installationOnly": {
+    "deviceId": "fixture-install-a"
+  },
+  "cloudBindings": [
+    {
+      "localProfileId": "fixture-local-a",
+      "accountId": "fixture-account-shared",
+      "remoteProfileId": "fixture-local-a",
+      "hasPortableLearnerIdentity": false
+    },
+    {
+      "localProfileId": "fixture-local-b",
+      "accountId": "fixture-account-shared",
+      "remoteProfileId": "fixture-local-a",
+      "hasPortableLearnerIdentity": false
+    }
+  ]
+}

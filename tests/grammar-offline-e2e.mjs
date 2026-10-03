@@ -115,7 +115,8 @@ try{
   });
   for(const item of cached){assert.equal(item.status,200,item.level);assert.equal(item.pack?.level,item.level);assert(item.pack.units?.length>=5);}
   failInstall=true;
-  workerSource=actualWorker.replace(currentVersion,currentVersion+'-incomplete-test');
+  // A changed pack must be fetched; unchanged hashes are intentionally reused.
+  workerSource=actualWorker.replace(currentVersion,currentVersion+'-incomplete-test').replace(/const ASSET_HASHES = (\{.*\});/,(_,raw)=>{const hashes=JSON.parse(raw);hashes['./data/course-v2/A2.json']='0'.repeat(64);return 'const ASSET_HASHES = '+JSON.stringify(hashes)+';';});
   assert.equal(await updateWorker(),'redundant');
   assert((await page.evaluate(()=>caches.keys())).includes(currentVersion));
   failInstall=false;
@@ -191,7 +192,7 @@ try{
   assert.equal(await page.locator('[data-grammar-input]').inputValue(),'Una bozza da conservare');
  });
  await check('New-course feedback and drafts also survive an offline reload',async()=>{
-  const id=await page.evaluate(async()=>{const {grammarCourse}=await import('./js/learning/grammar-course.js'),{createCourseSession}=await import('./js/learning/course-v2-engine.js'),{store}=await import('./js/store.js');const l=grammarCourse.lessons.find(l=>l.steps.some(s=>s.kind==='question'&&s.format==='type'));const session=createCourseSession(l);session.courseV2.stepIndex=l.steps.findIndex(s=>s.kind==='question'&&s.format==='type');store.saveLearningSession(session);await store.saveNow();return l.id;});
+  const id=await page.evaluate(async()=>{const {grammarCourse,loadGrammarStage,loadGrammarLesson}=await import('./js/learning/grammar-course.js'),{createCourseSession}=await import('./js/learning/course-v2-engine.js'),{store}=await import('./js/store.js');await loadGrammarStage('A1');const selected=grammarCourse.lessons.find(l=>l.steps.some(s=>s.kind==='question'&&s.format==='type'));const l=await loadGrammarLesson(selected.id);const session=createCourseSession(l);session.courseV2.stepIndex=l.steps.findIndex(s=>s.kind==='question'&&s.format==='type');store.saveLearningSession(session);await store.saveNow();return l.id;});
   await gotoRoute(page,'/learn/grammar/'+id);
   await page.locator('[data-course-input]').fill('La bozza offline');
   await page.evaluate(async()=>{const {store}=await import('./js/store.js');await store.saveNow();});

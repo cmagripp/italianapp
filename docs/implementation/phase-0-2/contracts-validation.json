@@ -1,0 +1,197 @@
+{
+  "recordedAt": "2026-10-03T13:03:10.521591+00:00",
+  "worktree": "/Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2",
+  "scope": "Subagent contracts/store/sync/index/lazy-course targeted verification only; Phase 0–2. No commits or pushes. Results are structured summaries of actual completed runs, not reconstructed stdout. Root performs final integrated/offline/assembled-site/WebKit gates.",
+  "startupMeasurement": "Cold local static-server Chromium with iPhone viewport and blocked service workers; source bytes exclude transfer compression and offline shell installation. Timings are diagnostic; physical-phone and hosted transfer performance are not established.",
+  "checks": [
+    {
+      "command": "node tools/test-phase-migration-fixtures.mjs",
+      "exitCode": 0,
+      "result": "14 synthetic old-profile preservation checks passed; design-only/baseline gates remain separately declared.",
+      "reportedCheckCount": 14
+    },
+    {
+      "command": "node tools/test-phase-persistence.mjs",
+      "exitCode": 0,
+      "result": "17 synthetic storage/transport persistence, reward and learner-identity repair checks passed.",
+      "reportedCheckCount": 17
+    },
+    {
+      "command": "node tools/test-learning-index.mjs --write-report",
+      "exitCode": 0,
+      "result": "10 index/checkpoint checks plus 1k/10k/50k replay, merge and stale-checkpoint measurements passed.",
+      "reportedCheckCount": 10,
+      "evidence": "docs/implementation/phase-0-2/evidence-performance.json"
+    },
+    {
+      "command": "node tools/test-lazy-course.mjs",
+      "exitCode": 0,
+      "result": "6 compact completion and course loading checks passed. First check compares every one of 8,143 dictionary descriptors; representative evidence/manual-fence cases are distinct.",
+      "reportedCheckCount": 6
+    },
+    {
+      "command": "node tools/test-learning-model.mjs",
+      "exitCode": 0,
+      "result": "30 adaptive model checks passed.",
+      "reportedCheckCount": 30
+    },
+    {
+      "command": "node tools/test-learning-completion.mjs",
+      "exitCode": 0,
+      "result": "24 completion/enrollment checks passed.",
+      "reportedCheckCount": 24
+    },
+    {
+      "command": "node tools/test-learning-store-sync.mjs",
+      "exitCode": 0,
+      "result": "20 store/sync integration checks passed using mock transport; SQL was not executed in PostgreSQL.",
+      "reportedCheckCount": 20
+    },
+    {
+      "command": "node tools/test-store-durability.mjs",
+      "exitCode": 0,
+      "result": "7 store durability checks passed.",
+      "reportedCheckCount": 7
+    },
+    {
+      "command": "node tools/test-journey-model.mjs",
+      "exitCode": 0,
+      "result": "43 journey model checks passed.",
+      "reportedCheckCount": 43
+    },
+    {
+      "command": "node tools/test-short-word-model.mjs",
+      "exitCode": 0,
+      "result": "22 short word controller checks passed.",
+      "reportedCheckCount": 22
+    },
+    {
+      "command": "node tools/test-course-v2-durability.mjs",
+      "exitCode": 0,
+      "result": "V2 durability passed for facets, cross-device merge, v4 migration, completion receipt, portfolios, reset, vocabulary board rows and conservative placement.",
+      "reportedCheckCount": null
+    },
+    {
+      "command": "node tools/test-grammar-course.mjs",
+      "exitCode": 0,
+      "result": "Content validated: 129 lessons, 129 objectives and 534 authored exercises. Every lesson completed using real question/advance/evidence logic with 516 actual answers; guess/repeat/assistance/dictionary isolation/migration/draft merge/reset checks passed.",
+      "reportedCheckCount": null
+    },
+    {
+      "command": "node tools/test-grammar-durability.mjs",
+      "exitCode": 0,
+      "result": "Grammar durability passed for repeat/assistance, clock skew, early review, lapse enrollment, repair, draft merge and reset.",
+      "reportedCheckCount": null
+    },
+    {
+      "command": "node tools/test-course-words.mjs",
+      "exitCode": 0,
+      "result": "86 lessons carry 320 synthesized steps and 1,098 pairs; attachment, idempotence, strict credit rows and objective IDs verified.",
+      "reportedCheckCount": null
+    },
+    {
+      "command": "node tools/check-modules.mjs",
+      "exitCode": 0,
+      "result": "99/99 JavaScript files parse as browser modules.",
+      "reportedCheckCount": 99
+    },
+    {
+      "command": "BASE=http://127.0.0.1:8138/ PLAYWRIGHT_DIR=/tmp/parola-grammar-tools node tests/course-v2-e2e.mjs",
+      "exitCode": 0,
+      "result": "19 reported browser checks passed; no application errors.",
+      "reportedCheckCount": 19,
+      "evidence": "tests/report-course-v2.json",
+      "structuredReport": {
+        "results": [
+          "New learners start with meanings, match the lesson words, and see models before the first supported check",
+          "Multiple independent contexts complete a lesson that credits its vocabulary and completes no verb case",
+          "An error gives feedback, a repair model, and a supported retry; Back cannot submit twice",
+          "Saved typing drafts and shuffled choices survive reload without evidence or XP duplication",
+          "Matching cards disappear only on a correct pair and errors are retained",
+          "A mismatched pair leaves that word uncredited while the others are credited",
+          "Open work is saved for self-review and is never treated as a right or wrong answer",
+          "Source readings stay available beside their questions",
+          "Listening checks cannot be credited by reading a transcript or with no played audio",
+          "Listening evidence requires completed playback of its source",
+          "The EN toggle exposes help without granting independent reading credit",
+          "A prerequisite detour preserves a return to the interrupted lesson",
+          "Skip retains unfinished skills and Pause/Resume preserves the current lesson",
+          "Placement gives a conservative suggestion without completing any lesson or awarding XP",
+          "B2 placement supports sentence ordering, reload, and a complete next-stage suggestion",
+          "An interrupted placement with no available questions returns a usable suggestion",
+          "Personal recordings are isolated by profile and removed on progress reset",
+          "A microphone response counts only after audio is saved, including navigation while it stops",
+          "Feedback and Continue stay in the viewport at compact and large iPhone sizes"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "command": "BASE=http://127.0.0.1:8139/ PLAYWRIGHT_DIR=/tmp/parola-grammar-tools node tests/grammar-course-e2e.mjs",
+      "exitCode": 0,
+      "result": "11 reported browser checks passed; no application errors.",
+      "reportedCheckCount": 11,
+      "evidence": "tests/report-grammar-course.json",
+      "structuredReport": {
+        "results": [
+          "Learn retains Resume, adds course/grammar/vocabulary, and preserves Review and Verb Lab",
+          "All seven course stages have lessons; saved legacy lessons still open",
+          "Correct answers preserve feedback until Continue; distinct evidence completes only grammar",
+          "Grammar review shares the existing queue and routes to a focused grammar check",
+          "Mistakes explain, repair, and never silently complete; Back cannot record answers",
+          "Draft, question order, and history survive reload; assistance cannot bypass learning",
+          "Combined sessions remain resumable after skip, navigation, and reload",
+          "Completed C2 grammar level opens the outline instead of an empty session",
+          "Linked word returns to saved grammar recap and optional verb opens its chapter",
+          "Mobile controls fit 375px and 430px; page stays still and feedback stays visible",
+          "No application errors"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "command": "PLAYWRIGHT_DIR=/tmp/parola-grammar-tools node tests/startup-e2e.mjs",
+      "exitCode": 0,
+      "result": "Three cold-route inventory/assertion groups and one combined browser behavior group passed. The harness prints three inventory JSON rows and one PASS line; it does not publish a numeric assertion total.",
+      "reportedCheckCount": null,
+      "testGroupCount": 4,
+      "inventoryGroupCount": 3,
+      "behaviorGroupCount": 1,
+      "evidence": "docs/implementation/phase-0-2/startup-performance.json",
+      "actualBehaviorPassLine": "PASS missing/truncated stage isolation and retry, Home draft/check preservation, classic/legacy direct routes",
+      "startupRows": [
+        {
+          "route": "home",
+          "firstContentMs": 1307.3,
+          "requests": 56,
+          "sourceBytes": 5124288,
+          "courseStageRequests": 0,
+          "fullLessonCode": false
+        },
+        {
+          "route": "learn/verb/v%3Acredere",
+          "firstContentMs": 376.8,
+          "requests": 67,
+          "sourceBytes": 6099712,
+          "courseStageRequests": 0,
+          "fullLessonCode": true
+        },
+        {
+          "route": "profile",
+          "firstContentMs": 350.6,
+          "requests": 44,
+          "sourceBytes": 4972062,
+          "courseStageRequests": 0,
+          "fullLessonCode": false
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Synthetic fault injection and mocked cloud requests do not verify live PostgreSQL/Supabase policies.",
+    "Lossless verified checkpoints retain all events and claim no destructive compaction or storage reduction.",
+    "Immutable event/index map copies remain O(n).",
+    "Full dictionary remains loaded; Home profiles with learning history load the unchanged full review/resume implementation on demand.",
+    "Physical mobile devices and live account/network failure paths were not validated by these targeted commands."
+  ]
+}

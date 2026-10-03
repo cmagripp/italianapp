@@ -146,7 +146,7 @@ try {
     const states = await page.$$eval('.lab-lesson', els => els.map(e => e.dataset.state));
     assert.equal(states[0], 'next'); assert.ok(states.slice(1).every(s => s === 'locked'), 'every other lesson is locked');
     assert.equal(await count('.lab-lesson[data-state="locked"] a'), 0);
-    assert.ok(await count('[data-lab-fit]') === 1 && await count('[data-lab-assistant]') === 1, 'the two tool switches');
+    assert.equal(await count('[data-lab-fit]'),0,'misleading scorer download is retired');assert.equal(await count('[data-lab-assistant]'),1);assert.equal(await $('[data-lab-assistant]').isDisabled(),true,'no eligible reply-selection turns');
     assert.ok(await count('[data-lab-gender]') === 2, 'the speaker gender control');
     assert.equal(await count('[data-lab-resume]'), 0, 'no resume card without a session');
     assert.match(await tc('[data-lab-progress]'), /0 \/ \d+ lessons/);
@@ -155,7 +155,7 @@ try {
     const gender = await page.evaluate(async () => (await import('./js/store.js')).store.settings.gender);
     assert.equal(gender, 'f');
     await click('[data-lab-gender="m"]');
-    return `${states.length} lessons · tools ${await text('[data-fit-status]').then(t => t.slice(0, 40))}…`;
+    return `${states.length} lessons · tools ${await text('[data-assistant-status]').then(t => t.slice(0, 40))}…`;
   });
 
   await check('laboratorio card: first in the Learn hub reel', async () => {
@@ -214,7 +214,7 @@ try {
     assert.deepEqual(drills.map(e => e.mode), ['recognition', 'recognition', 'production']);
     assert.ok(after.xp >= before.xp + 10, `XP ${before.xp} → ${after.xp} includes the learned bonus`);
     await checkAnswer();
-    const fb = await feedbackState(); assert.equal(fb.state, 'correct'); assert.match(fb.title, /Accepted/); assert.match(fb.detail, /Sono di Roma e sono tedesco\./);
+    const fb = await feedbackState(); assert.equal(fb.state, 'correct'); assert.match(fb.title, /Valid alternative/); assert.match(fb.detail, /Sono di Roma e sono tedesco\./);
     await next(); await expectKind('dialogue');
     return `+${after.xp - before.xp} XP · ${drills.length} drill events on ${drills[0].objectiveId}`;
   });

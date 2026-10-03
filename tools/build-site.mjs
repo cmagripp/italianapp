@@ -17,7 +17,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // ONNX Runtime Web files in vendor/ort/, never precached), index.html (css/, js/, icons/, manifest) and
 // manifest.webmanifest (icons/).
 const FILES = ['index.html', 'manifest.webmanifest', 'sw.js'];
-const TREES = ['css', 'js', 'icons', 'audio', 'models', 'vendor'];   // copied recursively
+const TREES = ['css', 'js', 'icons', 'audio', 'models', 'vendor', 'fonts'];   // copied recursively
 const JSON_DIRS = ['data', 'data/course-v2', 'data/grammar-course', 'data/sentence-lab']; // only the *.json directly inside (no subfolders)
 
 // Never published, wherever they appear. Checked again on the finished dist/ tree.
@@ -76,7 +76,7 @@ export function verifySite(out) {
   const has = rel => fs.existsSync(path.join(out, rel)) && fs.statSync(path.join(out, rel)).isFile();
   const read = rel => fs.readFileSync(path.join(out, rel), 'utf8');
 
-  // 1. sw.js SHELL: every precached URL must be present, or the service worker install (cache.addAll) fails.
+  // 1. sw.js SHELL: every precached URL must be present, or the service worker atomic installation fails.
   if (has('sw.js')) {
     const m = read('sw.js').match(/const\s+SHELL\s*=\s*\[([\s\S]*?)\]\s*;/);
     if (!m) errors.push('dist/sw.js: no "const SHELL = [...]" list found');
@@ -130,7 +130,7 @@ export function verifySite(out) {
 
   // 4. Runtime data packs requested by the loaders, and every bundled audio clip the catalogue lists.
   const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-  const runtimeData = ['data/vocab.json', 'data/verbs.json', 'data/stats.json', 'data/grammar.json', 'data/course-v2/audio.json',
+  const runtimeData = ['data/vocab.json', 'data/verbs.json', 'data/stats.json', 'data/grammar.json', 'data/course-index.json', 'data/completion-index.json', 'data/course-v2/audio.json',
     ...['Foundations', ...levels].map(l => `data/course-v2/${l}.json`), ...levels.map(l => `data/grammar-course/${l}.json`)];
   for (const rel of runtimeData) if (!has(rel)) errors.push(`runtime data file missing from dist/: ${rel}`);
   if (has('data/course-v2/audio.json')) {

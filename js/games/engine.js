@@ -1,6 +1,6 @@
 // Shared game engine: question runner (multiple choice / typed answers), feedback bar, results screen,
 // the quit + rail header, letter keyboards and the fixed keyboard dock used by crossword and hangman.
-import { html, raw, esc, toast, haptic, speak, speakBtn, icon, $, $$ } from '../ui.js';
+import { announceAnswer, html, raw, esc, toast, submissionNote, haptic, speak, speakBtn, icon, $, $$ } from '../ui.js';
 import { store } from '../store.js';
 import { getEntry, headword, shortEn } from '../data.js';
 import { normalizeAnswer, stripAccents } from '../conjugator.js';
@@ -8,6 +8,7 @@ import { entryRow } from '../components.js';
 import fx from '../fx.js';
 import { gradeQuestion } from '../learning/diagnose.js';
 import { expandedForms } from '../learning/questions.js';
+import { compareSubmission } from '../learning/answer-policy.js';
 
 export const ACCENTS = ['à', 'è', 'é', 'ì', 'ò', 'ù'];
 // Three tidy rows: 9 · 9 · 8 (+ backspace) keys — fits 375px with 44px-tall keys.
@@ -33,21 +34,13 @@ export function checkTyped(answer, acceptedForms, { strict = null } = {}) {
   const expanded = forms
     .flatMap(f => { const m = f.match(/^([^\s/]+)\/([^\s/]+)\s+(.+)$/); return m ? [`${m[1]} ${m[3]}`, `${m[2]} ${m[3]}`] : [f]; })
     .flatMap(f => [f, f.replace(/o\/a\b/g, 'o'), f.replace(/o\/a\b/g, 'a'), f.replace(/i\/e\b/g, 'i'), f.replace(/i\/e\b/g, 'e')]);
-  const loose = (s) => stripAccents(s);
   const hasArt = noArt(a) !== a;
-  if (expanded.includes(a)) return { ok: true, exact: true };
-  if (!accentStrict && expanded.map(loose).includes(loose(a))) return { ok: true, exact: false, accentIssue: true };
-  // the bare word (answer without article) against the forms without their article
-  if (!hasArt) {
-    const bare = expanded.map(noArt);
-    if (bare.includes(a)) return { ok: true, exact: true };
-    if (!accentStrict && bare.map(loose).includes(loose(a))) return { ok: true, exact: false, accentIssue: true };
-    return { ok: false };
-  }
-  // an article was typed but did not match any accepted form: right word, wrong article?
-  const bareA = noArt(a);
-  if (expanded.map(noArt).includes(bareA) || (!accentStrict && expanded.map(x => loose(noArt(x))).includes(loose(bareA)))) return { ok: false, articleIssue: true };
-  return { ok: false };
+  const allowed = hasArt ? expanded : [...expanded,...expanded.map(noArt)];
+  const submission = compareSubmission(answer, allowed, {accentStrict,trailingPunctuation:false});
+  const result = {...submission,submission};
+  if (submission.ok || !hasArt) return result;
+  const articleCheck = compareSubmission(noArt(a),expanded.map(noArt),{accentStrict,trailingPunctuation:false});
+  return {...result,articleIssue:articleCheck.ok};
 }
 
 // Scrolls the nearest scrollable ancestor (a walkthrough scene body, a sheet…) just enough to show `el`.
@@ -85,8 +78,8 @@ export function bindAccentBar(root, input) {
   });
 }
 
-export function typedInputHTML({ placeholder = 'Type in Italian…', big = true, value = '' } = {}) {
-  return html`<input class="input ${big ? 'big' : ''}" data-answer type="text" placeholder="${placeholder}" value="${value}" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-label="Your answer">
+export function typedInputHTML({ placeholder = 'Type in Italian…', big = true, value = '', language = 'it' } = {}) {
+  return html`<input class="input ${big ? 'big' : ''}" data-answer type="text" lang="${language==='en'?'en':'it'}" placeholder="${placeholder}" value="${value}" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-label="Your answer">
     ${raw(accentBar())}
     <button type="button" class="btn primary block mt" data-check>Check</button>`;
 }
@@ -111,8 +104,9 @@ export function gameHeader(backHref, progress, scoreText) {
 
 // ---------- feedback bar (slides up, sticky at the bottom) ----------
 // title / detail are HTML strings (escape what you interpolate).
-export function feedbackHTML({ ok, title, detail = '', nextLabel = 'Continue', say = null, accent = null, nextAttribute = 'data-next', showNext = true, continue: showContinue = showNext } = {}) {
+export function feedbackHTML({ ok, title, detail = '', submission = null, nextLabel = 'Continue', say = null, accent = null, nextAttribute = 'data-next', showNext = true, continue: showContinue = showNext } = {}) {
   const nextHook = /^data-[a-z][a-z0-9-]*$/.test(nextAttribute) ? nextAttribute : 'data-next';
+  detail += submissionNote(submission);
   return `<div class="feedback-bar ${ok ? 'is-correct' : 'is-incorrect'}" data-feedback-bar data-feedback-state="${ok ? 'correct' : 'incorrect'}">
     <div class="feedback ${ok ? 'ok' : 'ko'}" role="status"><span class="fb-ic">${icon(ok ? 'check' : 'x', { size: 20 })}</span><div class="fb-main"><div class="fb-title">${title}</div>${detail ? `<div class="detail">${detail}</div>` : ''}</div>${say ? speakBtn(say, 'sm') : ''}</div>
     ${showContinue ? `<button type="button" class="btn ${accent || (ok ? 'primary' : 'accent')} block" ${nextHook}>${esc(nextLabel)}</button>` : ''}</div>`;
@@ -206,7 +200,7 @@ export function runDrill(root, questions, opts = {}) {
     if (q.type === 'mc') {
       body = html`<div class="choices ${q.choices.length === 2 ? 'two' : ''}">${raw(q.choices.map((c, idx) => html`<button type="button" class="choice ${q.center ? 'center' : ''}" data-choice="${idx}"><span class="choice-label">${raw(c.html || esc(c.label))}${c.sub ? raw(`<span class="tiny muted">${esc(c.sub)}</span>`) : ''}</span></button>`).join(''))}</div>`;
     } else {
-      body = html`<div class="typed">${raw(typedInputHTML({ placeholder: q.placeholder || 'Type your answer…' }))}<button type="button" class="btn ghost block mt" data-skip>I don't know</button></div>`;
+      body = html`<div class="typed">${raw(typedInputHTML({ placeholder: q.placeholder || 'Type your answer…',language:q.meta?.answerLanguage }))}<button type="button" class="btn ghost block mt" data-skip>I don't know</button></div>`;
     }
     root.innerHTML = html`<section class="drill-shell" data-drill data-state="question" data-question-type="${q.type}">` + gameTop(backHref, { i: state.i, total, completed: state.answers.length }) + '<div class="drill-main" data-drill-main>' + html`<div class="q-card">${q.tag ? raw(html`<div class="prompt">${q.tag}</div>`) : ''}${raw(q.prompt)}${q.say ? raw(`<div class="q-say">${speakBtn(q.say)}</div>`) : ''}</div>` + '<div class="drill-answer-area" data-drill-answers>' + body + '</div></div><div class="drill-feedback" data-feedback></div></section>';
     fx.mount(root);
@@ -232,9 +226,10 @@ export function runDrill(root, questions, opts = {}) {
   function grade(ok, given, q, choiceIdx, res = {}) {
     if (locked || dead) return;
     locked = true;
+    announceAnswer({ok,...res});
     haptic(ok ? 'success' : 'error');
     if (ok) state.correct++; else { state.wrong++; if (q.itemId) state.missed.push(q.itemId); }
-    state.answers.push({ q, ok, given });
+    state.answers.push({ q, ok, given:res.submission?.displayText ?? given, submission:res.submission });
     const answeredIndex = state.i;
     root.querySelector('[data-drill]').dataset.state = 'feedback';
     const top = root.querySelector('.game-top');
@@ -242,7 +237,7 @@ export function runDrill(root, questions, opts = {}) {
     if (q.itemId && record) {
       const pi = (state.perItem[q.itemId] ||= { ok: 0, ko: 0 });
       if (ok) pi.ok++; else pi.ko++;
-      store.recordAnswer(q.itemId, ok, { quality: ok ? (res.accentIssue ? 3 : 4) : 1, xp: ok ? xpPer : 0 });
+      store.recordAnswer(q.itemId, ok, { quality: ok ? 4 : 1, xp: ok ? xpPer : 0 });
       if (q.meta?.source === 'game' && q.meta.objectiveId) {
         const aid = [...assistance, ...(res.revealed ? ['revealed'] : [])];
         const diagnosed = gradeQuestion(q, given, { revealed: !!res.revealed, assistance: aid, accentStrict: !!store.settings.accentStrict });
@@ -256,6 +251,7 @@ export function runDrill(root, questions, opts = {}) {
           assistance: aid, firstAttempt: true,
           errorTags: consistent ? diagnosed.errorTags : ok ? [] : ['uncertain'],
           components: res.revealed ? [] : consistent ? diagnosed.components : [{ skill: q.meta.skill, ok }],
+          submission:res.submission || diagnosed.submission,
           xp: 0, countStats: false,
         });
       }
@@ -270,20 +266,22 @@ export function runDrill(root, questions, opts = {}) {
         else b.classList.add('dim');
       });
     } else {
-      const input = root.querySelector('[data-answer]'); input.setAttribute('disabled', '');
+      const input = root.querySelector('[data-answer]');
+      if(ok&&res.submission)input.value=res.submission.displayText;
+      input.setAttribute('disabled', '');
       input.classList.add(ok ? 'is-ok' : 'is-ko');
       root.querySelector('[data-check]')?.remove();
       root.querySelector('[data-skip]')?.remove();
       root.querySelector('[data-accents]')?.remove();
       if (!ok) fx.shake(input);
     }
-    const answerText = String(Array.isArray(q.answer) ? q.answer[0] : (q.answer || (q.choices || []).find(c => c.correct)?.label || '')).split('|')[0];
+    const answerText = res.submission?.matchedAnswerText || String(Array.isArray(q.answer) ? q.answer[0] : (q.answer || (q.choices || []).find(c => c.correct)?.label || '')).split('|')[0];
     const title = ok
-      ? (res.accentIssue ? `Correct — mind the accent: <b>${esc(answerText)}</b>` : 'Correct!')
+      ? (res.accentIssue ? `Correct — accent restored: <b>${esc(answerText)}</b>` : 'Correct!')
       : res.articleIssue ? `Right word, wrong article — it is <b>${esc(answerText)}</b>`
         : `Not quite — the answer is <b>${esc(answerText)}</b>`;
     const fb = root.querySelector('[data-feedback]');
-    fb.innerHTML = feedbackHTML({ ok, title, detail: q.explain || '', nextLabel: state.i + 1 >= total ? 'See results' : 'Continue' });
+    fb.innerHTML = feedbackHTML({ ok, title, detail: q.explain || '', submission:res.submission, nextLabel: state.i + 1 >= total ? 'See results' : 'Continue' });
     requestAnimationFrame(() => { if (root.contains(fb)) revealInScroller(fb.firstElementChild || fb); });
     if (q.say && !ok) speak(q.say);
     const nextBtn = fb.querySelector('[data-next]');
@@ -291,7 +289,7 @@ export function runDrill(root, questions, opts = {}) {
     // Enter checked the answer (the field is disabled now): Enter again continues, without a hunt for the button
     nextBtn.focus({ preventScroll: true });
     if (ok && autoAdvance && q.type === 'mc') advanceTimer = setTimeout(() => { if (root.contains(fb)) next(answeredIndex); }, 700);
-    if (ok && res.accentIssue) toast('Remember the accent: ' + answerText);
+    if (ok && res.accentIssue) speak(q.say || res.submission?.displayText || answerText);
   }
   function next(answeredIndex) {
     if (dead || finished || !locked || state.i !== answeredIndex) return;

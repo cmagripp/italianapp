@@ -1,3 +1,4 @@
+import { installCompletionIndex } from './learning/completion-state.js';
 // Data loading, indexes, search and lexical helpers (articles, plurals, categories, levels).
 export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 export const LEVEL_INFO = {
@@ -28,11 +29,14 @@ export const data = { vocab: [], verbs: [], byId: new Map(), loaded: false, stat
 // A failed response (500 from the host, a captive-portal page) is reported by status instead of as a JSON parse error.
 const getJSON = (url) => fetch(url).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} loading ${url}`); return r.json(); });
 export async function loadData(base = '') {
-  const [v, vb, st] = await Promise.all([
+  const [v, vb, st, completion] = await Promise.all([
     getJSON(base + 'data/vocab.json'),
     getJSON(base + 'data/verbs.json'),
     getJSON(base + 'data/stats.json').catch(() => null),
+    getJSON(base + 'data/completion-index.json'),
   ]);
+  installCompletionIndex(completion);
+  if([...v,...vb].some(e=>!Object.hasOwn(completion.entries,e.id)))throw new Error('Completion details are out of date. Reconnect and retry.');
   data.vocab = v; data.verbs = vb; data.stats = st;
   data.byId = new Map();
   for (const e of v) { e.kind = 'word'; data.byId.set(e.id, e); }

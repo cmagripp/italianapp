@@ -138,7 +138,7 @@ export function learnModel(store, now = Date.now()) {
     { key: 'grammar', label: 'Grammatica', title: grammar?.title || 'This level is complete', sub: grammar ? (next.outcome || `${next.level} · ${next.minutes} min`) : 'Revisit a lesson or choose your next level.', href: grammar?.href || '#/course' },
     { key: 'verbs', label: 'Verbi', title: verb?.name || 'No new verbs left in this scope', sub: verb ? `${String(verb.en).split(';')[0].trim()} · ${verb.chapterLabel}` : 'Widen the scope to meet more verbs.', href: verb?.href || '#/scope' },
     { key: 'words', label: 'Parole', title: wordEntries.length ? wordEntries.map(w => w.headword).join(' · ') : 'No new words left in this scope', sub: wordEntries.length ? 'A short vocabulary session' : 'Widen the scope to meet more words.', href: wordEntries.length ? words.href : '#/scope' },
-  ].map(m => ({ ...m, fresh: m.key === fresh, recommended: m.key === recommended }));
+  ].map(m => ({ ...m, ...(m.key===fresh?{title:inProgress[0].title,sub:inProgress[0].sub,href:inProgress[0].href}:{}), fresh: m.key === fresh, recommended: m.key === recommended }));
 
   // ---- scope + verb lab ----
   const scope = { label: describeScope(store.scope, store), learned: scopeAll.filter(e => store.isLearned(e.id)).length, total: scopeAll.length, href: '#/scope' };

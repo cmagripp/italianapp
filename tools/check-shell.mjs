@@ -13,6 +13,7 @@
 //     update would delete its 340 MB download.
 // Usage: node tools/check-shell.mjs [path/to/sw.js]   (exit 1 on any mismatch)
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { stampStatus } from './stamp-sw.mjs';
@@ -35,8 +36,8 @@ export function checkShell(swFile = path.join(ROOT, 'sw.js'), root = path.dirnam
   const walk = (dir, out = []) => { for (const f of fs.readdirSync(dir, { withFileTypes: true })) { const p = path.join(dir, f.name); if (f.isDirectory()) walk(p, out); else out.push(p); } return out; };
   const files = (dir, keep) => fs.existsSync(path.join(root, dir)) ? fs.readdirSync(path.join(root, dir)).filter(keep).map(f => path.join(root, dir, f)) : [];
   const rel = p => path.relative(root, p).split(path.sep).join('/');
-  const want = [...walk(path.join(root, 'js')).filter(p => p.endsWith('.js') && !ON_DEMAND.test(rel(p))), ...walk(path.join(root, 'css')).filter(p => p.endsWith('.css')), path.join(root, 'index.html'), path.join(root, 'manifest.webmanifest')];
-  const data = [...['vocab.json', 'verbs.json', 'stats.json', 'grammar.json', 'course-v2/audio.json'].map(f => path.join(root, 'data', f)),
+  const want = [...walk(path.join(root, 'js')).filter(p => p.endsWith('.js') && !ON_DEMAND.test(rel(p))), ...walk(path.join(root, 'css')).filter(p => p.endsWith('.css')), ...walk(path.join(root, 'fonts')).filter(p => p.endsWith('.woff2')), path.join(root, 'index.html'), path.join(root, 'manifest.webmanifest')];
+  const data = [...['vocab.json', 'verbs.json', 'stats.json', 'grammar.json', 'course-index.json', 'completion-index.json', 'course-v2/audio.json'].map(f => path.join(root, 'data', f)),
     ...files('data/course-v2', f => COURSE_PACK.test(f)), ...files('data/grammar-course', f => f.endsWith('.json'))];
   const set = new Set(listed.map(p => path.normalize(path.join(root, p))));
   for (const p of want) if (!set.has(path.normalize(p))) errors.push(`not precached by sw.js SHELL (breaks offline): ./${path.relative(root, p).split(path.sep).join('/')}`);
@@ -66,6 +67,21 @@ export function checkShell(swFile = path.join(ROOT, 'sw.js'), root = path.dirnam
   const assistantPrefix = src.match(/const ASSISTANT_CACHE_PREFIX\s*=\s*'([^']+)'/)?.[1];
   if (assistantPrefix !== 'webllm/') errors.push(`no "const ASSISTANT_CACHE_PREFIX = 'webllm/'" found in ${path.basename(swFile)}: every update would delete the assistant's downloaded weights`);
   else if (!/!\s*k\.startsWith\(\s*ASSISTANT_CACHE_PREFIX\s*\)/.test(src)) errors.push(`${path.basename(swFile)} activate does not keep the ASSISTANT_CACHE_PREFIX caches: every update would delete the assistant's downloaded weights`);
+  const optional=src.match(/const ASSISTANT_RUNTIME_FILES = (\{.*\});/);
+  if(optional){
+    for(const [asset,hash] of Object.entries(JSON.parse(optional[1]))){
+      const file=path.join(root,asset);
+      if(!fs.existsSync(file)||createHash('sha256').update(fs.readFileSync(file)).digest('hex')!==hash)errors.push('Missing or mismatched optional assistant runtime: '+asset);
+    }
+    if(!/k\s*!==\s*ASSISTANT_RUNTIME_CACHE/.test(src))errors.push('Assistant runtime cache must survive updates');
+    const assistant=fs.readFileSync(path.join(root,'js/learning/assistant.js'),'utf8');
+    const loaderCache=assistant.match(/const RUNTIME_CACHE = '([^']+)'/)?.[1];
+    const workerCache=src.match(/const ASSISTANT_RUNTIME_CACHE = '([^']+)'/)?.[1];
+    if(loaderCache!==workerCache)errors.push('Assistant loader and service worker runtime cache names disagree');
+    const loaderHash=assistant.match(/const RUNTIME_SHA256 = '([^']+)'/)?.[1];
+    const loaderPath=assistant.match(/const RUNTIME_URL = new URL\('\.\.\/\.\.\/([^']+)'/)?.[1];
+    if(JSON.parse(optional[1])['./'+loaderPath]!==loaderHash)errors.push('Assistant loader and service worker runtime hashes disagree');
+  }
   return { errors, listed };
 }
 

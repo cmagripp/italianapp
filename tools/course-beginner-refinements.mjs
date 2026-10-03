@@ -1,6 +1,7 @@
 // Independent integration review of the beginner packs. Called by their authoring
 // script as well as directly; stable IDs make the refinements idempotent.
 import fs from 'node:fs';
+import { repairPhaseContentPack } from './phase-content-fixes.mjs';
 import {beginnerCheckpoints, hardCLesson} from './course-beginner-checkpoints.mjs';
 import {pronunciationLessons} from './course-pronunciation-lessons.mjs';
 import {pathToFileURL} from 'node:url';
@@ -121,6 +122,6 @@ export function refineBeginnerPack(pack){
   // A book priced at 100 euros is plausible; a house costing 100 euros is not.
   const prices=byId(pack,'a1-tens-prices');const q=prices.steps.find(s=>s.format==='type'&&!s.reserve);Object.assign(q,{context:'Lo zaino costa ___ euro.',translation:'The backpack costs one hundred euros.',speak:'Lo zaino costa cento euro.'});
  }
- return pack;
+ return repairPhaseContentPack(pack);
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){for(const level of ['Foundations','A1']){const path=new URL('../data/course-v2/'+level+'.json',import.meta.url),pack=refineBeginnerPack(JSON.parse(fs.readFileSync(path)));fs.writeFileSync(path,JSON.stringify(pack,null,2)+'\n');}console.log('Refined beginner matching, facets, and recovery banks.');}

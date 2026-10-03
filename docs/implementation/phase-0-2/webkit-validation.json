@@ -1,0 +1,217 @@
+{
+  "recordedAt": "2026-10-03T13:05:23.642626+00:00",
+  "scope": "Final targeted WebKit validation against the frozen current source. Three suites ran in parallel on separate local static servers. No source changes were made.",
+  "limits": "WebKit browser automation and iPhone viewports do not establish physical iPhone microphone/storage/network behavior. Root handles final offline/assembled-site and CI integration.",
+  "suites": [
+    {
+      "command": "BASE=http://127.0.0.1:8145/ PLAYWRIGHT_DIR=/tmp/parola-grammar-tools COURSE_BROWSER=webkit VERB_BROWSER=webkit node tests/course-v2-e2e.mjs",
+      "exitCode": 0,
+      "browser": "WebKit",
+      "reportedCheckCount": 19,
+      "applicationErrors": [],
+      "reportFile": "tests/report-course-v2-webkit.json",
+      "actualReport": {
+        "results": [
+          "New learners start with meanings, match the lesson words, and see models before the first supported check",
+          "Multiple independent contexts complete a lesson that credits its vocabulary and completes no verb case",
+          "An error gives feedback, a repair model, and a supported retry; Back cannot submit twice",
+          "Saved typing drafts and shuffled choices survive reload without evidence or XP duplication",
+          "Matching cards disappear only on a correct pair and errors are retained",
+          "A mismatched pair leaves that word uncredited while the others are credited",
+          "Open work is saved for self-review and is never treated as a right or wrong answer",
+          "Source readings stay available beside their questions",
+          "Listening checks cannot be credited by reading a transcript or with no played audio",
+          "Listening evidence requires completed playback of its source",
+          "The EN toggle exposes help without granting independent reading credit",
+          "A prerequisite detour preserves a return to the interrupted lesson",
+          "Skip retains unfinished skills and Pause/Resume preserves the current lesson",
+          "Placement gives a conservative suggestion without completing any lesson or awarding XP",
+          "B2 placement supports sentence ordering, reload, and a complete next-stage suggestion",
+          "An interrupted placement with no available questions returns a usable suggestion",
+          "Personal recordings are isolated by profile and removed on progress reset",
+          "A microphone response counts only after audio is saved, including navigation while it stops",
+          "Feedback and Continue stay in the viewport at compact and large iPhone sizes"
+        ],
+        "errors": []
+      },
+      "reportedSummary": "19 v2 course browser checks passed."
+    },
+    {
+      "command": "BASE=http://127.0.0.1:8146/ PLAYWRIGHT_DIR=/tmp/parola-grammar-tools COURSE_BROWSER=webkit VERB_BROWSER=webkit node tests/verb-flow-v2-e2e.mjs",
+      "exitCode": 0,
+      "browser": "WebKit",
+      "reportedCheckCount": 5,
+      "applicationErrors": [],
+      "reportFile": "tests/report-verb-flow-v2-webkit.json",
+      "actualReport": {
+        "results": [
+          "Phone lesson teaches viaggiare, keeps stable milestones and waits at feedback",
+          "Old typed draft survives update and reload, then upgrades after Continue",
+          "An inactive old case retains its own exact draft when reopened after another case upgrades",
+          "New progress stages fit small phones in both teaching and feedback",
+          "A saved review cannot introduce progressive material that was never learned"
+        ],
+        "errors": []
+      },
+      "reportedSummary": "5 verb browser checks passed (webkit)."
+    },
+    {
+      "command": "BASE=http://127.0.0.1:8147/ PLAYWRIGHT_DIR=/tmp/parola-grammar-tools COURSE_BROWSER=webkit VERB_BROWSER=webkit node tests/verb-pacing-e2e.mjs",
+      "exitCode": 0,
+      "browser": "WebKit",
+      "reportedCheckCount": null,
+      "applicationErrors": [],
+      "reportFile": "tests/report-verb-pacing-webkit.json",
+      "actualReport": {
+        "trace": [
+          {
+            "type": "mc",
+            "skill": "conjugation",
+            "context": "Io ho una sorella.",
+            "phase": "guided"
+          },
+          {
+            "type": "pairs",
+            "skill": "conjugation",
+            "context": "Tu hai una bicicletta.",
+            "phase": "pairs"
+          },
+          {
+            "type": "letters",
+            "skill": "conjugation",
+            "context": "Lei ha un appuntamento.",
+            "phase": "letters"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Io ho una sorella.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Tu hai una bicicletta.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Lei ha un appuntamento.",
+            "phase": "independent"
+          },
+          {
+            "type": "mc",
+            "skill": "conjugation",
+            "context": "Noi abbiamo le chiavi di casa.",
+            "phase": "guided"
+          },
+          {
+            "type": "pairs",
+            "skill": "conjugation",
+            "context": "Voi avete una domanda.",
+            "phase": "pairs"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Noi abbiamo le chiavi di casa.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Voi avete una domanda.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Luca e Paolo hanno tempo.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Noi abbiamo una domanda.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Io ho una bicicletta.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Tu hai un appuntamento.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Lei ha le chiavi di casa.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Voi avete tempo.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "address",
+            "context": "Signora Rossi, Lei ha una sorella.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "conjugation",
+            "context": "Loro hanno una sorella.",
+            "phase": "independent"
+          },
+          {
+            "type": "type",
+            "skill": "address",
+            "context": "Signora Rossi, Lei ha una bicicletta.",
+            "phase": "independent"
+          },
+          {
+            "type": "letters",
+            "skill": "conjugation",
+            "context": "Noi abbiamo una domanda.",
+            "phase": "letters"
+          },
+          {
+            "type": "type",
+            "skill": "context",
+            "context": "Io ho molti libri.",
+            "phase": "independent"
+          },
+          {
+            "type": "letters",
+            "skill": "conjugation",
+            "context": "Lei ha le chiavi di casa.",
+            "phase": "letters"
+          },
+          {
+            "type": "type",
+            "skill": "context",
+            "context": "Tu hai un cane.",
+            "phase": "independent"
+          }
+        ],
+        "errors": []
+      },
+      "reportedScenarioCount": 2,
+      "reportedSummaryLines": [
+        "PASS Avere Present: 23 exercises, 16 written, 4 formats; reload and completion verified.",
+        "PASS Pre-update v2 draft, feedback and Back retain their original sentence."
+      ],
+      "actualTraceLength": 23,
+      "countNote": "The pacing harness emits two PASS lines and a 23-exercise trace; it does not publish a numeric assertion/check total."
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 // the drill sheet, the picker and the finish screen. Pure string builders on the course's lesson-shell classes
 // (css/grammar-course.css) plus the workshop's own (css/sentence-lab.css); grading and state live in ./sentence-lab.js
 // and the player (js/views/labFrasiLesson.js) owns every event. Data hooks (data-lab-*) are what the browser suite uses.
-import { html, raw, icon, speakBtn } from '../ui.js';
+import { html, raw, icon, speakBtn, submissionNote } from '../ui.js';
 import { getEntry, headword, withArticle, isPluralOnly } from '../data.js';
 import { feedbackHTML } from '../games/engine.js';
 
@@ -63,7 +63,6 @@ export function labOrder(activity, ui, { locked = false } = {}) {
 
 // ---------- blanks (cloze and dialogue turns) ----------
 // ui: { values[], active, bankOpen{}, freeOpen{}, drafts{}, messages{}, notes{}, hint }
-const NOTE_SLUG = { natural: 'natural', 'unusual here': 'unusual', 'odd here': 'odd' };
 export function labSentence(template, blanks, ui, { locked = false, result = null, align = 'center' } = {}) {
   const parts = String(template ?? '').split(BLANK);
   const out = [];
@@ -73,16 +72,16 @@ export function labSentence(template, blanks, ui, { locked = false, result = nul
     const graded = result?.blanks?.[i];
     if (locked && graded) out.push(html`<span class="lab-blank is-filled ${graded.revealed ? 'is-revealed' : ''} is-${graded.outcome || 'done'}">${graded.filled}</span>`);
     else {
-      const value = ui.values?.[i] || '', note = ui.notes?.[i];
-      out.push(html`<button type="button" class="lab-blank ${value ? 'is-filled' : ''}" data-lab-blank="${i}" aria-pressed="${ui.active === i ? 'true' : 'false'}" aria-label="${value ? `Blank ${i + 1}: ${value}` : `Blank ${i + 1}, empty`}">${value || '…'}</button>${note ? raw(html`<span class="lab-fit-note" data-note="${NOTE_SLUG[note] || 'note'}" title="Fit scorer: ${note}">${note}</span>`) : ''}`);
+      const value = ui.values?.[i] || '';
+      out.push(html`<button type="button" class="lab-blank ${value ? 'is-filled' : ''}" data-lab-blank="${i}" aria-pressed="${ui.active === i ? 'true' : 'false'}" aria-label="${value ? `Blank ${i + 1}: ${value}` : `Blank ${i + 1}, empty`}">${value || '…'}</button>`);
     }
   });
   return html`<p class="lab-sentence lab-sentence-${align}" lang="it">${join(out)}</p>`;
 }
-const PLACEHOLDER = { adj: 'An adjective, in Italian or English', noun: 'A noun, in Italian or English', verb: 'A verb, any form', adv: 'A time or place word', expr: 'A word or phrase' };
+const PLACEHOLDER = { adj: 'An adjective, in Italian or English', noun: 'A noun, in Italian or English', verb: 'The Italian verb form for this sentence', adv: 'A time or place word', expr: 'A word or phrase' };
 function labFreeForm(blank, i, ui) {
   const msg = ui.messages?.[i];
-  return html`<form class="lab-free" data-lab-free-form="${i}" autocomplete="off">
+  return html`<p class="small muted">Italian forms are checked as written. English words use dictionary assistance.</p><form class="lab-free" data-lab-free-form="${i}" autocomplete="off">
     <label class="sr-only" for="lab-free-${i}">Your word</label>
     <input id="lab-free-${i}" class="input" data-lab-free-input="${i}" value="${ui.drafts?.[i] || ''}" placeholder="${PLACEHOLDER[blank.slot?.pos] || PLACEHOLDER.expr}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done">
     <button type="submit" class="btn secondary sm" data-lab-free-submit="${i}">Use it</button>
@@ -108,7 +107,7 @@ export function labCloze(activity, ui, { locked = false, result = null } = {}) {
     ${raw(kickerHTML('Completa', 'Fill it in'))}
     <h1 tabindex="-1" data-focus>${activity.prompt}</h1>
     <p class="grammar-translation">${activity.en || ''}</p>
-    ${raw(labSentence(activity.template, blanks, { ...ui, active }, { locked, result }))}
+    ${raw(labSentence(activity.template, blanks, { ...ui, active }, { locked, result }))}${join((result?.blanks||[]).map(g=>submissionNote(g.submission)))}
     ${!locked ? raw(labBlankControls(blanks[active], active, ui)) : ''}
     ${activity.hint && ui.hint ? raw(html`<aside class="grammar-hint">${activity.hint}</aside>`) : ''}
     ${!locked && activity.hint && !ui.hint ? raw(html`<div class="journey-tools"><button type="button" class="btn ghost" data-lab-hint>Help me</button></div>`) : ''}
@@ -121,11 +120,11 @@ export function labDialogue(activity, state, ui, { locked = false } = {}) {
   const partner = state.partner || activity.partner || 'Partner';
   const bubbles = [];
   for (const t of state.turns || []) {
-    if (t.speaker === 'partner') bubbles.push(html`<div class="lab-bubble" data-speaker="partner" data-turn="${t.index}" ${t.reaction ? raw('data-reaction') : ''}><span class="lab-bubble-name">${partner}</span><p lang="it">${t.it}</p><p class="lab-en">${t.en || ''}</p>${raw(speakBtn(t.it, 'sm'))}</div>`);
+    if (t.speaker === 'partner') bubbles.push(html`<div class="lab-bubble" data-speaker="partner" data-turn="${t.index}" ${t.reaction ? raw('data-reaction') : ''}><span class="lab-bubble-name">${partner}</span><p lang="it">${t.it}</p><p class="lab-en">${t.glossIsPattern?'Pattern meaning: ':''}${t.en || ''}</p>${join((t.wordGlosses||[]).map(w=>html`<p class="lab-en">${w.it} · ${w.en}</p>`))}${t.assistance?.length?raw('<p class="small muted">Assisted practice · dictionary wording</p>'):''}${join((t.blanks||[]).map(g=>submissionNote(g.submission)))}${raw(speakBtn(t.it, 'sm'))}</div>`);
     else if (t.pending) {
       const blanks = t.blanks || [], active = Number.isInteger(ui.active) && blanks[ui.active] ? ui.active : 0;
       bubbles.push(html`<div class="lab-bubble is-pending" data-speaker="you" data-turn="${t.index}" data-lab-pending><span class="lab-bubble-name">You</span>${raw(labSentence(t.template, blanks, { ...ui, active }, { align: 'left' }))}<p class="lab-en">${t.en || ''}</p>${!locked ? raw(labBlankControls(blanks[active], active, ui)) : ''}${t.hint && ui.hint ? raw(html`<aside class="grammar-hint">${t.hint}</aside>`) : ''}</div>`);
-    } else bubbles.push(html`<div class="lab-bubble" data-speaker="you" data-turn="${t.index}" data-outcome="${t.outcome || ''}"><span class="lab-bubble-name">You${t.revealed ? raw('<span class="lab-revealed"> · shown</span>') : ''}</span><p lang="it">${t.it}</p><p class="lab-en">${t.en || ''}</p>${raw(speakBtn(t.it, 'sm'))}</div>`);
+    } else bubbles.push(html`<div class="lab-bubble" data-speaker="you" data-turn="${t.index}" data-outcome="${t.outcome || ''}"><span class="lab-bubble-name">You${t.revealed ? raw('<span class="lab-revealed"> · shown</span>') : ''}</span><p lang="it">${t.it}</p><p class="lab-en">${t.glossIsPattern?'Pattern meaning: ':''}${t.en || ''}</p>${join((t.wordGlosses||[]).map(w=>html`<p class="lab-en">${w.it} · ${w.en}</p>`))}${t.assistance?.length?raw('<p class="small muted">Assisted practice · dictionary wording</p>'):''}${join((t.blanks||[]).map(g=>submissionNote(g.submission)))}${raw(speakBtn(t.it, 'sm'))}</div>`);
   }
   if (ui.thinking) bubbles.push(html`<div class="lab-bubble is-typing" data-speaker="partner" aria-label="${partner} is typing"><span class="lab-bubble-name">${partner}</span><p aria-hidden="true">…</p></div>`);
   const all = (state.turns || []).filter(t => !t.pending).map(t => t.it).join(' ');
@@ -192,7 +191,7 @@ export function labDrill(drill, view) {
   if (drill.type === 'mc') body = html`<div class="lab-drill-choices grammar-choices" role="group">${join(drill.choices.map((c, i) => html`<button type="button" class="choice ${fb && c.correct ? 'is-correct' : fb && view.picked === i ? 'is-wrong' : ''}" data-drill-choice="${i}" ${fb ? raw('disabled') : ''}><span class="journey-choice-marker">${String.fromCharCode(65 + i)}</span><span>${c.label}</span></button>`))}</div>`;
   else body = html`<form class="lab-drill-form" data-drill-form><label class="sr-only" for="lab-drill-input">Your answer</label><input id="lab-drill-input" class="input" data-drill-input value="${view.draft || ''}" ${fb ? raw('readonly') : ''} placeholder="In italiano…" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done"><div class="journey-accents lab-accents">${join(['à', 'è', 'é', 'ì', 'ò', 'ù', "'"].map(l => html`<button type="button" data-drill-accent="${l}" ${fb ? raw('disabled') : ''}>${l}</button>`))}</div>${!fb ? raw(html`<button type="submit" class="btn primary block" data-drill-check ${view.draft?.trim() ? '' : raw('disabled')}>Check</button>`) : ''}</form>`;
   const feedback = fb ? feedbackHTML({ ok: view.ok, title: view.ok ? 'Esatto.' : view.repeat ? 'Not yet. Moving on.' : 'Not quite. Once more.', detail: `<p lang="it">${drill.answer}</p><p>${drill.explain}</p>`, nextAttribute: 'data-drill-next', nextLabel: view.index + 1 >= view.total && (view.ok || view.repeat) ? 'Finish' : 'Continue' }) : '';
-  return html`<div class="lab-drill" data-drill="${drill.skill}" data-step="${view.index + 1}" data-repeat="${view.repeat ? 'true' : 'false'}"><span class="kicker">${view.index + 1} / ${view.total} · ${drill.label}${view.repeat ? ' · again' : ''}</span><p class="lab-drill-prompt">${drill.prompt}</p><p class="lab-drill-big" lang="${drill.lang}">${drill.big}</p>${raw(body)}${raw(feedback)}</div>`;
+  return html`<div class="lab-drill" data-drill="${drill.skill}" data-step="${view.index + 1}" data-repeat="${view.repeat ? 'true' : 'false'}"><span class="kicker">${view.index + 1} / ${view.total} · ${drill.label}${view.repeat ? ' · again' : ''}</span><p class="lab-drill-prompt">${drill.prompt}</p><p class="lab-drill-big" lang="${drill.lang}">${drill.big}</p>${raw(body)}${raw(submissionNote(view.submission))}${raw(feedback)}</div>`;
 }
 export function labPicker(candidates = []) {
   return html`<div class="lab-picker" data-lab-picker><span class="kicker">Scegli · Choose the word</span><p class="small muted">Several Italian words fit here. Pick the one you mean; you will meet it in three quick drills if it is new.</p><div class="lab-drill-choices grammar-choices">${join(candidates.map((c, i) => html`<button type="button" class="choice" data-lab-candidate="${i}"><span class="journey-choice-marker">${String.fromCharCode(65 + i)}</span><span class="lab-cand"><span class="lab-cand-it" lang="it">${c.display || c.form || c.it}</span><span class="lab-cand-en">${c.en || ''}</span></span></button>`))}</div><button type="button" class="btn ghost block" data-close>Cancel</button></div>`;

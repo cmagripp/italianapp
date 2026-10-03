@@ -445,4 +445,12 @@ await test('blocked storage: the module still works in memory and nothing throws
   assert.equal(await ask(bare), null);
 });
 
+await test('release during the initial adapter probe cannot be cleared by a later load',async()=>{
+  let resolveAdapter;setNavigator({gpu:gpuWith(()=>new Promise(resolve=>{resolveAdapter=resolve;}))});
+  const api=await fresh(),runtime=fakeRuntime();
+  const pending=api.enableAssistant(null,{importRuntime:runtime.importRuntime});
+  await tick();await api.releaseAssistant();resolveAdapter(adapter());
+  const state=await pending;assert.equal(state.loaded,false);assert.equal(state.enabled,true);assert.equal(runtime.unloads,1);
+});
+
 console.log(`\n${passed} assistant guard checks passed (WebGPU and the real model are not exercised here).`);

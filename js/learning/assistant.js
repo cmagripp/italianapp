@@ -3,13 +3,15 @@
 //
 // Rules this module keeps, so that the workshop behaves identically with the assistant absent, disabled or crashed:
 //   - nothing is imported from the network until the learner opts in (enableAssistant); importing this module costs nothing;
-//   - every export returns a plain value or null and never throws; the caller always has a deterministic fallback;
+//   - assistant controls/picks return a plain value or null and never throw; the caller always has a deterministic fallback;
 //   - the model never writes anything the learner reads: it only picks an index among candidates the caller supplies;
 //   - a crash-loop breaker: a page that dies while the assistant is loading or answering counts a trip on the next start,
 //     a timed-out answer counts a trip, and after two trips the assistant stays off until resetAssistantBreaker();
 //   - no learner text leaves the device; the only network traffic is the one-time download of the runtime and the weights.
 export const ASSISTANT_MODEL = 'Qwen3-0.6B-q4f16_1-MLC';
-const RUNTIME_URL = 'https://esm.run/@mlc-ai/web-llm@0.2.85';
+const RUNTIME_URL = new URL('../../vendor/webllm/webllm-0.2.85.7e7917ff4d322fe7.mjs',import.meta.url).href;
+const RUNTIME_CACHE = 'parola-assistant-runtime-v1';
+const RUNTIME_SHA256 = '7e7917ff4d322fe727bcdb11325690e59051d68f0d364b071eba5e76c275df99';
 const STORAGE_KEY = 'it.assistant';
 const CONTEXT_WINDOW = 1024;      // tokens; the prebuilt config says 4096, which costs KV-cache memory the phone does not have
 const MAX_TRIPS = 2;
@@ -118,7 +120,27 @@ export function assistantState() {
   };
 }
 
-const importRuntime = () => import(RUNTIME_URL);
+// Opt-in can happen before the first service worker controls this page. Persist
+// verified runtime bytes explicitly so that activation and a cold offline reopen
+// do not depend on whether that first module request passed through the worker.
+export async function loadAssistantRuntime() {
+  if (!globalThis.caches || !globalThis.crypto?.subtle) throw new Error('Verified offline runtime storage is unavailable on this device.');
+  const cache = await caches.open(RUNTIME_CACHE);
+  const matches = async response => {
+    if (!response?.ok) return false;
+    const digest = await crypto.subtle.digest('SHA-256', await response.clone().arrayBuffer());
+    return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('') === RUNTIME_SHA256;
+  };
+  const cached = await cache.match(RUNTIME_URL);
+  if (!await matches(cached)) {
+    if (cached) await cache.delete(RUNTIME_URL);
+    const response = await fetch(RUNTIME_URL, { cache: 'no-cache' });
+    if (!await matches(response)) throw new Error('The optional assistant runtime is incomplete or corrupt. Reconnect and retry.');
+    await cache.put(RUNTIME_URL, response);
+  }
+  return import(RUNTIME_URL);
+}
+const importRuntime = loadAssistantRuntime;
 // The learner's opt-in. onProgress({ text, progress }) follows the download and compilation; the returned state says
 // whether the engine is loaded, and `error` why not. `options.importRuntime` exists for the Node checks only.
 export async function enableAssistant(onProgress, options = {}) {
@@ -136,9 +158,9 @@ export async function enableAssistant(onProgress, options = {}) {
   return assistantState();   // read after the load settled, so `loading` is false here
 }
 async function load(onProgress, options) {
+  abandonLoad = null;
   const probe = await probeAdapter();
   if (!probe.ok) { lastError = probe.reason; record.enabled = false; save(); return assistantState(); }
-  abandonLoad = null;
   record.enabled = true; record.loading = true; save();
   listen();
   const report = r => { try { onProgress?.({ text: String(r?.text ?? ''), progress: Math.min(1, Math.max(0, Number(r?.progress) || 0)) }); } catch { /* a view's callback cannot break the load */ } };

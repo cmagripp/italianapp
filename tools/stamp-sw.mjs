@@ -25,6 +25,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const HASH_LENGTH = 12;
+const ASSET_LINE = /^const ASSET_HASHES = .*;$/m;
 const FORMAT = 'sw-stamp-1'; // part of the hash input: changing how the hash is computed changes every VERSION
 const VERSION_LINE = /^const VERSION = '([^'\r\n]*)';(?=\r?$)/m;
 const STAMPED = new RegExp(`^(.+)-([0-9a-f]{${HASH_LENGTH}})$`);
@@ -85,12 +86,18 @@ export function contentHash(src, root) {
   return hash.digest('hex').slice(0, HASH_LENGTH);
 }
 
+// Exact file bytes are verified during install and when serving from the cache.
+export function assetHashes(src,root) {
+  return Object.fromEntries(shellFiles(src).map(rel=>['./'+rel,createHash('sha256').update(fs.readFileSync(path.join(root,rel))).digest('hex')]));
+}
+
 // { current, expected, stale, src } for a sw.js; root is the directory its SHELL paths are relative to.
 export function stampStatus(swFile = path.join(ROOT, 'sw.js'), root = path.dirname(swFile)) {
-  const src = fs.readFileSync(swFile, 'utf8');
+  const original = fs.readFileSync(swFile, 'utf8');
+  const src=ASSET_LINE.test(original)?original.replace(ASSET_LINE,'const ASSET_HASHES = '+JSON.stringify(assetHashes(original,root))+';'):original;
   const current = readVersion(src);
   const expected = `${versionPrefix(current)}-${contentHash(src, root)}`;
-  return { current, expected, stale: current !== expected, src };
+  return { current, expected, stale: current !== expected || src!==original, src };
 }
 
 export function stampWorker(swFile = path.join(ROOT, 'sw.js'), root = path.dirname(swFile)) {

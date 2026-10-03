@@ -5,7 +5,7 @@ import { $, $$, toast, esc, closeSheets, stopSpeech } from './ui.js';
 import { icon } from './icons.js';
 import { mountAurora, setScene, SCENES, reducedMotion, closeDropdown } from './fx.js';
 import { startAutoSync, isEnabled as syncEnabled } from './sync.js';
-import { loadGrammarCourse, grammarCourse, attachLessonVocabulary } from './learning/grammar-course.js';
+import { loadGrammarCourse } from './learning/grammar-course.js';
 
 const routes = [];
 let currentCleanup = null;
@@ -130,7 +130,7 @@ async function render() {
   root.classList.remove('scene-in');
   if (animate) root.classList.add('scene-out');
   try {
-    const [mod] = await Promise.all([m.r.loader(), animate ? wait(150) : null]);
+    const [mod] = await Promise.all([m.r.loader(m.params,query), animate ? wait(150) : null]);
     if (seq !== renderSeq) return;
     root.classList.remove('scene-out');
     root.innerHTML = '';
@@ -167,15 +167,16 @@ function applyEnToggle() {
 }
 
 // routes
+function learningPlayer(kind,query){return store.current?.settings?.adaptiveLearning!==false||query.courseSession||query.fromGrammar ? query.legacy==='1'?'./views/learnAdaptive.js':'./views/learnJourney.js':kind==='verb'?'./views/learnVerb.js':'./views/learnWord.js';}
 route('home', () => import('./views/home.js'));
 route('learn', () => import('./views/learn.js'));
 route('course/placement', () => import('./views/coursePlacement.js'));
 route('course', () => import('./views/course.js'));
-route('learn/practice', () => import('./views/learnAdaptive.js'));
+route('learn/practice', (params,query={}) => import(query.legacy==='1'?'./views/learnAdaptive.js':'./views/learnJourney.js'));
 route('learn/grammar/:id', () => import('./views/learnGrammar.js'));
 route('learn/session', () => import('./views/courseSession.js'));
-route('learn/verb/:id', () => import('./views/learnVerb.js'));
-route('learn/word/:id', () => import('./views/learnWord.js'));
+route('learn/verb/:id', (params,query={}) => import(learningPlayer('verb',query)));
+route('learn/word/:id', (params,query={}) => import(learningPlayer('word',query)));
 route('review', () => import('./views/review.js'));
 route('lab/frasi', () => import('./views/labFrasi.js'));
 route('lab/frasi/:id', () => import('./views/labFrasiLesson.js'));
@@ -190,10 +191,34 @@ route('entry/:id', () => import('./views/entry.js'));
 route('reference', () => import('./views/reference.js'));
 route('reference/:id', () => import('./views/referenceEntry.js'));
 route('grammar/:topic?', () => import('./views/grammar.js'));
-route('add', () => import('./views/addWord.js'));
+route('add', async()=>{const [view]=await Promise.all([import('./views/addWord.js'),import('./learning/integration.js')]);return view;});
 route('profile', () => import('./views/profile.js'));
 route('settings', () => import('./views/profile.js'));
 route('scope', () => import('./views/scope.js'));
+
+// Saving failures stay visible until a durable write succeeds. The banner is
+// above the app header, keeping the lesson's Continue action reachable.
+function mountSaveStatus() {
+  const banner=document.createElement('section');
+  banner.id='save-status';banner.hidden=true;banner.setAttribute('aria-label','Progress storage');
+  const message=document.createElement('p');message.setAttribute('role','alert');
+  const actions=document.createElement('div');actions.className='save-status-actions';
+  const retry=document.createElement('button');retry.type='button';retry.className='btn ghost';retry.textContent='Retry save';
+  const backup=document.createElement('button');backup.type='button';backup.className='btn ghost';backup.textContent='Export progress';
+  actions.append(retry,backup);banner.append(message,actions);document.body.prepend(banner);
+  const show=()=>{
+    const failure=store.saveError;
+    banner.hidden=!failure;
+    document.body.classList.toggle('save-failed',!!failure);
+    message.textContent=failure?'Progress is not saved yet. '+failure.message:'';
+    document.body.style.setProperty('--save-status-height',failure?`${banner.offsetHeight}px`:'0px');
+  };
+  retry.addEventListener('click',async()=>{retry.disabled=true;try{await store.saveNow();}catch{/* banner keeps the failure visible */}finally{retry.disabled=false;show();}});
+  backup.addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([store.exportJSON()],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='parola-unsaved-progress.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+  store.on('saveError',show);store.on('saveSuccess',show);store.on('profile',show);
+  new ResizeObserver(()=>{if(!banner.hidden)document.body.style.setProperty('--save-status-height',`${banner.offsetHeight}px`);}).observe(banner);
+  show();
+}
 
 async function boot() {
   mountAurora();
@@ -203,8 +228,10 @@ async function boot() {
   const grammarReady = loadGrammarCourse().catch(error=>{ console.warn(error.message); });
   dataReady.catch(() => { /* reported below */ });
   const first = match(parse().parts);
-  if (first) first.r.loader().catch(() => { /* render() reports a module that cannot load */ });
+  if (first && !['learn'].includes(parse().parts[0])) first.r.loader(first.params,parse().query).catch(() => { /* render() reports a module that cannot load */ });
   await store.init();
+  if(first&&parse().parts[0]==='learn')first.r.loader(first.params,parse().query).catch(()=>{});
+  mountSaveStatus();
   applyTheme(); applyEnToggle();
   store.on('settings', () => { applyTheme(); applyEnToggle(); });
   // a user switch, delete, create or imported backup may change the level: the scene (html[data-level], aurora tint) follows at once
@@ -212,8 +239,7 @@ async function boot() {
   try {
     await dataReady;
     await grammarReady;
-    // the lesson vocabulary boards need both the course and the dictionary; a synthesis fault must never block boot
-    if (grammarCourse.ready) { try { attachLessonVocabulary({ vocab: data.vocab, verbs: data.verbs }); } catch (err) { console.warn(err); } }
+    if(Object.keys(store.current.custom||{}).length)await import('./learning/integration.js');
     registerCustom(store.current.custom);
   } catch (err) {
     $('#view').innerHTML = `<div class="empty"><p>Could not load the dictionary.</p><p class="tiny muted">${esc(err.message)}</p><button class="btn primary" onclick="location.reload()">Retry</button></div>`;

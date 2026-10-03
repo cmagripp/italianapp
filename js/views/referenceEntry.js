@@ -379,13 +379,13 @@ function pluralRule(e) {
   const noteHint = e.note && /plural|irregular|invariab/i.test(e.note) ? e.note : '';
   const changed = a.length > 1 ? a.filter((w, i) => b[i] !== w).length : 1;
   const compound = a.length > 1 ? (changed > 1 ? ' In this compound both parts change.' : changed === 1 ? ' In this compound only one part changes.' : '') : '';
-  const w = fold(a[0]), p = fold(b[0]);
+  const w = String(a[0] || '').normalize('NFC').toLocaleLowerCase('it'), p = String(b[0] || '').normalize('NFC').toLocaleLowerCase('it');
   let text, kind = 'regular';
   if (!hasPluralForm(e)) { text = nounNumberNote(e); kind = 'none'; }
   else if (pl === it) {
     kind = 'invariable';
     if (/[àèéìòù]$/.test(w)) text = 'Invariable: nouns ending in a stressed vowel never change in the plural — only the article shows the number.';
-    else if (/[^aeiou]$/.test(w)) text = 'Invariable: loanwords ending in a consonant keep one form (il film → i film).';
+    else if (/[^aeiouàèéìòù]$/.test(w)) text = 'Invariable: loanwords ending in a consonant keep one form (il film → i film).';
     else if (/ie$/.test(w)) text = 'Invariable: feminine nouns in -ie keep one form (la serie → le serie).';
     else if (/i$/.test(w)) text = 'Invariable: nouns in -i keep one form (la crisi → le crisi).';
     else if (SHORTENED.has(w)) text = 'Invariable: a shortened word (fotografia, motocicletta, automobile…) keeps its clipped form.';
@@ -465,7 +465,7 @@ function articleRule(e) {
 }
 
 function genderCues(e) {
-  const w = fold(e.it.split(' ')[0]); const g = e.g; const cues = [];
+  const w = e.it.split(' ')[0].normalize('NFC').toLocaleLowerCase('it'); const g = e.g; const cues = [];
   const push = (end, text, status) => cues.push({ end, text, status });
   const ok = (cond) => (cond ? 'ok' : 'exception');
   if (/ista$/.test(w) && g !== 'f') push('-ista', `Nouns in -ista name people by what they do and have one form for both genders: the article decides (il / la ${e.it}). Plural -isti (m) / -iste (f).`, ok(g === 'mf'));
@@ -482,8 +482,8 @@ function genderCues(e) {
   else if (/a$/.test(w)) push('-a', g === 'f' ? 'Nouns in -a are feminine in the vast majority of cases.' : g === 'mf' ? 'Nouns in -a are usually feminine; this one works for both genders.' : 'Nouns in -a are usually feminine — this masculine is an exception to remember (il papà, il cinema, il poeta, il problema).', ok(g === 'f'));
   else if (/e$/.test(w)) push('-e', 'Nouns in -e can be either gender: learn each one with its article.' + (g === 'mf' ? ' This one is the same for both genders.' : ` Here: ${g === 'm' ? 'masculine' : 'feminine'}.`), 'either');
   else if (/i$/.test(w)) push('-i', "Nouns in -i are mostly feminine and invariable (la crisi, l'analisi, la tesi); il brindisi is masculine.", ok(g === 'f'));
-  else if (/[^aeiou]$/.test(w)) push('cons.', 'Words ending in a consonant are loanwords: usually masculine (il film, lo sport, il bar) and invariable in the plural.', ok(g === 'm'));
-  else if (/[àèéìòù]$/.test(w)) push('accent', 'Nouns ending in a stressed vowel are invariable; -tà/-tù are feminine, -é/-ì/-ù mostly masculine (il caffè, il tassì).', 'either');
+  else if (/[^aeiouàèéìòù]$/.test(w)) push('cons.', 'Words ending in a consonant are loanwords: usually masculine (il film, lo sport, il bar) and invariable in the plural.', ok(g === 'm'));
+  else if (/[àèéìòù]$/.test(w)) push('accent', 'Nouns ending in an accented vowel keep the same form in the plural (il caffè → i caffè). Learn the article with the noun.', 'either');
   return cues;
 }
 

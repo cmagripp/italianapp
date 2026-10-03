@@ -3,8 +3,8 @@ import { deleteCourseRecordings } from './learning/course-v2-media.js';
 // Primary storage is IndexedDB (large quota, survives Safari homescreen installs); localStorage is the fallback.
 import { schedule as srsSchedule } from './srs.js';
 import { data, LEVELS } from './data.js'; // data.js imports nothing, so no cycle
-import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills, learningSessionKey, completionKey, completionRecord, setCompletionRecord } from './learning/model.js';
-import { entryCompletion } from './learning/integration.js';
+import { LEARNING_VERSION, createLearning, normalizeLearning, mergeLearning, resetLearning, recordAttempt, skillState, allSkills, learningSessionKey, completionKey, completionRecord, setCompletionRecord, checkpointLearning } from './learning/model.js';
+import { entryCompletion, loadFullCompletion, hasCompletionDescriptor } from './learning/completion-state.js';
 
 const DB_NAME = 'italiano-db';
 const KV = 'kv';
@@ -88,6 +88,67 @@ async function kvDel(key) {
 
 const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
 export const todayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const clone = value => JSON.parse(JSON.stringify(value));
+const safeKey = key => typeof key === 'string' && key && !['__proto__','constructor','prototype'].includes(key);
+const stamp = value => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
+const checksum = value => { let hash=2166136261;for(const char of JSON.stringify(value)){hash^=char.charCodeAt(0);hash=Math.imul(hash,16777619);}return (hash>>>0).toString(16); };
+const storageError = () => new Error('Your changes could not be saved on this device. Export a backup, free some space, then retry.');
+
+// Existing totals become a baseline once, without inventing historical awards.
+// New non-adaptive awards are mergeable; adaptive XP remains identified by events.
+function normalizeRewards(p) {
+  const epochId=p.learning.epoch.id,raw=p.rewards;
+  if(raw?.version>1)throw new Error('This reward data uses a newer version of Parola. Update the app before changing it.');
+  if(!raw || raw.version!==1 || raw.epochId!==epochId) {
+    p.rewards={version:1,epochId,legacyXP:Math.max(0,(Number(p.stats.xp)||0)-(Number(p.stats.learningXP)||0)),
+      legacyDayXP:Object.fromEntries(Object.entries(p.stats.days || {}).map(([day,v])=>[day,Number(v.xp)||0])),awards:{},evidenceDays:{}};
+    return;
+  }
+  const awards={};
+  for(const [id,a] of Object.entries(raw.awards || {}))if(safeKey(id)&&a&&a.id===id&&a.epochId===epochId&&Number.isFinite(a.xp)&&typeof a.dayKey==='string')
+    awards[id]={id,epochId,kind:String(a.kind || 'activity'),sourceId:String(a.sourceId || ''),xp:a.xp,at:stamp(a.at),dayKey:a.dayKey,policyVersion:1};
+  p.rewards={...raw,version:1,epochId,legacyXP:Math.max(0,Number(raw.legacyXP)||0),legacyDayXP:{...(raw.legacyDayXP || {})},awards,evidenceDays:{...(raw.evidenceDays || {})}};
+  // A compatible older client may have earned aggregate XP while retaining an
+  // unfamiliar ledger. Preserve that excess as unknown legacy provenance.
+  const recorded=p.rewards.legacyXP+awardXP(p.rewards)+(Number(p.stats.learningXP)||0);
+  if((Number(p.stats.xp)||0)>recorded)p.rewards.legacyXP+=(Number(p.stats.xp)||0)-recorded;
+}
+const awardXP = rewards => Object.values(rewards?.awards || {}).reduce((sum,a)=>sum+a.xp,0);
+const ensureRewards = p => {if(!p.rewards||p.rewards.version!==1||p.rewards.epochId!==p.learning.epoch.id)normalizeRewards(p);};
+function mergeRewards(a,b,epochOrder) {
+  if(epochOrder>0)return clone(b);
+  if(epochOrder<0)return clone(a);
+  const awards={...a.awards};
+  for(const [id,record] of Object.entries(b.awards))if(!awards[id] || JSON.stringify(record)>JSON.stringify(awards[id]))awards[id]=record;
+  const legacyDayXP={...a.legacyDayXP};
+  for(const [day,xp] of Object.entries(b.legacyDayXP))legacyDayXP[day]=Math.max(Number(legacyDayXP[day])||0,Number(xp)||0);
+  const evidenceDays={...a.evidenceDays};
+  for(const [id,day] of Object.entries(b.evidenceDays))if(!evidenceDays[id]||day<evidenceDays[id])evidenceDays[id]=day;
+  return {...a,legacyXP:Math.max(a.legacyXP,b.legacyXP),legacyDayXP,awards,evidenceDays};
+}
+function normalizeListChanges(p) {
+  p.listsDeleted ||= {};p.listItemAdded ||= {};p.listItemDeleted ||= {};
+  for(const [id,list] of Object.entries(p.lists)) {
+    if(!safeKey(id)||!list)continue;
+    if(id!=='bank' && stamp(p.listsDeleted[id])){delete p.lists[id];continue;}
+    const added=p.listItemAdded[id] ||= {},removed=p.listItemDeleted[id] ||= {};
+    for(const itemId of list.items)if(safeKey(itemId)&&added[itemId]===undefined)added[itemId]=stamp(list.created || p.created);
+    list.items=[...new Set(list.items)].filter(itemId=>safeKey(itemId)&&(!stamp(removed[itemId])||stamp(added[itemId])>stamp(removed[itemId])));
+  }
+  p.scope.lists=(p.scope.lists || []).filter(id=>!!p.lists[id]);
+}
+function mergeLists(local,remote) {
+  for(const id of Object.keys(remote.listsDeleted || {}))if(safeKey(id)&&id!=='bank')local.listsDeleted[id]=Math.max(stamp(local.listsDeleted[id]),stamp(remote.listsDeleted[id]));
+  for(const field of ['listItemAdded','listItemDeleted'])for(const [listId,changes] of Object.entries(remote[field] || {}))if(safeKey(listId)) {
+    const target=local[field][listId] ||= {};
+    for(const [itemId,at] of Object.entries(changes))if(safeKey(itemId))target[itemId]=Math.max(stamp(target[itemId]),stamp(at));
+  }
+  for(const [id,list] of Object.entries(remote.lists))if(safeKey(id)&&list&&!stamp(local.listsDeleted[id])) {
+    const previous=local.lists[id];
+    local.lists[id]=previous ? {...(stamp(list.modified || list.created)>stamp(previous.modified || previous.created)?list:previous),items:[...new Set([...previous.items,...list.items])]} : clone(list);
+  }
+  normalizeListChanges(local);
+}
 
 export const DEFAULT_SETTINGS = {
   showEn: 'tap',        // 'tap' = reveal on tap, 'always' = always visible
@@ -145,7 +206,7 @@ function mergeLab(local, remote) {
 function newProfile(name, avatar) {
   const now = Date.now();
   return {
-    id: uid(), name, avatar: avatar || '🇮🇹', created: now, version: 2,
+    id: uid(), learnerId:'learner:'+uid(), name, avatar: avatar || '🇮🇹', created: now, version: 2,
     learning: createLearning(now),
     settings: { ...DEFAULT_SETTINGS },
     items: {},
@@ -162,6 +223,9 @@ function newProfile(name, avatar) {
 // every screen assumes the full shape, and a hand-edited or foreign backup must not crash Lists, Add word or Me.
 function normalize(p) {
   const fresh = newProfile(p.name || 'Learner', p.avatar);
+  // Older backups share a deterministic identity without treating their name
+  // or their cloud account as evidence that two different learners are one.
+  p.learnerId ||= p.id ? 'legacy:'+p.id : fresh.learnerId;
   p.name ||= fresh.name; p.avatar ||= fresh.avatar;
   p.settings = { ...fresh.settings, ...(p.settings || {}) };
   if (!LEVELS.includes(p.settings.level)) p.settings.level = DEFAULT_SETTINGS.level;
@@ -180,6 +244,9 @@ function normalize(p) {
   }
   p.customDeleted ||= {};
   p.lab = normalizeLab(p.lab);
+  if(!Number.isFinite(p.stats.learningXP))p.stats.learningXP=learningXP(p.learning);
+  normalizeRewards(p);
+  normalizeListChanges(p);
   p.version = Math.max(2, Number(p.version) || 1);
   return p;
 }
@@ -203,7 +270,12 @@ const entryCompletionRecords = (domain,id) => ['*','word','present','past','back
 const legacyCase = tense => ({presente:'present',passatoProssimo:'past',imperfetto:'background',futuro:'future',condizionale:'condizionale'}[tense]);
 
 class Store extends EventTarget {
-  constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; this._saveQueue = Promise.resolve(); this._mirrorSerial = 0; }
+  constructor() { super(); this.profiles = []; this.current = null; this._saveTimer = null; this._dirty = false; this._saveQueue = Promise.resolve(); this._mirrorSerial = 0;this._revision=0;this._saveError=null;this._transition=null; }
+  get saveError() { return this._saveError; }
+  _failedSave(error=storageError(),profileId=this.current?.id) {
+    this._saveError={profileId,message:error.message};this.emit('saveError',this._saveError);return error;
+  }
+  _saved(profileId) { this._saveError=null;this.emit('saveSuccess',{profileId});return {ok:true,durable:true,profileId}; }
 
   async init() {
     // Know whether saves need an unload mirror before creating the first profile.
@@ -213,7 +285,7 @@ class Store extends EventTarget {
     try { curId = localStorage.getItem(LS_CURRENT); } catch { /* ignore */ }
     if (this.profiles.length === 0) {
       const p = newProfile('Learner');
-      this.profiles.push({ id: p.id, name: p.name, avatar: p.avatar, created: p.created });
+      this.profiles.push({ id: p.id, learnerId:p.learnerId,name: p.name, avatar: p.avatar, created: p.created });
       this._persistIndex();
       this.current = p;
       this.touchDay(); // the first launch is day 1 of the streak like every later one (and marks the profile dirty, so it is really written)
@@ -227,8 +299,8 @@ class Store extends EventTarget {
     try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch { /* ignore */ }
     // An IndexedDB write started during unload may never commit (a change made in the 400 ms before the app is closed or
     // reloaded was lost), so a dirty profile is also mirrored synchronously to localStorage and picked up on the next start.
-    window.addEventListener('pagehide', () => { this._mirrorPending(); this.saveNow(); });
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') this.saveNow(); });
+    window.addEventListener('pagehide', () => { this._mirrorPending();void this.saveNow().catch(()=>{}); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden')void this.saveNow().catch(()=>{}); });
     return this;
   }
   _mirrorPending() {
@@ -250,7 +322,7 @@ class Store extends EventTarget {
     } catch { try { localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } return null; }
   }
 
-  _persistIndex() { try { localStorage.setItem(LS_PROFILES, JSON.stringify(this.profiles)); } catch { /* ignore */ } }
+  _persistIndex() { try { localStorage.setItem(LS_PROFILES, JSON.stringify(this.profiles));return true; } catch {return false;} }
   _setCurrentId(id) { try { localStorage.setItem(LS_CURRENT, id); } catch { /* ignore */ } }
 
   emit(type, detail) { this.dispatchEvent(new CustomEvent(type, { detail })); }
@@ -265,6 +337,8 @@ class Store extends EventTarget {
     if (!p) { p = newProfile(meta ? meta.name : 'Learner', meta && meta.avatar); p.id = id; }
     normalize(p); // upgrade missing fields
     this.current = p;
+    this._revision++;this._saveError=null;
+    if(meta){meta.learnerId=p.learnerId;this._persistIndex();}
     this._setCurrentId(id);
     this.touchDay();
     if (pending) this.save();
@@ -274,10 +348,13 @@ class Store extends EventTarget {
   }
 
   async createProfile(name, avatar) {
+    await this.saveNow();
     const p = newProfile(name || 'Learner', avatar);
-    this.profiles.push({ id: p.id, name: p.name, avatar: p.avatar, created: p.created });
-    this._persistIndex();
-    await kvSet('profile:' + p.id, p);
+    normalize(p);
+    if(!await kvSet('profile:' + p.id,p))throw this._failedSave();
+    const previous=this.profiles;
+    this.profiles=[...previous,{ id: p.id,learnerId:p.learnerId, name: p.name, avatar: p.avatar, created: p.created }];
+    if(!this._persistIndex()){this.profiles=previous;await kvDel('profile:'+p.id);throw this._failedSave();}
     await this.switchProfile(p.id);
     return p;
   }
@@ -303,39 +380,94 @@ class Store extends EventTarget {
 
   save() {
     this._dirty = true;
+    this._revision++;
     clearTimeout(this._saveTimer);
-    this._saveTimer = setTimeout(() => this.saveNow(), 400);
+    this._saveTimer = setTimeout(() => {void this.saveNow().catch(()=>{});}, 400);
     this.emit('change');
   }
-  async saveNow() {
+  async saveNow({retryFailed=true}={}) {
+    if(this._transition){await this._transition.catch(()=>{});return this.saveNow({retryFailed});}
+    // Retry also clears a failed replacement warning by durably saving the
+    // retained active profile, even when that operation never made it dirty.
+    if(retryFailed&&this.current&&this._saveError)this._dirty=true;
     if (!this.current || !this._dirty) return this._saveQueue;
     clearTimeout(this._saveTimer);
     const meta = this.profiles.find(p => p.id === this.current.id);
-    if (meta) { meta.lastActive = Date.now(); this._persistIndex(); }
+    if (meta) { meta.lastActive = Date.now();meta.learnerId=this.current.learnerId;this._persistIndex(); }
     const cur = this.current;
     const snapshot = JSON.parse(JSON.stringify(cur));
     if (storageBackend === 'localStorage') {
       // The fallback is already synchronous and durable before this call returns.
       // A second full profile mirror would unnecessarily consume its small quota.
       this._dirty = !localSet('profile:' + cur.id, snapshot);
-      if (this._dirty) this.emit('saveError');
-      return this._saveQueue;
+      if (this._dirty)throw this._failedSave(storageError(),cur.id);
+      return this._saved(cur.id);
     }
     // Mirror before clearing dirty: a reload can interrupt the IndexedDB commit
     // even after saveNow was called. Clean callers also await the queued commit.
     const mirrored = this._mirrorPending();
     this._dirty = false;
-    this._saveQueue = this._saveQueue.then(async () => {
+    this._saveQueue = this._saveQueue.catch(()=>{}).then(async () => {
       const ok = await kvSet('profile:' + cur.id, snapshot);
-      if (ok) { try { if (mirrored && localStorage.getItem(LS_PENDING) === mirrored) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ } }
+      if (ok) { try { if (mirrored && localStorage.getItem(LS_PENDING) === mirrored) localStorage.removeItem(LS_PENDING); } catch { /* ignore */ }return this._saved(cur.id); }
       else if (this.current === cur) {
         // Keep the latest profile, including edits made while this snapshot was
         // queued, available for recovery and for the next save attempt.
-        this._dirty = true; this._mirrorPending(); this.emit('saveError');
+        this._dirty = true; this._mirrorPending();
       }
+      throw this._failedSave(storageError(),cur.id);
     });
     return this._saveQueue;
   }
+
+  // Destructive replacements are prepared off-screen. The old-schema snapshot
+  // is read/verified before the new primary is written, and kept for recovery.
+  async _commitProfile(candidate,{kind='import',silent=false,expected=this.current,revision=this._revision}={}) {
+    if(Object.keys(candidate.custom||{}).some(id=>!hasCompletionDescriptor(id)))await loadFullCompletion();
+    await this.saveNow({retryFailed:false});
+    if(this.current!==expected||this._revision!==revision)throw new Error('Profile changed before saving. Your current progress has been kept; retry.');
+    const profileId=expected.id,primary='profile:'+profileId,recoveryKey=(kind==='merge'?'merge-recovery:':'recovery:')+profileId;
+    const run=(async()=>{
+      const before=clone(expected),recovery={version:1,profileId,kind,at:Date.now(),checksum:checksum(before),profile:before};
+      if(!await kvSet(recoveryKey,recovery))throw this._failedSave(new Error('A recovery copy could not be saved. Your current progress has been kept. Export a backup, then retry.'),profileId);
+      const savedRecovery=await kvGet(recoveryKey);
+      if(!savedRecovery?.profile||savedRecovery.checksum!==checksum(savedRecovery.profile)||JSON.stringify(savedRecovery.profile)!==JSON.stringify(before))
+        throw this._failedSave(new Error('The recovery copy could not be verified. Your current progress has been kept.'),profileId);
+      const unchanged=()=>this.current===expected&&this._revision===revision;
+      if(!unchanged())throw new Error('Profile changed while preparing the save. Your current progress has been kept; retry.');
+      let written=false;
+      try {
+        if(!await kvSet(primary,candidate))throw storageError();
+        written=true;
+        const verified=await kvGet(primary);
+        if(!verified||JSON.stringify(verified)!==JSON.stringify(candidate))throw new Error('The saved changes could not be verified.');
+        if(!unchanged())throw new Error('Profile changed while saving. Your current progress has been kept; retry.');
+      } catch(error) {
+        // A concurrent edit is still on the original object. Restore that latest
+        // state rather than replacing it with an older captured snapshot.
+        const previous=this.current===expected?clone(expected):before;
+        if(written&&!await kvSet(primary,previous)) {
+          this._dirty=this.current===expected;
+          throw this._failedSave(new Error('The save failed and the old copy could not be restored. Your recovery backup is kept; export your current progress before closing the app.'),profileId);
+        }
+        throw this._failedSave(error,profileId);
+      }
+      this.current=candidate;this._dirty=false;this._revision++;
+      const meta=this.profiles.find(p=>p.id===profileId);
+      if(meta){meta.name=candidate.name;meta.avatar=candidate.avatar;meta.learnerId=candidate.learnerId;this._persistIndex();}
+      this._saved(profileId);
+      if(!silent){this.emit('profile',candidate);this.emit('change');}
+      return {ok:true,durable:true,profileId,recoveryKey};
+    })();
+    this._transition=run;
+    try{return await run;}finally{if(this._transition===run)this._transition=null;}
+  }
+  async recoveryBackup() {
+    const recovery=await kvGet('recovery:'+this.current.id) || await kvGet('merge-recovery:'+this.current.id);
+    if(!recovery?.profile||recovery.checksum!==checksum(recovery.profile))throw new Error('No verified recovery backup is available for this user.');
+    return JSON.stringify({app:'italiano',exported:new Date(recovery.at).toISOString(),profile:recovery.profile});
+  }
+  async restoreRecovery() { const backup=await this.recoveryBackup();return this.importJSON(backup); }
 
   // ---------- settings ----------
   get settings() { return this.current.settings; }
@@ -353,7 +485,9 @@ class Store extends EventTarget {
     if (result.added) {
       const stored = result.learning.events[event.id];
       const points = stored?.xp || 0;
-      this.current.stats.learningXP = learningXP(result.learning);
+      ensureRewards(this.current);
+      this.current.rewards.evidenceDays[stored.id]=todayKey(new Date(stored.at));
+      this.current.stats.learningXP = (Number(this.current.stats.learningXP)||0)+points;
       const day = this._day();
       if (input.countStats !== false && stored.outcome !== 'ungraded') {
         if (stored.outcome !== 'skipped') {
@@ -362,7 +496,7 @@ class Store extends EventTarget {
         }
         if (before.due && before.due <= event.at && !before.sessionEvidence[event.sessionId]) day.reviews = (day.reviews || 0) + 1;
       }
-      this.addXP(points, false);
+      this.addXP(points, false,{evidence:true});
       this.save();
     }
     return { ...result, event: result.learning.events[event.id] || event };
@@ -400,7 +534,7 @@ class Store extends EventTarget {
     item.learned=complete;item.last=at;
     if(complete)item.learnedAt ||= at;
     if(checked && !item.due)item.due=at+8*3600e3;
-    this.save();void this.saveNow();
+    this.save();void this.saveNow().catch(()=>{});
     return true;
   }
   // Classic walkthroughs do not create adaptive answer evidence. A live run
@@ -484,7 +618,7 @@ class Store extends EventTarget {
         if (kind === 'verb') this.current.stats.verbsLearned = (this.current.stats.verbsLearned || 0) + 1;
         else this.current.stats.wordsLearned = (this.current.stats.wordsLearned || 0) + 1;
         const day = this._day(); day.new = (day.new || 0) + 1; if (kind === 'verb') day.newVerbs = (day.newVerbs || 0) + 1;
-        this.addXP(kind === 'verb' ? 30 : 10, false);
+        this.addXP(kind === 'verb' ? 30 : 10, false,{id:`${this.learning.epoch.id}|completion|${id}`,kind:'completion',sourceId:id});
       }
     }
     this.save();
@@ -518,10 +652,10 @@ class Store extends EventTarget {
   // ---------- lists ----------
   get lists() { return this.current.lists; }
   createList(name) { const id = 'l:' + uid(); this.current.lists[id] = { id, name: name || 'New list', items: [], created: Date.now() }; this.save(); return id; }
-  renameList(id, name) { if (this.current.lists[id]) { this.current.lists[id].name = name; this.save(); } }
-  deleteList(id) { if (id === 'bank') return; delete this.current.lists[id]; this.current.scope.lists = (this.current.scope.lists || []).filter(x => x !== id); this.save(); }
-  addToList(listId, itemId) { const l = this.current.lists[listId]; if (!l) return false; if (!l.items.includes(itemId)) { l.items.push(itemId); this.save(); return true; } return false; }
-  removeFromList(listId, itemId) { const l = this.current.lists[listId]; if (!l) return; l.items = l.items.filter(x => x !== itemId); this.save(); }
+  renameList(id, name) { if (this.current.lists[id]) { this.current.lists[id].name = name;this.current.lists[id].modified=Date.now(); this.save(); } }
+  deleteList(id) { if (id === 'bank') return;normalizeListChanges(this.current);this.current.listsDeleted[id]=Math.max(Date.now(),stamp(this.current.listsDeleted[id])+1); delete this.current.lists[id]; this.current.scope.lists = (this.current.scope.lists || []).filter(x => x !== id); this.save(); }
+  addToList(listId, itemId) { const l = this.current.lists[listId]; if (!l || !safeKey(itemId)) return false; if (!l.items.includes(itemId)) {normalizeListChanges(this.current);const added=this.current.listItemAdded[listId] ||= {};added[itemId]=Math.max(Date.now(),stamp(this.current.listItemDeleted[listId]?.[itemId])+1,stamp(added[itemId])+1);l.items.push(itemId); this.save(); return true; } return false; }
+  removeFromList(listId, itemId) { const l = this.current.lists[listId]; if (!l || !safeKey(itemId)) return;normalizeListChanges(this.current);const removed=this.current.listItemDeleted[listId] ||= {};removed[itemId]=Math.max(Date.now(),stamp(this.current.listItemAdded[listId]?.[itemId])+1,stamp(removed[itemId])+1); l.items = l.items.filter(x => x !== itemId); this.save(); }
   inList(listId, itemId) { const l = this.current.lists[listId]; return !!(l && l.items.includes(itemId)); }
   listsContaining(itemId) { return Object.values(this.current.lists).filter(l => l.items.includes(itemId)); }
 
@@ -564,12 +698,21 @@ class Store extends EventTarget {
       this.save();
     }
   }
-  addXP(n, doSave = true) { if (!n) return; this.touchDay(); this.current.stats.xp += n; this._day().xp += n; if (doSave) this.save(); }
+  addXP(n, doSave = true,{id=null,kind='activity',sourceId='',evidence=false}={}) {
+    if(!n)return false;
+    this.touchDay();ensureRewards(this.current);
+    if(!evidence) {
+      const epochId=this.learning.epoch.id,awardId=id || `${epochId}|activity|${nextLearningIdentity().id}`;
+      if(this.current.rewards.awards[awardId])return false;
+      this.current.rewards.awards[awardId]={id:awardId,epochId,kind,sourceId,xp:n,at:Date.now(),dayKey:todayKey(),policyVersion:1};
+    }
+    this.current.stats.xp += n;this._day().xp += n;if(doSave)this.save();return true;
+  }
   recordGame(gameId, result) {
     const g = (this.current.stats.games[gameId] ||= { played: 0, best: 0, total: 0 });
     g.played++; g.total += result.score || 0; g.best = Math.max(g.best, result.score || 0);
     this._day().games++;
-    this.addXP(result.xp || 0, false);
+    this.addXP(result.xp || 0, false,{kind:'game',sourceId:gameId});
     this.save();
   }
   today() { return this._day(); }
@@ -590,7 +733,7 @@ class Store extends EventTarget {
     if (record.done[lessonId]) return { first: false, at: record.done[lessonId] };
     const at = Date.now();
     record.done[lessonId] = at;
-    this.addXP(15, false);
+    this.addXP(15, false,{id:`${this.learning.epoch.id}|lab|${key}|${lessonId}`,kind:'lab',sourceId:`${key}|${lessonId}`});
     this.save();
     return { first: true, at };
   }
@@ -609,24 +752,28 @@ class Store extends EventTarget {
   exportJSON() { return JSON.stringify({ app: 'italiano', exported: new Date().toISOString(), profile: this.current }, null, 0); }
   async importJSON(text, { merge = false, silent = false } = {}) {
     const obj = JSON.parse(text);
-    const p = obj.profile || obj;
-    if (!p || !p.items || !p.lists) throw new Error('Not a valid backup file');
+    const p = clone(obj.profile || obj);
+    if (!p || typeof p!=='object' || Array.isArray(p) || !p.items || !p.lists || Array.isArray(p.items) || Array.isArray(p.lists)) throw new Error('Not a valid backup file');
     if (p.learning?.version > LEARNING_VERSION) throw new Error('This progress uses a newer version of Parola. Update the app before importing or syncing it. Your current progress has been kept.');
+    if(p.rewards?.version>1)throw new Error('This reward data uses a newer version of Parola. Your current progress has been kept.');
+    const expected=this.current,revision=this._revision;
+    if(!p.id&&!p.learnerId)p.learnerId=expected.learnerId;
+    normalize(p);
+    let candidate;
     if (merge) {
-      normalize(p); // migrate remote legacy learned enrollment before merging it
-      const cur = normalize(this.current);
+      if(p.learnerId!==expected.learnerId)throw new Error('This backup belongs to a different learner. Your current progress has been kept. Use Replace only to restore that learner deliberately.');
+      const cur = normalize(clone(expected));
       const remoteLearning = normalizeLearning(p.learning);
       const epochOrder = (remoteLearning.epoch.at - cur.learning.epoch.at) || (remoteLearning.epoch.id < cur.learning.epoch.id ? -1 : remoteLearning.epoch.id > cur.learning.epoch.id ? 1 : 0);
       // Reset generations also protect legacy progress from a stale cloud copy.
       if (epochOrder > 0) { cur.items = {}; cur.stats = newProfile(cur.name).stats; cur.recent = []; }
-      const localLegacyXP = Math.max(0, cur.stats.xp - (cur.stats.learningXP || 0));
-      const remoteLegacyXP = epochOrder < 0 ? 0 : Math.max(0, (p.stats?.xp || 0) - (p.stats?.learningXP || 0));
+      cur.rewards=mergeRewards(cur.rewards,p.rewards,epochOrder);
       cur.learning = mergeLearning(cur.learning, p.learning);
       if (epochOrder >= 0) for (const [id, it] of Object.entries(p.items)) { const c = cur.items[id]; if (!c || (it.last || 0) > (c.last || 0)) cur.items[id] = it; }
       // the lab records follow the legacy progress: a newer remote reset generation replaces them, an older one is ignored
       if (epochOrder > 0) cur.lab = freshLab();
       if (epochOrder >= 0) cur.lab = mergeLab(cur.lab, p.lab);
-      for (const [id, l] of Object.entries(p.lists)) { if (!cur.lists[id]) cur.lists[id] = { ...l, items: Array.isArray(l.items) ? l.items : [] }; else cur.lists[id].items = [...new Set([...(cur.lists[id].items || []), ...(l.items || [])])]; }
+      mergeLists(cur,p);
       for (const [id, w] of Object.entries(p.custom || {})) { const c = cur.custom[id]; if (!c || (w.modified || w.created || 0) > (c.modified || c.created || 0)) cur.custom[id] = w; }
       for (const [id, at] of Object.entries(p.customDeleted || {})) if (id.startsWith('c:')) cur.customDeleted[id] = Math.max(cur.customDeleted[id] || 0, Number(at) || 0);
       for (const id of Object.keys(cur.customDeleted)) {
@@ -636,27 +783,35 @@ class Store extends EventTarget {
         if (cur.learning.session?.entryId === id) cur.learning.session = null;
       }
       cur.stats.learningXP = learningXP(cur.learning);
-      cur.stats.xp = Math.max(localLegacyXP, remoteLegacyXP) + cur.stats.learningXP;
+      cur.stats.xp = cur.rewards.legacyXP+awardXP(cur.rewards)+cur.stats.learningXP;
       if (epochOrder >= 0) {
         cur.stats.bestStreak = Math.max(cur.stats.bestStreak || 0, p.stats?.bestStreak || 0);
         for (const [d, v] of Object.entries(p.stats?.days || {})) if (!cur.stats.days[d]) cur.stats.days[d] = v;
       }
+      const dayXP={...cur.rewards.legacyDayXP};
+      for(const a of Object.values(cur.rewards.awards))dayXP[a.dayKey]=(Number(dayXP[a.dayKey])||0)+a.xp;
+      for(const [id,day] of Object.entries(cur.rewards.evidenceDays))if(cur.learning.events[id])dayXP[day]=(Number(dayXP[day])||0)+cur.learning.events[id].xp;
+      for(const [day,xp] of Object.entries(dayXP))(cur.stats.days[day] ||= {new:0,reviews:0,correct:0,wrong:0,xp:0,games:0,time:0}).xp=xp;
+      candidate=cur;
     } else {
-      p.id = this.current.id; // keep current slot
-      normalize(p); // a partial or foreign backup gets custom, lists.bank, name, a valid level… like a stored profile does
-      this.current = p;
-      const meta = this.profiles.find(x => x.id === p.id); if (meta) { meta.name = p.name; meta.avatar = p.avatar; this._persistIndex(); }
+      p.id = expected.id; // explicit restore keeps the slot but adopts the saved learner identity
+      candidate=p;
     }
-    this._dirty = true;
-    await this.saveNow();
-    if (!silent) { this.emit('profile', this.current); this.emit('change'); }
+    return this._commitProfile(candidate,{kind:merge?'merge':'import',silent,expected,revision});
   }
   async resetProgress() {
-    const p = this.current;
-    await deleteCourseRecordings(p.id+'|').catch(()=>{});
+    const expected=this.current,revision=this._revision,p=clone(expected);
     p.learning = resetLearning(p.learning, Date.now(), 'reset:' + uid());
     p.items = {}; p.stats = newProfile(p.name).stats; p.recent = []; p.lab = freshLab();
-    this._dirty = true; await this.saveNow(); this.emit('change');
+    delete p.rewards;normalizeRewards(p);
+    const result=await this._commitProfile(p,{kind:'reset',expected,revision});
+    try{await deleteCourseRecordings(p.id+'|');return {...result,recordingsDeleted:true};}
+    catch(error){this.emit('recordingError',{profileId:p.id,message:'Progress was reset, but saved recordings could not be removed. Retry their removal on this device.'});return {...result,recordingsDeleted:false};}
+  }
+  async checkpointEvidence() {
+    const expected=this.current,revision=this._revision,candidate=clone(expected);
+    candidate.learning=checkpointLearning(expected.learning);
+    return this._commitProfile(candidate,{kind:'checkpoint',expected,revision});
   }
 }
 

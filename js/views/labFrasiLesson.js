@@ -2,8 +2,8 @@
 // around the five activity kinds of docs/SENTENCE-LAB-CONTRACT.md §3. The pure engine (js/learning/sentence-lab.js)
 // grades; this view keeps the session in store.learning.sessions (js/learning/sentence-lab-data.js), runs the three
 // drills of a free-entry word, records their journey events, saves "Le mie frasi" and completes the lesson (15 XP).
-// Layers 2 and 3 (fit scorer, assistant) are imported lazily inside handlers: the lesson is identical without them.
-import { html, raw, esc, icon, speak, toast, keyboardViewportHeight, sheet } from '../ui.js';
+// Optional reply selection is imported lazily; authored conversation replies work without it.
+import { html, raw, esc, icon, speak, toast, keyboardViewportHeight, sheet, submissionNote, announceAnswer } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { data, getEntry, headword, shortEn, withArticle, isPluralOnly, distractors, shuffle, fold } from '../data.js';
@@ -12,7 +12,8 @@ import { feedbackHTML } from '../games/engine.js';
 import { createSentenceLookup } from '../learning/sentence-lookup.js';
 import { lessonPlan, lessonObjectives } from '../learning/integration.js';
 import { grammarLesson, grammarHref } from '../learning/grammar-course.js';
-import { createLabSession, compatibleLabSession, currentLabStep, answerLab, advanceLab, resolveFreeEntry, composeBuild, labSessionProgress, fillTemplate, normalizeLab } from '../learning/sentence-lab.js';
+import { createLabSession, compatibleLabSession, currentLabStep, answerLab, advanceLab, resolveFreeEntry, composeBuild, labSessionProgress, normalizeLab, assessLabBlank } from '../learning/sentence-lab.js';
+import { compareSubmission } from '../learning/answer-policy.js';
 import { loadSentenceLab, labLesson, labNextLesson, labLessonIndex, readLabSession, writeLabSession, clearLabSession, LAB_KEY } from '../learning/sentence-lab-data.js';
 import { labButton, labModel, labOrder, orderTokens, labCloze, labDialogue, labBuild, labComplete, labPaused, labDrill, labPicker } from '../learning/sentence-lab-activities.js';
 
@@ -24,7 +25,7 @@ const FIT_COLORS = ['#f2c14e', '#2dd4bf', '#38bdf8'];
 let dictionary = null, lookup = null;
 export function labContext() {
   if (!dictionary || dictionary.vocab !== data.vocab || dictionary.verbs !== data.verbs) { dictionary = { vocab: data.vocab, verbs: data.verbs }; lookup = createSentenceLookup(dictionary); }
-  return { dictionary, lookup, learnedIds: new Set(store.learnedIds()), speakerGender: store.settings.gender === 'f' ? 'f' : 'm' };
+  return { dictionary, lookup, learnedIds: new Set(store.learnedIds()), speakerGender: store.settings.gender === 'f' ? 'f' : 'm', accentStrict:store.settings.accentStrict===true };
 }
 export const speakerGender = () => (store.settings.gender === 'f' ? 'f' : 'm');
 
@@ -56,21 +57,18 @@ export function buildDrills(entry) {
     { skill: isNoun ? 'article' : 'recall', type: 'type', label: isNoun ? 'With its article' : 'Type it', prompt: isNoun ? 'Type it with its article' : 'Type the Italian', big: en, lang: 'en', answers: [typed], answer: typed, explain: isNoun ? `${typed} · ${en}` : `${it} · ${en}`, say },
   ];
 }
-const typedMatches = (value, answers) => {
-  const strict = store.settings.accentStrict === true;
-  const norm = s => (strict ? String(s).normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'") : fold(s)).replace(/\s+/g, ' ').trim();
-  const v = norm(value);
-  return answers.some(a => norm(a) === v);
-};
+const typedSubmission = (value, answers) => compareSubmission(value,answers,{accentStrict:store.settings.accentStrict===true,inputMode:'typed'});
 
 export async function render(root, params, query = {}) {
+  const owner=store.current.id;
   await loadSentenceLab();
+  if(store.current.id!==owner)return;
   const lesson = labLesson(params.id);
   if (!lesson) { setTitle('Officina delle frasi'); root.innerHTML = html`<div class="empty"><p>Lesson not found.</p><a class="btn primary" href="#/lab/frasi">Back to the workshop</a></div>`; return; }
-  const owner = store.current.id, place = labLessonIndex(lesson.id), stageName = place?.stage?.stage || 'presente';
+  const place = labLessonIndex(lesson.id), stageName = place?.stage?.stage || 'presente';
   const prior = readLabSession(store, lesson.id);
   let session = prior && compatibleLabSession(lesson, prior) && prior.phase === 'activity' && query.restart !== '1' ? clone(prior) : createLabSession(lesson);
-  let disposed = false, finished = false, completion = null, fitInstalled = null, assistantReady = null;
+  let disposed = false, finished = false, completion = null, assistantReady = null, assistantService = null, activeSheet = null;
   const activities = lesson.activities;
 
   setTitle(lesson.title); setScene(STAGE_TINT[stageName] || 'A1'); setChrome({ tabs: false, back: false });
@@ -82,11 +80,18 @@ export async function render(root, params, query = {}) {
 
   // A session is written once the learner has done something in it: a lesson merely opened (or reopened after its
   // completion) leaves no "in progress" trace on the path page.
-  const pristine = () => session.index === 0 && !(session.history || []).length && !session.paused && !session.state?.result && !(session.state?.attempts || []).length;
+  const pristine = () => session.index === 0 && !(session.history || []).length && !session.paused && !session.state?.result && !(session.state?.attempts || []).length && !session.state?.ui?.touched;
   const save = () => { if (!disposed && !finished && !pristine() && store.current.id === owner) writeLabSession(store, session); };
   const step = () => currentLabStep(lesson, session);
   const ui = () => { if (!session.state) return {}; return session.state.ui ||= {}; };
   const ctx = () => labContext();
+  const alive=()=>!disposed&&!finished&&store.current.id===owner;
+  // An async task may return after the learner advances a turn or changes profile.
+  const capture=()=>({id:session.id,index:session.index,state:session.state});
+  const valid=token=>alive()&&session.id===token.id&&session.index===token.index&&session.state===token.state;
+  const touch=()=>{ui().touched=true;save();};
+  const release=()=>{assistantService?.releaseAssistant().catch(()=>{});};
+  const offProfile=store.on('profile',()=>{if(store.current.id!==owner){activeSheet?.close({silent:true});release();}});
 
   // ---------- drawing ----------
   function shell({ content, footer = '', feedback = false, kind, activityId, phase }) {
@@ -99,14 +104,25 @@ export async function render(root, params, query = {}) {
       ${footer ? raw(html`<footer class="grammar-footer ${feedback ? 'has-feedback' : ''}">${raw(footer)}</footer>`) : ''}
     </div>`;
   }
-  const detailOf = (result, explanation = '') => `${result.sentence ? `<p lang="it" data-italian-sentence data-english="${esc(result.en || '')}">${esc(result.sentence)}</p>` : ''}${result.en ? `<p>${esc(result.en)}</p>` : ''}${explanation ? `<p>${esc(explanation)}</p>` : ''}`;
+  const detailOf = (result, explanation = '') => `${result.sentence ? `<p lang="it" data-italian-sentence data-english="${esc(result.en || '')}">${esc(result.sentence)}</p>` : ''}${result.en ? `<p>${result.glossIsPattern?'Pattern meaning: ':''}${esc(result.en)}</p>` : ''}${(result.wordGlosses||[]).map(w=>`<p>${esc(w.it)} · ${esc(w.en)}</p>`).join('')}${(result.blanks||[]).map(g=>submissionNote(g.submission)).join('')}${result.assistance?.length?`<p>Assisted practice: ${esc(result.explanation||'the workshop supplied the wording.')}</p>`:''}${explanation ? `<p>${esc(explanation)}</p>` : ''}`;
   // the per-blank maps every blank handler writes to
-  const blankUi = u => { for (const k of ['bankOpen', 'freeOpen', 'drafts', 'messages', 'notes']) u[k] ||= {}; return u; };
+  const blankUi = u => {
+    for (const k of ['bankOpen', 'freeOpen', 'drafts', 'messages', 'inputSources']) u[k] ||= {};
+    // Older free-entry drafts kept the dictionary's supplied wording without
+    // the original input. Preserve that wording as explicit assisted practice;
+    // never invent an original response or independent production evidence.
+    (u.values || []).forEach((value, i) => {
+      if (value && !u.inputSources[i]) u.inputSources[i] = {
+        inputMode: 'choice', assistance: u.entries?.[i] ? ['legacy-construction'] : [],
+      };
+    });
+    return u;
+  };
   // A miss that is not final shows its explanation once; "Try again" dismisses it (the count is remembered per activity).
   const pendingMiss = (view, u) => !view.result && view.last && view.last.outcome === 'incorrect' && (view.state.misses || 0) > (u.seenMiss || 0);
   const missFooter = (view, u, retryLabel = 'Try again') => feedbackHTML({ ok: false, title: `Not quite${(view.state.misses || 0) < 2 ? ' · one more try' : ''}.`, detail: `<p>${esc(view.last.explanation || 'Try again.')}</p>`, nextAttribute: 'data-lab-retry', nextLabel: retryLabel, accent: 'secondary' });
   const finalFooter = (result, { explanation = '' } = {}) => {
-    const title = result.outcome === 'correct' ? 'Esatto.' : result.outcome === 'accepted' ? 'Accepted · your own words.' : 'Here is the sentence.';
+    const title = result.outcome === 'correct' ? 'Esatto.' : result.outcome === 'accepted' ? result.assistance?.length?'Assisted practice.':'Valid alternative.' : 'Here is the sentence.';
     return feedbackHTML({ ok: result.ok, title, detail: detailOf(result, result.ok ? '' : explanation), nextAttribute: 'data-lab-next', nextLabel: 'Continue' });
   };
   const finishLessonOnce = () => {
@@ -153,7 +169,7 @@ export async function render(root, params, query = {}) {
       else footer = labButton('Check', `data-lab-check${u.values.every(v => v) ? '' : ' disabled'}`, 'primary');
     } else if (kind === 'dialogue') {
       const state = view.state, current = state.current;
-      if (current && u.turn !== current.index) Object.assign(u, { turn: current.index, values: current.blanks.map(() => ''), active: 0, bankOpen: {}, freeOpen: {}, drafts: {}, messages: {}, notes: {}, seenMiss: 0, hint: false });
+      if (current && u.turn !== current.index) Object.assign(u, { turn: current.index, values: current.blanks.map(() => ''), active: 0, bankOpen: {}, freeOpen: {}, drafts: {}, messages: {}, inputSources: {}, seenMiss: 0, hint: false });
       if (current && (!Array.isArray(u.values) || u.values.length !== current.blanks.length)) u.values = current.blanks.map(() => '');
       blankUi(u);
       content = labDialogue(activity, state, u, { locked: !current });
@@ -224,22 +240,23 @@ export async function render(root, params, query = {}) {
   }
   function submit(value) {
     const view = step();
-    if (!view || view.done || session.paused) return;
-    const { result } = answerLab(lesson, session, value, { ...ctx(), now: Date.now() });
+    if (!alive()||!view || view.done || session.paused) return;
+    const { result } = answerLab(lesson, session, value, { ...ctx(), blankInputs:ui().inputSources,now: Date.now() });
     if (!result) return;
+    announceAnswer({...result,submission:(result.blanks||[]).find(g=>g.submission?.matchKind==='accent-only')?.submission});
     const u = blankUi(ui());
     if (view.kind === 'order') {
       if (result.ok) speak(result.sentence);
     } else if (view.kind === 'cloze') {
       if (result.outcome === 'incorrect' && !result.revealed) {
         // keep the right blanks, clear the wrong ones so the learner can change them
-        (result.blanks || []).forEach((g, i) => { if (g.outcome === 'incorrect') { u.values[i] = ''; u.notes[i] = null; } });
+        (result.blanks || []).forEach((g, i) => { if (g.outcome === 'incorrect') { u.values[i] = ''; delete u.inputSources[i]; } });
         u.active = (result.blanks || []).findIndex(g => g.outcome === 'incorrect');
         if (u.active < 0) u.active = 0;
       } else if (result.ok) speak(result.sentence);
     } else if (view.kind === 'dialogue') {
       if (result.sentence) { afterTurn(view, result); } else {
-        (result.blanks || []).forEach((g, i) => { if (g.outcome === 'incorrect') { u.values[i] = ''; u.notes[i] = null; } });
+        (result.blanks || []).forEach((g, i) => { if (g.outcome === 'incorrect') { u.values[i] = ''; delete u.inputSources[i]; } });
         u.active = Math.max(0, (result.blanks || []).findIndex(g => g.outcome === 'incorrect'));
       }
     } else if (view.kind === 'build') {
@@ -258,15 +275,18 @@ export async function render(root, params, query = {}) {
     pickReaction(view.activity, result.turnIndex, generic, result).catch(() => { /* the engine's choice stands */ });
   }
   async function pickReaction(activity, turnIndex, generic, result) {
+    const token=capture();
     let mod;
     try { mod = await import('../learning/assistant.js'); } catch { return; }
+    if(!valid(token))return;
+    assistantService=mod;
     const state = mod.assistantState();
     if (!state.enabled) return;
     if (!state.loaded) { if (assistantReady === null) assistantReady = mod.enableAssistant().catch(() => null); return; } // loads for the next turn
     const u = ui(); u.thinking = true; draw({ scrollChat: true });
     const question = `${activity.partner || 'A friend'} asked: "${activity.turns?.[turnIndex - 1]?.it || activity.prompt}". The learner replied: "${result.sentence}" (${result.en || ''}). Which reply from ${activity.partner || 'the friend'} fits best?`;
     const pick = await mod.assistantPick({ question, candidates: generic.map((r, id) => ({ id, text: r.it })), maxMs: 6000 });
-    if (disposed) return;
+    if (!valid(token))return;
     u.thinking = false;
     const chosen = pick && generic[pick.id];
     const filled = session.state?.filled?.[turnIndex];
@@ -293,112 +313,106 @@ export async function render(root, params, query = {}) {
   }
 
   // ---------- free entry ----------
-  function insertWord(i, display, info = null) {
-    const u = blankUi(ui());
-    u.values[i] = display; u.freeOpen[i] = false; u.drafts[i] = ''; u.messages[i] = null; u.notes[i] = null;
-    u.entries ||= {}; u.entries[i] = info;
-    const blanks = currentBlanks();
-    const nextEmpty = (u.values || []).findIndex((v, k) => !v && k !== i);
-    if (nextEmpty >= 0) u.active = nextEmpty;
-    save(); draw();
-    if (blanks && info) noteFit(i, blanks, display).catch(() => { /* advisory only */ });
-  }
-  // Layer 2: with the fit scorer installed, the inserted word is scored against the blank's authored options and a note
-  // chip (natural / unusual here / odd here) appears beside it. Never blocks, never changes the grade.
-  async function noteFit(i, { blanks, template }, word) {
-    let mod;
-    try { mod = await import('../learning/fit-scorer.js'); } catch { return; }
-    if (fitInstalled === null) { try { fitInstalled = (await mod.fitScorerStatus()).installed; } catch { fitInstalled = false; } }
-    if (!fitInstalled || disposed) return;
-    const others = blanks.map((b, k) => (k === i ? '____' : b.accept?.[0] ?? b.options?.[0] ?? ''));
-    const single = fillTemplate(template, others);
-    const options = (blanks[i].options || []).filter(o => normalizeLab(o) !== normalizeLab(word));
-    if (!options.length) return;
-    const rows = await mod.scoreFit(single, [...options, word], { timeoutMs: 8000 });
-    const row = rows.find(r => r.candidate === word);
-    const u = ui();
-    if (!row || disposed || u.values?.[i] !== word) return;
-    u.notes[i] = row.note; save(); draw();
+  function insertWord(i, display, info = null, source = null) {
+    if(!alive())return;
+    const u=blankUi(ui());
+    u.values[i]=display;u.freeOpen[i]=false;u.messages[i]=null;
+    u.entries ||= {};u.entries[i]=info;
+    u.inputSources[i]=source||{inputMode:'choice',assistance:[]};
+    const nextEmpty=(u.values||[]).findIndex((v,k)=>!v&&k!==i);
+    if(nextEmpty>=0)u.active=nextEmpty;
+    touch();draw();
   }
   function useFreeWord(i, text) {
-    const u = blankUi(ui()), blanks = currentBlanks()?.blanks || [], blank = blanks[i];
-    const typed = String(text ?? '').trim();
-    if (!blank || !typed) return;
-    u.drafts[i] = typed;
-    const wrap = blank.slot?.wrap;
-    // an authored value typed by hand is used as it is (the engine grades it like a tap)
-    const authored = [...(blank.options || []), ...(blank.bank || [])].find(o => normalizeLab(o) === normalizeLab(typed) || (wrap && normalizeLab(o) === normalizeLab(applyWrap(wrap, typed))));
-    if (authored) { insertWord(i, authored, null); return; }
-    if (!blank.free || !blank.slot) { u.messages[i] = { text: 'This blank takes one of the choices.' }; draw(); return; }
-    let r;
-    try { r = resolveFreeEntry(stripWrap(typed, wrap), blank.slot, ctx()); } catch (err) { console.warn(err); r = { status: 'unknown', suggestions: [] }; }
-    if (r.status === 'ok') { insertWord(i, r.display, { entryId: r.entryId, it: r.it, en: r.en }); return; }
-    if (r.status === 'learn') { learnThenInsert(i, r); return; }
-    if (r.status === 'choose') { choose(i, r.candidates, wrap); return; }
-    if (r.status === 'unfit') { u.messages[i] = { text: r.reason || 'That word does not fit this blank.' }; draw(); focusFree(i); return; }
-    u.messages[i] = { text: 'That word is not in the dictionary yet.', suggestions: (r.suggestions || []).slice(0, 3) }; draw(); focusFree(i);
+    if(!alive())return;
+    const u=blankUi(ui()),blank=currentBlanks()?.blanks?.[i];
+    const originalText=String(text??'');
+    if(!blank||!originalText.trim())return;
+    u.drafts[i]=originalText;touch();
+    let assessed;
+    try{assessed=assessLabBlank(blank,originalText,{...ctx(),inputMode:'typed'});}catch(err){console.warn(err);assessed={outcome:'incorrect',explanation:'That word could not be checked.'};}
+    u.submissions||={};u.submissions[i]=assessed.submission;touch();
+    const source={inputMode:'typed',originalText,assistance:assessed.assistance||[],submission:assessed.submission};
+    const r=assessed.resolution;
+    if(assessed.outcome!=='incorrect'){
+      if(r?.status==='learn'){learnThenInsert(i,{...r,display:assessed.filled},source);return;}
+      insertWord(i,assessed.filled,r||null,source);return;
+    }
+    if(r?.status==='choose'){choose(i,r.candidates,blank.slot?.wrap,source);return;}
+    u.messages[i]={text:assessed.explanation||'Check the form before using it.',suggestions:r?.suggestions||[]};
+    draw();focusFree(i);
   }
   const focusFree = i => { const input = root.querySelector(`[data-lab-free-input="${i}"]`); if (input) input.focus({ preventScroll: true }); };
-  function choose(i, candidates, wrap) {
-    const s = sheet(labPicker(candidates), { title: '', cls: 'lab-sheet' });
+  function choose(i, candidates, wrap, source) {
+    const token=capture();
+    const s = sheet(labPicker(candidates), { title: '', cls: 'lab-sheet' });activeSheet=s;
     s.body.addEventListener('click', event => {
-      const b = event.target.closest('[data-lab-candidate]'); if (!b) return;
+      const b = event.target.closest('[data-lab-candidate]'); if (!b||!valid(token)) return;
       const c = candidates[Number(b.dataset.labCandidate)]; if (!c) return;
       s.close({ silent: true });
       const learned = store.isLearned(c.entryId);
       const info = { entryId: c.entryId, it: c.it, en: c.en, form: c.form, display: c.display || applyWrap(wrap, c.form) };
-      if (learned) insertWord(i, info.display, info); else learnThenInsert(i, info);
+      const assistedSource={...source,selectedEntryId:c.entryId,assistance:[...new Set([...(source?.assistance||[]),'dictionary-choice'])]};
+      if (learned) insertWord(i, info.display, info,assistedSource); else learnThenInsert(i, info,assistedSource);
     });
   }
-  function learnThenInsert(i, info) {
+  function learnThenInsert(i, info, source) {
+    const token=capture();
     const entry = getEntry(info.entryId);
-    if (!entry) { insertWord(i, info.display, info); return; }
+    if (!entry) { insertWord(i, info.display, info,source); return; }
     runDrills(entry, ({ passed }) => {
-      if (disposed) return;
+      if (!valid(token)) return;
       // a verb is learned through its own tense chapters, never by three quick drills: the drills still run as a check
-      if (passed) { if (entry.kind !== 'verb') { store.markLearned(entry.id, 'word'); toast(`${sayForm(entry)} · learned`, { kind: 'ok' }); } insertWord(i, info.display, { entryId: entry.id, it: info.it, en: info.en }); }
+      if (passed) { if (entry.kind !== 'verb') { store.markLearned(entry.id, 'word'); toast(`${sayForm(entry)} · learned`, { kind: 'ok' }); } insertWord(i, info.display, { entryId: entry.id, it: info.it, en: info.en },source); }
       else { const u = ui(); u.messages[i] = { text: `${sayForm(entry)} is not in your words yet. Pick an option, or try it again later.` }; draw(); }
-    });
+    },{blankIndex:i,info,source});
   }
   // The drill sheet: intro, three drills (a miss shows the answer and repeats once), then done or failed.
-  function runDrills(entry, done) {
-    const drills = buildDrills(entry);
+  function runDrills(entry, done,meta={}) {
+    const token=capture(),u=ui(),prior=u.activeDrill?.entryId===entry.id?u.activeDrill:null;
+    const drills = prior?.drills||buildDrills(entry);
     const word = { it: entry.kind === 'verb' ? entry.inf : headword(entry), en: shortEn(entry.en), say: sayForm(entry) };
-    const view = { phase: 'intro', index: 0, total: drills.length, repeat: false, picked: null, draft: '', ok: null, word };
-    const right = []; let settled = false;
-    const finish = result => { if (settled) return; settled = true; s.close({ silent: true }); done(result); };
-    const s = sheet('', { title: '', cls: 'lab-sheet lab-drill-sheet', onClose: () => finish({ passed: false, cancelled: true }) });
-    const paint = () => { s.body.innerHTML = labDrill(drills[view.index], view); if (view.phase === 'drill' && drills[view.index].type === 'type' && view.ok === null) setTimeout(() => s.body.querySelector('[data-drill-input]')?.focus({ preventScroll: true }), 60); };
-    const grade = ok => {
-      view.ok = ok;
-      recordDrill(entry, drills[view.index], ok, { repeat: view.repeat });
+    const view = prior?.view||{ phase: 'intro', index: 0, total: drills.length, repeat: false, picked: null, draft: '', ok: null, word };
+    const right = prior?.right||[]; let settled = false;
+    u.activeDrill={entryId:entry.id,drills,view,right,...meta};touch();
+    const finish = result => { if (settled||!valid(token)) return; settled = true; delete u.activeDrill;touch();s.close({ silent: true }); done(result); };
+    const s = sheet('', { title: '', cls: 'lab-sheet lab-drill-sheet', onClose: () => finish({ passed: false, cancelled: true }) });activeSheet=s;
+    const paint = () => { if(!valid(token))return;touch();s.body.innerHTML = labDrill(drills[view.index], view); if (view.phase === 'drill' && drills[view.index].type === 'type' && view.ok === null) setTimeout(() => {if(valid(token))s.body.querySelector('[data-drill-input]')?.focus({ preventScroll: true });}, 60); };
+    const grade = answer => {
+      if(!valid(token))return;
+      const submission=typeof answer==='object'?answer:null,ok=submission?submission.ok:answer===true;
+      view.ok = ok;view.submission=submission;
+      announceAnswer({ok,outcome:ok?'correct':'incorrect',submission});
+      if(submission?.ok)view.draft=submission.displayText;
+      recordDrill(entry, drills[view.index], ok, { repeat: view.repeat,submission });
       if (ok) right[view.index] = true;
       if (ok || view.repeat) speak(drills[view.index].say);
       paint();
     };
     const advance = () => {
       const drill = drills[view.index];
-      if (!view.ok && !view.repeat) { view.repeat = true; view.ok = null; view.picked = null; view.draft = ''; if (drill.type === 'mc') drill.choices = shuffle(drill.choices); paint(); return; }
-      view.index += 1; view.repeat = false; view.ok = null; view.picked = null; view.draft = '';
+      if (!view.ok && !view.repeat) { view.repeat = true; view.ok = null; view.picked = null; view.draft = '';view.submission=null; if (drill.type === 'mc') drill.choices = shuffle(drill.choices); paint(); return; }
+      view.index += 1; view.repeat = false; view.ok = null; view.picked = null; view.draft = '';view.submission=null;
       if (view.index >= drills.length) { view.phase = right.filter(Boolean).length === drills.length ? 'done' : 'failed'; paint(); return; }
       paint();
     };
     s.body.addEventListener('click', event => {
-      const b = event.target.closest('button'); if (!b) return;
+      const b = event.target.closest('button'); if (!b||!valid(token)) return;
       if (b.hasAttribute('data-drill-start')) { view.phase = 'drill'; paint(); return; }
       if (b.hasAttribute('data-drill-skip') || b.hasAttribute('data-drill-close')) { finish({ passed: false, cancelled: b.hasAttribute('data-drill-skip') }); return; }
       if (b.hasAttribute('data-drill-done')) { finish({ passed: true }); return; }
       if (b.hasAttribute('data-drill-next')) { advance(); return; }
       if (b.hasAttribute('data-drill-choice') && view.ok === null) { const i = Number(b.dataset.drillChoice); view.picked = i; grade(!!drills[view.index].choices[i]?.correct); return; }
-      if (b.hasAttribute('data-drill-accent')) { const field = s.body.querySelector('[data-drill-input]'); if (field && !field.readOnly) { field.setRangeText(b.dataset.drillAccent, field.selectionStart, field.selectionEnd, 'end'); view.draft = field.value; s.body.querySelector('[data-drill-check]')?.toggleAttribute('disabled', !view.draft.trim()); field.focus({ preventScroll: true }); } return; }
-      if (b.hasAttribute('data-drill-check')) { event.preventDefault(); if (view.ok === null && view.draft.trim()) grade(typedMatches(view.draft, drills[view.index].answers)); }
+      if (b.hasAttribute('data-drill-accent')) { const field = s.body.querySelector('[data-drill-input]'); if (field && !field.readOnly) { field.setRangeText(b.dataset.drillAccent, field.selectionStart, field.selectionEnd, 'end'); view.draft = field.value;touch(); s.body.querySelector('[data-drill-check]')?.toggleAttribute('disabled', !view.draft.trim()); field.focus({ preventScroll: true }); } return; }
+      if (b.hasAttribute('data-drill-check')) { event.preventDefault(); if (view.ok === null && view.draft.trim()) grade(typedSubmission(view.draft, drills[view.index].answers)); }
     });
-    s.body.addEventListener('input', event => { if (event.target.matches('[data-drill-input]')) { view.draft = event.target.value.slice(0, 80); s.body.querySelector('[data-drill-check]')?.toggleAttribute('disabled', !view.draft.trim()); } });
-    s.body.addEventListener('submit', event => { if (event.target.matches('[data-drill-form]')) { event.preventDefault(); if (view.ok === null && view.draft.trim()) grade(typedMatches(view.draft, drills[view.index].answers)); } });
+    s.body.addEventListener('input', event => { if (valid(token)&&event.target.matches('[data-drill-input]')) { view.draft = event.target.value;touch(); s.body.querySelector('[data-drill-check]')?.toggleAttribute('disabled', !view.draft.trim()); } });
+    s.body.addEventListener('submit', event => { if (valid(token)&&event.target.matches('[data-drill-form]')) { event.preventDefault(); if (view.ok === null && view.draft.trim()) grade(typedSubmission(view.draft, drills[view.index].answers)); } });
     paint();
   }
   // One journey-v1 event per drill answer, on the word's own lesson objective when it has one, so Review sees the word.
-  function recordDrill(entry, drill, ok, { repeat = false } = {}) {
+  function recordDrill(entry, drill, ok, { repeat = false,submission=null } = {}) {
+    if(!alive())return;
     session.drillSeq = (session.drillSeq || 0) + 1;
     let objective = null, version = 1;
     try { version = lessonPlan(entry)?.version || 1; objective = lessonObjectives(entry).find(o => o.skill === drill.skill && o.available !== false) || null; } catch { objective = null; }
@@ -409,7 +423,7 @@ export async function render(root, params, query = {}) {
         policy: 'journey-v1', wordPolicy: 'word-lab-drill-v1', targetId: objectiveId, objectiveId, entryId: entry.id, kind: entry.kind === 'verb' ? 'verb' : 'word',
         chapterId: objective?.chapterId || 'lab', contentVersion: version, role: null, skill: drill.skill, tense: null, person: null,
         activityKind: 'guided', mode: drill.type === 'type' ? 'production' : 'recognition', variantId: `lab:${drill.skill}:${drill.type}`, contextId: `lab:${lesson.id}`,
-        ok, outcome: ok ? 'correct' : 'incorrect', assistance: [], firstAttempt: !repeat, errorTags: ok ? [] : [drill.skill], components: [],
+        ok, submission,outcome: ok ? 'correct' : 'incorrect', assistance: [], firstAttempt: !repeat, errorTags: ok ? [] : [drill.skill], components: [],
       });
     } catch (err) { console.warn(err); }
   }
@@ -421,7 +435,7 @@ export async function render(root, params, query = {}) {
     const u = blankUi(ui());
     if (b.hasAttribute('data-lab-back')) { save(); location.hash = '#/lab/frasi'; return; }
     if (b.hasAttribute('data-lab-pause')) { session.paused = true; save(); draw({ focus: true }); return; }
-    if (b.hasAttribute('data-lab-resume')) { session.paused = false; save(); draw({ focus: true }); return; }
+    if (b.hasAttribute('data-lab-resume')) { session.paused = false; save(); draw({ focus: true });const draft=ui().activeDrill;if(draft)learnThenInsert(draft.blankIndex,draft.info,draft.source); return; }
     if (session.paused) return;
     if (b.hasAttribute('data-lab-next')) { next(); return; }
     if (b.hasAttribute('data-lab-retry')) { u.seenMiss = step().state?.misses || 0; draw({ focus: true }); return; }
@@ -432,24 +446,27 @@ export async function render(root, params, query = {}) {
     if (b.hasAttribute('data-lab-token')) { (u.picked ||= []).push(Number(b.dataset.labToken)); save(); draw(); return; }
     if (b.hasAttribute('data-lab-remove')) { (u.picked ||= []).splice(Number(b.dataset.labRemove), 1); save(); draw(); return; }
     if (b.hasAttribute('data-lab-blank')) { u.active = Number(b.dataset.labBlank); draw(); return; }
-    if (b.hasAttribute('data-lab-option')) { const i = Number(b.dataset.blank); u.values[i] = b.dataset.labOption; u.notes[i] = null; u.messages[i] = null; const empty = u.values.findIndex((v, k) => !v && k !== i); if (empty >= 0) u.active = empty; save(); draw(); return; }
+    if (b.hasAttribute('data-lab-option')) { const i = Number(b.dataset.blank); u.values[i] = b.dataset.labOption; u.inputSources[i]={inputMode:'choice',assistance:[]}; u.messages[i] = null; const empty = u.values.findIndex((v, k) => !v && k !== i); if (empty >= 0) u.active = empty; save(); draw(); return; }
     if (b.hasAttribute('data-lab-bank')) { const i = Number(b.dataset.labBank); u.bankOpen[i] = !u.bankOpen[i]; draw(); return; }
     if (b.hasAttribute('data-lab-free')) { const i = Number(b.dataset.labFree); u.freeOpen[i] = !u.freeOpen[i]; draw(); if (u.freeOpen[i]) focusFree(i); return; }
     if (b.hasAttribute('data-lab-free-submit')) { event.preventDefault(); const i = Number(b.dataset.labFreeSubmit); useFreeWord(i, root.querySelector(`[data-lab-free-input="${i}"]`)?.value || u.drafts[i]); return; }
     if (b.hasAttribute('data-lab-suggest')) { const i = Number(b.dataset.blank); u.drafts[i] = b.dataset.labSuggest; u.messages[i] = null; draw(); focusFree(i); return; }
-    if (b.hasAttribute('data-lab-accent')) { const i = Number(b.dataset.blank); const field = root.querySelector(`[data-lab-free-input="${i}"]`); if (field) { field.setRangeText(b.dataset.labAccent, field.selectionStart, field.selectionEnd, 'end'); u.drafts[i] = field.value; field.focus({ preventScroll: true }); } return; }
+    if (b.hasAttribute('data-lab-accent')) { const i = Number(b.dataset.blank); const field = root.querySelector(`[data-lab-free-input="${i}"]`); if (field) { field.setRangeText(b.dataset.labAccent, field.selectionStart, field.selectionEnd, 'end'); u.drafts[i] = field.value;touch(); field.focus({ preventScroll: true }); } return; }
     if (b.hasAttribute('data-lab-pick')) { const role = b.dataset.labPick, item = b.dataset.item; u.choice ||= {}; if (String(u.choice[role]) === item) delete u.choice[role]; else u.choice[role] = item.startsWith('yours:') ? item : Number(item); save(); draw(); return; }
     if (b.hasAttribute('data-lab-another')) { u.choice = {}; save(); draw(); return; }
     if (b.hasAttribute('data-lab-keep')) { check(); return; }
   };
-  const input = event => { if (event.target.matches('[data-lab-free-input]')) blankUi(ui()).drafts[Number(event.target.dataset.labFreeInput)] = event.target.value.slice(0, 80); };
-  const form = event => { if (event.target.matches('[data-lab-free-form]')) { event.preventDefault(); const i = Number(event.target.dataset.labFreeForm); useFreeWord(i, event.target.querySelector('[data-lab-free-input]')?.value); } };
+  const input = event => { if(alive()&&event.target.matches('[data-lab-free-input]')){blankUi(ui()).drafts[Number(event.target.dataset.labFreeInput)]=event.target.value;touch();} };
+  const form = event => { if (alive()&&event.target.matches('[data-lab-free-form]')) { event.preventDefault(); const i = Number(event.target.dataset.labFreeForm); useFreeWord(i, event.target.querySelector('[data-lab-free-input]')?.value); } };
   root.addEventListener('click', click); root.addEventListener('input', input); root.addEventListener('submit', form);
   ui(); // the first activity's ui slot exists before the first draw
   save(); draw({ focus: true });
+  const draft=ui().activeDrill;
+  if(draft&&!session.paused)setTimeout(()=>{if(alive())learnThenInsert(draft.blankIndex,draft.info,draft.source);},0);
 
   return () => {
-    disposed = true; save();
+    save();disposed=true;activeSheet?.close({silent:true});offProfile();release();
+    store.saveNow().catch(err=>console.warn('Workshop draft could not be saved.',err));
     root.removeEventListener('click', click); root.removeEventListener('input', input); root.removeEventListener('submit', form);
     root.removeEventListener('focusin', fit); root.removeEventListener('focusout', fit);
     for (const name of ['resize', 'scroll']) window.visualViewport?.removeEventListener(name, fit);

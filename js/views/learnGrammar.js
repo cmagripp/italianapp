@@ -1,5 +1,5 @@
 import { render as renderCourse } from './learnCourse.js';
-import { html, raw, icon, speak, speakBtn, keyboardViewportHeight } from '../ui.js';
+import { announceAnswer, html, raw, icon, speak, speakBtn, keyboardViewportHeight } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { LEARNING_VERSION } from '../learning/model.js';
@@ -7,7 +7,7 @@ import { shuffle, getEntry } from '../data.js';
 import { dropdown, setScene } from '../fx.js';
 import { feedbackHTML } from '../games/engine.js';
 import { createSentencePanel } from '../learning/sentence-panel.js';
-import { loadGrammarCourse, grammarCourse, grammarLesson, grammarHref, grammarProgress, relatedVocabulary } from '../learning/grammar-course.js';
+import { loadGrammarCourse, loadGrammarLesson, grammarCourse, grammarLesson, grammarHref, grammarProgress, relatedVocabulary } from '../learning/grammar-course.js';
 import { createGrammarSession, compatibleGrammarSession, grammarObjective, currentGrammarQuestion, advanceGrammar, grammarAttempt, checkGrammarAnswer } from '../learning/grammar-journey.js';
 
 const button=(label,attr,cls='secondary')=>html`<button type="button" class="btn ${cls} block" ${raw(attr)}>${label}</button>`;
@@ -15,8 +15,8 @@ const exercisePrompt=prompt=>({'Choose the form that completes the sentence.':'C
 const vocabHref=(x,lesson,courseSession)=>`#/learn/${x.entry.kind==='verb'?'verb':'word'}/${encodeURIComponent(x.entry.id)}?${new URLSearchParams({fromGrammar:lesson.id,...x.caseId?{chapter:x.caseId}:{},...courseSession?{courseSession:'1'}:{}})}`;
 export async function render(root,params,query={}) {
   if(store.learning.version>LEARNING_VERSION){root.innerHTML=html`<div class="empty"><h1>Update Parola to continue</h1><p>Your saved progress is safe. Reopen the app online to get the latest version.</p><a href="#/learn">Back to Learn</a></div>`;return;}
-  await loadGrammarCourse();
-  const lesson=grammarLesson(params.id);
+  let lesson;
+  try{lesson=await loadGrammarLesson(params.id);}catch(error){root.innerHTML=html`<div class="empty"><p>${error.message}</p><button class="btn primary" data-course-retry>Retry this lesson</button><a class="btn ghost" href="#/course">Your course</a></div>`;root.querySelector('[data-course-retry]').addEventListener('click',()=>render(root,params,query));return;}
   if(!lesson){root.innerHTML=html`<div class="empty"><p>This lesson is unavailable.</p><a class="btn primary" href="#/course">Your course</a></div>`;return;}
   if(lesson.contentVersion===2)return renderCourse(root,lesson,query);
   const owner=store.current.id, mode=query.mode==='review'?'review':'lesson';
@@ -77,7 +77,7 @@ export async function render(root,params,query={}) {
       footer=button('Try another example','data-grammar-next');
     } else if(q) {
       content=questionHTML(q,state,past);
-      if(state.result)footer=feedbackHTML({ok:state.result.ok,title:state.result.ok?'That’s right.':'Let’s work through it.',detail:html`<p lang="it" data-italian-sentence data-english="${q.translation || ''}">${q.speak || q.answer || ''}</p><p>${q.explanation}</p>`,nextAttribute:'data-grammar-next'});
+      if(state.result)footer=feedbackHTML({ok:state.result.ok,title:state.result.ok?'That’s right.':'Let’s work through it.',detail:html`<p lang="it" data-italian-sentence data-english="${q.translation || ''}">${q.speak || q.answer || ''}</p><p>${q.explanation}</p>`,submission:state.result.submission,nextAttribute:'data-grammar-next'});
       else if(['type','order'].includes(q.format))footer=button('Check answer','data-check-grammar'+((q.format==='type'?!state.draft.trim():state.tokens.length!==q.tokens.length)?' disabled':''),'primary');
     }
     if(past){content=html`<div class="grammar-history-note">Earlier in this lesson · answers are not recorded here</div>${raw(content)}`;footer=button('Return to your place','data-return-live','primary');}
@@ -88,9 +88,10 @@ export async function render(root,params,query={}) {
   }
   function submit(value,{reveal=false}={}) {
     if(g().result||g().historyCursor!==null||g().paused||g().phase!=='question')return;
-    const q=currentGrammarQuestion(lesson,session),attempt=grammarAttempt(lesson,session,q,value,{reveal});
-    store.recordLearningAttempt(attempt);
-    g().result={ok:attempt.ok,assisted:!!attempt.assistance.length,given:typeof value==='string'?value:'',questionId:q.id};
+    const q=currentGrammarQuestion(lesson,session),attempt=grammarAttempt(lesson,session,q,value,{reveal,accentStrict:store.settings.accentStrict});
+    store.recordLearningAttempt(attempt);announceAnswer(attempt);
+    g().result={ok:attempt.ok,assisted:!!attempt.assistance.length,given:attempt.submission?.displayText || (typeof value==='string'?value:''),submission:attempt.submission,questionId:q.id};
+    if(attempt.submission?.ok && q.format==='type')g().draft=attempt.submission.displayText;
     if(attempt.ok && (q.speak || q.answer))speak(q.speak || q.answer);
     save();draw();
   }

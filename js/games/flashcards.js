@@ -122,7 +122,7 @@ export function startFlashcards(root, ctx) {
       const button=ev.currentTarget;
       button.classList.toggle('is-starred',!starred);button.setAttribute('aria-pressed',String(!starred));
       button.setAttribute('aria-label',`${starred?'Add to':'Remove from'} Starred`);button.querySelector('span').textContent=starred?'Star':'Starred';
-      void store.saveNow();
+      void store.saveNow().catch(()=>{}); // The persistent save warning owns retry/export.
     });
     flipLabel();
 

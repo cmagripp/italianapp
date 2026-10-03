@@ -1,0 +1,46 @@
+{
+  "package": "@mlc-ai/web-llm",
+  "version": "0.2.85",
+  "buildTool": "esbuild 0.25.11",
+  "loglevel": "1.9.2",
+  "license": "Apache-2.0; embedded loglevel MIT and tslib ISC; separate notices retained",
+  "file": "webllm-0.2.85.7e7917ff4d322fe7.mjs",
+  "sha256": "7e7917ff4d322fe727bcdb11325690e59051d68f0d364b071eba5e76c275df99",
+  "bytes": 6049939,
+  "legalCommentsEmbeddedInMinifiedBundle": false,
+  "upstreamSourceMapSha256": "c89bff671ba4af6fa29ce6d289ad9ac3688c30e32a838282afb8724d527c893e",
+  "embeddedSourceAttribution": [
+    {
+      "source": "../node_modules/loglevel/lib/loglevel.js",
+      "sha256": "a8d7245f41954420c44bdb559f0c66b289c0ac0ffd4c374e9fa8c51a995c1401",
+      "exactNestedVersion": "not recorded by upstream source map"
+    },
+    {
+      "source": "../node_modules/tslib/tslib.es6.js",
+      "sha256": "480042d65f5abdacdcf9d9ade38f9d484455be82aa34bd472bf6ab87ea0e3620",
+      "exactNestedVersion": "not recorded by upstream source map"
+    },
+    {
+      "source": "../node_modules/@mlc-ai/web-runtime/lib/index.js",
+      "sha256": "2e5529f1c53cd7f7e4817413f2e6c0e0b8b17acebfe8ce35bef4b3e4501e3770",
+      "exactNestedVersion": "not recorded by upstream source map"
+    },
+    {
+      "source": "../node_modules/@mlc-ai/web-xgrammar/lib/index.js",
+      "sha256": "26afdf9634cadf6f2ab23130265365e374bc45f706ebae37db6d36d5ed6fdd70",
+      "exactNestedVersion": "not recorded by upstream source map"
+    },
+    {
+      "source": "../node_modules/@mlc-ai/web-tokenizers/lib/index.js",
+      "sha256": "4ecf9c98e0cfbd95499b2a02fbd4258794ea086eea31bf4d7270652481362ad7",
+      "exactNestedVersion": "not recorded by upstream source map"
+    }
+  ],
+  "noticeFiles": [
+    "WebLLM-APACHE-2.0.txt",
+    "loglevel-MIT.txt",
+    "tslib-ISC.txt",
+    "Apache-TVM-NOTICE.txt",
+    "ATTRIBUTIONS.txt"
+  ]
+}

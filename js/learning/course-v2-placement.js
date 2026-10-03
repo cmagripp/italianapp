@@ -29,6 +29,7 @@ export function placementRecommendation(level,answers,{stopped=false}={}) {
   if(!stopped&&sufficient&&level!=='C2')return {continueAt:PLACEMENT_LEVELS[PLACEMENT_LEVELS.indexOf(level)+1]};
   return {level:level==='A1'&&correct<2?'Foundations':level,uncertain:answers.length<6,correct,total:answers.length};
 }
-export function assessPlacement(question,value,assisted=false) {
-  return {correct:assessCourseAnswer(question,value).outcome==='correct',assisted};
+export function assessPlacement(question,value,assisted=false,policy={}) {
+  const assessment=assessCourseAnswer(question,value,policy);
+  return {correct:assessment.outcome==='correct',assisted,submission:assessment.submission};
 }

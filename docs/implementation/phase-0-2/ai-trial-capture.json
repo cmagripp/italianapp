@@ -1,0 +1,951 @@
+{
+  "testedAt": "2026-10-03T12:50:29.101Z",
+  "context": "Mac Chrome real capture API, synthetic fixture supplied by Chromium; not live learner/device microphone",
+  "environment": {
+    "measuredAt": "2026-10-03T12:50:29.089Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+    "platform": "MacIntel",
+    "secureContext": true,
+    "standalone": false,
+    "crossOriginIsolated": false,
+    "webgpu": true,
+    "adapter": true,
+    "shaderF16": true,
+    "adapterInfo": {
+      "vendor": "apple",
+      "architecture": "metal-3",
+      "device": "",
+      "description": ""
+    },
+    "adapterLimits": {
+      "maxBufferSize": 4294967292,
+      "maxStorageBufferBindingSize": 4294967292
+    },
+    "localItalianVoices": [
+      {
+        "name": "Alice",
+        "lang": "it-IT",
+        "localService": true
+      }
+    ],
+    "storage": {
+      "quota": 15943259467,
+      "usage": 5205841227,
+      "usageDetails": {
+        "caches": 5205838848,
+        "serviceWorkerRegistrations": 2379
+      }
+    },
+    "versions": {
+      "webllm": "0.2.85",
+      "transformers": "4.3.0",
+      "vad": "0.0.31",
+      "piperWeb": "1.0.5",
+      "piperPhonemize": "1.0.0",
+      "ortASR": "1.31.0-dev.20260914-8d85527a0",
+      "ortVAD": "1.30.0",
+      "ortTTS": "1.30.0"
+    },
+    "microphone": true,
+    "speechRecognitionBuiltInUsed": false
+  },
+  "settings": {
+    "context_window_size": 1024,
+    "max_tokens": 96,
+    "temperature": 0.2,
+    "top_p": 0.9,
+    "seed": 42
+  },
+  "modelProvenance": {
+    "repository": "mlc-ai/Qwen3-1.7B-q4f16_1-MLC",
+    "revision": "80b3abcec6c3b3f5355dc0cc99cc4fb578f192bc",
+    "license": "review upstream terms",
+    "source": "https://huggingface.co/mlc-ai/Qwen3-1.7B-q4f16_1-MLC/tree/80b3abcec6c3b3f5355dc0cc99cc4fb578f192bc",
+    "binaryRevision": "025bcaf3780fa8254f5e5efd3bfea0a5397248f4"
+  },
+  "model": "Qwen3-1.7B-q4f16_1-MLC",
+  "rows": [
+    {
+      "mode": "manual",
+      "source": "simulated-microphone-replaying-synthetic-Alice-fixture",
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "level": "A1",
+      "at": "2026-10-03T12:49:51.845Z",
+      "text": "Ieri io andare al mercato, ma non comprare niente.",
+      "historyMessages": 0,
+      "recognizedText": "e a riunare al mercato, ma non comprare niente.",
+      "asrMs": 1630.7999992370605,
+      "audioSeconds": 4.2,
+      "transcriptEdited": true,
+      "reply": "Ieri sono andato al mercato, ma non ho comprato niente.",
+      "rawReply": "<think>\n\n</think>\n\nIeri sono andato al mercato, ma non ho comprato niente.",
+      "validation": {
+        "ok": true,
+        "text": "Ieri sono andato al mercato, ma non ho comprato niente.",
+        "scope": "structural only; Italian teaching quality requires review"
+      },
+      "llmMs": 804,
+      "firstTokenMs": 530.8000001907349,
+      "usage": {
+        "completion_tokens": 17,
+        "prompt_tokens": 156,
+        "total_tokens": 173,
+        "extra": {
+          "e2e_latency_s": 0.804,
+          "prefill_tokens_per_s": 295.1191830663423,
+          "decode_tokens_per_s": 63.26758516092548,
+          "time_to_first_token_s": 0.5285999994277955,
+          "time_per_output_token_s": 0.0158058822295245
+        }
+      },
+      "validatedReplyMs": 804.3000001907349,
+      "ttsStartMs": 21.899999618530273,
+      "ttsCompleteMs": 3833.0999994277954,
+      "voice": {
+        "name": "Alice",
+        "lang": "it-IT",
+        "localService": true
+      },
+      "audibleConfirmedByHuman": false,
+      "endToFirstAudioMs": null,
+      "sendToFirstAudioMs": 826.1999998092651,
+      "pipelineToFirstAudioMs": 2456.9999990463257,
+      "ok": true
+    },
+    {
+      "mode": "handsfree",
+      "source": "simulated-microphone-replaying-synthetic-Alice-fixture",
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "level": "A1",
+      "at": "2026-10-03T12:50:05.479Z",
+      "text": "e io andare al mercato, ma non comprare niente.",
+      "historyMessages": 2,
+      "recognizedText": "e io andare al mercato, ma non comprare niente.",
+      "endpointMs": 1190.1999998092651,
+      "asrMs": 1466.1999998092651,
+      "audioSeconds": 4.224,
+      "reply": "E io sono andato al mercato, ma non ho comprato niente.",
+      "rawReply": "<think>\n\n</think>\n\nE io sono andato al mercato, ma non ho comprato niente.",
+      "validation": {
+        "ok": true,
+        "text": "E io sono andato al mercato, ma non ho comprato niente.",
+        "scope": "structural only; Italian teaching quality requires review"
+      },
+      "llmMs": 1147.6999998092651,
+      "firstTokenMs": 878.5,
+      "usage": {
+        "completion_tokens": 17,
+        "prompt_tokens": 198,
+        "total_tokens": 215,
+        "extra": {
+          "e2e_latency_s": 1.147,
+          "prefill_tokens_per_s": 225.48684650265756,
+          "decode_tokens_per_s": 63.598952215550966,
+          "time_to_first_token_s": 0.8781000003814697,
+          "time_per_output_token_s": 0.015723529479082895
+        }
+      },
+      "validatedReplyMs": 1148,
+      "ttsStartMs": 2.5,
+      "ttsCompleteMs": 3345.300000190735,
+      "voice": {
+        "name": "Alice",
+        "lang": "it-IT",
+        "localService": true
+      },
+      "audibleConfirmedByHuman": false,
+      "endToFirstAudioMs": 3806.8999996185303,
+      "sendToFirstAudioMs": 1150.5,
+      "pipelineToFirstAudioMs": 2616.699999809265,
+      "ok": true
+    },
+    {
+      "mode": "handsfree",
+      "source": "simulated-microphone-replaying-synthetic-Alice-fixture",
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "level": "A1",
+      "at": "2026-10-03T12:50:15.762Z",
+      "text": "e a riunare al mercato, ma non comprare niente.",
+      "historyMessages": 4,
+      "recognizedText": "e a riunare al mercato, ma non comprare niente.",
+      "endpointMs": 1184.2000007629395,
+      "asrMs": 1511.3000001907349,
+      "audioSeconds": 4.224,
+      "reply": "E a riunirsi al mercato, ma non ho comprato niente.",
+      "rawReply": "<think>\n\n</think>\n\nE a riunirsi al mercato, ma non ho comprato niente.",
+      "validation": {
+        "ok": true,
+        "text": "E a riunirsi al mercato, ma non ho comprato niente.",
+        "scope": "structural only; Italian teaching quality requires review"
+      },
+      "llmMs": 644.5,
+      "firstTokenMs": 359,
+      "usage": {
+        "completion_tokens": 18,
+        "prompt_tokens": 241,
+        "total_tokens": 259,
+        "extra": {
+          "e2e_latency_s": 0.644,
+          "prefill_tokens_per_s": 671.870644349454,
+          "decode_tokens_per_s": 63.9658847313377,
+          "time_to_first_token_s": 0.35869999980926515,
+          "time_per_output_token_s": 0.015633333365122473
+        }
+      },
+      "validatedReplyMs": 644.7999992370605,
+      "ttsStartMs": 2.200000762939453,
+      "ttsCompleteMs": 3065.300000190735,
+      "voice": {
+        "name": "Alice",
+        "lang": "it-IT",
+        "localService": true
+      },
+      "audibleConfirmedByHuman": false,
+      "endToFirstAudioMs": 3342.5000009536743,
+      "sendToFirstAudioMs": 647,
+      "pipelineToFirstAudioMs": 2158.300000190735,
+      "ok": true
+    },
+    {
+      "mode": "handsfree",
+      "source": "simulated-microphone-replaying-synthetic-Alice-fixture",
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "level": "A1",
+      "at": "2026-10-03T12:50:25.277Z",
+      "text": "e a riunare al mercato, ma non comprare niente.",
+      "historyMessages": 6,
+      "recognizedText": "e a riunare al mercato, ma non comprare niente.",
+      "endpointMs": 1190.3999996185303,
+      "asrMs": 1517.5,
+      "audioSeconds": 4.224,
+      "reply": "E a riunirsi al mercato, ma non ho comprato niente.",
+      "rawReply": "<think>\n\n</think>\n\nE a riunirsi al mercato, ma non ho comprato niente.",
+      "validation": {
+        "ok": true,
+        "text": "E a riunirsi al mercato, ma non ho comprato niente.",
+        "scope": "structural only; Italian teaching quality requires review"
+      },
+      "llmMs": 718.0999994277954,
+      "firstTokenMs": 419.19999980926514,
+      "usage": {
+        "completion_tokens": 18,
+        "prompt_tokens": 285,
+        "total_tokens": 303,
+        "extra": {
+          "e2e_latency_s": 0.718,
+          "prefill_tokens_per_s": 680.5157590023923,
+          "decode_tokens_per_s": 60.79027386949882,
+          "time_to_first_token_s": 0.4188000001907349,
+          "time_per_output_token_s": 0.016449999915228948
+        }
+      },
+      "validatedReplyMs": 718.6000003814697,
+      "ttsStartMs": 6.5,
+      "ttsCompleteMs": 3071,
+      "voice": {
+        "name": "Alice",
+        "lang": "it-IT",
+        "localService": true
+      },
+      "audibleConfirmedByHuman": false,
+      "endToFirstAudioMs": 3433,
+      "sendToFirstAudioMs": 725.1000003814697,
+      "pipelineToFirstAudioMs": 2242.6000003814697,
+      "ok": true
+    }
+  ],
+  "summaries": {
+    "written": {
+      "count": 0,
+      "failures": 0,
+      "llmP50Ms": null,
+      "llmP95Ms": null,
+      "endToFirstAudioP50Ms": null,
+      "endToFirstAudioP95Ms": null
+    },
+    "manual": {
+      "count": 1,
+      "failures": 0,
+      "llmP50Ms": 804,
+      "llmP95Ms": 804,
+      "endToFirstAudioP50Ms": null,
+      "endToFirstAudioP95Ms": null
+    },
+    "handsfree": {
+      "count": 3,
+      "failures": 0,
+      "llmP50Ms": 718.0999994277954,
+      "llmP95Ms": 1147.6999998092651,
+      "endToFirstAudioP50Ms": 3433,
+      "endToFirstAudioP95Ms": 3806.8999996185303
+    }
+  },
+  "events": [
+    {
+      "at": "2026-10-03T12:49:40.411Z",
+      "status": "Local trial artifacts are provisioned. Choose a candidate and install its cache."
+    },
+    {
+      "at": "2026-10-03T12:49:40.445Z",
+      "status": "Verified and cached 1/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/merges.txt"
+    },
+    {
+      "at": "2026-10-03T12:49:40.446Z",
+      "status": "Verified and cached 2/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/mlc-chat-config.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.446Z",
+      "status": "Verified and cached 3/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/ndarray-cache.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.447Z",
+      "status": "Verified and cached 4/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_0.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.448Z",
+      "status": "Verified and cached 5/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_1.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.448Z",
+      "status": "Verified and cached 6/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_10.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.449Z",
+      "status": "Verified and cached 7/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_11.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.449Z",
+      "status": "Verified and cached 8/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_12.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.449Z",
+      "status": "Verified and cached 9/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_13.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.450Z",
+      "status": "Verified and cached 10/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_14.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.450Z",
+      "status": "Verified and cached 11/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_15.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.451Z",
+      "status": "Verified and cached 12/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_16.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.451Z",
+      "status": "Verified and cached 13/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_17.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.452Z",
+      "status": "Verified and cached 14/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_18.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.452Z",
+      "status": "Verified and cached 15/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_19.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.453Z",
+      "status": "Verified and cached 16/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_2.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.453Z",
+      "status": "Verified and cached 17/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_20.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.453Z",
+      "status": "Verified and cached 18/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_21.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.454Z",
+      "status": "Verified and cached 19/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_22.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.455Z",
+      "status": "Verified and cached 20/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_23.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.456Z",
+      "status": "Verified and cached 21/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_24.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.457Z",
+      "status": "Verified and cached 22/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_25.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.457Z",
+      "status": "Verified and cached 23/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_26.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.458Z",
+      "status": "Verified and cached 24/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_27.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.458Z",
+      "status": "Verified and cached 25/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_28.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.459Z",
+      "status": "Verified and cached 26/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_29.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.459Z",
+      "status": "Verified and cached 27/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_3.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.459Z",
+      "status": "Verified and cached 28/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_4.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.460Z",
+      "status": "Verified and cached 29/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_5.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.460Z",
+      "status": "Verified and cached 30/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_6.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.461Z",
+      "status": "Verified and cached 31/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_7.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.461Z",
+      "status": "Verified and cached 32/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_8.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.462Z",
+      "status": "Verified and cached 33/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/params_shard_9.bin"
+    },
+    {
+      "at": "2026-10-03T12:49:40.462Z",
+      "status": "Verified and cached 34/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/tensor-cache.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.463Z",
+      "status": "Verified and cached 35/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/tokenizer.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.463Z",
+      "status": "Verified and cached 36/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/tokenizer_config.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.464Z",
+      "status": "Verified and cached 37/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/resolve/main/vocab.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.464Z",
+      "status": "Verified and cached 38/98: assets/models/llm/Qwen3-1.7B-q4f16_1-MLC/Qwen3-1.7B-q4f16_1_cs1k-webgpu.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.465Z",
+      "status": "Verified and cached 39/98: assets/models/asr/whisper-tiny/added_tokens.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.465Z",
+      "status": "Verified and cached 40/98: assets/models/asr/whisper-tiny/config.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.466Z",
+      "status": "Verified and cached 41/98: assets/models/asr/whisper-tiny/generation_config.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.466Z",
+      "status": "Verified and cached 42/98: assets/models/asr/whisper-tiny/merges.txt"
+    },
+    {
+      "at": "2026-10-03T12:49:40.466Z",
+      "status": "Verified and cached 43/98: assets/models/asr/whisper-tiny/normalizer.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.467Z",
+      "status": "Verified and cached 44/98: assets/models/asr/whisper-tiny/onnx/decoder_model_merged_quantized.onnx"
+    },
+    {
+      "at": "2026-10-03T12:49:40.467Z",
+      "status": "Verified and cached 45/98: assets/models/asr/whisper-tiny/onnx/encoder_model_quantized.onnx"
+    },
+    {
+      "at": "2026-10-03T12:49:40.467Z",
+      "status": "Verified and cached 46/98: assets/models/asr/whisper-tiny/preprocessor_config.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.468Z",
+      "status": "Verified and cached 47/98: assets/models/asr/whisper-tiny/quantize_config.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.468Z",
+      "status": "Verified and cached 48/98: assets/models/asr/whisper-tiny/special_tokens_map.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.469Z",
+      "status": "Verified and cached 49/98: assets/models/asr/whisper-tiny/tokenizer.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.469Z",
+      "status": "Verified and cached 50/98: assets/models/asr/whisper-tiny/tokenizer_config.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.469Z",
+      "status": "Verified and cached 51/98: assets/models/asr/whisper-tiny/vocab.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.469Z",
+      "status": "Verified and cached 52/98: assets/models/tts/it/it_IT/paola/medium/MODEL_CARD"
+    },
+    {
+      "at": "2026-10-03T12:49:40.469Z",
+      "status": "Verified and cached 53/98: assets/models/tts/it/it_IT/paola/medium/it_IT-paola-medium.onnx"
+    },
+    {
+      "at": "2026-10-03T12:49:40.470Z",
+      "status": "Verified and cached 54/98: assets/models/tts/it/it_IT/paola/medium/it_IT-paola-medium.onnx.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.470Z",
+      "status": "Verified and cached 55/98: assets/piper/piper_phonemize.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.470Z",
+      "status": "Verified and cached 56/98: assets/piper/piper_phonemize.data"
+    },
+    {
+      "at": "2026-10-03T12:49:40.471Z",
+      "status": "Verified and cached 57/98: assets/asr-worker.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.472Z",
+      "status": "Verified and cached 58/98: assets/fixtures/learner-error-padded.wav"
+    },
+    {
+      "at": "2026-10-03T12:49:40.472Z",
+      "status": "Verified and cached 59/98: assets/fixtures/learner-error.aiff"
+    },
+    {
+      "at": "2026-10-03T12:49:40.473Z",
+      "status": "Verified and cached 60/98: assets/fixtures/learner-error.wav"
+    },
+    {
+      "at": "2026-10-03T12:49:40.473Z",
+      "status": "Verified and cached 61/98: assets/fixtures/provenance.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.474Z",
+      "status": "Verified and cached 62/98: assets/llm-worker.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.474Z",
+      "status": "Verified and cached 63/98: assets/ort-asr/ort-wasm-simd-threaded.asyncify.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.474Z",
+      "status": "Verified and cached 64/98: assets/ort-asr/ort-wasm-simd-threaded.asyncify.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.475Z",
+      "status": "Verified and cached 65/98: assets/ort-asr/ort-wasm-simd-threaded.jsep.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.475Z",
+      "status": "Verified and cached 66/98: assets/ort-asr/ort-wasm-simd-threaded.jsep.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.476Z",
+      "status": "Verified and cached 67/98: assets/ort-asr/ort-wasm-simd-threaded.jspi.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.476Z",
+      "status": "Verified and cached 68/98: assets/ort-asr/ort-wasm-simd-threaded.jspi.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.476Z",
+      "status": "Verified and cached 69/98: assets/ort-asr/ort-wasm-simd-threaded.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.477Z",
+      "status": "Verified and cached 70/98: assets/ort-asr/ort-wasm-simd-threaded.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.477Z",
+      "status": "Verified and cached 71/98: assets/ort-tts/ort-wasm-simd-threaded.asyncify.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.477Z",
+      "status": "Verified and cached 72/98: assets/ort-tts/ort-wasm-simd-threaded.asyncify.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.478Z",
+      "status": "Verified and cached 73/98: assets/ort-tts/ort-wasm-simd-threaded.jsep.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.478Z",
+      "status": "Verified and cached 74/98: assets/ort-tts/ort-wasm-simd-threaded.jsep.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.478Z",
+      "status": "Verified and cached 75/98: assets/ort-tts/ort-wasm-simd-threaded.jspi.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.479Z",
+      "status": "Verified and cached 76/98: assets/ort-tts/ort-wasm-simd-threaded.jspi.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.479Z",
+      "status": "Verified and cached 77/98: assets/ort-tts/ort-wasm-simd-threaded.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.479Z",
+      "status": "Verified and cached 78/98: assets/ort-tts/ort-wasm-simd-threaded.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.479Z",
+      "status": "Verified and cached 79/98: assets/ort-vad/ort-wasm-simd-threaded.asyncify.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.480Z",
+      "status": "Verified and cached 80/98: assets/ort-vad/ort-wasm-simd-threaded.asyncify.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.481Z",
+      "status": "Verified and cached 81/98: assets/ort-vad/ort-wasm-simd-threaded.jsep.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.481Z",
+      "status": "Verified and cached 82/98: assets/ort-vad/ort-wasm-simd-threaded.jsep.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.481Z",
+      "status": "Verified and cached 83/98: assets/ort-vad/ort-wasm-simd-threaded.jspi.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.482Z",
+      "status": "Verified and cached 84/98: assets/ort-vad/ort-wasm-simd-threaded.jspi.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.482Z",
+      "status": "Verified and cached 85/98: assets/ort-vad/ort-wasm-simd-threaded.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.482Z",
+      "status": "Verified and cached 86/98: assets/ort-vad/ort-wasm-simd-threaded.wasm"
+    },
+    {
+      "at": "2026-10-03T12:49:40.482Z",
+      "status": "Verified and cached 87/98: assets/tts-worker.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.483Z",
+      "status": "Verified and cached 88/98: assets/vad/silero_vad_legacy.onnx"
+    },
+    {
+      "at": "2026-10-03T12:49:40.483Z",
+      "status": "Verified and cached 89/98: assets/vad/silero_vad_v5.onnx"
+    },
+    {
+      "at": "2026-10-03T12:49:40.483Z",
+      "status": "Verified and cached 90/98: assets/vad/vad.worklet.bundle.min.js"
+    },
+    {
+      "at": "2026-10-03T12:49:40.484Z",
+      "status": "Verified and cached 91/98: assets/vad-entry.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.484Z",
+      "status": "Verified and cached 92/98: assets/webllm-entry.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.487Z",
+      "status": "Verified and cached 93/98: index.html"
+    },
+    {
+      "at": "2026-10-03T12:49:40.491Z",
+      "status": "Verified and cached 94/98: app.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.494Z",
+      "status": "Verified and cached 95/98: core.mjs"
+    },
+    {
+      "at": "2026-10-03T12:49:40.497Z",
+      "status": "Verified and cached 96/98: cases.json"
+    },
+    {
+      "at": "2026-10-03T12:49:40.500Z",
+      "status": "Verified and cached 97/98: manifest.webmanifest"
+    },
+    {
+      "at": "2026-10-03T12:49:40.502Z",
+      "status": "Verified and cached 98/98: assets/manifest.json"
+    },
+    {
+      "provisioning": {
+        "model": "Qwen3-1.7B-q4f16_1-MLC",
+        "installMs": 58.80000019073486,
+        "verifiedBytes": 1394083850,
+        "artifacts": 98
+      }
+    },
+    {
+      "at": "2026-10-03T12:49:40.502Z",
+      "status": "Selected pack cached. Cold offline operation still needs a generation/playback test."
+    },
+    {
+      "at": "2026-10-03T12:49:40.504Z",
+      "status": "Stopped."
+    },
+    {
+      "at": "2026-10-03T12:49:42.198Z",
+      "status": "Start to fetch params"
+    },
+    {
+      "at": "2026-10-03T12:49:42.388Z",
+      "status": "Loading model from cache[1/30]: 149MB loaded. 16% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.419Z",
+      "status": "Loading model from cache[2/30]: 174MB loaded. 18% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.452Z",
+      "status": "Loading model from cache[3/30]: 201MB loaded. 21% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.493Z",
+      "status": "Loading model from cache[4/30]: 228MB loaded. 24% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.526Z",
+      "status": "Loading model from cache[5/30]: 255MB loaded. 27% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.559Z",
+      "status": "Loading model from cache[6/30]: 282MB loaded. 30% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.593Z",
+      "status": "Loading model from cache[7/30]: 309MB loaded. 33% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.628Z",
+      "status": "Loading model from cache[8/30]: 336MB loaded. 36% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.662Z",
+      "status": "Loading model from cache[9/30]: 363MB loaded. 39% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.697Z",
+      "status": "Loading model from cache[10/30]: 390MB loaded. 42% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.731Z",
+      "status": "Loading model from cache[11/30]: 417MB loaded. 45% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.764Z",
+      "status": "Loading model from cache[12/30]: 444MB loaded. 48% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.800Z",
+      "status": "Loading model from cache[13/30]: 471MB loaded. 50% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.835Z",
+      "status": "Loading model from cache[14/30]: 498MB loaded. 53% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.871Z",
+      "status": "Loading model from cache[15/30]: 525MB loaded. 56% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.902Z",
+      "status": "Loading model from cache[16/30]: 552MB loaded. 59% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.931Z",
+      "status": "Loading model from cache[17/30]: 579MB loaded. 62% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.961Z",
+      "status": "Loading model from cache[18/30]: 606MB loaded. 65% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:42.993Z",
+      "status": "Loading model from cache[19/30]: 633MB loaded. 68% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.024Z",
+      "status": "Loading model from cache[20/30]: 660MB loaded. 71% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.053Z",
+      "status": "Loading model from cache[21/30]: 687MB loaded. 74% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.093Z",
+      "status": "Loading model from cache[22/30]: 714MB loaded. 77% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.141Z",
+      "status": "Loading model from cache[23/30]: 741MB loaded. 80% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.179Z",
+      "status": "Loading model from cache[24/30]: 768MB loaded. 83% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.223Z",
+      "status": "Loading model from cache[25/30]: 795MB loaded. 86% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.267Z",
+      "status": "Loading model from cache[26/30]: 822MB loaded. 89% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.314Z",
+      "status": "Loading model from cache[27/30]: 849MB loaded. 91% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.360Z",
+      "status": "Loading model from cache[28/30]: 876MB loaded. 94% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.399Z",
+      "status": "Loading model from cache[29/30]: 903MB loaded. 97% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.438Z",
+      "status": "Loading model from cache[30/30]: 924MB loaded. 100% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.460Z",
+      "status": "Loading GPU shader modules[4/4]: 100% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:49:43.460Z",
+      "status": "Finish loading on WebGPU - apple"
+    },
+    {
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "llmLoad": {
+        "loadMs": 2017
+      },
+      "asrLoad": {
+        "loadMs": 597
+      },
+      "ttsLoad": {
+        "loadMs": 1245.5999994277954,
+        "voice": "it_IT-paola-medium",
+        "engine": "Piper ONNX/eSpeak WASM"
+      }
+    },
+    {
+      "at": "2026-10-03T12:49:45.303Z",
+      "status": "Actual local language model, Italian ASR and bundled Italian voice loaded."
+    },
+    {
+      "at": "2026-10-03T12:49:45.347Z",
+      "status": "Stopped."
+    },
+    {
+      "at": "2026-10-03T12:49:45.372Z",
+      "status": "Stopped."
+    },
+    {
+      "at": "2026-10-03T12:49:45.685Z",
+      "status": "Recording; press Stop to create an editable transcript."
+    },
+    {
+      "at": "2026-10-03T12:49:50.161Z",
+      "status": "Recognizing locally in Italian…"
+    },
+    {
+      "at": "2026-10-03T12:49:51.792Z",
+      "status": "Editable transcript ready. Send to commit once."
+    },
+    {
+      "at": "2026-10-03T12:49:51.845Z",
+      "status": "Generating and checking the complete response…"
+    },
+    {
+      "at": "2026-10-03T12:49:56.482Z",
+      "status": "Turn complete."
+    },
+    {
+      "at": "2026-10-03T12:49:56.513Z",
+      "status": "Stopped."
+    },
+    {
+      "at": "2026-10-03T12:49:59.777Z",
+      "status": "Hands-free listening. Stop is always available."
+    },
+    {
+      "at": "2026-10-03T12:49:59.842Z",
+      "status": "Listening…"
+    },
+    {
+      "at": "2026-10-03T12:50:04.012Z",
+      "status": "Recognizing locally in Italian…"
+    },
+    {
+      "at": "2026-10-03T12:50:05.479Z",
+      "status": "Generating and checking the complete response…"
+    },
+    {
+      "at": "2026-10-03T12:50:09.972Z",
+      "status": "Turn complete."
+    },
+    {
+      "at": "2026-10-03T12:50:10.010Z",
+      "status": "Listening for the next turn…"
+    },
+    {
+      "at": "2026-10-03T12:50:10.088Z",
+      "status": "Listening…"
+    },
+    {
+      "at": "2026-10-03T12:50:14.251Z",
+      "status": "Recognizing locally in Italian…"
+    },
+    {
+      "at": "2026-10-03T12:50:15.762Z",
+      "status": "Generating and checking the complete response…"
+    },
+    {
+      "at": "2026-10-03T12:50:19.473Z",
+      "status": "Turn complete."
+    },
+    {
+      "at": "2026-10-03T12:50:19.507Z",
+      "status": "Listening for the next turn…"
+    },
+    {
+      "at": "2026-10-03T12:50:19.589Z",
+      "status": "Listening…"
+    },
+    {
+      "at": "2026-10-03T12:50:23.759Z",
+      "status": "Recognizing locally in Italian…"
+    },
+    {
+      "at": "2026-10-03T12:50:25.277Z",
+      "status": "Generating and checking the complete response…"
+    },
+    {
+      "at": "2026-10-03T12:50:29.067Z",
+      "status": "Turn complete."
+    },
+    {
+      "at": "2026-10-03T12:50:29.092Z",
+      "status": "Stopped."
+    }
+  ],
+  "requestHosts": [
+    "127.0.0.1:8132"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "testedConfiguration": {
+    "device": "iPhone 16 Pro Max simulator",
+    "os": "iOS 26.5",
+    "build": "23F77",
+    "xcode": "26.6 (17F113)"
+  },
+  "purpose": "Simulator capability evidence; no physical phone inference, memory or thermal measurements",
+  "Safari": {
+    "kind": "capability-probe-only",
+    "label": "iPhone16ProMax-simulator-Safari-iOS26.5-final",
+    "environment": {
+      "measuredAt": "2026-10-03T12:39:53.757Z",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+      "platform": "iPhone",
+      "secureContext": true,
+      "standalone": false,
+      "crossOriginIsolated": false,
+      "webgpu": true,
+      "adapter": false,
+      "shaderF16": false,
+      "adapterInfo": null,
+      "adapterLimits": null,
+      "localItalianVoices": [
+        {
+          "name": "Alice",
+          "lang": "it-IT",
+          "localService": true
+        }
+      ],
+      "storage": {
+        "quota": 41231686042,
+        "usage": 0
+      },
+      "versions": {
+        "webllm": "0.2.85",
+        "transformers": "4.3.0",
+        "vad": "0.0.31",
+        "piperWeb": "1.0.5",
+        "piperPhonemize": "1.0.0",
+        "ortASR": "1.31.0-dev.20260914-8d85527a0",
+        "ortVAD": "1.30.0",
+        "ortTTS": "1.30.0"
+      },
+      "microphone": true,
+      "speechRecognitionBuiltInUsed": false
+    }
+  },
+  "WKWebView": {
+    "environment": {
+      "adapter": false,
+      "adapterInfo": null,
+      "adapterLimits": null,
+      "crossOriginIsolated": false,
+      "localItalianVoices": [],
+      "measuredAt": "2026-10-03T12:10:25.815Z",
+      "microphone": true,
+      "platform": "iPhone",
+      "secureContext": true,
+      "shaderF16": false,
+      "speechRecognitionBuiltInUsed": false,
+      "standalone": false,
+      "storage": {
+        "quota": 10307921511,
+        "usage": 0
+      },
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+      "versions": {
+        "ortASR": "1.31.0-dev.20260914-8d85527a0",
+        "ortVAD": "1.30.0",
+        "transformers": "4.3.0",
+        "vad": "0.0.31",
+        "webllm": "0.2.85"
+      },
+      "webgpu": true
+    },
+    "kind": "iPhone16ProMax-simulator-WKWebView-probe",
+    "simulatedModel": "iPhone 16 Pro Max",
+    "simulatedOS": "26.5",
+    "timingHost": "Mac host; not physical iPhone performance"
+  }
+}

@@ -1,6 +1,6 @@
 // One active learning objective, with repeated independent checks and an explicit way to pause or defer it.
 // Persist the question recipe, never question HTML; rebuilding it also validates imported sessions against the curriculum.
-import { html, raw, icon, speak, stopSpeech } from '../ui.js';
+import { announceAnswer, html, raw, icon, speak, stopSpeech, submissionNote } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, itemsForScope } from '../data.js';
@@ -38,7 +38,7 @@ export async function render(root, params = {}, query = {}) {
   if (query.legacy !== '1') return (await import('./learnJourney.js')).render(root, params, query);
   const grammarId=params.id || query.id;
   if(grammarId?.startsWith('g:'))return (await import('./learnGrammar.js')).render(root,{id:grammarId.slice(2)},query);
-  const ownerId = store.current.id;
+  const ownerId = store.current.id, ownerLearnerId = store.current.learnerId, ownerEpochId = store.learning.epoch.id;
   if (store.learning.version > LEARNING_VERSION) {
     setTitle('Update Parola');
     root.innerHTML = '<div class="adaptive-learn"><article class="adaptive-card glass"><h1>Your progress needs a newer version</h1><p>This progress was saved by a newer version. Update or reload Parola before continuing. Your saved learning has been preserved.</p><button type="button" class="btn primary block" data-refresh-app>Reload Parola</button><a class="btn secondary block" href="#/profile">Profile and backups</a></article></div>';
@@ -111,7 +111,7 @@ export async function render(root, params = {}, query = {}) {
   const questionEntry = () => getEntry(objective()?.entryId) || entry;
   const stateFor = obj => skillState(domain(), obj.id, Date.now());
   const deferred = () => objectives.filter(o => Object.hasOwn(session.deferred || {}, o.id));
-  const save = () => { if (store.current.id !== ownerId) return; session.ui = ui; session.updatedAt = Date.now(); store.saveLearningSession(session); };
+  const save = () => { if (disposed || store.current.id !== ownerId || store.current.learnerId !== ownerLearnerId || domain().epoch.id !== ownerEpochId) return; session.ui = ui; session.updatedAt = Date.now(); store.saveLearningSession(session); };
   const readyCount = () => objectives.filter(o => stateFor(o).ready).length;
   const showName = () => ui.phase !== 'question' || !question?.answer?.some(a => normalize(a) === normalize(entryName(questionEntry())));
 
@@ -187,13 +187,14 @@ export async function render(root, params = {}, query = {}) {
   }
 
   async function answer(given, revealed = false) {
-    if (submitting || ui.phase !== 'question' || !question || store.current.id !== ownerId) return;
+    if (disposed || submitting || ui.phase !== 'question' || !question || store.current.id !== ownerId || store.current.learnerId !== ownerLearnerId || domain().epoch.id !== ownerEpochId) return;
     if (!revealed && !String(given).trim()) { root.querySelector('[data-answer]')?.focus(); return; }
     submitting = true;
     try {
       stopSpeech();
       ui.given = String(given).slice(0, 500);
       const result = gradeQuestion(question, ui.given, { revealed, assistance: ui.assistance, accentStrict: !!store.settings.accentStrict });
+      ui.given=result.submission?.displayText ?? ui.given;ui.draft=ui.given;
       const current = ui.current;
       const meta = question.meta;
       const event = {
@@ -202,18 +203,25 @@ export async function render(root, params = {}, query = {}) {
         skill: meta.skill, tense: meta.tense || null, person: meta.person ?? null,
         mode: meta.mode, exerciseMode: meta.mode, variantId: meta.variantId, contextId: meta.contextId,
         outcome: result.outcome, ok: result.ok, correct: result.ok, assistance: [...ui.assistance], firstAttempt: true,
-        errorTags: result.errorTags || [], components: result.components || [], componentResults: result.components || [],
+        errorTags: result.errorTags || [], components: result.components || [], componentResults: result.components || [], submission:result.submission,
         at: Date.now(), elapsedMs: Math.max(0, Date.now() - current.startedAt),
       };
       const xpBefore = store.current.stats.xp || 0;
+      const answeredSessionId = session.id, answeredEpochId = domain().epoch.id;
       const recorded = await store.recordLearningAttempt(event);
+      // Recording belongs to the learner who submitted. A late continuation
+      // must not replace a newer session or write into a replaced local slot.
+      if (disposed || store.current.id !== ownerId || store.current.learnerId !== ownerLearnerId
+        || domain().epoch.id !== answeredEpochId || session.id !== answeredSessionId
+        || ui.current?.id !== current.id
+        || domain().sessions?.[`${session.entryId}|${session.mode}`]?.id !== answeredSessionId) return;
       session = applySessionAttempt(session, recorded.event || event, recorded);
       ui.xp += Math.max(0, (store.current.stats.xp || 0) - xpBefore);
-      ui.result = { ok: !!result.ok, outcome: result.outcome, feedback: safeText(result.feedback), errorTags: result.errorTags || [], components: result.components || [], accentIssue: !!result.accentIssue };
+      ui.result = { ok: !!result.ok, outcome: result.outcome, feedback: safeText(result.feedback), errorTags: result.errorTags || [], components: result.components || [], accentIssue: !!result.accentIssue, submission:result.submission };
       ui.phase = 'feedback';
       expose(); // Every feedback panel displays the answer, including a correct multiple-choice selection.
       save();
-      if (!disposed) draw(true);
+      if (!disposed) {draw(true);announceAnswer(result);}
     } finally { submitting = false; }
   }
 
@@ -308,6 +316,7 @@ export async function render(root, params = {}, query = {}) {
       ${ui.given ? raw(html`<p class="adaptive-your-answer"><span>Your answer</span>${ui.given}</p>`) : ''}
       <div class="adaptive-answer"><span class="kicker">${result.ok ? 'The form' : 'A correct answer'}</span><p lang="it">${actual}</p></div>
       <p class="adaptive-feedback-text">${result.feedback || (result.ok ? 'Keep going: a different example will help us check this again.' : 'Read the example, then try a smaller step.')}</p>
+      ${raw(submissionNote(result.submission))}
       ${components.length ? raw(html`<div class="adaptive-components">${raw(components.map(c => html`<span class="${c.ok ? 'is-correct' : 'needs-work'}">${c.ok ? '✓' : '↻'} ${String(c.skill || '').replace(/([A-Z])/g, ' $1').replaceAll('-', ' ')}</span>`).join(''))}</div>`) : ''}
       ${!result.ok && (question.lesson || question.example) ? raw(html`<aside class="adaptive-teaching"><span class="kicker">Try this approach</span><p>${question.lesson || question.tip}</p>${question.example ? raw(html`<p class="adaptive-example" lang="it">${question.example}</p>`) : ''}</aside>`) : ''}
       <p class="adaptive-reassurance">${helped ? 'This was practice with help. We’ll check it again independently after a gap.' : result.ok ? 'One answer is part of the picture. We’ll use varied checks before moving on.' : 'Your other progress is kept. The next question will focus on what needs practice.'}</p>
@@ -344,7 +353,7 @@ export async function render(root, params = {}, query = {}) {
   }
 
   function draw(focus = false) {
-    if (disposed || store.current.id !== ownerId) return;
+    if (disposed || store.current.id !== ownerId || store.current.learnerId !== ownerLearnerId || domain().epoch.id !== ownerEpochId) return;
     if (ui.phase === 'question' && question) { trackQuestionExposure(); save(); }
     const obj = objective();
     const active = ['intro', 'question', 'feedback'].includes(ui.phase);
@@ -387,13 +396,14 @@ export async function render(root, params = {}, query = {}) {
     if (question && recorded && !(session.answeredEventIds || []).includes(recorded.id)) {
       // Recover a save that committed the answer just before the app closed, but not its session cursor.
       session = applySessionAttempt(session, recorded, { added: true, skill: stateFor(objective()) });
-      const result = gradeQuestion(question, ui.given || '', { revealed: recorded.outcome === 'revealed', assistance: recorded.assistance, accentStrict: !!store.settings.accentStrict });
-      ui.result = { ok: recorded.ok, outcome: recorded.outcome, feedback: safeText(result.feedback), components: recorded.components, errorTags: recorded.errorTags };
+      const submission=recorded.submission;
+      if(submission)ui.given=ui.draft=submission.displayText;
+      ui.result = { ok: recorded.ok, outcome: recorded.outcome, feedback: recorded.ok?'Correct.':`Compare the model: ${question.answer?.[0] || ''}.`, components: recorded.components, errorTags: recorded.errorTags,submission };
       ui.phase = 'feedback'; expose();
     }
     if (!question || !['intro', 'question', 'feedback', 'paused', 'checkpoint', 'unavailable'].includes(ui.phase)) beginNext();
     else { if (ui.phase === 'feedback' && !ui.result) ui.phase = 'question'; save(); draw(); }
   } else if (ui.phase === 'complete') { save(); draw(); }
   else beginNext();
-  return () => { disposed = true; stopSpeech(); save(); };
+  return () => { stopSpeech(); save(); disposed = true; };
 }

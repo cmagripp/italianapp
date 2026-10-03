@@ -120,8 +120,9 @@ export async function render(root) {
 
       <div class="card">
         ${raw(secHeadIt('Backup', 'Copia di sicurezza', 'Backup'))}
-        <p>Progress lives on this device, per user. Export a backup to move it elsewhere or keep it safe. On iPhone add Parola to the Home Screen (Share → Add to Home Screen) so Safari keeps your data.</p>
+        <p>Progress lives on this device, per user. Export a backup to move it elsewhere or keep it safe. Saved microphone recordings are exported separately from their lesson. On iPhone add Parola to the Home Screen (Share → Add to Home Screen) so Safari keeps your data.</p>
         <div class="row gap"><button type="button" class="btn sm secondary grow" data-export>${ic('arrow', { size: 16 })}Export backup</button><button type="button" class="btn sm ghost grow" data-import>${ic('plus', { size: 16 })}Import backup</button></div>
+        <div class="row gap mt"><button type="button" class="btn sm ghost grow" data-recovery-export>Export recovery copy</button><button type="button" class="btn sm ghost grow" data-recovery-restore>Restore recovery copy</button></div>
         <input type="file" accept="application/json,.json" data-file class="hidden">
       </div>
 
@@ -185,7 +186,7 @@ export async function render(root) {
     const content = `<div class="dropdown-title">${esc(u.name)}${cur ? ' · current' : ''}</div><div class="dropdown-list">
       ${cur ? opt('rename', 'Rename', 'Change your name') + opt('avatar', 'Change avatar') : opt('switch', 'Switch to ' + u.name, 'Their own lists, progress and settings')}
       ${store.profiles.length > 1 ? opt('delete', 'Delete user', 'Removes all their progress', `data-del-user="${esc(id)}"`, 'ko') : ''}</div>`;
-    dropdown(anchor, content, { align: 'end', width: 260, onSelect: (v) => { setTimeout(() => userAction(v, id), 0); } });
+    dropdown(anchor, content, { align: 'end', width: 260, onSelect: (v) => { setTimeout(() => {void userAction(v,id).catch(err=>toast(err.message,{kind:'ko',ms:5000}));}, 0); } });
   }
   async function userAction(act, id) {
     if (act === 'switch') await switchUser(id);
@@ -220,14 +221,15 @@ export async function render(root) {
       s.body.addEventListener('click', (ev) => { const b = ev.target.closest('[data-choice]'); if (!b) return; s.close({ silent: true }); resolve(b.dataset.choice === 'cancel' ? null : b.dataset.choice); });
     });
   }
-  function exportBackup() {
+  function exportBackup(text=store.exportJSON(),label='Backup') {
     const p = store.current;
-    const blob = new Blob([store.exportJSON()], { type: 'application/json' });
+    const blob = new Blob([text], { type: 'application/json' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `parola-${p.name.replace(/\W+/g, '_')}-${todayKey()}.json`; document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-    toast('Backup exported', { kind: 'ok' });
+    toast(label+' exported', { kind: 'ok' });
   }
 
   wrap.addEventListener('click', async (ev) => {
+    try {
     const t = ev.target;
     const segBtn = t.closest('[data-seg]');
     if (segBtn) { const k = segBtn.dataset.seg; let v = segBtn.dataset.v; if (k === 'ttsRate') v = Number(v); store.setSetting(k, v); setSeg(segBtn.closest('.seg'), k, v); if (k === 'ttsRate') speak('Buongiorno, benvenuto!', { force: true }); return; }
@@ -239,13 +241,16 @@ export async function render(root) {
     if (t.closest('[data-rename]')) { rename(); return; }
     if (t.closest('[data-users]')) { wrap.querySelector('.users-reel')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' }); return; }
     if (t.closest('[data-export]')) { exportBackup(); return; }
+    if (t.closest('[data-recovery-export]')) {exportBackup(await store.recoveryBackup(),'Recovery copy');return;}
+    if (t.closest('[data-recovery-restore]')) {const owner=store.current.id;if(await confirmDialog('Restore the saved progress from before your most recent import or reset?',{ok:'Restore'})){if(store.current.id!==owner)throw new Error('User changed. Open the recovery copy for the intended user.');await store.restoreRecovery();registerCustom(store.current.custom);toast('Recovery copy restored',{kind:'ok'});draw();}return;}
     if (t.closest('[data-import]')) { wrap.querySelector('[data-file]')?.click(); return; }
-    if (t.closest('[data-reset]')) { if (await confirmDialog('Reset all learning progress for this user? Lists and custom words are kept.', { ok: 'Reset', danger: true })) { await store.resetProgress(); toast('Progress reset'); draw(); } return; }
+    if (t.closest('[data-reset]')) { const owner=store.current.id;if (await confirmDialog('Reset all learning progress for this user? Lists and custom words are kept.', { ok: 'Reset', danger: true })) {if(store.current.id!==owner)throw new Error('User changed. Retry the reset for the intended user.'); const r=await store.resetProgress(); toast(r.recordingsDeleted?'Progress reset':'Progress reset. Saved recordings could not be removed.',{kind:r.recordingsDeleted?'ok':'ko',ms:5000}); draw(); } return; }
     if (t.closest('[data-new-user]')) { const name = await promptDialog('Name for the new user', { placeholder: 'e.g. Marco' }); if (name) { await store.createProfile(name, AVATARS[Math.floor(Math.random() * AVATARS.length)]); registerCustom(store.current.custom); toast('Welcome, ' + name + '!', { kind: 'ok' }); draw(); } return; }
     const menu = t.closest('[data-user-menu]');
     if (menu) { ev.stopPropagation(); userMenu(menu, menu.dataset.userMenu); return; }
     const card = t.closest('[data-user]');
     if (card) { if (longPressed) { longPressed = false; return; } const id = card.dataset.user; if (id === store.current.id) userMenu(card.querySelector('[data-user-menu]') || card, id); else await switchUser(id); }
+    }catch(err){toast(err.message,{kind:'ko',ms:5000});}
   });
   wrap.addEventListener('keydown', (ev) => {
     if (ev.key !== 'Enter' && ev.key !== ' ') return;
@@ -263,11 +268,13 @@ export async function render(root) {
   wrap.addEventListener('change', async (ev) => {
     const file = ev.target.closest('[data-file]'); if (!file) return;
     const f = file.files[0]; if (!f) return;
+    const owner=store.current.id,learnerId=store.current.learnerId;
     file.value = ''; // so the same file can be chosen again
     try {
       const text = await f.text();
       const choice = await importChoice();
       if (!choice) return; // dismissed (Escape, backdrop, drag): nothing is touched
+      if(store.current.id!==owner||store.current.learnerId!==learnerId)throw new Error('User changed. Select the backup again for the intended user.');
       await store.importJSON(text, { merge: choice === 'merge' });
       registerCustom(store.current.custom);
       toast('Backup imported', { kind: 'ok' }); draw();
@@ -293,6 +300,7 @@ function syncCard() {
       <div class="row gap"><button type="button" class="btn primary grow" data-sync-in>${ic('lock', { size: 18 })}Sign in</button><button type="button" class="btn grow" data-sync-up>Create account</button></div>
       <div class="row mt"><button type="button" class="btn sm ghost" data-sync-sql>${ic('list', { size: 16 })}Show setup SQL</button></div>`)}
     ${on ? raw('<div class="row mt"><button type="button" class="btn sm ghost" data-sync-sql>Show setup SQL / update sync</button></div>') : ''}
+    ${on&&c.associationRequired?raw(html`<p>The cloud copy is for ${c.remoteLearnerName || 'a saved learner'}. Restoring it replaces this local user's progress and keeps a recovery copy.</p><button type="button" class="btn secondary block" data-sync-adopt>Use cloud learner</button>`):''}
     <div class="sync-status" data-sync-status role="status"></div>`;
 }
 function bindSync(root, draw) {
@@ -315,7 +323,8 @@ function bindSync(root, draw) {
         toast('Cloud sync enabled', { kind: 'ok' }); draw(); return;
       }
       if (b.hasAttribute('data-sync-now')) { status('Syncing…'); await sync.syncNow(); registerCustom(store.current.custom); toast('Synced', { kind: 'ok' }); draw(); return; }
+      if(b.hasAttribute('data-sync-adopt')) {const owner=store.current.id;if(await confirmDialog('Restore the cloud learner here? This replaces this local user’s progress. A recovery copy is kept.',{ok:'Use cloud learner',danger:true})){if(store.current.id!==owner)throw new Error('User changed. Open cloud sync for the intended user.');await sync.useCloudLearner();registerCustom(store.current.custom);toast('Cloud learner restored',{kind:'ok'});draw();}return;}
       if (b.hasAttribute('data-sync-out')) { sync.signOut(); toast('Signed out of cloud sync'); draw(); return; }
-    } catch (err) { status('Error: ' + err.message, 'ko'); }
+    } catch (err) { status('Error: ' + err.message, 'ko');if(sync.getConfig().associationRequired)draw(); }
   });
 }

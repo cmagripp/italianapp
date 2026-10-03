@@ -24,10 +24,10 @@ const lesson={id:'v2-test',title:'Test',targets:[target],steps:[
 ]};
 const learning={events:{}};
 const record=submission=>{if(submission.event)learning.events[submission.event.id]=submission.event;};
-const answer=(session,value,opts={})=>{const result=submitCourseAnswer(lesson,session,value,{now:t+session.index*1000,...opts});record(result);return result;};
+const answer=(session,value,opts={})=>{const result=submitCourseAnswer(lesson,session,value,{now:t+session.index*1000,accentStrict:true,...opts});record(result);return result;};
 const next=session=>advanceCourse(lesson,session,learning);
 
-assert.equal(assessCourseAnswer(q('typed','independent','type','È qui.'),'E qui').outcome,'incorrect');
+assert.equal(assessCourseAnswer(q('typed','independent','type','È qui.'),'E qui',{accentStrict:true}).outcome,'incorrect');
 assert.equal(assessCourseAnswer({...q('open','independent','type','È qui.'),strict:false},'È proprio qui.').outcome,'ungraded');
 assert.equal(assessCourseAnswer(q('typed','independent','type','È qui.'),'È qui!').outcome,'correct');
 

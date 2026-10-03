@@ -31,7 +31,10 @@
           "title": "Evidence and speaker stance",
           "outcome": "I can distinguish an asserted fact from a speaker’s inference.",
           "minutes": 9,
-          "prerequisites": [],
+          "prerequisites": [
+            "v2-c1-u1-subjunctive-perspective",
+            "v2-c1-u3-qualified-conclusion"
+          ],
           "related": [
             {
               "entryId": "v:sapere",

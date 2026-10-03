@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "description": "Disposable phase-1 local AI and speech feasibility harness; excluded from production boot",
+  "scripts": {
+    "provision": "node prepare.mjs --models=baseline,gemma,qwen35",
+    "serve": "node server.mjs",
+    "benchmark": "node benchmark.mjs",
+    "test": "node ../../tools/test-ai-trial.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "4.3.0",
+    "@mintplex-labs/piper-tts-web": "1.0.5",
+    "@mlc-ai/web-llm": "0.2.85",
+    "@ricky0123/vad-web": "0.0.31",
+    "esbuild": "0.25.11"
+  }
+}

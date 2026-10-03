@@ -6,7 +6,7 @@ import { setScene } from '../fx.js';
 import { lessonPlan } from '../learning/integration.js';
 import { journeyChapterCompletions } from '../learning/journey.js';
 const casesFor=entry=>journeyChapterCompletions(lessonPlan(entry),store.learning);
-import { grammarCourse, loadGrammarCourse, grammarLesson, grammarProgress, grammarHref, courseLevel, nextGrammarLesson, relatedVocabulary } from '../learning/grammar-course.js';
+import { grammarCourse, loadGrammarCourse, loadGrammarLesson, grammarLesson, grammarProgress, grammarHref, courseLevel, nextGrammarLesson, relatedVocabulary } from '../learning/grammar-course.js';
 import { lessonWordIds } from '../learning/course-words.js';
 
 export function sessionItemComplete(item) {
@@ -38,6 +38,7 @@ export async function render(root,params,query={}) {
   await loadGrammarCourse();setTitle('Your session');
   if(query.start==='grammar'&&!nextGrammarLesson(store)){location.hash='#/course';return;}
   let session=store.learning.sessions['course:everyday|course'];
+  if(query.start || !session?.course || session.course.finished){const next=nextGrammarLesson(store);if(next)await loadGrammarLesson(next.id);}
   if(query.start || !session?.course || session.course.finished)session=buildCourseSession(query.start || 'together');
   if(query.start)history.replaceState(null,'',location.pathname+location.search+'#/learn/session');
   const owner=store.current.id;

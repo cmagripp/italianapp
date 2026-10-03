@@ -1,0 +1,110 @@
+{
+  "app": "italiano",
+  "exported": "2023-11-14T22:13:20.000Z",
+  "profile": {
+    "id": "fixture-local-a",
+    "name": "Synthetic learner A",
+    "avatar": "🇮🇹",
+    "created": 1699999900000,
+    "version": 2,
+    "settings": {
+      "level": "A2",
+      "theme": "light",
+      "accentStrict": false,
+      "gender": "f"
+    },
+    "items": {},
+    "lists": {
+      "bank": {
+        "id": "bank",
+        "name": "My word bank",
+        "items": [
+          "v:andare",
+          "w:casa|noun",
+          "w:sempre|adv",
+          "c:fixture-note"
+        ],
+        "created": 1699999900000,
+        "builtin": true
+      },
+      "starred": {
+        "id": "starred",
+        "name": "Starred",
+        "items": [
+          "w:casa|noun",
+          "c:fixture-note",
+          "w:sempre|adv"
+        ],
+        "created": 1699999992000
+      },
+      "removed": {
+        "id": "removed",
+        "name": "Deleted later",
+        "items": [
+          "w:casa|noun"
+        ],
+        "created": 1699999999000
+      }
+    },
+    "custom": {
+      "c:fixture-note": {
+        "id": "c:fixture-note",
+        "it": "coinquilina",
+        "en": "roommate",
+        "pos": "noun",
+        "g": "f",
+        "pl": "coinquiline",
+        "level": "A2",
+        "custom": true,
+        "created": 1699999991000
+      }
+    },
+    "customDeleted": {
+      "c:fixture-removed": 1699999999900
+    },
+    "stats": {
+      "xp": 0,
+      "days": {},
+      "games": {},
+      "wordsLearned": 0,
+      "verbsLearned": 0
+    },
+    "scope": {
+      "mode": "lists",
+      "levels": [
+        "A1",
+        "A2"
+      ],
+      "cats": [],
+      "lists": [
+        "bank"
+      ]
+    },
+    "recent": [],
+    "lab": {
+      "frasi": {
+        "done": {},
+        "sentences": []
+      }
+    },
+    "learning": {
+      "version": 5,
+      "createdAt": 1700000001000,
+      "epoch": {
+        "id": "reset:fixture",
+        "at": 1700000001000
+      },
+      "events": {},
+      "completions": {},
+      "preferences": {
+        "coreOrderVersion": 2,
+        "expansions": [],
+        "legacyTenses": [],
+        "stage": "present",
+        "updatedAt": 0
+      },
+      "session": null,
+      "sessions": {}
+    }
+  }
+}

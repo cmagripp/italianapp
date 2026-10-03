@@ -1,0 +1,39 @@
+{
+  "measuredAt": "2026-10-03T12:38:56.605Z",
+  "runtime": "v22.23.2",
+  "platform": "darwin",
+  "measurement": "Desktop synthetic histories; timings are diagnostic, not phone measurements. Reference explicitly clones/normalizes the full history before append; checkpoints retain all events and do not reduce storage.",
+  "checksPassed": 10,
+  "sizes": [
+    {
+      "events": 1000,
+      "initialRetrievalMs": 7.572,
+      "appendMedianMs": 0.405,
+      "warmTargetRetrievalMs": 0.008,
+      "fullNormalizationReferenceMs": 8.857,
+      "checkpointRetrievalMs": 23.871,
+      "normalizedEventsForFiveAppends": 5,
+      "lifetimeIndexRebuildsForFiveAppends": 0
+    },
+    {
+      "events": 10000,
+      "initialRetrievalMs": 49.785,
+      "appendMedianMs": 3.97,
+      "warmTargetRetrievalMs": 0.014,
+      "fullNormalizationReferenceMs": 82.117,
+      "checkpointRetrievalMs": 85.321,
+      "normalizedEventsForFiveAppends": 5,
+      "lifetimeIndexRebuildsForFiveAppends": 0
+    },
+    {
+      "events": 50000,
+      "initialRetrievalMs": 153.98,
+      "appendMedianMs": 26.826,
+      "warmTargetRetrievalMs": 0.043,
+      "fullNormalizationReferenceMs": 541.053,
+      "checkpointRetrievalMs": 438.297,
+      "normalizedEventsForFiveAppends": 5,
+      "lifetimeIndexRebuildsForFiveAppends": 0
+    }
+  ]
+}

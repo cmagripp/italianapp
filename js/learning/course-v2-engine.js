@@ -1,5 +1,6 @@
 // Pure navigation and assessment for the authored v2 course. Persistence belongs to the caller.
 import { courseSkill } from './course-v2-state.js';
+import { compareSubmission } from './answer-policy.js';
 
 const clone = value => JSON.parse(JSON.stringify(value));
 const normalize = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('it')
@@ -22,28 +23,30 @@ const saveHistory=session=>{const c=session.courseV2;c.history.push(snapshot(ses
 const eventsFor=(learning,lesson,targetId)=>Object.values(learning?.events || {}).filter(e=>e.policy==='grammar-v2'
   && e.entryId===`g:${lesson.id}` && e.objectiveId===targetId);
 const outcomeResult=(step,answer,given,assisted)=>({outcome:answer.outcome,ok:answer.outcome==='correct',answer:answer.answer,
-  given:String(Array.isArray(given)?given.join(' '):given ?? ''),assisted,
+  given:answer.submission?.displayText ?? String(Array.isArray(given)?given.join(' '):given ?? ''),assisted,
+  ...(answer.submission?{submission:answer.submission}:{}),
   explanation:answer.explanation || step.explanation || '',errorTag:answer.errorTag || null,questionId:step.id});
 
-function scoredAnswer(step,value) {
+function scoredAnswer(step,value,policy={}) {
   if(step.format==='match') {
     const ok=Array.isArray(value) && value.length===step.pairs?.length && value.every((v,i)=>Number(v)===i);
     return {outcome:ok?'correct':'incorrect',answer:(step.pairs || []).map(p=>p.right),explanation:step.explanation};
   }
   const response=Array.isArray(value)?value.join(' '):String(value ?? '');
-  const right=[step.answer,...(step.accepted || [])].some(a=>normalize(a)===normalize(response));
-  if(right)return {outcome:'correct',answer:step.answer,explanation:step.explanation};
+  const submission=compareSubmission(response,[step.answer,...(step.accepted || [])],{
+    accentStrict:policy.accentStrict===true,inputMode:step.format==='type'?'typed':'choice'});
+  if(submission.ok)return {outcome:'correct',answer:submission.matchedAnswerText,explanation:step.explanation,submission};
   const known=(step.errors || []).find(error=>normalize(error.answer)===normalize(response));
-  if(known)return {outcome:'incorrect',answer:step.answer,errorTag:known.tag,explanation:known.explanation};
+  if(known)return {outcome:'incorrect',answer:step.answer,errorTag:known.tag,explanation:known.explanation,submission};
   if(step.format==='type' && step.strict!==true)
-    return {outcome:'ungraded',answer:step.answer,explanation:'This answer needs a person to check it fairly. Compare the model and continue practicing.'};
-  return {outcome:'incorrect',answer:step.answer,errorTag:'unclassified',explanation:step.explanation};
+    return {outcome:'ungraded',answer:step.answer,explanation:'This answer needs a person to check it fairly. Compare the model and continue practicing.',submission};
+  return {outcome:'incorrect',answer:step.answer,errorTag:submission.accentIssue?'accent':'unclassified',explanation:step.explanation,submission};
 }
 
-export function assessCourseAnswer(step,value) {
+export function assessCourseAnswer(step,value,policy={}) {
   if(step?.kind==='portfolio')return {outcome:'ungraded',ok:false,answer:step.model,explanation:'Compare your work with the model and rubric.'};
   if(step?.kind!=='question')return {outcome:'ungraded',ok:false,answer:null,explanation:''};
-  const result=scoredAnswer(step,value);
+  const result=scoredAnswer(step,value,policy);
   return {...result,ok:result.outcome==='correct'};
 }
 
@@ -66,9 +69,10 @@ function stepView(lesson,c) {
   if(c.phase==='guided' || c.phase==='recheck')return questionView(lesson,c);
   if(c.phase==='repair') {
     const target=targetFor(lesson,c.activeTargetId);
+    const repair=target?.repair?.byFacet?.[c.activeFacet] || target?.repair;
     return {kind:'repair',phase:'repair',step:{id:`repair:${target?.id}`,kind:'teach',
-      title:target?.repair?.title || 'Review this pattern',body:target?.repair?.body || target?.explanation || '',
-      examples:target?.repair?.examples || [],introduces:[target?.id]},target,viewOnly:false};
+      title:repair?.title || 'Review this pattern',body:repair?.body || target?.explanation || '',
+      examples:repair?.examples || [],introduces:[target?.id]},target,viewOnly:false};
   }
   if(c.phase==='exhausted')return {kind:'exhausted',phase:'exhausted',step:null,target:targetFor(lesson,c.activeTargetId),viewOnly:false};
   if(c.phase==='paused')return {kind:'complete',phase:'paused',step:null,target:null,viewOnly:false};
@@ -223,7 +227,7 @@ export function courseBack(lesson,session) {
 
 export function courseReturnLive(_lesson,session) {session.courseV2.historyCursor=null;return session;}
 
-export function submitCourseAnswer(lesson,session,value,{reveal=false,now=Date.now(),audioAvailable=false,learning=null}={}) {
+export function submitCourseAnswer(lesson,session,value,{reveal=false,now=Date.now(),audioAvailable=false,learning=null,accentStrict=false}={}) {
   const c=session.courseV2,view=currentCourseStep(lesson,session);
   if(view?.viewOnly || c.result)return {session,result:c.result || null};
   if(view?.kind==='portfolio') {
@@ -235,7 +239,7 @@ export function submitCourseAnswer(lesson,session,value,{reveal=false,now=Date.n
   }
   if(view?.kind!=='question')return {session,result:null};
   const step=view.step,target=view.target;
-  const assessed=reveal?{outcome:'revealed',ok:false,answer:step.answer,explanation:step.explanation}:assessCourseAnswer(step,value);
+  const assessed=reveal?{outcome:'revealed',ok:false,answer:step.answer,explanation:step.explanation}:assessCourseAnswer(step,value,{accentStrict});
   const recentRepeat=c.phase==='step'&&step.stage==='independent'&&eventsFor(learning,lesson,target.id)
     .some(e=>e.sessionId!==session.id&&normalize(e.exposureGroup||e.variantId)===exposureOf(step)&&now-Number(e.at||0)<8*3600e3);
   const assistance=[...new Set([...c.assistance,...(reveal?['reveal']:[]),
@@ -251,8 +255,10 @@ export function submitCourseAnswer(lesson,session,value,{reveal=false,now=Date.n
     modality:target.modality,mode:step.format==='type'?'production':'recognition',
     responseMode:step.format==='type'?'production':'recognition',grammarPhase,
     assistance,firstAttempt:!c.pairErrors,outcome:assessed.outcome,ok:assessed.outcome==='correct',
-    errorTags:assessed.errorTag?[assessed.errorTag]:[],xp:assessed.outcome==='correct' && grammarPhase==='independent' && !assistance.length?2:0};
+    errorTags:assessed.errorTag?[assessed.errorTag]:[],submission:assessed.submission,
+    xp:assessed.outcome==='correct' && grammarPhase==='independent' && !assistance.length?2:0};
   c.result=outcomeResult(step,assessed,value,grammarPhase!=='independent' || assistance.length>0 || !!c.pairErrors);
+  if(step.format==='type'&&assessed.submission?.ok)c.draft=assessed.submission.displayText;
   c.usedQuestions=[...new Set([...c.usedQuestions,step.id])];
   c.usedGroups=[...new Set([...c.usedGroups,exposureOf(step)])];
   session.updatedAt=now;

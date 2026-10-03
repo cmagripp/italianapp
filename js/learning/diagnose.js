@@ -2,9 +2,9 @@
 // contrasts; edit distance is never used to invent a grammatical misconception.
 import { expandedForms, AUXILIARY_WORDS } from './questions.js';
 import { ERROR_TIPS } from './content.js';
+import { compareSubmission } from './answer-policy.js';
 
 const normalize = s => String(s ?? '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g, "'").trim().replace(/\s+/g, ' ').replace(/\s*'\s*/g, "'").replace(/[.!?]+$/, '').trim();
-const loose = s => normalize(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 const equal = (a, b) => normalize(a) === normalize(b);
 const any = (given, forms = []) => forms.some(f => equal(given, f));
 const letters = s => normalize(s).replace(/[^\p{L}]/gu, '');
@@ -137,21 +137,22 @@ function diagnoseWrong(q, given, answers) {
 
 export function gradeQuestion(q, given, { revealed = false, assistance = [], accentStrict = false } = {}) {
   const input = typeof given === 'number' && q.choices?.[given] ? q.choices[given].label : String(given ?? '');
-  const answers = expandedForms(q.answer || []);
-  const exact = any(input, answers) || (q.type === 'mc' && (q.choices || []).some(c => c.correct && equal(c.label, input)));
-  const accentIssue = !exact && answers.some(a => loose(a) === loose(input));
-  const ok = !revealed && (exact || (accentIssue && !accentStrict));
+  const answers = [...expandedForms(q.answer || []), ...(q.type === 'mc' ? (q.choices || []).filter(c=>c.correct).map(c=>c.label) : [])];
+  const submission = compareSubmission(input, answers, {accentStrict,
+    inputMode:q.type==='type'?'typed':'choice',language:q.meta?.answerLanguage==='en'?'en':'it'});
+  const exact = submission.exact, accentIssue = submission.accentIssue && q.type === 'type';
+  const ok = !revealed && submission.ok;
   const assisted = revealed || (Array.isArray(assistance) ? assistance.length > 0 : !!assistance);
-  if (revealed) return { ok: false, outcome: 'revealed', errorTags: [], feedback: `Here is the model: ${answers[0] || ''}. We’ll check it again without help.`, components: [], exact: false, accentIssue: false, assisted: true };
+  if (revealed) return { ok: false, outcome: 'revealed', errorTags: [], feedback: `Here is the model: ${answers[0] || ''}. We’ll check it again without help.`, components: [], exact: false, accentIssue: false, assisted: true, submission };
   if (ok) return {
-    ok: true, outcome: 'correct', errorTags: accentIssue ? ['accent'] : [],
-    feedback: accentIssue ? `The form is right; notice the accent: ${answers[0]}.` : assisted ? 'Correct with support. Try a fresh question without help next.' : 'Correct. We’ll check it in another form or context too.',
-    components: [...positiveComponents(q), component('orthography', !accentIssue || !accentStrict)], exact, accentIssue, assisted,
+    ok: true, outcome: 'correct', errorTags: [],
+    feedback: accentIssue ? `Correct. Accent restored: ${submission.displayText}.` : assisted ? 'Correct with support. Try a fresh question without help next.' : 'Correct. We’ll check it in another form or context too.',
+    components: [...positiveComponents(q).filter(c=>!accentIssue||c.skill!=='orthography'), ...(!accentIssue?[component('orthography',true)]:[])], exact, accentIssue, assisted, submission,
   };
   if (accentIssue) return {
-    ok: false, outcome: 'incorrect', errorTags: ['accent'], feedback: `Check the accent: ${answers[0]}. The grammar is otherwise right.`,
-    components: [...positiveComponents(q), component('orthography', false, 'accent')], exact: false, accentIssue: true, assisted,
+    ok: false, outcome: 'incorrect', errorTags: ['accent'], feedback: `Check the accent: ${submission.matchedAnswerText || answers[0]}.`,
+    components: [...positiveComponents(q), component('orthography', false, 'accent')], exact: false, accentIssue: true, assisted, submission,
   };
   const result = diagnoseWrong(q, input, answers);
-  return { ok: false, outcome: 'incorrect', ...result, exact: false, accentIssue: false, assisted };
+  return { ok: false, outcome: 'incorrect', ...result, exact: false, accentIssue: false, assisted, submission };
 }

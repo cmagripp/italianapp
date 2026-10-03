@@ -95,7 +95,7 @@ html.is-standalone { --app-height:100vh; height:var(--app-height); min-height:va
 body {
   margin: 0; min-height: 100%; background: var(--bg-0); color: var(--ink);
   font-family: var(--font-text); font-size: 15px; line-height: 1.5; font-weight: 500;
-  padding-top: calc(var(--top-h) + var(--sat)); padding-bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 20px);
+  padding-top: calc(var(--top-h) + var(--sat) + var(--save-status-height, 0px)); padding-bottom: calc(var(--dock-h) + var(--dock-gap) + var(--sab) + 20px);
   overscroll-behavior-y: none; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; touch-action: manipulation;
   /* clip, not hidden: hidden would make <body> a scroll container, and every position: sticky bar (drill feedback,
      results actions) would then pin to the body box instead of the viewport, i.e. never stick */
@@ -169,7 +169,7 @@ html.paused .aurora .orb, html.paused .ticker .track, html.paused .float { anima
 
 /* ---------- 5. SHELL ---------- */
 #topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: calc(var(--top-h) + var(--sat)); padding: var(--sat) calc(12px + var(--sar)) 0 calc(12px + var(--sal));
+  position: fixed; top: var(--save-status-height, 0px); left: 0; right: 0; z-index: 50; height: calc(var(--top-h) + var(--sat)); padding: var(--sat) calc(12px + var(--sar)) 0 calc(12px + var(--sal));
   display: flex; align-items: center; gap: 8px; background: transparent;
 }
 #topbar::before { content: ""; position: absolute; inset: 0; background: color-mix(in srgb, var(--bg-0) 70%, transparent); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); opacity: 0; transition: opacity var(--t-base); pointer-events: none; }
@@ -227,7 +227,7 @@ html.paused .aurora .orb, html.paused .ticker .track, html.paused .float { anima
   border: 1px solid var(--glass-border); box-shadow: var(--shadow-2), inset 0 1px 0 var(--glass-highlight);
   opacity: 0; transition: opacity var(--t-base), transform var(--t-slow) var(--ease-spring); pointer-events: none;
 }
-body.no-tabs #toast { bottom: calc(var(--sab) + 24px); }
+body.no-tabs #toast, body.no-tabs.has-dock #toast { bottom: auto; top: calc(var(--sat) + 64px + var(--save-status-height, 0px)); }
 #toast.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
 #toast.ok { color: var(--gold-text); } #toast.ko { color: var(--ko); }
 
@@ -878,3 +878,13 @@ html.is-standalone:has(body.journey-viewport) .aurora,
 html.is-standalone:has(body.practice-viewport) .aurora {
   position:absolute; inset:0; height:var(--app-height); min-height:var(--app-height);
 }
+
+/* A storage failure is actionable and persists across routes. */
+#save-status[hidden] { display: none; }
+#save-status { position: fixed; top: 0; left: 0; right: 0; z-index: 220; padding: 10px var(--gutter); background: var(--bg-0); border-bottom: 1px solid var(--ko); }
+#save-status p { margin: 0; color: var(--ink); font-size: 14px; line-height: 1.35; }
+.save-status-actions { display: flex; gap: 12px; }
+.save-status-actions .btn { min-height: 40px; padding: 6px 0; }
+.submission-note { font-size: 13px; margin-top: 8px; }
+.submission-note summary { cursor: pointer; color: var(--ink-2); }
+.submission-note p { margin: 6px 0; overflow-wrap: anywhere; }

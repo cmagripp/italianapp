@@ -11,7 +11,7 @@
 //   parallax(el, factor), el, body, level, index.
 // [data-next] always marks the one element that advances the walkthrough right now (the CTA when the scene is ready,
 // otherwise the scene's helper such as "Reveal all" / "Not sure — show me"), so the generic e2e player can drive it.
-import { html, raw, esc, haptic, speak, icon } from '../ui.js';
+import { announceAnswer, html, raw, esc, haptic, speak, icon, submissionNote } from '../ui.js';
 import { setChrome } from '../app.js';
 import { setScene, mount, reducedMotion, sheen, shake, countUp, stamp, confetti, SCENES } from '../fx.js';
 import { checkTyped, accentBar, bindAccentBar, revealInScroller } from '../games/engine.js';
@@ -314,11 +314,12 @@ export function renderCheck(host, q, { prompt = null, limit = null, revealLabel 
     const fb = host.querySelector('[data-fb]');
     if (!fb) return;
     const kind = ok ? 'ok' : revealed ? 'info' : 'ko';
-    const line = ok ? `${icon('check', { size: 18 })} ${res.accentIssue ? 'Right — mind the accent: ' + esc(ans) : 'Esatto'}`
+    const line = ok ? `${icon('check', { size: 18 })} ${res.accentIssue ? 'Correct — accent restored: ' + esc(ans) : 'Esatto'}`
       : revealed ? `${icon('sparkle', { size: 18 })} ${esc(ans)}`
         : res.articleIssue ? `${icon('x', { size: 18 })} Mind the article — ${esc(ans)}`
           : `${icon('x', { size: 18 })} Not quite — ${esc(ans)}`;
-    fb.innerHTML = `<div class="feedback ${kind}">${line}${q.explain ? `<div class="detail">${q.explain}</div>` : ''}</div>`;
+    fb.innerHTML = `<div class="feedback ${kind}">${line}${q.explain ? `<div class="detail">${q.explain}</div>` : ''}${submissionNote(res.submission)}</div>`;
+    announceAnswer({ok,...res});
     haptic(ok ? 'success' : 'error');
     if (speakAnswer && q.say && (!ok || revealed)) speak(q.say);
     onDone && onDone(ok, { revealed, res });
@@ -365,7 +366,7 @@ export function renderCheck(host, q, { prompt = null, limit = null, revealLabel 
       host.querySelector('[data-accents]')?.remove();
       if (revealed) { input.value = answerText(); input.classList.add('revealed'); }
       else if (!ok) { shake(input); input.classList.add('ko'); }
-      else input.classList.add('ok');
+      else {input.classList.add('ok');if(res.submission)input.value=res.submission.displayText;}
       feedback(ok, revealed, res);
     };
     const submit = () => {

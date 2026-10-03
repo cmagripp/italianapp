@@ -3575,12 +3575,12 @@
             "v2-b1-ne-quantity"
           ],
           "related": [],
-          "takeaway": "Ce ne introduces the needed amount when the item is already known; the following verb agrees with the quantity.",
+          "takeaway": "Ne means of the already named items; ci means to/for us in these servire/mancare examples and changes to ce before ne. Ce ne servono due means we need two of them; ce ne manca una means we are missing one of them. The needed/missing items are the grammatical subject, so the verb agrees with the quantity. With voglio, Ne voglio quattro means I want four of them: no ci is required.",
           "targets": [
             {
               "id": "v2-b1-ce-ne-quantity.core",
               "label": "Say how many are needed",
-              "explanation": "After a question about tickets, ce ne avoids repeating biglietti. One item takes a singular verb; several take a plural verb.",
+              "explanation": "Ne means of the already named items; ci means to/for us in these servire/mancare examples and changes to ce before ne. Ce ne servono due means we need two of them; ce ne manca una means we are missing one of them. The needed/missing items are the grammatical subject, so the verb agrees with the quantity. With voglio, Ne voglio quattro means I want four of them: no ci is required.",
               "facets": [
                 "use"
               ],
@@ -3589,11 +3589,11 @@
               "modality": "language",
               "repair": {
                 "title": "Try say how many are needed again",
-                "body": "After a question about tickets, ce ne avoids repeating biglietti. One item takes a singular verb; several take a plural verb.",
+                "body": "Ne means of the already named items; ci means to/for us in these servire/mancare examples and changes to ce before ne. Ce ne servono due means we need two of them; ce ne manca una means we are missing one of them. The needed/missing items are the grammatical subject, so the verb agrees with the quantity. With voglio, Ne voglio quattro means I want four of them: no ci is required.",
                 "examples": [
                   {
-                    "it": "Quanti biglietti servono? Ce ne servono due.",
-                    "en": "How many tickets are needed? Two are needed."
+                    "it": "Ce ne servono due. Ne voglio quattro.",
+                    "en": "We need two of them. I want four of them."
                   }
                 ]
               }
@@ -3628,11 +3628,11 @@
               "id": "v2-b1-ce-ne-quantity.teach-1",
               "kind": "teach",
               "title": "Refer to known items",
-              "body": "After a question about tickets, ce ne avoids repeating biglietti.",
+              "body": "Ne means of the already named items; ci means to/for us in these servire/mancare examples and changes to ce before ne. Ce ne servono due means we need two of them; ce ne manca una means we are missing one of them. The needed/missing items are the grammatical subject, so the verb agrees with the quantity. With voglio, Ne voglio quattro means I want four of them: no ci is required.",
               "examples": [
                 {
-                  "it": "Quanti biglietti servono? Ce ne servono due.",
-                  "en": "How many tickets are needed? Two are needed."
+                  "it": "Ci servono due biglietti. Ce ne servono due.",
+                  "en": "We need two tickets. We need two of them."
                 }
               ],
               "introduces": [
@@ -3643,11 +3643,11 @@
               "id": "v2-b1-ce-ne-quantity.teach-2",
               "kind": "teach",
               "title": "Match the verb to the amount",
-              "body": "One item takes a singular verb; several take a plural verb.",
+              "body": "Keep the two functions distinct: ce (from ci) tells for whom the items are needed or missing; ne supplies of them. Singular uno/una takes serve/manca; plural quantities take servono/mancano.",
               "examples": [
                 {
-                  "it": "Ci manca una sedia. Ce ne mancano due.",
-                  "en": "We are missing one chair. We are missing two of them."
+                  "it": "Ci manca una sedia. Ce ne manca una. Ce ne mancano due.",
+                  "en": "We are missing one chair. We are missing one of them. We are missing two of them."
                 }
               ],
               "introduces": [
@@ -3671,8 +3671,8 @@
                 "Ci",
                 "Le"
               ],
-              "explanation": "Ce ne replaces the already named plural item.",
-              "hint": "Answer without repeating posti.",
+              "explanation": "Ce is ci (for us) before ne; ne means of the places already named. Three places are the subject, so use servono.",
+              "hint": "Separate for us (ci → ce before ne) from of them (ne), then check who or what is the subject.",
               "speak": "Quanti posti servono? Ce ne servono tre."
             },
             {
@@ -3687,15 +3687,15 @@
               "context": "Quante sedie mancano? ___ mancano due.",
               "translation": "How many chairs are missing? Two are missing.",
               "answer": "Ce ne",
-              "explanation": "Ce ne refers back to the chairs.",
-              "hint": "Use the two-part quantity pronoun.",
+              "explanation": "Ce is ci (for us) before ne; ne means of the chairs. Two chairs are missing, so mancano is plural.",
+              "hint": "Separate for us (ci → ce before ne) from of them (ne), then check who or what is the subject.",
               "speak": "Quante sedie mancano? Ce ne mancano due."
             },
             {
               "id": "v2-b1-ce-ne-quantity.contrast-1",
               "kind": "teach",
               "title": "Notice why it fits",
-              "body": "Ce ne refers back to the chairs.",
+              "body": "Ce is ci (for us) before ne; ne means of the chairs. Two chairs are missing, so mancano is plural.",
               "examples": [
                 {
                   "it": "Quante sedie mancano? Ce ne mancano due.",
@@ -3720,15 +3720,15 @@
                 "Ne ci",
                 "Li"
               ],
-              "explanation": "Ce ne works with one too; serve agrees with uno.",
-              "hint": "The item is already known.",
+              "explanation": "Ce is ci (for us) before ne. Uno is one of the tickets and is the subject, so use singular serve.",
+              "hint": "Separate for us (ci → ce before ne) from of them (ne), then check who or what is the subject.",
               "speak": "Quanti biglietti servono? Ce ne serve uno."
             },
             {
               "id": "v2-b1-ce-ne-quantity.contrast-2",
               "kind": "teach",
               "title": "Notice why it fits",
-              "body": "Ce ne works with one too; serve agrees with uno.",
+              "body": "Ce is ci (for us) before ne. Uno is one of the tickets and is the subject, so use singular serve.",
               "examples": [
                 {
                   "it": "Quanti biglietti servono? Ce ne serve uno.",
@@ -3748,8 +3748,8 @@
               "context": "Quante copie vuoi? ___ voglio quattro.",
               "translation": "How many copies do you want? I want four of them.",
               "answer": "Ne",
-              "explanation": "With voglio, simple ne replaces copies; ce is not needed here.",
-              "hint": "Use the quantity pronoun before voglio.",
+              "explanation": "Ne means of the copies. Voglio already has io as subject and needs no ci meaning for us: Ne voglio quattro.",
+              "hint": "Separate for us (ci → ce before ne) from of them (ne), then check who or what is the subject.",
               "speak": "Quante copie vuoi? Ne voglio quattro."
             },
             {
@@ -3779,7 +3779,7 @@
               "id": "v2-b1-ce-ne-quantity.recap",
               "kind": "teach",
               "title": "Keep this contrast",
-              "body": "Ce ne introduces the needed amount when the item is already known; the following verb agrees with the quantity.",
+              "body": "Ne means of the already named items; ci means to/for us in these servire/mancare examples and changes to ce before ne. Ce ne servono due means we need two of them; ce ne manca una means we are missing one of them. The needed/missing items are the grammatical subject, so the verb agrees with the quantity. With voglio, Ne voglio quattro means I want four of them: no ci is required.",
               "examples": [
                 {
                   "it": "Ci manca una sedia. Ce ne mancano due.",
@@ -3805,8 +3805,8 @@
                 "Ne ci",
                 "Le"
               ],
-              "explanation": "After a question about tickets, ce ne avoids repeating biglietti. One item takes a singular verb; several take a plural verb.",
-              "hint": "After a question about tickets, ce ne avoids repeating biglietti. One item takes a singular verb; several take a plural verb.",
+              "explanation": "Ce is ci (for us) before ne; ne means of the cups. Six cups are the subject, so use plural servono.",
+              "hint": "Separate for us (ci → ce before ne) from of them (ne), then check who or what is the subject.",
               "speak": "Quante tazze servono? Ce ne servono sei."
             }
           ]

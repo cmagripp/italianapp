@@ -1,0 +1,625 @@
+{
+  "testedAt": "2026-10-03T12:53:13.811Z",
+  "context": "Mac Chrome M1 Max; local Paola voice playback events; no human listening or phone performance claim",
+  "results": [
+    {
+      "reopen": 1,
+      "networkDisabled": true,
+      "freshWorkers": true,
+      "loaded": {
+        "llmLoad": {
+          "loadMs": 2141.1000003814697
+        },
+        "asrLoad": {
+          "loadMs": 559.5
+        },
+        "ttsLoad": {
+          "loadMs": 1207.9000005722046,
+          "voice": "it_IT-paola-medium",
+          "engine": "Piper ONNX/eSpeak WASM"
+        }
+      },
+      "speech": {
+        "ttsStartMs": 964.6000003814697,
+        "ttsGenerationMs": 733.3000001907349,
+        "ttsCompleteMs": 5133.700000762939,
+        "voice": {
+          "name": "it_IT-paola-medium",
+          "lang": "it-IT",
+          "localService": true,
+          "engine": "Piper ONNX/eSpeak WASM"
+        },
+        "audibleConfirmedByHuman": false
+      },
+      "fixture": {
+        "mode": "handsfree",
+        "source": "recorded-fixture",
+        "model": "Qwen3-1.7B-q4f16_1-MLC",
+        "context": 1024,
+        "level": "A1",
+        "at": "2026-10-03T12:51:58.981Z",
+        "text": "e è rio andare al mercato, ma non comprare niente.",
+        "historyMessages": 0,
+        "recognizedText": "e è rio andare al mercato, ma non comprare niente.",
+        "reference": "Ieri io andare al mercato, ma non comprare niente.",
+        "asrMs": 1471.9000005722046,
+        "vadProcessingMs": 21.700000762939453,
+        "endpointMs": null,
+        "audioSeconds": 2.976,
+        "detectedSegments": 1,
+        "wer": {
+          "referenceWords": 9,
+          "edits": 3,
+          "rate": 0.3333333333333333
+        },
+        "reply": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+        "rawReply": "<think>\n\n</think>\n\nEcco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+        "validation": {
+          "ok": true,
+          "text": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+          "scope": "structural only; Italian teaching quality requires review"
+        },
+        "llmMs": 1795.6999998092651,
+        "firstTokenMs": 456.6000003814697,
+        "usage": {
+          "completion_tokens": 83,
+          "prompt_tokens": 156,
+          "total_tokens": 239,
+          "extra": {
+            "e2e_latency_s": 1.795,
+            "prefill_tokens_per_s": 345.13274336283183,
+            "decode_tokens_per_s": 62.802663238854066,
+            "time_to_first_token_s": 0.452,
+            "time_per_output_token_s": 0.01592289161682129
+          }
+        },
+        "validatedReplyMs": 1796.4000005722046,
+        "ttsStartMs": 2190.199999809265,
+        "ttsGenerationMs": 2185,
+        "ttsCompleteMs": 14342.099999427795,
+        "voice": {
+          "name": "it_IT-paola-medium",
+          "lang": "it-IT",
+          "localService": true,
+          "engine": "Piper ONNX/eSpeak WASM"
+        },
+        "audibleConfirmedByHuman": false,
+        "endToFirstAudioMs": null,
+        "sendToFirstAudioMs": 3986.6000003814697,
+        "pipelineToFirstAudioMs": 5480.200001716614,
+        "ok": true
+      }
+    },
+    {
+      "reopen": 2,
+      "networkDisabled": true,
+      "freshWorkers": true,
+      "loaded": {
+        "llmLoad": {
+          "loadMs": 3029.4000005722046
+        },
+        "asrLoad": {
+          "loadMs": 619.5
+        },
+        "ttsLoad": {
+          "loadMs": 1508.5999994277954,
+          "voice": "it_IT-paola-medium",
+          "engine": "Piper ONNX/eSpeak WASM"
+        }
+      },
+      "speech": {
+        "ttsStartMs": 1135,
+        "ttsGenerationMs": 1127.9000005722046,
+        "ttsCompleteMs": 5113.599999427795,
+        "voice": {
+          "name": "it_IT-paola-medium",
+          "lang": "it-IT",
+          "localService": true,
+          "engine": "Piper ONNX/eSpeak WASM"
+        },
+        "audibleConfirmedByHuman": false
+      },
+      "fixture": {
+        "mode": "handsfree",
+        "source": "recorded-fixture",
+        "model": "Qwen3-1.7B-q4f16_1-MLC",
+        "context": 1024,
+        "level": "A1",
+        "at": "2026-10-03T12:52:27.624Z",
+        "text": "e è rio andare al mercato, ma non comprare niente.",
+        "historyMessages": 0,
+        "recognizedText": "e è rio andare al mercato, ma non comprare niente.",
+        "reference": "Ieri io andare al mercato, ma non comprare niente.",
+        "asrMs": 1663.6999998092651,
+        "vadProcessingMs": 20.5,
+        "endpointMs": null,
+        "audioSeconds": 2.976,
+        "detectedSegments": 1,
+        "wer": {
+          "referenceWords": 9,
+          "edits": 3,
+          "rate": 0.3333333333333333
+        },
+        "reply": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+        "rawReply": "<think>\n\n</think>\n\nEcco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+        "validation": {
+          "ok": true,
+          "text": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+          "scope": "structural only; Italian teaching quality requires review"
+        },
+        "llmMs": 2013,
+        "firstTokenMs": 573.1000003814697,
+        "usage": {
+          "completion_tokens": 83,
+          "prompt_tokens": 156,
+          "total_tokens": 239,
+          "extra": {
+            "e2e_latency_s": 2.013,
+            "prefill_tokens_per_s": 276.8903085579732,
+            "decode_tokens_per_s": 58.41368121073238,
+            "time_to_first_token_s": 0.5634000005722046,
+            "time_per_output_token_s": 0.017119277184268082
+          }
+        },
+        "validatedReplyMs": 2013.3999996185303,
+        "ttsStartMs": 2678.699999809265,
+        "ttsGenerationMs": 2669.8999996185303,
+        "ttsCompleteMs": 14762.300000190735,
+        "voice": {
+          "name": "it_IT-paola-medium",
+          "lang": "it-IT",
+          "localService": true,
+          "engine": "Piper ONNX/eSpeak WASM"
+        },
+        "audibleConfirmedByHuman": false,
+        "endToFirstAudioMs": null,
+        "sendToFirstAudioMs": 4692.099999427795,
+        "pipelineToFirstAudioMs": 6376.299999237061,
+        "ok": true
+      }
+    },
+    {
+      "reopen": 3,
+      "networkDisabled": true,
+      "freshWorkers": true,
+      "loaded": {
+        "llmLoad": {
+          "loadMs": 1967.9000005722046
+        },
+        "asrLoad": {
+          "loadMs": 634.2999992370605
+        },
+        "ttsLoad": {
+          "loadMs": 1414,
+          "voice": "it_IT-paola-medium",
+          "engine": "Piper ONNX/eSpeak WASM"
+        }
+      },
+      "speech": {
+        "ttsStartMs": 875.3999996185303,
+        "ttsGenerationMs": 871.3999996185303,
+        "ttsCompleteMs": 4899.60000038147,
+        "voice": {
+          "name": "it_IT-paola-medium",
+          "lang": "it-IT",
+          "localService": true,
+          "engine": "Piper ONNX/eSpeak WASM"
+        },
+        "audibleConfirmedByHuman": false
+      },
+      "fixture": {
+        "mode": "handsfree",
+        "source": "recorded-fixture",
+        "model": "Qwen3-1.7B-q4f16_1-MLC",
+        "context": 1024,
+        "level": "A1",
+        "at": "2026-10-03T12:52:55.380Z",
+        "text": "e è rio andare al mercato, ma non comprare niente.",
+        "historyMessages": 0,
+        "recognizedText": "e è rio andare al mercato, ma non comprare niente.",
+        "reference": "Ieri io andare al mercato, ma non comprare niente.",
+        "asrMs": 1597.8000001907349,
+        "vadProcessingMs": 19.899999618530273,
+        "endpointMs": null,
+        "audioSeconds": 2.976,
+        "detectedSegments": 1,
+        "wer": {
+          "referenceWords": 9,
+          "edits": 3,
+          "rate": 0.3333333333333333
+        },
+        "reply": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+        "rawReply": "<think>\n\n</think>\n\nEcco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+        "validation": {
+          "ok": true,
+          "text": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+          "scope": "structural only; Italian teaching quality requires review"
+        },
+        "llmMs": 1957.2000007629395,
+        "firstTokenMs": 603.9000005722046,
+        "usage": {
+          "completion_tokens": 83,
+          "prompt_tokens": 156,
+          "total_tokens": 239,
+          "extra": {
+            "e2e_latency_s": 1.957,
+            "prefill_tokens_per_s": 259.48103800647385,
+            "decode_tokens_per_s": 61.96341905391655,
+            "time_to_first_token_s": 0.6011999998092651,
+            "time_per_output_token_s": 0.016138554251337627
+          }
+        },
+        "validatedReplyMs": 1958.1999998092651,
+        "ttsStartMs": 2360.8999996185303,
+        "ttsGenerationMs": 2355.1000003814697,
+        "ttsCompleteMs": 14629.89999961853,
+        "voice": {
+          "name": "it_IT-paola-medium",
+          "lang": "it-IT",
+          "localService": true,
+          "engine": "Piper ONNX/eSpeak WASM"
+        },
+        "audibleConfirmedByHuman": false,
+        "endToFirstAudioMs": null,
+        "sendToFirstAudioMs": 4319.099999427795,
+        "pipelineToFirstAudioMs": 5936.799999237061,
+        "ok": true
+      }
+    }
+  ],
+  "cancellation": {
+    "stopMs": 636.1000003814697,
+    "row": {
+      "mode": "written",
+      "source": "typed",
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "level": "A1",
+      "at": "2026-10-03T12:53:13.028Z",
+      "text": "Spiega in italiano, con esempi, la differenza tra il passato prossimo e l’imperfetto.",
+      "historyMessages": 6,
+      "ok": false,
+      "error": "Cancelled"
+    },
+    "duplicateRejected": true,
+    "assistantCountBefore": 7,
+    "assistantCountAfter": 7,
+    "noLateAssistantCommitted": true
+  },
+  "synthesisCancellation": {
+    "error": "Stale synthesis cancelled before playback",
+    "playbackCalls": 0,
+    "noDelayedPlayback": true
+  },
+  "errors": [],
+  "environment": {
+    "measuredAt": "2026-10-03T12:53:13.800Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+    "platform": "MacIntel",
+    "secureContext": true,
+    "standalone": false,
+    "crossOriginIsolated": false,
+    "webgpu": true,
+    "adapter": true,
+    "shaderF16": true,
+    "adapterInfo": {
+      "vendor": "apple",
+      "architecture": "metal-3",
+      "device": "",
+      "description": ""
+    },
+    "adapterLimits": {
+      "maxBufferSize": 4294967292,
+      "maxStorageBufferBindingSize": 4294967292
+    },
+    "localItalianVoices": [
+      {
+        "name": "Alice",
+        "lang": "it-IT",
+        "localService": true
+      }
+    ],
+    "storage": {
+      "quota": 14057509195,
+      "usage": 3320090955,
+      "usageDetails": {
+        "caches": 3320088576,
+        "serviceWorkerRegistrations": 2379
+      }
+    },
+    "versions": {
+      "webllm": "0.2.85",
+      "transformers": "4.3.0",
+      "vad": "0.0.31",
+      "piperWeb": "1.0.5",
+      "piperPhonemize": "1.0.0",
+      "ortASR": "1.31.0-dev.20260914-8d85527a0",
+      "ortVAD": "1.30.0",
+      "ortTTS": "1.30.0"
+    },
+    "microphone": true,
+    "speechRecognitionBuiltInUsed": false
+  },
+  "settings": {
+    "context_window_size": 1024,
+    "max_tokens": 96,
+    "temperature": 0.2,
+    "top_p": 0.9,
+    "seed": 42
+  },
+  "modelProvenance": {
+    "repository": "mlc-ai/Qwen3-1.7B-q4f16_1-MLC",
+    "revision": "80b3abcec6c3b3f5355dc0cc99cc4fb578f192bc",
+    "license": "review upstream terms",
+    "source": "https://huggingface.co/mlc-ai/Qwen3-1.7B-q4f16_1-MLC/tree/80b3abcec6c3b3f5355dc0cc99cc4fb578f192bc",
+    "binaryRevision": "025bcaf3780fa8254f5e5efd3bfea0a5397248f4"
+  },
+  "rows": [
+    {
+      "mode": "handsfree",
+      "source": "recorded-fixture",
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "level": "A1",
+      "at": "2026-10-03T12:52:55.380Z",
+      "text": "e è rio andare al mercato, ma non comprare niente.",
+      "historyMessages": 0,
+      "recognizedText": "e è rio andare al mercato, ma non comprare niente.",
+      "reference": "Ieri io andare al mercato, ma non comprare niente.",
+      "asrMs": 1597.8000001907349,
+      "vadProcessingMs": 19.899999618530273,
+      "endpointMs": null,
+      "audioSeconds": 2.976,
+      "detectedSegments": 1,
+      "wer": {
+        "referenceWords": 9,
+        "edits": 3,
+        "rate": 0.3333333333333333
+      },
+      "reply": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+      "rawReply": "<think>\n\n</think>\n\nEcco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+      "validation": {
+        "ok": true,
+        "text": "Ecco un errore: \"rio\" non è un verbo. Corretto: \"e è ritornare al mercato, ma non comprare niente.\"  \n\nSe manca una parola, spiega con parole semplici: \"Ecco un errore: 'rio' non è un verbo. Cosa vuol dire 'ritornare al mercato'?\"",
+        "scope": "structural only; Italian teaching quality requires review"
+      },
+      "llmMs": 1957.2000007629395,
+      "firstTokenMs": 603.9000005722046,
+      "usage": {
+        "completion_tokens": 83,
+        "prompt_tokens": 156,
+        "total_tokens": 239,
+        "extra": {
+          "e2e_latency_s": 1.957,
+          "prefill_tokens_per_s": 259.48103800647385,
+          "decode_tokens_per_s": 61.96341905391655,
+          "time_to_first_token_s": 0.6011999998092651,
+          "time_per_output_token_s": 0.016138554251337627
+        }
+      },
+      "validatedReplyMs": 1958.1999998092651,
+      "ttsStartMs": 2360.8999996185303,
+      "ttsGenerationMs": 2355.1000003814697,
+      "ttsCompleteMs": 14629.89999961853,
+      "voice": {
+        "name": "it_IT-paola-medium",
+        "lang": "it-IT",
+        "localService": true,
+        "engine": "Piper ONNX/eSpeak WASM"
+      },
+      "audibleConfirmedByHuman": false,
+      "endToFirstAudioMs": null,
+      "sendToFirstAudioMs": 4319.099999427795,
+      "pipelineToFirstAudioMs": 5936.799999237061,
+      "ok": true
+    },
+    {
+      "mode": "written",
+      "source": "typed",
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "level": "A1",
+      "at": "2026-10-03T12:53:13.028Z",
+      "text": "Spiega in italiano, con esempi, la differenza tra il passato prossimo e l’imperfetto.",
+      "historyMessages": 6,
+      "ok": false,
+      "error": "Cancelled"
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-10-03T12:52:44.531Z",
+      "status": "Local trial artifacts are provisioned. Choose a candidate and install its cache."
+    },
+    {
+      "at": "2026-10-03T12:52:44.576Z",
+      "status": "Stopped."
+    },
+    {
+      "at": "2026-10-03T12:52:45.441Z",
+      "status": "Start to fetch params"
+    },
+    {
+      "at": "2026-10-03T12:52:45.611Z",
+      "status": "Loading model from cache[1/30]: 149MB loaded. 16% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.639Z",
+      "status": "Loading model from cache[2/30]: 174MB loaded. 18% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.671Z",
+      "status": "Loading model from cache[3/30]: 201MB loaded. 21% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.703Z",
+      "status": "Loading model from cache[4/30]: 228MB loaded. 24% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.735Z",
+      "status": "Loading model from cache[5/30]: 255MB loaded. 27% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.772Z",
+      "status": "Loading model from cache[6/30]: 282MB loaded. 30% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.804Z",
+      "status": "Loading model from cache[7/30]: 309MB loaded. 33% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.838Z",
+      "status": "Loading model from cache[8/30]: 336MB loaded. 36% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.874Z",
+      "status": "Loading model from cache[9/30]: 363MB loaded. 39% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.907Z",
+      "status": "Loading model from cache[10/30]: 390MB loaded. 42% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.943Z",
+      "status": "Loading model from cache[11/30]: 417MB loaded. 45% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:45.977Z",
+      "status": "Loading model from cache[12/30]: 444MB loaded. 48% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.010Z",
+      "status": "Loading model from cache[13/30]: 471MB loaded. 50% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.042Z",
+      "status": "Loading model from cache[14/30]: 498MB loaded. 53% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.075Z",
+      "status": "Loading model from cache[15/30]: 525MB loaded. 56% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.107Z",
+      "status": "Loading model from cache[16/30]: 552MB loaded. 59% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.140Z",
+      "status": "Loading model from cache[17/30]: 579MB loaded. 62% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.172Z",
+      "status": "Loading model from cache[18/30]: 606MB loaded. 65% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.207Z",
+      "status": "Loading model from cache[19/30]: 633MB loaded. 68% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.242Z",
+      "status": "Loading model from cache[20/30]: 660MB loaded. 71% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.274Z",
+      "status": "Loading model from cache[21/30]: 687MB loaded. 74% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.307Z",
+      "status": "Loading model from cache[22/30]: 714MB loaded. 77% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.338Z",
+      "status": "Loading model from cache[23/30]: 741MB loaded. 80% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.372Z",
+      "status": "Loading model from cache[24/30]: 768MB loaded. 83% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.401Z",
+      "status": "Loading model from cache[25/30]: 795MB loaded. 86% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.433Z",
+      "status": "Loading model from cache[26/30]: 822MB loaded. 89% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.466Z",
+      "status": "Loading model from cache[27/30]: 849MB loaded. 91% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.499Z",
+      "status": "Loading model from cache[28/30]: 876MB loaded. 94% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.536Z",
+      "status": "Loading model from cache[29/30]: 903MB loaded. 97% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.561Z",
+      "status": "Loading model from cache[30/30]: 924MB loaded. 100% completed, 2 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.586Z",
+      "status": "Loading GPU shader modules[4/4]: 100% completed, 1 secs elapsed."
+    },
+    {
+      "at": "2026-10-03T12:52:46.586Z",
+      "status": "Finish loading on WebGPU - apple"
+    },
+    {
+      "model": "Qwen3-1.7B-q4f16_1-MLC",
+      "context": 1024,
+      "llmLoad": {
+        "loadMs": 1967.9000005722046
+      },
+      "asrLoad": {
+        "loadMs": 634.2999992370605
+      },
+      "ttsLoad": {
+        "loadMs": 1414,
+        "voice": "it_IT-paola-medium",
+        "engine": "Piper ONNX/eSpeak WASM"
+      }
+    },
+    {
+      "at": "2026-10-03T12:52:48.636Z",
+      "status": "Actual local language model, Italian ASR and bundled Italian voice loaded."
+    },
+    {
+      "at": "2026-10-03T12:52:53.779Z",
+      "status": "Recognizing locally in Italian…"
+    },
+    {
+      "at": "2026-10-03T12:52:55.380Z",
+      "status": "Generating and checking the complete response…"
+    },
+    {
+      "at": "2026-10-03T12:53:11.968Z",
+      "status": "Turn complete."
+    },
+    {
+      "at": "2026-10-03T12:53:11.987Z",
+      "status": "Stopped."
+    },
+    {
+      "at": "2026-10-03T12:53:13.028Z",
+      "status": "Generating and checking the complete response…"
+    },
+    {
+      "at": "2026-10-03T12:53:13.129Z",
+      "status": "Stopped."
+    },
+    {
+      "at": "2026-10-03T12:53:13.763Z",
+      "status": "Cancelled"
+    },
+    {
+      "at": "2026-10-03T12:53:13.767Z",
+      "status": "Stopped."
+    }
+  ],
+  "requestHosts": [
+    "127.0.0.1:8132"
+  ]
+}

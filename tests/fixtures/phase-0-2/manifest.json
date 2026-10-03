@@ -1,0 +1,101 @@
+{
+  "synthetic": true,
+  "sourceCommit": "bd60180cc4eea7d9c0bd45e41584048ec752fba1",
+  "sourceProfileVersion": 2,
+  "sourceLearningVersion": 5,
+  "fixtureTime": 1700000000000,
+  "files": [
+    {
+      "file": "legacy-v0-profile.json",
+      "covers": [
+        "legacy aggregate XP",
+        "learned wildcard migration",
+        "unknown old IDs",
+        "custom word",
+        "lists"
+      ]
+    },
+    {
+      "file": "legacy-v2-evidence-and-draft.json",
+      "covers": [
+        "legacy objective game miss",
+        "version2 evidence",
+        "exact typed draft"
+      ]
+    },
+    {
+      "file": "current-v5-partial-profile.json",
+      "covers": [
+        "manual check",
+        "manual uncheck",
+        "partial five-case verb",
+        "supported word",
+        "grammar partial",
+        "coexisting sessions",
+        "workshop draft",
+        "custom tombstone"
+      ]
+    },
+    {
+      "file": "other-local-learner.json",
+      "covers": [
+        "profile isolation",
+        "Strict accents different setting"
+      ]
+    },
+    {
+      "file": "stale-backup-before-reset.json",
+      "covers": [
+        "stale completions",
+        "lists",
+        "membership",
+        "history"
+      ]
+    },
+    {
+      "file": "reset-v5-profile.json",
+      "covers": [
+        "new reset epoch",
+        "retained lists/custom",
+        "cleared XP/evidence/lab"
+      ]
+    },
+    {
+      "file": "recordings-and-cloud-sidecar.json",
+      "covers": [
+        "separate recording inventory",
+        "same account two local learners",
+        "no fabricated cloud identity"
+      ]
+    }
+  ],
+  "baselineRegressions": [
+    {
+      "id": "SAVE-FAILURE",
+      "expectation": "Failed explicit save/import must reject and preserve active durable profile."
+    },
+    {
+      "id": "LIST-TOMBSTONE",
+      "expectation": "Deleted list and removed membership must not return from an older backup."
+    },
+    {
+      "id": "LAB-XP-MERGE",
+      "expectation": "Distinct prospective workshop completions on devices must retain both rewards exactly once."
+    },
+    {
+      "id": "LEARNER-IDENTITY",
+      "expectation": "Same account cannot silently merge two different local learners."
+    },
+    {
+      "id": "COMPACTION",
+      "expectation": "Do not remove evidence until a versioned merge-safe checkpoint contract is implemented and verified."
+    }
+  ],
+  "designOnly": [
+    "portable learner identity adoption",
+    "canonical registry/aliases",
+    "sense split",
+    "conversation drafts/turns/summaries/audio",
+    "merge-safe evidence compaction"
+  ]
+}

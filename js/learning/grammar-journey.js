@@ -1,4 +1,5 @@
 import { grammarSkill } from './grammar-state.js';
+import { compareSubmission } from './answer-policy.js';
 
 export const normalizeGrammarAnswer=value=>String(value || '').normalize('NFC').toLocaleLowerCase('it').replace(/[’‘]/g,"'").replace(/[.!?,;:]+$/g,'').trim().replace(/\s+/g,' ');
 export function compatibleGrammarSession(lesson,session) {
@@ -11,9 +12,12 @@ export function compatibleGrammarSession(lesson,session) {
   return frame(g) && Array.isArray(g.history) && g.history.every(frame)
     && (g.historyCursor===null || Number.isInteger(g.historyCursor)&&g.historyCursor>=0&&g.historyCursor<g.history.length);
 }
-export function checkGrammarAnswer(question,value) {
-  if(question.format==='match')return Array.isArray(value) && value.length===question.pairs.length && value.every((right,left)=>right===left);
-  return [question.answer,...question.accepted || []].some(answer=>normalizeGrammarAnswer(answer)===normalizeGrammarAnswer(value));
+export function assessGrammarAnswer(question,value,policy={}) {
+  if(question.format==='match')return {ok:Array.isArray(value) && value.length===question.pairs.length && value.every((right,left)=>right===left)};
+  return compareSubmission(value,[question.answer,...question.accepted || []],{...policy,inputMode:question.format==='type'?'typed':'choice'});
+}
+export function checkGrammarAnswer(question,value,policy={}) {
+  return assessGrammarAnswer(question,value,policy).ok;
 }
 export function createGrammarSession(lesson,{mode='lesson',objective=null,now=Date.now()}={}) {
   const focused=lesson.objectives.findIndex(o=>o.id===objective);
@@ -59,14 +63,15 @@ export function advanceGrammar(lesson,session,learning) {
   else {g.phase='question';g.guided=false;}
   return session;
 }
-export function grammarAttempt(lesson,session,question,value,{reveal=false}={}) {
+export function grammarAttempt(lesson,session,question,value,{reveal=false,accentStrict=false}={}) {
   const g=session.grammar, objective=grammarObjective(lesson,session);
   const assistance=[...g.assistance,...reveal?['reveal']:[],...g.pairErrors?['pair-correction']:[]];
-  const ok=!reveal && checkGrammarAnswer(question,value);
+  const submission=assessGrammarAnswer(question,value,{accentStrict});
+  const ok=!reveal && submission.ok;
   return {entryId:session.entryId,kind:'grammar',policy:'grammar-v1',contentVersion:lesson.contentVersion,
     objectiveId:objective.id,sessionId:session.id,index:session.index,skill:objective.errorTag,
     variantId:question.id,contextId:normalizeGrammarAnswer(question.speak || question.context || (question.pairs || []).map(p=>p.left+' '+p.right).join(' ') || question.translation || question.prompt),mode:question.format==='type'?'production':'recognition',
     grammarPhase:g.guided||question.guided?'guided':'independent',firstAttempt:true,assistance,
-    ok,outcome:reveal?'revealed':ok?'correct':'incorrect',errorTags:ok?[]:[question.errorTag || objective.errorTag],
+    ...(submission.policyVersion?{submission}:{}),ok,outcome:reveal?'revealed':ok?'correct':'incorrect',errorTags:ok?[]:[question.errorTag || objective.errorTag],
     xp:ok&&!assistance.length?2:0};
 }

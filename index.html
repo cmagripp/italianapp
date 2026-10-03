@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Parola — Italian words & verbs</title>
   <meta name="description" content="Learn Italian vocabulary and verbs from A1 to C2 with adaptive drills, conjugation tables and games.">
   <meta name="theme-color" content="#070912">
@@ -15,11 +15,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- The web fonts must never block first paint: the stylesheet loads as a print sheet (non-blocking) and is switched on
-       when it arrives, the fallback stack renders meanwhile (display=swap); a slow or unreachable fonts host cannot delay the app. -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/fonts.css">
   <!-- iOS may report a short dynamic viewport at Home Screen cold start. Select
        the full-screen CSS unit before the first frame (the media query can lag). -->
   <script>if (navigator.standalone) document.documentElement.classList.add('is-standalone');</script>
@@ -49,6 +45,8 @@
   <link rel="preload" href="data/verbs.json" as="fetch" crossorigin>
 </head>
 <body>
+  <div id="announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
   <div class="aurora" aria-hidden="true"><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="grain"></div></div>
   <header id="topbar">
     <button class="icon-btn back-btn" id="backBtn" aria-label="Back" type="button">

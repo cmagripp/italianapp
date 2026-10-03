@@ -1,0 +1,560 @@
+{
+  "status": "Local validation passed; exact commit and Pages/live verification recorded in the task after publication.",
+  "deterministic": [
+    {
+      "command": "node tools/validate.mjs data/vocab/*.json data/verbs/*.json",
+      "status": 0,
+      "seconds": 0.15,
+      "output": "data/vocab/A1-life-1.json: OK (113 entries)\ndata/vocab/A1-life-2.json: OK (110 entries)\ndata/vocab/A1-mind-1.json: OK (81 entries)\ndata/vocab/A1-mind-2.json: OK (93 entries)\ndata/vocab/A1-more-1.json: OK (96 entries)\ndata/vocab/A1-more-2.json: OK (91 entries)\ndata/vocab/A1-more-3.json: OK (95 entries)\ndata/vocab/A1-more-4.json: OK (78 entries)\ndata/vocab/A1-world-1.json: OK (105 entries)\ndata/vocab/A1-world-2.json: OK (109 entries)\ndata/vocab/A2-life-1.json: OK (91 entries)\ndata/vocab/A2-life-2.json: OK (91 entries)\ndata/vocab/A2-life-3.json: OK (79 entries)\ndata/vocab/A2-mind-1.json: OK (80 entries)\ndata/vocab/A2-mind-2.json: OK (80 entries)\ndata/vocab/A2-mind-3.json: OK (81 entries)\ndata/vocab/A2-more-1.json: OK (89 entries)\ndata/vocab/A2-more-2.json: OK (90 entries)\ndata/vocab/A2-more-3.json: OK (98 entries)\ndata/vocab/A2-more-4.json: OK (99 entries)\ndata/vocab/A2-world-1.json: OK (88 entries)\ndata/vocab/A2-world-2.json: OK (90 entries)\ndata/vocab/A2-world-3.json: OK (63 entries)\ndata/vocab/B1-life-1.json: OK (80 entries)\ndata/vocab/B1-life-2.json: OK (80 entries)\ndata/vocab/B1-life-3.json: OK (80 entries)\ndata/vocab/B1-life-4.json: OK (80 entries)\ndata/vocab/B1-mind-1.json: OK (91 entries)\ndata/vocab/B1-mind-2.json: OK (91 entries)\ndata/vocab/B1-mind-3.json: OK (94 entries)\ndata/vocab/B1-mind-4.json: OK (90 entries)\ndata/vocab/B1-more-1.json: OK (94 entries)\ndata/vocab/B1-more-2.json: OK (106 entries)\ndata/vocab/B1-more-3.json: OK (96 entries)\ndata/vocab/B1-more-4.json: OK (77 entries)\ndata/vocab/B1-more-5.json: OK (91 entries)\ndata/vocab/B1-world-1.json: OK (106 entries)\ndata/vocab/B1-world-2.json: OK (121 entries)\ndata/vocab/B1-world-3.json: OK (109 entries)\ndata/vocab/B1-world-4.json: OK (94 entries)\ndata/vocab/B2-life-1.json: OK (85 entries)\ndata/vocab/B2-life-2.json: OK (85 entries)\ndata/vocab/B2-life-3.json: OK (85 entries)\ndata/vocab/B2-life-4.json: OK (85 entries)\ndata/vocab/B2-mind-1.json: OK (88 entries)\ndata/vocab/B2-mind-2.json: OK (88 entries)\ndata/vocab/B2-mind-3.json: OK (88 entries)\ndata/vocab/B2-mind-4.json: OK (88 entries)\ndata/vocab/B2-mind-5.json: OK (88 entries)\ndata/vocab/B2-more-1.json: OK (100 entries)\ndata/vocab/B2-more-2.json: OK (100 entries)\ndata/vocab/B2-more-3.json: OK (100 entries)\ndata/vocab/B2-more-4.json: OK (100 entries)\ndata/vocab/B2-world-1.json: OK (91 entries)\ndata/vocab/B2-world-2.json: OK (90 entries)\ndata/vocab/B2-world-3.json: OK (90 entries)\ndata/vocab/B2-world-4.json: OK (90 entries)\ndata/vocab/C1-life-1.json: OK (100 entries)\ndata/vocab/C1-life-2.json: OK (100 entries)\ndata/vocab/C1-life-3.json: OK (100 entries)\ndata/vocab/C1-mind-1.json: OK (88 entries)\ndata/vocab/C1-mind-2.json: OK (88 entries)\ndata/vocab/C1-mind-3.json: OK (88 entries)\ndata/vocab/C1-mind-4.json: OK (88 entries)\ndata/vocab/C1-mind-5.json: OK (88 entries)\ndata/vocab/C1-more-1.json: OK (103 entries)\ndata/vocab/C1-more-2.json: OK (102 entries)\ndata/vocab/C1-more-3.json: OK (110 entries)\ndata/vocab/C1-more-4.json: OK (85 entries)\ndata/vocab/C1-world-1.json: OK (80 entries)\ndata/vocab/C1-world-2.json: OK (80 entries)\ndata/vocab/C1-world-3.json: OK (80 entries)\ndata/vocab/C1-world-4.json: OK (80 entries)\ndata/vocab/C2-life-1.json: OK (90 entries)\ndata/vocab/C2-life-2.json: OK (100 entries)\ndata/vocab/C2-life-3.json: OK (75 entries)\ndata/vocab/C2-mind-1.json: OK (100 entries)\ndata/vocab/C2-mind-2.json: OK (100 entries)\ndata/vocab/C2-mind-3.json: OK (105 entries)\ndata/vocab/C2-mind-4.json: OK (100 entries)\ndata/vocab/C2-more-1.json: OK (114 entries)\ndata/vocab/C2-more-2.json: OK (114 entries)\ndata/vocab/C2-more-3.json: OK (85 entries)\ndata/vocab/C2-more-4.json: OK (85 entries)\ndata/vocab/C2-world-1.json: OK (104 entries)\ndata/vocab/C2-world-2.json: OK (93 entries)\ndata/vocab/C2-world-3.json: OK (91 entries)\ndata/verbs/A1-1.json: OK (40 entries)\ndata/verbs/A1-2.json: OK (40 entries)\ndata/verbs/A1-more-1.json: OK (40 entries)\ndata/verbs/A2-1.json: OK (40 entries)\ndata/verbs/A2-2.json: OK (40 entries)\ndata/verbs/A2-3.json: OK (40 entries)\ndata/verbs/A2-more-1.json: OK (40 entries)\ndata/verbs/A2-more-2.json: OK (40 entries)\ndata/verbs/B1-1.json: OK (41 entries)\ndata/verbs/B1-2.json: OK (40 entries)\ndata/verbs/B1-3.json: OK (40 entries)\ndata/verbs/B1-4.json: OK (39 entries)\ndata/verbs/B1-more-1.json: OK (40 entries)\ndata/verbs/B1-more-2.json: OK (40 entries)\ndata/verbs/B2-1.json: OK (40 entries)\ndata/verbs/B2-2.json: OK (40 entries)\ndata/verbs/B2-3.json: OK (40 entries)\ndata/verbs/B2-4.json: OK (40 entries)\ndata/verbs/B2-more-1.json: OK (40 entries)\ndata/verbs/B2-more-2.json: OK (40 entries)\ndata/verbs/C1-1.json: OK (35 entries)\ndata/verbs/C1-2.json: OK (35 entries)\ndata/verbs/C1-3.json: OK (35 entries)\ndata/verbs/C1-4.json: OK (35 entries)\ndata/verbs/C1-more-1.json: OK (35 entries)\ndata/verbs/C1-more-2.json: OK (35 entries)\ndata/verbs/C2-1.json: OK (40 entries)\ndata/verbs/C2-2.json: OK (40 entries)\ndata/verbs/C2-3.json: OK (40 entries)\ndata/verbs/C2-more-1.json: OK (35 entries)\ndata/verbs/C2-more-2.json: OK (35 entries)\ndata/verbs/extra-1.json: OK (31 entries)\ntotal entries: 9258\nnote: 178 entries appear in more than one file at the same level; the build keeps the copy from the first file in name order and drops the other: cameriere|noun (A1) in A1-life-2.json and A1-mind-1.json; zaino|noun (A1) in A1-life-2.json and A1-mind-1.json; telefono|noun (A1) in A1-life-2.json and A1-mind-1.json; cellulare|noun (A1) in A1-life-2.json and A1-mind-1.json; televisione|noun (A1) in A1-life-2.json and A1-mind-1.json; foto|noun (A1) in A1-life-2.json and A1-mind-1.json; gente|noun (A1) in A1-life-1.json and A1-mind-1.json; mercato|noun (A1) in A1-life-2.json and A1-mind-1.json; \u2026\n"
+    },
+    {
+      "command": "node tools/test-accent-policy.mjs",
+      "status": 0,
+      "seconds": 0.11,
+      "output": "\u2713 Visible accepted spelling: caffe\n\u2713 Visible accepted spelling: perch\u00e8\n\u2713 Visible accepted spelling: Un CAFFE, per favore!\n\u2713 Visible accepted spelling: e\u0300\n\u2713 Visible accepted spelling: Sono li.\n\u2713 Visible accepted spelling: L\u2019acqua e qui.\n\u2713 Visible accepted spelling: cos\u00ec\n\u2713 Strict spelling retains original and diagnoses accent\n\u2713 No omitted letters, apostrophes, grammar or foreign-name rewrite\n\u2713 An exact alternative wins and folded ambiguity stays unaccepted\n\u2713 Explicit choices retain meaning and transcript accents are not typing evidence\n\u2713 Adaptive answers restore without manufacturing orthography evidence\n\u2713 Course, legacy grammar and placement use the same policy\n\u2713 Current course field, history and event save the matched spelling once\n\u2713 Legacy saved feedback retains original input and display\n\u2713 Submission provenance survives normalization, settings changes and merge\n16 accent policy checks passed.\n"
+    },
+    {
+      "command": "node tools/test-phase-migration-fixtures.mjs",
+      "status": 0,
+      "seconds": 0.25,
+      "output": "\u2713 fixtures are declared synthetic and use the audited old schema\n\u2713 old aggregate XP and checks survive without invented answer evidence\n\u2713 old backup normalization and repeated round trips are idempotent\n\u2713 legacy game difficulty and exact partial question survive migration\n\u2713 five available core cases survive separate manual checks and unchecks\n\u2713 manual all/individual edits neither create answers nor alter XP\n\u2713 supported word and assisted verb evidence do not become unaided mastery\n\u2713 legacy, chapter, grammar and workshop sessions coexist with exact drafts\n\u2713 recorded event IDs prevent repeated backup XP and duplicate responses\n\u2713 new reset wins stale merge without removing lists or custom words\n\u2713 pure epoch merge is commutative and stale manual fences cannot return\n\u2713 local learners isolate history, drafts and profile-specific accents\n\u2713 future learning schema is preserved by normalization and refused by import\n\u2713 recordings and cloud identities are explicitly separate synthetic inventories\n\n14 synthetic old-profile preservation checks passed. Design-only and baseline regression gates remain in the manifest.\n"
+    },
+    {
+      "command": "node tools/test-phase-persistence.mjs",
+      "status": 0,
+      "seconds": 0.15,
+      "output": "\u2713 explicit failed save rejects, keeps dirty/exportable data and clears warning after retry\n\u2713 failed recovery preservation stops replacement before changing active or durable state\n\u2713 failed candidate write leaves previous profile active and verified recovery export available\n\u2713 read-back verification failure restores previous durable profile before reporting failure\n\u2713 successful replacement keeps an old-schema copy that can be restored\n\u2713 concurrent learner edit during staging is retained and replacement is refused\n\u2713 failed reset leaves answers, XP, workshop progress and recording deletion untouched\n\u2713 failed checkpoint save preserves the complete log and a successful retry retains all fences\n\u2713 failed outgoing save prevents profile creation or switching\n\u2713 list and membership tombstones defeat stale backups while deliberate newer re-add works\n\u2713 two device workshop completions retain both prospective XP awards and daily XP exactly once\n\u2713 concurrent same-lesson completion deduplicates by stable source rather than timestamp\n\u2713 pre-reset awards, checks and workshop completion cannot return from stale backup\n\u2713 different learner merge is rejected before data or rewards change\n\u2713 same cloud account cannot silently merge another learner and explicit restore remains available\n\u2713 identity-free old cloud backup requires explicit adoption before publishing its new identity\n\u2713 late authentication cannot attach credentials after learner replacement in the same slot\n\n17 persistence/reward/identity repair checks passed (synthetic storage and transport).\n"
+    },
+    {
+      "command": "node tools/test-learning-index.mjs",
+      "status": 0,
+      "seconds": 11.28,
+      "output": "\u2713 ordered append normalizes one new event and preserves the earlier immutable domain\n\u2713 forks appending the same event ID keep independent positions and uncached summaries\n\u2713 interleaved objectives retain session spacing and chronology after multiple appends\n\u2713 backdated and index-reordered arrivals rebuild to the same deterministic summaries\n\u2713 repeated import and concurrent device merge remain commutative and replay equivalent\n\u2713 checkpoint round trip retains every event, aliases, manual unchecks and actual summaries\n\u2713 tampered, incomplete and unknown checkpoints fail back to retained event replay\n\u2713 stale checkpoint plus a new event is ignored without dropping any reward identity\n\u2713 reset supersedes checkpoints, old attempts and manual records in both merge orders\n\u2713 future learning schemas are refused without removing their checkpoint payload\n{\"events\":1000,\"initialRetrievalMs\":8.508,\"appendMedianMs\":0.768,\"warmTargetRetrievalMs\":0.009,\"fullNormalizationReferenceMs\":9.277,\"checkpointRetrievalMs\":24.929,\"normalizedEventsForFiveAppends\":5,\"lifetimeIndexRebuildsForFiveAppends\":0}\n{\"events\":10000,\"initialRetrievalMs\":60.555,\"appendMedianMs\":4.293,\"warmTargetRetrievalMs\":0.015,\"fullNormalizationReferenceMs\":97.247,\"checkpointRetrievalMs\":109.186,\"normalizedEventsForFiveAppends\":5,\"lifetimeIndexRebuildsForFiveAppends\":0}\n{\"events\":50000,\"initialRetrievalMs\":184.23,\"appendMedianMs\":37.803,\"warmTargetRetrievalMs\":0.045,\"fullNormalizationReferenceMs\":701.467,\"checkpointRetrievalMs\":503.324,\"normalizedEventsForFiveAppends\":5,\"lifetimeIndexRebuildsForFiveAppends\":0}\n\n10 index/checkpoint checks and 1k/10k/50k replay/merge/stale-checkpoint measurements passed.\n"
+    },
+    {
+      "command": "node tools/test-lazy-course.mjs",
+      "status": 0,
+      "seconds": 8.33,
+      "output": "\u2713 every dictionary completion descriptor preserves exact required target IDs and word slots\n\u2713 compact completion reads preserve manual fences and natural case/word proof\n\u2713 outline/review descriptors expose every course and fetch no stage on lookup\n\u2713 concurrent selected stage loads share a request; vocabulary attaches only to the selected lesson\n\u2713 missing/corrupt stages remain isolated and retry successfully without losing another lesson\n\u2713 earlier grammar stage loads on demand with original objective/question IDs and exact draft meaning\n\n6 compact completion/course loading checks passed.\n"
+    },
+    {
+      "command": "node tools/test-phase-content-fixes.mjs",
+      "status": 0,
+      "seconds": 0.44,
+      "output": "Phase 2 content regressions passed: valid alternatives, 19 pre-check paradigms, facet repairs, source consistency and bridges (256 lessons retained).\n"
+    },
+    {
+      "command": "node tools/audit-phase-curriculum.mjs --check",
+      "status": 0,
+      "seconds": 0.68,
+      "output": "{\n  \"status\": \"valid\",\n  \"mode\": \"check\",\n  \"units\": 82,\n  \"lessons\": 256,\n  \"authoredSteps\": 3215,\n  \"authoredQuestions\": 1484,\n  \"reserveReviewVariants\": 445,\n  \"repairVariants\": 260,\n  \"vocabularySenseCandidates\": 889,\n  \"dictionaryWords\": 6958,\n  \"dictionaryVerbs\": 1185,\n  \"courseLinkedFullParadigms\": 120\n}\n"
+    },
+    {
+      "command": "node tools/test-noun-forms.mjs",
+      "status": 0,
+      "seconds": 0.15,
+      "output": "\u2713 every built-in noun has an explicit usable plural or a singular-use marker\n\u2713 calcio keeps the football sense singular without claiming all senses lack a plural\n\u2713 regular and invariable nouns both expose real plurals with their articles\n\u2713 entries presented in the plural retain that form without an absolute only claim\n\u2713 both singular-use markers reject a plural article, including surrounding whitespace\n\u2713 unknown custom plurals stay unknown without a fabricated form or uncountable label\n\u2713 number helpers ignore nonnouns and absent entries\n\u2713 legacy plural games reject unknown custom forms and singular-use markers\n\u2713 legacy plural distractors exclude unknown forms from a custom pool\n\n9 noun-form checks passed. Audited 4614 nouns: 4319 recorded plurals, 295 singular-use markers, 92 entries presented in the plural.\n"
+    },
+    {
+      "command": "node tools/check-modules.mjs",
+      "status": 0,
+      "seconds": 8.15,
+      "output": "99/99 JavaScript files parse as browser modules.\n"
+    },
+    {
+      "command": "node tools/test-conjugator.mjs",
+      "status": 0,
+      "seconds": 0.15,
+      "output": "2802/2802 checks passed\n"
+    },
+    {
+      "command": "node tools/test-course-v2-content.mjs --recovery",
+      "status": 0,
+      "seconds": 0.47,
+      "output": "Validated 256 lessons and 1484 questions.\nEvery authored lesson traversed and completed with actual engine/evidence logic (1052 answers).\n781 single-error paths recover through the real repair and evidence engine.\n"
+    },
+    {
+      "command": "node tools/test-course-v2-engine.mjs",
+      "status": 0,
+      "seconds": 0.11,
+      "output": "course-v2 engine and evidence: passed\ncourse-v2 vocabulary boards: passed\n"
+    },
+    {
+      "command": "node tools/test-course-v2-durability.mjs",
+      "status": 0,
+      "seconds": 0.12,
+      "output": "V2 durability: facets, cross-device merge, v4 migration, completion receipt, portfolios, reset, vocabulary board rows, and conservative placement passed.\n"
+    },
+    {
+      "command": "node tools/test-course-v2-assets.mjs",
+      "status": 0,
+      "seconds": 0.17,
+      "output": "130 attributed audio clips (12.1 MiB), 45 validated listening checks, 129 preserved legacy lesson decisions.\n"
+    },
+    {
+      "command": "node tools/test-course-v2-lexicon.mjs",
+      "status": 0,
+      "seconds": 9.63,
+      "output": "Course word help: 40335 tokens in 5480 Italian strings, zero unresolved words.\n"
+    },
+    {
+      "command": "node tools/test-course-v2-editorial.mjs",
+      "status": 0,
+      "seconds": 0.57,
+      "output": "Editorial fixtures passed for 48 advanced lessons plus independent A1\u2013B2 answer meanings.\n"
+    },
+    {
+      "command": "node tools/test-course-words.mjs",
+      "status": 0,
+      "seconds": 0.77,
+      "output": "level        glosses  words  verbs  unresolved  coverage\nFoundations       34     28      1           5     85.3%\nA1               310    217     68          25     91.9%\nA2               289    115    139          35     87.9%\nB1               177     90     41          46       74%\nB2               164     57     57          50     69.5%\nC1                96     34      8          54     43.8%\nC2                98     46      6          46     53.1%\n  Foundations unresolved: Pu\u00f2 ripetere, per favore? | Roma | Milano | Napoli | un chilo di pane\n  A1 unresolved: Anna | di Roma | di Firenze | di Milano | Roma | a Roma | parli italiano | abiti a Roma | Milano | Italia | Svizzera | vicina a | lontana da | alle otto | alle nove | all\u2019una | molta acqua | poca acqua | due euro | l\u2019Italia\n  A2 unresolved: proprio adesso | Il treno? L\u2019aspetto. | La radio? L\u2019ascolto. | d\u00f2 | lo posso vedere | posso vederlo | la voglio leggere | voglio leggerla | un po\u2019 d\u2019acqua | vorrei visitare | pi\u00f9 che | meno che | il pi\u00f9 alto | la pi\u00f9 alta | del gruppo | della classe | della famiglia | bellissimo | bellissima | grandissimo\n  B1 unresolved: squillare | perdere il treno | riuscire a | prima del previsto | non poter entrare | ogni venerd\u00ec | andare al lavoro | per tre anni | fino al 2020 | la mail | di quel problema | parlare di | scrivere a | lavorare a | nascere in | se piove | finire presto | essere libero | prendere il treno | essere in ritardo\n  B2 unresolved: pensare che | so che | temo che | essere aperto | la conferma | perdere il treno | credevo che | speravamo che | pensavo che | pagare il conto | ricevere la lettera | alle otto | il giorno dopo | se avessi | se fossi | partire prima | prendere il treno | quel giorno | inaugurare | esaminare\n  C1 unresolved: il resoconto | entro venerd\u00ec | sostenere una conclusione | permanente | il muro di contenimento | instabile | la testimonianza | bocciare | lo scarico | i detriti | la bozza | verificare | il comunicato | neppur | compiangere | e ti par poco? | mi faccio a narrarlo | lo scarico delle merci | il moderatore | in s\u00e9\n  C2 unresolved: l\u2019inventario | il riordino | il revisore | il consenso | fissare una versione | la catasta | l\u2019uscio | mastr\u2019Antonio | l\u2019esitazione | il redattore | il metodo | la concordanza | la scheda museale | sciogliere una costruzione | il litorale | l\u2019arretramento | isolare una causa | l\u2019autorizzazione | il fascicolo | il controllo antincendio\n6 nouns excluded because a required forms row could not be placed: v2-f-courtesy:w:caff\u00e8|noun, v2-a1-tens-prices:w:euro|noun, v2-a2-quantity:w:pane|noun, v2-a2-nobody-nothing:w:frigo|noun, v2-a2-everyday-links:w:cinema|noun, v2-b2-concession-contrast:w:traffico|noun.\n86 lessons carry boards: 320 synthesised steps, 1098 pairs; attachment, idempotence, strict credit rows and objective ids verified.\n"
+    },
+    {
+      "command": "node tools/test-sentence-lab.mjs",
+      "status": 0,
+      "seconds": 1.17,
+      "output": "presente: 6 lessons, 47 activities (model 6, order 12, cloze 17, dialogue 6, build 6), 48 blanks of which 12 with free entry (12 typed slots), 43 dialogue turns (19 yours), 32 useful words\npassato: 5 lessons, 41 activities (model 5, order 11, cloze 15, dialogue 5, build 5), 34 blanks of which 15 with free entry (15 typed slots), 30 dialogue turns (13 yours), 26 useful words\nfuturo: 4 lessons, 32 activities (model 4, order 8, cloze 12, dialogue 4, build 4), 26 blanks of which 5 with free entry (5 typed slots), 23 dialogue turns (10 yours), 24 useful words\nstrutture: 6 lessons, 48 activities (model 6, order 12, cloze 18, dialogue 6, build 6), 49 blanks of which 14 with free entry (14 typed slots), 44 dialogue turns (20 yours), 32 useful words\nValidated 21 lessons and 168 activities in 4 of 4 stage packs; every lesson traversed and completed through the engine for both speaker genders (376 answers, 21 lessons).\n\u2713 fixture pack passes the content validator\n\u2713 the content validator rejects broken packs\n\u2713 fixture lesson traverses for both speaker genders\n\u2713 createLabSession and currentLabStep expose the model first\n\u2713 order: two wrong tries reveal the answer, then answerLab is idempotent\n\u2713 order: tokens in an accepted variant are correct, with normalised case and punctuation\n\u2713 cloze: a fixed blank is wrong with its explanation, right with any case\n\u2713 cloze: second miss reveals the first accepted value and finishes the activity\n\u2713 cloze: a free blank with a slot accepts a dictionary word in the slot form (article added)\n\u2713 cloze: an authored option outside accept is a wrong choice, never a free entry\n\u2713 cloze: a bank hint outside accept is a free entry only when the slot changes its form\n\u2713 build notes: alternatives, fixed verb roles, the activity tense in a misto lesson, required roles, subject gender\n\u2713 dialogue: turns reveal one at a time, free entry fills the wrap and picks the reaction\n\u2713 dialogue: a tapped option is correct and takes its own reaction; an unknown free word explains and counts a miss\n\u2713 build: composes, saves the sentence and completes the lesson\n\u2713 composeBuild: tenses, agreement, English glosses and failure reasons\n\u2713 resolveFreeEntry: Italian adjectives agree with the speaker or the slot, from the recorded forms\n\u2713 resolveFreeEntry: nouns take the article the slot asks for, plural and feminine forms resolve\n\u2713 resolveFreeEntry: verbs conjugate for the slot person and tense, from any typed form\n\u2713 resolveFreeEntry: English words resolve through the senses, a picker when several fit\n\u2713 resolveFreeEntry: unknown words get up to three near matches; known words of the wrong kind are unfit\n\u2713 labProgress: stages open in order, lessons unlock in order, gaps stay open\n\u2713 helpers: normalisation, blanks and tense keys\n23 engine fixture groups passed.\n"
+    },
+    {
+      "command": "node tools/test-phase-workshop.mjs",
+      "status": 0,
+      "seconds": 1.49,
+      "output": "Phase 2 workshop: agreement, authored alternatives, assistance provenance, compound/wrapped verbs, time phrases, accent-only policy, valency and honest glosses passed.\n"
+    },
+    {
+      "command": "node tools/test-ai-trial.mjs",
+      "status": 0,
+      "seconds": 0.1,
+      "output": "AI trial safeguards passed: distinct modes, source-labelled timings, Italian error preservation, bounded prompt, pinned/local-only runtime and production isolation.\n"
+    },
+    {
+      "command": "node tools/test-useful-words.mjs",
+      "status": 0,
+      "seconds": 0.11,
+      "output": "data/useful-words.json: OK \u2014 78 words in 6 groups (questions 10 \u00b7 connectors 18 \u00b7 indefinites 13 \u00b7 pronouns 11 \u00b7 time-place 18 \u00b7 quantity 8), every id resolves, none twice, deep link round-trips\n"
+    },
+    {
+      "command": "node tools/test-fit-scorer.mjs",
+      "status": 0,
+      "seconds": 0.36,
+      "output": "tools/test-fit-scorer.mjs: OK \u2014 108 checks: files and hashes, one cache name, tokenizer (verbatim with score.mjs), masked batch, PLL arithmetic over 32,102 columns, mocked session, fit mapping and notes, page module outside a browser\n"
+    },
+    {
+      "command": "node tools/test-assistant-guard.mjs",
+      "status": 0,
+      "seconds": 0.27,
+      "output": "\u2713 support detection: navigator, WebGPU, memory hint, remembered adapter result\n\u2713 module load: a clean start, garbage in storage, and no write without a trip\n\u2713 breaker: a loading flag left from a killed page counts a trip on the next start\n\u2713 breaker: a busy flag counts too; two trips switch the assistant off; the third start adds nothing\n\u2713 enableAssistant refuses when tripped or unsupported, without importing anything, and never throws\n\u2713 resetAssistantBreaker clears the trips and lets the learner opt in again\n\u2713 enableAssistant loads the model with the fixed id and a 1,024-token window, reports progress, records the loading flag\n\u2713 assistantPick returns null without an engine and never throws, whatever it is given\n\u2713 assistantPick asks for a JSON choice at temperature 0 and maps the index back to the candidate id\n\u2713 assistantPick tolerates bad answers and thrown errors (null, no trip) and keeps the engine\n\u2713 assistantPick falls back to a plain-integer schema when the runtime rejects the enum schema\n\u2713 assistantPick runs one answer at a time\n\u2713 a timed-out answer interrupts the model and counts a trip; the second trip switches the assistant off\n\u2713 a late answer after a timeout is discarded and the next pick proceeds\n\u2713 disableAssistant unloads the engine, clears the opt-in, keeps the trips and never touches the weight cache\n\u2713 disableAssistant during a load abandons it: the engine is unloaded as soon as it arrives\n\u2713 releaseAssistant frees the engine but keeps the opt-in; an answer in flight is dropped; during a load the engine is unloaded on arrival\n\u2713 a graceful pagehide or a hidden page clears the loading flag, a restore re-arms it, so a reload is not a crash\n\u2713 blocked storage: the module still works in memory and nothing throws\n\u2713 release during the initial adapter probe cannot be cleared by a later load\n\n20 assistant guard checks passed (WebGPU and the real model are not exercised here).\n"
+    },
+    {
+      "command": "node tools/test-grammar-course.mjs",
+      "status": 0,
+      "seconds": 0.21,
+      "output": "Content validated: 129 lessons, 129 objectives, 534 authored exercises across six levels.\nEvery lesson completed using real question/advance/evidence logic; 516 actual answers.\nGuess, repeat, assistance, dictionary isolation, migration, draft merge, and reset checks passed.\n"
+    },
+    {
+      "command": "node tools/test-grammar-durability.mjs",
+      "status": 0,
+      "seconds": 0.14,
+      "output": "Grammar durability: repeat/assistance, clock skew, early review, lapse enrollment, repair, draft merge, and reset passed.\n"
+    },
+    {
+      "command": "node tools/test-grammar-lexicon.mjs",
+      "status": 0,
+      "seconds": 1.65,
+      "output": "Grammar lexicon validated: 437 curated entries, 108 explicit aliases, 4837 word tokens in 792 authored sentences, zero lookup gaps.\n"
+    },
+    {
+      "command": "node tools/test-learning-model.mjs",
+      "status": 0,
+      "seconds": 0.12,
+      "output": "\u2713 new domains have a shared initial epoch and retain no inferred mastery\n\u2713 one lucky production answer and repeated recognition cannot bypass a skill\n\u2713 four correct answers still require genuine variation and intervening questions\n\u2713 varied independent repeated retrieval becomes ready, not remembered\n\u2713 assisted and retried answers cannot contribute production mastery\n\u2713 wrong recognition blocks an already ready skill until varied production repair\n\u2713 correct assistance and revealing an answer also require subsequent repair\n\u2713 component errors cannot be cleared by unrelated or unobserved successes\n\u2713 a repeated component error restarts its confirmation sequence only\n\u2713 a correct component is retained even when another makes the full answer wrong\n\u2713 a tu person error cannot be repaired by successful io or noi answers\n\u2713 remembered requires two varied successes in another session after 24 hours\n\u2713 same-session practice advances SRS at most once; wrong evidence brings it sooner\n\u2713 one event cannot count or reward twice, including after export/import and merge\n\u2713 offline merges commute, associate and keep concurrent skill evidence\n\u2713 conflicting copies of an event have one deterministic identity\n\u2713 reset epochs prevent old backups, pending events and sessions from returning\n\u2713 session state is plain, resumable, deduplicated and preserves safe UI extras\n\u2713 session map merges preserve independent entries and latest checkpoint\n\u2713 selection holds the active objective, inserts two spacers and has no retry cap\n\u2713 cold-start supplemental questions space checks without changing the main objective\n\u2713 two different-entry spacers keep a single-answer word eligible for cold retrieval\n\u2713 a clear production error triggers a supported repair before another full production check\n\u2713 explicit skip advances without mastery or a lapse and remains skipped this session\n\u2713 missing content blocks rather than certifying or silently advancing an objective\n\u2713 review selects an already ready objective for two later varied checks\n\u2713 a checkpoint requires fresh checks and its explicitly required person coverage\n\u2713 summary cache remains time-correct and does not leak caller mutation\n\u2713 normalization drops raw answers/callbacks and preserves capped reward metadata\n\u2713 future schemas roundtrip intact and cannot be interpreted, merged, or reset by v1\n\n30 adaptive model checks passed.\n"
+    },
+    {
+      "command": "node tools/test-learning-questions.mjs",
+      "status": 0,
+      "seconds": 0.47,
+      "output": "Learning curriculum/questions/diagnosis: 142 test groups passed.\n"
+    },
+    {
+      "command": "node tools/test-learning-store-sync.mjs",
+      "status": 0,
+      "seconds": 0.15,
+      "output": "\u2713 legacy backup migrates additively without inventing skill knowledge\n\u2713 duplicate attempts cannot double XP or daily answer totals\n\u2713 importing the same backup twice is idempotent for evidence and rewards\n\u2713 concurrent devices retain separate skills and count each adaptive reward once\n\u2713 saved lesson UI survives a persisted profile round trip\n\u2713 chapter sessions coexist with legacy exact resumes through save and backup\n\u2713 switching local users isolates evidence, rewards and resume state\n\u2713 custom-word deletion survives stale backup merges without losing reward deduplication\n\u2713 game evidence does not double legacy XP or daily answer totals\n\u2713 a due skill counts once per session even when assisted practice leaves it due\n\u2713 reset followed by stale import cannot restore old learning, legacy progress or XP\n\u2713 a newer remote reset clears local progress without deleting lists\n\u2713 cloud conflicts refetch, merge concurrent evidence, and retry atomically\n\u2713 missing cloud schema fails closed while local progress remains available\n\u2713 switching profiles during a pull cannot import into the newly selected user\n\u2713 a delayed sign-in response cannot attach credentials to a different profile\n\u2713 a delayed unconfirmed signup stores its email only on the initiating profile\n\u2713 concurrent sync callers share one in-flight request chain\n\u2713 repeated server conflicts are bounded and never discard local attempts\n\u2713 SQL contract includes authentication, ownership and atomic revision checks\n\n20 store/sync integration checks passed (mock transport; SQL not executed in PostgreSQL).\n"
+    },
+    {
+      "command": "node tools/test-store-durability.mjs",
+      "status": 0,
+      "seconds": 0.11,
+      "output": "\u2713 an in-flight save is mirrored before unload and clean flush callers await its commit\n\u2713 rapid star, unstar and re-star retain the latest mirror until all writes commit in order\n\u2713 identical profile snapshots in one millisecond still have distinct recovery identities\n\u2713 failed writes keep the latest profile recoverable and a later save retries it\n\u2713 localStorage fallback writes synchronously under quota without needing two new profile copies\n\u2713 a recovered same-profile mirror cannot block the synchronous primary replacement\n\u2713 a truly full fallback restores its prior recovery mirror when replacement cannot fit\n\n7 store durability checks passed.\n"
+    },
+    {
+      "command": "node tools/test-learning-integration.mjs",
+      "status": 0,
+      "seconds": 0.32,
+      "output": "\u2713 due skills are ordered by their schedules and keep skill-level identities\n\u2713 a completed core conditional is reviewable independently of old expansion preferences\n\u2713 legacy learned/due items enter diagnosis without fabricated skill readiness\n\u2713 completed word meaning records are eligible; an unfinished attempt alone is not\n\u2713 automatic review respects the selected list for both adaptive and legacy items\n\u2713 deleted custom entries remain excluded even before a stale data index is rebuilt\n\u2713 unfinished sessions are filtered by current curriculum and preserve checkpoint mode\n\u2713 excluded/skipped objectives cannot return through a multi-objective resume link\n\u2713 new foundation verbs teach their meaning before asking for their forms\n\u2713 foundation recommendations never silently expand a restricted scope\n\u2713 course checkpoints are finite and readiness alone never means course completion\n\u2713 all finite checkpoints can complete through actual evidence and delayed recall\n\u2713 a recent wrong or assisted answer removes remembered status despite old delayed wins\n\u2713 real question/diagnosis metadata keeps a person repair attached to that person\n\u2713 a real whole-form auxiliary mistake selects its component scaffold before the generic failure\n\u2713 real partial scaffolds cannot certify full conjugation and return to whole-form production\n\u2713 practice links preserve single objective and session mode\n\n17 recommendation/course integration checks passed.\n"
+    },
+    {
+      "command": "node tools/test-learning-completion.mjs",
+      "status": 0,
+      "seconds": 0.31,
+      "output": "\u2713 one checked case enrolls only that case without XP, answers, or whole-verb completion\n\u2713 all and individual checkboxes are reversible; evidence, drafts, Starred and XP are unchanged\n\u2713 natural partial case completion immediately enrolls that case, but unfinished mistakes do not\n\u2713 clearing demonstrated completion suppresses old proof; genuinely fresh lesson proof restores it\n\u2713 unavailable cases stay exempt; Mark all cannot assert unsupported forms\n\u2713 word enrollment requires completion and remains distinct from unaided mastery\n\u2713 fresh supported short-word completion can supersede an uncheck without fake production credit\n\u2713 matching every vocabulary board row in one course session completes the word as supported recognition\n\u2713 a mismatch on that word in the session leaves it uncredited until a clean session\n\u2713 board rows split across two sessions, an older epoch or an uncheck do not complete the word\n\u2713 board credit covers the four board skills: a noun needs its article and plural rows, a singular-use noun its article row, an adjective only meaning and recall\n\u2713 independent device edits merge per case and false tombstones survive stale backups\n\u2713 v2 migration preserves actual evidence, exact draft, XP and Starred; legacy flags enroll without mastery\n\u2713 manual overrides survive profile reload, import union, and profile switching\n\u2713 fully manually completed entries are not suggested as untouched lessons\n\u2713 finishing the remaining lesson after partial manual completion keeps one automatic completion reward\n\u2713 completed advanced chapters remain optional reviews; marking core cases does not enroll them\n\u2713 mixed review remains optional after all core cases and cannot introduce an unchecked tense\n\u2713 a real fresh classic word pass reverses an uncheck without inventing answers or repeating a bonus\n\u2713 classic completion rejects a failure, a newer uncheck, a profile change and a reset\n\u2713 classic verbs enroll only successfully taught or tested supported cases\n\u2713 a tense check before an uncheck cannot be reused by a later classic drill\n\u2713 fresh legacy adaptive evidence can complete its tested case; stale readiness cannot undo an uncheck\n\u2713 merged manual cases cannot earn an automatic completion bonus from stale raw item flags\n\n24 completion/enrollment checks passed.\n"
+    },
+    {
+      "command": "node tools/test-lesson-content.mjs",
+      "status": 0,
+      "seconds": 22.92,
+      "output": "Catalog: 1185 verbs, 6958 words, 238535 available targets checked.\nPassed 43 taught-lesson content checks.\n"
+    },
+    {
+      "command": "node tools/test-sentence-lookup.mjs",
+      "status": 0,
+      "seconds": 39.29,
+      "output": "\u2713 Italian tokens retain Unicode, elision, hyphens, punctuation and exact offsets\n  Lazy full-catalog first lookup: 409 ms (1185 verbs)\n\u2713 first full-catalog lookup builds once and returns a real noun\n\u2713 every catalog noun has its recorded article/number forms and plural alias\n\u2713 plural-only and invariant nouns remain distinct\n\u2713 sense-specific singular use and gender-changing plurals come from catalog data\n\u2713 unknown custom genders and plurals never acquire invented articles or inflections\n\u2713 feminine aliases use explicit plurals in source notes without extrapolating\n\u2713 a separate exact feminine entry supplies its recorded plural for the same meaning\n\u2713 article and articulated-preposition contractions expose the actual noun\n\u2713 l\u2019 remains article-or-clitic ambiguous and can lead to an auxiliary\n\u2713 accented function words and finite verbs never collapse into their unaccented homographs\n\u2713 noun/verb homographs and syncretic person readings remain available\n\u2713 a tense hint does not pretend to resolve a person but an explicit subject can\n\u2713 articles rank likely noun readings first without removing homographic verbs\n\u2713 compound context identifies the whole form without translating the auxiliary as every verb\n\u2713 reflexive and pronominal finite components require the actual clitic context\n\u2713 progressive lexical help preserves whole constructions and never assigns helper meanings to every verb\n\u2713 imperative persons, explicit formal role and core form tables preserve correct metadata\n\u2713 weather help uses impersonal forms and does not show invented personal weather exercises\n\u2713 all catalog verb infinitives and ordinary third-person present forms resolve locally\n\u2713 recorded determiner and adjective variants retain their source meanings\n\u2713 a multiword entry is shown as a phrase rather than falsely translating its component\n\u2713 names are conservative and do not suppress ordinary homographs\n\u2713 unresolved tokens retain supplied or exactly recorded sentence translations\n\u2713 exposure metadata contains noun aliases and fully expanded displayed constructions\n\u2713 lookup is deterministic, serializable, mutation-free and never interprets HTML\n\u2713 authored lookup supplements supply complete noun details without replacing custom senses\n  Reviewed core lesson contexts: 809615 tokens, 22720 distinct forms identified.\n\u2713 every distinct token in five core tenses and both progressive context sets has local lexical help\n  Corpus: 67392 sentences, 24506 distinct forms; 435510/440650 token occurrences identified.\n  Most frequent unresolved forms: volto (33), recando (29), gran (14), d'oro (13), TV (12), trecento (12), Sicilia (11), scandalo (11), test (10), secoli (10), provincia (10), umano (9).\n\u2713 catalog sentence and lesson-context audit reports honest coverage gaps\n\n29 sentence lookup checks passed.\n"
+    },
+    {
+      "command": "node tools/test-word-questions.mjs",
+      "status": 0,
+      "seconds": 12.32,
+      "output": "28 short-word question checks passed; 6958 catalog words covered.\n"
+    },
+    {
+      "command": "node tools/test-short-word-model.mjs",
+      "status": 0,
+      "seconds": 10.32,
+      "output": "\u2713 a new noun lesson teaches meaning and forms then six supported screens with a real article board\n\u2713 casa: meaning, recall, article, plural with its article, article board with two masculine decoys, recall\n\u2713 caff\u00e8: the invariable plural answers i caff\u00e8 and the board pairs il and i with the same form\n\u2713 occhiali: plural-only nouns ask the plural article, then meaning, recall and a three-row board\n\u2713 calcio: singular-use nouns get a number screen instead of a plural, and no board\n\u2713 albero and zaino: l\u2019 and lo nouns keep their articles through the choice, the plural and the board, and the card names the rule\n\u2713 non-nouns keep the six-screen path without article, plural or number screens\n\u2713 a noun is not credited until every slot, including the board and the plural, has been answered\n\u2713 decoy rows pass through the board without evidence; a wrong own row records an article error\n\u2713 adjective matching covers agreement without exceeding eight actual correct answers\n\u2713 every word type finishes with choices and no obligatory sentence or phrase writing\n\u2713 invariant nouns and sparse custom words remain bounded without invented forms\n\u2713 wrong answers and reveals do not complete slots; support repairs the current meaning without a typing loop\n\u2713 a wrong plural choice repairs the plural with its article before the board\n\u2713 skipping a slot stays pending at the final recap until an explicit retry\n\u2713 word reviews use the same short supported path, including old sentence targets\n\u2713 upgrading a saved long word lesson preserves event history, serial identity and typed history\n\u2713 short slot evidence survives backup/merge and cannot be completed by a forged cursor alone\n\u2713 explicit form-card selection remains supported and cannot return to the old independent loop\n\u2713 the short-word policy cannot accidentally be imported as unaided production evidence\n\u2713 malformed imported short-word cursors preserve their payload and render incomplete progress safely\n\u2713 retry and continued teaching recover missing or borrowed completion references without losing evidence\n\n22 short word controller checks passed.\n"
+    },
+    {
+      "command": "node tools/test-journey-model.mjs",
+      "status": 0,
+      "seconds": 1.07,
+      "output": "\u2713 Meet continues straight to Present teaching without an empty practice or recap\n\u2713 a saved old Meet recap continues without resetting its session, history, or UI\n\u2713 Meet with an actual assessment retains its legitimate practice and recap\n\u2713 each person and formal-address target needs two separated, varied independent answers\n\u2713 two adjacent or copied answers cannot satisfy the new target policy\n\u2713 a wrong checkpoint answer detours to explanation and support, then requires two fresh full answers\n\u2713 a ready person failed during a supported contrast reopens the chapter requirement\n\u2713 assisted checkpoint successes stay in the checkpoint until independent repair or skip\n\u2713 repeated mistakes offer help without an automatic retry cap\n\u2713 skip is a deferred choice, never evidence, XP, or target completion\n\u2713 skipping a teaching group defers its forms without testing untaught material\n\u2713 explicit chapter restart clears that chapter\u2019s deferred targets and keeps others pending\n\u2713 exact question, draft, hints, feedback and answered counter survive normalization\n\u2713 legacy sessions coexist locally and legacy evidence never gains chapter credit\n\u2713 reset and deterministic merge preserve only current epoch target metadata\n\u2713 future learning and content versions fail closed with intact original payload\n\u2713 malformed imported journey cursors are preserved and cannot execute\n\u2713 general reviews start at the first checkable chapter, and optional focused reviews remain usable\n\u2713 a context diagnosis records the actual person and returns to that person after support\n\u2713 later focused review skips teaching, checks the requested target twice, then remembers it\n\u2713 a later failure revokes remembered and two new spaced confirmations clear the issue\n\u2713 limited custom content blocks explicitly rather than loops, auto-skips, or certifies\n\u2713 supplemental same-word activities permit spacing without becoming lesson requirements\n\u2713 answer exposure rotates ordinary and formal targets sharing a surface form\n\u2713 bare noun exposure defers phrase recall while article-only checks remain independent\n\u2713 real compound component scaffolds remain recognition evidence and return to whole-form retrieval\n\u2713 correct supported successes preserve established readiness without adding independent credit\n\u2713 v1 stage enrollment migrates without silently removing imperfetto access\n\u2713 five cases are independently selectable and only all five complete the verb; Meet and mixed are not requirements\n\u2713 switching unfinished cases restores exact cursor while question serial and evidence counters never rewind\n\u2713 redo preserves earned green completion while requiring fresh spaced independent checks\n\u2713 case milestone never combines target successes that were not ready at the same time\n\u2713 a legacy background enrollment retains its previously available future without changing new chapter order\n\u2713 unsupported cases stay visible and exempt, without pretending their forms were learned\n\u2713 a required supported usage explanation gates completion without granting independent mastery\n\u2713 real credere chapters finish with exposure-aware independent evidence\n\u2713 real parlare chapters finish with exposure-aware independent evidence\n\u2713 real piovere chapters finish with exposure-aware independent evidence\n\u2713 real casa chapters finish with exposure-aware independent evidence\n\u2713 real credere imperativo chapters finish with exposure-aware independent evidence\n\u2713 real piovere background chapters finish with exposure-aware independent evidence\n\u2713 real bisognare chapters finish with exposure-aware independent evidence\n\u2713 real trattarsi chapters finish with exposure-aware independent evidence\n\n43 journey model checks passed.\n"
+    },
+    {
+      "command": "node tools/test-lesson-activities.mjs",
+      "status": 0,
+      "seconds": 0.36,
+      "output": "\u2713 letter banks preserve accents, repeated letters, spaces and apostrophes deterministically\n\u2713 English meanings, grammar facts and long text retain their existing guided control\n\u2713 real letter activities preserve the authored cloze and its whole accepted construction\n\u2713 guided rotation keeps choices, then matching, then letters before independent writing\n\u2713 boards use three taught same-group targets and preserve the distinct formal role\n\u2713 identical ordinary and polite forms can use either physical tile without a false error\n\u2713 overlapping compound alternatives cannot consume the only form a remaining person accepts\n\u2713 word article boards hold up to four rows, keep decoy rows flagged and take their own prompt\n\u2713 an unsafe overlap pattern falls back instead of producing an unsolvable board\n\u2713 per-pair evidence is zero-XP, stable, deduplicated and cannot advance the active board\n\u2713 a pair error belongs to its actual person and triggers that person\u2019s detour after the board\n\u2713 partial board evidence and UI selections survive local normalization without reward replay\n\u2713 a board cannot report correct completion before every actual pair was recorded\n\u2713 older saved questions remain executable and malformed activity state fails closed\n\u2713 persisted pair evidence replays only its missing cursor update after a reload\n\u2713 a persisted aggregate restores feedback once using the stored canonical result\n\u2713 a recovered wrong pair remains wrong and a later correct try has a distinct event identity\n\u2713 varied supported activities accompany recall without consuming independent variants or mastery\n\n18 lesson activity checks passed.\n"
+    },
+    {
+      "command": "node tools/build-verb-progressive.mjs --check",
+      "status": 0,
+      "seconds": 0.15,
+      "output": "1185 verb policies bundled: beginner 337, intermediate 462, advanced 386.\n"
+    },
+    {
+      "command": "node tools/test-progressive-content.mjs",
+      "status": 0,
+      "seconds": 6.98,
+      "output": "PASS English cues preserve irregular past forms, doubled consonants and subject possessives\nPASS Regular and irregular gerunds use independently checked forms of the named verb\nPASS Reflexive and sene pronouns stay with the construction in either grammatical position\nPASS Formal Lei has distinct practice with the same third-person helper\nPASS Ordinary stative senses teach the appropriate simple construction\nPASS Unreviewed custom verbs remain explicitly distinct from inappropriate progressive senses\nPASS Present lessons teach only the present viewpoints and explain the actual gerund\nPASS Weather is impersonal and has separate learning and final-review situations\nPASS Past progressive uses imperfect stare and keeps ordinary imperfetto available\n  1185 reviewed verbs; 1029 progressive senses; 13334 practice contexts plus held-out reviews.\nPASS Every catalogue verb has a selected sense, specific explanation and usable final review\n10 progressive content checks passed.\n"
+    },
+    {
+      "command": "node tools/test-verb-flow-v2.mjs",
+      "status": 0,
+      "seconds": 0.41,
+      "output": "PASS Viaggiare uses travel contexts, all stare people, and genuinely different held-out scenes\nPASS Mixed review explains a valid alternative viewpoint without calling the Italian form invalid\nPASS Present completes only after section practice and explicit mixed review; errors stay within mixed review\nPASS Skipping progressive leaves it and the dependent final review pending\nPASS Statives finish an appropriate usage lesson without invented progressive answers\nPASS Reopening a case preserves skipped prerequisites; explicit retry returns to teaching\nPASS Weather has enough meaningful spacing activities to finish present and past progressive\nPASS Changing prompt language cannot count one situation as two independent contexts\nPASS Migration preserves evidence, cursor serial, saved drafts and completed historical cases\nPASS Review excludes unlearned v2 targets on creation and when reopening a saved cursor\n10 verb flow v2 checks passed.\n"
+    },
+    {
+      "command": "node tools/test-verb-pacing.mjs",
+      "status": 0,
+      "seconds": 0.53,
+      "output": "{\"inf\":\"avere\",\"chapter\":\"present\",\"required\":8,\"cards\":5,\"questions\":23,\"uniqueSentences\":16,\"byPhase\":{\"guided\":7,\"independent\":16},\"byFormat\":{\"mc\":2,\"pairs\":2,\"letters\":3,\"type\":16},\"supplemental\":2,\"byGroup\":{\"singular\":12,\"plural\":9,\"mixed-review\":2}}\n{\"inf\":\"viaggiare\",\"chapter\":\"present\",\"required\":16,\"cards\":6,\"questions\":42,\"uniqueSentences\":32,\"byPhase\":{\"guided\":10,\"independent\":32},\"byFormat\":{\"mc\":5,\"pairs\":3,\"letters\":2,\"type\":32},\"supplemental\":0,\"byGroup\":{\"singular\":11,\"plural\":8,\"progressive\":19,\"mixed-review\":4}}\n{\"inf\":\"piovere\",\"chapter\":\"present\",\"required\":4,\"cards\":5,\"questions\":15,\"uniqueSentences\":8,\"byPhase\":{\"guided\":7,\"independent\":8},\"byFormat\":{\"mc\":7,\"type\":8},\"supplemental\":5,\"byGroup\":{\"singular\":6,\"progressive\":5,\"mixed-review\":4}}\n{\"inf\":\"credere\",\"chapter\":\"present\",\"required\":8,\"cards\":5,\"questions\":23,\"uniqueSentences\":16,\"byPhase\":{\"guided\":7,\"independent\":16},\"byFormat\":{\"mc\":2,\"pairs\":2,\"letters\":3,\"type\":16},\"supplemental\":2,\"byGroup\":{\"singular\":12,\"plural\":9,\"mixed-review\":2}}\n{\"inf\":\"viaggiare\",\"chapter\":\"background\",\"required\":16,\"cards\":6,\"questions\":42,\"uniqueSentences\":32,\"byPhase\":{\"guided\":10,\"independent\":32},\"byFormat\":{\"mc\":5,\"pairs\":3,\"letters\":2,\"type\":32},\"supplemental\":0,\"byGroup\":{\"singular\":11,\"plural\":8,\"progressive\":19,\"mixed-review\":4}}\n{\"inf\":\"avere\",\"chapter\":\"past\",\"required\":7,\"cards\":5,\"questions\":21,\"uniqueSentences\":14,\"byPhase\":{\"guided\":7,\"independent\":14},\"byFormat\":{\"type\":16,\"mc\":2,\"pairs\":2,\"letters\":1},\"supplemental\":0,\"byGroup\":{\"building\":2,\"singular\":11,\"plural\":8}}\n{\"inf\":\"avere\",\"chapter\":\"future\",\"required\":7,\"cards\":4,\"questions\":19,\"uniqueSentences\":14,\"byPhase\":{\"guided\":5,\"independent\":14},\"byFormat\":{\"mc\":2,\"pairs\":2,\"letters\":1,\"type\":14},\"supplemental\":0,\"byGroup\":{\"singular\":11,\"plural\":8}}\n{\"inf\":\"avere\",\"chapter\":\"condizionale\",\"required\":7,\"cards\":3,\"questions\":19,\"uniqueSentences\":14,\"byPhase\":{\"guided\":5,\"independent\":14},\"byFormat\":{\"mc\":2,\"pairs\":2,\"letters\":1,\"type\":14},\"supplemental\":0,\"byGroup\":{\"singular\":11,\"plural\":8}}\n{\"inf\":\"piacere\",\"chapter\":\"future\",\"required\":3,\"cards\":4,\"questions\":10,\"uniqueSentences\":2,\"byPhase\":{\"guided\":4,\"independent\":6},\"byFormat\":{\"mc\":3,\"type\":6,\"letters\":1},\"supplemental\":1,\"byGroup\":{\"singular\":3,\"plural\":4,\"use\":3}}\n9 verb pacing paths, saved-scene repair, and spacing evidence passed.\n"
+    },
+    {
+      "command": "node tools/test-verb-scene-variety.mjs",
+      "status": 0,
+      "seconds": 0.63,
+      "output": "Reviewed frame coverage: { past: 1001, future: 1105, condizionale: 1105 }\nVerb scene variety checks passed.\n"
+    },
+    {
+      "command": "node tools/test-journey-integration.mjs",
+      "status": 0,
+      "seconds": 0.35,
+      "output": "\u2713 unfinished lesson resumes before a due review; voluntary review remains separate\n\u2713 recommendations stay within the selected scope\n\u2713 review links preserve target and review mode\n\u2713 helper facts and supplied construction parts never become independent due targets\n\u2713 optional expansion review follows enrollment without losing its events\n\u2713 a completed imperfetto remains reviewable independently of beginner stage\n\u2713 explicit defer survives other reviews and suppresses automatic re-insertion\n\u2713 new attempts after an explicit return supersede an older deferred timestamp\n\u2713 migration keeps old imperfetto objectives after the common-tense reorder\n\u2713 unvisited optional targets do not force review after explicit core deferrals\n\u2713 a completed run recommends another supported core case, never an empty Meet or mixed recap\n\u2713 promoted conditional evidence remains reviewable without optional expansion enrollment\n\u2713 historical completion enrolls old forms but not unlearned added constructions\n\n13 taught-lesson integration checks passed.\n"
+    },
+    {
+      "command": "node tools/test-learning-sql.mjs",
+      "status": 0,
+      "seconds": 1.77,
+      "output": "\u2713 migration upgrades a legacy table and can run twice\n\u2713 authenticated owner atomically updates the expected revision\n\u2713 a stale concurrent writer returns a conflict and leaves evidence intact\n\u2713 old blind UPSERT clients cannot overwrite the upgraded row\n\u2713 invalid profile data is rejected\n\u2713 RPC preserves grammar evidence, drafts, and completion tombstones without a schema change\n\u2713 RPC preserves v5 facet evidence and personal portfolio metadata alongside legacy sessions\n\u2713 a different account cannot read or write another account\u2019s row\n\u2713 first save inserts once and a duplicate initial revision conflicts\n\u2713 an unauthenticated RPC cannot save\n\n10 PostgreSQL migration/RLS/revision checks passed (isolated PGlite).\n"
+    }
+  ],
+  "browserInitial": [
+    {
+      "command": "node tests/phase-workshop-e2e.mjs",
+      "status": 0,
+      "seconds": 19.71,
+      "output": "(started python3 -m http.server 8160 for this run)\n\u2713 exact own-word drafts survive reload, accent buttons, pause and navigation\n\u2713 malformed morphology stays in the draft and receives no rewritten credit\n\u2713 accent-only restoration is visible and saved with the original submission\n\u2713 translated English produces explicitly assisted practice\n\u2713 typed drill draft resumes exactly after reload and navigation disposal\n\u2713 picker callbacks cannot mark a word or save a draft into another profile\n6 Phase 2 workshop browser checks passed; zero application errors.\n"
+    },
+    {
+      "command": "node tests/accent-policy-e2e.mjs",
+      "status": 1,
+      "seconds": 5.1,
+      "output": "(started python3 -m http.server 8161 for this run)\nPASS Game submission visibly restores only accents and exposes original\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.evaluate: TypeError: Cannot read properties of undefined (reading 'steps')\n    at eval (eval at evaluate (:311:30), <anonymous>:1:369)\n    at async <anonymous>:337:30\n    at /Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/accent-policy-e2e.mjs:22:21\n    at check (/Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/accent-policy-e2e.mjs:9:36)\n    at /Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/accent-policy-e2e.mjs:21:8 {\n  log: []\n}\n\nNode.js v22.23.2\n",
+      "resolution": "Fixture setup assumed eager stages; explicitly load the stage and lesson. See successful targeted retry evidence."
+    },
+    {
+      "command": "node tests/verb-pacing-e2e.mjs",
+      "status": 0,
+      "seconds": 12.68,
+      "output": "(started python3 -m http.server 8162 for this run)\nPASS Avere Present: 23 exercises, 16 written, 4 formats; reload and completion verified.\nPASS Pre-update v2 draft, feedback and Back retain their original sentence.\n"
+    },
+    {
+      "command": "node tests/verb-flow-v2-e2e.mjs",
+      "status": 0,
+      "seconds": 59.44,
+      "output": "(started python3 -m http.server 8163 for this run)\nPASS Phone lesson teaches viaggiare, keeps stable milestones and waits at feedback\nPASS Old typed draft survives update and reload, then upgrades after Continue\nPASS An inactive old case retains its own exact draft when reopened after another case upgrades\nPASS New progress stages fit small phones in both teaching and feedback\nPASS A saved review cannot introduce progressive material that was never learned\n5 verb browser checks passed (chromium).\n"
+    },
+    {
+      "command": "node tests/course-v2-e2e.mjs",
+      "status": 1,
+      "seconds": 10.14,
+      "output": "(started python3 -m http.server 8164 for this run)\nPASS New learners start with meanings, match the lesson words, and see models before the first supported check\nPASS Multiple independent contexts complete a lesson that credits its vocabulary and completes no verb case\nPASS An error gives feedback, a repair model, and a supported retry; Back cannot submit twice\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.evaluate: TypeError: Cannot read properties of undefined (reading 'steps')\n    at eval (eval at evaluate (:311:30), <anonymous>:1:516)\n    at async <anonymous>:337:30\n    at fixture (/Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/course-v2-e2e.mjs:19:50)\n    at /Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/course-v2-e2e.mjs:24:137\n    at async check (/Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/course-v2-e2e.mjs:6:30)\n    at async file:///Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/course-v2-e2e.mjs:24:2 {\n  log: []\n}\n\nNode.js v22.23.2\n",
+      "resolution": "Fixture setup assumed eager stages; explicitly load the stage and lesson. See successful targeted retry evidence."
+    },
+    {
+      "command": "node tests/sentence-lab-e2e.mjs",
+      "status": 0,
+      "seconds": 38.49,
+      "output": "(started python3 -m http.server 8165 for this run)\nOfficina delle frasi \u00b7 browser suite \u00b7 screenshots into /Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/shots\n  \u2713 path page: header, four stages, first lesson next, tools 4809ms  21 lessons \u00b7 tools These lessons use authored replies. Opti\u2026\n  \u2713 laboratorio card: first in the Learn hub reel  1013ms  OFFICINA Officina delle frasi Build sentences\n  \u2713 lesson 1: model, order, a miss and a retry on a cloze 8443ms  order + cloze (miss, retry, correct) + order\n  \u2713 lesson 1: a free Italian word runs the three drills and is learned 4275ms  +16 XP \u00b7 3 drill events on w:tedesco|adj::lesson::meaning::meaning\n  \u2713 lesson 1: the conversation, one turn at a time 3075ms  3 you-turns, 4 partner lines, replay\n  \u2713 lesson 1: say it yourself, keep, complete (+15 XP) 5244ms  done at 2026-10-03T12:52:58.523Z \u00b7 1 sentence kept\n  \u2713 lesson 6: a free English word through the picker, then pause, reload, resume 5624ms  picker 2 candidates \u2192 felice \u00b7 resumed at turn 3\n  \u2713 lesson 6: second free entry, say it yourself, second completion 3013ms  2 lessons done \u00b7 2 sentences \u00b7 learned 3 words\n  \u2713 persistence, export, reset and merge of the lab records 1706ms  export ok \u00b7 reset ok \u00b7 merge ok \u00b7 hub card \"OFFICINA Officina delle frasi 2 / 21 lessons\"\n  \u2713 No application errors                          0ms     9 checks, no console, page or network errors\n\nSummary: 10/10 checks passed \u00b7 0 console/page errors \u00b7 16 screenshots \u2192 PASS\nReport: tests/report-sentence-lab.json\n"
+    },
+    {
+      "command": "node tests/grammar-course-e2e.mjs",
+      "status": 1,
+      "seconds": 12.99,
+      "output": "(started python3 -m http.server 8166 for this run)\nPASS Learn retains Resume, adds course/grammar/vocabulary, and preserves Review and Verb Lab\nPASS All seven course stages have lessons; saved legacy lessons still open\nPASS Correct answers preserve feedback until Continue; distinct evidence completes only grammar\nPASS Grammar review shares the existing queue and routes to a focused grammar check\nPASS Mistakes explain, repair, and never silently complete; Back cannot record answers\nPASS Draft, question order, and history survive reload; assistance cannot bypass learning\nPASS Combined sessions remain resumable after skip, navigation, and reload\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.evaluate: Error: C2 seed did not complete v2-c2-u1-mood-evidence\n    at eval (eval at evaluate (:311:30), <anonymous>:1:1423)\n    at async <anonymous>:337:30\n    at /Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/grammar-course-e2e.mjs:29:137\n    at async check (/Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/grammar-course-e2e.mjs:19:32)\n    at async file:///Users/calebanderson/.codex/worktrees/parola-phases-0-2/italianapp2/tests/grammar-course-e2e.mjs:29:2 {\n  log: []\n}\n\nNode.js v22.23.2\n",
+      "resolution": "Fixture setup assumed eager stages; explicitly load the stage and lesson. See successful targeted retry evidence."
+    },
+    {
+      "command": "node tests/completion-menu-e2e.mjs",
+      "status": 0,
+      "seconds": 24.15,
+      "output": "(started python3 -m http.server 8167 for this run)\nPASS Word completion toggles persist without answers or XP\nPASS Reference word and verb completion can be repeatedly changed without rewards\nPASS A fresh classic word check restores completion after uncheck, without replaying stale rewards\nPASS Five individual verb cases determine whole-item completion\nPASS Overview cards update in place and cleared cases stay cleared\nPASS Editing completion preserves a saved in-progress lesson draft\nPASS Compact menus fit light and dark phone screens and clean up on navigation\nPASS No application errors\n8 completion menu checks passed\n"
+    },
+    {
+      "command": "node tests/practice-controls-e2e.mjs",
+      "status": 0,
+      "seconds": 103.19,
+      "output": "(started python3 -m http.server 8168 for this run)\nPASS Flashcard Hear, Details and Star are on the card and never flip or grade it\nPASS Starred reuses an existing list and survives reload, removal and re-add without changing reviews\nPASS Previous flashcards are read-only history and completed progress never moves backwards\nPASS Finishing and replaying flashcards add no duplicate XP, and leaving releases practice layout\nPASS Tense Detective correct and wrong feedback wait for Continue and reject duplicate callbacks\nPASS Typed ordinary practice retains feedback and a keyboard Continue is a single transition\nPASS A keyboard-sized practice viewport keeps typed input and feedback reachable\nPASS Matching waits after the board is complete; the timed speed round still advances automatically\nPASS Sentence and Hangman feedback keep Continue visible and advance exactly once\nPASS Lesson feedback uses the practice pop-in and still preserves its saved answer until Continue\nPASS 375px light: ratings and all game types fit and keep controls reachable\nPASS 375px dark: ratings and all game types fit and keep controls reachable\nPASS 390px light: ratings and all game types fit and keep controls reachable\nPASS 390px dark: ratings and all game types fit and keep controls reachable\nPASS No application errors\n15/15 practice control checks passed.\n"
+    },
+    {
+      "command": "node tests/review-layout-e2e.mjs",
+      "status": 0,
+      "seconds": 23.23,
+      "output": "(started python3 -m http.server 8169 for this run)\n10 Review/legacy layout checks passed; no application errors.\n"
+    },
+    {
+      "command": "node tests/short-words-e2e.mjs",
+      "status": 0,
+      "seconds": 117.59,
+      "output": "(started python3 -m http.server 8170 for this run)\nPASS A noun completes six to eight real short activities with article and plural teaching\nPASS Every noun type drills its article, singular and plural in the planned order with a real article board\nPASS Decoy rows on the article board are matched in the activity only and survive a reload\nPASS 430px dark: the plural screen and the article board fit the phone\nPASS A wrong choice repairs the same word and a copied correction is not independent proof\nPASS Reveal and explicit skip keep unfinished word work honest\nPASS A partial matching board survives pause, reload and Back without duplicate awards\nPASS An older long word session upgrades without deleting its answer history, XP or other progress\nPASS Back faithfully reconstructs answered short choices and matching boards as read-only history\nPASS All ten word types finish short recognition lessons without irrelevant grammar or sentence writing\nPASS Number usage and missing custom forms are taught honestly in the short flow\nPASS 375px light: Words, Articoli, Play and Me share the updated readable layout\nPASS 375px dark: Words, Articoli, Play and Me share the updated readable layout\nPASS 390px light: Words, Articoli, Play and Me share the updated readable layout\nPASS 390px dark: Words, Articoli, Play and Me share the updated readable layout\nPASS No application errors\n16/16 short word checks passed.\n"
+    },
+    {
+      "command": "node tests/adaptive-e2e.mjs",
+      "status": 0,
+      "seconds": 24.63,
+      "output": "(started python3 -m http.server 8171 for this run)\nPASS A correct exposed answer is practice, not independent readiness\nPASS Feedback reload does not count the answer twice\nPASS Wrong answers produce repair feedback and retain the objective\nPASS Hint, draft and exact unfinished question survive pause and reload\nPASS I don\u2019t know reveals without claiming success\nPASS Explicit skip stays deferred across reload and can be resumed\nPASS Repeated varied independent answers eventually demonstrate the step\nPASS Word recall hides the answer and continues after one correct response\nPASS Phone layout has no horizontal overflow and accessible answer input\nPASS Word recall remains solvable after a deliberate error\nPASS Focused review rechecks an already-ready skill in a new session\nPASS Cold-start word meaning reaches repeated independent readiness\nPASS Course checkpoint checks all six persons in this session\nPASS An auxiliary mistake pivots to a component and then full production\nPASS Optional word practice is offered after the core lesson\nPASS A one-item scope explains its limit and permits immediate skip\nPASS Newer saved learning is preserved and asks for an app update\n"
+    },
+    {
+      "command": "node tests/journey-e2e.mjs",
+      "status": 0,
+      "seconds": 167.88,
+      "output": "(started python3 -m http.server 8172 for this run)\nPASS Authored grammar fixtures match independently checked forms and meanings\nPASS Cold start meets the verb and teaches before the first question\nPASS One choice tap grades exactly once and feedback waits for Continue\nPASS Feedback and exact unfinished journey persist without duplicate awards\nPASS Teaching skip defers the group, and pause preserves help and the exact next activity\nPASS Meet dire flags its real irregular participle before any past checks\n  journey progress {\"transitions\":50,\"chapter\":\"present\",\"group\":\"mixed-review\",\"type\":\"recap\",\"phase\":\"recap\",\"answered\":false,\"answers\":29}\n  journey progress {\"transitions\":100,\"chapter\":\"background\",\"group\":\"singular\",\"type\":\"question\",\"phase\":\"guided\",\"format\":\"mc\",\"supplemental\":false,\"target\":\"v:credere::lesson::background::form-0\",\"answered\":false,\"answers\":56}\n  journey progress {\"transitions\":150,\"chapter\":\"background\",\"group\":\"mixed-review\",\"type\":\"recap\",\"phase\":\"recap\",\"answered\":false,\"answers\":85}\n  journey progress {\"transitions\":200,\"chapter\":\"condizionale\",\"group\":\"singular\",\"type\":\"question\",\"phase\":\"guided\",\"format\":\"letters\",\"supplemental\":false,\"target\":\"v:credere::lesson::condizionale::form-2\",\"answered\":true,\"answers\":116}\nPASS A complete credere lesson genuinely demonstrates every person and formal role\nPASS A built-in noun finishes a short recognition introduction without inventing independent mastery\nPASS All ten word types open taught, answerable activities appropriate to their type\nPASS Noun senses, invariant adjectives and missing custom forms remain honest\nPASS An actual auxiliary mistake receives a component repair before whole-form success\nPASS A later focused review preserves the target and establishes retention separately\nPASS A missing reflexive pronoun receives the specific same-verb repair\nPASS 375px light: teaching, choices, help, typing and feedback remain usable\nPASS 375px dark: teaching, choices, help, typing and feedback remain usable\nPASS 390px light: teaching, choices, help, typing and feedback remain usable\nPASS 390px dark: teaching, choices, help, typing and feedback remain usable\nPASS A v1 future-stage session resumes its exact saved imperfetto question and history\nPASS No application errors\n19/19 taught-journey browser checks passed.\n"
+    },
+    {
+      "command": "node tests/lesson-actions-e2e.mjs",
+      "status": 0,
+      "seconds": 36.49,
+      "output": "(started python3 -m http.server 8173 for this run)\nPASS A new verb opens its overview and starts Present teaching with Learn active\nPASS An existing saved empty Meet recap resumes directly into Present exactly once\nPASS 375px light: outlined bottom actions show nested dots and support keyboard, Tab and touch swipe\nPASS 375px dark: outlined bottom actions show nested dots and support keyboard, Tab and touch swipe\nPASS 390px light: outlined bottom actions show nested dots and support keyboard, Tab and touch swipe\nPASS 390px dark: outlined bottom actions show nested dots and support keyboard, Tab and touch swipe\nPASS Reference and Skip rail actions execute their intended action once\nPASS Correct choices and typed answers speak Italian once, while wrong, reload and muted answers stay quiet\nPASS A short keyboard-sized viewport keeps typing reachable and releases layout on exit\nPASS No application or console errors\n10/10 lesson action checks passed.\n"
+    },
+    {
+      "command": "node tests/lesson-experience-e2e.mjs",
+      "status": 0,
+      "seconds": 95.93,
+      "output": "(started python3 -m http.server 8174 for this run)\nPASS light: Meet pronunciation and translations are exploration, not answers\nPASS light: stacked forms and centered examples support exploration without grading\nPASS light: noun number rows keep the taught article and invariant plural\nPASS light: past and future retain explicit construction and ending teaching\nPASS light: sentence lookup shows real noun and verb details without grading\nPASS light: correct and wrong feedback stays until Continue and records once\nPASS dark: Meet pronunciation and translations are exploration, not answers\nPASS dark: stacked forms and centered examples support exploration without grading\nPASS dark: noun number rows keep the taught article and invariant plural\nPASS dark: past and future retain explicit construction and ending teaching\nPASS dark: sentence lookup shows real noun and verb details without grading\nPASS dark: correct and wrong feedback stays until Continue and records once\nPASS 375x667-light: edge scrolling, usable bottom and anchored info remain accessible\nPASS 375x667-dark: edge scrolling, usable bottom and anchored info remain accessible\nPASS 390x844-light: edge scrolling, usable bottom and anchored info remain accessible\nPASS 390x844-dark: edge scrolling, usable bottom and anchored info remain accessible\nPASS 320x568-light: edge scrolling, usable bottom and anchored info remain accessible\nPASS 667x320-dark: edge scrolling, usable bottom and anchored info remain accessible\nPASS 390x844-dark-safe-area: edge scrolling, usable bottom and anchored info remain accessible\nPASS 667x320-light-safe-area: edge scrolling, usable bottom and anchored info remain accessible\nPASS A form copied immediately after teaching remains assisted in verb practice\nPASS The anchored conjugation dropdown preserves the draft, help and accessible dismissal\nPASS An active-question word lookup is recorded as help and keeps the answer draft\nPASS Lesson Back is read-only and returns to the exact unanswered draft without extra evidence\nPASS Home Screen cold start fills iPhone16 Pro Max despite short dynamic CSS and JS heights\nPASS Safari browser keeps its smaller visible viewport instead of expanding behind browser controls\nPASS No application errors\n27/27 lesson experience checks passed.\n"
+    },
+    {
+      "command": "node tests/lesson-activities-e2e.mjs",
+      "status": 0,
+      "seconds": 69.08,
+      "output": "(started python3 -m http.server 8175 for this run)\nPASS A wrong pair diagnoses the selected person and leaves both tiles available\nPASS A saved wrong-pair event repairs a stale cursor and reserves the next attempt identity\nPASS Correct pairs flip in place and a partial board survives reload, pause and read-only Back\nPASS A board awards one supported completion and preserves its actual wrong target for repair\nPASS Letter construction supports removing tiles and saves exact partial work without an attempt\nPASS Completing visible letters records once and cannot certify independent recall\nPASS Identical subjunctive forms accept any equivalent tile rather than a hidden identity\nPASS A correct mc answer speaks the whole authored Italian sentence\nPASS A correct type answer speaks the whole authored Italian sentence\nPASS A correct letters answer speaks the whole authored Italian sentence\nPASS An accepted feminine past form is spoken in the full sentence the learner made\nPASS A correct isolated form still speaks the form itself\nPASS Selecting a form first and then its person gives an audible subject and a one-time flip\nPASS Verb letter banks retain repeated letters and accents and still lead to writing\nPASS A saved completed spelling recovers its single pending answer after an interrupted write\nPASS 375px light: matching and letter banks fit the lesson and support keyboard actions\nPASS 375px dark: matching and letter banks fit the lesson and support keyboard actions\nPASS 440px light: matching and letter banks fit the lesson and support keyboard actions\nPASS 440px dark: matching and letter banks fit the lesson and support keyboard actions\nPASS Showing an unfinished board gives the correct pairs without claiming a completed match\nPASS No application errors\n21/21 lesson activity checks passed.\n"
+    },
+    {
+      "command": "node tests/lesson-overview-e2e.mjs",
+      "status": 0,
+      "seconds": 66.5,
+      "output": "(started python3 -m http.server 8176 for this run)\nPASS A new verb meets its meaning and offers five selectable core cases\nPASS Real Present practice ends with an explicit choice and cannot complete the whole verb\nPASS Returning and reloading keeps the completed case visibly marked without new evidence\nPASS Explicit redo teaches and asks fresh answers while preserving earlier completion and history\nPASS Next starts only the chosen case and overview Resume returns to its exact saved position\nPASS Switching cases preserves an unfinished written answer and its help without duplicate evidence\nPASS A pre-overview journey keeps its exact saved future question, help and earlier history\nPASS Progressive constructions retain real irregular forms, pronouns and sense restrictions\nPASS A real progressive group teaches stare and gerundio, repairs the helper and reaches fresh written proof\nPASS 375px light: five-case overview fits and remains navigable\nPASS 375px dark: five-case overview fits and remains navigable\nPASS 390px light: five-case overview fits and remains navigable\nPASS 390px dark: five-case overview fits and remains navigable\nPASS Conditional opens as a core lesson, teaches the endings and keeps its exact written form\nPASS Imperfetto lesson teaches the named verb\u2019s past progressive and simple contrast\nPASS An impersonal verb drawer teaches the real subject and omits invented personal forms\nPASS No application errors\n17/17 lesson overview checks passed.\n"
+    },
+    {
+      "command": "node tests/noun-forms-e2e.mjs",
+      "status": 0,
+      "seconds": 60.69,
+      "output": "(started python3 -m http.server 8177 for this run)\nPASS Every dictionary noun renders its recorded plural or an explicit number note\nPASS calcio: entry fan and grid show correct forms and usage\nPASS calcio: reference shows forms and usage without inventing a plural\nPASS casa: entry fan and grid show correct forms and usage\nPASS casa: reference shows forms and usage without inventing a plural\nPASS latte: entry fan and grid show correct forms and usage\nPASS latte: reference shows forms and usage without inventing a plural\nPASS caff\u00e8: entry fan and grid show correct forms and usage\nPASS caff\u00e8: reference shows forms and usage without inventing a plural\nPASS occhiali: entry fan and grid show correct forms and usage\nPASS occhiali: reference shows forms and usage without inventing a plural\nPASS extrema ratio: entry fan and grid show correct forms and usage\nPASS extrema ratio: reference shows forms and usage without inventing a plural\nPASS vexata quaestio: entry fan and grid show correct forms and usage\nPASS vexata quaestio: reference shows forms and usage without inventing a plural\nPASS A custom noun without plural data explains the gap in entry, reference and shared forms\nPASS calcio: home noun of the day has plural or usage guidance\nPASS casa: home noun of the day has plural or usage guidance\nPASS latte: home noun of the day has plural or usage guidance\nPASS caff\u00e8: home noun of the day has plural or usage guidance\nPASS occhiali: home noun of the day has plural or usage guidance\nPASS extrema ratio: home noun of the day has plural or usage guidance\nPASS vexata quaestio: home noun of the day has plural or usage guidance\nPASS calcio: flipped flashcard shows number guidance in both directions\nPASS casa: flipped flashcard shows number guidance in both directions\nPASS casa: the word lesson\u2019s forms card teaches the article, singular and plural\nPASS caff\u00e8: the word lesson\u2019s forms card teaches the article, singular and plural\nPASS calcio: the word lesson\u2019s forms card teaches the article, singular and plural\nPASS latte: the word lesson\u2019s forms card teaches the article, singular and plural\nPASS occhiali: the word lesson\u2019s forms card teaches the article, singular and plural and names the article rule\nPASS albero: the word lesson\u2019s forms card teaches the article, singular and plural and names the article rule\nPASS zaino: the word lesson\u2019s forms card teaches the article, singular and plural and names the article rule\nPASS uovo: the word lesson\u2019s forms card teaches the article, singular and plural and names the article rule\nPASS 375px light: home, entry fan/grid, reference and flashcards have no horizontal overflow\nPASS 375px dark: home, entry fan/grid, reference and flashcards have no horizontal overflow\nPASS 390px light: home, entry fan/grid, reference and flashcards have no horizontal overflow\nPASS 390px dark: home, entry fan/grid, reference and flashcards have no horizontal overflow\nPASS No application errors or missing local assets\n38/38 noun-form browser checks passed.\n"
+    },
+    {
+      "command": "node tests/game-learning-e2e.mjs",
+      "status": 0,
+      "seconds": 8.24,
+      "output": "(started python3 -m http.server 8178 for this run)\nGame learning browser evidence: 7 groups passed.\n"
+    },
+    {
+      "command": "node tests/e2e.mjs",
+      "status": 0,
+      "seconds": 352.04,
+      "output": "(started python3 -m http.server 8179 for this run)\nParola e2e \u00b7 http://127.0.0.1:8179/ \u00b7 iPhone 13 390x664 \u00b7 playwright from /private/tmp/parola-grammar-tools/node_modules/playwright\n\nRoutes (48)\n  \u2713 /home                                        921ms   Buon pomeriggio, Learner. | \ud83c\uddee\ud83c\uddf9 | SABATO 3 OTTOBRE | 1 DAY | \u00b7 | 0 XP\n  \u2713 /learn                                       1061ms  IL TUO PERCORSO \u00b7 YOUR PATH | Foundations \u00b7 unit 1 of 3 \u00b7 0 of 8 lesso\n  \u2713 /course                                      783ms   GRAMMAR, WORDS, AND VERBS \u00b7 YOUR PACE | Build your Italian, | one idea\n  \u2713 /games                                       769ms   PLAY WITH WHAT YOU KNOW | Gioca, impara. | 21 GAMES | Every game runs \n  \u2713 /words                                       523ms   DIZIONARIO \u00b7 6,958 WORDS \u00b7 1,185 VERBS | Cerca una parola | My lists |\n  \u2713 /search                                      813ms   DIZIONARIO \u00b7 6,958 WORDS \u00b7 1,185 VERBS | Cerca una parola | My lists |\n  \u2713 /profile                                     770ms   \ud83c\uddee\ud83c\uddf9 | Learner | A1 | 0 | XP | 1 DAY STREAK | \u00b7 | BEST 1 | \u00b7 | BEGINNE\n  \u2713 /browse/A1                                   755ms   LEVEL | A1 | Beginner \u00b7 Principiante | Survival words: greetings, fami\n  \u2713 /browse/A1/food                              782ms   LEVEL | \u00b7 | \ud83c\udf5d | FOOD & DRINK | A1 | Beginner \u00b7 Principiante | Surviva\n  \u2713 /browse?kind=verb                            757ms   ALL VERBS | Tutti i verbi | Every verb with full conjugation tables, g\n  \u2713 /browse?list=useful                          761ms   DECK \u00b7 EVERY LEVEL | Parole utili | Useful words | The small words tha\n  \u2713 /lists                                       752ms   COLLECTIONS | Le mie liste | New list | My word bank | 0 items \u00b7 0 lea\n  \u2713 /list/bank                                   749ms   WORD BANK \u00b7 STARRED FROM ANY ENTRY | My word bank | 0 items \u00b7 0 learne\n  \u2713 /scope                                       749ms   LIVELLO \u00b7 LEVEL | A1 | 1054 ITEMS | A2 | 1197 ITEMS | B1 | 1533 ITEMS \n  \u2713 /add                                         752ms   CUSTOM ENTRY \u00b7 SAVED TO YOUR WORD BANK | Una parola nuova | PREVIEW \u00b7 \n  \u2713 /entry/v:essere                              804ms   essere | EN | to be | A1 | VERBO | -ERE | IRREGOLARE | AUX. ESSERE | B\n  \u2713 /entry/v:andarsene                           750ms   andarsene | EN | to go away; to leave | A2 | VERBO | -ARE | IRREGOLARE\n  \u2713 /entry/w:casa|noun                           1006ms  la | casa | EN | house; home | A1 | NOME | FEMMINILE | HOME | la | cas\n  \u2713 /learn/verb/v:mangiare                       760ms   redirected to #/learn/verb/v%3Amangiare?session=39dbcd58-1cdc-465e-949f-404f7106d41b&overview=1\n  \u2713 /learn/word/w:casa|noun                      797ms   redirected to #/learn/word/w%3Acasa%7Cnoun?session=04602e27-cc95-4bc0-aad6-59dff4661cab\n  \u2713 /review                                      777ms   RIPASSO \u00b7 KEEP IT WITH YOU | A little practice for later. | Revisit fa\n  \u2713 /reference                                   814ms   CODEX \u00b7 6,958 PAROLE \u00b7 1,185 VERBI | Ogni parola, | spiegata. | VERBI \n  \u2713 /reference/v:essere                          786ms   essere | EN | to be | A1 | VERBO | -ERE | IRREGOLARE | AUX. ESSERE | I\n  \u2713 /reference/w:casa|noun                       822ms   la | casa | EN | house; home | A1 | NOME | FEMMINILE | HOME | FORME | \n  \u2713 /grammar/articles                            749ms   GRAMMATICA \u00b7 01 / 12 | Articoli e genere | Articles & gender | How to \n  \u2713 /lab/frasi                                   746ms   LABORATORIO | Officina delle frasi | Sentence workshop \u00b7 Build sentenc\n  \u2713 /lab/frasi/sl-presente-01-chi-sono           745ms   Back | PRESENTE \u00b7 LEZIONE 1 / 6 | Pause | IL MODELLO \u00b7 THE PATTERN | W\n  \u2713 /game/flashcards?src=level:A1                520ms   01 / 20 | Previous | Flip, then rate | Hear | Details | Star | AGAIN |\n  \u2713 /game/quiz?src=level:A1                      501ms   01 / 15 | WHAT DOES IT MEAN? | lo zucchero | rubbish | sugar | tempera\n  \u2713 /game/typing?src=level:A1                    501ms   01 / 12 | TYPE THE ITALIAN | he | pron \u00b7 3 letters | \u00e0 | \u00e8 | \u00e9 | \u00ec | \u00f2\n  \u2713 /game/matching?src=level:A1                  517ms   00 / 18 | ROUND 1 / 3 | Tap a word, then its match. | aspettare | boss\n  \u2713 /game/hangman?src=level:A1                   509ms   01 / 10 | GUESS THE WORD \u00b7 NOME | doll | feminine noun \u00b7 7 letters\n  \u2713 /game/crossword?src=level:A1                 508ms   00 / 12 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | ACROSS | 2 | o\n  \u2713 /game/cloze?src=level:A1                     501ms   01 / 12 | FILL IN THE BLANK | Come si scrive il suo ?? | TAP FOR ENGLI\n  \u2713 /game/scramble?src=level:A1                  510ms   01 / 11 | UNSCRAMBLE | icnmea | cinema | \u00e0 | \u00e8 | \u00e9 | \u00ec | \u00f2 | \u00f9 | ' | C\n  \u2713 /game/sentence?src=level:A1                  512ms   01 / 10 | BUILD THE SENTENCE | Are you from Rome? | tu \u00b7 tap the words\n  \u2713 /game/gender?src=level:A1                    508ms   01 / 15 | WHICH ARTICLE? | ? espresso | espresso | lo | la | il | l'\n  \u2713 /game/plurals?src=level:A1                   506ms   01 / 11 | CHOOSE THE PLURAL | il video | video | videa | videi | video\n  \u2713 /game/dictation?src=level:A1                 502ms   01 / 10 | LISTEN AND TYPE | Tap the speaker, then type what you hear |\n  \u2713 /game/reverse?src=level:A1                   503ms   01 / 12 | TYPE THE ENGLISH | il giardino | \u00e0 | \u00e8 | \u00e9 | \u00ec | \u00f2 | \u00f9 | ' |\n  \u2713 /game/speed?src=level:A1                     630ms   60s | 0 | CORRECT | 0 | STREAK | 0 | WRONG | CHOOSE THE ITALIAN | nine\n  \u2713 /game/conj-drill?src=level:A1                500ms   01 / 16 | PRESENTE \u00b7 NOI | conoscere | noi \u00b7 Present | EN | to know (a\n  \u2713 /game/conj-choice?src=level:A1               538ms   01 / 20 | PRESENTE \u00b7 LUI/LEI | aiutare | lui/lei \u00b7 Present | EN | to h\n  \u2713 /game/tense-detective?src=level:A1           503ms   01 / 06 | WHO IS THE SUBJECT? | comprano | comprare \u00b7 Presente | loro \n  \u2713 /game/aux?src=level:A1                       508ms   01 / 15 | WHICH AUXILIARY? | imparare | passato prossimo: ? imparato |\n  \u2713 /game/participles?src=level:A1               505ms   01 / 11 | PARTICIPIO PASSATO | finire | past participle \u00b7 regular | \u00e0 \n  \u2713 /game/patterns?src=level:A1                  502ms   01 / 10 | WHICH PREPOSITION? | viaggiare ? un posto | EN | to travel |\n  \u2713 /game/verb-quiz?src=level:A1                 502ms   01 / 20 | CHOOSE THE ITALIAN | to sleep | dormire | tagliare | durare \n\nFlows (46)\n  \u2713 verb-intro       32357ms 12 scenes (4 tenses) \u2192 11% (1 of 9 correct) \u00b7 stamp RIPROVA \u00b7 learned=false\n  \u2713 word-intro       13502ms meet \u2192 forms \u2192 example \u2192 listen \u2192 type \u2192 quick \u2192 finito \u2192 33% (1 of 3 correct) \u00b7 stamp RIPROVA \u00b7 learned=false\n  \u2713 verb-intro-pass  33317ms 100% (9 of 9 correct) \u00b7 stamp IMPARATO \u00b7 four cases completed, conditional still unlearned \u00b7 +37 XP \u00b7 17 questions answered\n  \u2713 word-intro-pass  15349ms 100% (3 of 3 correct) \u00b7 stamp IMPARATO \u00b7 learned \u00b7 +16 XP \u00b7 next-word link \u00b7 5 questions answered\n  \u2713 seed-learned     602ms   31 learned (21 words, 10 verbs) \u00b7 home: \"Buon pomeriggio, Learner. | \ud83c\uddee\ud83c\uddf9 | SABATO 3 OTTOBRE | 1 DAY \"\n  \u2713 review           19840ms 15% (3 of 20 correct) \u00b7 40 actions \u00b7 due 30 \u2192 10, seen +20, reviews today 20\n  \u2713 game:quiz        6465ms  17% (1 of 6 correct) \u00b7 12 actions \u00b7 +2 XP\n  \u2713 game:conj-drill  9708ms  0% (0 of 9 correct) \u00b7 18 actions \u00b7 +0 XP\n  \u2713 game:aux         5987ms  17% (1 of 6 correct) \u00b7 12 actions \u00b7 +2 XP\n  \u2713 game:gender      6182ms  17% (1 of 6 correct) \u00b7 12 actions \u00b7 +2 XP\n  \u2713 game:flashcards  4766ms  100% (5 of 5 correct) \u00b7 5 actions \u00b7 +10 XP\n  \u2713 game:cloze       5486ms  40% (2 of 5 correct) \u00b7 10 actions \u00b7 +6 XP\n  \u2713 game:matching    5387ms  100% (6 of 6 correct) \u00b7 7 actions \u00b7 +22 XP\n  \u2713 game:hangman     7887ms  33% (1 of 3 correct) \u00b7 38 actions \u00b7 +3 XP\n  \u2713 game:crossword   2384ms  0% (0 of 12 correct) \u00b7 6 actions \u00b7 +0 XP\n  \u2713 game:sentence    5610ms  0% (0 of 3 correct) \u00b7 19 actions \u00b7 +0 XP\n  \u2713 game:speed       8239ms  20% (2 of 10 correct) \u00b7 10 actions \u00b7 +4 XP\n  \u2713 game:typing      3190ms  0% (0 of 3 correct) \u00b7 6 actions \u00b7 +0 XP\n  \u2713 game:scramble    2167ms  0% (0 of 2 correct) \u00b7 4 actions \u00b7 +0 XP\n  \u2713 game:plurals     4896ms  20% (1 of 5 correct) \u00b7 10 actions \u00b7 +2 XP\n  \u2713 game:dictation   3391ms  0% (0 of 3 correct) \u00b7 6 actions \u00b7 +0 XP\n  \u2713 game:reverse     3215ms  0% (0 of 3 correct) \u00b7 6 actions \u00b7 +0 XP\n  \u2713 game:conj-choice 8845ms  33% (3 of 9 correct) \u00b7 18 actions \u00b7 +6 XP\n  \u2713 game:tense-detective 4241ms  0% (0 of 4 correct) \u00b7 8 actions \u00b7 +0 XP\n  \u2713 game:participles 4236ms  0% (0 of 4 correct) \u00b7 8 actions \u00b7 +0 XP\n  \u2713 game:patterns    5480ms  60% (3 of 5 correct) \u00b7 10 actions \u00b7 +6 XP\n  \u2713 game:verb-quiz   6116ms  33% (2 of 6 correct) \u00b7 12 actions \u00b7 +4 XP\n  \u2713 search           1013ms  8 result links, first: \"DIZIONARIO \u00b7 6,958 WORDS \u00b7 1,185 VERBS | Cerca una parola | \"\n  \u2713 add-word         1775ms  stored noun \"sedia\" = \"chair\", opened #/entry/c%3Al32xifcymusehz3l\n  \u2713 lists            4256ms  list l:v57srjh6musei0u4 created with 1 item(s)\n  \u2713 theme            1843ms  light\u2192light, dark\u2192dark, auto\u2192none\n  \u2713 export           1664ms  download \"parola-Learner-2026-10-03.json\" (130699 bytes, 31 learned items, 2 lists), toast \"Backup exported\"\n  \u2713 persistence      1856ms  learned 31 (21 words, 10 verbs), 633 XP, 2 lists, 1 custom \u2014 all survived reload\n  \u2713 srs              2ms     correct \u2192 8h, correct \u2192 3d (iv 3), wrong \u2192 10 min (lapses 1); seen 3, ok 2\n  \u2713 en-toggle        1683ms  showEn tap \u2192 always \u2192 tap, body.show-en followed\n  \u2713 grammar-topics   8964ms  12 topics render with a practice link\n  \u2713 custom-verb      1647ms  custom verb c:5xv1yob0museig6v (aux avere, isc false) opened with its conjugation\n  \u2713 list-delete      2256ms  list l:3cux1h08museigs2 deleted through its menu\n  \u2713 import-backup    2023ms  reset \u2192 import (replace) restored 31 learned, 637 XP, 2 lists, toast \"Backup imported\"\n  \u2713 users            3286ms  created \"Marco\" (empty), switched back to the first user with 31 learned items, deleted Marco\n  \u2713 games-picker     21361ms scope \u2192 #/game/quiz?src=scope \u00b7 list \u2192 #/game/quiz?src=list:l:v57srjh6musei0u4 \u00b7 4 missed, all from the list\n  \u2713 entry-actions    4379ms  word bank on/off, list picker tick/untick, learned off/on, listen \u2014 store followed each tap\n  \u2713 scope            7185ms  A1 \u2192 A1 + A2 through /scope, learn hub and a scope-sourced quiz followed\n  \u2713 browse-filters   1495ms  /browse/A1/food 65 rows of 65 \u00b7 /browse?kind=verb 80 rows of 1186\n  \u2713 useful-words     17717ms 6 groups \u00b7 78 rows \u2192 lessons \u00b7 Matching \u2192 100% (18 of 18 correct) \u00b7 deck card on Words and in Sezioni\n  \u2713 search-kinds     2896ms  \"house\" \u2192 casa \u00b7 \"and\" + Verbs \u2192 44 verbs \u00b7 \"zzzqqq\" \u2192 no results with an add link\n\nConsole / page / network errors: 0\n\nWarnings: 3\n  - [flow:scope] learn hub does not mention the A2 scope: \"IL TUO PERCORSO \u00b7 YOUR PATH | Foundations \u00b7 unit 1 of 3 \u00b7 0 of 8 lessons | CHANG\"\n  - [route:/learn/verb/v:mangiare] redirected to #/learn/verb/v%3Amangiare?session=39dbcd58-1cdc-465e-949f-404f7106d41b&overview=1\n  - [route:/learn/word/w:casa|noun] redirected to #/learn/word/w%3Acasa%7Cnoun?session=04602e27-cc95-4bc0-aad6-59dff4661cab\n\nSummary: routes 48/48 ok \u00b7 flows 46/46 ok \u00b7 0 console errors \u00b7 3 warnings \u2192 PASS\nReport: tests/report-e2e.json\n"
+    }
+  ],
+  "browserFinalFocused": [
+    {
+      "command": "node tests/accent-policy-e2e.mjs",
+      "status": 0,
+      "seconds": 7.0,
+      "output": "(started python3 -m http.server 8150 for this run)\nPASS Game submission visibly restores only accents and exposes original\nPASS Course feedback keeps corrected field and original after reload and setting change\nPASS Strict typed answers remain unchanged and incorrect\nPASS Save failure remains visible without covering Continue and clears on retry\nPASS Feedback actions remain reachable with enlarged text and a reduced viewport\nPASS Reference explanations preserve accented noun endings\nPASS Learn resume title and destination name the same active verb\n7 accent browser checks passed.\n"
+    },
+    {
+      "command": "node tests/review-accent-followups-e2e.mjs",
+      "status": 0,
+      "seconds": 3.64,
+      "output": "(started python3 -m http.server 8151 for this run)\n\u2713 Walkthrough restores accents and retains visible original spelling.\n\u2713 Late adaptive answer cannot save after dispose.\n\u2713 Late adaptive answer cannot save after replace-learner.\n\u2713 Late adaptive answer cannot save after reset-epoch.\n"
+    },
+    {
+      "command": "node tests/adaptive-e2e.mjs",
+      "status": 0,
+      "seconds": 22.52,
+      "output": "(started python3 -m http.server 8152 for this run)\nPASS A correct exposed answer is practice, not independent readiness\nPASS Feedback reload does not count the answer twice\nPASS Wrong answers produce repair feedback and retain the objective\nPASS Hint, draft and exact unfinished question survive pause and reload\nPASS I don\u2019t know reveals without claiming success\nPASS Explicit skip stays deferred across reload and can be resumed\nPASS Repeated varied independent answers eventually demonstrate the step\nPASS Word recall hides the answer and continues after one correct response\nPASS Phone layout has no horizontal overflow and accessible answer input\nPASS Word recall remains solvable after a deliberate error\nPASS Focused review rechecks an already-ready skill in a new session\nPASS Cold-start word meaning reaches repeated independent readiness\nPASS Course checkpoint checks all six persons in this session\nPASS An auxiliary mistake pivots to a component and then full production\nPASS Optional word practice is offered after the core lesson\nPASS A one-item scope explains its limit and permits immediate skip\nPASS Newer saved learning is preserved and asks for an app update\n"
+    },
+    {
+      "command": "node tests/phase-workshop-e2e.mjs",
+      "status": 0,
+      "seconds": 18.79,
+      "output": "(started python3 -m http.server 8153 for this run)\n\u2713 exact own-word drafts survive reload, accent buttons, pause and navigation\n\u2713 malformed morphology stays in the draft and receives no rewritten credit\n\u2713 accent-only restoration is visible and saved with the original submission\n\u2713 translated English produces explicitly assisted practice\n\u2713 legacy constructed drafts stay assisted and retain exact saved text\n\u2713 typed drill draft resumes exactly after reload and navigation disposal\n\u2713 picker callbacks cannot mark a word or save a draft into another profile\n7 Phase 2 workshop browser checks passed; zero application errors.\n"
+    }
+  ],
+  "generalBrowser": {
+    "source": "Captured stdout in browserInitial for node tests/e2e.mjs",
+    "routesPassed": 48,
+    "routesTotal": 48,
+    "flowsPassed": 46,
+    "flowsTotal": 46,
+    "consoleErrors": 0,
+    "warnings": 3
+  },
+  "additionalEvidence": [
+    "contracts-validation.json",
+    "webkit-validation.json",
+    "simulator-ui.json",
+    "ai-trial.md"
+  ],
+  "packagedSite": {
+    "suite": "e2e",
+    "generatedAt": "2026-10-03T13:07:11.765Z",
+    "base": "http://127.0.0.1:8141/",
+    "playwright": "/private/tmp/parola-grammar-tools/node_modules/playwright",
+    "device": "iPhone 13 390x664",
+    "filters": [
+      "/home",
+      "/course",
+      "/lab/frasi",
+      "/learn/verb",
+      "flow:learn",
+      "flow:entry-actions"
+    ],
+    "routes": [
+      {
+        "route": "/home",
+        "ok": true,
+        "ms": 899,
+        "errors": [],
+        "warnings": [],
+        "text": "Buon pomeriggio, Learner. | \ud83c\uddee\ud83c\uddf9 | SABATO 3 OTTOBRE | 1 DAY | \u00b7 | 0 XP | la scarpa | \u00b7 | abbracciare | \u00b7 | parola | \u00b7 | notte italiana | \u00b7 | la scarpa | \u00b7 | abb",
+        "shot": null
+      },
+      {
+        "route": "/course",
+        "ok": true,
+        "ms": 746,
+        "errors": [],
+        "warnings": [],
+        "text": "GRAMMAR, WORDS, AND VERBS \u00b7 YOUR PACE | Build your Italian, | one idea at a time. | Follow the recommended order, or open any lesson. Your place and progress ar",
+        "shot": null
+      },
+      {
+        "route": "/learn/verb/v:mangiare",
+        "ok": true,
+        "ms": 744,
+        "errors": [],
+        "warnings": [
+          "redirected to #/learn/verb/v%3Amangiare?session=e1b574ff-43bc-45a5-a730-075bfc6c3f62&overview=1"
+        ],
+        "text": "CHOOSE YOUR NEXT STEP | All lessons | YOUR VERB, FIVE USEFUL LESSONS | mangiare | to eat | 0 of 5 tenses completed | 1 | Ready to learn | Present | Presente | R",
+        "shot": null
+      },
+      {
+        "route": "/lab/frasi",
+        "ok": true,
+        "ms": 747,
+        "errors": [],
+        "warnings": [],
+        "text": "LABORATORIO | Officina delle frasi | Sentence workshop \u00b7 Build sentences from who, what and when; conversations that reply; your own words in every blank. | 0 /",
+        "shot": null
+      },
+      {
+        "route": "/lab/frasi/sl-presente-01-chi-sono",
+        "ok": true,
+        "ms": 743,
+        "errors": [],
+        "warnings": [],
+        "text": "Back | PRESENTE \u00b7 LEZIONE 1 / 6 | Pause | IL MODELLO \u00b7 THE PATTERN | Who + am + what | WHO | + | AM / HAVE | + | WHAT | To say who you are, start with io (or le",
+        "shot": null
+      }
+    ],
+    "flows": [
+      {
+        "name": "entry-actions",
+        "ok": true,
+        "ms": 4387,
+        "detail": "word bank on/off, list picker tick/untick, learned on/off, listen \u2014 store followed each tap",
+        "errors": [],
+        "warnings": []
+      }
+    ],
+    "consoleErrors": [],
+    "warnings": [],
+    "summary": {
+      "routes": {
+        "total": 5,
+        "ok": 5,
+        "failed": 0
+      },
+      "flows": {
+        "total": 1,
+        "ok": 1,
+        "failed": 0
+      },
+      "consoleErrors": 0,
+      "warnings": 1,
+      "failures": 0
+    }
+  },
+  "offlineAndStartup": [
+    {
+      "command": "node tests/offline-e2e.mjs",
+      "status": 0,
+      "seconds": 10.84,
+      "output": "PASS early optional runtime opt-in persists before first worker control\nPASS an existing installation upgrades its complete offline shell\nPASS a hash-identical update reuses every required asset without network downloads\nPASS a corrupt cached asset is rejected offline and repaired when online\nPASS optional self-hosted assistant runtime survives a cold offline import\nPASS an incomplete update cannot replace the working offline worker\nPASS course and lesson load offline while old learned items remain intact\nPASS an offline answer and exact feedback resume after reload without duplicate XP\n8 offline/update checks passed.\n"
+    },
+    {
+      "command": "node tests/grammar-offline-e2e.mjs",
+      "status": 0,
+      "seconds": 16.4,
+      "output": "PASS A persisted v3 vocabulary/course profile is migrated without losing progress\nPASS The real updated worker caches every grammar level and survives an interrupted later update\nPASS New course packs and downloaded audio remain usable offline, including byte-range playback\nPASS All seven new course stages open from the installed cache offline\nPASS Offline grammar feedback survives reload without duplicate XP or attempts\nPASS An offline typed grammar draft resumes exactly after reload\nPASS New-course feedback and drafts also survive an offline reload\n7 grammar offline/update/migration checks passed.\n"
+    },
+    {
+      "command": "node tests/startup-e2e.mjs",
+      "status": 0,
+      "seconds": 4.06,
+      "output": "{\"route\":\"home\",\"firstContentMs\":1386.6,\"requests\":56,\"sourceBytes\":5124288,\"courseStageRequests\":0,\"fullLessonCode\":false}\n{\"route\":\"learn/verb/v%3Acredere\",\"firstContentMs\":381.9,\"requests\":67,\"sourceBytes\":6099712,\"courseStageRequests\":0,\"fullLessonCode\":true}\n{\"route\":\"profile\",\"firstContentMs\":333.3,\"requests\":44,\"sourceBytes\":4972062,\"courseStageRequests\":0,\"fullLessonCode\":false}\nPASS missing/truncated stage isolation and retry, Home draft/check preservation, classic/legacy direct routes\n"
+    }
+  ],
+  "releaseStamp": "parola-v15-a9cf12a5a28d",
+  "browserCoverage": "All 24 shared Chromium browser suites passed using original runs plus documented targeted retries. Four WebKit suites passed, including the seven accent/UI checks. Structured WebKit/course targeted reports are separate linked evidence."
+}

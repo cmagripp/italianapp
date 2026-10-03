@@ -101,10 +101,10 @@ export function renderDash(container, model = {}, ctx = {}) {
       </div>
       <div class="dial-wrap dash-dial-wrap"><div class="dial dash-dial" data-dial aria-label="Learning mode"></div></div>
       <div class="dash-mode" data-mode-text>
-        <h2 class="dash-title" data-title>${mode0.title}</h2>
+        <h1 class="dash-title" data-title>${mode0.title}</h1>
         <p class="dash-sub" data-sub>${mode0.sub || ''}</p>
       </div>
-      <a class="btn primary block dash-start" data-start href="${resume ? resume.href : mode0.href}">${resume ? resumeLabel : 'Start lesson'}</a>
+      <a class="btn primary block dash-start" data-start href="${resume&&mode0.fresh ? resume.href : mode0.href}">${resume&&mode0.fresh ? resumeLabel : 'Start lesson'}</a>
     </section>
 
     <section class="dash-progress">

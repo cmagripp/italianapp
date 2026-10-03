@@ -46,13 +46,53 @@
               "modality": "language",
               "repair": {
                 "title": "Try begin and end an exchange again",
-                "body": "Use ciao with a friend. Use buongiorno in a polite daytime exchange.",
+                "body": "Ciao can greet or say goodbye to a friend. Buongiorno opens a polite daytime exchange. Arrivederci closes an exchange politely.",
                 "examples": [
                   {
                     "it": "Ciao, Anna!",
                     "en": "Hi, Anna!"
+                  },
+                  {
+                    "it": "Buongiorno, signora.",
+                    "en": "Good day, madam."
+                  },
+                  {
+                    "it": "Grazie, signora. Arrivederci!",
+                    "en": "Thank you, madam. Goodbye!"
                   }
-                ]
+                ],
+                "byFacet": {
+                  "familiar-greeting": {
+                    "title": "Greet a friend",
+                    "body": "When a familiar friend arrives, ciao is a natural greeting.",
+                    "examples": [
+                      {
+                        "it": "Ciao, Sara!",
+                        "en": "Hi, Sara!"
+                      }
+                    ]
+                  },
+                  "polite-greeting": {
+                    "title": "Open a polite daytime exchange",
+                    "body": "Use buongiorno when beginning this polite daytime exchange. Arrivederci is for leaving.",
+                    "examples": [
+                      {
+                        "it": "Buongiorno, dottore.",
+                        "en": "Good day, doctor."
+                      }
+                    ]
+                  },
+                  "farewell": {
+                    "title": "End the exchange",
+                    "body": "Arrivederci is a polite goodbye. The person is leaving, so this is a farewell rather than an arrival greeting.",
+                    "examples": [
+                      {
+                        "it": "Grazie, signora. Arrivederci!",
+                        "en": "Thank you, madam. Goodbye!"
+                      }
+                    ]
+                  }
+                }
               }
             }
           ],

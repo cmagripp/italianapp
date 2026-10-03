@@ -18,7 +18,7 @@ const originalNow=Date.now;Date.now=()=>now;
 const verb=data.verbs.find(e=>e.inf==='credere'),word=data.vocab.find(e=>e.it==='casa'&&e.pos==='noun');
 const test=async(name,fn)=>{await fn();passed++;console.log('✓',name);};
 function scope(entries){store.current.scope={mode:'lists',lists:['bank']};store.current.lists.bank.items=entries.map(e=>e.id);}
-function fresh(){store.current.learning=createLearning(now);store.current.items={};store.current.stats={xp:0,days:{},games:{}};scope([verb,word]);}
+function fresh(){store.current.learning=createLearning(now);store.current.items={};store.current.stats={xp:0,days:{},games:{}};delete store.current.rewards;scope([verb,word]);}
 function evidence(target,patch={}){
   const n=++seq;
   const e={id:`proof:${n}`,epochId:store.learning.epoch.id,deviceId:'proof',sequence:n,sessionId:'proof',index:n,at:++now,

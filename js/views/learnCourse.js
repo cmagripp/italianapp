@@ -1,4 +1,4 @@
-import { html, raw, icon, speak, speakBtn, toast, keyboardViewportHeight } from '../ui.js';
+import { announceAnswer, html, raw, icon, speak, speakBtn, toast, keyboardViewportHeight } from '../ui.js';
 import { setTitle, setChrome } from '../app.js';
 import { store } from '../store.js';
 import { getEntry, headword, shortEn } from '../data.js';
@@ -122,7 +122,7 @@ export async function render(root,lesson,query={}) {
         const ungraded=result.outcome==='ungraded';
         const explanation=result.explanation || step.explanation;
         const detail=html`${step.speak?raw(html`<p lang="it" data-italian-sentence data-english="${step.translation||''}">${step.speak}</p>`):raw(html`<p>${step.answer || 'Compare the pairs above.'}</p>`)}<p>${explanation}</p>${result.assisted&&step.stage!=='guided'?raw('<p class="course-practice-note">This was supported practice. We’ll revisit the skill with a fresh example.</p>'):''}`;
-        footer=ungraded?html`<div class="course-ungraded" role="status"><strong>Compare your response</strong><p>This response needs a closer look; it has not been marked wrong.</p>${raw(detail)}</div>${raw(button('Continue','data-course-next','primary'))}`:feedbackHTML({ok:result.ok,title:result.ok?'That’s right.':result.outcome==='revealed'?'Here’s the pattern.':'Let’s work through it.',detail,nextAttribute:'data-course-next'});
+        footer=ungraded?html`<div class="course-ungraded" role="status"><strong>Compare your response</strong><p>This response needs a closer look; it has not been marked wrong.</p>${raw(detail)}</div>${raw(button('Continue','data-course-next','primary'))}`:feedbackHTML({ok:result.ok,title:result.ok?'That’s right.':result.outcome==='revealed'?'Here’s the pattern.':'Let’s work through it.',detail,submission:result.submission,nextAttribute:'data-course-next'});
       }else if(['type','order'].includes(step.format))footer=button('Check answer','data-check-course'+((step.format==='type'?!state.draft?.trim():state.tokens.length!==step.tokens.length)?' disabled':''),'primary');
     }
     if(returnLesson&&(g().paused||['complete','paused'].includes(phase)))footer=html`<a class="btn primary block" href="${grammarHref(returnLesson)}">Return to ${returnLesson.title}</a><a class="btn ghost block" href="#/course">Your course</a>`;
@@ -162,7 +162,8 @@ export async function render(root,lesson,query={}) {
     if((g().transcripts||[]).includes(q.audioId))markHelp('transcript');
     if((g().passageLookups||[]).includes(q.passageId)&&current()?.target?.modality==='reading')markHelp('lookup');
     if((g().translations||[]).includes(q.passageId)&&(q.modality==='reading'||current()?.target?.modality==='reading'))markHelp('translation');
-    const submission=submitCourseAnswer(lesson,session,value,{reveal,audioAvailable,learning:store.learning});
+    const submission=submitCourseAnswer(lesson,session,value,{reveal,audioAvailable,learning:store.learning,accentStrict:store.settings.accentStrict});
+    announceAnswer(submission.result);
     session=submission.session;if(submission.event)store.recordLearningAttempt(submission.event);
     if(submission.result?.ok&&q.speak&&q.speak.length<240)speak(q.speak);
     save();draw();
@@ -198,7 +199,7 @@ export async function render(root,lesson,query={}) {
           saved.courseV2.portfolios ||= {};
           saved.courseV2.portfolios[step.id]={...saved.courseV2.portfolios[step.id],recording:metadata};
           if(store.learning.session?.id===session.id)store.learning.session.courseV2.portfolios[step.id]=saved.courseV2.portfolios[step.id];
-          store.save();void store.saveNow();
+          store.save();await store.saveNow();
           if(previous?.key&&previous.key!==key)await deleteCourseRecordings(previous.key,{exact:true});
           if(recordingURL)URL.revokeObjectURL(recordingURL);
           if(!disposed)recordingURL=URL.createObjectURL(blob);

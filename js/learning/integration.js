@@ -1,4 +1,5 @@
 // Route-level recommendations. Grammar readiness is independent of dictionary CEFR.
+import { registerCompletionResolver } from './completion-state.js';
 import { data, getEntry, itemsForScope } from '../data.js';
 import { objectivesFor, allowedTenses, CORE_STAGES, EXPANSIONS, ANCHOR_VERBS, stageObjectives } from './curriculum.js';
 import { allSkills, skillState, completionRecord } from './model.js';
@@ -250,3 +251,5 @@ export function courseProgress(store, now = Date.now()) {
       complete: checkpoints.length > 0 && checkpoints.every(c => c.remembered) };
   });
 }
+
+registerCompletionResolver(entryCompletion);

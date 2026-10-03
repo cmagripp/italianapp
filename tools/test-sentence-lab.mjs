@@ -505,8 +505,8 @@ test('cloze: a fixed blank is wrong with its explanation, right with any case', 
   const wrong = answerLab(fixtureLesson, session, ['sei'], makeCtx()).result;
   assert.equal(wrong.outcome, 'incorrect'); assert.equal(wrong.explanation, 'io takes sono.'); assert.equal(wrong.blanks[0].outcome, 'incorrect'); assert.equal(wrong.answer, 'Bene grazie, ma sono stanco.');
   const right = answerLab(fixtureLesson, session, 'Sono', makeCtx()).result;
-  assert.equal(right.outcome, 'correct'); assert.equal(right.sentence, 'Bene grazie, ma sono stanco.'); assert.equal(right.en, 'Fine thanks, but I am tired.');
-  assert.equal(right.blanks[0].filled, 'sono');
+  assert.equal(right.outcome, 'correct'); assert.equal(right.sentence, 'Bene grazie, ma Sono stanco.'); assert.equal(right.en, 'Fine thanks, but I am tired.');
+  assert.equal(right.blanks[0].filled, 'Sono');
 });
 
 test('cloze: second miss reveals the first accepted value and finishes the activity', () => {
@@ -527,7 +527,7 @@ test('cloze: a free blank with a slot accepts a dictionary word in the slot form
   const r2 = answerLab(fixtureLesson, learned, ['il riso'], makeCtx('m', ['w:riso|noun'])).result;
   assert.equal(r2.blanks[0].status, 'ok'); assert.equal(r2.blanks[0].filled, 'il riso', 'a typed article is dropped and the slot article applied');
   const resolved = answerLab(fixtureLesson, atActivity(5), ['pasta'], makeCtx()).result;
-  assert.equal(resolved.outcome, 'correct', 'a typed word that resolves to an accepted value is correct'); assert.equal(resolved.blanks[0].filled, 'la pasta'); assert.equal(resolved.blanks[0].entryId, 'w:pasta|noun');
+  assert.equal(resolved.outcome, 'accepted', 'an article supplied by the workshop is assisted practice');assert.deepEqual(resolved.assistance,['inflection']); assert.equal(resolved.blanks[0].filled, 'la pasta'); assert.equal(resolved.blanks[0].entryId, 'w:pasta|noun');
   const bad = atActivity(5);
   const r3 = answerLab(fixtureLesson, bad, ['stanco'], makeCtx()).result;
   assert.equal(r3.outcome, 'incorrect'); assert.match(r3.explanation, /adjective; this blank needs a noun/);
@@ -566,14 +566,14 @@ test('cloze: a bank hint outside accept is a free entry only when the slot chang
   assert.equal(vedo.outcome, 'incorrect', 'a bank entry already in its final form is a wrong choice'); assert.equal(vedo.explanation, 'io takes -o: guardo.');
   assert.equal(answerLab(verbs, fresh(), ['guardo'], makeCtx()).result.outcome, 'correct', 'a bank entry in accept is right');
   assert.equal(answerLab(verbs, fresh(), ['guarda'], makeCtx()).result.outcome, 'incorrect', 'an option outside accept is graded as authored');
-  assert.equal(answerLab(verbs, fresh(), ['guardare'], makeCtx()).result.outcome, 'correct', 'a typed infinitive that conjugates to an accepted form is right');
+  assert.equal(answerLab(verbs, fresh(), ['guardare'], makeCtx()).result.outcome, 'accepted', 'an infinitive supplied with conjugation is assisted practice');
   const typed = answerLab(verbs, fresh(), ['leggo'], makeCtx()).result;
   assert.equal(typed.outcome, 'accepted', 'a value outside every list is a plain free entry'); assert.equal(typed.blanks[0].filled, 'leggo');
   // an adjective hint agreed by the slot counts as changed; the same hint for a speaker it already fits does not
   const adj = { id: 'sl-presente-96-adj', tense: 'presente', activities: [{ id: 'sl-presente-96-adj.1', kind: 'cloze', prompt: 'p', template: 'Oggi sono ____.', en: 'Today I am ____.',
     blanks: [{ accept: ['felice'], options: ['felice', 'triste'], bank: ['contento'], free: true, slot: { pos: 'adj', agree: 'speaker' }, explanation: 'How do you feel?' }] }] };
   const agreed = answerLab(adj, createLabSession(adj, { now: 1 }), ['contento'], makeCtx('f')).result;
-  assert.equal(agreed.outcome, 'accepted'); assert.equal(agreed.blanks[0].filled, 'contenta');
+  assert.equal(agreed.outcome, 'incorrect');assert.equal(agreed.blanks[0].filled,null,'wrong agreement is not silently rewritten');
   assert.equal(answerLab(adj, createLabSession(adj, { now: 1 }), ['contento'], makeCtx('m')).result.outcome, 'incorrect');
   assert.equal(answerLab(adj, createLabSession(adj, { now: 1 }), ['triste'], makeCtx('f')).result.outcome, 'incorrect', 'an option is never resolved');
 });
@@ -589,7 +589,7 @@ test('build notes: alternatives, fixed verb roles, the activity tense in a misto
     blanks: [{ accept: ['devo'], options: ['devo', 'deve', 'dovete'], bank: [], free: true, slot: { pos: 'verb', person: 0, tense: 'presente' }, explanation: 'io takes devo.' }] }] };
   const altSession = createLabSession(altLesson, { now: 1 });
   const alt = answerLab(altLesson, altSession, ['debbo'], ctx).result;
-  assert.equal(alt.outcome, 'correct', 'a typed alternative of an accepted form is correct'); assert.equal(alt.blanks[0].filled, 'devo'); assert.equal(alt.sentence, 'Oggi devo studiare.');
+  assert.equal(alt.outcome, 'correct', 'a typed alternative of an accepted form is correct'); assert.equal(alt.blanks[0].filled, 'debbo'); assert.equal(alt.sentence, 'Oggi debbo studiare.');
   assert.equal(answerLab(altLesson, createLabSession(altLesson, { now: 1 }), ['deve'], ctx).result.outcome, 'incorrect', 'a wrong option stays wrong');
   // (2) a fixed verb role inserts its phrase as it is, with or without a subject role
   const fixed = { tense: 'presente', roles: [{ role: 'subject', items: [{ it: 'Io', person: 0 }] }, { role: 'verb', fixed: true, items: [{ it: 'lo mangio', en: 'eat it' }, { it: 'la bevo', en: 'drink it' }] }, { role: 'extra', optional: true, items: [{ it: 'a casa', en: 'at home' }] }] };
@@ -623,7 +623,7 @@ test('dialogue: turns reveal one at a time, free entry fills the wrap and picks 
   assert.deepEqual(step.state.turns.map(t => [t.speaker, t.pending === true, t.reaction === true]), [['partner', false, false], ['you', true, false]]);
   assert.equal(step.state.turns[0].it, 'Ciao! Come stai?'); assert.equal(step.state.current.template, 'Bene grazie, ma ____.'); assert.equal(step.state.current.blanks.length, 1);
   const r = answerLab(fixtureLesson, session, ['tired'], ctx).result;
-  assert.equal(r.outcome, 'correct', 'the English word resolves to an accepted value'); assert.equal(r.turnIndex, 1); assert.equal(r.sentence, 'Bene grazie, ma sono stanca.'); assert.equal(r.blanks[0].entryId, 'w:stanco|adj');
+  assert.equal(r.outcome, 'accepted', 'English translation is assisted practice');assert.deepEqual(r.assistance,['translation']); assert.equal(r.turnIndex, 1); assert.equal(r.sentence, 'Bene grazie, ma sono stanca.'); assert.equal(r.blanks[0].entryId, 'w:stanco|adj');
   assert.deepEqual(r.reaction, { it: 'Stanco? Hai lavorato molto?', en: 'Tired? Did you work a lot?' }); assert.equal(r.complete, false);
   step = currentLabStep(fixtureLesson, session);
   assert.equal(step.state.turnIndex, 3);
@@ -656,7 +656,7 @@ test('dialogue: a tapped option is correct and takes its own reaction; an unknow
   const unknown = answerLab(fixtureLesson, bad, ['xyzzyq'], ctx).result;
   assert.equal(unknown.outcome, 'incorrect'); assert.match(unknown.explanation, /not in the dictionary/); assert.equal(unknown.misses, 1);
   const english = answerLab(fixtureLesson, bad, ['sono tired'], ctx).result;
-  assert.equal(english.outcome, 'correct', 'the wrap typed around an English word is stripped before resolving, and the result is an accepted value'); assert.equal(english.sentence, 'Bene grazie, ma sono stanco.');
+  assert.equal(english.outcome, 'accepted', 'English inside an Italian wrap is assisted practice');assert.deepEqual(english.assistance,['translation']); assert.equal(english.sentence, 'Bene grazie, ma sono stanco.');
 });
 
 test('build: composes, saves the sentence and completes the lesson', () => {

@@ -5046,7 +5046,7 @@
               ],
               "explanation": "Feminine la becomes l’ before ho and resumes la lettera.",
               "hint": "Resume the fronted object with la.",
-              "speak": "La lettera, l’ ho scritta ieri.",
+              "speak": "La lettera, l’ho scritta ieri.",
               "target": "v2-b2-dislocation.core",
               "facet": "known-topic-resumption",
               "stage": "guided",
